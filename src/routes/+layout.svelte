@@ -3,6 +3,9 @@
 
 	import { onMount } from 'svelte';
 	import { theme } from '$lib/domain';
+	import { page } from '$app/stores';
+	import capitalize from 'lodash-es/words';
+	import { indexOf } from 'lodash-es';
 
 	const changeTheme = (newTheme: 'dark' | 'light') => {
 		const body = document.querySelector('body');
@@ -44,6 +47,24 @@
 			theme.set('light');
 		}
 	});
+
+	$: breadcrumbs = $page.url.pathname
+		.split('/')
+		.filter((a) => a)
+		.map((part, i, arr) => {
+			let displayEntry = '';
+			if (i > 1) {
+				displayEntry += ' / ';
+			}
+			displayEntry += part[0].toUpperCase() + part.slice(1);
+
+			const urlSegments = arr.slice(0, i + 1);
+			const url = '/' + urlSegments.join('/');
+			return {
+				display: displayEntry,
+				url: url
+			};
+		});
 </script>
 
 <nav id="navbar" class="h-12">
@@ -64,15 +85,14 @@
 		<a href="/test" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>
 			<button>Test</button>
 		</a>
-		<button class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}
-			>Different</button
-		>
+
 		<button class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}
 			>Location</button
 		>
-		<button class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}
-			>Different</button
-		>
+
+		<a href="/settings" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>
+			<button>Settings</button>
+		</a>
 
 		<button
 			class="navbar__button hidden--mobile"
@@ -89,7 +109,19 @@
 </nav>
 
 <div id="pageWrapper">
-	<p>{$theme}</p>
+	{#if breadcrumbs.length > 1 && $page.status === 200}
+		<div style="display: inline-flex">
+			{#each breadcrumbs as crumb}
+				{#if breadcrumbs.indexOf(crumb) < breadcrumbs.length - 1}
+					<a href={crumb.url}>{crumb.display}</a>
+					<p style="margin-left: 5px; margin-right: 5px;">/</p>
+				{:else}
+					<p>{crumb.display}</p>
+				{/if}
+			{/each}
+		</div>
+	{/if}
+
 	<slot />
 </div>
 

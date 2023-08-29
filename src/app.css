@@ -15,12 +15,18 @@
 	--text-inverse: var(--light);
 
 	--bg-primary: var(--light_secondary);
+
+	--primary: var(--light);
+	--secondary: var(--light_secondary);
 }
 
 .dark-theme {
 	--text: var(--light);
 	--text-inverse: var(--dark);
 	--bg-primary: var(--dark_secondary);
+
+	--primary: var(--dark);
+	--secondary: var(--dark_secondary);
 }
 
 /* Mobile Only */
@@ -46,6 +52,18 @@ i,
 b,
 a {
 	color: var(--text);
+}
+
+a {
+	text-decoration-line: underline;
+}
+
+h1 {
+	font-size: xx-large;
+}
+
+h2 {
+	font-size: x-large;
 }
 
 body {
@@ -116,10 +134,11 @@ nav > div.navbar__links {
 	margin: 10px;
 	display: inline-flex;
 	width: min-content;
+	text-decoration-line: none;
 }
 
 #navbar__branding__link > button {
 	color: var(--light);
-	padding-left: 5px;
-	padding-right: 20px;
+	margin-left: 5px;
+	margin-right: 20px;
 }
