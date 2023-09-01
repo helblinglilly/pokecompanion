@@ -65,7 +65,7 @@ enum Consoles {
 	SW = 'Nintendo Switch'
 }
 
-interface IGame {
+export interface IGame {
 	name: string;
 	shortName: string;
 	releaseDates: object;
@@ -505,4 +505,42 @@ const gameGroups: IGame[][] = [
 	[{ ...game.scarlet }, { ...game.violet }]
 ];
 
-export { gameGroups };
+/**
+ * Will return a single string combining all shortName entries from game groups
+ * @param input IGame[]
+ * @param joinCharacter The character(s) to be used to stitch all names together
+ * @param lowercase Optional flag to turn all game names lowercase before joining
+ * @param removeSpaces Optional flag to remove all spaces from game names before joining
+ * @param alphanumericOnly Optional flag to remove all special characters from game names before joining
+ * @returns single string
+ */
+const getGroupName = (
+	input: IGame[],
+	joinCharacter: string,
+	lowercase?: boolean,
+	removeSpaces?: boolean,
+	alphanumericOnly?: boolean
+) => {
+	let output = input
+		.map((game) => {
+			let newName = game.shortName;
+
+			if (removeSpaces) {
+				newName = game.shortName.replaceAll(' ', '');
+			}
+
+			if (alphanumericOnly) {
+				newName = newName.replaceAll(/[^a-zA-Z0-9 ]/g, '');
+			}
+
+			return newName;
+		})
+		.join(joinCharacter);
+
+	if (lowercase) {
+		output = output.toLowerCase();
+	}
+	return output;
+};
+
+export { gameGroups, getGroupName };

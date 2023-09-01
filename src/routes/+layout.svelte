@@ -2,30 +2,29 @@
 	import '../app.css';
 
 	import { onMount } from 'svelte';
-	import { theme } from '$lib/domain';
+	import { selectedGame, theme } from '$lib/domain';
 	import { page } from '$app/stores';
-	import capitalize from 'lodash-es/words';
-	import { indexOf } from 'lodash-es';
-
-	const changeTheme = (newTheme: 'dark' | 'light') => {
-		const body = document.querySelector('body');
-		if (!body) return;
-
-		if (newTheme === 'dark' && !body.classList.contains('dark-theme')) {
-			body.classList.add('dark-theme');
-		} else if (newTheme === 'light' && body.classList.contains('dark-theme')) {
-			body.classList.remove('dark-theme');
-		}
-
-		window.sessionStorage.setItem('theme', newTheme);
-	};
+	import { getCookie, setCookie } from '$lib/utils/cookies';
 
 	const toggleMobileNavExtended = () => {
 		const navButtons = document.querySelectorAll('.navbar__button');
 		navButtons.forEach((button) => button.classList.toggle('hidden--mobile'));
 	};
 
-	onMount(() => {
+	const initTheme = () => {
+		const changeTheme = (newTheme: 'dark' | 'light') => {
+			const body = document.querySelector('body');
+			if (!body) return;
+
+			if (newTheme === 'dark' && !body.classList.contains('dark-theme')) {
+				body.classList.add('dark-theme');
+			} else if (newTheme === 'light' && body.classList.contains('dark-theme')) {
+				body.classList.remove('dark-theme');
+			}
+
+			window.sessionStorage.setItem('theme', newTheme);
+		};
+
 		const existingTheme = window.sessionStorage.getItem('theme') as 'dark' | 'light' | undefined;
 
 		theme.subscribe((value: 'dark' | 'light' | undefined) => {
@@ -46,6 +45,24 @@
 		} else {
 			theme.set('light');
 		}
+	};
+
+	const initCookies = () => {
+		selectedGame.set(getCookie('selectedGame'));
+		selectedGame.subscribe((value) => {
+			if (!value) {
+				return;
+			}
+			const existing = getCookie('selectedGame');
+			if (!existing || value !== existing) {
+				console.log('new cookie', value);
+				setCookie('selectedGame', value);
+			}
+		});
+	};
+	onMount(() => {
+		initTheme();
+		initCookies();
 	});
 
 	$: breadcrumbs = $page.url.pathname
@@ -70,7 +87,7 @@
 <nav id="navbar" class="h-12">
 	<a href="/" id="navbar__branding__link">
 		<img src="https://pokemon.helbling.uk/static/favicon.png" alt="icon" height="auto" />
-		<button>Pokécompanion</button>
+		<button data-testid="navbarBrandingTitle">Pokécompanion</button>
 	</a>
 
 	<div class="navbar__links">

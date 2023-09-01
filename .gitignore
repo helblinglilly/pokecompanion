@@ -11,3 +11,6 @@ vite.config.ts.timestamp-*
 
 # Sentry Auth Token
 .sentryclirc
+/test-results/
+/playwright-report/
+/playwright/.cache/
