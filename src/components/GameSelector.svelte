@@ -21,4 +21,3 @@
 		</option>
 	{/each}
 </select>
-<p>{$selectedGame}</p>

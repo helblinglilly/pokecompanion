@@ -7,9 +7,11 @@
 
 	--dark: #313131;
 	--dark_secondary: #464545;
+	--dark_accent: #1d1d1d;
 
 	--light: #f2f2f2;
-	--light_secondary: #e8e8e8;
+	--light_secondary: #eeebeb;
+	--light_accent: #e8e8e8;
 
 	--text: var(--dark);
 	--text-inverse: var(--light);
@@ -18,6 +20,7 @@
 
 	--primary: var(--light);
 	--secondary: var(--light_secondary);
+	--accent: var(--light_accent);
 }
 
 .dark-theme {
@@ -27,6 +30,7 @@
 
 	--primary: var(--dark);
 	--secondary: var(--dark_secondary);
+	--accent: var(--dark_accent);
 }
 
 /* Mobile Only */
@@ -162,11 +166,27 @@ nav > div.navbar__links {
 
 div.card {
 	background-color: var(--primary);
-	padding: 10px;
+	padding: 2em;
 	/* margin: 5px; */
 	border-radius: 10px;
 }
 
 .columns-1 > .card {
 	margin-bottom: 10px;
+}
+
+select {
+	color: var(--text);
+	background-color: var(--accent);
+	width: 100%;
+	height: 50px;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	padding-left: 1em;
+	margin-right: 1em;
+	border-radius: 10px;
+}
+
+select:hover {
+	cursor: pointer;
 }
