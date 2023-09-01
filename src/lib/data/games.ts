@@ -65,7 +65,15 @@ enum Consoles {
 	SW = 'Nintendo Switch'
 }
 
-const games = {
+interface IGame {
+	name: string;
+	shortName: string;
+	releaseDates: object;
+	region: Regions;
+	console: Consoles;
+	generation: IGeneration;
+}
+const game = {
 	red: {
 		name: 'Pokémon Red Version',
 		shortName: 'Red',
@@ -478,4 +486,23 @@ const games = {
 	}
 };
 
-export default games;
+const gameGroups: IGame[][] = [
+	[{ ...game.red }, { ...game.blue }, { ...game.yellow }],
+	[{ ...game.gold }, { ...game.silver }, { ...game.crystal }],
+	[{ ...game.ruby }, { ...game.sapphire }, { ...game.emerald }],
+	[{ ...game.diamond }, { ...game.pearl }, { ...game.platinum }],
+	[{ ...game.heartGold }, { ...game.soulSilver }],
+	[{ ...game.black }, { ...game.white }],
+	[{ ...game.black2 }, { ...game.white2 }],
+	[{ ...game.x }, { ...game.y }],
+	[{ ...game.omegaRuby }, { ...game.alphaSapphire }],
+	[{ ...game.sun }, { ...game.moon }],
+	[{ ...game.ultraSun }, { ...game.ultraMoon }],
+	[{ ...game.pikachu }, { ...game.eevee }],
+	[{ ...game.sword }, { ...game.shield }],
+	[{ ...game.brilliantDiamond }, { ...game.shiningPearl }],
+	[{ ...game.arceus }],
+	[{ ...game.scarlet }, { ...game.violet }]
+];
+
+export { gameGroups };

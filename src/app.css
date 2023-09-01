@@ -34,12 +34,25 @@
 	#pageWrapper {
 		margin: 5%;
 	}
+	section {
+		columns: 1;
+	}
+
+	section > .card {
+		margin-bottom: 10px;
+	}
 }
 
 /* Desktop only */
 @media screen and (min-width: 768px) {
 	#pageWrapper {
 		margin: 3%;
+	}
+	section {
+		columns: 2;
+	}
+	section > .card {
+		margin-bottom: 10px;
 	}
 }
 p,
@@ -64,6 +77,10 @@ h1 {
 
 h2 {
 	font-size: x-large;
+}
+
+h3 {
+	font-size: large;
 }
 
 body {
@@ -141,4 +158,15 @@ nav > div.navbar__links {
 	color: var(--light);
 	margin-left: 5px;
 	margin-right: 20px;
+}
+
+div.card {
+	background-color: var(--primary);
+	padding: 10px;
+	/* margin: 5px; */
+	border-radius: 10px;
+}
+
+.columns-1 > .card {
+	margin-bottom: 10px;
 }
