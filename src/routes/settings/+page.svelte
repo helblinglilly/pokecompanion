@@ -11,6 +11,31 @@
 			code: 'de',
 			englishName: 'German',
 			nativeName: 'Deutsch'
+		},
+		{
+			code: 'jp',
+			englishName: 'Japanese',
+			nativeName: '日本語'
+		},
+		{
+			code: 'zh-Hant',
+			englishName: 'Chinese',
+			nativeName: '中国人'
+		},
+		{
+			code: 'fr',
+			englishName: 'French',
+			nativeName: 'Français'
+		},
+		{
+			code: 'it',
+			englishName: 'Italian',
+			nativeName: 'Italiano'
+		},
+		{
+			code: 'sp',
+			englishName: 'Spanish',
+			nativeName: 'Español'
 		}
 	];
 
