@@ -38,25 +38,12 @@
 	#pageWrapper {
 		margin: 5%;
 	}
-	section {
-		columns: 1;
-	}
-
-	section > .card {
-		margin-bottom: 10px;
-	}
 }
 
 /* Desktop only */
 @media screen and (min-width: 768px) {
 	#pageWrapper {
 		margin: 3%;
-	}
-	section {
-		columns: 2;
-	}
-	section > .card {
-		margin-bottom: 10px;
 	}
 }
 p,
@@ -164,15 +151,28 @@ nav > div.navbar__links {
 	margin-right: 20px;
 }
 
+div.columns {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+div.column {
+	flex: 1;
+	padding: 10px;
+	box-sizing: border-box;
+	min-width: max-content;
+}
+
+@media (max-width: 768px) {
+	div.columns {
+		flex-direction: column;
+	}
+}
+
 div.card {
 	background-color: var(--primary);
 	padding: 2em;
-	/* margin: 5px; */
 	border-radius: 10px;
-}
-
-.columns-1 > .card {
-	margin-bottom: 10px;
 }
 
 select {
@@ -185,8 +185,15 @@ select {
 	padding-left: 1em;
 	margin-right: 1em;
 	border-radius: 10px;
+	/* Remove the default arrow */
+	appearance: none;
 }
 
-select:hover {
+select:hover,
+select:hover::after {
 	cursor: pointer;
+}
+
+label {
+	color: var(--text);
 }

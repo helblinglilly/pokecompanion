@@ -2,9 +2,8 @@
 	import '../app.css';
 
 	import { onMount } from 'svelte';
-	import { selectedGame, theme } from '$lib/domain';
+	import { cookieHandlers, theme } from '$lib/domain';
 	import { page } from '$app/stores';
-	import { getCookie, setCookie } from '$lib/utils/cookies';
 
 	const toggleMobileNavExtended = () => {
 		const navButtons = document.querySelectorAll('.navbar__button');
@@ -47,22 +46,12 @@
 		}
 	};
 
-	const initCookies = () => {
-		selectedGame.set(getCookie('selectedGame'));
-		selectedGame.subscribe((value) => {
-			if (!value) {
-				return;
-			}
-			const existing = getCookie('selectedGame');
-			if (!existing || value !== existing) {
-				console.log('new cookie', value);
-				setCookie('selectedGame', value);
-			}
-		});
-	};
 	onMount(() => {
 		initTheme();
-		initCookies();
+		// Initialise all cookies
+		for (const value of Object.values(cookieHandlers)) {
+			value();
+		}
 	});
 
 	$: breadcrumbs = $page.url.pathname
@@ -86,7 +75,12 @@
 
 <nav id="navbar" class="h-12">
 	<a href="/" id="navbar__branding__link">
-		<img src="https://pokemon.helbling.uk/static/favicon.png" alt="icon" height="auto" />
+		<img
+			src="https://pokemon.helbling.uk/static/favicon.png"
+			alt="icon"
+			height="auto"
+			style="width: 30px;"
+		/>
 		<button data-testid="navbarBrandingTitle">Pokécompanion</button>
 	</a>
 
