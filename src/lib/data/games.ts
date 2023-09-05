@@ -1,44 +1,54 @@
 interface IGeneration {
 	name: string;
 	short: string;
+	nationalDexEnd: number;
 }
 
-const Generations: IGeneration[] = [
+export const Generations: IGeneration[] = [
 	{
 		name: 'Generation 1',
-		short: 'Gen 1'
+		short: 'Gen 1',
+		nationalDexEnd: 151
 	},
 	{
 		name: 'Generation 2',
-		short: 'Gen 2'
+		short: 'Gen 2',
+		nationalDexEnd: 251
 	},
 	{
 		name: 'Generation 3',
-		short: 'Gen 3'
+		short: 'Gen 3',
+		nationalDexEnd: 386
 	},
 	{
 		name: 'Generation 4',
-		short: 'Gen 4'
+		short: 'Gen 4',
+		nationalDexEnd: 492
 	},
 	{
 		name: 'Generation 5',
-		short: 'Gen 5'
+		short: 'Gen 5',
+		nationalDexEnd: 649
 	},
 	{
 		name: 'Generation 6',
-		short: 'Gen 6'
+		short: 'Gen 6',
+		nationalDexEnd: 721
 	},
 	{
 		name: 'Generation 7',
-		short: 'Gen 7'
+		short: 'Gen 7',
+		nationalDexEnd: 809
 	},
 	{
 		name: 'Generation 8',
-		short: 'Gen 8'
+		short: 'Gen 8',
+		nationalDexEnd: 905
 	},
 	{
 		name: 'Generation 9',
-		short: 'Gen 9'
+		short: 'Gen 9',
+		nationalDexEnd: 1010
 	}
 ];
 

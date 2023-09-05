@@ -1,10 +1,11 @@
 import { writable } from 'svelte/store';
 import { getCookie, setCookie } from './utils/cookies';
+import type { Languages } from './utils/language';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<string | undefined>();
-export const primaryLanguage = writable<string>('en');
-export const secondaryLanguage = writable<string | undefined>();
+export const primaryLanguage = writable<keyof Languages>('en');
+export const secondaryLanguage = writable<keyof Languages | undefined>();
 
 // TODO - Test this
 export const cookieHandlers = {
@@ -27,7 +28,7 @@ export const cookieHandlers = {
 		});
 	},
 	primaryLanguage: () => {
-		let existingValue = getCookie('primaryLanguage');
+		let existingValue = getCookie('primaryLanguage') as keyof Languages;
 		if (!existingValue) {
 			existingValue = 'en';
 			setCookie('primaryLanguage', existingValue);
@@ -50,7 +51,7 @@ export const cookieHandlers = {
 		});
 	},
 	secondaryLanguage: () => {
-		let existingValue = getCookie('secondaryLanguage');
+		let existingValue = getCookie('secondaryLanguage') as keyof Languages | undefined;
 		if (!existingValue) {
 			existingValue = 'none';
 			setCookie('secondaryLanguage', existingValue);

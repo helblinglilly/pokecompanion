@@ -64,6 +64,10 @@ a {
 	text-decoration-line: underline;
 }
 
+a.no-style {
+	text-decoration: none;
+}
+
 h1 {
 	font-size: xx-large;
 }

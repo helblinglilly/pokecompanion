@@ -93,8 +93,8 @@
 			</button>
 		</div>
 
-		<a href="/test" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>
-			<button>Test</button>
+		<a href="/pokemon" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>
+			<button>Pokémon</button>
 		</a>
 
 		<a href="/settings" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import GameSelector from '../../components/GameSelector.svelte';
 	import { primaryLanguage, secondaryLanguage, theme } from '$lib/domain';
+	import type { Languages } from '$lib/utils/language';
 
 	const languages = [
 		{
@@ -13,7 +14,7 @@
 			nativeName: 'Deutsch'
 		},
 		{
-			code: 'jp',
+			code: 'ja-Hrkt',
 			englishName: 'Japanese',
 			nativeName: '日本語'
 		},
@@ -33,7 +34,8 @@
 			nativeName: 'Italiano'
 		},
 		{
-			code: 'sp',
+			// Spanish data is not correct
+			code: 'es',
 			englishName: 'Spanish',
 			nativeName: 'Español'
 		}
@@ -41,6 +43,10 @@
 
 	const getMinimalClassName = (criteria: Array<string | undefined>) => {
 		return criteria.filter((result) => result !== undefined).join(' ');
+	};
+
+	const typesafeSetPrimaryLanguage = (newVal: string) => {
+		primaryLanguage.set(newVal as unknown as keyof Languages);
 	};
 </script>
 
@@ -73,7 +79,7 @@
 					bind:value={$primaryLanguage}
 					on:change={(event) => {
 						if (event.currentTarget.value) {
-							primaryLanguage.set(event.currentTarget.value);
+							typesafeSetPrimaryLanguage(event.currentTarget.value);
 						}
 					}}
 					name="language"
