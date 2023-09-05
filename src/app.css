@@ -37,6 +37,7 @@
 @media screen and (max-width: 768px) {
 	#pageWrapper {
 		margin: 5%;
+		overflow-wrap: anywhere;
 	}
 }
 
@@ -44,6 +45,7 @@
 @media screen and (min-width: 768px) {
 	#pageWrapper {
 		margin: 3%;
+		overflow-wrap: anywhere;
 	}
 }
 p,
