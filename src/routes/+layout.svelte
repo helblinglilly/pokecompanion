@@ -93,6 +93,10 @@
 			</button>
 		</div>
 
+		<a href="/test" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>
+			<button>Test</button>
+		</a>
+
 		<a href="/settings" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>
 			<button>Settings</button>
 		</a>
