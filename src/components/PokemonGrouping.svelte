@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IPokemonNames } from '../routes/pokemon/+page.server';
+	import type { IPokemonNames } from '../routes/pokemon/+page';
 	import PokemonPreview from './PokemonPreview.svelte';
 	export let pokemons: IPokemonNames[];
 	export let title: string;
