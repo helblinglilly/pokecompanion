@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { primaryLanguage, secondaryLanguage } from '$lib/domain';
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import type { IPokemonNames } from '../routes/pokemon/+page.server';
+	import type { IPokemonNames } from '../routes/pokemon/+page';
 
 	export let pokemon: IPokemonNames;
 </script>

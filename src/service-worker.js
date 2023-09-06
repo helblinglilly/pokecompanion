@@ -21,11 +21,20 @@ function install_listener(event) {
 	event.waitUntil(
 		caches
 			.open(ASSETS)
-			.then((cache) => cache.addAll(to_cache))
+			.then((cache) => {
+				cache.addAll(to_cache);
+			})
+			.catch((err) => {
+				console.error(err);
+			})
 			.then(() => {
 				sw.skipWaiting();
 			})
+			.catch((err) => {
+				console.error(err);
+			})
 	);
+	console.log(`Service worker initialised`);
 }
 
 /** @param {ExtendableEvent} event */
@@ -97,13 +106,13 @@ async function cacheFirst(request, cacheName = REQUESTS) {
 const cacheFirstHosts = ['pokeapi.co', self.location.hostname];
 /** @param {FetchEvent} event */
 async function fetch_listener(event) {
+	const request = event.request;
+	const url = new URL(request.url);
+
 	if (event.request.method !== 'GET') {
 		event.respondWith(fetch(request));
 		return;
 	}
-
-	const request = event.request;
-	const url = new URL(request.url);
 
 	// Check if the request's host is in the cacheFirstHosts array
 	if (cacheFirstHosts.includes(url.hostname)) {

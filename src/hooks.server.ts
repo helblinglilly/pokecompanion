@@ -4,15 +4,23 @@ import type { HandleServerError } from '@sveltejs/kit';
 import crypto from 'crypto';
 import { SENTRY_DSN } from '$env/static/private';
 
-Sentry.init({
-	dsn: SENTRY_DSN,
-	tracesSampleRate: 1
-});
+try {
+	Sentry.init({
+		dsn: SENTRY_DSN,
+		tracesSampleRate: 1
+	});
+} catch (err) {
+	console.error(`Failed to initialise sentry (server side)`, err);
+}
 
 export const handleError: HandleServerError = async ({ error, event }) => {
 	const errorId = crypto.randomUUID();
 	if (process.env.NODE_ENV === 'production') {
-		Sentry.captureException(error, { extra: { event, errorId } });
+		try {
+			Sentry.captureException(error, { extra: { event, errorId } });
+		} catch (err) {
+			console.log(`Failed to initialise sentry exception catpure`, err);
+		}
 	}
 
 	console.dir({
