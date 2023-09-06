@@ -7,12 +7,16 @@
 </script>
 
 <a href={`/pokemon/${pokemon.id}`} class="no-style">
-	<div class="card" style="display: flex; align-items: center;">
+	<div
+		class="card clickable"
+		style="display: flex; align-items: center; padding: 1rem; margin-top: 1rem;"
+	>
 		<img
 			src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
-			alt="sprite"
+			alt={`#${pokemon.id} sprite`}
 			height="96"
 			width="96"
+			loading="lazy"
 		/>
 		<p>
 			#{pokemon.id}

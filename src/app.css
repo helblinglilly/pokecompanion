@@ -203,3 +203,13 @@ select:hover::after {
 label {
 	color: var(--text);
 }
+
+button.toggle {
+	background-color: var(--primary);
+	border-radius: 10px;
+}
+
+.clickable:hover {
+	cursor: pointer;
+	background-color: var(--accent);
+}
