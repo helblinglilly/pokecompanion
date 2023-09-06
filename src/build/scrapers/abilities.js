@@ -3,10 +3,21 @@ import fetch from 'node-fetch';
 
 const outputLocation = './src/lib/data/abilities.json';
 
+const getMaxAmount = async () => {
+	try {
+		const response = await fetch(`https://pokeapi.co/api/v2/ability`);
+		const body = await response.json();
+		return body.count;
+	} catch (err) {
+		console.error('Failed to get max amount of pokemon');
+		process.exit(-1);
+	}
+};
+
 const abilities = async () => {
 	console.log('Scraping data for Abilities...');
-	const startFrom = 10012;
-	const upTo = 10060;
+	const startFrom = 0;
+	const upTo = await getMaxAmount();
 
 	const results = [];
 

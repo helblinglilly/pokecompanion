@@ -4,10 +4,22 @@ import fetch from 'node-fetch';
 
 const outputLocation = './src/lib/data/pokemonNames.json';
 
+const getMaxAmount = async () => {
+	try {
+		const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species`);
+		const body = await response.json();
+		return body.count;
+	} catch (err) {
+		console.error('Failed to get max amount of pokemon');
+		process.exit(-1);
+	}
+};
+
 const pokemon = async () => {
 	console.log('Scraping data for Pokémon...');
 	const startFrom = 1;
-	const upTo = 1011;
+
+	const upTo = await getMaxAmount();
 
 	const results = [];
 
