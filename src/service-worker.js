@@ -58,9 +58,17 @@ function activate_listener(event) {
  * @param {string} cacheName
  */
 async function networkFirst(request, cacheName = REQUESTS) {
+	console.log('network first for', request);
 	const cache = await caches.open(cacheName);
 
 	try {
+		if (!navigator.onLine) {
+			return new Response('You are offline', {
+				status: 523,
+				statusText: 'Requested an online resource while offline'
+			});
+		}
+
 		const response = await fetch(request);
 
 		if (response.status < 400) {
@@ -75,12 +83,12 @@ async function networkFirst(request, cacheName = REQUESTS) {
 			return cachedResponse;
 		}
 
-		// If no cached response is available, handle the offline scenario as needed
-		// You can return a custom offline page or response here
-		return new Response('Offline Page Content', {
-			status: 503,
-			statusText: 'Requested an online resources that was not cached'
-		});
+		if (!navigator.onLine) {
+			return new Response('You are offline', {
+				status: 523,
+				statusText: 'Requested an online resource while offline'
+			});
+		}
 	}
 }
 
@@ -89,11 +97,19 @@ async function networkFirst(request, cacheName = REQUESTS) {
  * @param {RequestInfo} request
  */
 async function cacheFirst(request, cacheName = REQUESTS) {
+	console.log('cache first for', request);
 	const cache = await caches.open(cacheName);
 	const cachedResponse = await cache.match(request);
 
 	if (cachedResponse) {
 		return cachedResponse;
+	}
+
+	if (!navigator.onLine) {
+		return new Response({
+			status: 523,
+			statusText: 'Requested an online resource while offline'
+		});
 	}
 
 	const networkResponse = await fetch(request);
@@ -103,6 +119,17 @@ async function cacheFirst(request, cacheName = REQUESTS) {
 	return networkResponse;
 }
 
+async function networkOnly(request) {
+	if (!navigator.onLine) {
+		return new Response({
+			status: 523,
+			statusText: 'Requested an online resource while offline'
+		});
+	}
+
+	return await fetch(request);
+}
+
 const cacheFirstHosts = ['pokeapi.co', self.location.hostname];
 /** @param {FetchEvent} event */
 async function fetch_listener(event) {
@@ -110,7 +137,7 @@ async function fetch_listener(event) {
 	const url = new URL(request.url);
 
 	if (event.request.method !== 'GET') {
-		event.respondWith(fetch(request));
+		event.respondWith(networkOnly(request));
 		return;
 	}
 

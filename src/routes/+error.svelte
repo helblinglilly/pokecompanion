@@ -4,33 +4,50 @@
 
 <div id="pageWrapper">
 	<div id="errorHeader">
-		<img src="/missingno.png" alt="missingno" />
+		{#if $page.error?.errorId === 'Offline'}
+			<img
+				src="/offline.png"
+				alt="trading card game of the Chrome Offline Dinosaur"
+				style="padding-top: 0; width: 80%; max-width: 450px;"
+			/>
 
-		<h1>Something went wrong!</h1>
-
-		<p>
-			Sorry about that! The details below should give some indication as to what happened. If you
-			think that this is a bug, please file an issue in the <a
-				href="https://github.com/helblingjoel/pokewiki">GitHub repo</a
-			>
-		</p>
-	</div>
-
-	<hr />
-
-	<div id="errorDetails">
-		<h2>Status: {$page.status}</h2>
-
-		{#if $page.status === 404}
-			<p>This page does not exist.</p>
-			<p>Go back and try to access a different page</p>
-		{:else if $page.status === 500}
-			<p>Your last action caused something to go wrong on the server.</p>
-			<p>ID: {$page.error?.errorId}</p>
+			<h2 style="padding-top: 2rem;">You are offline</h2>
+			<p>
+				A page that you tried to access hasn't been cached yet, and is therefore not able to load
+			</p>
+			<br />
+			<p>Pages that you already visited should still be available in the meantime</p>
 		{:else}
-			<p>Message: {$page.error?.message}</p>
+			<img src="/missingno.png" alt="missingno" />
+
+			<h1>Something went wrong!</h1>
+
+			<p>
+				Sorry about that! The details below should give some indication as to what happened. If you
+				think that this is a bug, please file an issue in the <a
+					href="https://github.com/helblingjoel/pokewiki">GitHub repo</a
+				>
+			</p>
 		{/if}
 	</div>
+
+	{#if $page.error?.errorId !== 'Offline'}
+		<hr />
+
+		<div id="errorDetails">
+			<h2>Status: {$page.status}</h2>
+
+			{#if $page.status === 404}
+				<p>This page does not exist.</p>
+				<p>Go back and try to access a different page</p>
+			{:else if $page.status === 500}
+				<p>Your last action caused something to go wrong on the server.</p>
+				<p>ID: {$page.error?.errorId}</p>
+			{:else}
+				<p>Message: {$page.error?.message}</p>
+			{/if}
+		</div>
+	{/if}
 </div>
 
 <style>

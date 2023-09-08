@@ -1,5 +1,6 @@
 import { handleErrorWithSentry, Replay } from '@sentry/sveltekit';
 import * as Sentry from '@sentry/sveltekit';
+import type { HandleClientError } from '@sveltejs/kit';
 
 try {
 	Sentry.init({
@@ -21,5 +22,14 @@ try {
 	console.log('failed to initiate sentry');
 }
 
+const customErrorHandler: HandleClientError = () => {
+	if (!navigator.onLine) {
+		return {
+			message: 'You are offline',
+			errorId: 'Offline'
+		};
+	}
+};
+
 // If you have a custom error handler, pass it to `handleErrorWithSentry`
-export const handleError = handleErrorWithSentry();
+export const handleError = handleErrorWithSentry(customErrorHandler);
