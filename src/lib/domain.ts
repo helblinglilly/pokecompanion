@@ -1,11 +1,14 @@
 import { writable } from 'svelte/store';
 import { getCookie, setCookie } from './utils/cookies';
 import type { Languages } from './utils/language';
+import PokemonNames from '$lib/data/pokemonNames.json';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<string | undefined>();
 export const primaryLanguage = writable<keyof Languages>('en');
 export const secondaryLanguage = writable<keyof Languages | undefined>();
+export const pokeApiDomain = 'https://pokeapi.co/api/v2';
+export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
 
 // TODO - Test this
 export const cookieHandlers = {

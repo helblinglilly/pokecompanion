@@ -43,6 +43,9 @@
 		margin: 5%;
 		overflow-wrap: anywhere;
 	}
+	.desktop-only {
+		display: none;
+	}
 }
 
 /* Desktop only */
@@ -50,6 +53,9 @@
 	#pageWrapper {
 		margin: 3%;
 		overflow-wrap: anywhere;
+	}
+	.mobile-only {
+		display: none;
 	}
 }
 p,
@@ -106,6 +112,7 @@ body {
 	padding-top: 12px;
 	padding-bottom: 12px;
 	margin-right: 12px;
+	justify-content: center;
 }
 
 .navbar__hamburger__bar {
@@ -159,6 +166,7 @@ nav > div.navbar__links {
 	color: var(--light);
 	margin-left: 5px;
 	margin-right: 20px;
+	padding-right: 20px;
 }
 
 div.columns {
@@ -174,15 +182,18 @@ div.column {
 }
 
 @media (max-width: 768px) {
-	div.columns {
+	div.columns:not(.mobile) {
 		flex-direction: column;
 	}
 }
 
-div.card {
+.card {
 	background-color: var(--accent);
 	padding: 2em;
 	border-radius: 10px;
+	height: 100%;
+	display: inline-block;
+	width: 100%;
 }
 
 select {
@@ -220,4 +231,11 @@ button.toggle:hover {
 .clickable:hover {
 	cursor: pointer;
 	background-color: var(--link_hover);
+}
+
+img.icon {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	height: 50px;
 }
