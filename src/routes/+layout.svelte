@@ -5,9 +5,16 @@
 	import { cookieHandlers, theme } from '$lib/domain';
 	import { page } from '$app/stores';
 
+	let isMobileMenuExpanded = false;
+
 	const toggleMobileNavExtended = () => {
 		const navButtons = document.querySelectorAll('.navbar__button');
-		navButtons.forEach((button) => button.classList.toggle('hidden--mobile'));
+		navButtons.forEach((button, i) => {
+			if (i === 0) {
+				isMobileMenuExpanded = button.classList.contains('hidden--mobile');
+			}
+			button.classList.toggle('hidden--mobile');
+		});
 	};
 
 	const initTheme = () => {
@@ -87,9 +94,10 @@
 	<div class="navbar__links">
 		<div style="display: grid;">
 			<button id="navbar__hamburger" on:click={toggleMobileNavExtended}>
-				<span class="navbar__hamburger__bar" />
-				<span class="navbar__hamburger__bar" />
-				<span class="navbar__hamburger__bar" />
+				<img
+					src={`${isMobileMenuExpanded ? '/bag_open.png' : '/bag_closed.png'}`}
+					alt={`${isMobileMenuExpanded ? 'Open bag' : 'Closed bag'}`}
+				/>
 			</button>
 		</div>
 
@@ -117,7 +125,7 @@
 
 <div id="pageWrapper">
 	{#if breadcrumbs.length > 1 && $page.status === 200}
-		<div style="display: inline-flex">
+		<div style="display: inline-flex; margin-bottom: 2rem;">
 			{#each breadcrumbs as crumb}
 				{#if breadcrumbs.indexOf(crumb) < breadcrumbs.length - 1}
 					<a href={crumb.url}>{crumb.display}</a>
