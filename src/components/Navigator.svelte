@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { stringify } from 'postcss';
-
 	export let title: string;
 	export let currentId: number;
 	export let maxId: number;
