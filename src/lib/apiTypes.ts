@@ -12,7 +12,7 @@ export interface IPokemon {
 	name: string;
 	order: number;
 	past_types: any[];
-	sprites: Sprites;
+	sprites: ISprites;
 	stats: Stat[];
 	types: Type[];
 	weight: number;
@@ -75,15 +75,15 @@ interface Species {
 	url: string;
 }
 
-interface Sprites {
+export interface ISprites {
 	back_default: string;
-	back_female: any;
+	back_female: null | string;
 	back_shiny: string;
-	back_shiny_female: any;
+	back_shiny_female: null | string;
 	front_default: string;
-	front_female: any;
+	front_female: null | string;
 	front_shiny: string;
-	front_shiny_female: any;
+	front_shiny_female: null | string;
 	other: Other;
 	versions: Versions;
 }

@@ -1,6 +1,11 @@
 <script lang="ts">
 	import GameSelector from '../../components/GameSelector.svelte';
-	import { primaryLanguage, secondaryLanguage, theme } from '$lib/domain';
+	import {
+		animateSprites,
+		primaryLanguage,
+		secondaryLanguage,
+		versionSpecificSprites
+	} from '$lib/domain';
 	import type { Languages } from '$lib/utils/language';
 
 	const languages = [
@@ -50,9 +55,9 @@
 	};
 </script>
 
-<h1 style="margin-bottom: 20px;">Settings</h1>
-
 <main>
+	<h1 style="margin-bottom: 20px;">Settings</h1>
+
 	<div class="columns">
 		<div class="column">
 			<div class="card">
@@ -62,19 +67,40 @@
 
 		<div class="column">
 			<div class="card">
-				<label for="theme"><h3>Theme</h3></label>
-				<select bind:value={$theme} name="theme" id="themeSelector">
-					<option value="dark">Dark</option>
-					<option value="light">Light</option></select
-				>
+				<h3>Sprites</h3>
+				<div class="mt-2">
+					<input
+						on:change={() => {
+							animateSprites.set(!$animateSprites);
+						}}
+						checked={$animateSprites}
+						type="checkbox"
+						id="animateSpritesInput"
+						name="animateSprites"
+					/>
+					<label for="animateSpritesInput">Animate sprites where possible</label>
+				</div>
+				<div>
+					<input
+						on:change={() => {
+							versionSpecificSprites.set(!$versionSpecificSprites);
+						}}
+						checked={$versionSpecificSprites}
+						type="checkbox"
+						id="gameSpecificSprites"
+						name="gameSpecificSprites"
+					/>
+					<label for="gameSpecificSprites">Show game specific sprites when possible</label><br />
+				</div>
 			</div>
 		</div>
 	</div>
 
+	<h2>Language</h2>
 	<div class="columns">
 		<div class="column">
 			<div class="card">
-				<label for="language"><h3>Language</h3></label>
+				<label for="language"><h3>Primary Language</h3></label>
 				<select
 					bind:value={$primaryLanguage}
 					on:change={(event) => {

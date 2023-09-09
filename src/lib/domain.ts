@@ -7,6 +7,8 @@ export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<string | undefined>();
 export const primaryLanguage = writable<keyof Languages>('en');
 export const secondaryLanguage = writable<keyof Languages | undefined>();
+export const versionSpecificSprites = writable<boolean>(true);
+export const animateSprites = writable<boolean>(true);
 export const pokeApiDomain = 'https://pokeapi.co/api/v2';
 export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
 
@@ -70,6 +72,32 @@ export const cookieHandlers = {
 			if (!existing || value !== existing) {
 				setCookie('secondaryLanguage', value);
 			}
+		});
+	},
+	versionSpecificSprites: () => {
+		let existingValue = getCookie('versionSpecificSprites') as boolean | undefined;
+		if (existingValue === undefined || null) {
+			existingValue = true;
+			setCookie('versionSpecificSprites', existingValue.toString());
+		}
+
+		versionSpecificSprites.set(existingValue);
+
+		versionSpecificSprites.subscribe((value) => {
+			setCookie('versionSpecificSprites', value.toString());
+		});
+	},
+	animateSprites: () => {
+		let existingValue = getCookie('animateSprites') as boolean | undefined;
+		if (existingValue === undefined || null) {
+			existingValue = true;
+			setCookie('animateSprites', existingValue.toString());
+		}
+
+		animateSprites.set(existingValue);
+
+		animateSprites.subscribe((value) => {
+			setCookie('animateSprites', value.toString());
 		});
 	}
 };

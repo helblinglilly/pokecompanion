@@ -220,6 +220,10 @@ label {
 	color: var(--text);
 }
 
+label:hover {
+	cursor: pointer;
+}
+
 button.toggle {
 	background-color: var(--accent);
 	border-radius: 10px;
