@@ -2,11 +2,11 @@ import { sequence } from '@sveltejs/kit/hooks';
 import * as Sentry from '@sentry/sveltekit';
 import type { HandleServerError } from '@sveltejs/kit';
 import crypto from 'crypto';
-import { SENTRY_DSN } from '$env/static/private';
+import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 
 try {
 	Sentry.init({
-		dsn: SENTRY_DSN,
+		dsn: PUBLIC_SENTRY_DSN,
 		tracesSampleRate: 1
 	});
 } catch (err) {

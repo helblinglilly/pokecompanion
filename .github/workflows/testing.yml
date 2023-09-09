@@ -8,6 +8,8 @@ jobs:
   e2e:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_SENTRY_DSN: ''
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
