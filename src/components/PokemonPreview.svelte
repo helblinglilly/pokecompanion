@@ -6,7 +6,7 @@
 	export let pokemon: IPokemonNames;
 </script>
 
-<a href={`/pokemon/${pokemon.id}`} class="no-style">
+<a href={`/pokemon/${pokemon.id}`} class="no-style" id={`pokemon-preview-${pokemon.id}`}>
 	<div
 		class="card clickable"
 		style="display: flex; align-items: center; padding: 1rem; margin-top: 1rem;"

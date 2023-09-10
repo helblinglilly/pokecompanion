@@ -4,6 +4,7 @@
 
 :root {
 	--branding-secondary: #3d3938;
+	--highlight: #3a48b4;
 
 	--dark: #313131;
 	--dark_secondary: rgb(43, 43, 43);
@@ -137,6 +138,13 @@ nav > div.navbar__links {
 	padding-right: 1rem;
 }
 
+button.button {
+	background-color: var(--accent);
+	color: var(--text);
+	padding: 1rem;
+	border-radius: 10px;
+}
+
 .navbar__button {
 	height: 100%;
 	padding-left: 1rem;
@@ -242,4 +250,18 @@ img.icon {
 	padding: 0;
 	display: inline;
 	height: 50px;
+}
+
+#backToTop {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	background-color: var(--highlight);
+	color: var(--light);
+	padding: 10px 15px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	z-index: 1000;
+	font-size: 16px;
 }

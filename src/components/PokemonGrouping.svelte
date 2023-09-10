@@ -4,8 +4,10 @@
 	export let pokemons: IPokemonNames[];
 	export let title: string;
 	export let secondaryTitle: string;
+	export let isHidden: boolean;
 
 	const toggleVisibility = (id: string) => {
+		isHidden = !isHidden;
 		const target = document.getElementById(id);
 		if (target) {
 			target.classList.toggle('hidden');
@@ -28,7 +30,7 @@
 	</div>
 </button>
 
-<div id={`${title}-list`} class="hidden">
+<div id={`${title}-list`} class={isHidden ? 'hidden' : ''}>
 	{#each pokemons as pokemon}
 		<PokemonPreview {pokemon} />
 	{/each}
