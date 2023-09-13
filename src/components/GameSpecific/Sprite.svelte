@@ -1,8 +1,20 @@
 <script lang="ts">
-	import type { ISprites } from '$lib/apiTypes';
-	import { findBaseSprites, findPrimarySprite, findSecondarySprite } from '$lib/pokemon-id/sprites';
+	import type { IPokemon, ISprites } from '$lib/apiTypes';
+	import {
+		findBaseSprites,
+		findPrimarySprite,
+		findSecondarySprite,
+		type ISpriteImage
+	} from '$lib/pokemon-id/sprites';
+	import { onMount } from 'svelte';
+	import Modal from '../Modal.svelte';
+	import { getLanguageEntry } from '$lib/utils/language';
+	import { primaryLanguage } from '$lib/domain';
+	import PokemonNames from '$lib/data/pokemonNames.json';
 
 	export let sprites: ISprites;
+	export let pokemon: IPokemon;
+
 	$: baseSprite = findBaseSprites(sprites);
 
 	$: hasShiny = baseSprite.front_shiny || baseSprite.back_shiny ? true : false;
@@ -26,17 +38,48 @@
 		hasShiny,
 		isDisplayingShiny
 	);
+
+	let showModal = false;
+	let modalContent: ISpriteImage = {
+		url: '',
+		alt: ''
+	};
+
+	onMount(() => {
+		document.addEventListener('keypress', (event) => {
+			if (event.key === 'escape') {
+				showModal = false;
+			}
+		});
+	});
+
+	let toggleModal = (newContent: ISpriteImage) => {
+		modalContent = newContent;
+		showModal = true;
+	};
 </script>
 
 <div style="display: flex; justify-content: space-around;">
-	<div class="spriteBoxWrapper">
+	<div
+		class="spriteBoxWrapper"
+		on:click={() => toggleModal(primarySprite)}
+		on:keydown={() => toggleModal(primarySprite)}
+		role="button"
+		tabindex="-1"
+	>
 		<i>{primarySprite.alt}</i>
 		<div class="spriteWrapper">
 			<img src={primarySprite.url} alt={primarySprite.alt} loading="lazy" />
 		</div>
 	</div>
 
-	<div class="spriteBoxWrapper">
+	<div
+		class="spriteBoxWrapper"
+		on:click={() => toggleModal(secondarySprite)}
+		on:keydown={() => toggleModal(secondarySprite)}
+		role="button"
+		tabindex="-1"
+	>
 		<i>{secondarySprite.alt}</i>
 		<div class="spriteWrapper">
 			{#if secondarySprite}
@@ -75,6 +118,21 @@
 		</span>
 	{/if}
 </div>
+
+<Modal bind:showModal>
+	<h2 slot="header">
+		{getLanguageEntry(PokemonNames[pokemon.id - 1].names, $primaryLanguage)} -
+		{modalContent.alt}
+	</h2>
+
+	<div>
+		<img
+			src={modalContent.url}
+			style="width: 256px; height: 256px; margin-left: auto; margin-right: auto;"
+			alt={modalContent.alt}
+		/>
+	</div>
+</Modal>
 
 <!-- Open a modal when the user clicks on either sprite to showcase all sprites -->
 <style>

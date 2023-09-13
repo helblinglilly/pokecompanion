@@ -52,7 +52,7 @@
 <div class="columns">
 	<div class="column">
 		<div class="card">
-			<Sprite sprites={pageData.pokemon.sprites} />
+			<Sprite sprites={pageData.pokemon.sprites} pokemon={pageData.pokemon} />
 		</div>
 	</div>
 	<div class="column">

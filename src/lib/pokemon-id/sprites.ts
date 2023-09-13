@@ -8,18 +8,22 @@ export const findBaseSprites = (sprites: ISprites) => {
 	return sprites;
 };
 
+export interface ISpriteImage {
+	url: string;
+	alt: string;
+}
 export const findPrimarySprite = (
 	passedSprites: ISprites,
 	hasFemale: boolean,
 	isDisplayingFemale: boolean,
 	hasShiny: boolean,
 	isDisplayingShiny: boolean
-) => {
+): ISpriteImage => {
 	if (hasFemale && isDisplayingFemale) {
 		if (hasShiny && isDisplayingShiny) {
-			return { url: passedSprites.front_shiny_female, alt: 'Shiny Female Front' };
+			return { url: passedSprites.front_shiny_female ?? '', alt: 'Shiny Female Front' };
 		} else {
-			return { url: passedSprites.front_female, alt: 'Female Front' };
+			return { url: passedSprites.front_female ?? '', alt: 'Female Front' };
 		}
 	} else {
 		if (hasShiny && isDisplayingShiny) {
@@ -35,17 +39,17 @@ export const findSecondarySprite = (
 	isDisplayingFemale: boolean,
 	hasShiny: boolean,
 	isDisplayingShiny: boolean
-) => {
+): ISpriteImage => {
 	if (hasFemale && isDisplayingFemale) {
 		if (hasShiny && isDisplayingShiny) {
-			return { url: passedSprites.back_shiny_female, alt: 'Shiny Female Back' };
+			return { url: passedSprites.back_shiny_female ?? '', alt: 'Shiny Female Back' };
 		} else {
-			return { url: passedSprites.back_female, alt: 'Female Back' };
+			return { url: passedSprites.back_female ?? '', alt: 'Female Back' };
 		}
 	} else {
 		if (hasShiny && isDisplayingShiny) {
-			return { url: passedSprites.back_shiny, alt: 'Shiny Back' };
+			return { url: passedSprites.back_shiny ?? '', alt: 'Shiny Back' };
 		}
-		return { url: passedSprites.back_default, alt: 'Back' };
+		return { url: passedSprites.back_default ?? '', alt: 'Back' };
 	}
 };
