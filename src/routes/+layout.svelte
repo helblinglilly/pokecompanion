@@ -82,12 +82,7 @@
 
 <nav id="navbar" class="h-12">
 	<a href="/" id="navbar__branding__link">
-		<img
-			src="https://pokemon.helbling.uk/static/favicon.png"
-			alt="icon"
-			height="auto"
-			style="width: 30px;"
-		/>
+		<img src="/favicon.png" alt="icon" height="auto" style="width: 30px;" />
 		<button data-testid="navbarBrandingTitle">Pokécompanion</button>
 	</a>
 
@@ -138,6 +133,8 @@
 	{/if}
 
 	<slot />
+
+	<img src="/offline.png" class="hidden" alt="offline image placeholder" />
 </div>
 
 <style>
