@@ -497,10 +497,14 @@ const game = {
 };
 
 const gameGroups: IGame[][] = [
-	[{ ...game.red }, { ...game.blue }, { ...game.yellow }],
-	[{ ...game.gold }, { ...game.silver }, { ...game.crystal }],
-	[{ ...game.ruby }, { ...game.sapphire }, { ...game.emerald }],
-	[{ ...game.diamond }, { ...game.pearl }, { ...game.platinum }],
+	[{ ...game.red }, { ...game.blue }],
+	[{ ...game.yellow }],
+	[{ ...game.gold }, { ...game.silver }],
+	[{ ...game.crystal }],
+	[{ ...game.ruby }, { ...game.sapphire }],
+	[{ ...game.emerald }],
+	[{ ...game.diamond }, { ...game.pearl }],
+	[{ ...game.platinum }],
 	[{ ...game.heartGold }, { ...game.soulSilver }],
 	[{ ...game.black }, { ...game.white }],
 	[{ ...game.black2 }, { ...game.white2 }],

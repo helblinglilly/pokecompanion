@@ -112,14 +112,14 @@ interface OfficialArtwork {
 }
 
 interface Versions {
-	'generation-i': GenerationI;
-	'generation-ii': GenerationIi;
-	'generation-iii': GenerationIii;
-	'generation-iv': GenerationIv;
-	'generation-v': GenerationV;
-	'generation-vi': GenerationVi;
-	'generation-vii': GenerationVii;
-	'generation-viii': GenerationViii;
+	'generation-i'?: GenerationI;
+	'generation-ii'?: GenerationIi;
+	'generation-iii'?: GenerationIii;
+	'generation-iv'?: GenerationIv;
+	'generation-v'?: GenerationV;
+	'generation-vi'?: GenerationVi;
+	'generation-vii'?: GenerationVii;
+	'generation-viii'?: GenerationViii;
 }
 
 interface GenerationI {

@@ -55,7 +55,7 @@
 			<Sprite sprites={pageData.pokemon.sprites} pokemon={pageData.pokemon} />
 		</div>
 	</div>
-	<div class="column">
+	<!-- <div class="column">
 		<div class="card">
 			<p>1</p>
 		</div>
@@ -64,5 +64,5 @@
 		<div class="card">
 			<p>1</p>
 		</div>
-	</div>
+	</div> -->
 </div>

@@ -9,35 +9,28 @@
 	import { onMount } from 'svelte';
 	import Modal from '../Modal.svelte';
 	import { getLanguageEntry } from '$lib/utils/language';
-	import { primaryLanguage } from '$lib/domain';
+	import {
+		animateSprites,
+		primaryLanguage,
+		selectedGame,
+		versionSpecificSprites
+	} from '$lib/domain';
 	import PokemonNames from '$lib/data/pokemonNames.json';
 
 	export let sprites: ISprites;
 	export let pokemon: IPokemon;
 
-	$: baseSprite = findBaseSprites(sprites);
+	$: baseSprite = findBaseSprites(sprites, $versionSpecificSprites, $selectedGame, $animateSprites);
 
-	$: hasShiny = baseSprite.front_shiny || baseSprite.back_shiny ? true : false;
+	$: hasShiny = baseSprite.primary.shiny ? true : false;
 	$: isDisplayingShiny = false;
 
-	$: hasFemale = baseSprite.front_female || baseSprite.back_female ? true : false;
+	$: hasFemale = baseSprite.primary.female ? true : false;
 	$: isDisplayingFemale = false;
 
-	$: secondarySprite = findSecondarySprite(
-		baseSprite,
-		hasFemale,
-		isDisplayingFemale,
-		hasShiny,
-		isDisplayingShiny
-	);
+	$: secondarySprite = findSecondarySprite(baseSprite, isDisplayingFemale, isDisplayingShiny);
 
-	$: primarySprite = findPrimarySprite(
-		baseSprite,
-		hasFemale,
-		isDisplayingFemale,
-		hasShiny,
-		isDisplayingShiny
-	);
+	$: primarySprite = findPrimarySprite(baseSprite, isDisplayingFemale, isDisplayingShiny);
 
 	let showModal = false;
 	let modalContent: ISpriteImage = {
@@ -148,7 +141,6 @@
 	</div>
 </Modal>
 
-<!-- Open a modal when the user clicks on either sprite to showcase all sprites -->
 <style>
 	div.spriteBoxWrapper {
 		text-align: center;
