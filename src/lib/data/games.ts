@@ -1,6 +1,7 @@
-interface IGeneration {
+export interface IGeneration {
 	name: string;
 	short: string;
+	pokeApiName: string;
 	nationalDexEnd: number;
 }
 
@@ -8,46 +9,55 @@ export const Generations: IGeneration[] = [
 	{
 		name: 'Generation 1',
 		short: 'Gen 1',
+		pokeApiName: 'generation-i',
 		nationalDexEnd: 151
 	},
 	{
 		name: 'Generation 2',
 		short: 'Gen 2',
+		pokeApiName: 'generation-ii',
 		nationalDexEnd: 251
 	},
 	{
 		name: 'Generation 3',
 		short: 'Gen 3',
+		pokeApiName: 'generation-iii',
 		nationalDexEnd: 386
 	},
 	{
 		name: 'Generation 4',
 		short: 'Gen 4',
+		pokeApiName: 'generation-iv',
 		nationalDexEnd: 493
 	},
 	{
 		name: 'Generation 5',
 		short: 'Gen 5',
+		pokeApiName: 'generation-v',
 		nationalDexEnd: 649
 	},
 	{
 		name: 'Generation 6',
 		short: 'Gen 6',
+		pokeApiName: 'generation-vi',
 		nationalDexEnd: 721
 	},
 	{
 		name: 'Generation 7',
 		short: 'Gen 7',
+		pokeApiName: 'generation-vii',
 		nationalDexEnd: 809
 	},
 	{
 		name: 'Generation 8',
 		short: 'Gen 8',
+		pokeApiName: 'generation-viii',
 		nationalDexEnd: 905
 	},
 	{
 		name: 'Generation 9',
 		short: 'Gen 9',
+		pokeApiName: 'generation-ix',
 		nationalDexEnd: 1010
 	}
 ];

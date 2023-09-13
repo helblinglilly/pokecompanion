@@ -6,6 +6,7 @@
 	import Navigator from '../../../components/Navigator.svelte';
 	import { navigating, page } from '$app/stores';
 	import { getPokemonPageData } from '$lib/pokemon-id/pokemonPage';
+	import { getPokemonTypesInGame } from '$lib/data/elementalTypes';
 
 	$: if ($navigating) refetchData();
 
@@ -51,8 +52,13 @@
 
 <div class="columns">
 	<div class="column">
-		<div class="card">
-			<Sprite sprites={pageData.pokemon.sprites} pokemon={pageData.pokemon} />
+		<div class="card" style="padding-top: 1rem;">
+			<div style="height: 20px; display: inline-flex;">
+				{#each getPokemonTypesInGame(pageData.pokemon) as type}
+					<img src={type.icon} alt={type.name} style="margin-right: 4px;" />
+				{/each}
+			</div>
+			<Sprite sprites={pageData.pokemon.sprites} />
 		</div>
 	</div>
 	<!-- <div class="column">
