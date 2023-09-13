@@ -73,7 +73,7 @@
 	>
 		<i>{primarySprite.alt}</i>
 		<div class="spriteWrapper">
-			<img src={primarySprite.url} alt={primarySprite.alt} loading="lazy" />
+			<img src={primarySprite.url} alt={primarySprite.alt} loading="lazy" id="primarySprite" />
 		</div>
 	</div>
 
@@ -91,7 +91,12 @@
 		<i>{secondarySprite.alt}</i>
 		<div class="spriteWrapper">
 			{#if secondarySprite}
-				<img src={secondarySprite.url} alt={secondarySprite.alt} loading="lazy" />
+				<img
+					src={secondarySprite.url}
+					alt={secondarySprite.alt}
+					loading="lazy"
+					id="secondarySprite"
+				/>
 			{/if}
 		</div>
 	</div>
@@ -136,8 +141,9 @@
 	<div>
 		<img
 			src={modalContent.url}
-			style="width: 256px; height: 256px; margin-left: auto; margin-right: auto;"
+			style="margin-left: auto; margin-right: auto;"
 			alt={modalContent.alt}
+			id="modalImage"
 		/>
 	</div>
 </Modal>
@@ -146,10 +152,22 @@
 <style>
 	div.spriteBoxWrapper {
 		text-align: center;
-		width: 96px;
+		width: 128px;
 	}
 	div.spriteWrapper {
-		width: 96px;
-		height: 96px;
+		width: 128px;
+		height: 128px;
+	}
+
+	#primarySprite {
+		width: 100%;
+	}
+
+	#secondarySprite {
+		width: 100%;
+	}
+
+	#modalImage {
+		width: 80vw;
 	}
 </style>
