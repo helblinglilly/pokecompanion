@@ -63,7 +63,11 @@
 	<div
 		class="spriteBoxWrapper"
 		on:click={() => toggleModal(primarySprite)}
-		on:keydown={() => toggleModal(primarySprite)}
+		on:keydown={(key) => {
+			if (key.key === 'space' || key.key === 'enter') {
+				toggleModal(primarySprite);
+			}
+		}}
 		role="button"
 		tabindex="-1"
 	>
@@ -76,7 +80,11 @@
 	<div
 		class="spriteBoxWrapper"
 		on:click={() => toggleModal(secondarySprite)}
-		on:keydown={() => toggleModal(secondarySprite)}
+		on:keydown={(key) => {
+			if (key.key === 'space' || key.key === 'enter') {
+				toggleModal(secondarySprite);
+			}
+		}}
 		role="button"
 		tabindex="-1"
 	>
