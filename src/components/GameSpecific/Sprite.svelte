@@ -15,10 +15,8 @@
 		selectedGame,
 		versionSpecificSprites
 	} from '$lib/domain';
-	import PokemonNames from '$lib/data/pokemonNames.json';
 
 	export let sprites: ISprites;
-	export let pokemon: IPokemon;
 
 	$: baseSprite = findBaseSprites(sprites, $versionSpecificSprites, $selectedGame, $animateSprites);
 
@@ -64,7 +62,6 @@
 		role="button"
 		tabindex="-1"
 	>
-		<i>{primarySprite.alt}</i>
 		<div class="spriteWrapper">
 			<img src={primarySprite.url} alt={primarySprite.alt} loading="lazy" id="primarySprite" />
 		</div>
@@ -81,7 +78,6 @@
 		role="button"
 		tabindex="-1"
 	>
-		<i>{secondarySprite.alt}</i>
 		<div class="spriteWrapper">
 			{#if secondarySprite}
 				<img
@@ -127,7 +123,6 @@
 
 <Modal bind:showModal>
 	<h2 slot="header">
-		{getLanguageEntry(PokemonNames[pokemon.id - 1].names, $primaryLanguage)} -
 		{modalContent.alt}
 	</h2>
 

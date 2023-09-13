@@ -3,28 +3,31 @@
 	import { selectedGame } from '$lib/domain';
 </script>
 
-<label for="gameSelector"><h3>Select Game</h3></label>
-<select
-	bind:value={$selectedGame}
-	on:change={(event) => {
-		if (event.currentTarget.value) {
-			selectedGame.set(event.currentTarget.value);
-		}
-	}}
-	name="gameSelector"
-	id="gameSelector"
->
-	<option value={'generic'} class={$selectedGame === 'generic' ? 'selected' : undefined}
-		>Generic</option
+<div>
+	<label for="gameSelector"><h3>Select Game</h3></label>
+	<select
+		bind:value={$selectedGame}
+		on:change={(event) => {
+			if (event.currentTarget.value) {
+				selectedGame.set(event.currentTarget.value);
+			}
+		}}
+		name="gameSelector"
+		id="gameSelector"
+		style="max-width: fit-content;"
 	>
-	{#each gameGroups as gameGroup}
-		<option
-			value={getGroupName(gameGroup, '-', true, true, true)}
-			class={getGroupName(gameGroup, '-', true, true, true) === $selectedGame
-				? 'selected'
-				: undefined}
+		<option value={'generic'} class={$selectedGame === 'generic' ? 'selected' : undefined}
+			>Generic</option
 		>
-			{getGroupName(gameGroup, ' / ')}
-		</option>
-	{/each}
-</select>
+		{#each gameGroups as gameGroup}
+			<option
+				value={getGroupName(gameGroup, '-', true, true, true)}
+				class={getGroupName(gameGroup, '-', true, true, true) === $selectedGame
+					? 'selected'
+					: undefined}
+			>
+				{getGroupName(gameGroup, ' / ')}
+			</option>
+		{/each}
+	</select>
+</div>
