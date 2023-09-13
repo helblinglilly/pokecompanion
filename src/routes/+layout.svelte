@@ -134,7 +134,7 @@
 
 	<slot />
 
-	<img src="/offline.png" class="hidden" alt="offline image placeholder" />
+	<img src="/offline.png" class="hidden" alt="offline placeholder" />
 </div>
 
 <style>

@@ -87,10 +87,11 @@
 						}}
 						checked={$versionSpecificSprites}
 						type="checkbox"
-						id="gameSpecificSprites"
+						id="gameSpecificSpritesInput"
 						name="gameSpecificSprites"
 					/>
-					<label for="gameSpecificSprites">Show game specific sprites when possible</label><br />
+					<label for="gameSpecificSpritesInput">Show game specific sprites when possible</label><br
+					/>
 				</div>
 			</div>
 		</div>
@@ -100,7 +101,7 @@
 	<div class="columns">
 		<div class="column">
 			<div class="card">
-				<label for="language"><h3>Primary Language</h3></label>
+				<label for="primaryLanguageSelector"><h3>Primary Language</h3></label>
 				<select
 					bind:value={$primaryLanguage}
 					on:change={(event) => {
@@ -133,7 +134,7 @@
 
 		<div class="column">
 			<div class="card">
-				<label for="secondaryLanguage"><h3>Secondary Language</h3></label>
+				<label for="secondaryLanguageSelector"><h3>Secondary Language</h3></label>
 				<select
 					bind:value={$secondaryLanguage}
 					name="secondaryLanguage"
