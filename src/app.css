@@ -265,3 +265,22 @@ img.icon {
 	z-index: 1000;
 	font-size: 16px;
 }
+
+div.column.centered {
+	display: flex;
+	justify-content: center;
+}
+
+.success {
+	background-color: #426e21;
+	color: var(--light);
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	padding: 15px;
+	width: 100%;
+}
+
+.success > button {
+	width: 100%;
+}

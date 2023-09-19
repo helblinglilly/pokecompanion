@@ -7,6 +7,8 @@
 	import { navigating, page } from '$app/stores';
 	import { getPokemonPageData } from '$lib/pokemon-id/pokemonPage';
 	import { getPokemonTypesInGame } from '$lib/data/elementalTypes';
+	import TagSelector from '../../../components/TagSelector.svelte';
+	import TagList from '../../../components/TagList.svelte';
 
 	$: if ($navigating) refetchData();
 
@@ -53,10 +55,13 @@
 <div class="columns">
 	<div class="column">
 		<div class="card" style="padding-top: 1rem;">
-			<div style="height: 20px; display: inline-flex;">
-				{#each getPokemonTypesInGame(pageData.pokemon) as type}
-					<img src={type.icon} alt={type.name} style="margin-right: 4px;" />
-				{/each}
+			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
+				<div style="display: inline-flex;">
+					{#each getPokemonTypesInGame(pageData.pokemon) as type}
+						<img src={type.icon} alt={type.name} style="margin-right: 4px;" />
+					{/each}
+				</div>
+				<p>Tags</p>
 			</div>
 			<Sprite sprites={pageData.pokemon.sprites} />
 		</div>

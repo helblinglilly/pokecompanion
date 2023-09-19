@@ -4,6 +4,26 @@ import type { HandleServerError } from '@sveltejs/kit';
 import crypto from 'crypto';
 import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 
+import { SvelteKitAuth } from '@auth/sveltekit';
+import GitHub from '@auth/core/providers/github';
+import Google from '@auth/core/providers/google';
+import {
+	GITHUB_ID,
+	GITHUB_SECRET,
+	GOOGLE_CLIENT_ID,
+	GOOGLE_CLIENT_SECRET
+} from '$env/static/private';
+
+export const handleAuth = SvelteKitAuth({
+	providers: [
+		GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET }),
+		Google({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET })
+	]
+	// session: {
+	// 	strategy: 'database'
+	// }
+});
+
 try {
 	Sentry.init({
 		dsn: PUBLIC_SENTRY_DSN,
@@ -37,4 +57,4 @@ export const handleError: HandleServerError = async ({ error, event }) => {
 	};
 };
 
-export const handle = sequence(Sentry.sentryHandle());
+export const handle = sequence(handleAuth, Sentry.sentryHandle());

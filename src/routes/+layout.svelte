@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { cookieHandlers, theme } from '$lib/domain';
 	import { page } from '$app/stores';
+	import { notifications } from '$lib/notifications';
 
 	let isMobileMenuExpanded = false;
 
@@ -104,6 +105,10 @@
 			<button>Settings</button>
 		</a>
 
+		<a href="/user" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>
+			<button>User</button>
+		</a>
+
 		<button
 			class="navbar__button hidden--mobile"
 			on:click={toggleMobileNavExtended}
@@ -119,6 +124,21 @@
 </nav>
 
 <div id="pageWrapper">
+	{#if $notifications.filter((a) => a.visible).length > 0}
+		<div class="columns">
+			{#each $notifications as notification}
+				<button
+					class={`column ${notification.level}`}
+					on:click={() => {
+						notification.visible = false;
+					}}
+				>
+					{notification.message}
+				</button>
+			{/each}
+		</div>
+	{/if}
+
 	{#if breadcrumbs.length > 1 && $page.status === 200}
 		<div style="display: inline-flex; margin-bottom: 2rem;">
 			{#each breadcrumbs as crumb}
