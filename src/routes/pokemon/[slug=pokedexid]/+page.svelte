@@ -7,8 +7,6 @@
 	import { navigating, page } from '$app/stores';
 	import { getPokemonPageData } from '$lib/pokemon-id/pokemonPage';
 	import { getPokemonTypesInGame } from '$lib/data/elementalTypes';
-	import TagSelector from '../../../components/TagSelector.svelte';
-	import TagList from '../../../components/TagList.svelte';
 
 	$: if ($navigating) refetchData();
 
@@ -21,7 +19,9 @@
 
 		getPokemonPageData(newPokemonId)
 			.then((result) => {
-				pageData = result;
+				pageData.id = result.id;
+				pageData.pokemon = result.pokemon;
+				pageData.species = result.species;
 			})
 			.catch((err) => {
 				console.log('error getting data', err);

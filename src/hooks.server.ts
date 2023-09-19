@@ -8,6 +8,7 @@ import { SvelteKitAuth } from '@auth/sveltekit';
 import GitHub from '@auth/core/providers/github';
 import Google from '@auth/core/providers/google';
 import {
+	AUTH_SECRET,
 	GITHUB_ID,
 	GITHUB_SECRET,
 	GOOGLE_CLIENT_ID,
@@ -18,7 +19,9 @@ export const handleAuth = SvelteKitAuth({
 	providers: [
 		GitHub({ clientId: GITHUB_ID, clientSecret: GITHUB_SECRET }),
 		Google({ clientId: GOOGLE_CLIENT_ID, clientSecret: GOOGLE_CLIENT_SECRET })
-	]
+	],
+	trustHost: true,
+	secret: AUTH_SECRET
 	// session: {
 	// 	strategy: 'database'
 	// }
