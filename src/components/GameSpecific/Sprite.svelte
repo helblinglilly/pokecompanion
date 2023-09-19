@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IPokemon, ISprites } from '$lib/apiTypes';
+	import type { ISprites } from '$lib/apiTypes';
 	import {
 		findBaseSprites,
 		findPrimarySprite,
@@ -8,13 +8,7 @@
 	} from '$lib/pokemon-id/sprites';
 	import { onMount } from 'svelte';
 	import Modal from '../Modal.svelte';
-	import { getLanguageEntry } from '$lib/utils/language';
-	import {
-		animateSprites,
-		primaryLanguage,
-		selectedGame,
-		versionSpecificSprites
-	} from '$lib/domain';
+	import { animateSprites, selectedGame, versionSpecificSprites } from '$lib/domain';
 
 	export let sprites: ISprites;
 
@@ -36,12 +30,14 @@
 		alt: ''
 	};
 
+	let hasMounted = false;
 	onMount(() => {
 		document.addEventListener('keypress', (event) => {
 			if (event.key === 'escape') {
 				showModal = false;
 			}
 		});
+		hasMounted = true;
 	});
 
 	let toggleModal = (newContent: ISpriteImage) => {
@@ -67,28 +63,30 @@
 		</div>
 	</div>
 
-	<div
-		class="spriteBoxWrapper"
-		on:click={() => toggleModal(secondarySprite)}
-		on:keydown={(key) => {
-			if (key.key === 'space' || key.key === 'enter') {
-				toggleModal(secondarySprite);
-			}
-		}}
-		role="button"
-		tabindex="-1"
-	>
-		<div class="spriteWrapper">
-			{#if secondarySprite}
-				<img
-					src={secondarySprite.url}
-					alt={secondarySprite.alt}
-					loading="lazy"
-					id="secondarySprite"
-				/>
-			{/if}
+	{#if secondarySprite.url}
+		<div
+			class="spriteBoxWrapper"
+			on:click={() => toggleModal(secondarySprite)}
+			on:keydown={(key) => {
+				if (key.key === 'space' || key.key === 'enter') {
+					toggleModal(secondarySprite);
+				}
+			}}
+			role="button"
+			tabindex="-1"
+		>
+			<div class="spriteWrapper">
+				{#if secondarySprite}
+					<img
+						src={secondarySprite.url}
+						alt={secondarySprite.alt}
+						loading="lazy"
+						id="secondarySprite"
+					/>
+				{/if}
+			</div>
 		</div>
-	</div>
+	{/if}
 </div>
 
 <div style="display: flex; justify-content: space-around;">
