@@ -83,5 +83,5 @@
 	pokemons={data.gen9}
 	isHidden={areAllHidden}
 	title="Generation 9"
-	secondaryTitle="#906 - #1010"
+	secondaryTitle="#906 - #1017"
 />

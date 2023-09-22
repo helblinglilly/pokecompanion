@@ -58,7 +58,7 @@ export const Generations: IGeneration[] = [
 		name: 'Generation 9',
 		short: 'Gen 9',
 		pokeApiName: 'generation-ix',
-		nationalDexEnd: 1010
+		nationalDexEnd: 1017
 	}
 ];
 
