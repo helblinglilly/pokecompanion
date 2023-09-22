@@ -1,4 +1,4 @@
-import type { IPokemon } from '$lib/apiTypes';
+import type { IPokemon } from '$lib/types/IPokemon';
 import type { IGeneration } from './games';
 
 interface IType {

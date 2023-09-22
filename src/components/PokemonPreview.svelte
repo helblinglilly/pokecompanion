@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { primaryLanguage, secondaryLanguage } from '$lib/domain';
-	import { getMultiLanguageName } from '$lib/utils/language';
+	import { getLanguageEntry, getMultiLanguageName } from '$lib/utils/language';
 	import type { IPokemonNames } from '../routes/pokemon/+page';
 
 	export let pokemon: IPokemonNames;
@@ -13,10 +13,9 @@
 	>
 		<img
 			src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
-			alt={`#${$primaryLanguage} sprite`}
-			height="96"
-			width="96"
+			alt={`${getLanguageEntry(pokemon.names, $primaryLanguage)} sprite`}
 			loading="lazy"
+			class="sprite"
 		/>
 		<p>
 			#{pokemon.id}

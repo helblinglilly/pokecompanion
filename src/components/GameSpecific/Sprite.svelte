@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ISprites } from '$lib/apiTypes';
+	import type { ISprites } from '$lib/types/IPokemon';
 	import {
 		findBaseSprites,
 		findPrimarySprite,
@@ -59,7 +59,7 @@
 		tabindex="-1"
 	>
 		<div class="spriteWrapper">
-			<img src={primarySprite.url} alt={primarySprite.alt} loading="lazy" id="primarySprite" />
+			<img src={primarySprite.url} alt={primarySprite.alt} id="primarySprite" />
 		</div>
 	</div>
 
@@ -77,12 +77,7 @@
 		>
 			<div class="spriteWrapper">
 				{#if secondarySprite}
-					<img
-						src={secondarySprite.url}
-						alt={secondarySprite.alt}
-						loading="lazy"
-						id="secondarySprite"
-					/>
+					<img src={secondarySprite.url} alt={secondarySprite.alt} id="secondarySprite" />
 				{/if}
 			</div>
 		</div>
@@ -137,11 +132,14 @@
 <style>
 	div.spriteBoxWrapper {
 		text-align: center;
-		width: 128px;
+		width: 30vw;
+		max-width: 178px;
 	}
 	div.spriteWrapper {
-		width: 128px;
-		height: 128px;
+		max-width: 178px;
+		max-height: 178px;
+		width: 30vw;
+		height: 30vw;
 	}
 
 	#primarySprite {

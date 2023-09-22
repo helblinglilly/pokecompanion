@@ -284,3 +284,8 @@ div.column.centered {
 .success > button {
 	width: 100%;
 }
+
+img.sprite {
+	width: 15vw;
+	max-width: 96px;
+}

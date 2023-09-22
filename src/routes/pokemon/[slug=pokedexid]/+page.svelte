@@ -7,11 +7,11 @@
 	import { navigating, page } from '$app/stores';
 	import { getPokemonPageData } from '$lib/pokemon-id/pokemonPage';
 	import { getPokemonTypesInGame } from '$lib/data/elementalTypes';
+	import EvolutionChain from '../../../components/EvolutionChain.svelte';
 
 	$: if ($navigating) refetchData();
 
 	export let data;
-
 	$: pageData = data;
 
 	const refetchData = async () => {
@@ -66,12 +66,15 @@
 			<Sprite sprites={pageData.pokemon.sprites} />
 		</div>
 	</div>
-	<!-- <div class="column">
+	<div class="column">
 		<div class="card">
-			<p>1</p>
+			<EvolutionChain
+				evolutionChainUrl={pageData.species.evolution_chain.url}
+				id={currentPokemonId}
+			/>
 		</div>
 	</div>
-	<div class="column">
+	<!--<div class="column">
 		<div class="card">
 			<p>1</p>
 		</div>

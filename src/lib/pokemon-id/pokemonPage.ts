@@ -1,4 +1,4 @@
-import type { IPokemon, IPokemonSpecies } from '$lib/apiTypes';
+import type { IPokemon, IPokemonSpecies } from '$lib/types/IPokemon';
 import { pokeApiDomain } from '$lib/domain';
 
 export const getPokemonPageData = async (pokedexId: number) => {

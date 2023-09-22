@@ -13,7 +13,7 @@ const assertSelection = async (page: Page) => {
 };
 
 test('has a default value "Generic"', async ({ page }) => {
-	navigateToSettings(page);
+	await page.goto('/settings');
 	await expect(page.locator('#gameSelector > option.selected')).toHaveText('Generic');
 });
 

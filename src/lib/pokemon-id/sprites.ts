@@ -1,4 +1,4 @@
-import type { ISprites } from '$lib/apiTypes';
+import type { ISprites } from '$lib/types/IPokemon';
 
 interface ISpriteData {
 	default: string;
