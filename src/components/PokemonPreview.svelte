@@ -11,12 +11,15 @@
 		class="card clickable"
 		style="display: flex; align-items: center; padding: 1rem; margin-top: 1rem;"
 	>
-		<img
-			src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
-			alt={`${getLanguageEntry(pokemon.names, $primaryLanguage)} sprite`}
-			loading="lazy"
-			class="sprite"
-		/>
+		<div class="spriteWrapper">
+			<img
+				src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
+				alt={`${getLanguageEntry(pokemon.names, $primaryLanguage)} sprite`}
+				loading="lazy"
+				height="96px"
+				width="96px"
+			/>
+		</div>
 		<p>
 			#{pokemon.id}
 			{getMultiLanguageName(pokemon.names, $primaryLanguage, $secondaryLanguage)}

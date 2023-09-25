@@ -289,3 +289,8 @@ img.sprite {
 	width: 15vw;
 	max-width: 96px;
 }
+
+div.spriteWrapper {
+	width: 15vw;
+	max-width: 96px;
+}
