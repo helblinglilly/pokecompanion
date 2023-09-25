@@ -8,6 +8,7 @@
 	import { getPokemonPageData } from '$lib/pokemon-id/pokemonPage';
 	import { getPokemonTypesInGame } from '$lib/data/elementalTypes';
 	import EvolutionChain from '../../../components/EvolutionChain.svelte';
+	import Image from '../../../components/Image.svelte';
 
 	$: if ($navigating) refetchData();
 
@@ -61,7 +62,7 @@
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
 				<div style="display: inline-flex;">
 					{#each getPokemonTypesInGame(pageData.pokemon) as type}
-						<img src={type.icon} alt={type.name} style="margin-right: 4px;" />
+						<Image src={type.icon} alt={type.name} style="margin-right: 4px;" />
 					{/each}
 				</div>
 				<p>Tags</p>

@@ -3,6 +3,7 @@
 	import type { IAPIEvolution } from '$lib/types/IEvolution';
 	import { capitaliseFirstLetter } from '$lib/utils/string';
 	import { onMount } from 'svelte';
+	import Image from './Image.svelte';
 
 	export let evolutionChainUrl: string;
 	export let id: number;
@@ -44,7 +45,7 @@
 	<div class="columns mobile">
 		<div class="column" style="display: grid; justify-content: center;">
 			<a href={evolution.sourceURL}>
-				<img src={evolution.sourceSprite} alt="test" class="sprite" />
+				<Image src={evolution.sourceSprite} alt="test" classNames="sprite" />
 			</a>
 		</div>
 		<div
@@ -62,7 +63,12 @@
 				{#if requirement.type === 'use-item'}
 					<a href={requirement.supplementary} style="width: 100%; display: inline-flex;">
 						<p>Use</p>
-						<img src={requirement.info} alt={requirement.supplementary} />
+						<Image
+							src={requirement.info}
+							height="30"
+							width="30"
+							alt={requirement.supplementary ?? ''}
+						/>
 					</a>
 				{/if}
 				{#if requirement.type === 'friendship'}
@@ -72,7 +78,7 @@
 		</div>
 		<div class="column" style="display: grid; justify-content: center;">
 			<a href={evolution.targetURL}>
-				<img src={evolution.targetSprite} alt="test" class="sprite" />
+				<Image src={evolution.targetSprite} alt="test" classNames="sprite" />
 			</a>
 		</div>
 	</div>

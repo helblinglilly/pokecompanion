@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Image from './Image.svelte';
+
 	export let title: string;
 	export let currentId: number;
 	export let maxId: number;
@@ -13,9 +15,14 @@
 				<div style="display: inline-flex;">
 					<p style="margin: auto;">#{currentId - 1}</p>
 					{#if iconUrl}
-						<img src={`${iconUrl}/${currentId - 1}.png`} alt="icon" class="icon" />
+						<Image
+							src={`${iconUrl}/${currentId - 1}.png`}
+							alt="icon"
+							classNames="icon"
+							loading="eager"
+						/>
 					{:else}
-						<img src="/placeholder.png" alt="icon" class="icon" />
+						<Image src="/placeholder.png" alt="icon" classNames="icon" loading="eager" />
 					{/if}
 				</div>
 			</a>
@@ -36,9 +43,14 @@
 				<div style="display: inline-flex;">
 					<p style="margin: auto;">#{currentId + 1}</p>
 					{#if iconUrl}
-						<img src={`${iconUrl}/${currentId + 1}.png`} alt="icon" class="icon" />
+						<Image
+							src={`${iconUrl}/${currentId + 1}.png`}
+							alt="icon"
+							classNames="icon"
+							loading="eager"
+						/>
 					{:else}
-						<img src="/placeholder.png" alt="icon" class="icon" />
+						<Image src="/placeholder.png" alt="icon" classNames="icon" loading="eager" />
 					{/if}
 				</div>
 			</a>

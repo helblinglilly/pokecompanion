@@ -1,11 +1,12 @@
 <script>
 	import { page } from '$app/stores';
+	import Image from '../components/Image.svelte';
 </script>
 
 <div id="pageWrapper">
 	<div id="errorHeader">
 		{#if $page.error?.errorId === 'Offline'}
-			<img
+			<Image
 				src="/offline.png"
 				alt="trading card game of the Chrome Offline Dinosaur"
 				style="padding-top: 0; width: 80%; max-width: 450px;"
@@ -18,7 +19,7 @@
 			<br />
 			<p>Pages that you already visited should still be available in the meantime</p>
 		{:else}
-			<img src="/missingno.png" alt="missingno" />
+			<Image src="/missingno.png" alt="missingno" />
 
 			<h1>Something went wrong!</h1>
 

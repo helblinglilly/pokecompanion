@@ -58,8 +58,11 @@
 		// Replace all failed images with placeholder
 		const images = document.querySelectorAll('img');
 		images.forEach((image) => {
-			image.addEventListener('error', () => {
+			if (!image.src) {
 				image.src = '/placeholder.png';
+			}
+			image.addEventListener('error', () => {
+				image.srcset = '/placeholder.png';
 			});
 		});
 	};

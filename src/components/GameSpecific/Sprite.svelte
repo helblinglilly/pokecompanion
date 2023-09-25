@@ -9,6 +9,7 @@
 	import { onMount } from 'svelte';
 	import Modal from '../Modal.svelte';
 	import { animateSprites, selectedGame, versionSpecificSprites } from '$lib/domain';
+	import Image from '../Image.svelte';
 
 	export let sprites: ISprites;
 
@@ -59,7 +60,7 @@
 		tabindex="-1"
 	>
 		<div class="spriteWrapper">
-			<img src={primarySprite.url} alt={primarySprite.alt} id="primarySprite" />
+			<Image src={primarySprite.url} alt={primarySprite.alt} id="primarySprite" />
 		</div>
 	</div>
 
@@ -77,7 +78,7 @@
 		>
 			<div class="spriteWrapper">
 				{#if secondarySprite}
-					<img src={secondarySprite.url} alt={secondarySprite.alt} id="secondarySprite" />
+					<Image src={secondarySprite.url} alt={secondarySprite.alt} id="secondarySprite" />
 				{/if}
 			</div>
 		</div>
@@ -120,7 +121,7 @@
 	</h2>
 
 	<div>
-		<img
+		<Image
 			src={modalContent.url}
 			style="margin-left: auto; margin-right: auto;"
 			alt={modalContent.alt}
