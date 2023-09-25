@@ -252,6 +252,10 @@ export const findPrimarySprite = (
 		if (isDisplayingShiny && passedSprites.primary.shiny) {
 			return { url: passedSprites.primary.shiny, alt: 'Shiny Front' };
 		}
+
+		if (!passedSprites.primary.default) {
+			return { url: '/placeholder.png', alt: 'Front' };
+		}
 		return { url: passedSprites.primary.default, alt: 'Front' };
 	}
 };

@@ -14,6 +14,8 @@
 					<p style="margin: auto;">#{currentId - 1}</p>
 					{#if iconUrl}
 						<img src={`${iconUrl}/${currentId - 1}.png`} alt="icon" class="icon" />
+					{:else}
+						<img src="/placeholder.png" alt="icon" class="icon" />
 					{/if}
 				</div>
 			</a>
@@ -35,6 +37,8 @@
 					<p style="margin: auto;">#{currentId + 1}</p>
 					{#if iconUrl}
 						<img src={`${iconUrl}/${currentId + 1}.png`} alt="icon" class="icon" />
+					{:else}
+						<img src="/placeholder.png" alt="icon" class="icon" />
 					{/if}
 				</div>
 			</a>

@@ -33,6 +33,9 @@
 	);
 
 	const removeLastRouteFromURL = (url: string) => {
+		if (!url) {
+			return;
+		}
 		const parts = url.split('/');
 		parts.pop();
 		const modifiedURL = parts.join('/');

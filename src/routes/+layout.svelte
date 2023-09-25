@@ -54,12 +54,23 @@
 		}
 	};
 
+	const fixImages = () => {
+		// Replace all failed images with placeholder
+		const images = document.querySelectorAll('img');
+		images.forEach((image) => {
+			image.addEventListener('error', () => {
+				image.src = '/placeholder.png';
+			});
+		});
+	};
+
 	onMount(() => {
 		initTheme();
 		// Initialise all cookies
 		for (const value of Object.values(cookieHandlers)) {
 			value();
 		}
+		fixImages();
 	});
 
 	$: breadcrumbs = $page.url.pathname
