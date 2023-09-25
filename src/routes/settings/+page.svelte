@@ -68,7 +68,7 @@
 		<div class="column">
 			<div class="card">
 				<h3>Sprites</h3>
-				<div class="mt-2">
+				<div class="input-group">
 					<input
 						on:change={() => {
 							animateSprites.set(!$animateSprites);
@@ -77,10 +77,11 @@
 						type="checkbox"
 						id="animateSpritesInput"
 						name="animateSprites"
+						style="margin-right: 10px;"
 					/>
 					<label for="animateSpritesInput">Animate sprites where possible</label>
 				</div>
-				<div>
+				<div class="input-group">
 					<input
 						on:change={() => {
 							versionSpecificSprites.set(!$versionSpecificSprites);
@@ -89,9 +90,9 @@
 						type="checkbox"
 						id="gameSpecificSpritesInput"
 						name="gameSpecificSprites"
+						style="margin-right: 10px;"
 					/>
-					<label for="gameSpecificSpritesInput">Show game specific sprites when possible</label><br
-					/>
+					<label for="gameSpecificSpritesInput">Show game specific sprites when possible</label>
 				</div>
 			</div>
 		</div>
@@ -164,3 +165,18 @@
 		</div>
 	</div>
 </main>
+
+<style>
+	.input-group {
+		display: flex;
+		margin-bottom: 10px;
+		align-items: baseline;
+	}
+
+	/* Issue where the label doesn't wrap :( */
+	@media screen and (max-width: 500px) {
+		.input-group {
+			max-width: 250px;
+		}
+	}
+</style>

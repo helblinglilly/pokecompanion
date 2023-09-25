@@ -14,7 +14,6 @@
 		}}
 		name="gameSelector"
 		id="gameSelector"
-		style="max-width: fit-content;"
 	>
 		<option value={'generic'} class={$selectedGame === 'generic' ? 'selected' : undefined}
 			>Generic</option
