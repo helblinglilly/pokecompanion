@@ -584,7 +584,7 @@ export const getPokemonGeneration = (id: number) => {
 		return 7;
 	} else if (id > 809 && id <= 905) {
 		return 8;
-	} else if (id > 905 && id <= 1010) {
+	} else if (id > 905 && id <= 1017) {
 		return 9;
 	} else {
 		return 10;
