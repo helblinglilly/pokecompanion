@@ -20,6 +20,7 @@
 							alt="icon"
 							classNames="icon"
 							loading="eager"
+							width=""
 						/>
 					{:else}
 						<Image src="/placeholder.png" alt="icon" classNames="icon" loading="eager" />

@@ -60,7 +60,7 @@
 		tabindex="-1"
 	>
 		<div class="spriteWrapper">
-			<Image src={primarySprite.url} alt={primarySprite.alt} id="primarySprite" />
+			<Image src={primarySprite.url} alt={primarySprite.alt} id="primarySprite" width="100%" />
 		</div>
 	</div>
 
@@ -120,10 +120,10 @@
 		{modalContent.alt}
 	</h2>
 
-	<div>
+	<div id="modalImageWrapper">
 		<Image
 			src={modalContent.url}
-			style="margin-left: auto; margin-right: auto;"
+			style="margin-left: auto; margin-right: auto; width: 100%; height: auto;"
 			alt={modalContent.alt}
 			id="modalImage"
 		/>
@@ -151,7 +151,8 @@
 		width: 100%;
 	}
 
-	#modalImage {
-		width: 80vw;
+	#modalImageWrapper {
+		width: 300px;
+		height: 300px;
 	}
 </style>
