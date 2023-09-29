@@ -18,7 +18,7 @@ interface EvolvesTo {
 	species: Species2;
 }
 
-interface EvolutionDetail {
+export interface EvolutionDetail {
 	gender: any;
 	held_item: any;
 	item: any;

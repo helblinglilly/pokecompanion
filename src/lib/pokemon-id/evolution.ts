@@ -1,4 +1,4 @@
-import type { IEvolutionChain } from '$lib/types/IEvolution';
+import type { EvolutionDetail, IEvolutionChain } from '$lib/types/IEvolution';
 
 export interface IEvolution {
 	sourceURL: string;
@@ -17,7 +17,7 @@ export interface IEvolution {
 // I.e Pladean Wooper to Clodsire
 // Rattata to Raticate
 const formatEvolutions = (evolution: IEvolutionChain, sourceId: number): IEvolution[] => {
-	let results = evolution.evolution_details.map((details) => {
+	let results = evolution.evolution_details.map((details: EvolutionDetail) => {
 		const targetId = Number(evolution.species.url.split('/')[6]);
 
 		let trigger = '';
@@ -186,23 +186,9 @@ const formatEvolutions = (evolution: IEvolutionChain, sourceId: number): IEvolut
 			});
 		}
 
-		if (details.trigger.name === 'take-damage') {
-			if (targetId === 562 || targetId === 867 || targetId === 563) {
-				// Yamask to Runerigus
-				return {
-					sourceURL: `/pokemon/562`,
-					sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/562.png`,
-					trigger: 'other',
-					requirements: [
-						{
-							type: 'other',
-							info: 'Go through the Stone Gate in the Dusty Bowl after Yamask has lost more than 49 HP from one attack and did not faint in that battle - or since'
-						}
-					],
-					targetURL: `/pokemon/867`,
-					targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/867.png`
-				};
-			}
+		const weirdResults = processWeirdEvolutions(details, sourceId, targetId);
+		if (weirdResults) {
+			return weirdResults;
 		}
 
 		const result = {
@@ -224,6 +210,76 @@ const formatEvolutions = (evolution: IEvolutionChain, sourceId: number): IEvolut
 		results = results.concat(nestedResult);
 	});
 	return results;
+};
+
+const processWeirdEvolutions = (detail: EvolutionDetail, sourceId: number, targetId: number) => {
+	const yanmaskRunerigusIds = [562, 867, 563];
+	if (yanmaskRunerigusIds.includes(sourceId) || yanmaskRunerigusIds.includes(targetId)) {
+		return {
+			sourceURL: `/pokemon/562`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/562.png`,
+			trigger: 'other',
+			requirements: [
+				{
+					type: 'other',
+					info: 'Go through the Stone Gate in the Dusty Bowl after Yamask has lost more than 49 HP from one attack and did not faint in that battle - or since'
+				}
+			],
+			targetURL: `/pokemon/867`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/867.png`
+		};
+	}
+
+	// Paldean Wooper to Clodsire
+	if (sourceId === 194 && targetId === 980) {
+		return {
+			sourceURL: `/pokemon/194?variety=wooper-paldea`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10253.png`,
+			trigger: 'Level 20',
+			requirements: [
+				{
+					type: 'level-up',
+					info: ''
+				}
+			],
+			targetURL: `/pokemon/980`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/980.png`
+		};
+	}
+
+	// Wurmple to Silcoon and Cascoon - is random
+	if (sourceId === 265 && targetId === 266) {
+		return {
+			sourceURL: `/pokemon/265`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/265.png`,
+			trigger: 'Level 20',
+			requirements: [
+				{
+					type: 'level-up',
+					info: 'Random'
+				}
+			],
+			targetURL: `/pokemon/266`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/266.png`
+		};
+	} else if (sourceId === 265 && targetId === 268) {
+		return {
+			sourceURL: `/pokemon/265`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/265.png`,
+			trigger: 'Level 20',
+			requirements: [
+				{
+					type: 'level-up',
+					info: 'Random'
+				}
+			],
+			targetURL: `/pokemon/268`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/268.png`
+		};
+	}
+
+	// Checked up to 275
+	return false;
 };
 
 export default formatEvolutions;

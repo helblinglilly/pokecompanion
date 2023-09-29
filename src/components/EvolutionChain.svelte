@@ -53,15 +53,21 @@
 			style="display: grid; justify-content: center; text-align: center; align-items: center;"
 		>
 			{#if evolution.trigger !== 'use-item'}
-				<p>{evolution.trigger}</p>
-			{/if}
-			<!-- <p>{JSON.stringify(evolution.requirements)}</p> -->
-			{#each evolution.requirements as requirement}
-				{#if requirement.type === 'daytime'}
-					<p>At {capitaliseFirstLetter(requirement.info)}</p>
+				{#if evolution.trigger === 'strong-style-move'}
+					<p>Use in strong style</p>
+				{:else if evolution.trigger === 'agile-style-move'}
+					<p>Use in agile style</p>
+				{:else}
+					<p>{evolution.trigger[0].toUpperCase() + evolution.trigger.slice(1)}</p>
 				{/if}
+			{/if}
+			<p>{JSON.stringify(evolution.requirements)}</p>
+			{#each evolution.requirements as requirement}
 				{#if requirement.type === 'use-item'}
-					<a href={requirement.supplementary} style="width: 100%; display: inline-flex;">
+					<a
+						href={requirement.supplementary}
+						style="width: 100%; display: inline-flex; justify-content: center;"
+					>
 						<p>Use</p>
 						<Image
 							src={requirement.info}
@@ -71,8 +77,48 @@
 						/>
 					</a>
 				{/if}
+
+				{#if requirement.type === 'hold-item'}
+					<a
+						href={requirement.supplementary}
+						style="width: 100%; display: inline-flex; justify-content: center;"
+					>
+						<p>Hold</p>
+						<Image
+							src={requirement.info}
+							height="30"
+							width="30"
+							alt={requirement.supplementary ?? ''}
+						/>
+					</a>
+				{/if}
+
+				{#if requirement.type === 'level-up' && requirement.info}
+					<p>{requirement.info}</p>
+				{/if}
+
+				{#if requirement.type === 'daytime'}
+					<p>At {capitaliseFirstLetter(requirement.info)}</p>
+				{/if}
+
+				{#if requirement.type === 'stats'}
+					<p>Stats: {requirement.info}</p>
+				{/if}
+
 				{#if requirement.type === 'friendship'}
 					<p>Friendship</p>
+				{/if}
+
+				{#if requirement.type === 'party_have'}
+					<a href={requirement.supplementary}>Have {requirement.info} in party</a>
+				{/if}
+
+				{#if requirement.type === 'know_move'}
+					<a href={requirement.info}>Knows {requirement.supplementary}</a>
+				{/if}
+
+				{#if requirement.type === 'other'}
+					<p>{requirement.info}</p>
 				{/if}
 			{/each}
 		</div>

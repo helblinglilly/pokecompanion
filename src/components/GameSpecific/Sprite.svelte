@@ -78,7 +78,12 @@
 		>
 			<div class="spriteWrapper">
 				{#if secondarySprite}
-					<Image src={secondarySprite.url} alt={secondarySprite.alt} id="secondarySprite" />
+					<Image
+						src={secondarySprite.url}
+						alt={secondarySprite.alt}
+						id="secondarySprite"
+						width="100%"
+					/>
 				{/if}
 			</div>
 		</div>
