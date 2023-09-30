@@ -117,6 +117,25 @@
 					<a href={requirement.info}>Knows {requirement.supplementary}</a>
 				{/if}
 
+				{#if requirement.type === 'gender'}
+					<p>{requirement.info}</p>
+				{/if}
+
+				{#if requirement.type === 'location'}
+					<!-- Nosepass, Eeveelutions have game-specific locations -->
+					<!-- Magneton evolves at locations and then with stone -->
+					<p>At {requirement.info}</p>
+				{/if}
+
+				{#if requirement.type === 'beauty'}
+					<!-- Look at Feebas and if you could always evolve it by trading -->
+					<p>Beauty</p>
+				{/if}
+
+				{#if requirement.type === 'shed'}
+					<p>{requirement.info}</p>
+				{/if}
+
 				{#if requirement.type === 'other'}
 					<p>{requirement.info}</p>
 				{/if}

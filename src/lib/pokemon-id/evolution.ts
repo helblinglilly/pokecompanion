@@ -41,8 +41,7 @@ const formatEvolutions = (evolution: IEvolutionChain, sourceId: number): IEvolut
 			trigger = 'shed';
 			requirements.push({
 				type: 'shed',
-				info: `Hello`,
-				supplementary: `World`
+				info: `Have at least 1 Pokéball and a free slot in your party when this Pokémon evolves`
 			});
 		} else if (details.trigger.name === 'three-critical-hits') {
 			trigger = 'three-critical-hits';
