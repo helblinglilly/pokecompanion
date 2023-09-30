@@ -76,17 +76,46 @@ interface Species {
 }
 
 export interface ISprites {
-	back_default: string;
+	back_default: null | string;
 	back_female: null | string;
-	back_shiny: string;
+	back_shiny: null | string;
 	back_shiny_female: null | string;
 	front_default: string;
 	front_female: null | string;
-	front_shiny: string;
+	front_shiny: null | string;
 	front_shiny_female: null | string;
 	other: Other;
-	versions: Versions;
+	versions?: Versions;
 }
+
+export const emptySprites = (id: number): ISprites => {
+	return {
+		back_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`,
+		back_female: null,
+		back_shiny: null,
+		back_shiny_female: null,
+		front_default: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
+		front_female: null,
+		front_shiny: null,
+		front_shiny_female: null,
+		other: {
+			dream_world: {
+				front_default: null,
+				front_female: null
+			},
+			home: {
+				front_default: null,
+				front_female: null,
+				front_shiny: null,
+				front_shiny_female: null
+			},
+			'official-artwork': {
+				front_default: null,
+				front_shiny: null
+			}
+		}
+	};
+};
 
 interface Other {
 	dream_world: DreamWorld;
@@ -95,20 +124,20 @@ interface Other {
 }
 
 interface DreamWorld {
-	front_default: string;
-	front_female: any;
+	front_default: null | string;
+	front_female: null | any;
 }
 
 interface Home {
-	front_default: string;
-	front_female: any;
-	front_shiny: string;
-	front_shiny_female: any;
+	front_default: null | string;
+	front_female: null | any;
+	front_shiny: null | string;
+	front_shiny_female: null | any;
 }
 
 interface OfficialArtwork {
-	front_default: string;
-	front_shiny: string;
+	front_default: null | string;
+	front_shiny: null | string;
 }
 
 interface Versions {

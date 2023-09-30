@@ -11,6 +11,7 @@
 	import Image from '../../../components/Image.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { emptySprites } from '$lib/types/IPokemon';
 
 	$: if ($navigating) refetchData();
 
@@ -18,10 +19,16 @@
 	$: pageData = data;
 
 	const refetchData = async () => {
+		// Effectively handle the unmount state until new data is loaded
 		const newPokemonId = Number($navigating?.to?.params?.slug ?? 1);
+		pageData.id = newPokemonId;
+		// Set page data to empty so we don't hold onto stale values
+		pageData.pokemon.sprites = emptySprites(newPokemonId);
+		// pageData.species.evolution_chain.url = '';
 
 		getPokemonPageData(newPokemonId)
 			.then((result) => {
+				// Now that we have new data, populate it accordingly
 				pageData.id = result.id;
 				pageData.pokemon = result.pokemon;
 				pageData.species = result.species;
@@ -92,9 +99,4 @@
 			/>
 		</div>
 	</div>
-	<!--<div class="column">
-		<div class="card">
-			<p>1</p>
-		</div>
-	</div> -->
 </div>

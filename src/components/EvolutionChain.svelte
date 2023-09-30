@@ -9,7 +9,13 @@
 	export let id: number;
 
 	$: if (evolutionChainUrl && isMounted) {
-		fetchAndParse(evolutionChainUrl);
+		const isInPreviousSource = evolutions.find((a) => a.sourceURL.includes(`${id}`));
+		const isInPreviousTarget = evolutions.find((a) => a.targetURL.includes(`${id}`));
+
+		if (!isInPreviousSource && !isInPreviousTarget) {
+			evolutions = [];
+			fetchAndParse(evolutionChainUrl);
+		}
 	}
 	let isMounted = false;
 
