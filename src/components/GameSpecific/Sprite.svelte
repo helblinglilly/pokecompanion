@@ -91,33 +91,35 @@
 </div>
 
 <div style="display: flex; justify-content: space-around;">
-	{#if hasShiny}
-		<span>
-			<input
-				type="checkbox"
-				name="shinyToggle"
-				id="shinyToggle"
-				on:change={() => (isDisplayingShiny = !isDisplayingShiny)}
-				checked={isDisplayingShiny}
-			/>
-			<label class="checkbox" for="shinyToggle">Shiny</label>
-		</span>
-	{/if}
+	<div style="height: 20px;">
+		{#if hasShiny}
+			<span>
+				<input
+					type="checkbox"
+					name="shinyToggle"
+					id="shinyToggle"
+					on:change={() => (isDisplayingShiny = !isDisplayingShiny)}
+					checked={isDisplayingShiny}
+				/>
+				<label class="checkbox" for="shinyToggle">Shiny</label>
+			</span>
+		{/if}
 
-	{#if hasFemale}
-		<span>
-			<input
-				type="checkbox"
-				name="alternative"
-				id="alternative"
-				on:change={() => {
-					isDisplayingFemale = !isDisplayingFemale;
-				}}
-				checked={isDisplayingFemale}
-			/>
-			<label class="checkbox" for="alternative">Female</label>
-		</span>
-	{/if}
+		{#if hasFemale}
+			<span>
+				<input
+					type="checkbox"
+					name="alternative"
+					id="alternative"
+					on:change={() => {
+						isDisplayingFemale = !isDisplayingFemale;
+					}}
+					checked={isDisplayingFemale}
+				/>
+				<label class="checkbox" for="alternative">Female</label>
+			</span>
+		{/if}
+	</div>
 </div>
 
 <Modal bind:showModal>

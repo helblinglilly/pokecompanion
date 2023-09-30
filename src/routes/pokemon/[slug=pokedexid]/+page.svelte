@@ -21,10 +21,9 @@
 	const refetchData = async () => {
 		// Effectively handle the unmount state until new data is loaded
 		const newPokemonId = Number($navigating?.to?.params?.slug ?? 1);
-		pageData.id = newPokemonId;
-		// Set page data to empty so we don't hold onto stale values
 		pageData.pokemon.sprites = emptySprites(newPokemonId);
-		// pageData.species.evolution_chain.url = '';
+		pageData.pokemon.types = [];
+		pageData.pokemon.past_types = [];
 
 		getPokemonPageData(newPokemonId)
 			.then((result) => {
@@ -39,9 +38,9 @@
 	};
 
 	$: currentPokemonId = Number(
-		$page.url.pathname.split('/')[$page.url.pathname.split('/').length - 1]
+		$navigating?.to?.params?.slug ??
+			Number($page.url.pathname.split('/')[$page.url.pathname.split('/').length - 1])
 	);
-
 	const removeLastRouteFromURL = (url: string) => {
 		if (!url) {
 			return;
@@ -81,9 +80,9 @@
 	<div class="column">
 		<div class="card" style="padding-top: 1rem;">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
-				<div style="display: inline-flex;">
+				<div style="display: inline-flex; height: 20px; width: 150px;">
 					{#each getPokemonTypesInGame(pageData.pokemon) as type}
-						<Image src={type.icon} alt={type.name} style="margin-right: 4px;" />
+						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
 					{/each}
 				</div>
 				<p>Tags</p>
