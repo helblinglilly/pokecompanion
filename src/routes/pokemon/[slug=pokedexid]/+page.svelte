@@ -9,6 +9,8 @@
 	import { getPokemonTypesInGame } from '$lib/data/elementalTypes';
 	import EvolutionChain from '../../../components/EvolutionChain.svelte';
 	import Image from '../../../components/Image.svelte';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 
 	$: if ($navigating) refetchData();
 
@@ -42,6 +44,18 @@
 		const modifiedURL = parts.join('/');
 		return modifiedURL;
 	};
+
+	onMount(() => {
+		document.addEventListener('keydown', (e) => {
+			console.log(e.key);
+			if (e.key === 'ArrowLeft' && currentPokemonId > 1) {
+				console.log('go back');
+				goto(`/pokemon/${currentPokemonId - 1}`);
+			} else if (e.key === 'ArrowRight' && currentPokemonId < lastPokedexEntry) {
+				goto(`/pokemon/${currentPokemonId + 1}`);
+			}
+		});
+	});
 </script>
 
 <Navigator
