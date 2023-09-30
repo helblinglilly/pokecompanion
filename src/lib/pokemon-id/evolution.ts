@@ -235,12 +235,7 @@ const processWeirdEvolutions = (detail: EvolutionDetail, sourceId: number, targe
 			sourceURL: `/pokemon/194?variety=wooper-paldea`,
 			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10253.png`,
 			trigger: 'Level 20',
-			requirements: [
-				{
-					type: 'level-up',
-					info: ''
-				}
-			],
+			requirements: [],
 			targetURL: `/pokemon/980`,
 			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/980.png`
 		};
@@ -274,6 +269,216 @@ const processWeirdEvolutions = (detail: EvolutionDetail, sourceId: number, targe
 			],
 			targetURL: `/pokemon/268`,
 			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/268.png`
+		};
+	}
+
+	// Basulin to Basculegion
+	if (sourceId === 550 && targetId === 902) {
+		return {
+			sourceURL: `/pokemon/550`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/550.png`,
+			trigger: 'recoil-damage',
+			requirements: [
+				{
+					type: 'recoil-damage',
+					info: '294'
+				}
+			],
+			targetURL: `/pokemon/902`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/902.png`
+		};
+	}
+
+	// Bisharp to Kingambit
+	if (sourceId === 625 && targetId === 983) {
+		return {
+			sourceURL: `/pokemon/625`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/625.png`,
+			trigger: 'Level Up',
+			requirements: [
+				{
+					type: 'battle-leader',
+					info: 'Defeat 3 Bisharps surrounded by Pawniard'
+				},
+				{
+					type: 'hold-item',
+					info: "Leader's Crest",
+					supplementary: '/item/2046'
+				}
+			],
+			targetURL: `/pokemon/983`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/983.png`
+		};
+	}
+
+	// Rockruff to Lyanroc varieties
+	if (sourceId === 744 && targetId === 745) {
+		if (detail.time_of_day === 'night') {
+			return {
+				sourceURL: `/pokemon/744`,
+				sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/744.png`,
+				trigger: 'Level Up',
+				requirements: [
+					{
+						type: 'daytime',
+						info: 'night'
+					}
+				],
+				targetURL: `/pokemon/745`,
+				targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10126.png`
+			};
+		} else if (detail.time_of_day === 'dusk') {
+			// https://pokeapi.co/api/v2/pokemon/10152/
+			return {
+				sourceURL: `/pokemon/744`,
+				sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/744.png`,
+				trigger: 'Level Up',
+				requirements: [
+					{
+						type: 'daytime',
+						info: 'dusk'
+					}
+				],
+				targetURL: `/pokemon/745`,
+				targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10152.png`
+			};
+		}
+	}
+
+	// Cosmog to Sun/Moon legendaries
+	if (sourceId === 790 && targetId === 791) {
+		return {
+			sourceURL: `/pokemon/790`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/790.png`,
+			trigger: 'Level 53',
+			requirements: [
+				{
+					type: 'game-specific',
+					info: 'Sun / Ultra Sun'
+				}
+			],
+			targetURL: `/pokemon/791`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/791.png`
+		};
+	} else if (sourceId === 790 && targetId === 792) {
+		return {
+			sourceURL: `/pokemon/790`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/790.png`,
+			trigger: 'Level 53',
+			requirements: [
+				{
+					type: 'game-specific',
+					info: 'Moon / Ultra Moon'
+				}
+			],
+			targetURL: `/pokemon/792`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/792.png`
+		};
+	}
+
+	// Pawmo to Pawmot
+	if (sourceId === 922 && targetId === 923) {
+		return {
+			sourceURL: `/pokemon/922`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/922.png`,
+			trigger: 'walk-r',
+			requirements: [],
+			targetURL: `/pokemon/923`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/923.png`
+		};
+	}
+
+	// Tandemous to Maushold hasn't got animation
+	if (sourceId === 924 && targetId === 925) {
+		return {
+			sourceURL: `/pokemon/924`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/924.png`,
+			trigger: 'Level 25',
+			requirements: [
+				{
+					type: 'no-animation',
+					info: 'No Animation'
+				}
+			],
+			targetURL: `/pokemon/925`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/925.png`
+		};
+	}
+
+	// Bramblin to Brambleghast
+	if (sourceId === 946 && targetId === 947) {
+		return {
+			sourceURL: `/pokemon/946`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/946.png`,
+			trigger: 'walk-r',
+			requirements: [],
+			targetURL: `/pokemon/947`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/947.png`
+		};
+	}
+
+	// Rellor to Rabsca
+	if (sourceId === 953 && targetId === 954) {
+		return {
+			sourceURL: `/pokemon/953`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/953.png`,
+			trigger: 'walk-r',
+			requirements: [],
+			targetURL: `/pokemon/954`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/954.png`
+		};
+	}
+
+	// Finizen to Palafin
+	if (sourceId === 963 && targetId === 964) {
+		return {
+			sourceURL: `/pokemon/963`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/963.png`,
+			trigger: 'Level 38',
+			requirements: [
+				{
+					type: 'multiplayer',
+					info: 'While in multiplayer mode'
+				}
+			],
+			targetURL: `/pokemon/964`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/964.png`
+		};
+	}
+
+	// Mankey to Annihilape
+	if (sourceId === 57 && targetId === 979) {
+		return {
+			sourceURL: `/pokemon/57`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/57.png`,
+			trigger: 'use-move',
+			requirements: [
+				{
+					type: 'use_move',
+					info: '/moves/889',
+					supplementary: 'Rage Fist 20 times'
+				}
+			],
+			targetURL: `/pokemon/979`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/979.png`
+		};
+	}
+
+	// Gimmighoul to Gholdengo
+	if (sourceId === 999 && targetId === 1000) {
+		return {
+			sourceURL: `/pokemon/999`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/999.png`,
+			trigger: 'collect-items',
+			requirements: [
+				{
+					type: 'collect_items',
+					info: '/items/1938',
+					supplementary: '999 Gimmighoul coins'
+				}
+			],
+			targetURL: `/pokemon/1000`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1000.png`
 		};
 	}
 

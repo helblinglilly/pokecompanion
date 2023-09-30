@@ -45,7 +45,7 @@
 </script>
 
 {#if evolutions.length === 0}
-	<p>This Pokémon has no evolutions</p>
+	<p style="text-align: center;">This Pokémon has no evolutions</p>
 {/if}
 {#each evolutions as evolution}
 	<div class="columns mobile">
@@ -60,9 +60,21 @@
 		>
 			{#if evolution.trigger !== 'use-item'}
 				{#if evolution.trigger === 'strong-style-move'}
-					<p>Use in strong style</p>
+					<p>Use specific in strong style</p>
 				{:else if evolution.trigger === 'agile-style-move'}
-					<p>Use in agile style</p>
+					<p>Use specific in agile style</p>
+				{:else if evolution.trigger === 'use-move'}
+					<p>Use move</p>
+				{:else if evolution.trigger === 'collect-items'}
+					<p>Collect</p>
+				{:else if evolution.trigger === 'three-critical-hits'}
+					<p>Land 3 critical hits in 1 battle</p>
+				{:else if evolution.trigger === 'tower-of-darkness'}
+					<p>Single Strike Style in Tower of Darkness</p>
+				{:else if evolution.trigger === 'tower-of-waters'}
+					<p>Single Strike Style in Tower of Waters</p>
+				{:else if evolution.trigger === 'walk-r'}
+					<p>Walk 1000 steps in Let's Go mode</p>
 				{:else}
 					<p>{evolution.trigger[0].toUpperCase() + evolution.trigger.slice(1)}</p>
 				{/if}
@@ -123,8 +135,16 @@
 					<a href={requirement.info}>Knows {requirement.supplementary}</a>
 				{/if}
 
-				{#if requirement.type === 'gender'}
-					<p>{requirement.info}</p>
+				{#if requirement.type === 'use_move'}
+					<a href={requirement.info}>{requirement.supplementary}</a>
+				{/if}
+
+				{#if requirement.type === 'collect_items'}
+					<a href={requirement.info}>{requirement.supplementary}</a>
+				{/if}
+
+				{#if requirement.type === 'trade_for'}
+					<a href={requirement.supplementary}>Trade for {requirement.info}</a>
 				{/if}
 
 				{#if requirement.type === 'location'}
@@ -138,11 +158,43 @@
 					<p>Beauty</p>
 				{/if}
 
+				{#if requirement.type === 'recoil-damage'}
+					<p>Take {requirement.info}HP recoil damage</p>
+				{/if}
+
+				{#if requirement.type === 'other'}
+					<p>{requirement.info}</p>
+				{/if}
+
+				{#if requirement.type === 'gender'}
+					<p>{requirement.info}</p>
+				{/if}
+
 				{#if requirement.type === 'shed'}
 					<p>{requirement.info}</p>
 				{/if}
 
-				{#if requirement.type === 'other'}
+				{#if requirement.type === 'battle-leader'}
+					<p>{requirement.info}</p>
+				{/if}
+
+				{#if requirement.type === 'party_type'}
+					<p>{requirement.info}</p>
+				{/if}
+
+				{#if requirement.type === 'rain'}
+					<p>{requirement.info}</p>
+				{/if}
+
+				{#if requirement.type === 'game-specific'}
+					<p>{requirement.info}</p>
+				{/if}
+
+				{#if requirement.type === 'no-animation'}
+					<p>{requirement.info}</p>
+				{/if}
+
+				{#if requirement.type === 'multiplayer'}
 					<p>{requirement.info}</p>
 				{/if}
 			{/each}
