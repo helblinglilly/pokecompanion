@@ -79,7 +79,7 @@
 					<p>{evolution.trigger[0].toUpperCase() + evolution.trigger.slice(1)}</p>
 				{/if}
 			{/if}
-			<p>{JSON.stringify(evolution.requirements)}</p>
+
 			{#each evolution.requirements as requirement}
 				{#if requirement.type === 'use-item'}
 					<a
