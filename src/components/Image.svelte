@@ -1,8 +1,8 @@
 <script lang="ts">
 	export let src: string;
 	export let alt: string;
-	export let height: string | undefined = undefined;
-	export let width: string | undefined = undefined;
+	export let height: string | undefined = 'inherit';
+	export let width: string | undefined = 'inherit';
 	export let style: string | undefined = undefined;
 	export let classNames: string | undefined = undefined;
 	export let id: string | undefined = `image-${src}-${alt}`;
