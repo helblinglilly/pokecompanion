@@ -14,11 +14,12 @@
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation>
-		<div style="display: inline-flex; width: 100%; justify-content: space-between;">
+		<div
+			style="display: inline-flex; width: 100%; justify-content: space-between; position: sticky; top: 0; background-color: var(--primary); padding-bottom: 10px; padding-top: 10px; border-bottom: 2px solid var(--text);"
+		>
 			<slot name="header" />
 			<button on:click={() => dialog.close()}>X</button>
 		</div>
-		<hr />
 		<slot />
 		<!-- <hr /> -->
 		<!-- svelte-ignore a11y-autofocus -->
