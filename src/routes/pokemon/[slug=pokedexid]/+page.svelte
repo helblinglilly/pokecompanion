@@ -1,6 +1,11 @@
 <script lang="ts">
 	import PokemonNames from '$lib/data/pokemonNames.json';
-	import { lastPokedexEntry, primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
+	import {
+		lastPokedexEntry,
+		primaryLanguage,
+		secondaryLanguage,
+		selectedGame
+	} from '$lib/stores/domain';
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Sprite from '../../../components/GameSpecific/Sprite.svelte';
 	import Navigator from '../../../components/Navigator.svelte';
@@ -12,6 +17,8 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { emptySprites } from '$lib/types/IPokemon';
+	import { isPokemonInGame } from '$lib/data/games';
+	import Pokedex from '../../../components/Pokedex.svelte';
 
 	$: if ($navigating) refetchData();
 
@@ -83,9 +90,13 @@
 						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
 					{/each}
 				</div>
-				<p>Tags</p>
+
+				<Pokedex flavourTextEntries={pageData.species.flavor_text_entries} />
 			</div>
 			<Sprite sprites={pageData.pokemon.sprites} />
+			{#if !isPokemonInGame(currentPokemonId, $selectedGame ?? '')}
+				<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
+			{/if}
 		</div>
 	</div>
 	<div class="column">

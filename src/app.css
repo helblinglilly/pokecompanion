@@ -67,12 +67,17 @@ h4,
 h5,
 i,
 b,
+button,
 a {
 	color: var(--text);
 }
 
 a {
 	text-decoration-line: underline;
+}
+
+.navbar__button > button {
+	color: var(--light);
 }
 
 a.no-style {

@@ -85,8 +85,24 @@ enum Consoles {
 	SW = 'Nintendo Switch'
 }
 
-export const isPokemonInGame = (nationalDexId: number, game: IGame) => {
-	if (nationalDexId > game.generation.nationalDexEnd) {
+export const isPokemonInGame = (nationalDexId: number, game: IGame | string) => {
+	let definiteGame: IGame | undefined;
+
+	if (typeof game === 'string') {
+		const foundGame = findGameGroupFromCookieString(game.toString());
+		if (!foundGame || foundGame.length < 1) {
+			return false;
+		}
+		definiteGame = foundGame[0];
+	} else {
+		definiteGame = game as IGame;
+	}
+
+	if (!definiteGame) {
+		return false;
+	}
+
+	if (nationalDexId > definiteGame.generation.nationalDexEnd) {
 		return false;
 	}
 	return true;
@@ -218,6 +234,33 @@ const game = {
 		console: Consoles.GBA,
 		generation: Generations[2]
 	},
+	// These 2 are inaccurate
+	firered: {
+		name: 'Pokémon Fire Red Version',
+		shortName: 'Firered',
+		releaseDates: {
+			JP: '2002-11-21',
+			NA: '2003-03-19',
+			AU: '2003-04-02',
+			EU: '2003-07-25'
+		},
+		region: Regions.KANTO,
+		console: Consoles.GBA,
+		generation: Generations[2]
+	},
+	leafgreen: {
+		name: 'Pokémon Leaf Green Version',
+		shortName: 'Leafgreen',
+		releaseDates: {
+			JP: '2004-19-16',
+			NA: '2005-05-01',
+			AU: '2005-06-09',
+			EU: '2005-10-21'
+		},
+		region: Regions.KANTO,
+		console: Consoles.GBA,
+		generation: Generations[2]
+	},
 	diamond: {
 		name: 'Pokémon Diamond Version',
 		shortName: 'Diamond',
@@ -261,7 +304,7 @@ const game = {
 	},
 	heartGold: {
 		name: 'Pokémon Heart Gold Version',
-		shortName: 'Heart Gold',
+		shortName: 'HeartGold',
 		releaseDates: {
 			JP: '2009-09-12',
 			NA: '2010-03-14',
@@ -274,7 +317,7 @@ const game = {
 	},
 	soulSilver: {
 		name: 'Pokémon Soul Silver Version',
-		shortName: 'Soul Silver',
+		shortName: 'SoulSilver',
 		releaseDates: {
 			JP: '2009-09-12',
 			NA: '2010-03-14',
@@ -543,6 +586,7 @@ const gameGroups: IGame[][] = [
  * @param lowercase Optional flag to turn all game names lowercase before joining
  * @param removeSpaces Optional flag to remove all spaces from game names before joining
  * @param alphanumericOnly Optional flag to remove all special characters from game names before joining
+ * * @param replaceSpacesWith Optional entry, only works with replace spaces - the character that should be used to replace spaces with
  * @returns single string
  */
 const getGroupName = (
@@ -550,14 +594,15 @@ const getGroupName = (
 	joinCharacter: string,
 	lowercase?: boolean,
 	removeSpaces?: boolean,
-	alphanumericOnly?: boolean
+	alphanumericOnly?: boolean,
+	replaceSpacesWith?: string
 ) => {
 	let output = input
 		.map((game) => {
 			let newName = game.shortName;
 
 			if (removeSpaces) {
-				newName = game.shortName.replaceAll(' ', '');
+				newName = game.shortName.replaceAll(' ', replaceSpacesWith ?? '');
 			}
 
 			if (alphanumericOnly) {
@@ -576,10 +621,17 @@ const getGroupName = (
 
 export const findGameGroupFromCookieString = (versionGroupName: string | undefined) => {
 	if (!versionGroupName) {
-		return undefined;
+		return [];
 	}
 	return gameGroups.find((group) => {
 		return getGroupName(group, '-', true, true, true) === versionGroupName;
+	});
+};
+
+export const findGameFromAPIGameName = (versionName: string) => {
+	return Object.values(game).find((value) => {
+		// console.log(value.shortName, getGroupName([value], '-', true, true, false, '-'));
+		return getGroupName([value], '-', true, true, false, '-').replaceAll("'", '') === versionName;
 	});
 };
 

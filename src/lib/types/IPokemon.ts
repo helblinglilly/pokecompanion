@@ -409,7 +409,7 @@ interface EvolutionChain {
 	url: string;
 }
 
-interface FlavorTextEntry {
+export interface FlavorTextEntry {
 	flavor_text: string;
 	language: Language;
 	version: Version2;
