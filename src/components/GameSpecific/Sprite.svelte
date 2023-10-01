@@ -47,9 +47,9 @@
 	};
 </script>
 
-<div style="display: flex; justify-content: space-around;">
+<div class="columns mobile" style="min-height: 178px;">
 	<div
-		class="spriteBoxWrapper"
+		class="column spriteBoxWrapper"
 		on:click={() => toggleModal(primarySprite)}
 		on:keydown={(key) => {
 			if (key.key === 'space' || key.key === 'enter') {
@@ -59,14 +59,17 @@
 		role="button"
 		tabindex="-1"
 	>
-		<div class="spriteWrapper">
-			<Image src={primarySprite.url} alt={primarySprite.alt} id="primarySprite" width="100%" />
-		</div>
+		<Image
+			src={primarySprite.url}
+			alt={primarySprite.alt}
+			id="primarySprite"
+			style="width: 128px; max-height: 178px;"
+		/>
 	</div>
 
 	{#if secondarySprite.url}
 		<div
-			class="spriteBoxWrapper"
+			class="column spriteBoxWrapper"
 			on:click={() => toggleModal(secondarySprite)}
 			on:keydown={(key) => {
 				if (key.key === 'space' || key.key === 'enter') {
@@ -76,16 +79,14 @@
 			role="button"
 			tabindex="-1"
 		>
-			<div class="spriteWrapper">
-				{#if secondarySprite}
-					<Image
-						src={secondarySprite.url}
-						alt={secondarySprite.alt}
-						id="secondarySprite"
-						width="100%"
-					/>
-				{/if}
-			</div>
+			{#if secondarySprite}
+				<Image
+					src={secondarySprite.url}
+					alt={secondarySprite.alt}
+					id="secondarySprite"
+					style="width: 128px; max-height: 178px;"
+				/>
+			{/if}
 		</div>
 	{/if}
 </div>
@@ -139,27 +140,15 @@
 
 <style>
 	div.spriteBoxWrapper {
-		text-align: center;
-		width: 30vw;
-		max-width: 178px;
-	}
-	div.spriteWrapper {
-		max-width: 178px;
-		max-height: 178px;
-		width: 30vw;
-		height: 30vw;
-	}
-
-	#primarySprite {
-		width: 100%;
-	}
-
-	#secondarySprite {
-		width: 100%;
+		display: grid;
+		align-content: center;
+		justify-content: center;
 	}
 
 	#modalImageWrapper {
 		width: 300px;
 		height: 300px;
+		display: grid;
+		align-content: center;
 	}
 </style>
