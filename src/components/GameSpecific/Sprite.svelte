@@ -8,7 +8,7 @@
 	} from '$lib/pokemon-id/sprites';
 	import { onMount } from 'svelte';
 	import Modal from '../Modal.svelte';
-	import { animateSprites, selectedGame, versionSpecificSprites } from '$lib/domain';
+	import { animateSprites, selectedGame, versionSpecificSprites } from '$lib/stores/domain';
 	import Image from '../Image.svelte';
 
 	export let sprites: ISprites;

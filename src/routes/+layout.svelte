@@ -2,9 +2,9 @@
 	import '../app.css';
 
 	import { onMount } from 'svelte';
-	import { cookieHandlers, theme } from '$lib/domain';
+	import { cookieHandlers, theme } from '$lib/stores/domain';
 	import { page } from '$app/stores';
-	import { notifications } from '$lib/notifications';
+	import { notifications } from '$lib/stores/notifications';
 
 	let isMobileMenuExpanded = false;
 

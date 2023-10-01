@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { primaryLanguage, secondaryLanguage } from '$lib/domain';
+	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import { getLanguageEntry, getMultiLanguageName } from '$lib/utils/language';
 	import type { IPokemonNames } from '../routes/pokemon/+page';
 	import Image from './Image.svelte';

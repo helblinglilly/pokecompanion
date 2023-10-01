@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { gameGroups, getGroupName } from '$lib/data/games';
-	import { selectedGame } from '$lib/domain';
+	import { selectedGame } from '$lib/stores/domain';
 </script>
 
 <div>

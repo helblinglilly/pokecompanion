@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
-import { getCookie, setCookie } from './utils/cookies';
-import type { Languages } from './utils/language';
+import { getCookie, setCookie } from '../utils/cookies';
+import type { Languages } from '../utils/language';
 import PokemonNames from '$lib/data/pokemonNames.json';
 
 export const theme = writable<'dark' | 'light' | undefined>();

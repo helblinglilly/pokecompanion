@@ -1,5 +1,5 @@
 import type { IPokemon, IPokemonSpecies } from '$lib/types/IPokemon';
-import { pokeApiDomain } from '$lib/domain';
+import { pokeApiDomain } from '$lib/stores/domain';
 
 export const getPokemonPageData = async (pokedexId: number) => {
 	const [pokemon, species] = await Promise.all([

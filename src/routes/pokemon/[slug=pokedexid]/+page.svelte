@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PokemonNames from '$lib/data/pokemonNames.json';
-	import { lastPokedexEntry, primaryLanguage, secondaryLanguage } from '$lib/domain';
+	import { lastPokedexEntry, primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Sprite from '../../../components/GameSpecific/Sprite.svelte';
 	import Navigator from '../../../components/Navigator.svelte';

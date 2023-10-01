@@ -5,7 +5,7 @@
 		primaryLanguage,
 		secondaryLanguage,
 		versionSpecificSprites
-	} from '$lib/domain';
+	} from '$lib/stores/domain';
 	import type { Languages } from '$lib/utils/language';
 
 	const languages = [
