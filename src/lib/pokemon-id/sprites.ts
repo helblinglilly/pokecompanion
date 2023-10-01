@@ -136,16 +136,32 @@ export const findBaseSprites = (
 			if (animatedSprites) {
 				return {
 					primary: {
-						default: sprites.versions['generation-v']['black-white'].animated.front_default,
-						shiny: sprites.versions['generation-v']['black-white'].animated.front_shiny,
-						female: sprites.versions['generation-v']['black-white'].animated.front_female,
-						shinyFemale: sprites.versions['generation-v']['black-white'].animated.front_shiny_female
+						default:
+							sprites.versions['generation-v']['black-white'].animated.front_default ??
+							sprites.versions['generation-v']['black-white'].front_default,
+						shiny:
+							sprites.versions['generation-v']['black-white'].animated.front_shiny ??
+							sprites.versions['generation-v']['black-white'].front_shiny,
+						female:
+							sprites.versions['generation-v']['black-white'].animated.front_female ??
+							sprites.versions['generation-v']['black-white'].front_female,
+						shinyFemale:
+							sprites.versions['generation-v']['black-white'].animated.front_shiny_female ??
+							sprites.versions['generation-v']['black-white'].front_shiny_female
 					},
 					secondary: {
-						default: sprites.versions['generation-v']['black-white'].animated.back_default,
-						shiny: sprites.versions['generation-v']['black-white'].animated.back_shiny,
-						female: sprites.versions['generation-v']['black-white'].animated.back_female,
-						shinyFemale: sprites.versions['generation-v']['black-white'].animated.back_shiny_female
+						default:
+							sprites.versions['generation-v']['black-white'].animated.back_default ??
+							sprites.versions['generation-v']['black-white'].back_default,
+						shiny:
+							sprites.versions['generation-v']['black-white'].animated.back_shiny ??
+							sprites.versions['generation-v']['black-white'].back_shiny,
+						female:
+							sprites.versions['generation-v']['black-white'].animated.back_female ??
+							sprites.versions['generation-v']['black-white'].back_female,
+						shinyFemale:
+							sprites.versions['generation-v']['black-white'].animated.back_shiny_female ??
+							sprites.versions['generation-v']['black-white'].back_shiny_female
 					}
 				};
 			}
@@ -212,6 +228,7 @@ export const findBaseSprites = (
 					shinyFemale: sprites.back_shiny_female
 				}
 			};
+		} else {
 		}
 	}
 
