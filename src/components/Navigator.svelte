@@ -8,8 +8,8 @@
 	export let route: string;
 </script>
 
-<div class="columns mobile" style="justify-content: space-between;">
-	<div class="column" style="max-width: fit-content;">
+<div id="navigator" class="columns mobile">
+	<div class="column" style="max-width: fit-content; display: contents;">
 		{#if currentId - 1 > 0}
 			<a href={`${route}/${currentId - 1}`} class="card" style="width: fit-content; padding: 10px;">
 				<div style="display: inline-flex;">
@@ -38,7 +38,7 @@
 			{title}
 		</h2>
 	</div>
-	<div class="column" style="justify-content: end; display: grid; max-width: fit-content;">
+	<div class="column" style="justify-content: end; display: contents; max-width: fit-content;">
 		{#if currentId + 1 <= maxId}
 			<a href={`${route}/${currentId + 1}`} class="card" style="width: fit-content; padding: 10px;">
 				<div style="display: inline-flex;">
@@ -66,3 +66,16 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	#navigator {
+		justify-content: space-between;
+	}
+
+	@media (min-width: 768px) {
+		#navigator {
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+	}
+</style>
