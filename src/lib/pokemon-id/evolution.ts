@@ -1,3 +1,4 @@
+import { isPokemonInGame, type IGame, getGroupName } from '$lib/data/games';
 import type { EvolutionDetail, IEvolutionChain } from '$lib/types/IEvolution';
 
 export interface IEvolution {
@@ -16,7 +17,11 @@ export interface IEvolution {
 // Should look if specific variants evolve different and hardcode those.
 // I.e Pladean Wooper to Clodsire
 // Rattata to Raticate
-const formatEvolutions = (evolution: IEvolutionChain, sourceId: number): IEvolution[] => {
+const formatEvolutions = (
+	evolution: IEvolutionChain,
+	sourceId: number,
+	game: IGame[] | undefined
+): IEvolution[] => {
 	let results = evolution.evolution_details.map((details: EvolutionDetail) => {
 		const targetId = Number(evolution.species.url.split('/')[6]);
 
@@ -26,6 +31,22 @@ const formatEvolutions = (evolution: IEvolutionChain, sourceId: number): IEvolut
 			info: string;
 			supplementary?: string;
 		}[] = [];
+
+		if (game) {
+			const isSourceInGame = isPokemonInGame(sourceId, game[0]);
+			const isTargetInGame = isPokemonInGame(targetId, game[0]);
+
+			if (!isSourceInGame || !isTargetInGame) {
+				return {
+					sourceURL: `/pokemon/${sourceId}`,
+					sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${sourceId}.png`,
+					trigger: `Not in ${getGroupName(game, ' & ', false, false, false)}`,
+					requirements: requirements,
+					targetURL: `/pokemon/${targetId}`,
+					targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${targetId}.png`
+				};
+			}
+		}
 
 		if (details.trigger.name === 'level-up') {
 			if (details.min_level) trigger = `Level ${details.min_level}`;
@@ -204,7 +225,8 @@ const formatEvolutions = (evolution: IEvolutionChain, sourceId: number): IEvolut
 	evolution.evolves_to.forEach((nestedEvolution) => {
 		const nestedResult = formatEvolutions(
 			nestedEvolution,
-			Number(evolution.species.url.split('/')[6])
+			Number(evolution.species.url.split('/')[6]),
+			game
 		);
 		results = results.concat(nestedResult);
 	});

@@ -85,6 +85,13 @@ enum Consoles {
 	SW = 'Nintendo Switch'
 }
 
+export const isPokemonInGame = (nationalDexId: number, game: IGame) => {
+	if (nationalDexId > game.generation.nationalDexEnd) {
+		return false;
+	}
+	return true;
+};
+
 export interface IGame {
 	name: string;
 	shortName: string;
@@ -565,6 +572,15 @@ const getGroupName = (
 		output = output.toLowerCase();
 	}
 	return output;
+};
+
+export const findGameGroupFromCookieString = (versionGroupName: string | undefined) => {
+	if (!versionGroupName) {
+		return undefined;
+	}
+	return gameGroups.find((group) => {
+		return getGroupName(group, '-', true, true, true) === versionGroupName;
+	});
 };
 
 export const getPokemonGeneration = (id: number) => {

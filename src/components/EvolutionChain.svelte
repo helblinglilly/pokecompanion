@@ -4,9 +4,19 @@
 	import { capitaliseFirstLetter } from '$lib/utils/string';
 	import { onMount } from 'svelte';
 	import Image from './Image.svelte';
+	import { selectedGame } from '$lib/stores/domain';
+	import { findGameGroupFromCookieString } from '$lib/data/games';
 
 	export let evolutionChainUrl: string;
 	export let id: number;
+	let isMounted = false;
+	let evolutions: IEvolution[] = [];
+	let evolutionData: IAPIEvolution | undefined;
+
+	onMount(async () => {
+		await fetchData(evolutionChainUrl);
+		isMounted = true;
+	});
 
 	$: if (evolutionChainUrl && isMounted) {
 		const isInPreviousSource = evolutions.find((a) => a.sourceURL.includes(`${id}`));
@@ -14,29 +24,32 @@
 
 		if (!isInPreviousSource && !isInPreviousTarget) {
 			evolutions = [];
-			fetchAndParse(evolutionChainUrl);
+			fetchData(evolutionChainUrl);
 		}
 	}
-	let isMounted = false;
 
-	onMount(async () => {
-		await fetchAndParse(evolutionChainUrl);
-		isMounted = true;
-	});
+	$: {
+		if (!evolutionData) {
+			evolutions = [];
+			return;
+		}
+		evolutions = evolutionData.chain.evolves_to
+			.map((direction) => {
+				// This ? for evolutionData shouldn't be there?!
+				const sourceId = evolutionData?.chain.species.url.split('/')[6];
+				return formatEvolutions(
+					direction,
+					Number(sourceId),
+					findGameGroupFromCookieString($selectedGame)
+				);
+			})
+			.flat();
+	}
 
-	let evolutions: IEvolution[] = [];
-
-	const fetchAndParse = async (url: string) => {
+	const fetchData = async (url: string) => {
 		try {
 			const response = await fetch(url);
-			const body = (await response.json()) as IAPIEvolution;
-
-			evolutions = body.chain.evolves_to
-				.map((direction) => {
-					const sourceId = body.chain.species.url.split('/')[6];
-					return formatEvolutions(direction, Number(sourceId));
-				})
-				.flat();
+			evolutionData = (await response.json()) as IAPIEvolution;
 		} catch (err) {
 			console.error(`Failed to get evolution chain data`);
 			return [];
