@@ -14,7 +14,10 @@
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation>
-		<slot name="header" />
+		<div style="display: inline-flex; width: 100%; justify-content: space-between;">
+			<slot name="header" />
+			<button on:click={() => dialog.close()}>X</button>
+		</div>
 		<hr />
 		<slot />
 		<!-- <hr /> -->
