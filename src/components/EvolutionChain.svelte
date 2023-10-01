@@ -31,19 +31,19 @@
 	$: {
 		if (!evolutionData) {
 			evolutions = [];
-			return;
+		} else {
+			evolutions = evolutionData.chain.evolves_to
+				.map((direction) => {
+					// This ? for evolutionData shouldn't be there?!
+					const sourceId = evolutionData?.chain.species.url.split('/')[6];
+					return formatEvolutions(
+						direction,
+						Number(sourceId),
+						findGameGroupFromCookieString($selectedGame)
+					);
+				})
+				.flat();
 		}
-		evolutions = evolutionData.chain.evolves_to
-			.map((direction) => {
-				// This ? for evolutionData shouldn't be there?!
-				const sourceId = evolutionData?.chain.species.url.split('/')[6];
-				return formatEvolutions(
-					direction,
-					Number(sourceId),
-					findGameGroupFromCookieString($selectedGame)
-				);
-			})
-			.flat();
 	}
 
 	const fetchData = async (url: string) => {
