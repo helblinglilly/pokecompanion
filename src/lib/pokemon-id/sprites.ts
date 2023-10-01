@@ -80,7 +80,7 @@ export const findBaseSprites = (
 					shiny: sprites.versions['generation-iii']['emerald'].front_shiny
 				},
 				secondary: {
-					default: sprites.back_default,
+					default: sprites.back_default ?? '',
 					shiny: sprites.back_shiny
 				}
 			};
@@ -172,7 +172,7 @@ export const findBaseSprites = (
 					shinyFemale: sprites.versions['generation-vi']['x-y'].front_shiny_female
 				},
 				secondary: {
-					default: sprites.back_default,
+					default: sprites.back_default ?? '',
 					shiny: sprites.back_shiny,
 					female: sprites.back_female,
 					shinyFemale: sprites.back_shiny_female
@@ -188,7 +188,7 @@ export const findBaseSprites = (
 						sprites.versions['generation-vi']['omegaruby-alphasapphire'].front_shiny_female
 				},
 				secondary: {
-					default: sprites.back_default,
+					default: sprites.back_default ?? '',
 					shiny: sprites.back_shiny,
 					female: sprites.back_female,
 					shinyFemale: sprites.back_shiny_female
@@ -206,7 +206,7 @@ export const findBaseSprites = (
 					shinyFemale: sprites.versions['generation-vii']['ultra-sun-ultra-moon'].front_shiny_female
 				},
 				secondary: {
-					default: sprites.back_default,
+					default: sprites.back_default ?? '',
 					shiny: sprites.back_shiny,
 					female: sprites.back_female,
 					shinyFemale: sprites.back_shiny_female
@@ -224,7 +224,7 @@ export const findBaseSprites = (
 			shinyFemale: sprites.front_shiny_female
 		},
 		secondary: {
-			default: sprites.back_default,
+			default: sprites.back_default ?? '',
 			shiny: sprites.back_shiny,
 			female: sprites.back_female,
 			shinyFemale: sprites.back_shiny_female
