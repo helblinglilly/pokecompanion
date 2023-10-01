@@ -11,7 +11,7 @@
 	export let id: number;
 	let isMounted = false;
 	let evolutions: IEvolution[] = [];
-	let evolutionData: IAPIEvolution | undefined;
+	let evolutionData: IAPIEvolution | undefined = undefined;
 
 	onMount(async () => {
 		await fetchData(evolutionChainUrl);
