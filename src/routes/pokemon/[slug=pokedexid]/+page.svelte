@@ -53,9 +53,7 @@
 
 	onMount(() => {
 		document.addEventListener('keydown', (e) => {
-			console.log(e.key);
 			if (e.key === 'ArrowLeft' && currentPokemonId > 1) {
-				console.log('go back');
 				goto(`/pokemon/${currentPokemonId - 1}`);
 			} else if (e.key === 'ArrowRight' && currentPokemonId < lastPokedexEntry) {
 				goto(`/pokemon/${currentPokemonId + 1}`);
