@@ -85,7 +85,7 @@ export interface ISprites {
 	front_shiny: null | string;
 	front_shiny_female: null | string;
 	other: Other;
-	versions?: Versions;
+	versions: Versions;
 }
 
 export const emptySprites = (id: number): ISprites => {
@@ -113,7 +113,8 @@ export const emptySprites = (id: number): ISprites => {
 				front_default: null,
 				front_shiny: null
 			}
-		}
+		},
+		versions: {}
 	};
 };
 
