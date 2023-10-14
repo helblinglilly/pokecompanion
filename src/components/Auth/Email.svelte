@@ -76,9 +76,12 @@
 				]);
 
 				mode = 'login';
+			} else {
+				const body = await response.json();
+				let { data } = body;
+				data = JSON.parse(data);
+				goto(`/user/${data[0]}`);
 			}
-
-			goto('/user');
 		} catch {
 			if (mode === 'login') {
 				passwordError = 'Login failed';
@@ -123,7 +126,16 @@
 
 	<div class="columns mobile">
 		<div class="column" style="width: 100%;">
-			<button class="button secondary" style="width: 100%">
+			<button
+				class="button secondary"
+				style="width: 100%"
+				on:click={(e) => {
+					if (mode === 'signup') {
+						e.preventDefault();
+						mode = 'login';
+					}
+				}}
+			>
 				{`${mode === 'login' && isSubmitting ? 'Loading...' : 'Log in'}`}
 			</button>
 		</div>

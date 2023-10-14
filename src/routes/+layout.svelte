@@ -129,6 +129,16 @@
 			<button>User</button>
 		</a>
 
+		{#if showLogoutButton}
+			<a
+				href="/auth/logout"
+				class="navbar__button hidden--mobile"
+				on:click={toggleMobileNavExtended}
+			>
+				<button>Sign out</button>
+			</a>
+		{/if}
+
 		<button
 			class="navbar__button hidden--mobile"
 			on:click={toggleMobileNavExtended}

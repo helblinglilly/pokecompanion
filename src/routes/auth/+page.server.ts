@@ -23,7 +23,10 @@ export const actions: Actions = {
 		};
 
 		try {
-			await locals.pb.collection('users').authWithPassword(data.email, data.password);
+			const response = await locals.pb
+				.collection('users')
+				.authWithPassword(data.email, data.password);
+			return response.record.username;
 		} catch (e) {
 			console.error(e);
 			throw e;
