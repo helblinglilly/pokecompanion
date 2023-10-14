@@ -3,10 +3,8 @@
 declare global {
 	namespace App {
 		interface Locals {
-			getSession(): Promise<Session | null>;
-		}
-		interface PageData {
-			session: Session | null;
+			pb: import('pocketbase').default;
+			user: import('pocketbase').default['authStore']['model'];
 		}
 		interface Error {
 			message: string;

@@ -5,8 +5,14 @@
 	import { cookieHandlers, theme } from '$lib/stores/domain';
 	import { page } from '$app/stores';
 	import { notifications } from '$lib/stores/notifications';
+	import { currentUser } from '$lib/stores/user';
+	import type { PageData } from './$types';
 
 	let isMobileMenuExpanded = false;
+
+	export let data: PageData;
+
+	$: currentUser.set(data.user);
 
 	const toggleMobileNavExtended = () => {
 		const navButtons = document.querySelectorAll('.navbar__button');

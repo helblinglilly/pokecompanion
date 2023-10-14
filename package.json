@@ -48,9 +48,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@auth/core": "^0.15.0",
-		"@auth/sveltekit": "^0.3.7",
 		"@sentry/sveltekit": "^7.65.0",
-		"mysql2": "^3.6.1"
+		"mysql2": "^3.6.1",
+		"pocketbase": "^0.18.2"
 	}
 }

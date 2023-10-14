@@ -2,6 +2,15 @@ import { handleErrorWithSentry, Replay } from '@sentry/sveltekit';
 import * as Sentry from '@sentry/sveltekit';
 import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 
+import { pb } from '$lib/pocketbase';
+import { currentUser } from '$lib/stores/user';
+
+pb.authStore.loadFromCookie(document.cookie);
+pb.authStore.onChange(() => {
+	currentUser.set(pb.authStore.model);
+	document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
+}, true);
+
 try {
 	Sentry.init({
 		dsn: PUBLIC_SENTRY_DSN,

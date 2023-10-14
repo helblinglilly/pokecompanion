@@ -150,6 +150,13 @@ button.button {
 	border-radius: 10px;
 }
 
+button.button.secondary {
+	background-color: var(--secondary);
+	color: var(--text);
+	padding: 1rem;
+	border-radius: 10px;
+}
+
 .navbar__button {
 	height: 100%;
 	padding-left: 1rem;
@@ -297,4 +304,11 @@ img.sprite {
 div.spriteWrapper {
 	width: 15vw;
 	max-width: 96px;
+}
+
+input {
+	height: 5vw;
+	min-height: 34px;
+	border-radius: 5px;
+	padding: 5px;
 }
