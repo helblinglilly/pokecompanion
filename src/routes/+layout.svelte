@@ -129,7 +129,7 @@
 			<button>User</button>
 		</a>
 
-		{#if showLogoutButton}
+		{#if $currentUser}
 			<a
 				href="/auth/logout"
 				class="navbar__button hidden--mobile"
