@@ -79,8 +79,6 @@
 				mode = 'login';
 			} else {
 				const body = await response.json();
-				let { data } = body;
-				data = JSON.parse(data);
 				pb.authStore.loadFromCookie(document.cookie);
 			}
 		} catch {
