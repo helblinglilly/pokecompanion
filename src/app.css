@@ -306,7 +306,7 @@ div.spriteWrapper {
 	max-width: 96px;
 }
 
-input[type='email'] input[type='password'] input[type='text'] {
+input {
 	height: 5vw;
 	min-height: 34px;
 	border-radius: 5px;
