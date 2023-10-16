@@ -31,7 +31,7 @@
 		</div>
 	</div>
 
-	{#each data.oAuthMethods as oAuthMethod}
+	{#each data.oAuthMethods.sort((a, b) => (a.name < b.name ? 1 : -1)) as oAuthMethod}
 		{#if oAuthMethod.name === 'google'}
 			<div class="columns">
 				<div class="column centered">
@@ -45,7 +45,6 @@
 				</div>
 			</div>
 		{/if}
-		<!-- <p>{JSON.stringify(oAuthMethod)}</p> -->
 	{/each}
 
 	<div class="columns">
