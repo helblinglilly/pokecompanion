@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { setCookie } from '$lib/utils/cookies';
-	import type { IAuthProvider } from '../../routes/user/+page';
+	import type { IAuthProvider } from '../../routes/auth/signin/+page';
 
 	export let data: IAuthProvider;
 </script>
