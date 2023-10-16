@@ -129,11 +129,11 @@
 		</a>
 
 		<a
-			href={`${$currentUser ? '/user' : '/auth/signin'}`}
+			href={`${$currentUser ? `/user/${$currentUser.username}` : '/auth/signin'}`}
 			class="navbar__button hidden--mobile"
 			on:click={toggleMobileNavExtended}
 		>
-			<button>User</button>
+			<button>{$currentUser ? 'Me' : 'Sign In'}</button>
 		</a>
 
 		{#if $currentUser}

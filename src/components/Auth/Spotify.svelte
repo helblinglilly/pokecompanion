@@ -32,7 +32,6 @@
 
 <style>
 	#spotifyButton {
-		border: #191414;
 		background: #191414;
 		color: var(--light);
 		display: inline-flex;

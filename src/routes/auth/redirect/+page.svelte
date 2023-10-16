@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { oAuthRedirectUrl } from '$lib/stores/domain';
 	import type { IAuthProvider } from '../signin/+page';
+	import { currentUser } from '$lib/stores/user';
 
 	let status = 'Authenticating...';
 	let errorDetails = '';
@@ -41,7 +42,7 @@
 					provider.codeVerifier,
 					oAuthRedirectUrl
 				);
-			goto('/user');
+			goto(`/user/${$currentUser.username}`);
 		} catch (err) {
 			console.error(err);
 			status = 'Sign in failed';

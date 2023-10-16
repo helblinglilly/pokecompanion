@@ -130,7 +130,7 @@
 		</div>
 
 		<div class="columns mobile">
-			<div class="column" style="width: 100%;">
+			<div class="column" style="width: 100%; padding-left: 0;">
 				<button
 					class="button secondary"
 					style="width: 100%"
@@ -144,7 +144,7 @@
 					{`${mode === 'login' && isSubmitting ? 'Loading...' : 'Log in'}`}
 				</button>
 			</div>
-			<div class="column" style="width: 100%;">
+			<div class="column" style="width: 100%; padding-right: 0;">
 				<button
 					class="button secondary"
 					style="width: 100%"
