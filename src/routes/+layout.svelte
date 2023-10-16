@@ -82,9 +82,12 @@
 		fixImages();
 	});
 
+	const noBreadcrumbs = ['auth'];
+
 	$: breadcrumbs = $page.url.pathname
 		.split('/')
 		.filter((a) => a)
+		.filter((a) => noBreadcrumbs.includes(a))
 		.map((part, i, arr) => {
 			let displayEntry = '';
 			if (i > 1) {
