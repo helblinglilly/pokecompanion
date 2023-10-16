@@ -5,10 +5,6 @@
 
 	pb.authStore.clear();
 	$currentUser = null;
-
-	setTimeout(() => {
-		goto('/');
-	}, 1000);
 </script>
 
 <p>You have been signed out</p>

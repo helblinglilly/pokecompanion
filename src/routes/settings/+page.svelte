@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GameSelector from '../../components/GameSelector.svelte';
+	import GameSelector from '$components/GameSelector.svelte';
 	import {
 		animateSprites,
 		primaryLanguage,

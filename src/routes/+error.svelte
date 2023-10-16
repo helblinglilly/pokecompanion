@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import Image from '../components/Image.svelte';
+	import Image from '$components/Image.svelte';
 </script>
 
 <div id="pageWrapper">
@@ -19,7 +19,7 @@
 			<br />
 			<p>Pages that you already visited should still be available in the meantime</p>
 		{:else}
-			<Image src="/missingno.png" alt="missingno" />
+			<Image src="/missingno.png" alt="missingno" style="margin-left: auto; margin-right: auto;" />
 
 			<h1>Something went wrong!</h1>
 
@@ -65,12 +65,6 @@
 
 	#errorDetails > p {
 		text-align: center;
-	}
-
-	img {
-		padding-top: 2rem;
-		margin-left: auto;
-		margin-right: auto;
 	}
 
 	h1 {

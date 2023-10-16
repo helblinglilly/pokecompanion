@@ -7,18 +7,18 @@
 		selectedGame
 	} from '$lib/stores/domain';
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import Sprite from '../../../components/GameSpecific/Sprite.svelte';
-	import Navigator from '../../../components/Navigator.svelte';
+	import Sprite from '$components/GameSpecific/Sprite.svelte';
+	import Navigator from '$components/Navigator.svelte';
 	import { navigating, page } from '$app/stores';
 	import { getPokemonPageData } from '$lib/pokemon-id/pokemonPage';
 	import { getPokemonTypesInGame } from '$lib/data/elementalTypes';
-	import EvolutionChain from '../../../components/EvolutionChain.svelte';
-	import Image from '../../../components/Image.svelte';
+	import EvolutionChain from '$components/EvolutionChain.svelte';
+	import Image from '$components/Image.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { emptySprites } from '$lib/types/IPokemon';
 	import { isPokemonInGame } from '$lib/data/games';
-	import Pokedex from '../../../components/Pokedex.svelte';
+	import Pokedex from '$components/Pokedex.svelte';
 
 	$: if ($navigating) refetchData();
 

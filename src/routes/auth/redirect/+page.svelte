@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { deleteCookie, getCookie } from '$lib/utils/cookies';
 	import { onMount } from 'svelte';
-	import type { IAuthProvider } from '../../user/+page';
 	import { pb } from '$lib/pocketbase';
 	import { goto } from '$app/navigation';
 	import { oAuthRedirectUrl } from '$lib/stores/domain';
+	import type { IAuthProvider } from '../signin/+page';
 
 	let status = 'Authenticating...';
 	let errorDetails = '';

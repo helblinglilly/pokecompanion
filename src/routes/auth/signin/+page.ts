@@ -1,6 +1,5 @@
 import { pb } from '$lib/pocketbase';
 import { oAuthRedirectUrl } from '$lib/stores/domain';
-import type { PageLoad } from './$types';
 
 interface IAuthMethodsResponse {
 	usernamePassword: boolean;
@@ -16,7 +15,7 @@ export interface IAuthProvider {
 	codeChallengeMethod: string;
 	authUrl: string;
 }
-export const load: PageLoad = async () => {
+export const load = async () => {
 	const providers = (await pb.collection('users').listAuthMethods()) as IAuthMethodsResponse;
 
 	return {
