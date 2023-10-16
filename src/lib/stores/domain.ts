@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 import { getCookie, setCookie } from '../utils/cookies';
 import type { Languages } from '../utils/language';
 import PokemonNames from '$lib/data/pokemonNames.json';
+import { PUBLIC_HOST_URL } from '$env/static/public';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<string | undefined>();
@@ -11,6 +12,7 @@ export const versionSpecificSprites = writable<boolean>(true);
 export const animateSprites = writable<boolean>(true);
 export const pokeApiDomain = 'https://pokeapi.co/api/v2';
 export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
+export const oAuthRedirectUrl = `${PUBLIC_HOST_URL ?? 'http://localhost:5173'}/auth/redirect`;
 
 // TODO - Test this
 export const cookieHandlers = {

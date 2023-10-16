@@ -1,5 +1,5 @@
-import { PUBLIC_HOST_URL } from '$env/static/public';
 import { pb } from '$lib/pocketbase';
+import { oAuthRedirectUrl } from '$lib/stores/domain';
 import type { PageLoad } from './$types';
 
 interface IAuthMethodsResponse {
@@ -23,7 +23,7 @@ export const load: PageLoad = async () => {
 		oAuthMethods: providers.authProviders.map((method) => {
 			return {
 				...method,
-				authUrl: (method.authUrl += `${PUBLIC_HOST_URL}/auth/redirect`)
+				authUrl: (method.authUrl += oAuthRedirectUrl)
 			};
 		})
 	};

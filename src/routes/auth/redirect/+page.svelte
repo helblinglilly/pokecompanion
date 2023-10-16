@@ -4,6 +4,7 @@
 	import type { IAuthProvider } from '../../user/+page';
 	import { pb } from '$lib/pocketbase';
 	import { goto } from '$app/navigation';
+	import { oAuthRedirectUrl } from '$lib/stores/domain';
 
 	let status = 'Authenticating...';
 	let errorDetails = '';
@@ -38,7 +39,7 @@
 					provider.name,
 					params.get('code') ?? '',
 					provider.codeVerifier,
-					'http://localhost:5173/auth/redirect'
+					oAuthRedirectUrl
 				);
 			goto('/user');
 		} catch (err) {
