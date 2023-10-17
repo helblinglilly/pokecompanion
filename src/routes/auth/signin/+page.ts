@@ -16,14 +16,20 @@ export interface IAuthProvider {
 	authUrl: string;
 }
 export const load = async () => {
-	const providers = (await pb.collection('users').listAuthMethods()) as IAuthMethodsResponse;
-
-	return {
-		oAuthMethods: providers.authProviders.map((method) => {
+	let oAuthMethods: IAuthProvider[] = [];
+	try {
+		const providers = (await pb.collection('users').listAuthMethods()) as IAuthMethodsResponse;
+		oAuthMethods = providers.authProviders.map((method) => {
 			return {
 				...method,
 				authUrl: (method.authUrl += oAuthRedirectUrl)
 			};
-		})
+		});
+	} catch (err) {
+		console.log(err);
+	}
+
+	return {
+		oAuthMethods
 	};
 };

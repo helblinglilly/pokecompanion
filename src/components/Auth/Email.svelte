@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { pb } from '$lib/pocketbase';
 	import { notifications } from '$lib/stores/notifications';
+	import { currentUser } from '$lib/stores/user';
 
 	let mode: 'login' | 'signup' = 'login';
 	let email: string;
@@ -77,8 +79,10 @@
 
 				mode = 'login';
 			} else {
-				const body = await response.json();
 				pb.authStore.loadFromCookie(document.cookie);
+				if ($currentUser) {
+					goto(`/user/${$currentUser.username}`);
+				}
 			}
 		} catch {
 			if (mode === 'login') {

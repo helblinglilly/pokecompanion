@@ -23,7 +23,7 @@ jobs:
         run: npm run test:integration
         env:
           PUBLIC_HOST_URL: 'http://localhost:5173'
-          PUBLIC_POCKETBASE_URL: 'http://localhost:5173'
+          PUBLIC_POCKETBASE_URL: 'http://mock.pocketbase.com'
           SENTRY_AUTH: ''
           SENTRY_ORG: ''
           SENTRY_PROJECT: ''

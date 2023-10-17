@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { assertCookie } from './helpers';
 
 test('the user can navigate to the homepage', async ({ page }) => {
 	await page.goto('/');
