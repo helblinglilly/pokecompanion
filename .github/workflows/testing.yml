@@ -21,6 +21,12 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: npm run test:integration
+        env:
+          PUBLIC_HOST_URL: 'http://localhost:5173'
+          PUBLIC_POCKETBASE_URL: 'http://localhost:5173'
+          SENTRY_AUTH: ''
+          SENTRY_ORG: ''
+          SENTRY_PROJECT: ''
       - uses: actions/upload-artifact@v3
         if: always()
         with:
