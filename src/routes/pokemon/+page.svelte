@@ -3,7 +3,7 @@
 	import PokemonGrouping from '$components/PokemonGrouping.svelte';
 	export let data;
 
-	$: areAllHidden = false;
+	$: areAllHidden = true;
 
 	let scrolled = false;
 	onMount(() => {
