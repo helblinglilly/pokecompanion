@@ -13,7 +13,7 @@ export const animateSprites = writable<boolean>(true);
 export const pokeApiDomain = 'https://pokeapi.co/api/v2';
 export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
 export const oAuthRedirectUrl = `${PUBLIC_HOST_URL ?? 'http://localhost:5173'}/auth/redirect`;
-export const maxSearchResults = 20;
+export const maxSearchResults = 15;
 
 // TODO - Test this
 export const cookieHandlers = {
