@@ -7,6 +7,7 @@
 	import { notifications } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 	import type { PageData } from './$types';
+	import SearchBar from '$components/Search/SearchBar.svelte';
 
 	let isMobileMenuExpanded = false;
 
@@ -102,6 +103,7 @@
 				url: url
 			};
 		});
+	$: shouldDisplaySearch = !$page.url.pathname.includes('/auth/');
 </script>
 
 <nav id="navbar" class="h-12">
@@ -133,7 +135,7 @@
 			class="navbar__button hidden--mobile"
 			on:click={toggleMobileNavExtended}
 		>
-			<button>{$currentUser ? 'Me' : 'Sign In'}</button>
+			<button>{$currentUser ? `Me - ${$currentUser.username}` : 'Sign In'}</button>
 		</a>
 
 		{#if $currentUser}
@@ -189,6 +191,9 @@
 		</div>
 	{/if}
 
+	{#if shouldDisplaySearch}
+		<SearchBar />
+	{/if}
 	<slot />
 
 	<img src="/offline.png" class="hidden" alt="offline placeholder" />
