@@ -15,6 +15,14 @@
 			const response = await fetch(`/api/search?term=${searchTerm}`);
 			const body = (await response.json()) as { data: IResults };
 			results = body.data;
+			if (
+				results.abilities.length === 0 &&
+				results.items.length === 0 &&
+				results.moves.length === 0 &&
+				results.pokemon.length === 0
+			) {
+				errorMessage = 'No search results. Try another search';
+			}
 		} catch (err) {
 			errorMessage = "Couldn't get search results";
 		}
@@ -39,7 +47,7 @@
 {/if}
 
 {#if results}
-	{#if results.pokemon.length > 1}
+	{#if results.pokemon.length > 0}
 		<h2 style="margin-top: 2rem;">Pokémon</h2>
 		<PokemonResults pokemonResults={results.pokemon} />
 	{/if}
