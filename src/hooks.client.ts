@@ -7,6 +7,8 @@ import { currentUser } from '$lib/stores/user';
 
 pb.authStore.loadFromCookie(document.cookie);
 pb.authStore.onChange(() => {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	currentUser.set(pb.authStore.model);
 	document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
 }, true);

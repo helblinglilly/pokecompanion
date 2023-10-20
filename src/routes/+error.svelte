@@ -1,6 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import Image from '$components/Image.svelte';
+	import { error } from '@sveltejs/kit';
 </script>
 
 <div id="pageWrapper">
@@ -39,7 +40,11 @@
 			<h2>Status: {$page.status}</h2>
 
 			{#if $page.status === 404}
-				<p>This page does not exist.</p>
+				{#if $page.error?.message}
+					<p>{$page.error?.message}</p>
+				{:else}
+					<p>This page does not exist.</p>
+				{/if}
 				<p>Go back and try to access a different page</p>
 			{:else if $page.status === 500}
 				<p>Your last action caused something to go wrong on the server.</p>

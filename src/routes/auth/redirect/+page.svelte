@@ -42,7 +42,9 @@
 					provider.codeVerifier,
 					oAuthRedirectUrl
 				);
-			goto(`/user/${$currentUser.username}`);
+			if ($currentUser) {
+				goto(`/user/${$currentUser.username}`);
+			}
 		} catch (err) {
 			console.error(err);
 			status = 'Sign in failed';
