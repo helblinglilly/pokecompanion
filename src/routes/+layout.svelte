@@ -197,9 +197,18 @@
 		<SearchBar />
 	{/if}
 	<slot />
-
-	<img src="/offline.png" class="hidden" alt="offline placeholder" />
 </div>
+
+<footer id="pageFooter">
+	<p>Powered by <a href="https://pokeapi.co">PokéAPI</a></p>
+	<p>
+		Built at <a href="https://github.com/helblingjoel/pokecompanion"
+			>github.com/helblingjoel/pokecompanion</a
+		>
+	</p>
+	<p>Pokémon and Pokémon character names are trademarks of Nintendo.</p>
+	<p>This site is not associated with Nintendo, Gamefreak, The Pokémon Company or PokéAPI</p>
+</footer>
 
 <style>
 	/* Mobile only */
