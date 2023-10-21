@@ -69,7 +69,9 @@
 				image.src = '/placeholder.png';
 			}
 			image.addEventListener('error', () => {
-				image.srcset = '/placeholder.png';
+				if (image.src !== '/placeholder.png') {
+					image.srcset = '/placeholder.png';
+				}
 			});
 		});
 	};
