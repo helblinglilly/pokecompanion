@@ -37,7 +37,7 @@ export const getUserByUsername = async (username: string): Promise<IPublicUser |
 			.getFirstListItem(`username="${username}"`)) as IPublicUserResponse;
 		return {
 			username: user.username,
-			avatar: `${PUBLIC_POCKETBASE_URL}/${user.avatar_url}`
+			avatar: user.avatar_url
 		};
 	} catch (err) {
 		return;

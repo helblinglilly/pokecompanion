@@ -34,7 +34,7 @@
 		status = 'Signin in...';
 
 		try {
-			await pb
+			const authData = await pb
 				.collection('users')
 				.authWithOAuth2Code(
 					provider.name,
@@ -42,6 +42,13 @@
 					provider.codeVerifier,
 					oAuthRedirectUrl
 				);
+
+			if ((authData.meta && authData.meta.isNew) || !authData.record.avatar) {
+				const svgResponse = await fetch(`/api/generateAvatar?key=${authData.record.username}`);
+				const svgImage = await svgResponse.blob();
+
+				await pb.collection('users').update(authData.record.id, { avatar: svgImage });
+			}
 			if ($currentUser) {
 				goto(`/user/${$currentUser.username}`);
 			}
