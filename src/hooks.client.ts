@@ -1,9 +1,10 @@
-import { handleErrorWithSentry, Replay } from '@sentry/sveltekit';
+import { Replay } from '@sentry/sveltekit';
 import * as Sentry from '@sentry/sveltekit';
 import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 
 import { pb } from '$lib/pocketbase';
 import { currentUser } from '$lib/stores/user';
+import type { HandleClientError } from '@sveltejs/kit';
 
 pb.authStore.loadFromCookie(document.cookie);
 pb.authStore.onChange(() => {
@@ -33,5 +34,21 @@ try {
 	console.log('failed to initiate sentry');
 }
 
-// If you have a custom error handler, pass it to `handleErrorWithSentry`
-export const handleError = handleErrorWithSentry();
+export const handleError: HandleClientError = async ({ error, event }) => {
+	const errorId = crypto.randomUUID();
+	Sentry.captureException(error, { extra: { event, errorId } });
+
+	if (!navigator.onLine) {
+		return {
+			message: 'You are offline',
+			errorId: 'Offline',
+			status: 523
+		};
+	}
+
+	return {
+		message: 'A client side error occurred',
+		status: 400,
+		errorId
+	};
+};

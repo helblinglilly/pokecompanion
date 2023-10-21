@@ -24,6 +24,8 @@ export const handleError: HandleServerError = async ({ error, event }) => {
 		}
 	}
 
+	Sentry.captureException(error, { extra: { event, errorId } });
+
 	console.dir({
 		level: 'ERROR',
 		timestamp: new Date().toISOString(),
@@ -34,6 +36,7 @@ export const handleError: HandleServerError = async ({ error, event }) => {
 
 	return {
 		message: 'Server side error',
+		status: 500,
 		errorId
 	};
 };

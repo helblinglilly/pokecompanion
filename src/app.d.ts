@@ -9,6 +9,7 @@ declare global {
 		interface Error {
 			message: string;
 			errorId: string;
+			status: number;
 		}
 		// interface Locals {}
 		// interface PageData {}
