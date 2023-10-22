@@ -62,7 +62,7 @@ export const Generations: IGeneration[] = [
 	}
 ];
 
-enum Regions {
+export enum Regions {
 	KANTO = 'Kanto',
 	JOHTO = 'Johto',
 	HOENN = 'Hoenn',

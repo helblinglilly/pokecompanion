@@ -1,10 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import PokemonGrouping from '$components/PokemonGrouping.svelte';
-	export let data;
+	import PokemonNames from '$lib/data/pokemonNames.json';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+	import { Generations, Regions } from '$lib/data/games';
 
-	$: areAllHidden = true;
+	const pageSize = 50;
+	const numberOfPages = Math.ceil(PokemonNames.length / pageSize);
 
+	$: pageNumber = Number($page.url.searchParams.get('page') ?? 1);
+	let jumpToText: string;
+
+	let showHints = false;
 	let scrolled = false;
 	onMount(() => {
 		window.addEventListener('scroll', () => {
@@ -14,15 +21,16 @@
 				scrolled = false;
 			}
 		});
+
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'ArrowLeft' && pageNumber > 1) {
+				goto(`/pokemon?page=${pageNumber - 1}`);
+			} else if (e.key === 'ArrowRight' && pageNumber < numberOfPages) {
+				goto(`/pokemon?page=${pageNumber + 1}`);
+			}
+		});
 	});
 </script>
-
-<button
-	class="button"
-	on:click={() => {
-		areAllHidden = !areAllHidden;
-	}}>Collapse all</button
->
 
 <button
 	id="backToTop"
@@ -31,57 +39,112 @@
 	on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to top</button
 >
 
-<PokemonGrouping
-	pokemons={data.gen1}
-	isHidden={areAllHidden}
-	title="Generation 1"
-	secondaryTitle="#1 - #151"
-/>
-<PokemonGrouping
-	pokemons={data.gen2}
-	isHidden={areAllHidden}
-	title="Generation 2"
-	secondaryTitle="#152 - #251"
-/>
-<PokemonGrouping
-	pokemons={data.gen3}
-	isHidden={areAllHidden}
-	title="Generation 3"
-	secondaryTitle="#252 - #386"
-/>
-<PokemonGrouping
-	pokemons={data.gen4}
-	isHidden={areAllHidden}
-	title="Generation 4"
-	secondaryTitle="#387 - #493"
-/>
-<PokemonGrouping
-	pokemons={data.gen5}
-	isHidden={areAllHidden}
-	title="Generation 5"
-	secondaryTitle="#494 - #649"
-/>
-<PokemonGrouping
-	pokemons={data.gen6}
-	isHidden={areAllHidden}
-	title="Generation 6"
-	secondaryTitle="#650 - #721"
-/>
-<PokemonGrouping
-	pokemons={data.gen7}
-	isHidden={areAllHidden}
-	title="Generation 7"
-	secondaryTitle="#722 - #809"
-/>
-<PokemonGrouping
-	pokemons={data.gen8}
-	isHidden={areAllHidden}
-	title="Generation 8"
-	secondaryTitle="#810 - #905"
-/>
-<PokemonGrouping
-	pokemons={data.gen9}
-	isHidden={areAllHidden}
-	title="Generation 9"
-	secondaryTitle="#906 - #1017"
-/>
+<div class="columns">
+	<div class="column" style="display: flex; align-content: center;">
+		<div
+			style="padding: 0; display: inline-flex; justify-content: center; gap: 0.5rem; width: 100%;  height: fit-content;"
+		>
+			<div style="min-width: 6rem;">
+				{#if pageNumber > 1}
+					<a href="/pokemon?page=1"><button class="button">{'<<'}</button></a>
+					<a href={`/pokemon?page=${pageNumber - 1}`}><button class="button">{'<'}</button></a>
+				{/if}
+			</div>
+			<p style="align-self: center; min-width: 6rem; text-align: center;">
+				Page {pageNumber}/{numberOfPages}
+			</p>
+
+			<div style="min-width: 6rem;">
+				{#if pageNumber < numberOfPages}
+					<a href={`/pokemon?page=${pageNumber + 1}`}><button class="button">{'>'}</button></a>
+					<a href={`/pokemon?page=${numberOfPages}`}><button class="button">{'>>'}</button></a>
+				{/if}
+			</div>
+		</div>
+	</div>
+
+	<div class="column">
+		<div class="columns" style="display: flex; align-content: center; justify-content: center;">
+			<div style="display: inline-flex">
+				<!-- Turn this into a form so that users can hit enter and submit GET request to new URL -->
+				<div style="display: flex;">
+					<button class="button" id="hintButton" on:click={() => (showHints = !showHints)}>?</button
+					>
+					<input
+						id="jumpToText"
+						type="number"
+						placeholder="Jump to ID"
+						max={PokemonNames.length}
+						style="height: 100%;"
+					/>
+					<button class="button" id="jumpToButton" style="height: 100%;">Go</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="columns" style={`display: ${showHints ? 'grid' : 'none'};`}>
+			<div class="hintEntry">
+				<p>#1 - #{Generations[0].nationalDexEnd}</p>
+				<p>{Regions.KANTO}</p>
+			</div>
+			<div class="hintEntry">
+				<p>#{Generations[0].nationalDexEnd + 1} - #{Generations[1].nationalDexEnd}</p>
+				<p>{Regions.JOHTO}</p>
+			</div>
+			<div class="hintEntry">
+				<p>#{Generations[1].nationalDexEnd + 1} - #{Generations[2].nationalDexEnd}</p>
+				<p>{Regions.HOENN}</p>
+			</div>
+			<div class="hintEntry">
+				<p>#{Generations[2].nationalDexEnd + 1} - #{Generations[3].nationalDexEnd}</p>
+				<p>{Regions.SINNOH}</p>
+			</div>
+			<div class="hintEntry">
+				<p>#{Generations[3].nationalDexEnd + 1} - #{Generations[4].nationalDexEnd}</p>
+				<p>{Regions.UNOVA}</p>
+			</div>
+
+			<div class="hintEntry">
+				<p>#{Generations[4].nationalDexEnd + 1} - #{Generations[5].nationalDexEnd}</p>
+				<p>{Regions.KALOS}</p>
+			</div>
+
+			<div class="hintEntry">
+				<p>#{Generations[5].nationalDexEnd + 1} - #{Generations[6].nationalDexEnd}</p>
+				<p>{Regions.ALOLA}</p>
+			</div>
+			<div class="hintEntry">
+				<p>#{Generations[6].nationalDexEnd + 1} - #{Generations[7].nationalDexEnd}</p>
+				<p>{Regions.GALAR}</p>
+			</div>
+			<div class="hintEntry">
+				<p>#{Generations[7].nationalDexEnd + 1} - #{Generations[8].nationalDexEnd}</p>
+				<p>{Regions.PALDEA}</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	#hintButton {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	#jumpToText {
+		padding-left: 2rem;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+		width: 150px;
+		text-align: center;
+	}
+	#jumpToButton {
+		border-bottom-left-radius: 0;
+		border-top-left-radius: 0;
+		min-width: fit-content;
+	}
+
+	.hintEntry {
+		display: inline-flex;
+		justify-content: space-between;
+	}
+</style>
