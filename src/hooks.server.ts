@@ -16,6 +16,7 @@ try {
 
 export const handleError: HandleServerError = async ({ error, event }) => {
 	const errorId = crypto.randomUUID();
+
 	if (process.env.NODE_ENV === 'production') {
 		try {
 			Sentry.captureException(error, { extra: { event, errorId } });
@@ -24,8 +25,15 @@ export const handleError: HandleServerError = async ({ error, event }) => {
 		}
 	}
 
-	Sentry.captureException(error, { extra: { event, errorId } });
-
+	if (error && typeof error === 'object') {
+		if (error.toString().includes('Error: Not found:')) {
+			return {
+				message: 'Page not found',
+				status: 404,
+				errorId: '404'
+			};
+		}
+	}
 	console.dir({
 		level: 'ERROR',
 		timestamp: new Date().toISOString(),
