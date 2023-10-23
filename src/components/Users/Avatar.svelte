@@ -5,17 +5,17 @@
 	export let user: IPublicUser;
 </script>
 
-<div>
-	<a class="avatarBackground" href={`/user/${user.username}`}>
-		<Image src={user.avatar} alt="Profile Picture" />
-	</a>
-	<p>{user.username}</p>
-</div>
+<a class="avatarBackground" href={`/user/${user.username}`}>
+	<Image src={user.avatar} alt="Profile Picture" />
+</a>
 
 <style>
 	.avatarBackground {
 		background-color: var(--light_link_hover);
 		display: inline-block;
 		border-radius: 2rem;
+		margin-right: 1rem;
+		margin-left: 1rem;
+		width: fit-content;
 	}
 </style>

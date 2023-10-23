@@ -96,6 +96,15 @@ h3 {
 	font-size: large;
 }
 
+h4 {
+	font-size: larger;
+}
+
+h5 {
+	font-size: medium;
+	font-weight: bold;
+}
+
 body {
 	background-color: var(--bg-primary);
 }
@@ -159,6 +168,13 @@ button.button {
 	color: var(--text);
 	padding: 1rem;
 	border-radius: 10px;
+}
+
+button:disabled {
+	font-style: italic;
+	cursor: not-allowed;
+	background-color: var(--primary);
+	color: var(--accent);
 }
 
 button.button.secondary {
