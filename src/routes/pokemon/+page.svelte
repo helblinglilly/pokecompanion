@@ -73,18 +73,18 @@
 
 	<div class="column">
 		<div class="columns" style="display: flex; align-content: center; justify-content: center;">
+			<button
+				class="button"
+				id="hintButton"
+				on:click={(e) => {
+					if (e.type === 'click') {
+						showHints = !showHints;
+					}
+				}}
+				>?
+			</button>
 			<form style="display: inline-flex" action="/pokemon/">
 				<div style="display: flex;">
-					<button
-						class="button"
-						id="hintButton"
-						on:click={(e) => {
-							if (e.type === 'click') {
-								showHints = !showHints;
-							}
-						}}
-						>?
-					</button>
 					<input
 						id="jumpToText"
 						name="jumpTo"
