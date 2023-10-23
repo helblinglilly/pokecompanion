@@ -131,8 +131,12 @@
 				<p>{Regions.ALOLA}</p>
 			</div>
 			<div class="hintEntry">
-				<p>#{Generations[6].nationalDexEnd + 1} - #{Generations[7].nationalDexEnd}</p>
+				<p>#{Generations[6].nationalDexEnd + 1} - #{Generations[7].nationalDexEnd - 7}</p>
 				<p>{Regions.GALAR}</p>
+			</div>
+			<div class="hintEntry">
+				<p>#{Generations[7].nationalDexEnd - 6} - #{Generations[7].nationalDexEnd}</p>
+				<p>{Regions.HISUI}</p>
 			</div>
 			<div class="hintEntry">
 				<p>#{Generations[7].nationalDexEnd + 1} - #{Generations[8].nationalDexEnd}</p>
