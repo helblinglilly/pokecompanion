@@ -14,6 +14,7 @@ export const pokeApiDomain = 'https://pokeapi.co/api/v2';
 export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
 export const oAuthRedirectUrl = `${PUBLIC_HOST_URL ?? 'http://localhost:5173'}/auth/redirect`;
 export const maxSearchResults = 15;
+export const pokemonPageSize = 50;
 
 // TODO - Test this
 export const cookieHandlers = {

@@ -4,12 +4,20 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { Generations, Regions } from '$lib/data/games';
+	import PokemonPreview from '$components/PokemonPreview.svelte';
+	import { pokemonPageSize } from '$lib/stores/domain';
 
-	const pageSize = 50;
-	const numberOfPages = Math.ceil(PokemonNames.length / pageSize);
+	const numberOfPages = Math.ceil(PokemonNames.length / pokemonPageSize);
 
-	$: pageNumber = Number($page.url.searchParams.get('page') ?? 1);
-	let jumpToText: string;
+	$: pageNumber = () => {
+		const searchParamsPage = Number($page.url.searchParams.get('page'));
+		if (searchParamsPage && searchParamsPage <= numberOfPages && searchParamsPage >= 1) {
+			return searchParamsPage;
+		}
+		return 1;
+	};
+
+	$: fromPokemon = 1 + (pageNumber() - 1) * pokemonPageSize - 1;
 
 	let showHints = false;
 	let scrolled = false;
@@ -23,10 +31,10 @@
 		});
 
 		document.addEventListener('keydown', (e) => {
-			if (e.key === 'ArrowLeft' && pageNumber > 1) {
-				goto(`/pokemon?page=${pageNumber - 1}`);
-			} else if (e.key === 'ArrowRight' && pageNumber < numberOfPages) {
-				goto(`/pokemon?page=${pageNumber + 1}`);
+			if (e.key === 'ArrowLeft' && pageNumber() > 1) {
+				goto(`/pokemon?page=${pageNumber() - 1}`);
+			} else if (e.key === 'ArrowRight' && pageNumber() < numberOfPages) {
+				goto(`/pokemon?page=${pageNumber() + 1}`);
 			}
 		});
 	});
@@ -45,18 +53,18 @@
 			style="padding: 0; display: inline-flex; justify-content: center; gap: 0.5rem; width: 100%;  height: fit-content;"
 		>
 			<div style="min-width: 6rem;">
-				{#if pageNumber > 1}
+				{#if pageNumber() > 1}
 					<a href="/pokemon?page=1"><button class="button">{'<<'}</button></a>
-					<a href={`/pokemon?page=${pageNumber - 1}`}><button class="button">{'<'}</button></a>
+					<a href={`/pokemon?page=${pageNumber() - 1}`}><button class="button">{'<'}</button></a>
 				{/if}
 			</div>
 			<p style="align-self: center; min-width: 6rem; text-align: center;">
-				Page {pageNumber}/{numberOfPages}
+				Page {pageNumber()}/{numberOfPages}
 			</p>
 
 			<div style="min-width: 6rem;">
-				{#if pageNumber < numberOfPages}
-					<a href={`/pokemon?page=${pageNumber + 1}`}><button class="button">{'>'}</button></a>
+				{#if pageNumber() < numberOfPages}
+					<a href={`/pokemon?page=${pageNumber() + 1}`}><button class="button">{'>'}</button></a>
 					<a href={`/pokemon?page=${numberOfPages}`}><button class="button">{'>>'}</button></a>
 				{/if}
 			</div>
@@ -65,21 +73,29 @@
 
 	<div class="column">
 		<div class="columns" style="display: flex; align-content: center; justify-content: center;">
-			<div style="display: inline-flex">
-				<!-- Turn this into a form so that users can hit enter and submit GET request to new URL -->
+			<form style="display: inline-flex" action="/pokemon/">
 				<div style="display: flex;">
-					<button class="button" id="hintButton" on:click={() => (showHints = !showHints)}>?</button
-					>
+					<button
+						class="button"
+						id="hintButton"
+						on:click={(e) => {
+							if (e.type === 'click') {
+								showHints = !showHints;
+							}
+						}}
+						>?
+					</button>
 					<input
 						id="jumpToText"
+						name="jumpTo"
 						type="number"
 						placeholder="Jump to ID"
 						max={PokemonNames.length}
 						style="height: 100%;"
 					/>
-					<button class="button" id="jumpToButton" style="height: 100%;">Go</button>
+					<button class="button" type="submit" id="jumpToButton" style="height: 100%;">Go</button>
 				</div>
-			</div>
+			</form>
 		</div>
 
 		<div class="columns" style={`display: ${showHints ? 'grid' : 'none'};`}>
@@ -125,13 +141,17 @@
 	</div>
 </div>
 
+{#each PokemonNames.slice(fromPokemon, fromPokemon + pokemonPageSize) as pokemon}
+	<PokemonPreview {pokemon} />
+{/each}
+
 <style>
 	#hintButton {
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
 	}
 	#jumpToText {
-		padding-left: 2rem;
+		/* padding-left: 2rem; */
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
 		width: 150px;
@@ -146,5 +166,15 @@
 	.hintEntry {
 		display: inline-flex;
 		justify-content: space-between;
+	}
+
+	input[type='number']::-webkit-inner-spin-button,
+	input[type='number']::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		appearance: none;
+	}
+	input[type='number'] {
+		appearance: textfield;
+		-moz-appearance: textfield;
 	}
 </style>
