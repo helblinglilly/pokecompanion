@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import AbilityResults from '$components/Search/AbilityResults.svelte';
 	import ItemResults from '$components/Search/ItemResults.svelte';
+	import MoveResults from '$components/Search/MoveResults.svelte';
 	import PokemonResults from '$components/Search/PokemonResults.svelte';
 	import { onMount } from 'svelte';
 
@@ -51,18 +52,43 @@
 {/if}
 
 {#if results}
-	{#if results.pokemon.length > 0}
-		<h2 style="margin-top: 2rem;" id="pokemon">Pokémon</h2>
-		<PokemonResults pokemonResults={results.pokemon} />
-	{/if}
+	<div id="searchResults">
+		{#if results.pokemon.length > 0}
+			<div>
+				<h2 id="pokemon">Pokémon</h2>
+				<PokemonResults pokemonResults={results.pokemon} />
+			</div>
+		{/if}
 
-	{#if results.items.length > 0}
-		<h2 style="margin-top: 4rem;" id="items">Items</h2>
-		<ItemResults itemResults={results.items} />
-	{/if}
+		{#if results.items.length > 0}
+			<div>
+				<h2 id="items">Items</h2>
+				<ItemResults itemResults={results.items} />
+			</div>
+		{/if}
 
-	{#if results.abilities.length > 0}
-		<h2 style="margin-top: 4rem;" id="abilities">Abilities</h2>
-		<AbilityResults abilityResults={results.abilities} />
-	{/if}
+		{#if results.abilities.length > 0}
+			<div>
+				<h2 id="abilities">Abilities</h2>
+				<AbilityResults abilityResults={results.abilities} />
+			</div>
+		{/if}
+
+		{#if results.moves.length > 0}
+			<div>
+				<h2 id="moves">Moves</h2>
+				<MoveResults moveResults={results.moves} />
+			</div>
+		{/if}
+	</div>
 {/if}
+
+<style>
+	#searchResults > :first-child {
+		padding-top: 2rem;
+	}
+
+	#searchResults > :not(:first-child) {
+		padding-top: 4rem;
+	}
+</style>
