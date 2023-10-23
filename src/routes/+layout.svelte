@@ -85,12 +85,13 @@
 		fixImages();
 	});
 
-	const noBreadcrumbs = ['auth'];
+	const noBreadcrumbs = ['auth', 'user'];
 
 	$: breadcrumbs = $page.url.pathname
 		.split('/')
+		.filter((a) => !noBreadcrumbs.includes(a))
 		.filter((a) => a)
-		.filter((a) => noBreadcrumbs.includes(a))
+		.filter((a, b, arr) => arr.length > 1)
 		.map((part, i, arr) => {
 			let displayEntry = '';
 			if (i > 1) {
@@ -99,7 +100,11 @@
 			displayEntry += part[0].toUpperCase() + part.slice(1);
 
 			const urlSegments = arr.slice(0, i + 1);
-			const url = '/' + urlSegments.join('/');
+			let url = '/' + urlSegments.join('/');
+
+			if (displayEntry === 'Pokemon') {
+				url += `?jumpTo=${arr[i + 1]}`;
+			}
 			return {
 				display: displayEntry,
 				url: url
@@ -180,21 +185,20 @@
 		</div>
 	{/if}
 
-	{#if breadcrumbs.length > 1 && $page.status === 200}
-		<div style="display: inline-flex; margin-bottom: 2rem;">
-			{#each breadcrumbs as crumb}
-				{#if breadcrumbs.indexOf(crumb) < breadcrumbs.length - 1}
-					<a href={crumb.url}>{crumb.display}</a>
-					<p style="margin-left: 5px; margin-right: 5px;">/</p>
-				{:else}
-					<p>{crumb.display}</p>
-				{/if}
-			{/each}
-		</div>
-	{/if}
-
 	{#if shouldDisplaySearch}
 		<SearchBar />
+		{#if breadcrumbs.length > 0 && $page.status === 200}
+			<div style="display: inline-flex; margin-bottom: 2rem;">
+				{#each breadcrumbs as crumb}
+					{#if breadcrumbs.indexOf(crumb) < breadcrumbs.length - 1}
+						<a href={crumb.url}>{crumb.display}</a>
+						<p style="margin-left: 5px; margin-right: 5px;">/</p>
+					{:else}
+						<p>{crumb.display}</p>
+					{/if}
+				{/each}
+			</div>
+		{/if}
 	{/if}
 	<slot />
 </div>
