@@ -146,6 +146,31 @@
 	<PokemonPreview {pokemon} />
 {/each}
 
+<div class="columns">
+	<div class="column" style="display: flex; align-content: center;">
+		<div
+			style="padding: 0; display: inline-flex; justify-content: center; gap: 0.5rem; width: 100%;  height: fit-content;"
+		>
+			<div style="min-width: 6rem;">
+				{#if pageNumber() > 1}
+					<a href="/pokemon?page=1"><button class="button">{'<<'}</button></a>
+					<a href={`/pokemon?page=${pageNumber() - 1}`}><button class="button">{'<'}</button></a>
+				{/if}
+			</div>
+			<p style="align-self: center; min-width: 6rem; text-align: center;">
+				Page {pageNumber()}/{numberOfPages}
+			</p>
+
+			<div style="min-width: 6rem;">
+				{#if pageNumber() < numberOfPages}
+					<a href={`/pokemon?page=${pageNumber() + 1}`}><button class="button">{'>'}</button></a>
+					<a href={`/pokemon?page=${numberOfPages}`}><button class="button">{'>>'}</button></a>
+				{/if}
+			</div>
+		</div>
+	</div>
+</div>
+
 <style>
 	#hintButton {
 		border-top-right-radius: 0;
