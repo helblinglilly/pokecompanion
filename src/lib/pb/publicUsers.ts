@@ -43,3 +43,18 @@ export const getUserByUsername = async (username: string): Promise<IPublicUser |
 		return;
 	}
 };
+
+export const getIdByUsername = async (username: string): Promise<string | undefined> => {
+	if (!username) {
+		return;
+	}
+
+	try {
+		const user = (await pb
+			.collection('public_users')
+			.getFirstListItem(`username="${username}"`)) as IPublicUserResponse;
+		return user.id;
+	} catch (err) {
+		return;
+	}
+};
