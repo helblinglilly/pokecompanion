@@ -5,6 +5,8 @@
 :root {
 	--branding-secondary: #3d3938;
 	--highlight: #3a48b4;
+	--error: #dd4141;
+	--warning: #f0a54a;
 
 	--dark: #313131;
 	--dark_secondary: rgb(43, 43, 43);
@@ -170,18 +172,15 @@ button.button {
 	border-radius: 10px;
 }
 
+button:hover:not(.navbar__button > button):not(button.navbar__button) {
+	background-color: var(--secondary);
+}
+
 button:disabled {
 	font-style: italic;
 	cursor: not-allowed;
 	background-color: var(--primary);
 	color: var(--accent);
-}
-
-button.button.secondary {
-	background-color: var(--secondary);
-	color: var(--text);
-	padding: 1rem;
-	border-radius: 10px;
 }
 
 .navbar__button {
@@ -195,6 +194,17 @@ button.button.secondary {
 .navbar__button:hover {
 	background-color: var(--dark);
 	color: var(--light);
+}
+
+button.button.secondary {
+	background-color: var(--secondary);
+	color: var(--text);
+	padding: 1rem;
+	border-radius: 10px;
+}
+
+button.button.secondary:hover:not(.navbar__button > button):not(button.navbar__button) {
+	background-color: var(--primary);
 }
 
 .navbar__button > button {
