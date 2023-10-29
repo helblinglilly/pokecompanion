@@ -6,6 +6,7 @@ export const load = async ({ params }) => {
 
 	if (!user) {
 		throw error(404, {
+			status: 404,
 			message: 'This user does not exist',
 			errorId: '404UserNotFound'
 		});
