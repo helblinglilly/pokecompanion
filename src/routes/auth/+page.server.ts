@@ -1,3 +1,5 @@
+import { isValidUsername } from '$lib/utils/user';
+import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { toSvg } from 'jdenticon';
 
@@ -9,7 +11,20 @@ export const actions: Actions = {
 			email: string;
 			password: string;
 			passwordConfirm: string;
+			username?: string;
 		};
+
+		if (data.username) {
+			const result = await isValidUsername(data.username);
+
+			if (!result.valid) {
+				throw error(400, {
+					status: 400,
+					message: `Invalid username: ${result.message}`,
+					errorId: '400InvalidUsername'
+				});
+			}
+		}
 
 		const svgBlob = new Blob([toSvg(data.email, 128)], { type: 'image/svg+xml' });
 
