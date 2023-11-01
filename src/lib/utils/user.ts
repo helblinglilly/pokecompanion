@@ -1,4 +1,4 @@
-import { PUBLIC_HOST_URL } from '$env/static/public';
+import isStringToxic from './toxic';
 
 export const isValidUsername = async (
 	username: string
@@ -10,20 +10,9 @@ export const isValidUsername = async (
 		};
 	}
 
-	const normalisedUsername = username
-		.toLowerCase()
-		.replaceAll(' ', '')
-		.replaceAll('0', 'o')
-		.replaceAll('1', 'i')
-		.replaceAll('3', 'e')
-		.replaceAll('4', 'a')
-		.replaceAll('5', 's')
-		.replaceAll('7', 'l');
+	const isToxic = await isStringToxic(username);
 
-	const toxicResponse = await fetch(`${PUBLIC_HOST_URL}/api/toxic?term=${normalisedUsername}`);
-	const toxicBody = await toxicResponse.json();
-
-	if (toxicBody.score >= 0.4) {
+	if (isToxic) {
 		return {
 			valid: false,
 			message: 'Toxic username'
