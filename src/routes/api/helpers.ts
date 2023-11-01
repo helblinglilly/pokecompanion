@@ -1,3 +1,5 @@
+import { createInstance } from '$lib/pocketbase';
+
 export const getSearchParam = (url: string, name: string) => {
 	const searchParts = url.split('?')[1];
 	if (!searchParts) {
@@ -40,4 +42,22 @@ export const getCookieValue = (request: Request, name: string) => {
 		}
 	});
 	return result;
+};
+
+export const validateAuth = async (request: Request) => {
+	const cookies = request.headers.get('cookie');
+	if (!cookies) {
+		return false;
+	}
+
+	const pb = createInstance();
+	pb.authStore.loadFromCookie(cookies);
+
+	try {
+		pb.authStore.isValid && (await pb.collection('users').authRefresh());
+	} catch {
+		pb.authStore.clear();
+		return false;
+	}
+	return pb;
 };

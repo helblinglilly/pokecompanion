@@ -19,13 +19,19 @@
 		errorMessage = '';
 
 		if ($currentUser) {
-			const data = {
-				username: newUsername,
-				avatar: $currentUser.avatar
-			};
 			try {
 				statusMessage = 'Loading...';
-				await pb.collection('users').update($currentUser?.id, data);
+
+				// Need to do proper error handling here
+				await fetch('/auth/username', {
+					method: 'PATCH',
+					headers: {
+						Authorization: `Bearer ${pb.authStore.token}`
+					},
+					body: JSON.stringify({
+						updatedUsername: newUsername
+					})
+				});
 				$currentUser.username = newUsername;
 				errorMessage = '';
 			} catch (error) {
