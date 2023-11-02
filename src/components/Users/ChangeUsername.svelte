@@ -18,27 +18,36 @@
 		}
 		errorMessage = '';
 
-		if ($currentUser) {
-			try {
-				statusMessage = 'Loading...';
+		if (!$currentUser) {
+			return;
+		}
 
-				// Need to do proper error handling here
-				await fetch('/auth/username', {
-					method: 'PATCH',
-					headers: {
-						Authorization: `Bearer ${pb.authStore.token}`
-					},
-					body: JSON.stringify({
-						updatedUsername: newUsername
-					})
-				});
-				$currentUser.username = newUsername;
-				errorMessage = '';
-			} catch (error) {
-				errorMessage = "Couldn't update username";
-			} finally {
-				statusMessage = '';
+		try {
+			statusMessage = 'Loading...';
+
+			const repsonse = await fetch('/auth/username', {
+				method: 'PATCH',
+				headers: {
+					Authorization: `Bearer ${pb.authStore.token}`
+				},
+				body: JSON.stringify({
+					updatedUsername: newUsername
+				})
+			});
+			if (!repsonse.ok) {
+				let message = 'Failed to update username';
+				try {
+					const body = await repsonse.json();
+					message = body;
+				} catch (_) {}
+				throw new Error(message);
 			}
+			$currentUser.username = newUsername;
+			errorMessage = '';
+		} catch (error) {
+			errorMessage = "Couldn't update username";
+		} finally {
+			statusMessage = '';
 		}
 	};
 </script>
@@ -57,7 +66,7 @@
 				on:click={onClick}
 				type="submit"
 				id="updateUsernameButton"
-				style="height: 100%;">Update</button
+				style="height: 100%; min-width: 6em;">Update</button
 			>
 		</div>
 	</div>

@@ -55,7 +55,7 @@
 		} catch (err) {
 			console.error(err);
 			status = 'Sign in failed';
-			errorDetails = 'Could not sign you in. Please try again;';
+			errorDetails = 'Could not sign you in. Please try again.';
 		}
 	});
 </script>
