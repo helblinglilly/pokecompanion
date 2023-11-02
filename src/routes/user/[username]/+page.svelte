@@ -2,6 +2,7 @@
 	import Avatar from '$components/Users/Avatar.svelte';
 	import ChangePassword from '$components/Users/ChangePassword.svelte';
 	import ChangeUsername from '$components/Users/ChangeUsername.svelte';
+	import DeleteUser from '$components/Users/DeleteUser.svelte';
 	import ReportUser from '$components/Users/ReportUser.svelte';
 	import { currentUser } from '$lib/stores/user';
 
@@ -33,10 +34,10 @@
 			</div>
 		</div>
 	</div>
-
 	{#if $currentUser && $currentUser.username === data.user.username}
 		<div class="card">
 			<ChangePassword />
+			<DeleteUser />
 		</div>
 	{/if}
 </div>
