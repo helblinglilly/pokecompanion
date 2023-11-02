@@ -5,8 +5,10 @@
 :root {
 	--branding-secondary: #3d3938;
 	--highlight: #3a48b4;
-	--error: #dd4141;
+	--success: #128a14;
 	--warning: #f0a54a;
+	--error: #dd4141;
+	--error-bg: #a8414d;
 
 	--dark: #313131;
 	--dark_secondary: rgb(43, 43, 43);
@@ -78,10 +80,6 @@ a {
 	text-decoration-line: underline;
 }
 
-.navbar__button > button {
-	color: var(--light);
-}
-
 a.no-style {
 	text-decoration: none;
 }
@@ -122,49 +120,6 @@ footer {
 	text-align: center;
 }
 
-#navbar {
-	display: flex;
-	background-color: var(--branding-secondary);
-}
-
-#navbar__hamburger {
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	justify-self: end;
-	width: 30px;
-	height: 3rem;
-	padding-top: 12px;
-	padding-bottom: 12px;
-	margin-right: 12px;
-	justify-content: center;
-}
-
-.navbar__hamburger__bar {
-	color: var(--light);
-	background-color: var(--light);
-	height: 3px;
-	width: 100%;
-	transition: background-color 0.3s ease-in-out;
-}
-
-div.navbar__links {
-	z-index: 1;
-	flex-direction: column;
-	background-color: var(--branding-secondary);
-}
-
-nav > div.navbar__links {
-	height: fit-content;
-	width: 100%;
-	justify-content: flex-end;
-	display: flex;
-	padding-right: 1rem;
-}
-
 button.button {
 	background-color: var(--accent);
 	color: var(--text);
@@ -172,7 +127,7 @@ button.button {
 	border-radius: 10px;
 }
 
-button:hover:not(.navbar__button > button):not(button.navbar__button) {
+button:hover {
 	background-color: var(--secondary);
 }
 
@@ -183,19 +138,6 @@ button:disabled {
 	color: var(--accent);
 }
 
-.navbar__button {
-	height: 100%;
-	padding-left: 1rem;
-	padding-right: 1rem;
-	color: var(--light);
-	background-color: var(--branding-secondary);
-}
-
-.navbar__button:hover {
-	background-color: var(--dark);
-	color: var(--light);
-}
-
 button.button.secondary {
 	background-color: var(--secondary);
 	color: var(--text);
@@ -203,27 +145,8 @@ button.button.secondary {
 	border-radius: 10px;
 }
 
-button.button.secondary:hover:not(.navbar__button > button):not(button.navbar__button) {
+button.button.secondary:hover {
 	background-color: var(--primary);
-}
-
-.navbar__button > button {
-	width: 100%;
-	height: 100%;
-}
-
-#navbar__branding__link {
-	margin: 10px;
-	display: inline-flex;
-	width: min-content;
-	text-decoration-line: none;
-}
-
-#navbar__branding__link > button {
-	color: var(--light);
-	margin-left: 5px;
-	margin-right: 20px;
-	padding-right: 20px;
 }
 
 div.columns {
@@ -350,4 +273,24 @@ input[type='text'] {
 	min-height: 34px;
 	border-radius: 5px;
 	padding: 5px;
+}
+
+.success {
+	color: var(--success);
+}
+
+.warning {
+	color: var(--warning);
+}
+
+button.error {
+	font-weight: bold;
+	background-color: var(--error);
+	color: var(--light);
+}
+button.button.error:hover {
+	background-color: var(--error-bg);
+}
+.error {
+	color: var(--error);
 }

@@ -115,8 +115,10 @@
 
 <nav id="navbar" class="h-12">
 	<a href="/" id="navbar__branding__link">
-		<img src="/favicon.png" alt="icon" height="auto" style="width: 30px;" />
-		<button data-testid="navbarBrandingTitle">Pokécompanion</button>
+		<button data-testid="navbarBrandingTitle">
+			<img src="/favicon.png" alt="icon" height="auto" style="width: 30px;" />
+			Pokécompanion
+		</button>
 	</a>
 
 	<div class="navbar__links">
@@ -215,6 +217,84 @@
 </footer>
 
 <style>
+	#navbar {
+		display: flex;
+		background-color: var(--branding-secondary);
+	}
+
+	#navbar__hamburger {
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		justify-self: end;
+		width: 30px;
+		height: 3rem;
+		padding-top: 12px;
+		padding-bottom: 12px;
+		margin-right: 12px;
+		justify-content: center;
+	}
+
+	.navbar__hamburger__bar {
+		color: var(--light);
+		background-color: var(--light);
+		height: 3px;
+		width: 100%;
+		transition: background-color 0.3s ease-in-out;
+	}
+
+	.navbar__links {
+		z-index: 1;
+		flex-direction: column;
+		background-color: var(--branding-secondary);
+		height: fit-content;
+		width: 100%;
+		justify-content: flex-end;
+		display: flex;
+		padding-right: 1rem;
+	}
+
+	.navbar__button {
+		height: 100%;
+		padding-left: 1rem;
+		padding-right: 1rem;
+		color: var(--light);
+		background-color: var(--branding-secondary);
+	}
+
+	.navbar__button:hover,
+	button:hover,
+	#navbar__branding__link:hover {
+		background-color: var(--dark);
+		color: var(--light);
+	}
+
+	.navbar__button > button {
+		width: 100%;
+		height: 100%;
+		color: var(--light);
+	}
+
+	.navbar__button > button {
+		color: var(--light);
+	}
+
+	#navbar__branding__link {
+		display: inline-flex;
+		width: min-content;
+		text-decoration-line: none;
+		padding: 10px;
+	}
+
+	#navbar__branding__link > button {
+		width: max-content;
+		display: inline-flex;
+		color: var(--light);
+	}
+
 	/* Mobile only */
 	@media screen and (max-width: 768px) {
 		div.navbar__links > .navbar__button {
