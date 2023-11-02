@@ -152,7 +152,11 @@ async function fetch_listener(event) {
 
 	if (url.hostname === self.location.hostname) {
 		// Never cache protected routes
-		if (url.pathname.includes('/auth/') || url.pathname.includes('/user/')) {
+		if (
+			url.pathname.includes('/auth/') ||
+			url.pathname.includes('/api/') ||
+			url.pathname.includes('/user/')
+		) {
 			event.respondWith(networkOnly(request));
 			return;
 		}
