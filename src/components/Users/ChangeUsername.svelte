@@ -77,12 +77,3 @@
 		<p class="warning">{statusMessage}</p>
 	{/if}
 {/if}
-
-<style>
-	.error {
-		color: var(--error);
-	}
-	.warning {
-		color: var(--warning);
-	}
-</style>
