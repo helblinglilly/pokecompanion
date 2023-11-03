@@ -37,7 +37,7 @@
 	{#if $currentUser && $currentUser.username === data.user.username}
 		<div class="card">
 			<ChangePassword />
-			<DeleteUser />
+			<DeleteUser user={$currentUser} />
 		</div>
 	{/if}
 </div>
@@ -48,6 +48,7 @@
 		justify-content: center;
 		border: 2px solid var(--secondary);
 		border-radius: 5%;
+		min-width: max-content;
 	}
 
 	#userWrapper > :not(:first-child) {
