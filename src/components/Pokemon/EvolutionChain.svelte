@@ -3,7 +3,7 @@
 	import type { IAPIEvolution } from '$lib/types/IEvolution';
 	import { capitaliseFirstLetter } from '$lib/utils/string';
 	import { onMount } from 'svelte';
-	import Image from './Image.svelte';
+	import Image from '../Image.svelte';
 	import { selectedGame } from '$lib/stores/domain';
 	import { findGameGroupFromCookieString } from '$lib/data/games';
 

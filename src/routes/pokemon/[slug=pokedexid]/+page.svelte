@@ -12,13 +12,15 @@
 	import { navigating, page } from '$app/stores';
 	import { getPokemonPageData } from '$lib/pokemon-id/pokemonPage';
 	import { getPokemonTypesInGame } from '$lib/data/elementalTypes';
-	import EvolutionChain from '$components/EvolutionChain.svelte';
+	import EvolutionChain from '$components/Pokemon/EvolutionChain.svelte';
 	import Image from '$components/Image.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { emptySprites } from '$lib/types/IPokemon';
 	import { isPokemonInGame } from '$lib/data/games';
 	import Pokedex from '$components/Pokedex.svelte';
+	import { currentUser } from '$lib/stores/user';
+	import SelectedLists from '$components/SelectedLists.svelte';
 
 	$: if ($navigating) refetchData();
 
@@ -90,10 +92,11 @@
 						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
 					{/each}
 				</div>
-
 				<Pokedex flavourTextEntries={pageData.species.flavor_text_entries} />
 			</div>
 			<Sprite sprites={pageData.pokemon.sprites} />
+			<SelectedLists />
+			{#if $currentUser}{/if}
 			{#if !isPokemonInGame(currentPokemonId, $selectedGame ?? '')}
 				<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
 			{/if}

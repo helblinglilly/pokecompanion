@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PokemonPreview from '$components/PokemonPreview.svelte';
+	import PokemonPreview from '$components/Pokemon/PokemonPreview.svelte';
 	import { maxSearchResults } from '$lib/stores/domain';
 	import type { IPokemonNames } from '../../routes/pokemon/+page';
 

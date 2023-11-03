@@ -1,14 +1,9 @@
 <script lang="ts">
-	import {
-		findGameFromAPIGameName,
-		findGameGroupFromCookieString,
-		gameGroups
-	} from '$lib/data/games';
+	import { findGameFromAPIGameName } from '$lib/data/games';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import type { FlavorTextEntry } from '$lib/types/IPokemon';
 	import Image from './Image.svelte';
 	import Modal from './Modal.svelte';
-	import { selectedGame } from '$lib/stores/domain';
 
 	let showModal = false;
 
@@ -19,6 +14,7 @@
 		.map((a) => {
 			const foundGame = findGameFromAPIGameName(a.version.name);
 			return {
+				language: a.language.name,
 				game: foundGame ? foundGame.shortName : 'Not found',
 				textEntry: a.flavor_text
 			};
@@ -49,5 +45,4 @@
 			<p>{pokedexEntry.textEntry}</p>
 		</div>
 	{/each}
-	<p>Hi!</p>
 </Modal>
