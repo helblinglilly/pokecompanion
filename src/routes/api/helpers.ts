@@ -54,6 +54,9 @@ export const validateAuth = async (request: Request) => {
 	pb.authStore.loadFromCookie(cookies);
 
 	try {
+		if (!pb.authStore.isValid) {
+			return false;
+		}
 		pb.authStore.isValid && (await pb.collection('users').authRefresh());
 	} catch {
 		pb.authStore.clear();

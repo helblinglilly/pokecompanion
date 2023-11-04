@@ -20,7 +20,7 @@
 	import { isPokemonInGame } from '$lib/data/games';
 	import Pokedex from '$components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
-	import SelectedLists from '$components/SelectedLists.svelte';
+	import SelectedTags from '$components/Tags/SelectedTags.svelte';
 
 	$: if ($navigating) refetchData();
 
@@ -95,8 +95,9 @@
 				<Pokedex flavourTextEntries={pageData.species.flavor_text_entries} />
 			</div>
 			<Sprite sprites={pageData.pokemon.sprites} />
-			<SelectedLists />
-			{#if $currentUser}{/if}
+			{#if $currentUser}
+				<SelectedTags newTagInitialContent={{ pokemon: [{ id: currentPokemonId }] }} />
+			{/if}
 			{#if !isPokemonInGame(currentPokemonId, $selectedGame ?? '')}
 				<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
 			{/if}
