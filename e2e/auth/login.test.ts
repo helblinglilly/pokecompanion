@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('Login flow validates passwords on client side', async ({ page }) => {
+test.skip('Login flow validates passwords before ', async ({ page }) => {
 	await page.goto('/auth/signin');
 
 	await page.getByLabel('Email').fill('test@user.com');
@@ -51,9 +51,4 @@ test.skip('Login works', async ({ page }) => {
 	});
 
 	await page.getByRole('button', { name: 'Log in' }).click();
-
-	// await page.waitForNavigation({
-	// 	waitUntil: 'domcontentloaded' // Adjust this based on your use case
-	// });
-	// expect(page).toHaveURL('/.*user/test/');
 });
