@@ -70,13 +70,31 @@
 		<div style="display: grid;">
 			{#each allTags as tag}
 				<div>
-					<input type="checkbox" id={tag.name} />
+					<input
+						type="checkbox"
+						id={tag.name}
+						checked={currentTags.includes(tag)}
+						on:change={(e) => {
+							console.log(e.currentTarget.checked);
+							if (e.currentTarget.checked) {
+								currentTags = currentTags.concat([tag]);
+							} else {
+								currentTags = currentTags.filter((a) => a !== tag);
+							}
+						}}
+					/>
 					<label for={tag.name}>{tag.name}</label>
 				</div>
 			{/each}
 		</div>
 
-		<button class="button" style="width: 100%;">Save</button>
+		<button
+			class="button"
+			style="width: 100%;"
+			on:click={() => {
+				console.log(currentTags);
+			}}>Save</button
+		>
 	</div>
 </Modal>
 
