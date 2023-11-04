@@ -6,6 +6,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import { getTagsByUser, type ITags } from '$lib/pb/tags';
 	import Icon from '$components/Icon.svelte';
+	import Modal from '$components/Modal.svelte';
 
 	export let newTagInitialContent: ITagContents;
 	let showAddNewOverlay = false;
@@ -60,6 +61,24 @@
 </div>
 
 <CreateNewTag bind:showAddNewOverlay bind:newTagInitialContent />
+<Modal bind:showModal={showAddToOverlay}>
+	<h2 slot="header">Add Tags</h2>
+
+	<div style="display: grid; gap: 1rem;">
+		<p>Select the tags to add the current item to</p>
+
+		<div style="display: grid;">
+			{#each allTags as tag}
+				<div>
+					<input type="checkbox" id={tag.name} />
+					<label for={tag.name}>{tag.name}</label>
+				</div>
+			{/each}
+		</div>
+
+		<button class="button" style="width: 100%;">Save</button>
+	</div>
+</Modal>
 
 <style>
 	.tag {
