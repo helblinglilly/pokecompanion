@@ -2,6 +2,7 @@ import { pb } from '$lib/pocketbase';
 import type { ITagContents } from '$lib/types/ITags';
 
 export interface ITags {
+	id: string;
 	name: string;
 	isPrivate: boolean;
 	created: Date;
@@ -21,6 +22,7 @@ export const getTagsByUser = async (id: string): Promise<ITags[]> => {
 
 		return tags.map((tag) => {
 			return {
+				id: tag.id,
 				name: tag.name,
 				isPrivate: tag.isPrivate,
 				created: new Date(tag.created),

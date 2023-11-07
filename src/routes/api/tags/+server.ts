@@ -1,7 +1,7 @@
 import { error, warn } from '$lib/log';
 import isStringToxic from '$lib/utils/toxic.js';
 import { validateAuth } from '../helpers.js';
-import type { ITagRequestBody } from '$lib/types/ITags.js';
+import type { ITagRequestBody, ITagUpdateBody } from '$lib/types/ITags.js';
 
 export async function POST({ request }) {
 	const authedPb = await validateAuth(request);
@@ -51,5 +51,55 @@ export async function POST({ request }) {
 		});
 	}
 
-	return new Response('cool');
+	return new Response('created');
+}
+
+export async function PATCH({ request }) {
+	const authedPb = await validateAuth(request);
+	if (!authedPb || !authedPb.authStore.model) {
+		return new Response('Not authorised', { status: 401 });
+	}
+
+	let body: ITagUpdateBody | undefined;
+	try {
+		body = await request.json();
+	} catch (err) {
+		warn('Failed to parse JSON from request body', request);
+		return new Response('Invalid body', {
+			status: 400
+		});
+	}
+
+	if (!body) {
+		return new Response('Empty body', {
+			status: 400
+		});
+	}
+
+	if (!body.updatedTags || body.updatedTags.length === 0) {
+		return new Response('Empty payload', { status: 400 });
+	}
+
+	try {
+		body.updatedTags.forEach(async (entry) => {
+			const isToxic = await isStringToxic(entry.name);
+			if (isToxic) {
+				throw new Error(`Toxic tag name: ${entry.name}`);
+			}
+
+			await authedPb.collection('tags').update(entry.id, {
+				owner: authedPb.authStore.model?.id,
+				name: entry.name,
+				contents: entry.contents,
+				isPrivate: entry.isPrivate
+			});
+		});
+	} catch (err) {
+		error(JSON.stringify(err), 'FailedToUpdateTag');
+		return new Response(`Failed to update tag`, {
+			status: 500
+		});
+	}
+
+	return new Response('Ok', { status: 200 });
 }

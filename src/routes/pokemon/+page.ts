@@ -6,7 +6,6 @@ export function load({ url }) {
 	const jumpToItem = url.searchParams.get('jumpTo');
 
 	if (jumpToItem) {
-		console.log(jumpToItem);
 		const item = Number(jumpToItem);
 		if (item < PokemonNames.length && item >= 1) {
 			const targetPage = Math.ceil(item / pokemonPageSize);

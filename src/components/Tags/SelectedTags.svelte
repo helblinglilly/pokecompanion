@@ -14,6 +14,7 @@
 	$: currentPokemonId = newTagInitialContent.pokemon[0].id;
 
 	let allTags: ITags[] = [];
+
 	$: currentTags = allTags.filter((tag) => {
 		return tag.contents.pokemon.some((a) => {
 			return a.id === currentPokemonId;
@@ -22,15 +23,19 @@
 
 	let isMountedSuccessfully = false;
 	onMount(async () => {
-		if (!isMountedSuccessfully && $currentUser) {
+		await refetchAllTags();
+		isMountedSuccessfully = true;
+	});
+
+	const refetchAllTags = async () => {
+		if ($currentUser) {
 			try {
 				allTags = await getTagsByUser($currentUser.id);
-				isMountedSuccessfully = true;
 			} catch (err) {
 				logError(JSON.stringify(err), '');
 			}
 		}
-	});
+	};
 </script>
 
 <div
@@ -48,7 +53,7 @@
 			class="tag"
 			on:click={() => {
 				showAddToOverlay = true;
-			}}>+</button
+			}}>Edit</button
 		>
 	{/if}
 
@@ -60,7 +65,11 @@
 	>
 </div>
 
-<CreateNewTag bind:showAddNewOverlay bind:newTagInitialContent />
+<CreateNewTag
+	bind:showAddNewOverlay
+	bind:newTagInitialContent
+	afterCreation={() => refetchAllTags()}
+/>
 <Modal bind:showModal={showAddToOverlay}>
 	<h2 slot="header">Add Tags</h2>
 
@@ -74,12 +83,38 @@
 						type="checkbox"
 						id={tag.name}
 						checked={currentTags.includes(tag)}
-						on:change={(e) => {
-							console.log(e.currentTarget.checked);
+						on:change={async (e) => {
 							if (e.currentTarget.checked) {
-								currentTags = currentTags.concat([tag]);
+								try {
+									await fetch('/api/tag', {
+										method: 'POST',
+										body: JSON.stringify({
+											id: tag.id,
+											contents: {
+												pokemon: [{ id: currentPokemonId }]
+											}
+										})
+									});
+									currentTags = currentTags.concat([tag]);
+									await refetchAllTags();
+								} catch (err) {
+									// set notification
+								}
 							} else {
-								currentTags = currentTags.filter((a) => a !== tag);
+								try {
+									await fetch('/api/tag', {
+										method: 'DELETE',
+										body: JSON.stringify({
+											id: tag.id,
+											contents: {
+												pokemon: [{ id: currentPokemonId }]
+											}
+										})
+									});
+									currentTags = currentTags.filter((a) => a !== tag);
+								} catch (err) {
+									// set notification
+								}
 							}
 						}}
 					/>
@@ -92,8 +127,8 @@
 			class="button"
 			style="width: 100%;"
 			on:click={() => {
-				console.log(currentTags);
-			}}>Save</button
+				showAddToOverlay = false;
+			}}>Close</button
 		>
 	</div>
 </Modal>

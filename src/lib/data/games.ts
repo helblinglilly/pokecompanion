@@ -630,7 +630,6 @@ export const findGameGroupFromCookieString = (versionGroupName: string | undefin
 
 export const findGameFromAPIGameName = (versionName: string) => {
 	return Object.values(game).find((value) => {
-		// console.log(value.shortName, getGroupName([value], '-', true, true, false, '-'));
 		return getGroupName([value], '-', true, true, false, '-').replaceAll("'", '') === versionName;
 	});
 };

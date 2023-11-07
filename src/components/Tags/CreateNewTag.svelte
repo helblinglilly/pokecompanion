@@ -4,6 +4,7 @@
 
 	export let newTagInitialContent: ITagContents;
 	export let showAddNewOverlay: boolean;
+	export let afterCreation: () => void;
 
 	let newListName: string;
 	let isPrivate: boolean = false;
@@ -21,6 +22,10 @@
 			});
 			if (!response.ok) {
 				throw new Error(`Failed to create new tag`);
+			}
+
+			if (afterCreation) {
+				afterCreation();
 			}
 		} catch (err) {
 			console.log(err);
