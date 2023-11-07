@@ -7,7 +7,7 @@
 	export let afterCreation: () => void;
 
 	let newListName: string;
-	let isPrivate: boolean = false;
+	let isPrivate: boolean;
 
 	const createNewTag = async () => {
 		try {
@@ -45,7 +45,13 @@
 			<button on:click={createNewTag}>Create</button>
 		</div>
 		<div>
-			<input type="checkbox" id="isPrivate" bind:value={isPrivate} />
+			<input
+				type="checkbox"
+				id="isPrivate"
+				on:change={(e) => {
+					isPrivate = e.currentTarget.checked;
+				}}
+			/>
 			<label style="padding-left: 0.5rem;" for="isPrivate">Private tag</label>
 		</div>
 	</form>

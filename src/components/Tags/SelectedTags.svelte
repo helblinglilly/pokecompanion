@@ -36,6 +36,38 @@
 			}
 		}
 	};
+
+	const addCurrentItemToTag = async (tagId: string) => {
+		try {
+			await fetch(`/api/tag`, {
+				method: 'POST',
+				body: JSON.stringify({
+					id: tagId,
+					contents: {
+						pokemon: [{ id: currentPokemonId }]
+					}
+				})
+			});
+		} catch (err) {
+			// set notification
+		}
+	};
+
+	const removeCurrentItemFromTag = async (tagId: string) => {
+		try {
+			await fetch('/api/tag', {
+				method: 'DELETE',
+				body: JSON.stringify({
+					id: tagId,
+					contents: {
+						pokemon: [{ id: currentPokemonId }]
+					}
+				})
+			});
+		} catch (err) {
+			// set notification
+		}
+	};
 </script>
 
 <div
@@ -68,13 +100,16 @@
 <CreateNewTag
 	bind:showAddNewOverlay
 	bind:newTagInitialContent
-	afterCreation={() => refetchAllTags()}
+	afterCreation={() => {
+		refetchAllTags();
+	}}
 />
+
 <Modal bind:showModal={showAddToOverlay}>
-	<h2 slot="header">Add Tags</h2>
+	<h2 slot="header">Add and remove tags</h2>
 
 	<div style="display: grid; gap: 1rem;">
-		<p>Select the tags to add the current item to</p>
+		<p>Select the tags which this item should be attached to</p>
 
 		<div style="display: grid;">
 			{#each allTags as tag}
@@ -85,36 +120,12 @@
 						checked={currentTags.includes(tag)}
 						on:change={async (e) => {
 							if (e.currentTarget.checked) {
-								try {
-									await fetch('/api/tag', {
-										method: 'POST',
-										body: JSON.stringify({
-											id: tag.id,
-											contents: {
-												pokemon: [{ id: currentPokemonId }]
-											}
-										})
-									});
-									currentTags = currentTags.concat([tag]);
-									await refetchAllTags();
-								} catch (err) {
-									// set notification
-								}
+								await addCurrentItemToTag(tag.id);
+								currentTags = currentTags.concat([tag]);
+								await refetchAllTags();
 							} else {
-								try {
-									await fetch('/api/tag', {
-										method: 'DELETE',
-										body: JSON.stringify({
-											id: tag.id,
-											contents: {
-												pokemon: [{ id: currentPokemonId }]
-											}
-										})
-									});
-									currentTags = currentTags.filter((a) => a !== tag);
-								} catch (err) {
-									// set notification
-								}
+								await removeCurrentItemFromTag(tag.id);
+								currentTags = currentTags.filter((a) => a !== tag);
 							}
 						}}
 					/>

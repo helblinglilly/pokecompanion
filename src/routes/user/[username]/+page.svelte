@@ -1,12 +1,15 @@
 <script>
+	import PokemonPreview from '$components/Pokemon/PokemonPreview.svelte';
 	import Avatar from '$components/Users/Avatar.svelte';
 	import ChangePassword from '$components/Users/ChangePassword.svelte';
 	import ChangeUsername from '$components/Users/ChangeUsername.svelte';
 	import DeleteUser from '$components/Users/DeleteUser.svelte';
 	import ReportUser from '$components/Users/ReportUser.svelte';
 	import { currentUser } from '$lib/stores/user';
+	import PokemonData from '$lib/data/pokemonNames.json';
 
 	export let data;
+	console.log(data);
 </script>
 
 <div id="userWrapper">
@@ -30,7 +33,16 @@
 			</div>
 
 			<div class="column">
-				<p>Main content</p>
+				<h2>Tag lists</h2>
+				{#each data.tags as tag}
+					<h4>{tag.name}</h4>
+
+					{#each tag.contents.pokemon as tagPokemon}
+						<PokemonPreview
+							pokemon={PokemonData.find((a) => a.id === tagPokemon.id) ?? { id: -1, names: [] }}
+						/>
+					{/each}
+				{/each}
 			</div>
 		</div>
 	</div>
@@ -46,8 +58,6 @@
 	#sidebar {
 		display: grid;
 		justify-content: center;
-		border: 2px solid var(--secondary);
-		border-radius: 5%;
 		min-width: max-content;
 	}
 

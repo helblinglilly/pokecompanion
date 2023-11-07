@@ -273,6 +273,7 @@ input[type='text'] {
 	min-height: 34px;
 	border-radius: 5px;
 	padding: 5px;
+	color: var(--dark);
 }
 
 .success {
