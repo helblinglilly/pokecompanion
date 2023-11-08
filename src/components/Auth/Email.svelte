@@ -3,7 +3,7 @@
 	import { pb } from '$lib/pocketbase';
 	import { notifications } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
-	import { isPasswordValid } from '$lib/utils/user';
+	import { isPasswordValid } from '$lib/utils/user-client';
 
 	let mode: 'login' | 'signup' = 'login';
 	let email: string;

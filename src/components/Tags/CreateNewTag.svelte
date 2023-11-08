@@ -1,4 +1,5 @@
 <script lang="ts">
+	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import Modal from '$components/Modal.svelte';
 	import type { ITagRequestBody, ITagContents } from '$lib/types/ITags';
 
@@ -41,8 +42,12 @@
 	<p style="padding-top: 1rem;">The current item will be added to it after it's created</p>
 	<form>
 		<div id="newTagName">
-			<input type="text" placeholder="Tag name" bind:value={newListName} />
-			<button on:click={createNewTag}>Create</button>
+			<InlineTextButton
+				variation="small"
+				buttonConfig={{ text: 'Create', onClick: createNewTag }}
+				inputConfig={{ valueBind: newListName, placeholder: 'Tag name' }}
+				containerStyling="width: 70%;"
+			/>
 		</div>
 		<div>
 			<input
@@ -64,19 +69,5 @@
 		width: 100%;
 		padding-top: 1rem;
 		justify-content: center;
-	}
-
-	form > #newTagName > input {
-		border-top-right-radius: 0;
-		border-bottom-right-radius: 0;
-	}
-
-	form > #newTagName > button {
-		border-top-right-radius: 0.25rem;
-		border-bottom-right-radius: 0.25rem;
-		background-color: var(--accent);
-		height: 100%;
-		padding: 5px;
-		min-width: max-content;
 	}
 </style>

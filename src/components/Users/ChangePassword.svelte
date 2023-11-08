@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { isPasswordValid } from '$lib/utils/user';
+	import { isPasswordValid } from '$lib/utils/user-client';
 
 	let newPassword: string;
 	let confirmNewPassword: string;
-
-	export let currentUser;
 
 	const onUpdateClick = () => {
 		const result = isPasswordValid(newPassword);

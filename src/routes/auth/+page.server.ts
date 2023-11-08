@@ -1,4 +1,4 @@
-import { isUsernameValid } from '$lib/utils/user';
+import { isUsernameValid } from '$lib/utils/user-server';
 import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { toSvg } from 'jdenticon';
