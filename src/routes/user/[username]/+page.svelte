@@ -7,6 +7,7 @@
 	import ReportUser from '$components/Users/ReportUser.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import PokemonData from '$lib/data/pokemonNames.json';
+	import Icon from '$components/Icon.svelte';
 
 	export let data;
 	console.log(data);
@@ -34,15 +35,30 @@
 
 			<div class="column">
 				<h2>Tag lists</h2>
-				{#each data.tags as tag}
-					<h4>{tag.name}</h4>
-
-					{#each tag.contents.pokemon as tagPokemon}
-						<PokemonPreview
-							pokemon={PokemonData.find((a) => a.id === tagPokemon.id) ?? { id: -1, names: [] }}
-						/>
+				<div style="display: grid; gap: 1rem; padding-top: 0.5rem;">
+					{#each data.tags as tag}
+						<a href={`/user/${data.user.username}/tags/${tag.name}`}>
+							<section
+								style="background-color: var(--secondary); padding: 1rem; border-radius: 0.5rem;"
+							>
+								<div style="display: inline-flex; width: 100%; justify-content: space-between;">
+									<div style="display: inline-flex;">
+										{#if tag.isPrivate}
+											<Icon
+												style="margin-top: auto; margin-bottom: auto; padding-left: 0.25rem; padding-right: 0.25rem;"
+												name="lock"
+											/>
+										{/if}
+										<h4>{tag.name}</h4>
+									</div>
+									<p style="padding-left: 1rem;">
+										<i>({tag.contents.pokemon.length} entries)</i>
+									</p>
+								</div>
+							</section>
+						</a>
 					{/each}
-				{/each}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -69,5 +85,11 @@
 		#sidebar {
 			max-width: 25%;
 		}
+	}
+
+	section {
+		box-shadow: 3px 12px 10px -10px rgba(0, 0, 0, 0.78);
+		-webkit-box-shadow: 3px 12px 10px -10px rgba(0, 0, 0, 0.78);
+		-moz-box-shadow: 3px 12px 10px -10px rgba(0, 0, 0, 0.78);
 	}
 </style>
