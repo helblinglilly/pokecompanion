@@ -3,6 +3,7 @@
 	import { pb } from '$lib/pocketbase';
 	import { notifications } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
+	import { isPasswordValid } from '$lib/utils/user';
 
 	let mode: 'login' | 'signup' = 'login';
 	let email: string;
@@ -27,10 +28,9 @@
 			hasFormError = true;
 		}
 
-		const passwordPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
-		if (!passwordPattern.test(password)) {
-			passwordError =
-				'Must contain: 1 uppercase, 1 lowercase, 1 number, 1 special char and be 8+ characters long';
+		const passwordResult = isPasswordValid(password);
+		if (passwordResult.valid === false) {
+			passwordError = passwordResult.feedback;
 			hasFormError = true;
 		}
 

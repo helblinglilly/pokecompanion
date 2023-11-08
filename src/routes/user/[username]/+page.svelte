@@ -61,7 +61,7 @@
 	</div>
 	{#if $currentUser && $currentUser.username === data.user.username}
 		<div class="card">
-			<ChangePassword />
+			<ChangePassword {currentUser} />
 			<DeleteUser user={$currentUser} />
 		</div>
 	{/if}

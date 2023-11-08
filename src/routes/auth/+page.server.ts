@@ -1,4 +1,4 @@
-import { isValidUsername } from '$lib/utils/user';
+import { isUsernameValid } from '$lib/utils/user';
 import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { toSvg } from 'jdenticon';
@@ -15,7 +15,7 @@ export const actions: Actions = {
 		};
 
 		if (data.username) {
-			const result = await isValidUsername(data.username);
+			const result = await isUsernameValid(data.username);
 
 			if (!result.valid) {
 				throw error(400, {
