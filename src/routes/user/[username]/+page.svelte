@@ -1,16 +1,13 @@
 <script>
-	import PokemonPreview from '$components/Pokemon/PokemonPreview.svelte';
 	import Avatar from '$components/Users/Avatar.svelte';
 	import ChangePassword from '$components/Users/ChangePassword.svelte';
 	import ChangeUsername from '$components/Users/ChangeUsername.svelte';
 	import DeleteUser from '$components/Users/DeleteUser.svelte';
 	import ReportUser from '$components/Users/ReportUser.svelte';
 	import { currentUser } from '$lib/stores/user';
-	import PokemonData from '$lib/data/pokemonNames.json';
 	import Icon from '$components/Icon.svelte';
 
 	export let data;
-	console.log(data);
 </script>
 
 <div id="userWrapper">
@@ -37,7 +34,7 @@
 				<h2>Tag lists</h2>
 				<div style="display: grid; gap: 1rem; padding-top: 0.5rem;">
 					{#each data.tags as tag}
-						<a href={`/user/${data.user.username}/tags/${tag.name}`}>
+						<a href={`/user/${data.user.username}/tags/${tag.id}`}>
 							<section
 								style="background-color: var(--secondary); padding: 1rem; border-radius: 0.5rem;"
 							>
