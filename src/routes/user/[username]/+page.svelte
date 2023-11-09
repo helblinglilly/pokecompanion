@@ -32,7 +32,7 @@
 
 			<div class="column">
 				<h2>Tag lists</h2>
-				<div style="display: grid; gap: 1rem; padding-top: 0.5rem;">
+				<div id="taglist">
 					{#each data.tags as tag}
 						<a href={`/user/${data.user.username}/tags/${tag.id}`}>
 							<section
@@ -60,9 +60,16 @@
 		</div>
 	</div>
 	{#if $currentUser && $currentUser.username === data.user.username}
-		<div class="card">
-			<ChangePassword {currentUser} />
-			<DeleteUser user={$currentUser} />
+		<div class="card" style="justify-content: center;">
+			<div class="columns">
+				<div class="column">
+					<ChangePassword />
+				</div>
+				<div class="column">
+					<h3 style="padding-bottom: 1rem;">Danger Zone</h3>
+					<DeleteUser user={$currentUser} />
+				</div>
+			</div>
 		</div>
 	{/if}
 </div>
@@ -74,6 +81,12 @@
 		min-width: max-content;
 	}
 
+	#taglist {
+		display: grid;
+		gap: 1rem;
+		padding-top: 0.5rem;
+	}
+
 	#userWrapper > :not(:first-child) {
 		margin-top: 2rem;
 	}
@@ -81,6 +94,10 @@
 	@media screen and (min-width: 768px) {
 		#sidebar {
 			max-width: 25%;
+		}
+
+		#taglist {
+			max-width: 600px;
 		}
 	}
 

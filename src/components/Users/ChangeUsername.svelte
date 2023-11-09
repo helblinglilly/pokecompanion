@@ -2,6 +2,7 @@
 	import { pb } from '$lib/pocketbase';
 	import { currentUser } from '$lib/stores/user';
 	import { notifications } from '$lib/stores/notifications';
+	import InlineTextButton from '$components/InlineTextButton.svelte';
 
 	let newUsername: string;
 	let errorMessage: string;
@@ -53,9 +54,19 @@
 </script>
 
 {#if $currentUser}
-	<div style="display: inline-flex; width: 100%;">
-		<div style="display: flex;">
-			<input
+	<!-- <div style="display: inline-flex; width: 100%;"> -->
+
+	<InlineTextButton
+		bind:valueBinding={newUsername}
+		variation="regular"
+		buttonConfig={{ text: 'Update', onClick: onClick, class: 'secondary' }}
+		inputConfig={{
+			placeholder: $currentUser.username,
+			style: 'max-width: 50%;'
+		}}
+		containerStyling="justify-content: center"
+	/>
+	<!-- <input
 				type="text"
 				style="height: 100%; max-width: 140px;"
 				placeholder={$currentUser.username}
@@ -67,9 +78,8 @@
 				type="submit"
 				id="updateUsernameButton"
 				style="height: 100%; min-width: 6em;">Update</button
-			>
-		</div>
-	</div>
+			> -->
+	<!-- </div> -->
 	{#if errorMessage}
 		<p class="error">{errorMessage}</p>
 	{/if}

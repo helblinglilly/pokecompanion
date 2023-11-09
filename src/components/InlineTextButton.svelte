@@ -6,6 +6,7 @@
 		onClick?: () => void;
 	};
 	export let inputConfig: {
+		style?: string | undefined;
 		placeholder?: string | undefined;
 	};
 	export let variation: 'small' | 'regular';
@@ -17,7 +18,7 @@
 	<div style={containerStyling ?? ''}>
 		<input
 			type="text"
-			style="padding: 2rem;"
+			style={`padding: 2rem; ${inputConfig.style}`}
 			bind:value={valueBinding}
 			placeholder={inputConfig.placeholder ?? ''}
 		/>
@@ -29,7 +30,12 @@
 	</div>
 {:else}
 	<div style={containerStyling ?? ''}>
-		<input type="text" bind:value={valueBinding} placeholder={inputConfig.placeholder ?? ''} />
+		<input
+			type="text"
+			style={inputConfig.style}
+			bind:value={valueBinding}
+			placeholder={inputConfig.placeholder ?? ''}
+		/>
 		<button
 			class={`button ${buttonConfig.class ?? ''}`}
 			type={buttonConfig.type ?? 'button'}
