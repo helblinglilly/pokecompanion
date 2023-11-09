@@ -1,5 +1,5 @@
 import { error, warn } from '$lib/log';
-import isStringToxic from '$lib/utils/toxic.js';
+import isStringToxic from '$lib/server/toxic.js';
 import { validateAuth } from '../helpers.js';
 import type { ITagRequestBody, ITagUpdateBody } from '$lib/types/ITags.js';
 

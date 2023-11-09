@@ -1,7 +1,7 @@
-import { isUsernameValid } from '$lib/utils/user-server';
 import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { toSvg } from 'jdenticon';
+import { isUsernameValid } from '$lib/server/user';
 
 export const actions: Actions = {
 	signup: async ({ locals, request }) => {

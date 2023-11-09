@@ -25,14 +25,16 @@
 	$: if ($navigating) refetchData();
 
 	export let data;
-	$: pageData = data;
+	$: pageData = data ?? {};
 
 	const refetchData = async () => {
 		// Effectively handle the unmount state until new data is loaded
 		const newPokemonId = Number($navigating?.to?.params?.slug ?? 1);
-		pageData.pokemon.sprites = emptySprites(newPokemonId);
-		pageData.pokemon.types = [];
-		pageData.pokemon.past_types = [];
+		if (pageData) {
+			pageData.pokemon.sprites = emptySprites(newPokemonId);
+			pageData.pokemon.types = [];
+			pageData.pokemon.past_types = [];
+		}
 
 		getPokemonPageData(newPokemonId)
 			.then((result) => {

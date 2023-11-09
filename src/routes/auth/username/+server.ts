@@ -1,5 +1,5 @@
 import type { SignedInUser } from '$lib/stores/user.js';
-import isStringToxic from '$lib/utils/toxic.js';
+import isStringToxic from '$lib/server/toxic.js';
 import { validateAuth } from '../../api/helpers.js';
 
 export async function PATCH({ request }) {

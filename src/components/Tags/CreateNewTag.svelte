@@ -43,9 +43,10 @@
 	<form>
 		<div id="newTagName">
 			<InlineTextButton
+				bind:valueBinding={newListName}
 				variation="small"
 				buttonConfig={{ text: 'Create', onClick: createNewTag }}
-				inputConfig={{ valueBind: newListName, placeholder: 'Tag name' }}
+				inputConfig={{ placeholder: 'Tag name' }}
 				containerStyling="width: 70%;"
 			/>
 		</div>

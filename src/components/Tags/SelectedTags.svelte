@@ -21,10 +21,8 @@
 		});
 	});
 
-	let isMountedSuccessfully = false;
 	onMount(async () => {
 		await refetchAllTags();
-		isMountedSuccessfully = true;
 	});
 
 	const refetchAllTags = async () => {
