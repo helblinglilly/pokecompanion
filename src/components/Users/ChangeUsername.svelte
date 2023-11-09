@@ -54,8 +54,6 @@
 </script>
 
 {#if $currentUser}
-	<!-- <div style="display: inline-flex; width: 100%;"> -->
-
 	<InlineTextButton
 		bind:valueBinding={newUsername}
 		variation="regular"
@@ -66,20 +64,6 @@
 		}}
 		containerStyling="justify-content: center"
 	/>
-	<!-- <input
-				type="text"
-				style="height: 100%; max-width: 140px;"
-				placeholder={$currentUser.username}
-				bind:value={newUsername}
-			/>
-			<button
-				class="button secondary"
-				on:click={onClick}
-				type="submit"
-				id="updateUsernameButton"
-				style="height: 100%; min-width: 6em;">Update</button
-			> -->
-	<!-- </div> -->
 	{#if errorMessage}
 		<p class="error">{errorMessage}</p>
 	{/if}

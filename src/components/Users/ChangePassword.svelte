@@ -12,9 +12,9 @@
 <div style="display: grid; gap: 1rem; max-width: 400px;">
 	<h3>Change password</h3>
 
-	<input type="text" placeholder="New password" bind:value={newPassword} />
+	<input type="password" placeholder="New password" bind:value={newPassword} />
 
-	<input type="text" placeholder="Confirm password" bind:value={confirmNewPassword} />
+	<input type="password" placeholder="Confirm password" bind:value={confirmNewPassword} />
 
 	<button
 		class="button secondary"

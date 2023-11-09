@@ -135,6 +135,7 @@ button:disabled {
 	font-style: italic;
 	cursor: not-allowed;
 	background-color: var(--primary);
+	/* background-color: #e2dddd; */
 	color: var(--accent);
 }
 
@@ -143,6 +144,11 @@ button.button.secondary {
 	color: var(--text);
 	padding: 1rem;
 	border-radius: 10px;
+}
+
+button.secondary:disabled {
+	background-color: #8c7878;
+	color: var(--light);
 }
 
 button.button.secondary:hover {
