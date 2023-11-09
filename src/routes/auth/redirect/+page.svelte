@@ -49,9 +49,20 @@
 
 				await pb.collection('users').update(authData.record.id, { avatar: svgImage });
 			}
+
+			const redirectUrl = getCookie('auth-redirect');
+
+			if (redirectUrl) {
+				goto(redirectUrl);
+				deleteCookie('auth-redirect');
+				return;
+			}
+
 			if ($currentUser) {
 				goto(`/user/${$currentUser.username}`);
+				return;
 			}
+			goto(`/signin`);
 		} catch (err) {
 			console.error(err);
 			status = 'Sign in failed';

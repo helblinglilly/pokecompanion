@@ -8,6 +8,7 @@
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import type { PageData } from './$types';
 	import SearchBar from '$components/Search/SearchBar.svelte';
+	import { setCookie } from '$lib/utils/cookies';
 
 	let isMobileMenuExpanded = false;
 
@@ -142,7 +143,10 @@
 		<a
 			href={`${$currentUser ? `/user/${$currentUser.username}` : '/auth/signin'}`}
 			class="navbar__button hidden--mobile"
-			on:click={toggleMobileNavExtended}
+			on:click={() => {
+				toggleMobileNavExtended();
+				setCookie('auth-redirect', $page.url.pathname);
+			}}
 		>
 			<button>{$currentUser ? `Me - ${$currentUser.username}` : 'Sign In'}</button>
 		</a>
