@@ -6,6 +6,7 @@ export interface SignedInUser {
 	email: string;
 	name: string;
 	avatar: string | undefined;
+	verified: boolean;
 }
 
 export const currentUser = writable<SignedInUser | null>();

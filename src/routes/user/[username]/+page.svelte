@@ -6,6 +6,7 @@
 	import ReportUser from '$components/Users/ReportUser.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$components/Icon.svelte';
+	import EmailVerification from '$components/Auth/EmailVerification.svelte';
 
 	export let data;
 </script>
@@ -63,10 +64,17 @@
 		<div class="card" style="justify-content: center;">
 			<div class="columns">
 				<div class="column">
+					<h3>Change password</h3>
 					<ChangePassword />
 				</div>
+
 				<div class="column">
-					<h3 style="padding-bottom: 1rem;">Danger Zone</h3>
+					<h3>Email verification</h3>
+					<EmailVerification />
+				</div>
+
+				<div class="column">
+					<h2>Danger Zone</h2>
 					<DeleteUser user={$currentUser} />
 				</div>
 			</div>

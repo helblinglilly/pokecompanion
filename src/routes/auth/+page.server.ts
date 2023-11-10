@@ -36,6 +36,12 @@ export const actions: Actions = {
 			console.error(e);
 			throw e;
 		}
+
+		try {
+			await locals.pb.collection('users').requestVerification(data.email);
+		} catch (e) {
+			console.error('Failed to request Email verification', e);
+		}
 	},
 
 	login: async ({ locals, request }) => {
@@ -48,6 +54,7 @@ export const actions: Actions = {
 			await locals.pb.collection('users').authWithPassword(data.email, data.password);
 		} catch (e) {
 			console.error(e);
+
 			throw e;
 		}
 	}

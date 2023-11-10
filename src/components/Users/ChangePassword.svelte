@@ -10,8 +10,6 @@
 </script>
 
 <div style="display: grid; gap: 1rem; max-width: 400px;">
-	<h3>Change password</h3>
-
 	<input type="password" placeholder="New password" bind:value={newPassword} />
 
 	<input type="password" placeholder="Confirm password" bind:value={confirmNewPassword} />

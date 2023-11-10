@@ -3,6 +3,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import { notifications } from '$lib/stores/notifications';
 	import InlineTextButton from '$components/InlineTextButton.svelte';
+	import { goto } from '$app/navigation';
 
 	let newUsername: string;
 	let errorMessage: string;
@@ -24,8 +25,6 @@
 		}
 
 		try {
-			statusMessage = 'Loading...';
-
 			const repsonse = await fetch('/auth/username', {
 				method: 'PATCH',
 				headers: {
@@ -45,6 +44,7 @@
 			}
 			$currentUser.username = newUsername;
 			errorMessage = '';
+			goto(`/user/${newUsername}`);
 		} catch (error) {
 			errorMessage = "Couldn't update username";
 		} finally {
