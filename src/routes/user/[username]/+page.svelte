@@ -72,7 +72,9 @@
 					<h3>Email verification</h3>
 					<EmailVerification />
 				</div>
+			</div>
 
+			<div class="columns">
 				<div class="column">
 					<h2>Danger Zone</h2>
 					<DeleteUser user={$currentUser} />
