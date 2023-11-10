@@ -30,11 +30,15 @@
 	const refetchData = async () => {
 		// Effectively handle the unmount state until new data is loaded
 		const newPokemonId = Number($navigating?.to?.params?.slug ?? 1);
-		if (pageData) {
-			pageData.pokemon.sprites = emptySprites(newPokemonId);
-			pageData.pokemon.types = [];
-			pageData.pokemon.past_types = [];
-		}
+		pageData = {
+			...pageData,
+			pokemon: {
+				...pageData.pokemon,
+				sprites: emptySprites(newPokemonId),
+				types: [],
+				past_types: []
+			}
+		};
 
 		getPokemonPageData(newPokemonId)
 			.then((result) => {
