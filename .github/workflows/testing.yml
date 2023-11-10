@@ -22,11 +22,14 @@ jobs:
       - name: Run Playwright tests
         run: npm run test:integration
         env:
-          PUBLIC_HOST_URL: 'http://localhost:5173'
-          PUBLIC_POCKETBASE_URL: 'http://mock.pocketbase.com'
+          PUBLIC_SENTRY_DSN: ''
           SENTRY_AUTH: ''
+          SENTRY_AUTH_TOKEN: ''
           SENTRY_ORG: ''
           SENTRY_PROJECT: ''
+          PUBLIC_POCKETBASE_URL: 'http://mock.pocketbase.com'
+          PUBLIC_HOST_URL: 'http://localhost:5173'
+          PERSPECTIVES_API_KEY: ''
       - uses: actions/upload-artifact@v3
         if: always()
         with:
