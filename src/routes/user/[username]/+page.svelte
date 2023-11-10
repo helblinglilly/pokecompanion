@@ -71,11 +71,9 @@
 				<div class="column">
 					<h3>Email verification</h3>
 					<EmailVerification />
-				</div>
-			</div>
 
-			<div class="columns">
-				<div class="column">
+					<hr />
+
 					<h2>Danger Zone</h2>
 					<DeleteUser user={$currentUser} />
 				</div>
@@ -88,7 +86,7 @@
 	#sidebar {
 		display: grid;
 		justify-content: center;
-		min-width: max-content;
+		/* min-width: max-content; */
 	}
 
 	#taglist {

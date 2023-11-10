@@ -112,6 +112,13 @@ body {
 	background-color: var(--bg-primary);
 }
 
+hr {
+	background-color: var(--primary);
+	height: 0.2rem;
+	margin-top: 0.2rem;
+	margin-bottom: 0.2rem;
+}
+
 #pageWrapper {
 	min-height: 40vh;
 }
