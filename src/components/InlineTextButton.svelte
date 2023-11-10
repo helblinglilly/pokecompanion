@@ -14,37 +14,22 @@
 	export let valueBinding: string;
 </script>
 
-{#if variation === 'regular'}
-	<div style={containerStyling ?? ''}>
-		<input
-			type="text"
-			style={`padding: 2rem; ${inputConfig.style}`}
-			bind:value={valueBinding}
-			placeholder={inputConfig.placeholder ?? ''}
-		/>
-		<button
-			class={`button ${buttonConfig.class ?? ''}`}
-			type={buttonConfig.type ?? 'button'}
-			on:click={buttonConfig.onClick}>{buttonConfig.text}</button
-		>
-	</div>
-{:else}
-	<div style={containerStyling ?? ''}>
-		<input
-			type="text"
-			style={inputConfig.style}
-			bind:value={valueBinding}
-			placeholder={inputConfig.placeholder ?? ''}
-		/>
-		<button
-			class={`button ${buttonConfig.class ?? ''}`}
-			type={buttonConfig.type ?? 'button'}
-			style="padding: 5px;"
-			on:click={buttonConfig.onClick}
-			>{buttonConfig.text}
-		</button>
-	</div>
-{/if}
+<div style={containerStyling ?? ''}>
+	<input
+		type="text"
+		style={`${variation === 'regular' ? 'padding: 2rem;' : ''} ${inputConfig.style}`}
+		bind:value={valueBinding}
+		placeholder={inputConfig.placeholder ?? ''}
+	/>
+	<button
+		class={`button ${buttonConfig.class ?? ''}`}
+		type={buttonConfig.type ?? 'button'}
+		style={`${
+			variation === 'small' ? 'padding: 5px;' : ''
+		} border-top-left-radius: 0; border-bottom-left-radius: 0;`}
+		on:click={buttonConfig.onClick}>{buttonConfig.text}</button
+	>
+</div>
 
 <style>
 	div {
@@ -55,10 +40,5 @@
 		width: 100%;
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
-	}
-	button {
-		min-width: fit-content;
-		border-top-left-radius: 0;
-		border-bottom-left-radius: 0;
 	}
 </style>

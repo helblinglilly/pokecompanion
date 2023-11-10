@@ -106,7 +106,16 @@
 	<div id="wrapper">
 		<div class="columns inputGroup">
 			<label for="email">Email</label>
-			<input type="email" id="email" bind:value={email} />
+			<input
+				type="email"
+				id="email"
+				bind:value={email}
+				on:change={() => {
+					if (!email) {
+						emailError = '';
+					}
+				}}
+			/>
 			<p>{emailError}&nbsp;</p>
 		</div>
 		<div class="columns inputGroup" style="margin-top: 12px;">
@@ -129,7 +138,16 @@
 			style={`margin-top: 12px;${mode === 'login' ? 'display: none;' : ''}`}
 		>
 			<label for="username">Username <i>(Optional)</i></label>
-			<input type="text" id="username" bind:value={username} />
+			<input
+				type="text"
+				id="username"
+				bind:value={username}
+				on:change={() => {
+					if (!username) {
+						usernameError = '';
+					}
+				}}
+			/>
 			<p>{usernameError}&nbsp;</p>
 		</div>
 
@@ -161,6 +179,7 @@
 				>
 			</div>
 		</div>
+		<a href="/auth/reset-password">I forgot my password</a>
 	</div>
 </form>
 
