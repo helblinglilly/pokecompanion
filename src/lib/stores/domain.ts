@@ -1,14 +1,20 @@
 import { writable } from 'svelte/store';
-import { getCookie, setCookie } from './utils/cookies';
-import type { Languages } from './utils/language';
+import { getCookie, setCookie } from '../utils/cookies';
+import type { Languages } from '../utils/language';
 import PokemonNames from '$lib/data/pokemonNames.json';
+import { PUBLIC_HOST_URL } from '$env/static/public';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<string | undefined>();
 export const primaryLanguage = writable<keyof Languages>('en');
 export const secondaryLanguage = writable<keyof Languages | undefined>();
+export const versionSpecificSprites = writable<boolean>(true);
+export const animateSprites = writable<boolean>(true);
 export const pokeApiDomain = 'https://pokeapi.co/api/v2';
 export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
+export const oAuthRedirectUrl = `${PUBLIC_HOST_URL ?? 'http://localhost:5173'}/auth/redirect`;
+export const maxSearchResults = 15;
+export const pokemonPageSize = 50;
 
 // TODO - Test this
 export const cookieHandlers = {
@@ -70,6 +76,32 @@ export const cookieHandlers = {
 			if (!existing || value !== existing) {
 				setCookie('secondaryLanguage', value);
 			}
+		});
+	},
+	versionSpecificSprites: () => {
+		let existingValue = getCookie('versionSpecificSprites') as boolean | undefined;
+		if (existingValue === undefined || null) {
+			existingValue = true;
+			setCookie('versionSpecificSprites', existingValue.toString());
+		}
+
+		versionSpecificSprites.set(existingValue);
+
+		versionSpecificSprites.subscribe((value) => {
+			setCookie('versionSpecificSprites', value.toString());
+		});
+	},
+	animateSprites: () => {
+		let existingValue = getCookie('animateSprites') as boolean | undefined;
+		if (existingValue === undefined || null) {
+			existingValue = true;
+			setCookie('animateSprites', existingValue.toString());
+		}
+
+		animateSprites.set(existingValue);
+
+		animateSprites.subscribe((value) => {
+			setCookie('animateSprites', value.toString());
 		});
 	}
 };

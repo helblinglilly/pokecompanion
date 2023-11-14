@@ -1,6 +1,7 @@
-interface IGeneration {
+export interface IGeneration {
 	name: string;
 	short: string;
+	pokeApiName: string;
 	nationalDexEnd: number;
 }
 
@@ -8,51 +9,60 @@ export const Generations: IGeneration[] = [
 	{
 		name: 'Generation 1',
 		short: 'Gen 1',
+		pokeApiName: 'generation-i',
 		nationalDexEnd: 151
 	},
 	{
 		name: 'Generation 2',
 		short: 'Gen 2',
+		pokeApiName: 'generation-ii',
 		nationalDexEnd: 251
 	},
 	{
 		name: 'Generation 3',
 		short: 'Gen 3',
+		pokeApiName: 'generation-iii',
 		nationalDexEnd: 386
 	},
 	{
 		name: 'Generation 4',
 		short: 'Gen 4',
+		pokeApiName: 'generation-iv',
 		nationalDexEnd: 493
 	},
 	{
 		name: 'Generation 5',
 		short: 'Gen 5',
+		pokeApiName: 'generation-v',
 		nationalDexEnd: 649
 	},
 	{
 		name: 'Generation 6',
 		short: 'Gen 6',
+		pokeApiName: 'generation-vi',
 		nationalDexEnd: 721
 	},
 	{
 		name: 'Generation 7',
 		short: 'Gen 7',
+		pokeApiName: 'generation-vii',
 		nationalDexEnd: 809
 	},
 	{
 		name: 'Generation 8',
 		short: 'Gen 8',
+		pokeApiName: 'generation-viii',
 		nationalDexEnd: 905
 	},
 	{
 		name: 'Generation 9',
 		short: 'Gen 9',
-		nationalDexEnd: 1010
+		pokeApiName: 'generation-ix',
+		nationalDexEnd: 1017
 	}
 ];
 
-enum Regions {
+export enum Regions {
 	KANTO = 'Kanto',
 	JOHTO = 'Johto',
 	HOENN = 'Hoenn',
@@ -74,6 +84,29 @@ enum Consoles {
 	N3DS = 'Nintendo 3DS',
 	SW = 'Nintendo Switch'
 }
+
+export const isPokemonInGame = (nationalDexId: number, game: IGame | string) => {
+	let definiteGame: IGame | undefined;
+
+	if (typeof game === 'string') {
+		const foundGame = findGameGroupFromCookieString(game.toString());
+		if (!foundGame || foundGame.length < 1) {
+			return false;
+		}
+		definiteGame = foundGame[0];
+	} else {
+		definiteGame = game as IGame;
+	}
+
+	if (!definiteGame) {
+		return false;
+	}
+
+	if (nationalDexId > definiteGame.generation.nationalDexEnd) {
+		return false;
+	}
+	return true;
+};
 
 export interface IGame {
 	name: string;
@@ -201,6 +234,33 @@ const game = {
 		console: Consoles.GBA,
 		generation: Generations[2]
 	},
+	// These 2 are inaccurate
+	firered: {
+		name: 'Pokémon Fire Red Version',
+		shortName: 'Firered',
+		releaseDates: {
+			JP: '2002-11-21',
+			NA: '2003-03-19',
+			AU: '2003-04-02',
+			EU: '2003-07-25'
+		},
+		region: Regions.KANTO,
+		console: Consoles.GBA,
+		generation: Generations[2]
+	},
+	leafgreen: {
+		name: 'Pokémon Leaf Green Version',
+		shortName: 'Leafgreen',
+		releaseDates: {
+			JP: '2004-19-16',
+			NA: '2005-05-01',
+			AU: '2005-06-09',
+			EU: '2005-10-21'
+		},
+		region: Regions.KANTO,
+		console: Consoles.GBA,
+		generation: Generations[2]
+	},
 	diamond: {
 		name: 'Pokémon Diamond Version',
 		shortName: 'Diamond',
@@ -244,7 +304,7 @@ const game = {
 	},
 	heartGold: {
 		name: 'Pokémon Heart Gold Version',
-		shortName: 'Heart Gold',
+		shortName: 'HeartGold',
 		releaseDates: {
 			JP: '2009-09-12',
 			NA: '2010-03-14',
@@ -257,7 +317,7 @@ const game = {
 	},
 	soulSilver: {
 		name: 'Pokémon Soul Silver Version',
-		shortName: 'Soul Silver',
+		shortName: 'SoulSilver',
 		releaseDates: {
 			JP: '2009-09-12',
 			NA: '2010-03-14',
@@ -497,10 +557,14 @@ const game = {
 };
 
 const gameGroups: IGame[][] = [
-	[{ ...game.red }, { ...game.blue }, { ...game.yellow }],
-	[{ ...game.gold }, { ...game.silver }, { ...game.crystal }],
-	[{ ...game.ruby }, { ...game.sapphire }, { ...game.emerald }],
-	[{ ...game.diamond }, { ...game.pearl }, { ...game.platinum }],
+	[{ ...game.red }, { ...game.blue }],
+	[{ ...game.yellow }],
+	[{ ...game.gold }, { ...game.silver }],
+	[{ ...game.crystal }],
+	[{ ...game.ruby }, { ...game.sapphire }],
+	[{ ...game.emerald }],
+	[{ ...game.diamond }, { ...game.pearl }],
+	[{ ...game.platinum }],
 	[{ ...game.heartGold }, { ...game.soulSilver }],
 	[{ ...game.black }, { ...game.white }],
 	[{ ...game.black2 }, { ...game.white2 }],
@@ -522,6 +586,7 @@ const gameGroups: IGame[][] = [
  * @param lowercase Optional flag to turn all game names lowercase before joining
  * @param removeSpaces Optional flag to remove all spaces from game names before joining
  * @param alphanumericOnly Optional flag to remove all special characters from game names before joining
+ * * @param replaceSpacesWith Optional entry, only works with replace spaces - the character that should be used to replace spaces with
  * @returns single string
  */
 const getGroupName = (
@@ -529,14 +594,15 @@ const getGroupName = (
 	joinCharacter: string,
 	lowercase?: boolean,
 	removeSpaces?: boolean,
-	alphanumericOnly?: boolean
+	alphanumericOnly?: boolean,
+	replaceSpacesWith?: string
 ) => {
 	let output = input
 		.map((game) => {
 			let newName = game.shortName;
 
 			if (removeSpaces) {
-				newName = game.shortName.replaceAll(' ', '');
+				newName = game.shortName.replaceAll(' ', replaceSpacesWith ?? '');
 			}
 
 			if (alphanumericOnly) {
@@ -551,6 +617,21 @@ const getGroupName = (
 		output = output.toLowerCase();
 	}
 	return output;
+};
+
+export const findGameGroupFromCookieString = (versionGroupName: string | undefined) => {
+	if (!versionGroupName) {
+		return [];
+	}
+	return gameGroups.find((group) => {
+		return getGroupName(group, '-', true, true, true) === versionGroupName;
+	});
+};
+
+export const findGameFromAPIGameName = (versionName: string) => {
+	return Object.values(game).find((value) => {
+		return getGroupName([value], '-', true, true, false, '-').replaceAll("'", '') === versionName;
+	});
 };
 
 export const getPokemonGeneration = (id: number) => {
@@ -570,7 +651,7 @@ export const getPokemonGeneration = (id: number) => {
 		return 7;
 	} else if (id > 809 && id <= 905) {
 		return 8;
-	} else if (id > 905 && id <= 1010) {
+	} else if (id > 905 && id <= 1017) {
 		return 9;
 	} else {
 		return 10;

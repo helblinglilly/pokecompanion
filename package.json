@@ -48,6 +48,9 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sentry/sveltekit": "^7.65.0"
+		"@sentry/sveltekit": "^7.65.0",
+		"jdenticon": "^3.2.0",
+		"mysql2": "^3.6.1",
+		"pocketbase": "^0.18.2"
 	}
 }

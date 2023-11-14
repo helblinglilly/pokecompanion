@@ -1,11 +1,22 @@
-import { handleErrorWithSentry, Replay } from '@sentry/sveltekit';
+import { Replay } from '@sentry/sveltekit';
 import * as Sentry from '@sentry/sveltekit';
+import { PUBLIC_SENTRY_DSN } from '$env/static/public';
+
+import { pb } from '$lib/pocketbase';
+import { currentUser } from '$lib/stores/user';
 import type { HandleClientError } from '@sveltejs/kit';
-import { SENTRY_DSN } from '$env/static/private';
+
+pb.authStore.loadFromCookie(document.cookie);
+pb.authStore.onChange(() => {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	currentUser.set(pb.authStore.model);
+	document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
+}, true);
 
 try {
 	Sentry.init({
-		dsn: SENTRY_DSN,
+		dsn: PUBLIC_SENTRY_DSN,
 		tracesSampleRate: 1.0,
 
 		// This sets the sample rate to be 10%. You may want this to be 100% while
@@ -23,14 +34,21 @@ try {
 	console.log('failed to initiate sentry');
 }
 
-const customErrorHandler: HandleClientError = () => {
+export const handleError: HandleClientError = async ({ error, event }) => {
+	const errorId = crypto.randomUUID();
+	Sentry.captureException(error, { extra: { event, errorId } });
+
 	if (!navigator.onLine) {
 		return {
 			message: 'You are offline',
-			errorId: 'Offline'
+			errorId: 'Offline',
+			status: 523
 		};
 	}
-};
 
-// If you have a custom error handler, pass it to `handleErrorWithSentry`
-export const handleError = handleErrorWithSentry(customErrorHandler);
+	return {
+		message: 'A client side error occurred',
+		status: 400,
+		errorId
+	};
+};

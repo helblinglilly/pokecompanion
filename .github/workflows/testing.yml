@@ -1,0 +1,49 @@
+name: End to End Tests
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+jobs:
+  e2e:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_SENTRY_DSN: ''
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npm run test:integration
+        env:
+          PUBLIC_SENTRY_DSN: ''
+          SENTRY_AUTH: ''
+          SENTRY_AUTH_TOKEN: ''
+          SENTRY_ORG: ''
+          SENTRY_PROJECT: ''
+          PUBLIC_POCKETBASE_URL: 'http://mock.pocketbase.com'
+          PUBLIC_HOST_URL: 'http://localhost:5173'
+          PERSPECTIVES_API_KEY: ''
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install
+      - name: Run vitest
+        run: npm run test:unit

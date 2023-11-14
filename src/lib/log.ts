@@ -1,6 +1,17 @@
+import * as Sentry from '@sentry/sveltekit';
+
 const error = (message: string, errorId: string, status?: string, details?: string) => {
 	const timestamp = new Date().toISOString();
 	const level = 'ERROR';
+
+	Sentry.captureMessage(message, {
+		level: 'error',
+		extra: {
+			errorId,
+			status,
+			details
+		}
+	});
 
 	if (!status) status = '';
 	if (!details) details = '';
@@ -15,11 +26,16 @@ const info = (message: string) => {
 	console.info(timestamp, level, message);
 };
 
-const warn = (message: string) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const warn = (message: string, extra: any) => {
 	const timestamp = new Date().toISOString();
 	const level = 'WARN';
 
-	console.info(timestamp, level, message);
+	Sentry.captureMessage(message, {
+		level: 'warning',
+		extra
+	});
+	console.warn(timestamp, level, message);
 };
 
 export { error, info, warn };

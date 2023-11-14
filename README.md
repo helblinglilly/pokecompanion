@@ -36,3 +36,10 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+---
+
+## New Pokémon have been released
+
+1. Update `./src/build/scrapers/pokemon.js` to correctly allocate the new Pokedex IDs to a generation
+2. Run `npm run scrape:pokemon` to update the source data

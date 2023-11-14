@@ -2,10 +2,19 @@
 	import '../app.css';
 
 	import { onMount } from 'svelte';
-	import { cookieHandlers, theme } from '$lib/domain';
+	import { cookieHandlers, theme } from '$lib/stores/domain';
 	import { page } from '$app/stores';
+	import { notifications } from '$lib/stores/notifications';
+	import { currentUser, type SignedInUser } from '$lib/stores/user';
+	import type { PageData } from './$types';
+	import SearchBar from '$components/Search/SearchBar.svelte';
+	import { setCookie } from '$lib/utils/cookies';
 
 	let isMobileMenuExpanded = false;
+
+	export let data: PageData;
+
+	$: currentUser.set(data.user as SignedInUser);
 
 	const toggleMobileNavExtended = () => {
 		const navButtons = document.querySelectorAll('.navbar__button');
@@ -53,17 +62,37 @@
 		}
 	};
 
+	const fixImages = () => {
+		// Replace all failed images with placeholder
+		const images = document.querySelectorAll('img');
+		images.forEach((image) => {
+			if (!image.src) {
+				image.src = '/placeholder.png';
+			}
+			image.addEventListener('error', () => {
+				if (image.src !== '/placeholder.png') {
+					image.srcset = '/placeholder.png';
+				}
+			});
+		});
+	};
+
 	onMount(() => {
 		initTheme();
 		// Initialise all cookies
 		for (const value of Object.values(cookieHandlers)) {
 			value();
 		}
+		fixImages();
 	});
+
+	const noBreadcrumbs = ['auth', 'user'];
 
 	$: breadcrumbs = $page.url.pathname
 		.split('/')
+		.filter((a) => !noBreadcrumbs.includes(a))
 		.filter((a) => a)
+		.filter((a, b, arr) => arr.length > 1)
 		.map((part, i, arr) => {
 			let displayEntry = '';
 			if (i > 1) {
@@ -72,23 +101,25 @@
 			displayEntry += part[0].toUpperCase() + part.slice(1);
 
 			const urlSegments = arr.slice(0, i + 1);
-			const url = '/' + urlSegments.join('/');
+			let url = '/' + urlSegments.join('/');
+
+			if (displayEntry === 'Pokemon') {
+				url += `?jumpTo=${arr[i + 1]}`;
+			}
 			return {
 				display: displayEntry,
 				url: url
 			};
 		});
+	$: shouldDisplaySearch = !$page.url.pathname.includes('/auth/');
 </script>
 
 <nav id="navbar" class="h-12">
 	<a href="/" id="navbar__branding__link">
-		<img
-			src="https://pokemon.helbling.uk/static/favicon.png"
-			alt="icon"
-			height="auto"
-			style="width: 30px;"
-		/>
-		<button data-testid="navbarBrandingTitle">Pokécompanion</button>
+		<button data-testid="navbarBrandingTitle">
+			<img src="/favicon.png" alt="icon" height="auto" style="width: 30px;" />
+			Pokécompanion
+		</button>
 	</a>
 
 	<div class="navbar__links">
@@ -109,6 +140,27 @@
 			<button>Settings</button>
 		</a>
 
+		<a
+			href={`${$currentUser ? `/user/${$currentUser.username}` : '/auth/signin'}`}
+			class="navbar__button hidden--mobile"
+			on:click={() => {
+				toggleMobileNavExtended();
+				setCookie('auth-redirect', $page.url.pathname);
+			}}
+		>
+			<button>{$currentUser ? `Me - ${$currentUser.username}` : 'Sign In'}</button>
+		</a>
+
+		{#if $currentUser}
+			<a
+				href="/auth/logout"
+				class="navbar__button hidden--mobile"
+				on:click={toggleMobileNavExtended}
+			>
+				<button>Sign out</button>
+			</a>
+		{/if}
+
 		<button
 			class="navbar__button hidden--mobile"
 			on:click={toggleMobileNavExtended}
@@ -124,23 +176,129 @@
 </nav>
 
 <div id="pageWrapper">
-	{#if breadcrumbs.length > 1 && $page.status === 200}
-		<div style="display: inline-flex; margin-bottom: 2rem;">
-			{#each breadcrumbs as crumb}
-				{#if breadcrumbs.indexOf(crumb) < breadcrumbs.length - 1}
-					<a href={crumb.url}>{crumb.display}</a>
-					<p style="margin-left: 5px; margin-right: 5px;">/</p>
-				{:else}
-					<p>{crumb.display}</p>
-				{/if}
+	{#if $notifications.filter((a) => a.visible).length > 0}
+		<div class="columns">
+			{#each $notifications as notification}
+				<button
+					class={`column ${notification.level}`}
+					on:click={() => {
+						notification.visible = false;
+					}}
+				>
+					{notification.message}
+				</button>
 			{/each}
 		</div>
 	{/if}
 
+	{#if shouldDisplaySearch}
+		<SearchBar />
+		{#if breadcrumbs.length > 0 && $page.status === 200}
+			<div style="display: inline-flex; margin-bottom: 2rem;">
+				{#each breadcrumbs as crumb}
+					{#if breadcrumbs.indexOf(crumb) < breadcrumbs.length - 1}
+						<a href={crumb.url}>{crumb.display}</a>
+						<p style="margin-left: 5px; margin-right: 5px;">/</p>
+					{:else}
+						<p>{crumb.display}</p>
+					{/if}
+				{/each}
+			</div>
+		{/if}
+	{/if}
 	<slot />
 </div>
 
+<footer id="pageFooter">
+	<p>Powered by <a href="https://pokeapi.co">PokéAPI</a></p>
+	<p>
+		Built at <a href="https://github.com/helblingjoel/pokecompanion"
+			>github.com/helblingjoel/pokecompanion</a
+		>
+	</p>
+	<p>Pokémon and Pokémon character names are trademarks of Nintendo.</p>
+	<p>This site is not associated with Nintendo, Gamefreak, The Pokémon Company or PokéAPI</p>
+</footer>
+
 <style>
+	#navbar {
+		display: flex;
+		background-color: var(--branding-secondary);
+	}
+
+	#navbar__hamburger {
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		justify-self: end;
+		width: 30px;
+		height: 3rem;
+		padding-top: 12px;
+		padding-bottom: 12px;
+		margin-right: 12px;
+		justify-content: center;
+	}
+
+	.navbar__hamburger__bar {
+		color: var(--light);
+		background-color: var(--light);
+		height: 3px;
+		width: 100%;
+		transition: background-color 0.3s ease-in-out;
+	}
+
+	.navbar__links {
+		z-index: 1;
+		flex-direction: column;
+		background-color: var(--branding-secondary);
+		height: fit-content;
+		width: 100%;
+		justify-content: flex-end;
+		display: flex;
+		padding-right: 1rem;
+	}
+
+	.navbar__button {
+		height: 100%;
+		padding-left: 1rem;
+		padding-right: 1rem;
+		color: var(--light);
+		background-color: var(--branding-secondary);
+	}
+
+	.navbar__button:hover,
+	button:hover,
+	#navbar__branding__link:hover {
+		background-color: var(--dark);
+		color: var(--light);
+	}
+
+	.navbar__button > button {
+		width: 100%;
+		height: 100%;
+		color: var(--light);
+	}
+
+	.navbar__button > button {
+		color: var(--light);
+	}
+
+	#navbar__branding__link {
+		display: inline-flex;
+		width: min-content;
+		text-decoration-line: none;
+		padding: 10px;
+	}
+
+	#navbar__branding__link > button {
+		width: max-content;
+		display: inline-flex;
+		color: var(--light);
+	}
+
 	/* Mobile only */
 	@media screen and (max-width: 768px) {
 		div.navbar__links > .navbar__button {

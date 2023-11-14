@@ -1,6 +1,11 @@
 <script lang="ts">
-	import GameSelector from '../../components/GameSelector.svelte';
-	import { primaryLanguage, secondaryLanguage, theme } from '$lib/domain';
+	import GameSelector from '$components/GameSelector.svelte';
+	import {
+		animateSprites,
+		primaryLanguage,
+		secondaryLanguage,
+		versionSpecificSprites
+	} from '$lib/stores/domain';
 	import type { Languages } from '$lib/utils/language';
 
 	const languages = [
@@ -50,9 +55,9 @@
 	};
 </script>
 
-<h1 style="margin-bottom: 20px;">Settings</h1>
-
 <main>
+	<h1 style="margin-bottom: 20px;">Settings</h1>
+
 	<div class="columns">
 		<div class="column">
 			<div class="card">
@@ -62,19 +67,42 @@
 
 		<div class="column">
 			<div class="card">
-				<label for="theme"><h3>Theme</h3></label>
-				<select bind:value={$theme} name="theme" id="themeSelector">
-					<option value="dark">Dark</option>
-					<option value="light">Light</option></select
-				>
+				<h3>Sprites</h3>
+				<div class="input-group">
+					<input
+						on:change={() => {
+							animateSprites.set(!$animateSprites);
+						}}
+						checked={$animateSprites}
+						type="checkbox"
+						id="animateSpritesInput"
+						name="animateSprites"
+						style="margin-right: 10px;"
+					/>
+					<label for="animateSpritesInput">Animate sprites where possible</label>
+				</div>
+				<div class="input-group">
+					<input
+						on:change={() => {
+							versionSpecificSprites.set(!$versionSpecificSprites);
+						}}
+						checked={$versionSpecificSprites}
+						type="checkbox"
+						id="gameSpecificSpritesInput"
+						name="gameSpecificSprites"
+						style="margin-right: 10px;"
+					/>
+					<label for="gameSpecificSpritesInput">Show game specific sprites when possible</label>
+				</div>
 			</div>
 		</div>
 	</div>
 
+	<h2>Language</h2>
 	<div class="columns">
 		<div class="column">
 			<div class="card">
-				<label for="language"><h3>Language</h3></label>
+				<label for="primaryLanguageSelector"><h3>Primary Language</h3></label>
 				<select
 					bind:value={$primaryLanguage}
 					on:change={(event) => {
@@ -107,7 +135,7 @@
 
 		<div class="column">
 			<div class="card">
-				<label for="secondaryLanguage"><h3>Secondary Language</h3></label>
+				<label for="secondaryLanguageSelector"><h3>Secondary Language</h3></label>
 				<select
 					bind:value={$secondaryLanguage}
 					name="secondaryLanguage"
@@ -137,3 +165,18 @@
 		</div>
 	</div>
 </main>
+
+<style>
+	.input-group {
+		display: flex;
+		margin-bottom: 10px;
+		align-items: baseline;
+	}
+
+	/* Issue where the label doesn't wrap :( */
+	@media screen and (max-width: 500px) {
+		.input-group {
+			max-width: 250px;
+		}
+	}
+</style>

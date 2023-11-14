@@ -1,8 +1,31 @@
-import { getPokemonGeneration } from '$lib/data/games';
 import fs from 'fs';
 import fetch from 'node-fetch';
 
 const outputLocation = './src/lib/data/pokemonNames.json';
+
+const getPokemonGeneration = (id) => {
+	if (id <= 151) {
+		return 1;
+	} else if (id > 151 && id <= 252) {
+		return 2;
+	} else if (id > 252 && id <= 386) {
+		return 3;
+	} else if (id > 386 && id <= 493) {
+		return 4;
+	} else if (id > 492 && id <= 649) {
+		return 5;
+	} else if (id > 649 && id <= 721) {
+		return 6;
+	} else if (id > 721 && id <= 809) {
+		return 7;
+	} else if (id > 809 && id <= 905) {
+		return 8;
+	} else if (id > 905 && id <= 1017) {
+		return 9;
+	} else {
+		return 10;
+	}
+};
 
 const getMaxAmount = async () => {
 	try {

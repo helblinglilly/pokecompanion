@@ -4,6 +4,11 @@
 
 :root {
 	--branding-secondary: #3d3938;
+	--highlight: #3a48b4;
+	--success: #128a14;
+	--warning: #f0a54a;
+	--error: #dd4141;
+	--error-bg: #a8414d;
 
 	--dark: #313131;
 	--dark_secondary: rgb(43, 43, 43);
@@ -66,6 +71,7 @@ h4,
 h5,
 i,
 b,
+button,
 a {
 	color: var(--text);
 }
@@ -80,93 +86,83 @@ a.no-style {
 
 h1 {
 	font-size: xx-large;
+	padding-bottom: 1rem;
 }
 
 h2 {
 	font-size: x-large;
+	padding-bottom: 0.75rem;
 }
 
 h3 {
 	font-size: large;
+	padding-bottom: 0.5rem;
+}
+
+h4 {
+	font-size: larger;
+}
+
+h5 {
+	font-size: medium;
+	font-weight: bold;
 }
 
 body {
 	background-color: var(--bg-primary);
 }
 
-#navbar {
-	display: flex;
-	background-color: var(--branding-secondary);
+hr {
+	background-color: var(--primary);
+	height: 0.2rem;
+	margin-top: 0.2rem;
+	margin-bottom: 0.2rem;
 }
 
-#navbar__hamburger {
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	justify-self: end;
-	width: 30px;
-	height: 3rem;
-	padding-top: 12px;
-	padding-bottom: 12px;
-	margin-right: 12px;
-	justify-content: center;
+#pageWrapper {
+	min-height: 40vh;
 }
 
-.navbar__hamburger__bar {
-	color: var(--light);
-	background-color: var(--light);
-	height: 3px;
+footer {
 	width: 100%;
-	transition: background-color 0.3s ease-in-out;
+	border-top: 1px solid var(--text);
+	padding-top: 0.5rem;
+	text-align: center;
 }
 
-div.navbar__links {
-	z-index: 1;
-	flex-direction: column;
-	background-color: var(--branding-secondary);
+button.button {
+	background-color: var(--accent);
+	color: var(--text);
+	padding: 1rem;
+	border-radius: 10px;
 }
 
-nav > div.navbar__links {
-	height: fit-content;
-	width: 100%;
-	justify-content: flex-end;
-	display: flex;
-	padding-right: 1rem;
+button:hover {
+	background-color: var(--secondary);
 }
 
-.navbar__button {
-	height: 100%;
-	padding-left: 1rem;
-	padding-right: 1rem;
+button:disabled {
+	font-style: italic;
+	cursor: not-allowed;
+	background-color: var(--primary);
+	/* background-color: #e2dddd; */
+	color: var(--accent);
+}
+
+button.button.secondary {
+	background-color: var(--secondary);
+	color: var(--text);
+	padding: 1rem;
+	border-radius: 10px;
+}
+
+button.secondary:disabled {
+	background-color: #8c7878;
 	color: var(--light);
-	background-color: var(--branding-secondary);
 }
 
-.navbar__button:hover {
-	background-color: var(--dark);
-	color: var(--light);
-}
-
-.navbar__button > button {
-	width: 100%;
-	height: 100%;
-}
-
-#navbar__branding__link {
-	margin: 10px;
-	display: inline-flex;
-	width: min-content;
-	text-decoration-line: none;
-}
-
-#navbar__branding__link > button {
-	color: var(--light);
-	margin-left: 5px;
-	margin-right: 20px;
-	padding-right: 20px;
+button.button.secondary:hover {
+	background-color: var(--primary);
 }
 
 div.columns {
@@ -178,7 +174,6 @@ div.column {
 	flex: 1;
 	padding: 10px;
 	box-sizing: border-box;
-	min-width: max-content;
 }
 
 @media (max-width: 768px) {
@@ -220,6 +215,10 @@ label {
 	color: var(--text);
 }
 
+label:hover {
+	cursor: pointer;
+}
+
 button.toggle {
 	background-color: var(--accent);
 	border-radius: 10px;
@@ -238,4 +237,77 @@ img.icon {
 	padding: 0;
 	display: inline;
 	height: 50px;
+}
+
+#backToTop {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	background-color: var(--highlight);
+	color: var(--light);
+	padding: 10px 15px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	z-index: 1000;
+	font-size: 16px;
+}
+
+div.column.centered {
+	display: flex;
+	justify-content: center;
+}
+
+.success {
+	background-color: #426e21;
+	color: var(--light);
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	padding: 15px;
+	width: 100%;
+}
+
+.success > button {
+	width: 100%;
+}
+
+img.sprite {
+	width: 15vw;
+	max-width: 96px;
+}
+
+div.spriteWrapper {
+	width: 15vw;
+	max-width: 96px;
+}
+
+input[type='email'],
+input[type='password'],
+input[type='text'] {
+	height: 3vw;
+	min-height: 34px;
+	border-radius: 5px;
+	padding: 5px;
+	color: var(--dark);
+}
+
+.success {
+	color: var(--success);
+}
+
+.warning {
+	color: var(--warning);
+}
+
+button.error {
+	font-weight: bold;
+	background-color: var(--error);
+	color: var(--light);
+}
+button.button.error:hover {
+	background-color: var(--error-bg);
+}
+.error {
+	color: var(--error);
 }
