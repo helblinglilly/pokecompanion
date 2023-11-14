@@ -13,6 +13,7 @@
 	let isMobileMenuExpanded = false;
 
 	export let data: PageData;
+	export let breadcrumbs: { display: string; url: string }[] = [];
 
 	$: currentUser.set(data.user as SignedInUser);
 
@@ -86,31 +87,6 @@
 		fixImages();
 	});
 
-	const noBreadcrumbs = ['auth', 'user'];
-
-	$: breadcrumbs = $page.url.pathname
-		.split('/')
-		.filter((a) => !noBreadcrumbs.includes(a))
-		.filter((a) => a)
-		.filter((a, b, arr) => arr.length > 1)
-		.map((part, i, arr) => {
-			let displayEntry = '';
-			if (i > 1) {
-				displayEntry += ' / ';
-			}
-			displayEntry += part[0].toUpperCase() + part.slice(1);
-
-			const urlSegments = arr.slice(0, i + 1);
-			let url = '/' + urlSegments.join('/');
-
-			if (displayEntry === 'Pokemon') {
-				url += `?jumpTo=${arr[i + 1]}`;
-			}
-			return {
-				display: displayEntry,
-				url: url
-			};
-		});
 	$: shouldDisplaySearch = !$page.url.pathname.includes('/auth/');
 </script>
 

@@ -18,6 +18,8 @@
 	import Pokedex from '$components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$components/Tags/SelectedTags.svelte';
+	import Layout from '../../+layout.svelte';
+	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 
 	export let data;
 	const removeLastRouteFromURL = (url: string) => {
@@ -40,6 +42,13 @@
 		});
 	});
 </script>
+
+<Breadcrumbs
+	breadcrumbs={[
+		{ display: 'Pokémon', url: `/pokemon?jumpTo=${data.id}` },
+		{ display: `${data.id}` }
+	]}
+/>
 
 <Navigator
 	title={`${getMultiLanguageName(

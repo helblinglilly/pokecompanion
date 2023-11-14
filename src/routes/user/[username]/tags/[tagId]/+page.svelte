@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import Modal from '$components/Modal.svelte';
 	import { currentUser } from '$lib/stores/user';
@@ -8,6 +9,18 @@
 	let newName = data.tag.name;
 	let showRenameOverlay = false;
 </script>
+
+<Breadcrumbs
+	breadcrumbs={[
+		{
+			display: data.user.username,
+			url: `/user/${data.user.username}`
+		},
+		{
+			display: data.tag.name
+		}
+	]}
+/>
 
 <h2>{data.tag.name}</h2>
 
@@ -35,6 +48,7 @@
 		buttonConfig={{ text: 'Rename' }}
 		variation="small"
 		containerStyling="padding: 1rem;"
-		inputConfig={{ valueBind: newName, placeholder: 'New name' }}
+		inputConfig={{ placeholder: 'New name' }}
+		valueBinding={newName}
 	/>
 </Modal>
