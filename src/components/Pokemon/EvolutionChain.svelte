@@ -8,67 +8,51 @@
 	import { findGameGroupFromCookieString } from '$lib/data/games';
 
 	export let evolutionChainUrl: string;
-	export let id: number;
-
-	let isMounting = true;
 
 	let evolutions: IEvolution[] | undefined = undefined;
+	let isMounted = false;
 
-	let isLoadingData = false;
+	onMount(() => {
+		fetchData(evolutionChainUrl)
+			.then(async (result) => {
+				if (!result) {
+					return;
+				}
 
-	onMount(async () => {
-		await processData();
-		isMounting = false;
-		isLoadingData = false;
+				evolutions = result.chain.evolves_to
+					.map((direction) => {
+						const sourceId = result.chain.species.url.split('/')[6];
+						return formatEvolutions(
+							direction,
+							Number(sourceId),
+							findGameGroupFromCookieString($selectedGame)
+						);
+					})
+					.flat();
+			})
+			.finally(() => {
+				isMounted = true;
+			});
 	});
 
-	$: if (id && evolutionChainUrl) {
-		processData();
-	}
-
-	const processData = async () => {
-		if (isMounting && isLoadingData) {
-			return;
-		}
-		isLoadingData = true;
-
-		let isInPreviousSource = false;
-		let isInPreviousTarget = false;
-
-		let refetchData = true;
-
-		if (evolutions !== undefined) {
-			isInPreviousSource = evolutions.find((a) => a.sourceURL.includes(`${id}`)) !== undefined;
-			isInPreviousTarget = evolutions.find((a) => a.targetURL.includes(`${id}`)) !== undefined;
-			if (isInPreviousSource || isInPreviousTarget) {
-				refetchData = false;
+	$: if (isMounted) {
+		fetchData(evolutionChainUrl).then(async (result) => {
+			if (!result) {
+				return;
 			}
-		}
 
-		if (refetchData) {
-			evolutions = undefined;
-			fetchData(evolutionChainUrl)
-				.then(async (result) => {
-					if (!result) {
-						return;
-					}
-
-					evolutions = result.chain.evolves_to
-						.map((direction) => {
-							const sourceId = result.chain.species.url.split('/')[6];
-							return formatEvolutions(
-								direction,
-								Number(sourceId),
-								findGameGroupFromCookieString($selectedGame)
-							);
-						})
-						.flat();
+			evolutions = result.chain.evolves_to
+				.map((direction) => {
+					const sourceId = result.chain.species.url.split('/')[6];
+					return formatEvolutions(
+						direction,
+						Number(sourceId),
+						findGameGroupFromCookieString($selectedGame)
+					);
 				})
-				.finally(() => {
-					isLoadingData = false;
-				});
-		}
-	};
+				.flat();
+		});
+	}
 
 	const fetchData = async (url: string) => {
 		try {

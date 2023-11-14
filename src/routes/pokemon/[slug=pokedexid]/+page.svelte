@@ -75,7 +75,7 @@
 	</div>
 	<div class="column">
 		<div class="card">
-			<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} id={data.id} />
+			<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} />
 		</div>
 	</div>
 </div>
