@@ -28,7 +28,6 @@
 
 	const processData = async () => {
 		if (isMounting && isLoadingData) {
-			// Make sure this only runs once when loading page
 			return;
 		}
 		isLoadingData = true;
