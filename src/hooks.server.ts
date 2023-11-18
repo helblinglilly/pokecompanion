@@ -1,7 +1,7 @@
 import { sequence } from '@sveltejs/kit/hooks';
 import * as Sentry from '@sentry/sveltekit';
 import type { Handle, HandleServerError } from '@sveltejs/kit';
-import crypto from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 import { createInstance } from '$lib/pocketbase';
 
@@ -15,7 +15,7 @@ try {
 }
 
 export const handleError: HandleServerError = async ({ error, event }) => {
-	const errorId = crypto.randomUUID();
+	const errorId = uuidv4();
 
 	if (process.env.NODE_ENV === 'production') {
 		try {
