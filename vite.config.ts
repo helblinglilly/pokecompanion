@@ -19,5 +19,8 @@ export default defineConfig({
 	},
 	define: {
 		'process.browser': true
+	},
+	optimizeDeps: {
+		exclude: ['@sentry/sveltekit']
 	}
 });
