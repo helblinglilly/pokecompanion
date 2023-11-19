@@ -50,7 +50,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sentry/sveltekit": "^7.65.0",
+		"@sentry/svelte": "^7.80.1",
 		"jdenticon": "^3.2.0",
 		"mysql2": "^3.6.1",
 		"pocketbase": "^0.18.2",
