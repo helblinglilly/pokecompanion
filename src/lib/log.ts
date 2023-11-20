@@ -1,4 +1,6 @@
-import * as Sentry from '@sentry/sveltekit';
+import * as Sentry from '@sentry/svelte';
+/* https://github.com/getsentry/sentry-javascript/issues/8291 */
+// import * as Sentry from '@sentry/sveltekit';
 
 const error = (message: string, errorId: string, status?: string, details?: string) => {
 	const timestamp = new Date().toISOString();

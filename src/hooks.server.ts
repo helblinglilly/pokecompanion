@@ -1,25 +1,31 @@
-import { sequence } from '@sveltejs/kit/hooks';
-import * as Sentry from '@sentry/sveltekit';
+/*
+	Server side sentry logging is not yet supported in non-node
+	environments such as cloudflare or vercel.
+	So server side logging is disabeled for now.
+	Github Issue: https://github.com/getsentry/sentry-javascript/issues/8291
+*/
+// import { sequence } from '@sveltejs/kit/hooks';
+// import * as Sentry from '@sentry/sveltekit';
 import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
-import { PUBLIC_SENTRY_DSN } from '$env/static/public';
+// import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 import { createInstance } from '$lib/pocketbase';
 
-try {
-	Sentry.init({
-		dsn: PUBLIC_SENTRY_DSN,
-		tracesSampleRate: 1
-	});
-} catch (err) {
-	console.error(`Failed to initialise sentry (server side)`, err);
-}
+// try {
+// 	Sentry.init({
+// 		dsn: PUBLIC_SENTRY_DSN,
+// 		tracesSampleRate: 1
+// 	});
+// } catch (err) {
+// 	console.error(`Failed to initialise sentry (server side)`, err);
+// }
 
 export const handleError: HandleServerError = async ({ error, event }) => {
 	const errorId = uuidv4();
 
 	if (process.env.NODE_ENV === 'production') {
 		try {
-			Sentry.captureException(error, { extra: { event, errorId } });
+			// Sentry.captureException(error, { extra: { event, errorId } });
 		} catch (err) {
 			console.log(`Failed to initialise sentry exception catpure`, err);
 		}
@@ -75,4 +81,5 @@ export const handleAuth: Handle = async ({ event, resolve }) => {
 	return response;
 };
 
-export const handle = sequence(handleAuth, Sentry.sentryHandle());
+// export const handle = sequence(handleAuth, Sentry.sentryHandle());
+export const handle = handleAuth;

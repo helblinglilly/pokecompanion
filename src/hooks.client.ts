@@ -1,5 +1,8 @@
-import { Replay } from '@sentry/sveltekit';
-import * as Sentry from '@sentry/sveltekit';
+import { Replay } from '@sentry/svelte';
+import * as Sentry from '@sentry/svelte';
+/* https://github.com/getsentry/sentry-javascript/issues/8291 */
+// import { Replay } from '@sentry/sveltekit';
+// import * as Sentry from '@sentry/sveltekit';
 import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 
 import { pb } from '$lib/pocketbase';
