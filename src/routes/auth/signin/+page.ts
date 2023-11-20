@@ -1,5 +1,4 @@
 import { pb } from '$lib/pocketbase';
-import { oAuthRedirectUrl } from '$lib/stores/domain';
 
 interface IAuthMethodsResponse {
 	usernamePassword: boolean;
@@ -15,14 +14,15 @@ export interface IAuthProvider {
 	codeChallengeMethod: string;
 	authUrl: string;
 }
-export const load = async () => {
+
+export const load = async (context) => {
 	let oAuthMethods: IAuthProvider[] = [];
 	try {
 		const providers = (await pb.collection('users').listAuthMethods()) as IAuthMethodsResponse;
 		oAuthMethods = providers.authProviders.map((method) => {
 			return {
 				...method,
-				authUrl: (method.authUrl += oAuthRedirectUrl)
+				authUrl: (method.authUrl += context.url.origin + '/auth/redirect')
 			};
 		});
 	} catch (err) {

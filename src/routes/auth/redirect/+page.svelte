@@ -3,7 +3,6 @@
 	import { onMount } from 'svelte';
 	import { pb } from '$lib/pocketbase';
 	import { goto } from '$app/navigation';
-	import { oAuthRedirectUrl } from '$lib/stores/domain';
 	import type { IAuthProvider } from '../signin/+page';
 	import { currentUser } from '$lib/stores/user';
 
@@ -40,7 +39,9 @@
 					provider.name,
 					params.get('code') ?? '',
 					provider.codeVerifier,
-					oAuthRedirectUrl
+					`${window.location.protocol}//${window.location.hostname}${
+						window.location.port ? ':' + window.location.port : ''
+					}/auth/redirect`
 				);
 
 			if ((authData.meta && authData.meta.isNew) || !authData.record.avatar) {
