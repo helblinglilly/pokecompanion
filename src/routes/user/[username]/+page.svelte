@@ -101,7 +101,7 @@
 
 	@media screen and (min-width: 768px) {
 		#sidebar {
-			max-width: 25%;
+			max-width: 35%;
 		}
 
 		#taglist {

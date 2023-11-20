@@ -9,53 +9,19 @@
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Sprite from '$components/GameSpecific/Sprite.svelte';
 	import Navigator from '$components/Navigator.svelte';
-	import { navigating, page } from '$app/stores';
-	import { getPokemonPageData } from '$lib/pokemon-id/pokemonPage';
 	import { getPokemonTypesInGame } from '$lib/data/elementalTypes';
 	import EvolutionChain from '$components/Pokemon/EvolutionChain.svelte';
 	import Image from '$components/Image.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { emptySprites } from '$lib/types/IPokemon';
 	import { isPokemonInGame } from '$lib/data/games';
 	import Pokedex from '$components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$components/Tags/SelectedTags.svelte';
-
-	$: if ($navigating) refetchData();
+	import Layout from '../../+layout.svelte';
+	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 
 	export let data;
-	$: pageData = data ?? {};
-
-	const refetchData = async () => {
-		// Effectively handle the unmount state until new data is loaded
-		const newPokemonId = Number($navigating?.to?.params?.slug ?? 1);
-		pageData = {
-			...pageData,
-			pokemon: {
-				...pageData.pokemon,
-				sprites: emptySprites(newPokemonId),
-				types: [],
-				past_types: []
-			}
-		};
-
-		getPokemonPageData(newPokemonId)
-			.then((result) => {
-				// Now that we have new data, populate it accordingly
-				pageData.id = result.id;
-				pageData.pokemon = result.pokemon;
-				pageData.species = result.species;
-			})
-			.catch((err) => {
-				console.log('error getting data', err);
-			});
-	};
-
-	$: currentPokemonId = Number(
-		$navigating?.to?.params?.slug ??
-			Number($page.url.pathname.split('/')[$page.url.pathname.split('/').length - 1])
-	);
 	const removeLastRouteFromURL = (url: string) => {
 		if (!url) {
 			return;
@@ -68,24 +34,31 @@
 
 	onMount(() => {
 		document.addEventListener('keydown', (e) => {
-			if (e.key === 'ArrowLeft' && currentPokemonId > 1) {
-				goto(`/pokemon/${currentPokemonId - 1}`);
-			} else if (e.key === 'ArrowRight' && currentPokemonId < lastPokedexEntry) {
-				goto(`/pokemon/${currentPokemonId + 1}`);
+			if (e.key === 'ArrowLeft' && data.id > 1) {
+				goto(`/pokemon/${data.id - 1}`);
+			} else if (e.key === 'ArrowRight' && data.id < lastPokedexEntry) {
+				goto(`/pokemon/${data.id + 1}`);
 			}
 		});
 	});
 </script>
 
+<Breadcrumbs
+	breadcrumbs={[
+		{ display: 'Pokémon', url: `/pokemon?jumpTo=${data.id}` },
+		{ display: `${data.id}` }
+	]}
+/>
+
 <Navigator
 	title={`${getMultiLanguageName(
-		PokemonNames[currentPokemonId - 1].names,
+		PokemonNames[data.id - 1].names,
 		$primaryLanguage,
 		$secondaryLanguage
 	)}`}
-	currentId={currentPokemonId}
+	currentId={data.id}
 	maxId={lastPokedexEntry}
-	iconUrl={removeLastRouteFromURL(pageData.pokemon.sprites.front_default)}
+	iconUrl={removeLastRouteFromURL(data.pokemon.sprites.front_default)}
 	route="/pokemon"
 />
 
@@ -94,27 +67,24 @@
 		<div class="card" style="padding-top: 1rem;">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
 				<div style="display: inline-flex; height: 20px; width: 150px;">
-					{#each getPokemonTypesInGame(pageData.pokemon) as type}
+					{#each getPokemonTypesInGame(data.pokemon) as type}
 						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
 					{/each}
 				</div>
-				<Pokedex flavourTextEntries={pageData.species.flavor_text_entries} />
+				<Pokedex flavourTextEntries={data.species.flavor_text_entries} />
 			</div>
-			<Sprite sprites={pageData.pokemon.sprites} />
+			<Sprite sprites={data.pokemon.sprites} />
 			{#if $currentUser}
-				<SelectedTags newTagInitialContent={{ pokemon: [{ id: currentPokemonId }] }} />
+				<SelectedTags newTagInitialContent={{ pokemon: [{ id: data.id }] }} />
 			{/if}
-			{#if !isPokemonInGame(currentPokemonId, $selectedGame ?? '')}
+			{#if !isPokemonInGame(data.id, $selectedGame ?? '')}
 				<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
 			{/if}
 		</div>
 	</div>
 	<div class="column">
 		<div class="card">
-			<EvolutionChain
-				evolutionChainUrl={pageData.species.evolution_chain.url}
-				id={currentPokemonId}
-			/>
+			<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} />
 		</div>
 	</div>
 </div>
