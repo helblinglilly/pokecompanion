@@ -3,7 +3,7 @@
 	import { pb } from '$lib/stores/domain';
 	import { notifications } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
-	import { getCookie, getRawCookie } from '$lib/utils/cookies';
+	import { deleteCookie, getCookie, getRawCookie } from '$lib/utils/cookies';
 	import { isPasswordValid } from '$lib/utils/user-client';
 
 	let mode: 'login' | 'signup' = 'login';
@@ -84,7 +84,12 @@
 				$pb.authStore.loadFromCookie(getRawCookie(document.cookie, 'pb_auth') || '');
 				currentUser.set($pb.authStore.model as SignedInUser);
 
-				// TODO - Check if redirect cookie exists and redirect the user to there
+				const redirectUrl = getCookie('auth-redirect');
+				if (redirectUrl) {
+					deleteCookie('auth-redirect');
+					goto(redirectUrl);
+					return;
+				}
 				goto('/');
 			}
 		} catch {
