@@ -1,6 +1,7 @@
 import type { SignedInUser } from '$lib/stores/user.js';
 import isStringToxic from '$lib/server/toxic.js';
 import { validateAuth } from '../../api/helpers.js';
+import { addMinutesToDate } from '$lib/utils/date.js';
 
 export async function PATCH({ request }) {
 	const pb = await validateAuth(request);
@@ -51,7 +52,10 @@ export async function PATCH({ request }) {
 	return new Response(JSON.stringify({ score: 'yes' }), {
 		headers: {
 			'Content-Type': 'application/json',
-			'set-cookie': pb.authStore.exportToCookie()
+			'set-cookie': pb.authStore.exportToCookie(
+				{ expires: addMinutesToDate(new Date(), 30) },
+				'pb_auth'
+			)
 		}
 	});
 }

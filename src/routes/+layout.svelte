@@ -80,7 +80,7 @@
 
 	onMount(() => {
 		initTheme();
-		// Initialise all cookies
+		// Initialise all cookies and stores
 		for (const value of Object.values(cookieHandlers)) {
 			value();
 		}

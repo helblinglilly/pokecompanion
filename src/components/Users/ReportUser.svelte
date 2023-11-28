@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Modal from '$components/Modal.svelte';
 	import { getIdByUsername } from '$lib/pb/publicUsers';
-	import { pb } from '$lib/pocketbase';
+	import { pb } from '$lib/stores/domain';
 	import { currentUser } from '$lib/stores/user';
 
 	let showModal = false;
@@ -18,7 +18,7 @@
 				throw new Error(`Could not retrieve user id for "${username}"`);
 			}
 
-			await pb.collection('user_reports').create({
+			await $pb.collection('user_reports').create({
 				user: userId,
 				notes: reportText,
 				status: 'new',

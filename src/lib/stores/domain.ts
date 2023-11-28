@@ -1,7 +1,10 @@
 import { writable } from 'svelte/store';
-import { getCookie, setCookie } from '../utils/cookies';
+import { getCookie, getRawCookie, setCookie } from '../utils/cookies';
 import type { Languages } from '../utils/language';
 import PokemonNames from '$lib/data/pokemonNames.json';
+import Pocketbase from 'pocketbase';
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { currentUser, type SignedInUser } from './user';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<string | undefined>();
@@ -13,6 +16,7 @@ export const pokeApiDomain = 'https://pokeapi.co/api/v2';
 export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
 export const maxSearchResults = 15;
 export const pokemonPageSize = 50;
+export const pb = writable(new Pocketbase(PUBLIC_POCKETBASE_URL));
 
 // TODO - Test this
 export const cookieHandlers = {
@@ -101,5 +105,11 @@ export const cookieHandlers = {
 		animateSprites.subscribe((value) => {
 			setCookie('animateSprites', value.toString());
 		});
+	},
+	auth: () => {
+		const authedPb = new Pocketbase(PUBLIC_POCKETBASE_URL);
+		authedPb.authStore.loadFromCookie(getRawCookie(document.cookie, 'pb_auth') || '');
+		currentUser.set(authedPb.authStore.model as SignedInUser);
+		pb.set(authedPb);
 	}
 };

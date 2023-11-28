@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { pb } from '$lib/pocketbase';
+	import { pb } from '$lib/stores/domain';
 	import { notifications } from '$lib/stores/notifications';
-	import { currentUser } from '$lib/stores/user';
+	import { currentUser, type SignedInUser } from '$lib/stores/user';
+	import { getCookie, getRawCookie } from '$lib/utils/cookies';
 	import { isPasswordValid } from '$lib/utils/user-client';
 
 	let mode: 'login' | 'signup' = 'login';
@@ -79,10 +80,12 @@
 
 				mode = 'login';
 			} else {
-				pb.authStore.loadFromCookie(document.cookie);
-				if ($currentUser) {
-					goto(`/user/${$currentUser.username}`);
-				}
+				// Auth cookie is set as part of form action response
+				$pb.authStore.loadFromCookie(getRawCookie(document.cookie, 'pb_auth') || '');
+				currentUser.set($pb.authStore.model as SignedInUser);
+
+				// TODO - Check if redirect cookie exists and redirect the user to there
+				goto('/');
 			}
 		} catch {
 			if (mode === 'login') {

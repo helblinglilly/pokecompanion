@@ -1,4 +1,5 @@
-import { pb } from '$lib/pocketbase';
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import Pocketbase from 'pocketbase';
 
 interface IAuthMethodsResponse {
 	usernamePassword: boolean;
@@ -18,6 +19,7 @@ export interface IAuthProvider {
 export const load = async (context) => {
 	let oAuthMethods: IAuthProvider[] = [];
 	try {
+		const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
 		const providers = (await pb.collection('users').listAuthMethods()) as IAuthMethodsResponse;
 		oAuthMethods = providers.authProviders.map((method) => {
 			return {

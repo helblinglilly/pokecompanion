@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { pb } from '$lib/pocketbase';
 	import { currentUser } from '$lib/stores/user';
 	import { notifications } from '$lib/stores/notifications';
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import { goto } from '$app/navigation';
+	import { pb } from '$lib/stores/domain';
 
 	let newUsername: string;
 	let errorMessage: string;
@@ -28,7 +28,7 @@
 			const repsonse = await fetch('/auth/username', {
 				method: 'PATCH',
 				headers: {
-					Authorization: `Bearer ${pb.authStore.token}`
+					Authorization: `Bearer ${$pb.authStore.token}`
 				},
 				body: JSON.stringify({
 					updatedUsername: newUsername

@@ -2,6 +2,8 @@ import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { toSvg } from 'jdenticon';
 import { isUsernameValid } from '$lib/server/user';
+import { addMinutesToDate } from '$lib/utils/date';
+import { parseCookieString } from '$lib/utils/cookies';
 
 export const actions: Actions = {
 	signup: async ({ locals, request }) => {
@@ -44,7 +46,7 @@ export const actions: Actions = {
 		}
 	},
 
-	login: async ({ locals, request }) => {
+	login: async ({ locals, request, cookies }) => {
 		const data = Object.fromEntries(await request.formData()) as {
 			email: string;
 			password: string;
@@ -52,6 +54,28 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection('users').authWithPassword(data.email, data.password);
+			/*
+				exportToCookie gives us a cookie string that is ready to be used
+				But svelte will only let us set cookies on the client through cookies.set
+				which  means we have to provide each attribute on its own.
+			*/
+			const cookie = locals.pb.authStore.exportToCookie({
+				expires: addMinutesToDate(new Date(), 30)
+			});
+			const cookieValues = parseCookieString(cookie);
+			const pbAuthObj = JSON.parse(cookieValues.pb_auth);
+
+			cookies.set('pb_auth', JSON.stringify(pbAuthObj), {
+				expires: new Date(cookieValues.Expires),
+				path: cookieValues.path,
+				sameSite: 'lax',
+				httpOnly: cookieValues.httpOnly,
+				secure: cookieValues.Secure
+			});
+
+			return {
+				status: 200
+			};
 		} catch (e) {
 			console.error(e);
 

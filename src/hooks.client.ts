@@ -4,18 +4,7 @@ import * as Sentry from '@sentry/svelte';
 // import { Replay } from '@sentry/sveltekit';
 // import * as Sentry from '@sentry/sveltekit';
 import { PUBLIC_SENTRY_DSN } from '$env/static/public';
-
-import { pb } from '$lib/pocketbase';
-import { currentUser } from '$lib/stores/user';
 import type { HandleClientError } from '@sveltejs/kit';
-
-pb.authStore.loadFromCookie(document.cookie);
-pb.authStore.onChange(() => {
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
-	currentUser.set(pb.authStore.model);
-	document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
-}, true);
 
 try {
 	Sentry.init({

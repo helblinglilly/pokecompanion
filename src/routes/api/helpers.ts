@@ -1,4 +1,5 @@
-import { createInstance } from '$lib/pocketbase';
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import Pocketbase from 'pocketbase';
 
 export const getSearchParam = (url: string, name: string) => {
 	const searchParts = url.split('?')[1];
@@ -50,8 +51,9 @@ export const validateAuth = async (request: Request) => {
 		return false;
 	}
 
-	const pb = createInstance();
-	pb.authStore.loadFromCookie(cookies);
+	// TODO - Rework this
+	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
+	// pb.authStore.loadFromCookie(cookies.);
 
 	try {
 		if (!pb.authStore.isValid) {
@@ -59,7 +61,7 @@ export const validateAuth = async (request: Request) => {
 		}
 		pb.authStore.isValid && (await pb.collection('users').authRefresh());
 	} catch {
-		pb.authStore.clear();
+		// pb.authStore.clear();
 		return false;
 	}
 	return pb;

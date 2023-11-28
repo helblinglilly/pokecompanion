@@ -1,15 +1,18 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Modal from '$components/Modal.svelte';
-	import { pb } from '$lib/pocketbase';
-	import type { SignedInUser } from '$lib/stores/user';
+	import { pb } from '$lib/stores/domain';
+	import { currentUser, type SignedInUser } from '$lib/stores/user';
+	import { deleteCookie } from '$lib/utils/cookies';
 
 	let showModal = false;
 	export let user: SignedInUser;
 
 	const onDeleteClick = async () => {
-		await pb.collection('users').delete(user.id);
-		pb.authStore.clear();
+		await $pb.collection('users').delete(user.id);
+		$pb.authStore.clear();
+		currentUser.set(null);
+		deleteCookie('pb_auth');
 		goto('/');
 	};
 </script>
