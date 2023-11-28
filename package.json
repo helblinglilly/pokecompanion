@@ -13,6 +13,7 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"test:integration": "playwright test",
+		"test:integration-ui": "playwright test --ui",
 		"test:unit": "vitest",
 		"scrape": "npm run scrape:abilities && npm run scrape:items && npm run scrape:moves && npm run scrape:pokemon",
 		"scrape:abilities": "node ./src/build/scrapers/abilities.js",
