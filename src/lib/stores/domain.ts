@@ -5,9 +5,10 @@ import PokemonNames from '$lib/data/pokemonNames.json';
 import Pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import { currentUser, type SignedInUser } from './user';
+import { findGameFromString, type IGame } from '$lib/data/games';
 
 export const theme = writable<'dark' | 'light' | undefined>();
-export const selectedGame = writable<string | undefined>();
+export const selectedGame = writable<IGame | undefined>();
 export const primaryLanguage = writable<keyof Languages>('en');
 export const secondaryLanguage = writable<keyof Languages | undefined>();
 export const versionSpecificSprites = writable<boolean>(true);
@@ -26,15 +27,20 @@ export const cookieHandlers = {
 			existingValue = 'generic';
 			setCookie('selectedGame', existingValue);
 		}
-		selectedGame.set(existingValue);
+
+		const foundGame = findGameFromString(existingValue);
+		selectedGame.set(foundGame);
 
 		selectedGame.subscribe((value) => {
 			if (!value) {
+				setCookie('selectedGame', 'generic');
 				return;
 			}
-			const existing = getCookie('selectedGame');
-			if (!existing || value !== existing) {
-				setCookie('selectedGame', value);
+
+			const existingCookie = getCookie('selectedGame');
+			const existingValue = findGameFromString(existingCookie || '');
+			if (!existingValue || value.cookieGroup !== existingValue.cookieGroup) {
+				setCookie('selectedGame', value.cookieGroup);
 			}
 		});
 	},

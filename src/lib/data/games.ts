@@ -85,29 +85,6 @@ enum Consoles {
 	SW = 'Nintendo Switch'
 }
 
-export const isPokemonInGame = (nationalDexId: number, game: IGame | string) => {
-	let definiteGame: IGame | undefined;
-
-	if (typeof game === 'string') {
-		const foundGame = findGameGroupFromCookieString(game.toString());
-		if (!foundGame || foundGame.length < 1) {
-			return false;
-		}
-		definiteGame = foundGame[0];
-	} else {
-		definiteGame = game as IGame;
-	}
-
-	if (!definiteGame) {
-		return false;
-	}
-
-	if (nationalDexId > definiteGame.generation.nationalDexEnd) {
-		return false;
-	}
-	return true;
-};
-
 export interface IGame {
 	name: string;
 	shortName: string;
@@ -115,9 +92,11 @@ export interface IGame {
 	region: Regions;
 	console: Consoles;
 	generation: IGeneration;
+	cookieGroup: string;
 }
-const game = {
-	red: {
+
+const games = [
+	{
 		name: 'Pokémon Red Version',
 		shortName: 'Red',
 		releaseDates: {
@@ -128,9 +107,10 @@ const game = {
 		},
 		region: Regions.KANTO,
 		console: Consoles.GB,
-		generation: Generations[0]
+		generation: Generations[0],
+		cookieGroup: 'red-blue'
 	},
-	blue: {
+	{
 		name: 'Pokémon Blue Version',
 		shortName: 'Blue',
 		releaseDates: {
@@ -141,9 +121,10 @@ const game = {
 		},
 		region: Regions.KANTO,
 		console: Consoles.GB,
-		generation: Generations[0]
+		generation: Generations[0],
+		cookieGroup: 'red-blue'
 	},
-	yellow: {
+	{
 		name: 'Pokémon Yellow Version',
 		shortName: 'Yellow',
 		releaseDates: {
@@ -154,9 +135,10 @@ const game = {
 		},
 		region: Regions.KANTO,
 		console: Consoles.GB,
-		generation: Generations[0]
+		generation: Generations[0],
+		cookieGroup: 'yellow'
 	},
-	gold: {
+	{
 		name: 'Pokémon Gold Version',
 		shortName: 'Gold',
 		releaseDates: {
@@ -167,9 +149,10 @@ const game = {
 		},
 		region: Regions.JOHTO,
 		console: Consoles.GBC,
-		generation: Generations[1]
+		generation: Generations[1],
+		cookieGroup: 'gold-silver'
 	},
-	silver: {
+	{
 		name: 'Pokémon Silver Version',
 		shortName: 'Silver',
 		releaseDates: {
@@ -180,9 +163,10 @@ const game = {
 		},
 		region: Regions.JOHTO,
 		console: Consoles.GBC,
-		generation: Generations[1]
+		generation: Generations[1],
+		cookieGroup: 'gold-silver'
 	},
-	crystal: {
+	{
 		name: 'Pokémon Crystal Version',
 		shortName: 'Crystal',
 		releaseDates: {
@@ -193,9 +177,10 @@ const game = {
 		},
 		region: Regions.JOHTO,
 		console: Consoles.GBC,
-		generation: Generations[1]
+		generation: Generations[1],
+		cookieGroup: 'crystal'
 	},
-	ruby: {
+	{
 		name: 'Pokémon Ruby Version',
 		shortName: 'Ruby',
 		releaseDates: {
@@ -206,9 +191,10 @@ const game = {
 		},
 		region: Regions.HOENN,
 		console: Consoles.GBA,
-		generation: Generations[2]
+		generation: Generations[2],
+		cookieGroup: 'ruby-sapphire'
 	},
-	sapphire: {
+	{
 		name: 'Pokémon Sapphire Version',
 		shortName: 'Sapphire',
 		releaseDates: {
@@ -219,9 +205,10 @@ const game = {
 		},
 		region: Regions.HOENN,
 		console: Consoles.GBA,
-		generation: Generations[2]
+		generation: Generations[2],
+		cookieGroup: 'ruby-sapphire'
 	},
-	emerald: {
+	{
 		name: 'Pokémon Emerald Version',
 		shortName: 'Emerald',
 		releaseDates: {
@@ -232,10 +219,10 @@ const game = {
 		},
 		region: Regions.HOENN,
 		console: Consoles.GBA,
-		generation: Generations[2]
+		generation: Generations[2],
+		cookieGroup: 'emerald'
 	},
-	// These 2 are inaccurate
-	firered: {
+	{
 		name: 'Pokémon Fire Red Version',
 		shortName: 'Firered',
 		releaseDates: {
@@ -246,9 +233,10 @@ const game = {
 		},
 		region: Regions.KANTO,
 		console: Consoles.GBA,
-		generation: Generations[2]
+		generation: Generations[2],
+		cookieGroup: 'firered-leafgreen'
 	},
-	leafgreen: {
+	{
 		name: 'Pokémon Leaf Green Version',
 		shortName: 'Leafgreen',
 		releaseDates: {
@@ -259,9 +247,10 @@ const game = {
 		},
 		region: Regions.KANTO,
 		console: Consoles.GBA,
-		generation: Generations[2]
+		generation: Generations[2],
+		cookieGroup: 'firered-leafgreen'
 	},
-	diamond: {
+	{
 		name: 'Pokémon Diamond Version',
 		shortName: 'Diamond',
 		releaseDates: {
@@ -273,9 +262,10 @@ const game = {
 		},
 		region: Regions.SINNOH,
 		console: Consoles.NDS,
-		generation: Generations[3]
+		generation: Generations[3],
+		cookieGroup: 'diamond-pearl'
 	},
-	pearl: {
+	{
 		name: 'Pokémon Pearl Version',
 		shortName: 'Pearl',
 		releaseDates: {
@@ -287,9 +277,10 @@ const game = {
 		},
 		region: Regions.SINNOH,
 		console: Consoles.NDS,
-		generation: Generations[3]
+		generation: Generations[3],
+		cookieGroup: 'diamond-pearl'
 	},
-	platinum: {
+	{
 		name: 'Pokémon Platinum Version',
 		shortName: 'Platinum',
 		releaseDates: {
@@ -300,9 +291,10 @@ const game = {
 		},
 		region: Regions.SINNOH,
 		console: Consoles.NDS,
-		generation: Generations[3]
+		generation: Generations[3],
+		cookieGroup: 'platinum'
 	},
-	heartGold: {
+	{
 		name: 'Pokémon Heart Gold Version',
 		shortName: 'HeartGold',
 		releaseDates: {
@@ -313,9 +305,10 @@ const game = {
 		},
 		region: Regions.JOHTOKANTO,
 		console: Consoles.NDS,
-		generation: Generations[3]
+		generation: Generations[3],
+		cookieGroup: 'heartgold-soulsilver'
 	},
-	soulSilver: {
+	{
 		name: 'Pokémon Soul Silver Version',
 		shortName: 'SoulSilver',
 		releaseDates: {
@@ -326,9 +319,10 @@ const game = {
 		},
 		region: Regions.JOHTOKANTO,
 		console: Consoles.NDS,
-		generation: Generations[3]
+		generation: Generations[3],
+		cookieGroup: 'heartgold-soulsilver'
 	},
-	black: {
+	{
 		name: 'Pokémon Black Version',
 		shortName: 'Black',
 		releaseDates: {
@@ -339,9 +333,10 @@ const game = {
 		},
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
-		generation: Generations[4]
+		generation: Generations[4],
+		cookieGroup: 'black-white'
 	},
-	white: {
+	{
 		name: 'Pokémon White Version',
 		shortName: 'White',
 		releaseDates: {
@@ -352,9 +347,10 @@ const game = {
 		},
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
-		generation: Generations[4]
+		generation: Generations[4],
+		cookieGroup: 'black-white'
 	},
-	black2: {
+	{
 		name: 'Pokémon Black Version 2',
 		shortName: 'Black 2',
 		releaseDates: {
@@ -365,9 +361,10 @@ const game = {
 		},
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
-		generation: Generations[4]
+		generation: Generations[4],
+		cookieGroup: 'black2-white2'
 	},
-	white2: {
+	{
 		name: 'Pokémon White Version 2',
 		shortName: 'White 2',
 		releaseDates: {
@@ -378,9 +375,10 @@ const game = {
 		},
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
-		generation: Generations[4]
+		generation: Generations[4],
+		cookieGroup: 'black2-white2'
 	},
-	x: {
+	{
 		name: 'Pokémon X',
 		shortName: 'X',
 		releaseDates: {
@@ -388,9 +386,10 @@ const game = {
 		},
 		region: Regions.KALOS,
 		console: Consoles.N3DS,
-		generation: Generations[5]
+		generation: Generations[5],
+		cookieGroup: 'x-y'
 	},
-	y: {
+	{
 		name: 'Pokémon Y',
 		shortName: 'Y',
 		releaseDates: {
@@ -398,9 +397,10 @@ const game = {
 		},
 		region: Regions.KALOS,
 		console: Consoles.N3DS,
-		generation: Generations[5]
+		generation: Generations[5],
+		cookieGroup: 'x-y'
 	},
-	omegaRuby: {
+	{
 		name: 'Pokémon Omega Ruby',
 		shortName: 'Omega Ruby',
 		releaseDates: {
@@ -409,9 +409,10 @@ const game = {
 		},
 		region: Regions.HOENN,
 		console: Consoles.N3DS,
-		generation: Generations[5]
+		generation: Generations[5],
+		cookieGroup: 'omegaruby-alphasapphire'
 	},
-	alphaSapphire: {
+	{
 		name: 'Pokémon Alpha Sapphire',
 		shortName: 'Alpha Sapphire',
 		releaseDates: {
@@ -420,9 +421,10 @@ const game = {
 		},
 		region: Regions.HOENN,
 		console: Consoles.N3DS,
-		generation: Generations[5]
+		generation: Generations[5],
+		cookieGroup: 'omegaruby-alphasapphire'
 	},
-	sun: {
+	{
 		name: 'Pokémon Sun',
 		shortName: 'Sun',
 		releaseDates: {
@@ -431,9 +433,10 @@ const game = {
 		},
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
-		generation: Generations[6]
+		generation: Generations[6],
+		cookieGroup: 'sun-moon'
 	},
-	moon: {
+	{
 		name: 'Pokémon Moon',
 		shortName: 'Moon',
 		releaseDates: {
@@ -442,9 +445,10 @@ const game = {
 		},
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
-		generation: Generations[6]
+		generation: Generations[6],
+		cookieGroup: 'sun-moon'
 	},
-	ultraSun: {
+	{
 		name: 'Pokémon Ultra Sun',
 		shortName: 'Ultra Sun',
 		releaseDates: {
@@ -452,9 +456,10 @@ const game = {
 		},
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
-		generation: Generations[6]
+		generation: Generations[6],
+		cookieGroup: 'ultrasun-ultramoon'
 	},
-	ultraMoon: {
+	{
 		name: 'Pokémon Ultra Moon',
 		shortName: 'Ultra Moon',
 		releaseDates: {
@@ -462,9 +467,10 @@ const game = {
 		},
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
-		generation: Generations[6]
+		generation: Generations[6],
+		cookieGroup: 'ultrasun-ultramoon'
 	},
-	pikachu: {
+	{
 		name: "Pokémon Let's Go Pikachu!",
 		shortName: "Let's Go Pikachu",
 		releaseDates: {
@@ -472,9 +478,10 @@ const game = {
 		},
 		region: Regions.KANTO,
 		console: Consoles.SW,
-		generation: Generations[6]
+		generation: Generations[6],
+		cookieGroup: 'letsgopikachu-letsgoeevee'
 	},
-	eevee: {
+	{
 		name: "Pokémon Let's Go Eevee!",
 		shortName: "Let's Go Eevee",
 		releaseDates: {
@@ -482,9 +489,10 @@ const game = {
 		},
 		region: Regions.KANTO,
 		console: Consoles.SW,
-		generation: Generations[6]
+		generation: Generations[6],
+		cookieGroup: 'letsgopikachu-letsgoeevee'
 	},
-	sword: {
+	{
 		name: 'Pokémon Sword',
 		shortName: 'Sword',
 		releaseDates: {
@@ -492,9 +500,10 @@ const game = {
 		},
 		region: Regions.GALAR,
 		console: Consoles.SW,
-		generation: Generations[7]
+		generation: Generations[7],
+		cookieGroup: 'sword-shield'
 	},
-	shield: {
+	{
 		name: 'Pokémon Shield',
 		shortName: 'Shield',
 		releaseDates: {
@@ -502,9 +511,10 @@ const game = {
 		},
 		region: Regions.GALAR,
 		console: Consoles.SW,
-		generation: Generations[7]
+		generation: Generations[7],
+		cookieGroup: 'sword-shield'
 	},
-	brilliantDiamond: {
+	{
 		name: 'Pokémon Brilliant Diamond',
 		shortName: 'Brilliant Diamond',
 		releaseDates: {
@@ -512,9 +522,10 @@ const game = {
 		},
 		region: Regions.SINNOH,
 		console: Consoles.SW,
-		generation: Generations[7]
+		generation: Generations[7],
+		cookieGroup: 'brilliantdiamond-shiningpearl'
 	},
-	shiningPearl: {
+	{
 		name: 'Pokémon Shining Pearl',
 		shortName: 'Shining Pearl',
 		releaseDates: {
@@ -522,9 +533,10 @@ const game = {
 		},
 		region: Regions.SINNOH,
 		console: Consoles.SW,
-		generation: Generations[7]
+		generation: Generations[7],
+		cookieGroup: 'brilliantdiamond-shiningpearl'
 	},
-	arceus: {
+	{
 		name: 'Pokémon Legends Arceus',
 		shortName: 'Legends Arceus',
 		releaseDates: {
@@ -532,9 +544,10 @@ const game = {
 		},
 		region: Regions.HISUI,
 		console: Consoles.SW,
-		generation: Generations[7]
+		generation: Generations[7],
+		cookieGroup: 'legendsarceus'
 	},
-	scarlet: {
+	{
 		name: 'Pokémon Scarlet',
 		shortName: 'Scarlet',
 		releaseDates: {
@@ -542,9 +555,10 @@ const game = {
 		},
 		region: Regions.PALDEA,
 		console: Consoles.SW,
-		generation: Generations[8]
+		generation: Generations[8],
+		cookieGroup: 'scarlet-violet'
 	},
-	violet: {
+	{
 		name: 'Pokémon Violet',
 		shortName: 'Violet',
 		releaseDates: {
@@ -552,31 +566,33 @@ const game = {
 		},
 		region: Regions.PALDEA,
 		console: Consoles.SW,
-		generation: Generations[8]
+		generation: Generations[8],
+		cookieGroup: 'scarlet-violet'
 	}
-};
+];
 
-const gameGroups: IGame[][] = [
-	[{ ...game.red }, { ...game.blue }],
-	[{ ...game.yellow }],
-	[{ ...game.gold }, { ...game.silver }],
-	[{ ...game.crystal }],
-	[{ ...game.ruby }, { ...game.sapphire }],
-	[{ ...game.emerald }],
-	[{ ...game.diamond }, { ...game.pearl }],
-	[{ ...game.platinum }],
-	[{ ...game.heartGold }, { ...game.soulSilver }],
-	[{ ...game.black }, { ...game.white }],
-	[{ ...game.black2 }, { ...game.white2 }],
-	[{ ...game.x }, { ...game.y }],
-	[{ ...game.omegaRuby }, { ...game.alphaSapphire }],
-	[{ ...game.sun }, { ...game.moon }],
-	[{ ...game.ultraSun }, { ...game.ultraMoon }],
-	[{ ...game.pikachu }, { ...game.eevee }],
-	[{ ...game.sword }, { ...game.shield }],
-	[{ ...game.brilliantDiamond }, { ...game.shiningPearl }],
-	[{ ...game.arceus }],
-	[{ ...game.scarlet }, { ...game.violet }]
+export const gameGroups: IGame[][] = [
+	[{ ...games[0] }, { ...games[1] }],
+	[{ ...games[2] }],
+	[{ ...games[3] }, { ...games[4] }],
+	[{ ...games[5] }],
+	[{ ...games[6] }, { ...games[7] }],
+	[{ ...games[8] }],
+	[{ ...games[9] }, { ...games[10] }],
+	[{ ...games[11] }, { ...games[12] }],
+	[{ ...games[13] }],
+	[{ ...games[14] }, { ...games[15] }],
+	[{ ...games[16] }, { ...games[17] }],
+	[{ ...games[18] }, { ...games[19] }],
+	[{ ...games[20] }, { ...games[21] }],
+	[{ ...games[22] }, { ...games[23] }],
+	[{ ...games[24] }, { ...games[25] }],
+	[{ ...games[26] }, { ...games[27] }],
+	[{ ...games[28] }, { ...games[29] }],
+	[{ ...games[30] }, { ...games[31] }],
+	[{ ...games[32] }, { ...games[33] }],
+	[{ ...games[34] }],
+	[{ ...games[35] }, { ...games[36] }]
 ];
 
 /**
@@ -589,7 +605,7 @@ const gameGroups: IGame[][] = [
  * * @param replaceSpacesWith Optional entry, only works with replace spaces - the character that should be used to replace spaces with
  * @returns single string
  */
-const getGroupName = (
+export const getGroupName = (
 	input: IGame[],
 	joinCharacter: string,
 	lowercase?: boolean,
@@ -619,21 +635,58 @@ const getGroupName = (
 	return output;
 };
 
-export const findGameGroupFromCookieString = (versionGroupName: string | undefined) => {
-	if (!versionGroupName) {
-		return [];
-	}
-	return gameGroups.find((group) => {
-		return getGroupName(group, '-', true, true, true) === versionGroupName;
+/**
+ * Will try to find the corresponding game entry for a game string as stored in cookies NOT the PokeAPIs representation
+ * @param gameName Cookie string of a game
+ * @returns The game object if it matches, or undefined
+ */
+export const findGameFromString = (gameName: string | undefined): IGame | undefined => {
+	return games.find((game) => {
+		return game.cookieGroup === gameName;
+	});
+};
+
+/**
+ * Will try to find the group of games for a game string as stored in cookies NOT in the PokeAPIs representation
+ * @param gameName Cookie string of a game
+ * @returns Array of Game objects (i.e. [Black, White] for black-white) or undefined if it was not found
+ */
+export const findGameGroupFromString = (gameName: string | undefined): IGame[] | undefined => {
+	return gameGroups.find((gameGroup) => {
+		return gameGroup.find((game) => {
+			return game.cookieGroup === gameName;
+		});
 	});
 };
 
 export const findGameFromAPIGameName = (versionName: string) => {
-	return Object.values(game).find((value) => {
-		return getGroupName([value], '-', true, true, false, '-').replaceAll("'", '') === versionName;
+	return games.find((game) => {
+		return getGroupName([game], '-', true, true, false, '-').replaceAll("'", '') === versionName;
 	});
 };
 
+/**
+ * Will indicate whether or not a pokemon with a given pokedex id is in a game
+ * @param nationalDexId The ID of the Pokemon
+ * @param game The Game object
+ * @returns true if it is in a game or no game has been provided, false if it is not in a specified game
+ */
+export const isPokemonInGame = (nationalDexId: number, game: IGame | undefined) => {
+	if (!game) {
+		return true;
+	}
+
+	if (nationalDexId > game.generation.nationalDexEnd) {
+		return false;
+	}
+	return true;
+};
+
+/**
+ * Will return the number of the Generation that a given Pokemon is in
+ * @param id The National Pokedex ID for a pokemon
+ * @returns Generation number, starting from 1
+ */
 export const getPokemonGeneration = (id: number) => {
 	if (id <= 151) {
 		return 1;
@@ -657,5 +710,3 @@ export const getPokemonGeneration = (id: number) => {
 		return 10;
 	}
 };
-
-export { gameGroups, getGroupName };
