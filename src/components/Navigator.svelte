@@ -30,11 +30,11 @@
 		{/if}
 	</div>
 	<div class="column" style="display: flex; align-items: center; max-width: fit-content;">
-		<h2 class="mobile-only">
+		<h2 class="mobile-only" id="pokemonId">
 			#{currentId}
 		</h2>
 
-		<h2 class="desktop-only">
+		<h2 class="desktop-only" id="pokemonName">
 			{title}
 		</h2>
 	</div>

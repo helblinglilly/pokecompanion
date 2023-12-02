@@ -18,7 +18,6 @@
 	import Pokedex from '$components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$components/Tags/SelectedTags.svelte';
-	import Layout from '../../+layout.svelte';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 
 	export let data;
@@ -77,13 +76,13 @@
 			{#if $currentUser}
 				<SelectedTags newTagInitialContent={{ pokemon: [{ id: data.id }] }} />
 			{/if}
-			{#if !isPokemonInGame(data.id, $selectedGame ?? '')}
+			{#if !isPokemonInGame(data.id, $selectedGame)}
 				<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
 			{/if}
 		</div>
 	</div>
 	<div class="column">
-		<div class="card">
+		<div class="card" id="evolutions">
 			<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} />
 		</div>
 	</div>
