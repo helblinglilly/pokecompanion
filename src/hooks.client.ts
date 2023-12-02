@@ -30,6 +30,8 @@ export const handleError: HandleClientError = async ({ error, event }) => {
 	const errorId = crypto.randomUUID();
 	Sentry.captureException(error, { extra: { event, errorId } });
 
+	console.log(error, event);
+
 	if (!navigator.onLine) {
 		return {
 			message: 'You are offline',
