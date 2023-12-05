@@ -12,6 +12,10 @@
 	export let data;
 </script>
 
+<svelte:head>
+	<title>{data.user.username}</title>
+</svelte:head>
+
 <div id="userWrapper">
 	<div class="card">
 		<div class="columns">

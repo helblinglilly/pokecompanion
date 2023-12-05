@@ -90,6 +90,10 @@
 	$: shouldDisplaySearch = !$page.url.pathname.includes('/auth/');
 </script>
 
+<svelte:head>
+	<title>Pokécompanion</title>
+</svelte:head>
+
 <nav id="navbar" class="h-12">
 	<a href="/" id="navbar__branding__link">
 		<button data-testid="navbarBrandingTitle">

@@ -42,6 +42,17 @@
 	});
 </script>
 
+<svelte:head>
+	<title
+		>#{data.id}
+		{`${getMultiLanguageName(
+			PokemonNames[data.id - 1].names,
+			$primaryLanguage,
+			$secondaryLanguage
+		)}`}</title
+	>
+</svelte:head>
+
 <Breadcrumbs
 	breadcrumbs={[
 		{ display: 'Pokémon', url: `/pokemon?jumpTo=${data.id}` },

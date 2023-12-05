@@ -55,6 +55,10 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Settings - Pokecompanion</title>
+</svelte:head>
+
 <main>
 	<h1 style="margin-bottom: 20px;">Settings</h1>
 

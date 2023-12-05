@@ -8,6 +8,10 @@
 	export let data: { oAuthMethods: IAuthProvider[] };
 </script>
 
+<svelte:head>
+	<title>Sign in - Pokecompanion</title>
+</svelte:head>
+
 {#each data.oAuthMethods.sort((a, b) => (a.name < b.name ? -1 : 1)) as oAuthMethod}
 	{#if oAuthMethod.name === 'google'}
 		<div class="columns">
