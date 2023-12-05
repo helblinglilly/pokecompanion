@@ -9,7 +9,7 @@
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Sprite from '$components/GameSpecific/Sprite.svelte';
 	import Navigator from '$components/Navigator.svelte';
-	import { getPokemonTypesInGame } from '$lib/data/elementalTypes';
+	import { getPokemonTypesInGame } from '$lib/data/generationAdjuster.js';
 	import EvolutionChain from '$components/Pokemon/EvolutionChain.svelte';
 	import Image from '$components/Image.svelte';
 	import { onMount } from 'svelte';
@@ -66,7 +66,7 @@
 		<div class="card" style="padding-top: 1rem;">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
 				<div style="display: inline-flex; height: 20px; width: 150px;">
-					{#each getPokemonTypesInGame(data.pokemon) as type}
+					{#each getPokemonTypesInGame(data.pokemon, $selectedGame?.generation) as type}
 						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
 					{/each}
 				</div>
