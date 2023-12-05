@@ -1,12 +1,13 @@
 <script>
 	import Avatar from '$components/Users/Avatar.svelte';
-	import ChangePassword from '$components/Users/ChangePassword.svelte';
 	import ChangeUsername from '$components/Users/ChangeUsername.svelte';
 	import DeleteUser from '$components/Users/DeleteUser.svelte';
 	import ReportUser from '$components/Users/ReportUser.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$components/Icon.svelte';
 	import EmailVerification from '$components/Auth/EmailVerification.svelte';
+	import { pb } from '$lib/stores/domain';
+	import { error } from '$lib/log';
 
 	export let data;
 </script>
@@ -64,18 +65,38 @@
 		<div class="card" style="justify-content: center;">
 			<div class="columns">
 				<div class="column">
-					<h3>Change password</h3>
-					<ChangePassword />
+					<h3>Requests</h3>
+					<button
+						class="button secondary"
+						on:click={async () => {
+							if (!$currentUser) {
+								return;
+							}
+							try {
+								await $pb.collection('users').requestPasswordReset($currentUser.email);
+								// TODO add notification
+							} catch (err) {
+								error(JSON.stringify(err), 'FailedToRequestPasswordReset');
+							}
+						}}>Reset Password</button
+					>
+					<button class="button secondary">Change Email Address</button>
 				</div>
 
 				<div class="column">
-					<h3>Email verification</h3>
-					<EmailVerification />
+					<hr />
+
+					<div style="padding-top: 1rem; padding-bottom: 1rem;">
+						<h3>Email verification</h3>
+						<EmailVerification />
+					</div>
 
 					<hr />
 
-					<h2>Danger Zone</h2>
-					<DeleteUser user={$currentUser} />
+					<div style="padding-top: 1.5rem;">
+						<h2>Danger Zone</h2>
+						<DeleteUser user={$currentUser} />
+					</div>
 				</div>
 			</div>
 		</div>
