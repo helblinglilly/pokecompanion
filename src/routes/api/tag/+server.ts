@@ -2,8 +2,8 @@ import { error, warn } from '$lib/log';
 import { validateAuth } from '../helpers.js';
 import type { ITag, ITagContents } from '$lib/types/ITags.js';
 
-export async function POST({ request }) {
-	const authedPb = await validateAuth(request);
+export async function POST({ request, cookies }) {
+	const authedPb = await validateAuth(request, cookies);
 	if (!authedPb) {
 		return new Response('Not authorised', { status: 401 });
 	}
@@ -42,8 +42,8 @@ export async function POST({ request }) {
 	return new Response('Added', { status: 200 });
 }
 
-export async function DELETE({ request }) {
-	const authedPb = await validateAuth(request);
+export async function DELETE({ request, cookies }) {
+	const authedPb = await validateAuth(request, cookies);
 	if (!authedPb) {
 		return new Response('Not authorised', { status: 401 });
 	}

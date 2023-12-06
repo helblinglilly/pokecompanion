@@ -3,8 +3,8 @@ import isStringToxic from '$lib/server/toxic.js';
 import { validateAuth } from '../helpers.js';
 import type { ITagRequestBody, ITagUpdateBody } from '$lib/types/ITags.js';
 
-export async function POST({ request }) {
-	const authedPb = await validateAuth(request);
+export async function POST({ request, cookies }) {
+	const authedPb = await validateAuth(request, cookies);
 	if (!authedPb) {
 		return new Response('Not authorised', { status: 401 });
 	}
@@ -54,8 +54,8 @@ export async function POST({ request }) {
 	return new Response('created');
 }
 
-export async function PATCH({ request }) {
-	const authedPb = await validateAuth(request);
+export async function PATCH({ request, cookies }) {
+	const authedPb = await validateAuth(request, cookies);
 	if (!authedPb || !authedPb.authStore.model) {
 		return new Response('Not authorised', { status: 401 });
 	}

@@ -3,8 +3,8 @@ import isStringToxic from '$lib/server/toxic.js';
 import { validateAuth } from '../../api/helpers.js';
 import { addMinutesToDate } from '$lib/utils/date.js';
 
-export async function PATCH({ request }) {
-	const pb = await validateAuth(request);
+export async function PATCH({ request, cookies }) {
+	const pb = await validateAuth(request, cookies);
 	if (!pb) {
 		return new Response(null, {
 			status: 401

@@ -1,4 +1,7 @@
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { getRawCookie, parseCookieString } from '$lib/utils/cookies';
+import { addMinutesToDate } from '$lib/utils/date';
+import type { Cookies } from '@sveltejs/kit';
 import Pocketbase from 'pocketbase';
 
 export const getSearchParam = (url: string, name: string) => {
@@ -45,23 +48,37 @@ export const getCookieValue = (request: Request, name: string) => {
 	return result;
 };
 
-export const validateAuth = async (request: Request) => {
-	const cookies = request.headers.get('cookie');
-	if (!cookies) {
+export const validateAuth = async (request: Request, cookies: Cookies) => {
+	const authCookie = getRawCookie(request.headers.get('cookie'), 'pb_auth');
+	if (!authCookie) {
 		return false;
 	}
 
 	// TODO - Rework this
 	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
-	// pb.authStore.loadFromCookie(cookies.);
+	pb.authStore.loadFromCookie(authCookie);
 
 	try {
 		if (!pb.authStore.isValid) {
 			return false;
 		}
-		pb.authStore.isValid && (await pb.collection('users').authRefresh());
+
+		await pb.collection('users').authRefresh();
+
+		const refreshedCookie = pb.authStore.exportToCookie({
+			expires: addMinutesToDate(new Date(), 30)
+		});
+		const cookieValues = parseCookieString(refreshedCookie);
+		const pbAuthObj = JSON.parse(cookieValues.pb_auth);
+
+		cookies.set('pb_auth', JSON.stringify(pbAuthObj), {
+			expires: new Date(cookieValues.Expires),
+			path: cookieValues.path,
+			sameSite: 'lax',
+			httpOnly: cookieValues.httpOnly,
+			secure: cookieValues.Secure
+		});
 	} catch {
-		// pb.authStore.clear();
 		return false;
 	}
 	return pb;
