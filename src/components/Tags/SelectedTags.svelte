@@ -72,7 +72,7 @@
 	style="padding-top: 1rem; display: flex; justify-content: center; width: 100%; flex-flow: wrap;"
 >
 	{#each currentTags as tag}
-		<a class="tag" href="/user/me/list">
+		<a class="tag" href={`/user/${$currentUser?.username}/tags/${tag.id}`}>
 			<Icon style="margin-top: auto; margin-bottom: auto;" name="tag" />
 			<p>{tag.name}</p>
 		</a>
