@@ -12,9 +12,18 @@
 
 	const createNewTag = async () => {
 		try {
+			const updatedInitialContent = {
+				...newTagInitialContent,
+				pokemon: newTagInitialContent.pokemon.map((mon) => {
+					return {
+						...mon,
+						added: new Date().toISOString()
+					};
+				})
+			};
 			const payload: ITagRequestBody = {
 				name: newListName,
-				initialContent: newTagInitialContent,
+				initialContent: updatedInitialContent,
 				isPrivate
 			};
 			const response = await fetch('/api/tags', {

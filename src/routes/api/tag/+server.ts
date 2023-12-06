@@ -44,6 +44,7 @@ export async function POST({ request, cookies }) {
 
 export async function DELETE({ request, cookies }) {
 	const authedPb = await validateAuth(request, cookies);
+
 	if (!authedPb) {
 		return new Response('Not authorised', { status: 401 });
 	}
@@ -66,12 +67,19 @@ export async function DELETE({ request, cookies }) {
 
 	const existingContent = (await authedPb.collection('tags').getOne(body.id)) as ITag;
 
+	const newContents = {
+		pokemon: existingContent.contents.pokemon.filter((existing) => {
+			return (
+				body?.contents.pokemon.find((req) => {
+					return req.id !== existing.id;
+				}) !== undefined
+			);
+		})
+	};
 	try {
 		await authedPb.collection('tags').update(body.id, {
 			contents: {
-				pokemon: existingContent.contents.pokemon.filter((a) => {
-					return body?.contents.pokemon.includes({ id: a.id });
-				})
+				pokemon: newContents.pokemon
 			}
 		});
 	} catch (err) {
@@ -81,5 +89,5 @@ export async function DELETE({ request, cookies }) {
 		});
 	}
 
-	return new Response('Removed', { status: 200 });
+	return new Response(JSON.stringify(newContents), { status: 200 });
 }

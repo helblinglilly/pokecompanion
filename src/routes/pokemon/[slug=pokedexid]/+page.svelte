@@ -85,7 +85,9 @@
 			</div>
 			<Sprite sprites={data.pokemon.sprites} />
 			{#if $currentUser}
-				<SelectedTags newTagInitialContent={{ pokemon: [{ id: data.id }] }} />
+				<SelectedTags
+					newTagInitialContent={{ pokemon: [{ id: data.id, added: new Date().toISOString() }] }}
+				/>
 			{/if}
 			{#if !isPokemonInGame(data.id, $selectedGame)}
 				<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>

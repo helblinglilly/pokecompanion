@@ -42,7 +42,7 @@
 				body: JSON.stringify({
 					id: tagId,
 					contents: {
-						pokemon: [{ id: currentPokemonId }]
+						pokemon: [{ id: currentPokemonId, added: new Date().toISOString() }]
 					}
 				})
 			});

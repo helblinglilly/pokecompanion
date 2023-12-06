@@ -9,7 +9,7 @@
 		names?: Languages[];
 	};
 
-	const names = pokemon.names ?? getPokemonEntry(pokemon.id).names;
+	$: names = pokemon.names ?? getPokemonEntry(pokemon.id).names;
 </script>
 
 <a href={`/pokemon/${pokemon.id}`} class="no-style" id={`${pokemon.id}`}>

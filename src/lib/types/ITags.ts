@@ -8,6 +8,7 @@ export interface ITag {
 export interface ITagContents {
 	pokemon: {
 		id: number;
+		added: string;
 	}[];
 }
 

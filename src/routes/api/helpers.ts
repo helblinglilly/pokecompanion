@@ -54,7 +54,6 @@ export const validateAuth = async (request: Request, cookies: Cookies) => {
 		return false;
 	}
 
-	// TODO - Rework this
 	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
 	pb.authStore.loadFromCookie(authCookie);
 
