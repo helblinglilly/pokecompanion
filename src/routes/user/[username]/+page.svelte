@@ -69,25 +69,24 @@
 		<div class="card" style="justify-content: center;">
 			<div class="columns">
 				<div class="column">
-					<h3>Requests</h3>
-					<button
-						class="button secondary"
-						on:click={async () => {
-							if (!$currentUser) {
-								return;
-							}
-							try {
-								await $pb.collection('users').requestPasswordReset($currentUser.email);
-								// TODO add notification
-							} catch (err) {
-								error(JSON.stringify(err), 'FailedToRequestPasswordReset');
-							}
-						}}>Reset Password</button
-					>
-					<button class="button secondary">Change Email Address</button>
-				</div>
+					<div style="padding-top: 1rem; padding-bottom: 1rem;">
+						<h3>Reset password</h3>
+						<button
+							class="button secondary"
+							on:click={async () => {
+								if (!$currentUser) {
+									return;
+								}
+								try {
+									await $pb.collection('users').requestPasswordReset($currentUser.email);
+									// TODO add notification
+								} catch (err) {
+									error(JSON.stringify(err), 'FailedToRequestPasswordReset');
+								}
+							}}>Request reset</button
+						>
+					</div>
 
-				<div class="column">
 					<hr />
 
 					<div style="padding-top: 1rem; padding-bottom: 1rem;">
