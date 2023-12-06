@@ -1,6 +1,8 @@
 <script lang="ts">
-	import PokemonPreview from '../PokemonPreview.svelte';
-	export let pokemons: IPokemonNames[];
+	import type { IStaticPokemon } from '$lib/data/games';
+	import PokemonPreview from './PokemonPreview.svelte';
+
+	export let pokemons: IStaticPokemon[];
 	export let title: string;
 	export let secondaryTitle: string;
 	export let isHidden: boolean;

@@ -1,3 +1,4 @@
+import PokemonNames from '$lib/data/pokemonNames.json';
 export interface IGeneration {
 	name: string;
 	short: string;
@@ -709,4 +710,45 @@ export const getPokemonGeneration = (id: number) => {
 	} else {
 		return 10;
 	}
+};
+
+export interface IStaticPokemon {
+	id: number;
+	generation: number;
+	names: {
+		'ja-Hrkt'?: string | undefined;
+		'zh-Hans'?: string | undefined;
+		'zh-Hant'?: string | undefined;
+		de?: string | undefined;
+		en?: string | undefined;
+		es?: string | undefined;
+		fr?: string | undefined;
+		it?: string | undefined;
+		ja?: string | undefined;
+		ko?: string | undefined;
+		roomaji?: string | undefined;
+	}[];
+}
+/**
+ * Return a scraped entry of a Pokemon with a given ID
+ * @param id The national dex id for a pokemon
+ * @returns
+ */
+export const getPokemonEntry = (id: number): IStaticPokemon => {
+	const entry = PokemonNames.find((a) => {
+		return a.id === id;
+	});
+
+	if (!entry) {
+		return {
+			names: [
+				{
+					'ja-Hrkt': ''
+				}
+			],
+			id: -1,
+			generation: -1
+		};
+	}
+	return entry;
 };
