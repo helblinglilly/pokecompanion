@@ -31,9 +31,9 @@
 
 <h1>{tags.tag.name}</h1>
 
-<div class="columns">
-	<div class="column" id="pokemonList">
-		<h2>Pokémon</h2>
+<div class="columns" style="padding: 0;">
+	<div class="column" id="pokemonList" style="padding: 0;">
+		<!-- <h2>Pokémon</h2> -->
 		{#if tags.tag.contents.pokemon.length > 0}
 			<table style="width: 100%;">
 				{#each tags.tag.contents.pokemon as pokemonTag}

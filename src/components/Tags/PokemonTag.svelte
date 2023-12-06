@@ -8,11 +8,11 @@
 </script>
 
 <tr>
-	<td class="entry">
+	<td class="entry" style="padding-left: 0;">
 		<PokemonPreview pokemon={{ id, names: getPokemonEntry(id).names }} />
 		<p>{added.toLocaleString()}</p>
 	</td>
-	<td class="tight">
+	<td class="tight" style="padding-right: 0;">
 		<button class="removeButton" on:click={(e) => onRemoveClick()}>-</button>
 	</td>
 </tr>
