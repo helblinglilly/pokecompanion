@@ -8,7 +8,7 @@
 	import EmailVerification from '$components/Auth/EmailVerification.svelte';
 	import { pb } from '$lib/stores/domain';
 	import { error } from '$lib/log';
-	import { addNotification } from '$lib/stores/notifications.js';
+	import { addNotification } from '$lib/stores/notifications';
 
 	export let data;
 </script>
