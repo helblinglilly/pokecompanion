@@ -5,7 +5,7 @@
 :root {
 	--branding-secondary: #3d3938;
 	--highlight: #3a48b4;
-	--success: #128a14;
+	--success: #157817;
 	--warning: #f0a54a;
 	--error: #dd4141;
 	--error-bg: #a8414d;
@@ -258,20 +258,6 @@ div.column.centered {
 	justify-content: center;
 }
 
-.success {
-	background-color: #426e21;
-	color: var(--light);
-	border-radius: 5px;
-	display: flex;
-	justify-content: center;
-	padding: 15px;
-	width: 100%;
-}
-
-.success > button {
-	width: 100%;
-}
-
 img.sprite {
 	width: 15vw;
 	max-width: 96px;
@@ -292,14 +278,6 @@ input[type='text'] {
 	color: var(--dark);
 }
 
-.success {
-	color: var(--success);
-}
-
-.warning {
-	color: var(--warning);
-}
-
 button.error {
 	font-weight: bold;
 	background-color: var(--error);
@@ -310,4 +288,59 @@ button.button.error:hover {
 }
 .error {
 	color: var(--error);
+}
+
+@keyframes slideInFromBelow {
+	0% {
+		transform: translateY(100%);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.notifications {
+	width: 100%;
+	position: fixed;
+	display: grid;
+	padding-top: 2rem;
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
+.notifications .notification:last-child {
+	margin-bottom: 0;
+}
+.notification {
+	animation: 0.3s ease-out 0s 1 slideInFromBelow;
+	margin-bottom: 1rem;
+	padding: 0.5rem;
+	justify-content: center;
+	border-radius: 0.5rem;
+}
+
+.notification.success,
+button.notification.success:hover {
+	color: var(--light);
+	background-color: var(--success) !important;
+}
+
+.notification.failure,
+button.notification.failure:hover {
+	color: var(--light);
+	background-color: var(--error-bg) !important;
+}
+
+.notification.info,
+button.notification.info:hover {
+	color: var(--light);
+	background-color: var(--highlight) !important;
 }

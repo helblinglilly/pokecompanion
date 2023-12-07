@@ -1,5 +1,5 @@
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { deleteCookie, getRawCookie, parseCookieString, setCookie } from '$lib/utils/cookies';
+import { getRawCookie, parseCookieString } from '$lib/utils/cookies';
 import { addMinutesToDate } from '$lib/utils/date';
 import type { LayoutServerLoad } from './$types';
 import Pocketbase from 'pocketbase';

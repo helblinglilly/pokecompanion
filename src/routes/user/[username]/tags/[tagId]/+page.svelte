@@ -2,7 +2,10 @@
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import Modal from '$components/Modal.svelte';
+	import PokemonPreview from '$components/Pokemon/PokemonPreview.svelte';
 	import PokemonTag from '$components/Tags/PokemonTag.svelte';
+	import { error } from '$lib/log.js';
+	import { addNotification, notifications } from '$lib/stores/notifications.js';
 	import { currentUser } from '$lib/stores/user';
 
 	export let data;
@@ -33,34 +36,40 @@
 
 <div class="columns" style="padding: 0;">
 	<div class="column" id="pokemonList" style="padding: 0;">
-		<!-- <h2>Pokémon</h2> -->
 		{#if tags.tag.contents.pokemon.length > 0}
 			<table style="width: 100%;">
 				{#each tags.tag.contents.pokemon as pokemonTag}
-					<PokemonTag
-						id={pokemonTag.id}
-						added={new Date(pokemonTag.added)}
-						onRemoveClick={async () => {
-							try {
-								await fetch('/api/tag', {
-									method: 'DELETE',
-									body: JSON.stringify({
-										id: data.tag.id,
-										contents: {
-											pokemon: [{ id: pokemonTag.id }]
-										}
-									})
-								});
+					{#if $currentUser?.username === tags.user.username}
+						<PokemonTag
+							id={pokemonTag.id}
+							added={new Date(pokemonTag.added)}
+							onRemoveClick={async () => {
+								try {
+									await fetch('/api/tag', {
+										method: 'DELETE',
+										body: JSON.stringify({
+											id: data.tag.id,
+											contents: {
+												pokemon: [{ id: pokemonTag.id }]
+											}
+										})
+									});
 
-								tags.tag.contents.pokemon = tags.tag.contents.pokemon.filter((a) => {
-									return a.id !== pokemonTag.id;
-								});
-							} catch (err) {
-								console.log(err);
-								// Set notification that it failed
-							}
-						}}
-					/>
+									tags.tag.contents.pokemon = tags.tag.contents.pokemon.filter((a) => {
+										return a.id !== pokemonTag.id;
+									});
+								} catch (err) {
+									addNotification({
+										message: `Could not remove Tag from #${pokemonTag.id}`,
+										level: 'failure'
+									});
+									error(JSON.stringify(err), 'FailureToRemovePokemonFromTag');
+								}
+							}}
+						/>
+					{:else}
+						<PokemonPreview pokemon={{ id: pokemonTag.id }} />
+					{/if}
 				{/each}
 			</table>
 		{:else}

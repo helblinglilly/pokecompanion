@@ -2,11 +2,12 @@
 	import type { ITagContents } from '$lib/types/ITags';
 	import { onMount } from 'svelte';
 	import CreateNewTag from './CreateNewTag.svelte';
-	import { error as logError } from '$lib/log';
+	import { error, error as logError } from '$lib/log';
 	import { currentUser } from '$lib/stores/user';
 	import { getTagsByUser, type ITags } from '$lib/pb/tags';
 	import Icon from '$components/Icon.svelte';
 	import Modal from '$components/Modal.svelte';
+	import { addNotification } from '$lib/stores/notifications';
 
 	export let newTagInitialContent: ITagContents;
 	let showAddNewOverlay = false;
@@ -47,7 +48,8 @@
 				})
 			});
 		} catch (err) {
-			// set notification
+			addNotification({ message: 'Could not add tag. Please try again', level: 'failure' });
+			error(JSON.stringify(err), 'FailedToAddToTag');
 		}
 	};
 
@@ -63,7 +65,8 @@
 				})
 			});
 		} catch (err) {
-			// set notification
+			addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });
+			error(JSON.stringify(err), 'FailedToRemoveToTag');
 		}
 	};
 </script>

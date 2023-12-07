@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import { cookieHandlers, theme } from '$lib/stores/domain';
 	import { page } from '$app/stores';
-	import { notifications } from '$lib/stores/notifications';
+	import { notifications, removeNotification } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import type { PageData } from './$types';
 	import SearchBar from '$components/Search/SearchBar.svelte';
@@ -155,22 +155,22 @@
 	</div>
 </nav>
 
-<div id="pageWrapper">
-	{#if $notifications.filter((a) => a.visible).length > 0}
-		<div class="columns">
-			{#each $notifications as notification}
-				<button
-					class={`column ${notification.level}`}
-					on:click={() => {
-						notification.visible = false;
-					}}
-				>
-					{notification.message}
-				</button>
-			{/each}
-		</div>
-	{/if}
+{#if $notifications.length > 0}
+	<div class="notifications">
+		{#each $notifications as notification}
+			<button
+				class={`notification ${notification.level}`}
+				on:click={() => {
+					removeNotification(notification);
+				}}
+			>
+				{notification.message}
+			</button>
+		{/each}
+	</div>
+{/if}
 
+<div id="pageWrapper">
 	{#if shouldDisplaySearch}
 		<SearchBar />
 		{#if breadcrumbs.length > 0 && $page.status === 200}

@@ -1,7 +1,9 @@
 <script lang="ts">
 	import Modal from '$components/Modal.svelte';
+	import { error } from '$lib/log';
 	import { getIdByUsername } from '$lib/pb/publicUsers';
 	import { pb } from '$lib/stores/domain';
+	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 
 	let showModal = false;
@@ -24,11 +26,13 @@
 				status: 'new',
 				reported_by: $currentUser?.id ?? null
 			});
-			// set success notification
+			addNotification({ message: `Reported ${username}`, level: 'info' });
 		} catch (err) {
-			console.log(err);
-			// log error message
-			// set error notification
+			addNotification({
+				message: `Failed to report ${username}. Please try again`,
+				level: 'failure'
+			});
+			error(JSON.stringify(err), 'FailedToReportUser');
 		}
 	};
 </script>

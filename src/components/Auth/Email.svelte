@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { pb } from '$lib/stores/domain';
-	import { notifications } from '$lib/stores/notifications';
+	import { addNotification, notifications } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import { deleteCookie, getCookie, getRawCookie } from '$lib/utils/cookies';
 	import { isPasswordValid } from '$lib/utils/user-client';
@@ -69,14 +69,7 @@
 			}
 
 			if (mode === 'signup') {
-				notifications.set([
-					{
-						message: 'Account created. You can now log in',
-						level: 'failure',
-						visible: true
-					},
-					...$notifications
-				]);
+				addNotification({ message: 'Account created. You can now sign in', level: 'success' });
 
 				mode = 'login';
 			} else {
@@ -98,14 +91,8 @@
 			} else {
 				usernameError = 'Sign up failed';
 			}
-			notifications.set([
-				{
-					message: errorMessage,
-					level: 'failure',
-					visible: true
-				},
-				...$notifications
-			]);
+
+			addNotification({ message: 'Oh oh, that was our fault. Please try again', level: 'failure' });
 		}
 	};
 </script>

@@ -8,6 +8,7 @@
 	import EmailVerification from '$components/Auth/EmailVerification.svelte';
 	import { pb } from '$lib/stores/domain';
 	import { error } from '$lib/log';
+	import { addNotification } from '$lib/stores/notifications.js';
 
 	export let data;
 </script>
@@ -79,8 +80,15 @@
 								}
 								try {
 									await $pb.collection('users').requestPasswordReset($currentUser.email);
-									// TODO add notification
+									addNotification({
+										message: 'You have requested a password reset',
+										level: 'info'
+									});
 								} catch (err) {
+									addNotification({
+										message: 'Failed to request password reset. Please try again',
+										level: 'failure'
+									});
 									error(JSON.stringify(err), 'FailedToRequestPasswordReset');
 								}
 							}}>Request reset</button
@@ -110,7 +118,6 @@
 	#sidebar {
 		display: grid;
 		justify-content: center;
-		/* min-width: max-content; */
 	}
 
 	#taglist {
