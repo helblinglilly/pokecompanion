@@ -72,7 +72,6 @@
 
 			goto(`/signin`);
 		} catch (err) {
-			console.error(err);
 			status = 'Sign in failed';
 			errorDetails = 'Could not sign you in. Please try again.';
 		}

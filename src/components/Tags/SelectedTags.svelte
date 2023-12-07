@@ -31,7 +31,7 @@
 			try {
 				allTags = await getTagsByUser($currentUser.id);
 			} catch (err) {
-				logError(JSON.stringify(err), '');
+				logError(JSON.stringify(err), 'FailedToGetTagsByUser');
 			}
 		}
 	};

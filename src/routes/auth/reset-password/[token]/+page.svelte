@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { error } from '$lib/log';
 	import { pb } from '$lib/stores/domain';
+	import { addNotification } from '$lib/stores/notifications';
 	import { isPasswordValid } from '$lib/utils/user-client';
 
 	let newPassword: string;
@@ -32,6 +33,7 @@
 			await $pb.collection('users').confirmPasswordReset(token, newPassword, confirmNewPassword);
 			passwordError = 'Your password has been changed';
 		} catch (err) {
+			addNotification({ message: 'Failed to reset password', level: 'failure' });
 			error(JSON.stringify(err), 'FailedToResetPassword');
 		}
 	};
