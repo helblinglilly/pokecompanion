@@ -1,6 +1,13 @@
 <script>
 	import { page } from '$app/stores';
 	import Image from '$components/Image.svelte';
+	import { error } from '$lib/log';
+
+	error(
+		$page.error?.message ?? 'User reached error page',
+		$page.error?.errorId ?? 'Unknown',
+		($page.error?.status ?? $page.status).toString()
+	);
 </script>
 
 <div id="pageWrapper">
