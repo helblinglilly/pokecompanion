@@ -8,19 +8,9 @@
 // import * as Sentry from '@sentry/sveltekit';
 import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
-// import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import PocketBase from 'pocketbase';
 import { getRawCookie } from '$lib/utils/cookies';
-
-// try {
-// 	Sentry.init({
-// 		dsn: PUBLIC_SENTRY_DSN,
-// 		tracesSampleRate: 1
-// 	});
-// } catch (err) {
-// 	console.error(`Failed to initialise sentry (server side)`, err);
-// }
 
 export const handleError: HandleServerError = async ({ error, event }) => {
 	const errorId = uuidv4();
