@@ -3,7 +3,7 @@
 		text: string;
 		class?: string;
 		type?: 'button' | 'submit' | 'reset' | undefined;
-		onClick?: () => void;
+		onClick?: (newVal?: string) => void;
 	};
 	export let inputConfig: {
 		style?: string | undefined;
@@ -27,7 +27,11 @@
 		style={`${
 			variation === 'small' ? 'padding: 5px;' : ''
 		} border-top-left-radius: 0; border-bottom-left-radius: 0;`}
-		on:click={buttonConfig.onClick}>{buttonConfig.text}</button
+		on:click={() => {
+			if (buttonConfig.onClick) {
+				buttonConfig.onClick(valueBinding);
+			}
+		}}>{buttonConfig.text}</button
 	>
 </div>
 

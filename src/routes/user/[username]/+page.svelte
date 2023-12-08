@@ -139,10 +139,4 @@
 			max-width: 600px;
 		}
 	}
-
-	section {
-		box-shadow: 3px 12px 10px -10px rgba(0, 0, 0, 0.78);
-		-webkit-box-shadow: 3px 12px 10px -10px rgba(0, 0, 0, 0.78);
-		-moz-box-shadow: 3px 12px 10px -10px rgba(0, 0, 0, 0.78);
-	}
 </style>

@@ -91,3 +91,56 @@ export async function DELETE({ request, cookies }) {
 
 	return new Response(JSON.stringify(newContents), { status: 200 });
 }
+
+export async function PATCH({ request, cookies }) {
+	const authedPb = await validateAuth(request, cookies);
+
+	if (!authedPb) {
+		return new Response('Not authorised', { status: 401 });
+	}
+
+	let body: { id: string; contents: ITagContents; name: string; isPrivate: boolean } | undefined;
+
+	try {
+		body = await request.json();
+	} catch (err) {
+		warn('Failed to parse JSON from request body', request);
+		return new Response('Invalid body', {
+			status: 400
+		});
+	}
+
+	if (!body) {
+		return new Response('Empty body', {
+			status: 400
+		});
+	}
+
+	if (
+		!body.contents ||
+		body.contents.pokemon.length === undefined ||
+		!body.name ||
+		body.isPrivate === undefined
+	) {
+		return new Response(JSON.stringify({ error: 'Invalid body', request: body }), {
+			status: 400
+		});
+	}
+
+	try {
+		await authedPb.collection('tags').update(body.id, {
+			contents: {
+				pokemon: body.contents.pokemon
+			},
+			name: body.name,
+			isPrivate: body.isPrivate
+		});
+	} catch (err) {
+		error(JSON.stringify(err), 'FailedToUpdateTag');
+		return new Response('Failed to update tag', {
+			status: 500
+		});
+	}
+
+	return new Response(JSON.stringify(body), { status: 200 });
+}
