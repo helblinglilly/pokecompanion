@@ -11,7 +11,10 @@ export interface IPokemon {
 	moves: Mfe[];
 	name: string;
 	order: number;
-	past_types: any[];
+	past_types: {
+		generation: Generation;
+		types: Type[];
+	}[];
 	sprites: ISprites;
 	stats: Stat[];
 	types: Type[];
@@ -450,7 +453,7 @@ interface Habitat {
 	url: string;
 }
 
-interface Name {
+export interface Name {
 	language: Language3;
 	name: string;
 }

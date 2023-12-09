@@ -9,7 +9,7 @@
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Sprite from '$components/GameSpecific/Sprite.svelte';
 	import Navigator from '$components/Navigator.svelte';
-	import { getPokemonTypesInGame } from '$lib/data/elementalTypes';
+	import { getPokemonTypesInGame } from '$lib/data/generationAdjuster.js';
 	import EvolutionChain from '$components/Pokemon/EvolutionChain.svelte';
 	import Image from '$components/Image.svelte';
 	import { onMount } from 'svelte';
@@ -18,10 +18,10 @@
 	import Pokedex from '$components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$components/Tags/SelectedTags.svelte';
-	import Layout from '../../+layout.svelte';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 
 	export let data;
+
 	const removeLastRouteFromURL = (url: string) => {
 		if (!url) {
 			return;
@@ -43,6 +43,13 @@
 	});
 </script>
 
+<svelte:head>
+	<title
+		>#{data.id}
+		{`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}</title
+	>
+</svelte:head>
+
 <Breadcrumbs
 	breadcrumbs={[
 		{ display: 'Pokémon', url: `/pokemon?jumpTo=${data.id}` },
@@ -51,11 +58,7 @@
 />
 
 <Navigator
-	title={`${getMultiLanguageName(
-		PokemonNames[data.id - 1].names,
-		$primaryLanguage,
-		$secondaryLanguage
-	)}`}
+	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
 	currentId={data.id}
 	maxId={lastPokedexEntry}
 	iconUrl={removeLastRouteFromURL(data.pokemon.sprites.front_default)}
@@ -67,7 +70,7 @@
 		<div class="card" style="padding-top: 1rem;">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
 				<div style="display: inline-flex; height: 20px; width: 150px;">
-					{#each getPokemonTypesInGame(data.pokemon) as type}
+					{#each getPokemonTypesInGame(data.pokemon, $selectedGame?.generation) as type}
 						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
 					{/each}
 				</div>
@@ -75,15 +78,17 @@
 			</div>
 			<Sprite sprites={data.pokemon.sprites} />
 			{#if $currentUser}
-				<SelectedTags newTagInitialContent={{ pokemon: [{ id: data.id }] }} />
+				<SelectedTags
+					newTagInitialContent={{ pokemon: [{ id: data.id, added: new Date().toISOString() }] }}
+				/>
 			{/if}
-			{#if !isPokemonInGame(data.id, $selectedGame ?? '')}
+			{#if !isPokemonInGame(data.id, $selectedGame)}
 				<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
 			{/if}
 		</div>
 	</div>
 	<div class="column">
-		<div class="card">
+		<div class="card" id="evolutions">
 			<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} />
 		</div>
 	</div>

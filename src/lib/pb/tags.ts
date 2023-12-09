@@ -1,4 +1,5 @@
-import { pb } from '$lib/pocketbase';
+import Pocketbase from 'pocketbase';
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import type { ITagContents } from '$lib/types/ITags';
 
 export interface ITags {
@@ -14,6 +15,7 @@ export const getTagsByUser = async (id: string): Promise<ITags[]> => {
 	if (!id) {
 		return [];
 	}
+	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
 	try {
 		const tags = await pb.collection('tags').getFullList({
 			sort: '-created',

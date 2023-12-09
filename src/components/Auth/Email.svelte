@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { pb } from '$lib/pocketbase';
-	import { notifications } from '$lib/stores/notifications';
-	import { currentUser } from '$lib/stores/user';
+	import { pb } from '$lib/stores/domain';
+	import { addNotification, notifications } from '$lib/stores/notifications';
+	import { currentUser, type SignedInUser } from '$lib/stores/user';
+	import { deleteCookie, getCookie, getRawCookie } from '$lib/utils/cookies';
 	import { isPasswordValid } from '$lib/utils/user-client';
 
 	let mode: 'login' | 'signup' = 'login';
@@ -68,21 +69,21 @@
 			}
 
 			if (mode === 'signup') {
-				notifications.set([
-					{
-						message: 'Account created. You can now log in',
-						level: 'failure',
-						visible: true
-					},
-					...$notifications
-				]);
+				addNotification({ message: 'Account created. You can now sign in', level: 'success' });
 
 				mode = 'login';
 			} else {
-				pb.authStore.loadFromCookie(document.cookie);
-				if ($currentUser) {
-					goto(`/user/${$currentUser.username}`);
+				// Auth cookie is set as part of form action response
+				$pb.authStore.loadFromCookie(getRawCookie(document.cookie, 'pb_auth') || '');
+				currentUser.set($pb.authStore.model as SignedInUser);
+
+				const redirectUrl = getCookie('auth-redirect');
+				if (redirectUrl) {
+					deleteCookie('auth-redirect');
+					goto(redirectUrl);
+					return;
 				}
+				goto('/');
 			}
 		} catch {
 			if (mode === 'login') {
@@ -90,14 +91,8 @@
 			} else {
 				usernameError = 'Sign up failed';
 			}
-			notifications.set([
-				{
-					message: errorMessage,
-					level: 'failure',
-					visible: true
-				},
-				...$notifications
-			]);
+
+			addNotification({ message: 'Oh oh, that was our fault. Please try again', level: 'failure' });
 		}
 	};
 </script>

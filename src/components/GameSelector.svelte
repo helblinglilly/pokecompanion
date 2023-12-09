@@ -1,31 +1,42 @@
 <script lang="ts">
-	import { gameGroups, getGroupName } from '$lib/data/games';
+	import { findGameFromString, gameGroups } from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
+
+	let selectedGameGroup: any;
+
+	$: selectedGameGroup = $selectedGame ? $selectedGame.cookieGroup : 'generic';
 </script>
 
 <div>
 	<label for="gameSelector"><h3>Select Game</h3></label>
 	<select
-		bind:value={$selectedGame}
+		bind:value={selectedGameGroup}
 		on:change={(event) => {
 			if (event.currentTarget.value) {
-				selectedGame.set(event.currentTarget.value);
+				const gameValue = findGameFromString(event.currentTarget.value);
+				selectedGame.set(gameValue);
 			}
 		}}
 		name="gameSelector"
 		id="gameSelector"
 	>
-		<option value={'generic'} class={$selectedGame === 'generic' ? 'selected' : undefined}
-			>Generic</option
+		<option
+			value={'generic'}
+			class={$selectedGame === undefined ? 'selected' : undefined}
+			selected={$selectedGame === undefined}>Generic</option
 		>
 		{#each gameGroups as gameGroup}
 			<option
-				value={getGroupName(gameGroup, '-', true, true, true)}
-				class={getGroupName(gameGroup, '-', true, true, true) === $selectedGame
-					? 'selected'
-					: undefined}
+				value={gameGroup[0].cookieGroup}
+				class={gameGroup[0].cookieGroup === $selectedGame?.cookieGroup ? 'selected' : undefined}
+				selected={gameGroup[0].cookieGroup === $selectedGame?.cookieGroup}
 			>
-				{getGroupName(gameGroup, ' / ')}
+				{#each gameGroup as game, i}
+					{game.shortName}
+					{#if i < gameGroup.length - 1}
+						<p>{` / `}</p>
+					{/if}
+				{/each}
 			</option>
 		{/each}
 	</select>

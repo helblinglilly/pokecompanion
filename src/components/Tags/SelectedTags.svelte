@@ -2,11 +2,12 @@
 	import type { ITagContents } from '$lib/types/ITags';
 	import { onMount } from 'svelte';
 	import CreateNewTag from './CreateNewTag.svelte';
-	import { error as logError } from '$lib/log';
+	import { error, error as logError } from '$lib/log';
 	import { currentUser } from '$lib/stores/user';
 	import { getTagsByUser, type ITags } from '$lib/pb/tags';
 	import Icon from '$components/Icon.svelte';
 	import Modal from '$components/Modal.svelte';
+	import { addNotification } from '$lib/stores/notifications';
 
 	export let newTagInitialContent: ITagContents;
 	let showAddNewOverlay = false;
@@ -30,7 +31,7 @@
 			try {
 				allTags = await getTagsByUser($currentUser.id);
 			} catch (err) {
-				logError(JSON.stringify(err), '');
+				logError(JSON.stringify(err), 'FailedToGetTagsByUser');
 			}
 		}
 	};
@@ -42,12 +43,13 @@
 				body: JSON.stringify({
 					id: tagId,
 					contents: {
-						pokemon: [{ id: currentPokemonId }]
+						pokemon: [{ id: currentPokemonId, added: new Date().toISOString() }]
 					}
 				})
 			});
 		} catch (err) {
-			// set notification
+			addNotification({ message: 'Could not add tag. Please try again', level: 'failure' });
+			error(JSON.stringify(err), 'FailedToAddToTag');
 		}
 	};
 
@@ -63,7 +65,8 @@
 				})
 			});
 		} catch (err) {
-			// set notification
+			addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });
+			error(JSON.stringify(err), 'FailedToRemoveToTag');
 		}
 	};
 </script>
@@ -72,7 +75,7 @@
 	style="padding-top: 1rem; display: flex; justify-content: center; width: 100%; flex-flow: wrap;"
 >
 	{#each currentTags as tag}
-		<a class="tag" href="/user/me/list">
+		<a class="tag" href={`/user/${$currentUser?.username}/tags/${tag.id}`}>
 			<Icon style="margin-top: auto; margin-bottom: auto;" name="tag" />
 			<p>{tag.name}</p>
 		</a>

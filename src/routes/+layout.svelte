@@ -4,11 +4,13 @@
 	import { onMount } from 'svelte';
 	import { cookieHandlers, theme } from '$lib/stores/domain';
 	import { page } from '$app/stores';
-	import { notifications } from '$lib/stores/notifications';
+	import { notifications, removeNotification } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import type { PageData } from './$types';
 	import SearchBar from '$components/Search/SearchBar.svelte';
 	import { setCookie } from '$lib/utils/cookies';
+	import * as Sentry from '@sentry/browser';
+	import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 
 	let isMobileMenuExpanded = false;
 
@@ -79,8 +81,16 @@
 	};
 
 	onMount(() => {
+		Sentry.init({
+			dsn: PUBLIC_SENTRY_DSN,
+			tracesSampleRate: 1.0,
+			replaysSessionSampleRate: 0.1,
+			replaysOnErrorSampleRate: 1.0,
+			integrations: [new Sentry.Replay()]
+		});
+
 		initTheme();
-		// Initialise all cookies
+		// Initialise all cookies and stores
 		for (const value of Object.values(cookieHandlers)) {
 			value();
 		}
@@ -89,6 +99,10 @@
 
 	$: shouldDisplaySearch = !$page.url.pathname.includes('/auth/');
 </script>
+
+<svelte:head>
+	<title>Pokécompanion</title>
+</svelte:head>
 
 <nav id="navbar" class="h-12">
 	<a href="/" id="navbar__branding__link">
@@ -151,22 +165,22 @@
 	</div>
 </nav>
 
-<div id="pageWrapper">
-	{#if $notifications.filter((a) => a.visible).length > 0}
-		<div class="columns">
-			{#each $notifications as notification}
-				<button
-					class={`column ${notification.level}`}
-					on:click={() => {
-						notification.visible = false;
-					}}
-				>
-					{notification.message}
-				</button>
-			{/each}
-		</div>
-	{/if}
+{#if $notifications.length > 0}
+	<div class="notifications">
+		{#each $notifications as notification}
+			<button
+				class={`notification ${notification.level}`}
+				on:click={() => {
+					removeNotification(notification);
+				}}
+			>
+				{notification.message}
+			</button>
+		{/each}
+	</div>
+{/if}
 
+<div id="pageWrapper">
 	{#if shouldDisplaySearch}
 		<SearchBar />
 		{#if breadcrumbs.length > 0 && $page.status === 200}

@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/svelte';
+import * as Sentry from '@sentry/browser';
 /* https://github.com/getsentry/sentry-javascript/issues/8291 */
 // import * as Sentry from '@sentry/sveltekit';
 

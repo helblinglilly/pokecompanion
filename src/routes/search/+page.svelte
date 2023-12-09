@@ -45,6 +45,10 @@
 	$: if (searchTerm) fetchData();
 </script>
 
+<svelte:head>
+	<title>Search results - Pokecompanion</title>
+</svelte:head>
+
 <h1>Search results</h1>
 
 {#if errorMessage}

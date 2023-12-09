@@ -8,17 +8,9 @@
 // import * as Sentry from '@sentry/sveltekit';
 import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
-// import { PUBLIC_SENTRY_DSN } from '$env/static/public';
-import { createInstance } from '$lib/pocketbase';
-
-// try {
-// 	Sentry.init({
-// 		dsn: PUBLIC_SENTRY_DSN,
-// 		tracesSampleRate: 1
-// 	});
-// } catch (err) {
-// 	console.error(`Failed to initialise sentry (server side)`, err);
-// }
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import PocketBase from 'pocketbase';
+import { getRawCookie } from '$lib/utils/cookies';
 
 export const handleError: HandleServerError = async ({ error, event }) => {
 	const errorId = uuidv4();
@@ -55,31 +47,19 @@ export const handleError: HandleServerError = async ({ error, event }) => {
 	};
 };
 
-export const handleAuth: Handle = async ({ event, resolve }) => {
-	const pb = createInstance();
+export const handle: Handle = async ({ event, resolve }) => {
+	// Must initialise PB so that it's available in other server actions
+	const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 
-	// load the store data from the request cookie string
-	pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
-	try {
-		// get an up-to-date auth store state by verifying and refreshing the loaded auth model (if any)
-		if (pb.authStore.isValid) {
-			await pb.collection('users').authRefresh();
-		}
-	} catch (_) {
-		// clear the auth store on failed refresh
-		pb.authStore.clear();
-	}
+	const cookieString = event.request.headers.get('cookie') ?? '';
+	const pbAuth = getRawCookie(cookieString, 'pb_auth') ?? '';
+
+	pb.authStore.loadFromCookie(pbAuth);
 
 	event.locals.pb = pb;
 	event.locals.user = pb.authStore.model;
 
 	const response = await resolve(event);
 
-	// send back the default 'pb_auth' cookie to the client with the latest store state
-	response.headers.set('set-cookie', pb.authStore.exportToCookie({ httpOnly: false }));
-
 	return response;
 };
-
-// export const handle = sequence(handleAuth, Sentry.sentryHandle());
-export const handle = handleAuth;

@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 	import Image from '../Image.svelte';
 	import { selectedGame } from '$lib/stores/domain';
-	import { findGameGroupFromCookieString } from '$lib/data/games';
+	import { findGameGroupFromString } from '$lib/data/games';
 
 	export let evolutionChainUrl: string;
 
@@ -25,7 +25,7 @@
 						return formatEvolutions(
 							direction,
 							Number(sourceId),
-							findGameGroupFromCookieString($selectedGame)
+							findGameGroupFromString($selectedGame?.cookieGroup)
 						);
 					})
 					.flat();
@@ -47,7 +47,7 @@
 					return formatEvolutions(
 						direction,
 						Number(sourceId),
-						findGameGroupFromCookieString($selectedGame)
+						findGameGroupFromString($selectedGame?.cookieGroup)
 					);
 				})
 				.flat();
@@ -75,7 +75,7 @@
 			<div class="columns mobile">
 				<div class="column" style="display: grid; justify-content: center;">
 					<a href={evolution.sourceURL}>
-						<Image src={evolution.sourceSprite} alt="test" classNames="sprite" />
+						<Image src={evolution.sourceSprite} alt={evolution.sourceSprite} classNames="sprite" />
 					</a>
 				</div>
 				<div
@@ -225,7 +225,7 @@
 				</div>
 				<div class="column" style="display: grid; justify-content: center;">
 					<a href={evolution.targetURL}>
-						<Image src={evolution.targetSprite} alt="test" classNames="sprite" />
+						<Image src={evolution.targetSprite} alt={evolution.targetURL} classNames="sprite" />
 					</a>
 				</div>
 			</div>

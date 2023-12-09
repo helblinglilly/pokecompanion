@@ -40,6 +40,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Pokémon - Pokécompanion</title>
+</svelte:head>
+
 <button
 	id="backToTop"
 	class:show={scrolled}

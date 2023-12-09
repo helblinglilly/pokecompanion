@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { deleteCookie, getCookie } from '$lib/utils/cookies';
+	import { deleteCookie, getCookie, parseCookieString, setCookie } from '$lib/utils/cookies';
 	import { onMount } from 'svelte';
-	import { pb } from '$lib/pocketbase';
 	import { goto } from '$app/navigation';
 	import type { IAuthProvider } from '../signin/+page';
-	import { currentUser } from '$lib/stores/user';
+	import { addMinutesToDate } from '$lib/utils/date';
+	import { currentUser, type SignedInUser } from '$lib/stores/user';
+	import { pb } from '$lib/stores/domain';
 
 	let status = 'Authenticating...';
 	let errorDetails = '';
@@ -33,7 +34,7 @@
 		status = 'Signin in...';
 
 		try {
-			const authData = await pb
+			const authData = await $pb
 				.collection('users')
 				.authWithOAuth2Code(
 					provider.name,
@@ -48,24 +49,29 @@
 				const svgResponse = await fetch(`/api/generateAvatar?key=${authData.record.username}`);
 				const svgImage = await svgResponse.blob();
 
-				await pb.collection('users').update(authData.record.id, { avatar: svgImage });
+				await $pb.collection('users').update(authData.record.id, { avatar: svgImage });
 			}
 
 			const redirectUrl = getCookie('auth-redirect');
+			const cookie = $pb.authStore.exportToCookie({ expires: addMinutesToDate(new Date(), 30) });
+
+			const cookieValues = parseCookieString(cookie);
+			const pbAuthObj = JSON.parse(cookieValues.pb_auth);
+
+			currentUser.set($pb.authStore.model as SignedInUser);
+			setCookie('pb_auth', JSON.stringify(pbAuthObj), {
+				expires: new Date(cookieValues.Expires),
+				path: '/'
+			});
 
 			if (redirectUrl) {
-				goto(redirectUrl);
 				deleteCookie('auth-redirect');
+				goto(redirectUrl);
 				return;
 			}
 
-			if ($currentUser) {
-				goto(`/user/${$currentUser.username}`);
-				return;
-			}
 			goto(`/signin`);
 		} catch (err) {
-			console.error(err);
 			status = 'Sign in failed';
 			errorDetails = 'Could not sign you in. Please try again.';
 		}

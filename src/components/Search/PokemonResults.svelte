@@ -1,9 +1,9 @@
 <script lang="ts">
 	import PokemonPreview from '$components/Pokemon/PokemonPreview.svelte';
+	import type { IStaticPokemon } from '$lib/data/games';
 	import { maxSearchResults } from '$lib/stores/domain';
-	import type { IPokemonNames } from '../../routes/pokemon/+page';
 
-	export let pokemonResults: IPokemonNames[];
+	export let pokemonResults: IStaticPokemon[];
 	let maxResults = maxSearchResults;
 </script>
 

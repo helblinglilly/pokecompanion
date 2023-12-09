@@ -1,5 +1,7 @@
 <script>
-	import { pb } from '$lib/pocketbase';
+	import { error } from '$lib/log';
+	import { pb } from '$lib/stores/domain';
+	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 </script>
 
@@ -14,10 +16,10 @@
 				if (!$currentUser) {
 					return;
 				}
-				await pb.collection('users').requestVerification($currentUser.email);
+				await $pb.collection('users').requestVerification($currentUser.email);
 			} catch (err) {
-				console.error('Failed to request verification Email');
-				// set notification
+				addNotification({ message: 'Failed to request verification Email', level: 'failure' });
+				error(JSON.stringify(err), 'FailedToRequestVerificationEmail');
 			}
 		}}>Request verification email</button
 	>

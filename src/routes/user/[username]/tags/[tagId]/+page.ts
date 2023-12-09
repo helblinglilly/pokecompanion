@@ -1,10 +1,12 @@
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import { getUserByUsername } from '$lib/pb/publicUsers';
-import { pb } from '$lib/pocketbase.js';
 import type { ITag } from '$lib/types/ITags.js';
 import { error } from '@sveltejs/kit';
+import Pocketbase from 'pocketbase';
 import type { RecordModel } from 'pocketbase';
 
 export const load = async ({ params }) => {
+	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
 	const [user, freshTags] = await Promise.all([
 		getUserByUsername(params.username),
 		pb.collection('tags').getOne(params.tagId)

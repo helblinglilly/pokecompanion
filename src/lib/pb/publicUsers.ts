@@ -1,5 +1,5 @@
-import { pb } from '$lib/pocketbase';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import Pocketbase from 'pocketbase';
 
 interface IPublicUserResponse {
 	avatar_url: string;
@@ -16,6 +16,7 @@ export const getUserById = async (id: string): Promise<IPublicUser | undefined> 
 	if (!id) {
 		return;
 	}
+	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
 	try {
 		const user = (await pb.collection('public_users').getOne(id)) as IPublicUserResponse;
 		return {
@@ -31,6 +32,7 @@ export const getUserByUsername = async (username: string): Promise<IPublicUser |
 	if (!username) {
 		return;
 	}
+	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
 	try {
 		const user = (await pb
 			.collection('public_users')
@@ -48,7 +50,7 @@ export const getIdByUsername = async (username: string): Promise<string | undefi
 	if (!username) {
 		return;
 	}
-
+	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
 	try {
 		const user = (await pb
 			.collection('public_users')

@@ -19,32 +19,40 @@ const staticAssetUrls = staticAssets.map((a) => self.location.origin + a);
 
 /** @param {ExtendableEvent} event */
 function install_listener(event) {
-	event.waitUntil(
-		caches
-			.open(ASSETS)
-			.then((cache) => {
-				cache.addAll(staticAssets);
-				console.log(`Service worker initialised`);
-			})
-			.catch((err) => {
-				console.error(err);
-			})
-	);
+	try {
+		event.waitUntil(
+			caches
+				.open(ASSETS)
+				.then((cache) => {
+					cache.addAll(staticAssets);
+					console.log(`Service worker initialized`);
+				})
+				.catch((err) => {
+					console.error('Error during installation:', err);
+				})
+		);
+	} catch (err) {
+		console.error('Error when installing service worker:', err);
+	}
 }
 
 /** @param {ExtendableEvent} event */
 function activate_listener(event) {
-	event.waitUntil(
-		caches.keys().then(async (keys) => {
-			// delete old caches
-			for (const key of keys) {
-				if (key !== ASSETS) {
-					await caches.delete(key);
+	try {
+		event.waitUntil(
+			caches.keys().then(async (keys) => {
+				for (const key of keys) {
+					if (key !== ASSETS) {
+						await caches.delete(key);
+					}
 				}
-			}
-			sw.clients.claim();
-		})
-	);
+				sw.clients.claim();
+			})
+		);
+	} catch (err) {
+		console.error('Error when activating service worker listener:', err);
+		throw err;
+	}
 }
 
 /**
@@ -77,6 +85,8 @@ async function networkFirst(request, cacheName = REQUESTS) {
 				statusText: 'Requested an online resource while offline'
 			});
 		}
+
+		throw err;
 	}
 }
 
@@ -124,6 +134,7 @@ async function networkOnly(request) {
 		return await fetch(request);
 	} catch (err) {
 		console.log('error in network only', err);
+		throw err;
 	}
 }
 
@@ -174,4 +185,5 @@ try {
 	sw.addEventListener('fetch', fetch_listener);
 } catch (err) {
 	console.log(`failed to add event listeners with error`, err);
+	throw err;
 }

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import Modal from '$components/Modal.svelte';
+	import { error } from '$lib/log';
+	import { addNotification } from '$lib/stores/notifications';
 	import type { ITagRequestBody, ITagContents } from '$lib/types/ITags';
 
 	export let newTagInitialContent: ITagContents;
@@ -12,9 +14,18 @@
 
 	const createNewTag = async () => {
 		try {
+			const updatedInitialContent = {
+				...newTagInitialContent,
+				pokemon: newTagInitialContent.pokemon.map((mon) => {
+					return {
+						...mon,
+						added: new Date().toISOString()
+					};
+				})
+			};
 			const payload: ITagRequestBody = {
 				name: newListName,
-				initialContent: newTagInitialContent,
+				initialContent: updatedInitialContent,
 				isPrivate
 			};
 			const response = await fetch('/api/tags', {
@@ -29,7 +40,8 @@
 				afterCreation();
 			}
 		} catch (err) {
-			console.log(err);
+			addNotification({ message: 'Failed to create tag', level: 'failure' });
+			error(JSON.stringify(err), 'FailedToCreateTag');
 		}
 		showAddNewOverlay = false;
 		newListName = '';
