@@ -15,7 +15,7 @@
 	let hasChanges = false;
 
 	let showRenameOverlay = false;
-	let inModifyView = true;
+	let inModifyView = false;
 
 	const saveUpdatedTag = async () => {
 		if (hasChanges) {
