@@ -70,6 +70,7 @@
 	<div>
 		<button
 			class="button"
+			style="margin-bottom: 1rem;"
 			on:click={async () => {
 				if (inModifyView) {
 					try {
@@ -83,9 +84,14 @@
 			}}>{inModifyView ? 'Save' : 'Modify'}</button
 		>
 		{#if inModifyView}
-			<button class="button" on:click={() => (showRenameOverlay = true)}>Rename</button>
+			<button
+				style="margin-bottom: 1rem;"
+				class="button"
+				on:click={() => (showRenameOverlay = true)}>Rename</button
+			>
 			<button
 				class="button"
+				style="margin-bottom: 1rem;"
 				on:click={() => {
 					tags.tag.isPrivate = !tags.tag.isPrivate;
 					hasChanges = true;
@@ -93,6 +99,7 @@
 			>
 			<button
 				class="button error"
+				style="margin-bottom: 1rem;"
 				on:click={() => {
 					addNotification({ message: 'To do', level: 'info' });
 				}}>Delete Tag</button
@@ -151,6 +158,7 @@
 
 <style>
 	.tagListWrapper {
+		padding-left: 0;
 		max-width: 100%;
 	}
 
