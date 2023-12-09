@@ -35,7 +35,7 @@ export const load: LayoutServerLoad = async ({ locals, request, cookies }) => {
 
 		cookies.set('pb_auth', JSON.stringify(pbAuthObj), {
 			expires: new Date(cookieValues.Expires),
-			path: cookieValues.path,
+			path: '/',
 			sameSite: 'lax',
 			httpOnly: cookieValues.httpOnly,
 			secure: cookieValues.Secure

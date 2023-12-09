@@ -72,7 +72,7 @@ export const validateAuth = async (request: Request, cookies: Cookies) => {
 
 		cookies.set('pb_auth', JSON.stringify(pbAuthObj), {
 			expires: new Date(cookieValues.Expires),
-			path: cookieValues.path,
+			path: '/',
 			sameSite: 'lax',
 			httpOnly: cookieValues.httpOnly,
 			secure: cookieValues.Secure
