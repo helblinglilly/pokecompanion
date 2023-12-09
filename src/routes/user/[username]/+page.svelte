@@ -21,19 +21,21 @@
 	<div class="card">
 		<div class="columns">
 			<div class="column" id="sidebar">
-				<div style="display: grid; justify-content: center;">
-					<Avatar user={data.user} />
-				</div>
-				<div style="margin-top: 1rem;">
-					{#if $currentUser && $currentUser.username === data.user.username}
-						<ChangeUsername />
-					{:else}
-						<h4 style="text-align: center;">{data.user.username}</h4>
-						<div style="display: inline-flex; justify-content: space-around; width: 100%;">
-							<ReportUser username={data.user.username} style="padding: 5px;" />
-							<!-- <button class="button secondary" style="padding: 5px;">Block</button> -->
-						</div>
-					{/if}
+				<div style="display: grid; justify-content: center; height: fit-content;">
+					<div style="display: flex; justify-content: center;">
+						<Avatar user={data.user} />
+					</div>
+					<div style="margin-top: 1rem;">
+						{#if $currentUser && $currentUser.username === data.user.username}
+							<ChangeUsername />
+						{:else}
+							<h4 style="text-align: center;">{data.user.username}</h4>
+							<div style="display: inline-flex; justify-content: space-around; width: 100%;">
+								<ReportUser username={data.user.username} style="padding: 5px;" />
+								<!-- <button class="button secondary" style="padding: 5px;">Block</button> -->
+							</div>
+						{/if}
+					</div>
 				</div>
 			</div>
 

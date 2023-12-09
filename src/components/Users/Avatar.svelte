@@ -17,5 +17,6 @@
 		margin-right: 1rem;
 		margin-left: 1rem;
 		width: fit-content;
+		height: fit-content;
 	}
 </style>
