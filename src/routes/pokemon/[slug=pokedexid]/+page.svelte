@@ -21,6 +21,7 @@
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 
 	export let data;
+
 	const removeLastRouteFromURL = (url: string) => {
 		if (!url) {
 			return;
@@ -45,11 +46,7 @@
 <svelte:head>
 	<title
 		>#{data.id}
-		{`${getMultiLanguageName(
-			PokemonNames[data.id - 1].names,
-			$primaryLanguage,
-			$secondaryLanguage
-		)}`}</title
+		{`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}</title
 	>
 </svelte:head>
 
@@ -61,11 +58,7 @@
 />
 
 <Navigator
-	title={`${getMultiLanguageName(
-		PokemonNames[data.id - 1].names,
-		$primaryLanguage,
-		$secondaryLanguage
-	)}`}
+	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
 	currentId={data.id}
 	maxId={lastPokedexEntry}
 	iconUrl={removeLastRouteFromURL(data.pokemon.sprites.front_default)}

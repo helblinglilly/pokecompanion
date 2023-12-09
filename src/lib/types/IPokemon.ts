@@ -453,7 +453,7 @@ interface Habitat {
 	url: string;
 }
 
-interface Name {
+export interface Name {
 	language: Language3;
 	name: string;
 }

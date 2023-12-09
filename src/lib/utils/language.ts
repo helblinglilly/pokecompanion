@@ -1,3 +1,5 @@
+import type { Name } from '$lib/types/IPokemon';
+
 export interface Languages {
 	'ja-Hrkt'?: string;
 	roomaji?: string;
@@ -40,4 +42,13 @@ export const getMultiLanguageName = (
 	} else if (primaryLanguage !== secondaryLanguage) {
 		return `${primaryLanguage} - ${secondaryLanguage}`;
 	}
+};
+
+export const speciesNamesToNormalisedNames = (input: Name[]) => {
+	return input.map((item) => {
+		const languageName = item.language.name;
+		const languageValue = item.name;
+
+		return { [languageName]: languageValue };
+	});
 };

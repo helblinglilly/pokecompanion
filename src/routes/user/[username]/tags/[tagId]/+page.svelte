@@ -4,9 +4,9 @@
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import Modal from '$components/Modal.svelte';
 	import PokemonPreview from '$components/Pokemon/PokemonPreview.svelte';
-	import PokemonTag from '$components/Tags/PokemonTag.svelte';
-	import { error } from '$lib/log.js';
-	import { addNotification } from '$lib/stores/notifications.js';
+	import { getPokemonEntry } from '$lib/data/games';
+	import { error } from '$lib/log';
+	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 
 	export let data;
@@ -15,7 +15,7 @@
 	let hasChanges = false;
 
 	let showRenameOverlay = false;
-	let inModifyView = false;
+	let inModifyView = true;
 
 	const saveUpdatedTag = async () => {
 		if (hasChanges) {
@@ -101,30 +101,30 @@
 	</div>
 {/if}
 
-<div class="columns" style="padding: 0;">
-	<div class="column" id="pokemonList" style="padding: 0;">
-		{#if tags.tag.contents.pokemon.length > 0}
-			<table style="width: 100%;">
-				{#each tags.tag.contents.pokemon as pokemonTag}
-					{#if $currentUser?.username === tags.user.username && inModifyView}
-						<PokemonTag
-							id={pokemonTag.id}
-							added={new Date(pokemonTag.added)}
-							onRemoveClick={async () => {
-								tags.tag.contents.pokemon = tags.tag.contents.pokemon.filter((a) => {
-									return a.id !== pokemonTag.id;
-								});
-								hasChanges = true;
-							}}
-						/>
-					{:else}
-						<PokemonPreview pokemon={{ id: pokemonTag.id }} />
-					{/if}
-				{/each}
-			</table>
-		{:else}
+<div class="columns" style="padding: 0; width: 100%;">
+	<div class="column tagListWrapper">
+		{#if tags.tag.contents.pokemon.length === 0}
 			<p>No Pokémon in this list</p>
 		{/if}
+
+		{#each tags.tag.contents.pokemon.sort((a, b) => (a.id < b.id ? 1 : -1)) as pokemonTag}
+			<div style="width: 100%; position: relative;">
+				<PokemonPreview
+					pokemon={{ id: pokemonTag.id, names: getPokemonEntry(pokemonTag.id).names }}
+				/>
+				{#if inModifyView}
+					<button
+						class="removeButton"
+						on:click={async () => {
+							tags.tag.contents.pokemon = tags.tag.contents.pokemon.filter((a) => {
+								return a.id !== pokemonTag.id;
+							});
+							hasChanges = true;
+						}}>-</button
+					>
+				{/if}
+			</div>
+		{/each}
 	</div>
 </div>
 
@@ -150,9 +150,29 @@
 </Modal>
 
 <style>
+	.tagListWrapper {
+		max-width: 100%;
+	}
+
 	@media screen and (min-width: 768px) {
-		#pokemonList {
+		.tagListWrapper {
 			max-width: 50%;
 		}
+	}
+
+	.removeButton {
+		position: absolute;
+		top: 0;
+		right: 0;
+		display: grid;
+		text-align: center;
+		align-content: center;
+		height: 2.5rem;
+		width: 2.5rem;
+		border-radius: 10%;
+		font-weight: bold;
+
+		color: var(--light);
+		background-color: var(--error);
 	}
 </style>
