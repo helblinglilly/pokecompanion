@@ -1,29 +1,11 @@
 <script lang="ts">
-	import type { ISprites } from '$lib/types/IPokemon';
-	import {
-		findBaseSprites,
-		findPrimarySprite,
-		findSecondarySprite,
-		type ISpriteImage
-	} from '$lib/pokemon-id/sprites';
+	import Modal from '$components/Modal.svelte';
+	import type { ISpriteImage } from '$lib/pokemon-id/sprites';
 	import { onMount } from 'svelte';
-	import Modal from '../Modal.svelte';
-	import { animateSprites, selectedGame, versionSpecificSprites } from '$lib/stores/domain';
-	import Image from '../Image.svelte';
+	import Image from '$components/Image.svelte';
 
-	export let sprites: ISprites;
-
-	$: baseSprite = findBaseSprites(sprites, $versionSpecificSprites, $selectedGame, $animateSprites);
-
-	$: hasShiny = baseSprite.primary.shiny ? true : false;
-	$: isDisplayingShiny = false;
-
-	$: hasFemale = baseSprite.primary.female ? true : false;
-	$: isDisplayingFemale = false;
-
-	$: secondarySprite = findSecondarySprite(baseSprite, isDisplayingFemale, isDisplayingShiny);
-
-	$: primarySprite = findPrimarySprite(baseSprite, isDisplayingFemale, isDisplayingShiny);
+	export let primarySprite: ISpriteImage;
+	export let secondarySprite: ISpriteImage;
 
 	let showModal = false;
 	let modalContent: ISpriteImage = {
@@ -89,38 +71,6 @@
 			{/if}
 		</div>
 	{/if}
-</div>
-
-<div style="display: flex; justify-content: space-around;">
-	<div style="height: 20px;">
-		{#if hasShiny}
-			<span>
-				<input
-					type="checkbox"
-					name="shinyToggle"
-					id="shinyToggle"
-					on:change={() => (isDisplayingShiny = !isDisplayingShiny)}
-					checked={isDisplayingShiny}
-				/>
-				<label class="checkbox" for="shinyToggle">Shiny</label>
-			</span>
-		{/if}
-
-		{#if hasFemale}
-			<span>
-				<input
-					type="checkbox"
-					name="alternative"
-					id="alternative"
-					on:change={() => {
-						isDisplayingFemale = !isDisplayingFemale;
-					}}
-					checked={isDisplayingFemale}
-				/>
-				<label class="checkbox" for="alternative">Female</label>
-			</span>
-		{/if}
-	</div>
 </div>
 
 <Modal bind:showModal>

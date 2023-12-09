@@ -1,6 +1,6 @@
 import type { ISprites } from '$lib/types/IPokemon';
 
-interface ISpriteData {
+export interface ISpriteData {
 	default: string;
 	shiny?: string | null;
 	shinyFemale?: string | null;

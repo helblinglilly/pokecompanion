@@ -56,6 +56,9 @@ export const load = async ({ params, url }) => {
 	return {
 		id: pokedexId,
 		pokemon: { ...pokemon },
-		species: { ...species, names: speciesNamesToNormalisedNames(species.names) }
+		species: {
+			...species,
+			names: speciesNamesToNormalisedNames(species.names)
+		}
 	};
 };
