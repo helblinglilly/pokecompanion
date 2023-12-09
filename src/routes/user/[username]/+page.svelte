@@ -55,7 +55,7 @@
 										{/if}
 										<h4>{tag.name}</h4>
 									</div>
-									<p style="padding-left: 1rem;">
+									<p style="padding-left: 1rem; min-width: fit-content;">
 										<i>({tag.contents.pokemon.length} entries)</i>
 									</p>
 								</div>
