@@ -19,7 +19,7 @@
 				await $pb.collection('users').requestVerification($currentUser.email);
 			} catch (err) {
 				addNotification({ message: 'Failed to request verification Email', level: 'failure' });
-				error(JSON.stringify(err), 'FailedToRequestVerificationEmail');
+				error('Failed to request verification email', 'FailedToRequestVerificationEmail', err);
 			}
 		}}>Request verification email</button
 	>

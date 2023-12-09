@@ -37,7 +37,13 @@
 				tags.tag = newBody;
 			} catch (err) {
 				addNotification({ message: 'Failed to save tag', level: 'failure' });
-				error(JSON.stringify(err), 'FailedToSaveTag');
+				error(
+					'Failed to save tag',
+					'FailedToSaveTag',
+					`Tag ID: ${data.tag.id}, Name: ${tags.tag.name}, Contents: ${
+						tags.tag.contents
+					}, Error: ${JSON.stringify(err)}`
+				);
 			}
 		}
 	};

@@ -34,7 +34,7 @@
 			passwordError = 'Your password has been changed';
 		} catch (err) {
 			addNotification({ message: 'Failed to reset password', level: 'failure' });
-			error(JSON.stringify(err), 'FailedToResetPassword');
+			error('Failed to Reset Password', `FailedToResetPassword`, `${JSON.stringify(err)}`);
 		}
 	};
 </script>

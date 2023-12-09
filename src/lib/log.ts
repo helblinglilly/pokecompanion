@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser';
 /* https://github.com/getsentry/sentry-javascript/issues/8291 */
 // import * as Sentry from '@sentry/sveltekit';
 
-const error = (message: string, errorId: string, status?: string, details?: string) => {
+const error = (message: string, errorId: string, details?: unknown) => {
 	const timestamp = new Date().toISOString();
 	const level = 'ERROR';
 
@@ -10,15 +10,13 @@ const error = (message: string, errorId: string, status?: string, details?: stri
 		level: 'error',
 		extra: {
 			errorId,
-			status,
 			details
 		}
 	});
 
-	if (!status) status = '';
 	if (!details) details = '';
 
-	console.error(timestamp, level, errorId, `'${message}'`, status, details);
+	console.error(timestamp, level, errorId, `'${message}'`, details);
 };
 
 const info = (message: string) => {

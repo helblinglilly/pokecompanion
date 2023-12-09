@@ -4,6 +4,7 @@
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import { goto } from '$app/navigation';
 	import { pb } from '$lib/stores/domain';
+	import { error } from '$lib/log';
 
 	let newUsername: string;
 	let errorMessage: string;
@@ -35,12 +36,14 @@
 				})
 			});
 			if (!repsonse.ok) {
-				let message = 'Failed to update username';
-				try {
-					const body = await repsonse.json();
-					message = body;
-				} catch (_) {}
-				throw new Error(message);
+				errorMessage = 'Failed to update username';
+				if (repsonse.status > 401) {
+					error(
+						`Failed to update username`,
+						`FailedToUpdateUsername`,
+						`Current: ${$currentUser.username}, New: ${newUsername}, Error: ${repsonse.status}`
+					);
+				}
 			}
 			$currentUser.username = newUsername;
 			errorMessage = '';

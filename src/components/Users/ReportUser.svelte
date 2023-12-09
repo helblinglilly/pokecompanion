@@ -32,7 +32,11 @@
 				message: `Failed to report ${username}. Please try again`,
 				level: 'failure'
 			});
-			error(JSON.stringify(err), 'FailedToReportUser');
+			error(
+				'Failed to report user',
+				'FailedToReportUser',
+				`User: ${$currentUser?.id}, Reporting: ${username}, ${JSON.stringify(err)}`
+			);
 		}
 	};
 </script>

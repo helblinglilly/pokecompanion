@@ -33,7 +33,7 @@
 				body: JSON.stringify(payload)
 			});
 			if (!response.ok) {
-				throw new Error(`Failed to create new tag`);
+				throw new Error(`${response.status}, ${JSON.stringify(payload)}`);
 			}
 
 			if (afterCreation) {
@@ -41,7 +41,13 @@
 			}
 		} catch (err) {
 			addNotification({ message: 'Failed to create tag', level: 'failure' });
-			error(JSON.stringify(err), 'FailedToCreateTag');
+			error(
+				'Failed to create new tag',
+				'FailedToCreateTag',
+				`New Name: ${newListName}, Private: ${isPrivate}, Content: ${newTagInitialContent}, Error: ${JSON.stringify(
+					err
+				)}`
+			);
 		}
 		showAddNewOverlay = false;
 		newListName = '';

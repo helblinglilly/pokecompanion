@@ -2,7 +2,7 @@
 	import type { ITagContents } from '$lib/types/ITags';
 	import { onMount } from 'svelte';
 	import CreateNewTag from './CreateNewTag.svelte';
-	import { error, error as logError } from '$lib/log';
+	import { error } from '$lib/log';
 	import { currentUser } from '$lib/stores/user';
 	import { getTagsByUser, type ITags } from '$lib/pb/tags';
 	import Icon from '$components/Icon.svelte';
@@ -31,7 +31,11 @@
 			try {
 				allTags = await getTagsByUser($currentUser.id);
 			} catch (err) {
-				logError(JSON.stringify(err), 'FailedToGetTagsByUser');
+				error(
+					'Failed to get tags for user',
+					'FailedToGetTagsByUser',
+					`User: ${$currentUser?.id}, ${JSON.stringify(err)}`
+				);
 			}
 		}
 	};
@@ -49,7 +53,11 @@
 			});
 		} catch (err) {
 			addNotification({ message: 'Could not add tag. Please try again', level: 'failure' });
-			error(JSON.stringify(err), 'FailedToAddToTag');
+			error(
+				'Failed to add item to tag',
+				'FailedToAddToTag',
+				`Tag ID: ${tagId}, Pokemon: ${currentPokemonId}, Error: ${JSON.stringify(err)}`
+			);
 		}
 	};
 
@@ -66,7 +74,11 @@
 			});
 		} catch (err) {
 			addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });
-			error(JSON.stringify(err), 'FailedToRemoveToTag');
+			error(
+				`Failed to remove item from tag'`,
+				'FailedToRemoveFromTag',
+				`Tag ID: ${tagId}, Pokemon: ${currentPokemonId}, Error: ${JSON.stringify(err)}`
+			);
 		}
 	};
 </script>

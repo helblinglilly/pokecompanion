@@ -89,7 +89,11 @@
 										message: 'Failed to request password reset. Please try again',
 										level: 'failure'
 									});
-									error(JSON.stringify(err), 'FailedToRequestPasswordReset');
+									error(
+										'Failed to request password reset',
+										'FailedToRequestPasswordReset',
+										JSON.stringify(err)
+									);
 								}
 							}}>Request reset</button
 						>
