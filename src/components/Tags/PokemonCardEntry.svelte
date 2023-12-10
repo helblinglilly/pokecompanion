@@ -35,6 +35,8 @@
 		padding: 2em;
 		text-decoration-line: unset;
 		border-radius: 10px;
+		display: grid;
+		justify-items: center;
 	}
 
 	a > p {
