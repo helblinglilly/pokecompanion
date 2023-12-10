@@ -104,6 +104,7 @@
 	{#if $currentUser?.username === tags.user.username}
 		<button
 			class="button"
+			style="height: 48px; width: 48px;"
 			on:click={async () => {
 				if (inModifyView) {
 					try {
