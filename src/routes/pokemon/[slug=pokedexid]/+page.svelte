@@ -113,9 +113,9 @@
 					}}
 				>
 					{#if showShinySprite}
-						<Icon name="spark-full" style="margin-top: 2rem; margin-left: -2rem;" />
+						<Icon name="spark-full" style="margin-top: 1.8rem; margin-left: -2rem;" />
 					{:else}
-						<Icon name="spark" style="margin-top: 2rem; margin-left: -2rem;" />
+						<Icon name="spark" style="margin-top: 1.8rem; margin-left: -2rem;" />
 					{/if}
 				</button>
 			{/if}
@@ -129,9 +129,12 @@
 					}}
 				>
 					{#if showFemaleSprite}
-						<Icon name="venus" style="margin-top: 2rem; margin-left: 0.6rem; fill: var(--dark);" />
+						<Icon
+							name="venus"
+							style="margin-top: 2.1rem; margin-left: 0.6rem; fill: var(--dark);"
+						/>
 					{:else}
-						<Icon name="mars" style="margin-top: 2rem; margin-left: 0.5rem; fill: var(--dark);" />
+						<Icon name="mars" style="margin-top: 2.1rem; margin-left: 0.5rem; fill: var(--dark);" />
 					{/if}
 				</button>
 			{/if}
