@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import Icon from '$components/Icon.svelte';
 	import InlineTextButton from '$components/InlineTextButton.svelte';
@@ -16,6 +17,7 @@
 	let hasChanges = false;
 
 	let showRenameOverlay = false;
+	let showDeleteOverlay = false;
 	let inModifyView = false;
 
 	let displayMode: 'list' | 'card' = 'list';
@@ -56,6 +58,29 @@
 			return a.id !== id;
 		});
 		hasChanges = true;
+	};
+
+	const deleteTag = async () => {
+		try {
+			await fetch('/api/tags', {
+				method: 'DELETE',
+				body: JSON.stringify({
+					id: tags.tag.id
+				})
+			});
+			addNotification({ message: `Deleted "${tags.tag.name}"`, level: 'success' });
+			goto(`/user/${$currentUser?.username}`);
+		} catch (err) {
+			error(
+				'Failed to delete Tag',
+				'FailedToDeleteTag',
+				`User: ${$currentUser?.username}, ID: ${tags.tag.id}, Error: ${err}`
+			);
+			addNotification({
+				message: `Failure to delete tag "${tags.tag.name}""`,
+				level: 'failure'
+			});
+		}
 	};
 </script>
 
@@ -118,7 +143,7 @@
 			class="button error"
 			style="margin-bottom: 1rem;"
 			on:click={() => {
-				addNotification({ message: 'To do', level: 'info' });
+				showDeleteOverlay = true;
 			}}>Delete Tag</button
 		>
 	</div>
@@ -191,6 +216,35 @@
 		inputConfig={{ placeholder: 'New name' }}
 		valueBinding={tags.tag.name}
 	/>
+</Modal>
+
+<Modal bind:showModal={showDeleteOverlay}>
+	<h2 slot="header">Delete Tag</h2>
+
+	<div style="padding-top: 1rem;">
+		<p>Are you sure you want to delete this tag and all of its contents?</p>
+	</div>
+
+	<div style="display: flex; justify-content: space-between; padding-top: 1rem;">
+		<button
+			class="button error"
+			on:click={async () => {
+				showDeleteOverlay = false;
+				await deleteTag();
+			}}
+		>
+			Yes, delete
+		</button>
+
+		<button
+			class="button"
+			on:click={() => {
+				showDeleteOverlay = false;
+			}}
+		>
+			No, cancel
+		</button>
+	</div>
 </Modal>
 
 <style>
