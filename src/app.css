@@ -141,6 +141,11 @@ button:hover {
 	background-color: var(--secondary);
 }
 
+button.selected {
+	background-color: var(--secondary);
+	border: 1px solid var(--text);
+}
+
 button:disabled {
 	font-style: italic;
 	cursor: not-allowed;

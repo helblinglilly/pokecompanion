@@ -3,7 +3,8 @@
 	import Icon from '$components/Icon.svelte';
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import Modal from '$components/Modal.svelte';
-	import PokemonPreview from '$components/Pokemon/PokemonPreview.svelte';
+	import PokemonCardEntry from '$components/Tags/PokemonCardEntry.svelte';
+	import PokemonListEntry from '$components/Tags/PokemonListEntry.svelte';
 	import { getPokemonEntry } from '$lib/data/games';
 	import { error } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
@@ -16,6 +17,8 @@
 
 	let showRenameOverlay = false;
 	let inModifyView = false;
+
+	let displayMode: 'list' | 'card' = 'list';
 
 	const saveUpdatedTag = async () => {
 		if (hasChanges) {
@@ -47,6 +50,13 @@
 			}
 		}
 	};
+
+	const removeFromTag = (id: number) => {
+		tags.tag.contents.pokemon = tags.tag.contents.pokemon.filter((a) => {
+			return a.id !== id;
+		});
+		hasChanges = true;
+	};
 </script>
 
 <svelte:head>
@@ -66,17 +76,9 @@
 />
 
 <div style="display: inline-flex; padding-bottom: 1rem; gap: 0.5rem; width: 100%;">
-	<h1 style="padding: 0;">{tags.tag.name}</h1>
-	{#if tags.tag.isPrivate}
-		<Icon name="lock" style="margin-top: auto; margin-bottom: auto;" />
-	{/if}
-</div>
-
-{#if $currentUser?.username === tags.user.username}
-	<div>
+	{#if $currentUser?.username === tags.user.username}
 		<button
 			class="button"
-			style="margin-bottom: 1rem;"
 			on:click={async () => {
 				if (inModifyView) {
 					try {
@@ -87,58 +89,87 @@
 					}
 				}
 				inModifyView = !inModifyView;
-			}}>{inModifyView ? 'Save' : 'Modify'}</button
+			}}
 		>
-		{#if inModifyView}
-			<button
-				style="margin-bottom: 1rem;"
-				class="button"
-				on:click={() => (showRenameOverlay = true)}>Rename</button
-			>
-			<button
-				class="button"
-				style="margin-bottom: 1rem;"
-				on:click={() => {
-					tags.tag.isPrivate = !tags.tag.isPrivate;
-					hasChanges = true;
-				}}>Make {tags.tag.isPrivate ? 'Public' : 'Private'}</button
-			>
-			<button
-				class="button error"
-				style="margin-bottom: 1rem;"
-				on:click={() => {
-					addNotification({ message: 'To do', level: 'info' });
-				}}>Delete Tag</button
-			>
-		{/if}
+			<Icon name={`${inModifyView ? 'floppy' : 'pencil'}`} style="" />
+		</button>
+	{/if}
+
+	<h1 style="padding: 0;">{tags.tag.name}</h1>
+	{#if tags.tag.isPrivate}
+		<Icon name="lock" style="margin-top: auto; margin-bottom: auto;" />
+	{/if}
+</div>
+
+{#if inModifyView}
+	<div>
+		<button style="margin-bottom: 1rem;" class="button" on:click={() => (showRenameOverlay = true)}
+			>Rename</button
+		>
+		<button
+			class="button"
+			style="margin-bottom: 1rem;"
+			on:click={() => {
+				tags.tag.isPrivate = !tags.tag.isPrivate;
+				hasChanges = true;
+			}}>Make {tags.tag.isPrivate ? 'Public' : 'Private'}</button
+		>
+		<button
+			class="button error"
+			style="margin-bottom: 1rem;"
+			on:click={() => {
+				addNotification({ message: 'To do', level: 'info' });
+			}}>Delete Tag</button
+		>
 	</div>
 {/if}
 
-<div class="columns" style="padding: 0; width: 100%;">
-	<div class="column tagListWrapper">
-		{#if tags.tag.contents.pokemon.length === 0}
-			<p>No Pokémon in this list</p>
-		{/if}
+<div style="display: inline-flex; gap: 0.5rem; align-items: center;">
+	<p>View:</p>
+	<button
+		class={`button ${displayMode === 'list' ? 'selected' : ''}`}
+		on:click={() => {
+			displayMode = 'list';
+		}}><Icon name="list" style="" /></button
+	>
+	<button
+		class={`button ${displayMode === 'card' ? 'selected' : ''}`}
+		on:click={() => {
+			displayMode = 'card';
+		}}><Icon name="card" style="" /></button
+	>
+</div>
 
-		{#each tags.tag.contents.pokemon.sort((a, b) => (a.id < b.id ? 1 : -1)) as pokemonTag}
-			<div style="width: 100%; position: relative;">
-				<PokemonPreview
-					pokemon={{ id: pokemonTag.id, names: getPokemonEntry(pokemonTag.id).names }}
-				/>
-				{#if inModifyView}
-					<button
-						class="removeButton"
-						on:click={async () => {
-							tags.tag.contents.pokemon = tags.tag.contents.pokemon.filter((a) => {
-								return a.id !== pokemonTag.id;
-							});
-							hasChanges = true;
-						}}>-</button
-					>
-				{/if}
-			</div>
-		{/each}
-	</div>
+<div id="pokemonTagWrapper">
+	{#if tags.tag.contents.pokemon.length === 0}
+		<p>No Pokémon in this list</p>
+	{/if}
+
+	{#each tags.tag.contents.pokemon.sort((a, b) => (a.id > b.id ? 1 : -1)) as pokemonTag}
+		{#if displayMode === 'card'}
+			<PokemonCardEntry
+				id={pokemonTag.id}
+				names={getPokemonEntry(pokemonTag.id).names}
+				showRemoveButton={inModifyView}
+				onRemoveClick={() => {
+					removeFromTag(pokemonTag.id);
+				}}
+			/>
+		{:else}
+			<PokemonListEntry
+				id={pokemonTag.id}
+				names={getPokemonEntry(pokemonTag.id).names}
+				showRemoveButton={inModifyView}
+				onRemoveClick={() => {
+					removeFromTag(pokemonTag.id);
+				}}
+			/>
+		{/if}
+	{/each}
+</div>
+
+<div style="display: grid; justify-content: center;">
+	<p>{tags.tag.contents.pokemon.length} Pokémon</p>
 </div>
 
 <Modal bind:showModal={showRenameOverlay}>
@@ -163,30 +194,10 @@
 </Modal>
 
 <style>
-	.tagListWrapper {
-		padding-left: 0;
-		max-width: 100%;
-	}
-
-	@media screen and (min-width: 768px) {
-		.tagListWrapper {
-			max-width: 50%;
-		}
-	}
-
-	.removeButton {
-		position: absolute;
-		top: 0;
-		right: 0;
-		display: grid;
-		text-align: center;
-		align-content: center;
-		height: 2.5rem;
-		width: 2.5rem;
-		border-radius: 10%;
-		font-weight: bold;
-
-		color: var(--light);
-		background-color: var(--error);
+	#pokemonTagWrapper {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 0;
+		justify-content: space-around;
 	}
 </style>
