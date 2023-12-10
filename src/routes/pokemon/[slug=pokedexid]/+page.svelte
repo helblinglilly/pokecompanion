@@ -147,7 +147,7 @@
 	</div>
 </div>
 
-<div class="columns">
+<!-- <div class="columns">
 	<div class="column">
 		<div class="card" style="padding-top: 1rem; position: relative;">
 			<h3>Type matchups</h3>
@@ -159,4 +159,4 @@
 			<h3>Forms</h3>
 		</div>
 	</div>
-</div>
+</div> -->
