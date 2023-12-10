@@ -45,7 +45,7 @@ export async function POST({ request, cookies }) {
 			isPrivate: body.isPrivate
 		});
 	} catch (err) {
-		error(`Failed to create new tag ${err}`, '', '', JSON.stringify(request));
+		error(`Failed to create new tag ${err}`, '', JSON.stringify(request));
 		return new Response('Failed to create new tag', {
 			status: 500
 		});
@@ -102,4 +102,36 @@ export async function PATCH({ request, cookies }) {
 	}
 
 	return new Response('Ok', { status: 200 });
+}
+
+export async function DELETE({ request, cookies }) {
+	const authedPb = await validateAuth(request, cookies);
+	if (!authedPb || !authedPb.authStore.model) {
+		return new Response('Not authorised', { status: 401 });
+	}
+
+	let body: { id: string } | undefined;
+	try {
+		body = await request.json();
+	} catch (err) {
+		warn('Failed to parse JSON from request body', request);
+		return new Response('Invalid body', {
+			status: 400
+		});
+	}
+
+	if (!body) {
+		return new Response('Empty body', {
+			status: 400
+		});
+	}
+
+	try {
+		await authedPb.collection('tags').delete(body.id);
+	} catch (err) {
+		error(JSON.stringify(err), 'FailedToDeleteTag');
+		return new Response(`Failed to delete tag`, {
+			status: 500
+		});
+	}
 }
