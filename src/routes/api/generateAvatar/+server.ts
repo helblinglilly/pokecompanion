@@ -2,7 +2,7 @@ import { toSvg } from 'jdenticon';
 import { getSearchParam } from '../helpers';
 
 export async function GET({ request }) {
-	const key = getSearchParam(request.url, 'id');
+	const key = getSearchParam(request.url, 'key');
 
 	const image = toSvg(key, 128);
 
