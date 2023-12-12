@@ -1,28 +1,40 @@
 <script lang="ts">
-	import { getMultiLanguageName, type Languages } from '$lib/utils/language';
+	import { getMultiLanguageName } from '$lib/utils/language';
 	import Image from '$components/Image.svelte';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
+	import type { ITagPokemon } from '$lib/types/ITags';
+	import { getPokemonEntry } from '$lib/data/games';
 
-	export let id: number;
-	export let names: Languages[];
+	export let pokemon: ITagPokemon;
 	export let showRemoveButton: boolean;
 	export let onRemoveClick: () => void;
 </script>
 
-<div class="card" id={`${id}`}>
-	<a href={`/pokemon/${id}`} class="clickable">
+<div class="card" id={`${pokemon.id}`}>
+	<a
+		href={`/pokemon/${pokemon.id}?shiny=${pokemon.shiny}${
+			pokemon.gender ? `&gender=${pokemon.gender}` : ''
+		}`}
+		class="clickable"
+	>
 		<div class="spriteWrapper">
 			<Image
-				src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
+				src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon${
+					pokemon.shiny ? '/shiny' : ''
+				}${pokemon.gender === 'female' ? '/female' : ''}/${pokemon.id}.png`}
 				alt={`sprite`}
 				loading="lazy"
 				height="96px"
 				width="96px"
 			/>
 		</div>
-		<p>#{id}</p>
+		<p>#{pokemon.id}</p>
 		<p>
-			{getMultiLanguageName(names, $primaryLanguage, $secondaryLanguage)}
+			{getMultiLanguageName(
+				getPokemonEntry(pokemon.id).names,
+				$primaryLanguage,
+				$secondaryLanguage
+			)}
 		</p>
 	</a>
 	{#if showRemoveButton}

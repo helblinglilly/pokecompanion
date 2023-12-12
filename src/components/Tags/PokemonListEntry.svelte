@@ -1,19 +1,27 @@
 <script lang="ts">
 	import Image from '$components/Image.svelte';
-	import { getMultiLanguageName, type Languages } from '$lib/utils/language';
+	import { getMultiLanguageName } from '$lib/utils/language';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
+	import type { ITagPokemon } from '$lib/types/ITags';
+	import { getPokemonEntry } from '$lib/data/games';
+	import Icon from '$components/Icon.svelte';
 
-	export let id: number;
-	export let names: Languages[];
+	export let pokemon: ITagPokemon;
 	export let showRemoveButton: boolean;
 	export let onRemoveClick: () => void;
 </script>
 
-<div class="card clickable" id={`${id}`}>
-	<a href={`/pokemon/${id}`}>
+<div class="card clickable" id={`${pokemon.id}`}>
+	<a
+		href={`/pokemon/${pokemon.id}?shiny=${pokemon.shiny}${
+			pokemon.gender ? `&gender=${pokemon.gender}` : ''
+		}`}
+	>
 		<div class="spriteWrapper">
 			<Image
-				src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
+				src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon${
+					pokemon.shiny ? '/shiny' : ''
+				}${pokemon.gender === 'female' ? '/female' : ''}/${pokemon.id}.png`}
 				alt={`sprite`}
 				loading="lazy"
 				height="96px"
@@ -22,9 +30,20 @@
 		</div>
 
 		<p>
-			#{id}
-			{getMultiLanguageName(names, $primaryLanguage, $secondaryLanguage)}
+			#{pokemon.id}
+			{getMultiLanguageName(
+				getPokemonEntry(pokemon.id).names,
+				$primaryLanguage,
+				$secondaryLanguage
+			)}
 		</p>
+		{#if pokemon.gender === 'female'}
+			<Icon name="venus" style="padding-left: 10px; fill: #f6abd9;" />
+		{/if}
+
+		{#if pokemon.shiny}
+			<Icon name="spark" style="padding-left: 10px; stroke: #f0e45f;" />
+		{/if}
 	</a>
 	{#if showRemoveButton}
 		<button class="removeButton" on:click={onRemoveClick}>-</button>

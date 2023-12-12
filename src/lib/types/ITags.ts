@@ -6,10 +6,17 @@ export interface ITag {
 }
 
 export interface ITagContents {
-	pokemon: {
-		id: number;
-		added: string;
-	}[];
+	pokemon: ITagPokemon[];
+}
+
+export interface ITagPokemon extends ITagPokemonNew {
+	added: string;
+}
+
+export interface ITagPokemonNew {
+	id: number;
+	gender: 'female' | undefined;
+	shiny: true | false | undefined;
 }
 
 export interface ITagRequestBody {

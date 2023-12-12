@@ -16,6 +16,10 @@ export const findBaseSprites = (
 ): {
 	primary: ISpriteData;
 	secondary: ISpriteData;
+	meta: {
+		hasFemaleSprite: boolean;
+		hasShinySprite: boolean;
+	};
 } => {
 	const baseSprites = {
 		primary: {
@@ -29,6 +33,10 @@ export const findBaseSprites = (
 			shiny: sprites.back_shiny,
 			female: sprites.back_female,
 			shinyFemale: sprites.back_shiny_female
+		},
+		meta: {
+			hasFemaleSprite: false,
+			hasShinySprite: false
 		}
 	};
 
@@ -274,6 +282,13 @@ export const findBaseSprites = (
 		}
 	}
 
+	if (baseSprites.primary.female) {
+		baseSprites.meta.hasFemaleSprite = true;
+	}
+	if (baseSprites.primary.shiny) {
+		baseSprites.meta.hasShinySprite = true;
+	}
+
 	return baseSprites;
 };
 
@@ -289,7 +304,10 @@ export const findPrimarySprite = (
 ): ISpriteImage => {
 	if (isDisplayingFemale && passedSprites.primary.female) {
 		if (isDisplayingShiny && passedSprites.primary.shinyFemale) {
-			return { url: passedSprites.primary.shinyFemale, alt: 'Shiny Female Front' };
+			return {
+				url: passedSprites.primary.shinyFemale,
+				alt: 'Shiny Female Front'
+			};
 		} else {
 			return { url: passedSprites.primary.female, alt: 'Female Front' };
 		}
@@ -308,7 +326,10 @@ export const findSecondarySprite = (
 ): ISpriteImage => {
 	if (isDisplayingFemale && passedSprites.secondary.female) {
 		if (isDisplayingShiny && passedSprites.secondary.shinyFemale) {
-			return { url: passedSprites.secondary.shinyFemale, alt: 'Shiny Female Back' };
+			return {
+				url: passedSprites.secondary.shinyFemale,
+				alt: 'Shiny Female Back'
+			};
 		} else {
 			return { url: passedSprites.secondary.female, alt: 'Female Back' };
 		}

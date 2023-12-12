@@ -1,159 +1,27 @@
 <script lang="ts">
-	import type { ITagContents } from '$lib/types/ITags';
-	import { onMount } from 'svelte';
-	import CreateNewTag from './CreateNewTag.svelte';
-	import { error } from '$lib/log';
 	import { currentUser } from '$lib/stores/user';
-	import { getTagsByUser, type ITags } from '$lib/pb/tags';
 	import Icon from '$components/Icon.svelte';
-	import Modal from '$components/Modal.svelte';
-	import { addNotification } from '$lib/stores/notifications';
+	import { doesTagContainPokemon, refetchTags, tagStore } from '$lib/stores/tagsStore';
+	import { onMount } from 'svelte';
+	import { pokemonDisplayStore } from '$lib/stores/pokemonPageStore';
 
-	export let newTagInitialContent: ITagContents;
-	let showAddNewOverlay = false;
-	let showAddToOverlay = false;
-	$: currentPokemonId = newTagInitialContent.pokemon[0].id;
+	export let userId: string;
 
-	let allTags: ITags[] = [];
-
-	$: currentTags = allTags.filter((tag) => {
-		return tag.contents.pokemon.some((a) => {
-			return a.id === currentPokemonId;
-		});
+	$: currentTags = $tagStore.filter((tag) => {
+		return doesTagContainPokemon($pokemonDisplayStore, tag);
 	});
 
 	onMount(async () => {
-		await refetchAllTags();
+		await refetchTags(userId);
 	});
-
-	const refetchAllTags = async () => {
-		if ($currentUser) {
-			try {
-				allTags = await getTagsByUser($currentUser.id);
-			} catch (err) {
-				error(
-					'Failed to get tags for user',
-					'FailedToGetTagsByUser',
-					`User: ${$currentUser?.id}, ${JSON.stringify(err)}`
-				);
-			}
-		}
-	};
-
-	const addCurrentItemToTag = async (tagId: string) => {
-		try {
-			await fetch(`/api/tag`, {
-				method: 'POST',
-				body: JSON.stringify({
-					id: tagId,
-					contents: {
-						pokemon: [{ id: currentPokemonId, added: new Date().toISOString() }]
-					}
-				})
-			});
-		} catch (err) {
-			addNotification({ message: 'Could not add tag. Please try again', level: 'failure' });
-			error(
-				'Failed to add item to tag',
-				'FailedToAddToTag',
-				`Tag ID: ${tagId}, Pokemon: ${currentPokemonId}, Error: ${JSON.stringify(err)}`
-			);
-		}
-	};
-
-	const removeCurrentItemFromTag = async (tagId: string) => {
-		try {
-			await fetch('/api/tag', {
-				method: 'DELETE',
-				body: JSON.stringify({
-					id: tagId,
-					contents: {
-						pokemon: [{ id: currentPokemonId }]
-					}
-				})
-			});
-		} catch (err) {
-			addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });
-			error(
-				`Failed to remove item from tag'`,
-				'FailedToRemoveFromTag',
-				`Tag ID: ${tagId}, Pokemon: ${currentPokemonId}, Error: ${JSON.stringify(err)}`
-			);
-		}
-	};
 </script>
 
-<div style="display: flex; justify-content: center; width: 100%; flex-flow: wrap;">
-	{#each currentTags as tag}
-		<a class="tag" href={`/user/${$currentUser?.username}/tags/${tag.id}#${currentPokemonId}`}>
-			<Icon style="margin-top: auto; margin-bottom: auto;" name="tag" />
-			<p>{tag.name}</p>
-		</a>
-	{/each}
-
-	{#if allTags.length > 0}
-		<button
-			class="tag"
-			on:click={() => {
-				showAddToOverlay = true;
-			}}>Edit</button
-		>
-	{/if}
-
-	<button
-		class="tag"
-		on:click={() => {
-			showAddNewOverlay = true;
-		}}>New Tag</button
-	>
-</div>
-
-<CreateNewTag
-	bind:showAddNewOverlay
-	bind:newTagInitialContent
-	afterCreation={() => {
-		refetchAllTags();
-	}}
-/>
-
-<Modal bind:showModal={showAddToOverlay}>
-	<h2 slot="header">Add and remove tags</h2>
-
-	<div style="display: grid; gap: 1rem;">
-		<p>Select the tags which this item should be attached to</p>
-
-		<div style="display: grid;">
-			{#each allTags as tag}
-				<div>
-					<input
-						type="checkbox"
-						id={tag.name}
-						checked={currentTags.includes(tag)}
-						on:change={async (e) => {
-							if (e.currentTarget.checked) {
-								await addCurrentItemToTag(tag.id);
-								currentTags = currentTags.concat([tag]);
-								await refetchAllTags();
-							} else {
-								await removeCurrentItemFromTag(tag.id);
-								currentTags = currentTags.filter((a) => a !== tag);
-							}
-						}}
-					/>
-					<label for={tag.name}>{tag.name}</label>
-				</div>
-			{/each}
-		</div>
-
-		<button
-			class="button"
-			style="width: 100%;"
-			on:click={() => {
-				showAddToOverlay = false;
-			}}>Close</button
-		>
-	</div>
-</Modal>
+{#each currentTags as tag}
+	<a class="tag" href={`/user/${$currentUser?.username}/tags/${tag.id}#${$pokemonDisplayStore.id}`}>
+		<Icon style="margin-top: auto; margin-bottom: auto;" name="tag" />
+		<p>{tag.name}</p>
+	</a>
+{/each}
 
 <style>
 	.tag {

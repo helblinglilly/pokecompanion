@@ -22,11 +22,72 @@
 	import { findBaseSprites, findPrimarySprite, findSecondarySprite } from '$lib/pokemon-id/sprites';
 	import SpritePreview from '$components/Pokemon/SpritePreview.svelte';
 	import Icon from '$components/Icon.svelte';
+	import { page } from '$app/stores';
+	import { pokemonDisplayStore } from '$lib/stores/pokemonPageStore.js';
+	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
+	import { tagStore } from '$lib/stores/tagsStore';
+	import EditTag from '$components/Tags/EditTag.svelte';
 
 	export let data;
 
-	let showFemaleSprite = false;
-	let showShinySprite = false;
+	$: {
+		if (data) {
+			const baseSprite = findBaseSprites(
+				data.pokemon.sprites,
+				$versionSpecificSprites,
+				$selectedGame?.cookieGroup,
+				$animateSprites
+			);
+
+			const showFemaleSpriteIfExists = $page.url.searchParams.get('gender') === 'female';
+			const showShinySpriteIfExists = $page.url.searchParams.get('shiny') === 'true';
+
+			pokemonDisplayStore.set({
+				id: data.id,
+				showFemaleSpriteIfExists,
+				hasFemaleSprite: baseSprite.meta.hasFemaleSprite,
+				showShinySpriteIfExists,
+				hasShinySprite: baseSprite.meta.hasShinySprite,
+				primarySprite: findPrimarySprite(
+					baseSprite,
+					showFemaleSpriteIfExists,
+					showShinySpriteIfExists
+				),
+				secondarySprite: findSecondarySprite(
+					baseSprite,
+					showFemaleSpriteIfExists,
+					showShinySpriteIfExists
+				)
+			});
+		}
+	}
+
+	const changeUrlQueryParam = (param: string, value: string) => {
+		const newUrl = new URL($page.url);
+		newUrl.searchParams.set(param, value);
+		goto(newUrl.toString(), { replaceState: true });
+	};
+
+	$: {
+		if (
+			$pokemonDisplayStore.showFemaleSpriteIfExists !==
+			($page.url.searchParams.get('gender') === 'female')
+		) {
+			changeUrlQueryParam(
+				'gender',
+				$pokemonDisplayStore.showFemaleSpriteIfExists ? 'female' : 'male'
+			);
+		}
+	}
+
+	$: {
+		if (
+			$pokemonDisplayStore.showShinySpriteIfExists !==
+			($page.url.searchParams.get('shiny') === 'true')
+		) {
+			changeUrlQueryParam('shiny', $pokemonDisplayStore.showShinySpriteIfExists ? 'true' : 'false');
+		}
+	}
 
 	const removeLastRouteFromURL = (url: string) => {
 		if (!url) {
@@ -47,13 +108,6 @@
 			}
 		});
 	});
-
-	$: baseSprite = findBaseSprites(
-		data.pokemon.sprites,
-		$versionSpecificSprites,
-		$selectedGame?.cookieGroup,
-		$animateSprites
-	);
 </script>
 
 <svelte:head>
@@ -91,28 +145,52 @@
 			</div>
 
 			<SpritePreview
-				primarySprite={findPrimarySprite(baseSprite, showFemaleSprite, showShinySprite)}
-				secondarySprite={findSecondarySprite(baseSprite, showFemaleSprite, showShinySprite)}
+				primarySprite={$pokemonDisplayStore.primarySprite}
+				secondarySprite={$pokemonDisplayStore.secondarySprite}
 			/>
 
 			{#if $currentUser}
-				<SelectedTags
-					newTagInitialContent={{ pokemon: [{ id: data.id, added: new Date().toISOString() }] }}
-				/>
+				<div style="display: flex; justify-content: center; width: 100%; flex-flow: wrap;">
+					<SelectedTags userId={$currentUser.id} />
+					{#if $tagStore.length > 0}
+						<EditTag userId={$currentUser.id} />
+					{/if}
+					<CreateNewTag
+						userId={$currentUser.id}
+						initialContent={{
+							pokemon: [
+								{
+									id: data.id,
+									gender:
+										$pokemonDisplayStore.hasFemaleSprite &&
+										$pokemonDisplayStore.showFemaleSpriteIfExists
+											? 'female'
+											: undefined,
+									shiny:
+										$pokemonDisplayStore.hasShinySprite &&
+										$pokemonDisplayStore.showShinySpriteIfExists
+								}
+							]
+						}}
+					/>
+				</div>
 			{/if}
 			{#if !isPokemonInGame(data.id, $selectedGame)}
 				<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
 			{/if}
 
-			{#if baseSprite.primary.shiny}
+			{#if $pokemonDisplayStore.hasShinySprite}
 				<button
 					class="triangle right"
-					style={`border-bottom-color: ${showShinySprite ? '#f0e45f' : '#f0e45f'}`}
+					style={`border-bottom-color: ${
+						$pokemonDisplayStore.showShinySpriteIfExists ? '#f0e45f' : '#f0e45f'
+					}`}
 					on:click={() => {
-						showShinySprite = !showShinySprite;
+						$pokemonDisplayStore.showShinySpriteIfExists =
+							!$pokemonDisplayStore.showShinySpriteIfExists;
 					}}
 				>
-					{#if showShinySprite}
+					{#if $pokemonDisplayStore.showShinySpriteIfExists}
 						<Icon name="spark-full" style="margin-top: 1.8rem; margin-left: -2rem;" />
 					{:else}
 						<Icon name="spark" style="margin-top: 1.8rem; margin-left: -2rem;" />
@@ -120,15 +198,20 @@
 				</button>
 			{/if}
 
-			{#if baseSprite.secondary.female}
+			{#if $pokemonDisplayStore.hasFemaleSprite}
 				<button
 					class="triangle left"
-					style={`border-bottom-color: ${showFemaleSprite ? '#f6abd9' : '#7fbbf0'};`}
+					style={`border-bottom-color: ${
+						$pokemonDisplayStore.hasFemaleSprite && $pokemonDisplayStore.showFemaleSpriteIfExists
+							? '#f6abd9'
+							: '#7fbbf0'
+					};`}
 					on:click={() => {
-						showFemaleSprite = !showFemaleSprite;
+						$pokemonDisplayStore.showFemaleSpriteIfExists =
+							!$pokemonDisplayStore.showFemaleSpriteIfExists;
 					}}
 				>
-					{#if showFemaleSprite}
+					{#if $pokemonDisplayStore.showFemaleSpriteIfExists}
 						<Icon
 							name="venus"
 							style="margin-top: 2.1rem; margin-left: 0.6rem; fill: var(--dark);"

@@ -173,8 +173,7 @@
 	{#each tags.tag.contents.pokemon.sort((a, b) => (a.id > b.id ? 1 : -1)) as pokemonTag}
 		{#if displayMode === 'card'}
 			<PokemonCardEntry
-				id={pokemonTag.id}
-				names={getPokemonEntry(pokemonTag.id).names}
+				pokemon={pokemonTag}
 				showRemoveButton={inModifyView}
 				onRemoveClick={() => {
 					removeFromTag(pokemonTag.id);
@@ -182,8 +181,7 @@
 			/>
 		{:else}
 			<PokemonListEntry
-				id={pokemonTag.id}
-				names={getPokemonEntry(pokemonTag.id).names}
+				pokemon={pokemonTag}
 				showRemoveButton={inModifyView}
 				onRemoveClick={() => {
 					removeFromTag(pokemonTag.id);
