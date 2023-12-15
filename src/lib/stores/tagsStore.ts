@@ -113,11 +113,14 @@ export function doesTagContainPokemon(pokemon: IDisplayPokemon, tag: ITags) {
 	const isDisplayOnFemale = pokemon.hasFemaleSprite && pokemon.showFemaleSpriteIfExists;
 
 	return tag.contents.pokemon.some((a) => {
+		const matchesGender =
+			(a.gender === 'female' && isDisplayOnFemale) ||
+			(a.gender === undefined && !isDisplayOnFemale);
+
 		return (
 			a.id === pokemon.id &&
 			a.shiny === (pokemon.hasShinySprite && pokemon.showShinySpriteIfExists) &&
-			((a.gender === 'female' && isDisplayOnFemale) ||
-				(a.gender === undefined && !isDisplayOnFemale))
+			matchesGender
 		);
 	});
 }

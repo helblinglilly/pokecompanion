@@ -6,10 +6,10 @@
 	import Modal from '$components/Modal.svelte';
 	import PokemonCardEntry from '$components/Tags/PokemonCardEntry.svelte';
 	import PokemonListEntry from '$components/Tags/PokemonListEntry.svelte';
-	import { getPokemonEntry } from '$lib/data/games';
 	import { error } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
+	import type { ITagPokemon } from '$lib/types/ITags.js';
 
 	export let data;
 	$: tags = data;
@@ -53,9 +53,9 @@
 		}
 	};
 
-	const removeFromTag = (id: number) => {
-		tags.tag.contents.pokemon = tags.tag.contents.pokemon.filter((a) => {
-			return a.id !== id;
+	const removeFromTag = (pokemon: ITagPokemon) => {
+		tags.tag.contents.pokemon = tags.tag.contents.pokemon.filter((tagMon) => {
+			return !(JSON.stringify(tagMon) === JSON.stringify(pokemon));
 		});
 		hasChanges = true;
 	};
@@ -176,7 +176,7 @@
 				pokemon={pokemonTag}
 				showRemoveButton={inModifyView}
 				onRemoveClick={() => {
-					removeFromTag(pokemonTag.id);
+					removeFromTag(pokemonTag);
 				}}
 			/>
 		{:else}
@@ -184,7 +184,7 @@
 				pokemon={pokemonTag}
 				showRemoveButton={inModifyView}
 				onRemoveClick={() => {
-					removeFromTag(pokemonTag.id);
+					removeFromTag(pokemonTag);
 				}}
 			/>
 		{/if}
