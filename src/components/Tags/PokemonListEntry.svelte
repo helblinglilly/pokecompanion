@@ -17,56 +17,63 @@
 			pokemon.gender ? `&gender=${pokemon.gender}` : ''
 		}`}
 	>
-		<div class="spriteWrapper">
-			<Image
-				src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon${
-					pokemon.shiny ? '/shiny' : ''
-				}${pokemon.gender === 'female' ? '/female' : ''}/${pokemon.id}.png`}
-				alt={`sprite`}
-				loading="lazy"
-				height="96px"
-				width="96px"
-			/>
+		<div>
+			<div class="spriteWrapper">
+				<Image
+					src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon${
+						pokemon.shiny ? '/shiny' : ''
+					}${pokemon.gender === 'female' ? '/female' : ''}/${pokemon.id}.png`}
+					alt={`sprite`}
+					loading="lazy"
+					height="96px"
+					width="96px"
+				/>
+			</div>
+
+			<p style="margin-top: auto; margin-bottom: auto;">
+				#{pokemon.id}
+				{getMultiLanguageName(
+					getPokemonEntry(pokemon.id).names,
+					$primaryLanguage,
+					$secondaryLanguage
+				)}
+			</p>
 		</div>
 
-		<p>
-			#{pokemon.id}
-			{getMultiLanguageName(
-				getPokemonEntry(pokemon.id).names,
-				$primaryLanguage,
-				$secondaryLanguage
-			)}
-		</p>
-		{#if pokemon.gender === 'female'}
-			<Icon
-				name="venus"
-				style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'};`}
-			/>
-		{:else}
-			<Icon
-				name="mars"
-				style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#99b3ff' : '#3366ff'};`}
-			/>
-		{/if}
-
-		{#if pokemon.shiny}
-			{#if $theme === 'light'}
+		<div>
+			{#if pokemon.gender === 'female'}
 				<Icon
-					name="spark"
-					style="margin-top: 1.25rem"
-					lineStroke="var(--text)"
-					pathStroke="var(--text)"
+					name="venus"
+					style={`fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'}; margin: auto;`}
 				/>
 			{:else}
 				<Icon
-					name="spark-full"
-					style="margin-top: 1.25rem"
-					pathFill="var(--text)"
-					lineStroke="var(--text)"
-					pathStroke="var(--text)"
+					name="mars"
+					style={`fill: ${
+						$theme === 'dark' ? '#99b3ff' : '#3366ff'
+					}; margin: auto; margin-right: 0.5rem;`}
 				/>
 			{/if}
-		{/if}
+
+			{#if pokemon.shiny}
+				{#if $theme === 'light'}
+					<Icon
+						name="spark"
+						style="margin-top: 1.25rem"
+						lineStroke="var(--text)"
+						pathStroke="var(--text)"
+					/>
+				{:else}
+					<Icon
+						name="spark-full"
+						style="margin-top: 1.25rem"
+						pathFill="var(--text)"
+						lineStroke="var(--text)"
+						pathStroke="var(--text)"
+					/>
+				{/if}
+			{/if}
+		</div>
 	</a>
 	{#if showRemoveButton}
 		<button class="removeButton" on:click={onRemoveClick}>-</button>
@@ -76,8 +83,23 @@
 <style>
 	a {
 		text-decoration-line: unset;
-		display: flex;
+		display: inline-flex;
 		align-items: center;
+		width: 100%;
+		justify-content: space-between;
+	}
+
+	a > div {
+		display: inline-flex;
+	}
+
+	a > div:first-child {
+		width: 80%;
+	}
+
+	a > div:last-child {
+		justify-content: end;
+		margin-right: 1rem;
 	}
 
 	.card {
