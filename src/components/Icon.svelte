@@ -12,7 +12,10 @@
 		| 'pencil'
 		| 'floppy';
 	export let theme: 'dark' | 'light' | null = null;
-	export let style: string | null;
+	export let style: string | null = null;
+	export let pathStroke: string | null = null;
+	export let lineStroke: string | null = null;
+	export let pathFill: string | null = null;
 </script>
 
 {#if name === 'tag'}
@@ -47,18 +50,17 @@
 	>
 {:else if name === 'spark'}
 	<svg {style} xmlns="http://www.w3.org/2000/svg" height="3em" viewBox="0 0 448 512">
-		<rect fill="none" height="256" width="256" />
 		<path
 			d="M138.7,175.5l-19.2,52.1a8,8,0,0,1-15,0L85.3,175.5a8.1,8.1,0,0,0-4.8-4.8L28.4,151.5a8,8,0,0,1,0-15l52.1-19.2a8.1,8.1,0,0,0,4.8-4.8l19.2-52.1a8,8,0,0,1,15,0l19.2,52.1a8.1,8.1,0,0,0,4.8,4.8l52.1,19.2a8,8,0,0,1,0,15l-52.1,19.2A8.1,8.1,0,0,0,138.7,175.5Z"
 			fill="none"
-			stroke="#000"
+			stroke={pathStroke ?? '#000'}
 			stroke-linecap="round"
 			stroke-linejoin="round"
 			stroke-width="15"
 		/>
 		<line
 			fill="none"
-			stroke="#000"
+			stroke={lineStroke ?? '#000'}
 			stroke-linecap="round"
 			stroke-linejoin="round"
 			stroke-width="15"
@@ -69,7 +71,7 @@
 		/>
 		<line
 			fill="none"
-			stroke="#000"
+			stroke={lineStroke ?? '#000'}
 			stroke-linecap="round"
 			stroke-linejoin="round"
 			stroke-width="15"
@@ -80,7 +82,7 @@
 		/>
 		<line
 			fill="none"
-			stroke="#000"
+			stroke={lineStroke ?? '#000'}
 			stroke-linecap="round"
 			stroke-linejoin="round"
 			stroke-width="15"
@@ -91,7 +93,7 @@
 		/>
 		<line
 			fill="none"
-			stroke="#000"
+			stroke={lineStroke ?? '#000'}
 			stroke-linecap="round"
 			stroke-linejoin="round"
 			stroke-width="15"
@@ -103,18 +105,17 @@
 	</svg>
 {:else if name === 'spark-full'}
 	<svg {style} xmlns="http://www.w3.org/2000/svg" height="3em" viewBox="0 0 448 512">
-		<rect fill="none" height="256" width="256" />
 		<path
 			d="M138.7,175.5l-19.2,52.1a8,8,0,0,1-15,0L85.3,175.5a8.1,8.1,0,0,0-4.8-4.8L28.4,151.5a8,8,0,0,1,0-15l52.1-19.2a8.1,8.1,0,0,0,4.8-4.8l19.2-52.1a8,8,0,0,1,15,0l19.2,52.1a8.1,8.1,0,0,0,4.8,4.8l52.1,19.2a8,8,0,0,1,0,15l-52.1,19.2A8.1,8.1,0,0,0,138.7,175.5Z"
-			fill="#000"
-			stroke="#000"
+			fill={pathFill ?? '#000'}
+			stroke={pathStroke ?? '#000'}
 			stroke-linecap="round"
 			stroke-linejoin="round"
 			stroke-width="15"
 		/>
 		<line
 			fill="none"
-			stroke="#000"
+			stroke={lineStroke ?? '#000'}
 			stroke-linecap="round"
 			stroke-linejoin="round"
 			stroke-width="15"
@@ -125,7 +126,7 @@
 		/>
 		<line
 			fill="none"
-			stroke="#000"
+			stroke={lineStroke ?? '#000'}
 			stroke-linecap="round"
 			stroke-linejoin="round"
 			stroke-width="15"
@@ -136,7 +137,7 @@
 		/>
 		<line
 			fill="none"
-			stroke="#000"
+			stroke={lineStroke ?? '#000'}
 			stroke-linecap="round"
 			stroke-linejoin="round"
 			stroke-width="15"
@@ -147,7 +148,7 @@
 		/>
 		<line
 			fill="none"
-			stroke="#000"
+			stroke={lineStroke ?? '#000'}
 			stroke-linecap="round"
 			stroke-linejoin="round"
 			stroke-width="15"

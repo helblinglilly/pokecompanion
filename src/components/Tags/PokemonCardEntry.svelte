@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Image from '$components/Image.svelte';
-	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
+	import { primaryLanguage, secondaryLanguage, theme } from '$lib/stores/domain';
 	import type { ITagPokemon } from '$lib/types/ITags';
 	import { getPokemonEntry } from '$lib/data/games';
+	import Icon from '$components/Icon.svelte';
 
 	export let pokemon: ITagPokemon;
 	export let showRemoveButton: boolean;
@@ -40,6 +41,39 @@
 	{#if showRemoveButton}
 		<button class="removeButton" on:click={onRemoveClick}>-</button>
 	{/if}
+
+	<div class="indicators">
+		{#if pokemon.gender === 'female'}
+			<Icon
+				name="venus"
+				style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'};`}
+			/>
+		{:else}
+			<Icon
+				name="mars"
+				style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#99b3ff' : '#3366ff'};`}
+			/>
+		{/if}
+
+		{#if pokemon.shiny}
+			{#if $theme === 'light'}
+				<Icon
+					name="spark"
+					style="margin-top: -0.25rem;"
+					lineStroke="var(--text)"
+					pathStroke="var(--text)"
+				/>
+			{:else}
+				<Icon
+					style="margin-top: -0.25rem;"
+					name="spark-full"
+					pathFill="var(--text)"
+					lineStroke="var(--text)"
+					pathStroke="var(--text)"
+				/>
+			{/if}
+		{/if}
+	</div>
 </div>
 
 <style>
@@ -80,6 +114,19 @@
 		color: var(--light);
 		background-color: var(--error);
 		z-index: 5;
+	}
+
+	.indicators {
+		position: absolute;
+		top: 0;
+		left: 0;
+		text-align: center;
+		height: 2rem;
+		width: 100%;
+		border-radius: 10%;
+		z-index: 5;
+		display: inline-flex;
+		margin-top: 0.5rem;
 	}
 
 	.spriteWrapper {

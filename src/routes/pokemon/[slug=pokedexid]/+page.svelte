@@ -165,7 +165,7 @@
 										$pokemonDisplayStore.hasFemaleSprite &&
 										$pokemonDisplayStore.showFemaleSpriteIfExists
 											? 'female'
-											: undefined,
+											: 'male',
 									shiny:
 										$pokemonDisplayStore.hasShinySprite &&
 										$pokemonDisplayStore.showShinySpriteIfExists

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Image from '$components/Image.svelte';
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
+	import { primaryLanguage, secondaryLanguage, theme } from '$lib/stores/domain';
 	import type { ITagPokemon } from '$lib/types/ITags';
 	import { getPokemonEntry } from '$lib/data/games';
 	import Icon from '$components/Icon.svelte';
@@ -38,11 +38,34 @@
 			)}
 		</p>
 		{#if pokemon.gender === 'female'}
-			<Icon name="venus" style="padding-left: 10px; fill: #f6abd9;" />
+			<Icon
+				name="venus"
+				style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'};`}
+			/>
+		{:else}
+			<Icon
+				name="mars"
+				style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#99b3ff' : '#3366ff'};`}
+			/>
 		{/if}
 
 		{#if pokemon.shiny}
-			<Icon name="spark" style="padding-left: 10px; stroke: #f0e45f;" />
+			{#if $theme === 'light'}
+				<Icon
+					name="spark"
+					style="margin-top: 1.25rem"
+					lineStroke="var(--text)"
+					pathStroke="var(--text)"
+				/>
+			{:else}
+				<Icon
+					name="spark-full"
+					style="margin-top: 1.25rem"
+					pathFill="var(--text)"
+					lineStroke="var(--text)"
+					pathStroke="var(--text)"
+				/>
+			{/if}
 		{/if}
 	</a>
 	{#if showRemoveButton}
