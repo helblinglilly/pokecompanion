@@ -8,6 +8,7 @@
 
 	export let pokemon: ITagPokemon;
 	export let showRemoveButton: boolean;
+	export let showGenderAndShiny: boolean;
 	export let onRemoveClick: () => void;
 </script>
 
@@ -42,38 +43,40 @@
 		<button class="removeButton" on:click={onRemoveClick}>-</button>
 	{/if}
 
-	<div class="indicators">
-		{#if pokemon.gender === 'female'}
-			<Icon
-				name="venus"
-				style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'};`}
-			/>
-		{:else if pokemon.gender === 'male'}
-			<Icon
-				name="mars"
-				style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#99b3ff' : '#3366ff'};`}
-			/>
-		{/if}
-
-		{#if pokemon.shiny}
-			{#if $theme === 'light'}
+	{#if showGenderAndShiny}
+		<div class="indicators">
+			{#if pokemon.gender === 'female'}
 				<Icon
-					name="spark"
-					style="margin-top: -0.25rem;"
-					lineStroke="var(--text)"
-					pathStroke="var(--text)"
+					name="venus"
+					style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'};`}
 				/>
-			{:else}
+			{:else if pokemon.gender === 'male'}
 				<Icon
-					style="margin-top: -0.25rem;"
-					name="spark-full"
-					pathFill="var(--text)"
-					lineStroke="var(--text)"
-					pathStroke="var(--text)"
+					name="mars"
+					style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#99b3ff' : '#3366ff'};`}
 				/>
 			{/if}
-		{/if}
-	</div>
+
+			{#if pokemon.shiny}
+				{#if $theme === 'light'}
+					<Icon
+						name="spark"
+						style="margin-top: -0.25rem;"
+						lineStroke="var(--text)"
+						pathStroke="var(--text)"
+					/>
+				{:else}
+					<Icon
+						style="margin-top: -0.25rem;"
+						name="spark-full"
+						pathFill="var(--text)"
+						lineStroke="var(--text)"
+						pathStroke="var(--text)"
+					/>
+				{/if}
+			{/if}
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -132,5 +135,7 @@
 	.spriteWrapper {
 		height: 96px;
 		width: 96px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 </style>

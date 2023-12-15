@@ -3,6 +3,7 @@ export interface ITag {
 	name: string;
 	contents: ITagContents;
 	isPrivate: boolean;
+	showGenderAndShiny: boolean;
 }
 
 export interface ITagContents {
@@ -23,6 +24,7 @@ export interface ITagRequestBody {
 	name: string;
 	isPrivate: boolean;
 	initialContent?: ITagContents;
+	showGenderAndShiny: boolean;
 }
 
 export interface ITagUpdateBody {
@@ -31,5 +33,6 @@ export interface ITagUpdateBody {
 		name: string;
 		contents: ITagContents;
 		isPrivate: boolean;
+		showGenderAndShiny: boolean;
 	}[];
 }

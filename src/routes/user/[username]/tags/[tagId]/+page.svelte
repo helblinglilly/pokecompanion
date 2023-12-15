@@ -31,7 +31,8 @@
 						id: tags.tag.id,
 						name: tags.tag.name,
 						contents: tags.tag.contents,
-						isPrivate: tags.tag.isPrivate
+						isPrivate: tags.tag.isPrivate,
+						showGenderAndShiny: tags.tag.showGenderAndShiny ?? false
 					})
 				});
 				if (response.status !== 200) {
@@ -104,6 +105,7 @@
 	{#if $currentUser?.username === tags.user.username}
 		<button
 			class="button"
+			style="max-height: 3rem;"
 			on:click={async () => {
 				if (inModifyView) {
 					try {
@@ -130,6 +132,14 @@
 	<div>
 		<button style="margin-bottom: 1rem;" class="button" on:click={() => (showRenameOverlay = true)}
 			>Rename</button
+		>
+		<button
+			style="margin-bottom: 1rem;"
+			class="button"
+			on:click={() => {
+				tags.tag.showGenderAndShiny = !tags.tag.showGenderAndShiny;
+				hasChanges = true;
+			}}>{`${tags.tag.showGenderAndShiny ? 'Hide' : 'Show'}`} Variety indicators</button
 		>
 		<button
 			class="button"
@@ -175,6 +185,7 @@
 			<PokemonCardEntry
 				pokemon={pokemonTag}
 				showRemoveButton={inModifyView}
+				showGenderAndShiny={tags.tag.showGenderAndShiny}
 				onRemoveClick={() => {
 					removeFromTag(pokemonTag);
 				}}
@@ -183,6 +194,7 @@
 			<PokemonListEntry
 				pokemon={pokemonTag}
 				showRemoveButton={inModifyView}
+				showGenderAndShiny={tags.tag.showGenderAndShiny}
 				onRemoveClick={() => {
 					removeFromTag(pokemonTag);
 				}}

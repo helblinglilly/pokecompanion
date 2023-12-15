@@ -36,7 +36,8 @@ export async function createTag(
 		const payload = {
 			name,
 			isPrivate,
-			initialContent: actualInitialContent
+			initialContent: actualInitialContent,
+			showGenderAndShiny: true
 		};
 
 		const response = await fetch('/api/tags', {
