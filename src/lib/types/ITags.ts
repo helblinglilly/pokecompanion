@@ -15,7 +15,7 @@ export interface ITagPokemon extends ITagPokemonNew {
 
 export interface ITagPokemonNew {
 	id: number;
-	gender: 'female' | undefined;
+	gender: 'female' | 'male';
 	shiny: true | false | undefined;
 }
 

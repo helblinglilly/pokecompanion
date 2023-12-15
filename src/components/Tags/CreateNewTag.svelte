@@ -40,6 +40,7 @@
 							mappedPokemon = initialContent.pokemon.map((mon) => {
 								return {
 									...mon,
+									gender: mon.gender === 'female' ? 'female' : 'male',
 									added: new Date().toISOString()
 								};
 							});

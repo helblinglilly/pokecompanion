@@ -114,8 +114,7 @@ export function doesTagContainPokemon(pokemon: IDisplayPokemon, tag: ITags) {
 
 	return tag.contents.pokemon.some((a) => {
 		const matchesGender =
-			(a.gender === 'female' && isDisplayOnFemale) ||
-			(a.gender === undefined && !isDisplayOnFemale);
+			(a.gender === 'female' && isDisplayOnFemale) || (a.gender === 'male' && !isDisplayOnFemale);
 
 		return (
 			a.id === pokemon.id &&
