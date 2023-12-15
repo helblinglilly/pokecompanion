@@ -46,7 +46,7 @@
 					name="venus"
 					style={`fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'}; margin: auto;`}
 				/>
-			{:else}
+			{:else if pokemon.gender === 'male'}
 				<Icon
 					name="mars"
 					style={`fill: ${

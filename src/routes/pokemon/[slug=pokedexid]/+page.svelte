@@ -46,6 +46,11 @@
 				id: data.id,
 				showFemaleSpriteIfExists,
 				hasFemaleSprite: baseSprite.meta.hasFemaleSprite,
+				gender: baseSprite.meta.hasFemaleSprite
+					? showFemaleSpriteIfExists
+						? 'female'
+						: 'male'
+					: undefined,
 				showShinySpriteIfExists,
 				hasShinySprite: baseSprite.meta.hasShinySprite,
 				primarySprite: findPrimarySprite(
@@ -132,6 +137,7 @@
 	route="/pokemon"
 />
 
+<p>{$pokemonDisplayStore.gender}</p>
 <div class="columns">
 	<div class="column">
 		<div class="card" style="padding-top: 1rem; position: relative;">
@@ -161,11 +167,7 @@
 							pokemon: [
 								{
 									id: data.id,
-									gender:
-										$pokemonDisplayStore.hasFemaleSprite &&
-										$pokemonDisplayStore.showFemaleSpriteIfExists
-											? 'female'
-											: 'male',
+									gender: $pokemonDisplayStore.gender,
 									shiny:
 										$pokemonDisplayStore.hasShinySprite &&
 										$pokemonDisplayStore.showShinySpriteIfExists

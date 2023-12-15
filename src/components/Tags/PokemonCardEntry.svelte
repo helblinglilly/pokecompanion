@@ -48,7 +48,7 @@
 				name="venus"
 				style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'};`}
 			/>
-		{:else}
+		{:else if pokemon.gender === 'male'}
 			<Icon
 				name="mars"
 				style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#99b3ff' : '#3366ff'};`}

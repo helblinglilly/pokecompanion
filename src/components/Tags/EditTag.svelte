@@ -38,11 +38,7 @@
 								await addPokemonToTag(
 									{
 										id: $pokemonDisplayStore.id,
-										gender:
-											$pokemonDisplayStore.hasFemaleSprite &&
-											$pokemonDisplayStore.showFemaleSpriteIfExists
-												? 'female'
-												: 'male',
+										gender: $pokemonDisplayStore.gender,
 										shiny:
 											$pokemonDisplayStore.hasShinySprite &&
 											$pokemonDisplayStore.showShinySpriteIfExists
@@ -54,11 +50,7 @@
 								await removePokemonFromTag(
 									{
 										id: $pokemonDisplayStore.id,
-										gender:
-											$pokemonDisplayStore.hasFemaleSprite &&
-											$pokemonDisplayStore.showFemaleSpriteIfExists
-												? 'female'
-												: 'male',
+										gender: $pokemonDisplayStore.gender,
 										shiny:
 											$pokemonDisplayStore.hasShinySprite &&
 											$pokemonDisplayStore.showShinySpriteIfExists
