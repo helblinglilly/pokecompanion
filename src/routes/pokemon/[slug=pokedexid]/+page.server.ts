@@ -1,3 +1,5 @@
+import { findGameFromString } from '$lib/data/games.js';
+import { getPokemonTypesInGame, getTypeRelations } from '$lib/data/generationAdjuster.js';
 import { pokeApiDomain } from '$lib/stores/domain';
 import type { IPokemon, IPokemonSpecies } from '$lib/types/IPokemon';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
@@ -15,8 +17,9 @@ const loadPokemonSpecies = async (id: number): Promise<IPokemonSpecies> => {
 	return body;
 };
 
-export const load = async ({ params, url }) => {
+export const load = async ({ params, url, cookies }) => {
 	const pokedexId = Number(params.slug);
+	const gameEntry = findGameFromString(cookies.get('selectedGame'));
 
 	// eslint-disable-next-line prefer-const
 	let [pokemon, species] = await Promise.all([
@@ -53,9 +56,11 @@ export const load = async ({ params, url }) => {
 		}
 	}
 
+	const types = getPokemonTypesInGame(pokemon, gameEntry?.generation);
+
 	return {
 		id: pokedexId,
-		pokemon: { ...pokemon },
+		pokemon: { ...pokemon, types, typeRelations: await getTypeRelations(types[0], types[1]) },
 		species: {
 			...species,
 			names: speciesNamesToNormalisedNames(species.names)

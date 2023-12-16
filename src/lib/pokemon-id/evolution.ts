@@ -251,6 +251,146 @@ const processWeirdEvolutions = (detail: EvolutionDetail, sourceId: number, targe
 		};
 	}
 
+	// Alolan Rattata to Alolan Ratticate
+	if (sourceId === 19 && targetId === 20 && detail.time_of_day) {
+		return {
+			sourceURL: `/pokemon/19?variety=rattata-alola`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10091.png`,
+			trigger: 'Level 20',
+			requirements: [
+				{
+					type: 'level-up',
+					info: 'At Night'
+				}
+			],
+			targetURL: `/pokemon/20?variety=ratticate-alola`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10092.png`
+		};
+	}
+
+	// Alolan Sandshrew to Alolan Sandslash
+	if (sourceId === 27 && targetId === 28 && detail.item) {
+		return {
+			sourceURL: `/pokemon/27?variety=sandshrew-alola`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10101.png`,
+			trigger: 'use-item',
+			requirements: [
+				{
+					type: 'use-item',
+					info: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${detail.item.name}.png`,
+					supplementary: `/item/${detail.item.url.split('/')[6]}`
+				}
+			],
+			targetURL: `/pokemon/28?variety=sandslash-alola`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10102.png`
+		};
+	}
+
+	// Alolan Vulpix to Alolan Ninetales
+	if (sourceId === 37 && targetId === 38 && detail.item.name === 'ice-stone') {
+		return {
+			sourceURL: `/pokemon/37?variety=vulpix-alola`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10103.png`,
+			trigger: 'use-item',
+			requirements: [
+				{
+					type: 'use-item',
+					info: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${detail.item.name}.png`,
+					supplementary: `/item/${detail.item.url.split('/')[6]}`
+				}
+			],
+			targetURL: `/pokemon/38?variety=ninetales-alola`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10104.png`
+		};
+	}
+
+	// Alolan Meowth to Alolan Persian
+	if (sourceId === 52 && targetId === 53 && detail.min_happiness) {
+		return {
+			sourceURL: `/pokemon/52?variety=meowth-alola`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10107.png`,
+			trigger: 'Level up',
+			requirements: [
+				{
+					type: 'level-up',
+					info: 'Friendship'
+				}
+			],
+			targetURL: `/pokemon/53?variety=persian-alola`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10108.png`
+		};
+	}
+
+	// Galarian Meowth to Perrserker
+	if (sourceId === 52 && targetId === 863) {
+		return {
+			sourceURL: `/pokemon/52?variety=meowth-galar`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10161.png`,
+			trigger: 'Level 28',
+			requirements: [],
+			targetURL: `/pokemon/863`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/863.png`
+		};
+	}
+
+	// Galarian Slowpoke to Galarian Slowbro
+	if (sourceId === 79 && targetId === 80 && detail.item) {
+		return {
+			sourceURL: `/pokemon/79?variety=slowpoke-galar`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10164.png`,
+			trigger: 'use-item',
+			requirements: [
+				{
+					type: 'use-item',
+					info: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${detail.item.name}.png`,
+					supplementary: `/item/${detail.item.url.split('/')[6]}`
+				}
+			],
+			targetURL: `/pokemon/80?variety=slowbro-galar`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10165.png`
+		};
+	}
+
+	// Galarian Slowpoke to Galarian Slowking
+	if (sourceId === 79 && targetId === 199 && detail.item) {
+		return {
+			sourceURL: `/pokemon/79?variety=slowpoke-galar`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10164.png`,
+			trigger: 'use-item',
+			requirements: [
+				{
+					type: 'use-item',
+					info: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${detail.item.name}.png`,
+					supplementary: `/item/${detail.item.url.split('/')[6]}`
+				}
+			],
+			targetURL: `/pokemon/199?variety=slowking-galar`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10172.png`
+		};
+	}
+
+	// Alolan Cubone to Alolan Marowawk
+	if (sourceId === 104 && targetId === 105 && detail.time_of_day) {
+		return {
+			sourceURL: `/pokemon/104?variety=cubone-alola`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/104.png`,
+			trigger: 'Level 28',
+			requirements: [
+				{
+					type: 'level-up',
+					info: 'At Night'
+				}
+			],
+			targetURL: `/pokemon/105?variety=marowak-alola`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10115.png`
+		};
+	}
+
+	// Growlithe evolves differently in Hisui
+	// Galarian Muk has the same evolution - will need to add a new evolution if the user is currently on the form
+	// Same for hisuian voltorb
+	// Koffing
+
 	// Paldean Wooper to Clodsire
 	if (sourceId === 194 && targetId === 980) {
 		return {
@@ -260,6 +400,23 @@ const processWeirdEvolutions = (detail: EvolutionDetail, sourceId: number, targe
 			requirements: [],
 			targetURL: `/pokemon/980`,
 			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/980.png`
+		};
+	}
+
+	// Galarian Linoon to Obstagoon
+	if (sourceId === 264 && targetId === 862) {
+		return {
+			sourceURL: `/pokemon/264?variety=linoon-galar`,
+			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10175.png`,
+			trigger: 'Level 35',
+			requirements: [
+				{
+					type: 'level-up',
+					info: 'At Night'
+				}
+			],
+			targetURL: `/pokemon/862`,
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/862.png`
 		};
 	}
 
