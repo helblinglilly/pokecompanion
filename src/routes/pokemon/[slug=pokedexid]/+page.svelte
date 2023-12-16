@@ -137,7 +137,6 @@
 	route="/pokemon"
 />
 
-<p>{$pokemonDisplayStore.gender}</p>
 <div class="columns">
 	<div class="column">
 		<div class="card" style="padding-top: 1rem; position: relative;">
