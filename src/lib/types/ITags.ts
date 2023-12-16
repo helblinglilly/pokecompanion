@@ -3,19 +3,28 @@ export interface ITag {
 	name: string;
 	contents: ITagContents;
 	isPrivate: boolean;
+	showGenderAndShiny: boolean;
 }
 
 export interface ITagContents {
-	pokemon: {
-		id: number;
-		added: string;
-	}[];
+	pokemon: ITagPokemon[];
+}
+
+export interface ITagPokemon extends ITagPokemonNew {
+	added: string;
+}
+
+export interface ITagPokemonNew {
+	id: number;
+	gender: 'female' | 'male' | undefined;
+	shiny: true | false | undefined;
 }
 
 export interface ITagRequestBody {
 	name: string;
 	isPrivate: boolean;
 	initialContent?: ITagContents;
+	showGenderAndShiny: boolean;
 }
 
 export interface ITagUpdateBody {
@@ -24,5 +33,6 @@ export interface ITagUpdateBody {
 		name: string;
 		contents: ITagContents;
 		isPrivate: boolean;
+		showGenderAndShiny: boolean;
 	}[];
 }

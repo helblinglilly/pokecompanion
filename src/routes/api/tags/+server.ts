@@ -42,7 +42,8 @@ export async function POST({ request, cookies }) {
 			owner: authedPb.authStore.model?.id,
 			name: body.name,
 			contents: body.initialContent ? body.initialContent : {},
-			isPrivate: body.isPrivate
+			isPrivate: body.isPrivate,
+			showGenderAndShiny: body.showGenderAndShiny
 		});
 	} catch (err) {
 		error(`Failed to create new tag ${err}`, '', JSON.stringify(request));
@@ -91,7 +92,8 @@ export async function PATCH({ request, cookies }) {
 				owner: authedPb.authStore.model?.id,
 				name: entry.name,
 				contents: entry.contents,
-				isPrivate: entry.isPrivate
+				isPrivate: entry.isPrivate,
+				showGenderAndShiny: entry.showGenderAndShiny
 			});
 		});
 	} catch (err) {

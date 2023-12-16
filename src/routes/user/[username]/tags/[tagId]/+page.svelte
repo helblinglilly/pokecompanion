@@ -6,10 +6,10 @@
 	import Modal from '$components/Modal.svelte';
 	import PokemonCardEntry from '$components/Tags/PokemonCardEntry.svelte';
 	import PokemonListEntry from '$components/Tags/PokemonListEntry.svelte';
-	import { getPokemonEntry } from '$lib/data/games';
 	import { error } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
+	import type { ITagPokemon } from '$lib/types/ITags.js';
 
 	export let data;
 	$: tags = data;
@@ -31,7 +31,8 @@
 						id: tags.tag.id,
 						name: tags.tag.name,
 						contents: tags.tag.contents,
-						isPrivate: tags.tag.isPrivate
+						isPrivate: tags.tag.isPrivate,
+						showGenderAndShiny: tags.tag.showGenderAndShiny ?? false
 					})
 				});
 				if (response.status !== 200) {
@@ -53,9 +54,9 @@
 		}
 	};
 
-	const removeFromTag = (id: number) => {
-		tags.tag.contents.pokemon = tags.tag.contents.pokemon.filter((a) => {
-			return a.id !== id;
+	const removeFromTag = (pokemon: ITagPokemon) => {
+		tags.tag.contents.pokemon = tags.tag.contents.pokemon.filter((tagMon) => {
+			return !(JSON.stringify(tagMon) === JSON.stringify(pokemon));
 		});
 		hasChanges = true;
 	};
@@ -104,7 +105,7 @@
 	{#if $currentUser?.username === tags.user.username}
 		<button
 			class="button"
-			style="height: 48px; width: 48px;"
+			style="max-height: 3rem;"
 			on:click={async () => {
 				if (inModifyView) {
 					try {
@@ -131,6 +132,14 @@
 	<div>
 		<button style="margin-bottom: 1rem;" class="button" on:click={() => (showRenameOverlay = true)}
 			>Rename</button
+		>
+		<button
+			style="margin-bottom: 1rem;"
+			class="button"
+			on:click={() => {
+				tags.tag.showGenderAndShiny = !tags.tag.showGenderAndShiny;
+				hasChanges = true;
+			}}>{`${tags.tag.showGenderAndShiny ? 'Hide' : 'Show'}`} Variety indicators</button
 		>
 		<button
 			class="button"
@@ -174,20 +183,20 @@
 	{#each tags.tag.contents.pokemon.sort((a, b) => (a.id > b.id ? 1 : -1)) as pokemonTag}
 		{#if displayMode === 'card'}
 			<PokemonCardEntry
-				id={pokemonTag.id}
-				names={getPokemonEntry(pokemonTag.id).names}
+				pokemon={pokemonTag}
 				showRemoveButton={inModifyView}
+				showGenderAndShiny={tags.tag.showGenderAndShiny}
 				onRemoveClick={() => {
-					removeFromTag(pokemonTag.id);
+					removeFromTag(pokemonTag);
 				}}
 			/>
 		{:else}
 			<PokemonListEntry
-				id={pokemonTag.id}
-				names={getPokemonEntry(pokemonTag.id).names}
+				pokemon={pokemonTag}
 				showRemoveButton={inModifyView}
+				showGenderAndShiny={tags.tag.showGenderAndShiny}
 				onRemoveClick={() => {
-					removeFromTag(pokemonTag.id);
+					removeFromTag(pokemonTag);
 				}}
 			/>
 		{/if}

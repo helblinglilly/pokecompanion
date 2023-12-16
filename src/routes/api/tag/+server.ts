@@ -99,7 +99,15 @@ export async function PATCH({ request, cookies }) {
 		return new Response('Not authorised', { status: 401 });
 	}
 
-	let body: { id: string; contents: ITagContents; name: string; isPrivate: boolean } | undefined;
+	let body:
+		| {
+				id: string;
+				contents: ITagContents;
+				name: string;
+				isPrivate: boolean;
+				showGenderAndShiny: boolean;
+		  }
+		| undefined;
 
 	try {
 		body = await request.json();
@@ -120,7 +128,8 @@ export async function PATCH({ request, cookies }) {
 		!body.contents ||
 		body.contents.pokemon.length === undefined ||
 		!body.name ||
-		body.isPrivate === undefined
+		body.isPrivate === undefined ||
+		body.showGenderAndShiny === undefined
 	) {
 		return new Response(JSON.stringify({ error: 'Invalid body', request: body }), {
 			status: 400
@@ -133,7 +142,8 @@ export async function PATCH({ request, cookies }) {
 				pokemon: body.contents.pokemon
 			},
 			name: body.name,
-			isPrivate: body.isPrivate
+			isPrivate: body.isPrivate,
+			showGenderAndShiny: body.showGenderAndShiny
 		});
 	} catch (err) {
 		error(JSON.stringify(err), 'FailedToUpdateTag');

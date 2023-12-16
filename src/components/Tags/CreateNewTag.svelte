@@ -1,58 +1,28 @@
 <script lang="ts">
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import Modal from '$components/Modal.svelte';
-	import { error } from '$lib/log';
-	import { addNotification } from '$lib/stores/notifications';
-	import type { ITagRequestBody, ITagContents } from '$lib/types/ITags';
+	import { createTag } from '$lib/stores/tagsStore';
+	import type { ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
 
-	export let newTagInitialContent: ITagContents;
-	export let showAddNewOverlay: boolean;
-	export let afterCreation: () => void;
+	export let userId: string;
+	export let initialContent: {
+		pokemon?: ITagPokemonNew[];
+	};
 
+	let mappedPokemon: ITagPokemon[] = [];
+	let showAddNewOverlay: boolean;
 	let newListName: string;
 	let isPrivate: boolean;
-
-	const createNewTag = async () => {
-		try {
-			const updatedInitialContent = {
-				...newTagInitialContent,
-				pokemon: newTagInitialContent.pokemon.map((mon) => {
-					return {
-						...mon,
-						added: new Date().toISOString()
-					};
-				})
-			};
-			const payload: ITagRequestBody = {
-				name: newListName,
-				initialContent: updatedInitialContent,
-				isPrivate
-			};
-			const response = await fetch('/api/tags', {
-				method: 'POST',
-				body: JSON.stringify(payload)
-			});
-			if (!response.ok) {
-				throw new Error(`${response.status}, ${JSON.stringify(payload)}`);
-			}
-
-			if (afterCreation) {
-				afterCreation();
-			}
-		} catch (err) {
-			addNotification({ message: 'Failed to create tag', level: 'failure' });
-			error(
-				'Failed to create new tag',
-				'FailedToCreateTag',
-				`New Name: ${newListName}, Private: ${isPrivate}, Content: ${newTagInitialContent}, Error: ${JSON.stringify(
-					err
-				)}`
-			);
-		}
-		showAddNewOverlay = false;
-		newListName = '';
-	};
 </script>
+
+<button
+	class="tag"
+	on:click={() => {
+		showAddNewOverlay = true;
+	}}
+>
+	New Tag
+</button>
 
 <Modal bind:showModal={showAddNewOverlay}>
 	<h2 slot="header">Create new tag</h2>
@@ -63,7 +33,24 @@
 			<InlineTextButton
 				bind:valueBinding={newListName}
 				variation="small"
-				buttonConfig={{ text: 'Create', onClick: createNewTag }}
+				buttonConfig={{
+					text: 'Create',
+					onClick: async () => {
+						if (initialContent.pokemon) {
+							mappedPokemon = initialContent.pokemon.map((mon) => {
+								return {
+									...mon,
+									added: new Date().toISOString()
+								};
+							});
+						}
+						await createTag(userId, newListName, isPrivate, {
+							pokemon: mappedPokemon
+						});
+						showAddNewOverlay = false;
+						newListName = '';
+					}
+				}}
 				inputConfig={{ placeholder: 'Tag name' }}
 				containerStyling="width: 70%;"
 			/>
@@ -88,5 +75,17 @@
 		width: 100%;
 		padding-top: 1rem;
 		justify-content: center;
+	}
+
+	.tag {
+		display: inline-flex;
+		gap: 0.25rem;
+		font-size: smaller;
+		background-color: var(--secondary);
+		padding: 0.5rem;
+		width: max-content;
+		border-radius: 3rem;
+		margin: 0.25rem;
+		text-decoration: none;
 	}
 </style>

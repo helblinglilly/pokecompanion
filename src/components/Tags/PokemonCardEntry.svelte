@@ -1,32 +1,81 @@
 <script lang="ts">
-	import { getMultiLanguageName, type Languages } from '$lib/utils/language';
+	import { getMultiLanguageName } from '$lib/utils/language';
 	import Image from '$components/Image.svelte';
-	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
+	import { primaryLanguage, secondaryLanguage, theme } from '$lib/stores/domain';
+	import type { ITagPokemon } from '$lib/types/ITags';
+	import { getPokemonEntry } from '$lib/data/games';
+	import Icon from '$components/Icon.svelte';
 
-	export let id: number;
-	export let names: Languages[];
+	export let pokemon: ITagPokemon;
 	export let showRemoveButton: boolean;
+	export let showGenderAndShiny: boolean;
 	export let onRemoveClick: () => void;
 </script>
 
-<div class="card" id={`${id}`}>
-	<a href={`/pokemon/${id}`} class="clickable">
+<div class="card" id={`${pokemon.id}`}>
+	<a
+		href={`/pokemon/${pokemon.id}?shiny=${pokemon.shiny}${
+			pokemon.gender ? `&gender=${pokemon.gender}` : ''
+		}`}
+		class="clickable"
+	>
 		<div class="spriteWrapper">
 			<Image
-				src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
+				src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon${
+					pokemon.shiny ? '/shiny' : ''
+				}${pokemon.gender === 'female' ? '/female' : ''}/${pokemon.id}.png`}
 				alt={`sprite`}
 				loading="lazy"
 				height="96px"
 				width="96px"
 			/>
 		</div>
-		<p>#{id}</p>
+		<p>#{pokemon.id}</p>
 		<p>
-			{getMultiLanguageName(names, $primaryLanguage, $secondaryLanguage)}
+			{getMultiLanguageName(
+				getPokemonEntry(pokemon.id).names,
+				$primaryLanguage,
+				$secondaryLanguage
+			)}
 		</p>
 	</a>
 	{#if showRemoveButton}
 		<button class="removeButton" on:click={onRemoveClick}>-</button>
+	{/if}
+
+	{#if showGenderAndShiny}
+		<div class="indicators">
+			{#if pokemon.gender === 'female'}
+				<Icon
+					name="venus"
+					style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'};`}
+				/>
+			{:else if pokemon.gender === 'male'}
+				<Icon
+					name="mars"
+					style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#99b3ff' : '#3366ff'};`}
+				/>
+			{/if}
+
+			{#if pokemon.shiny}
+				{#if $theme === 'light'}
+					<Icon
+						name="spark"
+						style="margin-top: -0.25rem;"
+						lineStroke="var(--text)"
+						pathStroke="var(--text)"
+					/>
+				{:else}
+					<Icon
+						style="margin-top: -0.25rem;"
+						name="spark-full"
+						pathFill="var(--text)"
+						lineStroke="var(--text)"
+						pathStroke="var(--text)"
+					/>
+				{/if}
+			{/if}
+		</div>
 	{/if}
 </div>
 
@@ -72,8 +121,23 @@
 		z-index: 5;
 	}
 
+	.indicators {
+		position: absolute;
+		top: 0;
+		left: 0;
+		text-align: center;
+		height: 2rem;
+		width: 100%;
+		border-radius: 10%;
+		z-index: 5;
+		display: inline-flex;
+		margin-top: 0.5rem;
+	}
+
 	.spriteWrapper {
 		height: 96px;
 		width: 96px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 </style>

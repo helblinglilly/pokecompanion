@@ -70,7 +70,7 @@
 				return;
 			}
 
-			goto(`/signin`);
+			goto(`/`);
 		} catch (err) {
 			status = 'Sign in failed';
 			errorDetails = 'Could not sign you in. Please try again.';
