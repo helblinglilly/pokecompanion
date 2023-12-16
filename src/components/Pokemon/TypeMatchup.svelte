@@ -40,6 +40,7 @@
 
 	.type {
 		display: inline-flex;
+		min-width: max-content;
 		width: 100%;
 		gap: 0.5rem;
 		justify-content: center;
