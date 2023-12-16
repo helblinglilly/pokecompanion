@@ -10,15 +10,15 @@
 <div>
 	<label for="gameSelector"><h3>Select Game</h3></label>
 	<select
-		bind:value={selectedGameGroup}
+		name="gameSelector"
+		id="gameSelector"
 		on:change={(event) => {
-			if (event.currentTarget.value) {
-				const gameValue = findGameFromString(event.currentTarget.value);
+			if (event.target) {
+				// @ts-ignore Value will exist, but type does not know this
+				const gameValue = findGameFromString(event.target.value);
 				selectedGame.set(gameValue);
 			}
 		}}
-		name="gameSelector"
-		id="gameSelector"
 	>
 		<option
 			value={'generic'}
