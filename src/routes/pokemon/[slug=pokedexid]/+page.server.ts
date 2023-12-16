@@ -1,5 +1,5 @@
 import { findGameFromString } from '$lib/data/games.js';
-import { getPokemonTypesInGame } from '$lib/data/generationAdjuster.js';
+import { getPokemonTypesInGame, getTypeRelations } from '$lib/data/generationAdjuster.js';
 import { pokeApiDomain } from '$lib/stores/domain';
 import type { IPokemon, IPokemonSpecies } from '$lib/types/IPokemon';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
@@ -56,9 +56,11 @@ export const load = async ({ params, url, cookies }) => {
 		}
 	}
 
+	const types = getPokemonTypesInGame(pokemon, gameEntry?.generation);
+
 	return {
 		id: pokedexId,
-		pokemon: { ...pokemon, types: getPokemonTypesInGame(pokemon, gameEntry?.generation) },
+		pokemon: { ...pokemon, types, typeRelations: await getTypeRelations(types[0], types[1]) },
 		species: {
 			...species,
 			names: speciesNamesToNormalisedNames(species.names)

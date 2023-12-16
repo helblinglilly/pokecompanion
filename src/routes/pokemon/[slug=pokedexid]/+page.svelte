@@ -235,8 +235,7 @@
 <div class="columns">
 	<div class="column">
 		<div class="card" style="padding-top: 1rem; position: relative;">
-			<h3>Type matchups</h3>
-			<TypeMatchup />
+			<TypeMatchup relations={data.pokemon.typeRelations} />
 		</div>
 	</div>
 	<div class="column" />

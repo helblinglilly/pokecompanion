@@ -1,4 +1,34 @@
 <script lang="ts">
+	import Image from '$components/Image.svelte';
+	import type { ITypeRelations } from '$lib/data/generationAdjuster';
+	export let relations: ITypeRelations;
 </script>
 
-<!-- <p>{JSON.stringify(resists)}</p> -->
+<div class="columns mobile">
+	<div class="column">
+		<h2>Resists</h2>
+		{#each relations.resists as resists}
+			<div style="display: inline-flex; width: 100%; gap: 0.5rem;">
+				<Image src={resists.icon} alt={resists.name} />
+				{#if resists.multiplier === 0}
+					<b>x {resists.multiplier}</b>
+				{:else}
+					<p>x {resists.multiplier}</p>
+				{/if}
+			</div>
+		{/each}
+	</div>
+	<div class="column">
+		<h2>Weak to</h2>
+		{#each relations.weakAgainst as weakAgainst}
+			<div style="display: inline-flex; width: 100%; gap: 0.5rem;">
+				<Image src={weakAgainst.icon} alt={weakAgainst.name} />
+				{#if weakAgainst.multiplier === 4}
+					<b>x {weakAgainst.multiplier}</b>
+				{:else}
+					<p>x {weakAgainst.multiplier}</p>
+				{/if}
+			</div>
+		{/each}
+	</div>
+</div>
