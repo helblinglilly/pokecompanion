@@ -86,7 +86,11 @@
 			tracesSampleRate: 1.0,
 			replaysSessionSampleRate: 0.1,
 			replaysOnErrorSampleRate: 1.0,
-			integrations: [new Sentry.Replay()]
+			integrations: [
+				new Sentry.Replay({
+					maskAllText: false
+				})
+			]
 		});
 
 		initTheme();
