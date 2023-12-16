@@ -27,6 +27,7 @@
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tagsStore';
 	import EditTag from '$components/Tags/EditTag.svelte';
+	import TypeMatchup from '$components/Pokemon/TypeMatchup.svelte';
 
 	export let data;
 
@@ -62,7 +63,8 @@
 					baseSprite,
 					showFemaleSpriteIfExists,
 					showShinySpriteIfExists
-				)
+				),
+				types: getPokemonTypesInGame(data.pokemon, $selectedGame?.generation)
 			});
 		}
 	}
@@ -142,7 +144,7 @@
 		<div class="card" style="padding-top: 1rem; position: relative;">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
 				<div style="display: inline-flex; height: 20px; width: 150px;">
-					{#each getPokemonTypesInGame(data.pokemon, $selectedGame?.generation) as type}
+					{#each $pokemonDisplayStore.types as type}
 						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
 					{/each}
 				</div>
@@ -231,16 +233,20 @@
 	</div>
 </div>
 
-<!-- <div class="columns">
+<div class="columns">
 	<div class="column">
 		<div class="card" style="padding-top: 1rem; position: relative;">
 			<h3>Type matchups</h3>
+			<TypeMatchup />
 		</div>
 	</div>
-
+	<div class="column" />
+	<!-- 
 	<div class="column">
 		<div class="card" style="padding-top: 1rem; position: relative;">
 			<h3>Forms</h3>
 		</div>
 	</div>
-</div> -->
+	</div>
+-->
+</div>

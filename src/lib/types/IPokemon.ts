@@ -13,11 +13,11 @@ export interface IPokemon {
 	order: number;
 	past_types: {
 		generation: Generation;
-		types: Type[];
+		types: ITypeEntry[];
 	}[];
 	sprites: ISprites;
 	stats: Stat[];
-	types: Type[];
+	types: ITypeEntry[];
 	weight: number;
 }
 
@@ -358,7 +358,7 @@ interface Stat2 {
 	url: string;
 }
 
-interface Type {
+export interface ITypeEntry {
 	slot: number;
 	type: Type2;
 }
