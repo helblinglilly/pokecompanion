@@ -8,6 +8,7 @@
 	export let initialContent: {
 		pokemon?: ITagPokemonNew[];
 	};
+	export let onSuccess = () => {};
 
 	let mappedPokemon: ITagPokemon[] = [];
 	let showAddNewOverlay: boolean;
@@ -49,6 +50,7 @@
 						});
 						showAddNewOverlay = false;
 						newListName = '';
+						onSuccess();
 					}
 				}}
 				inputConfig={{ placeholder: 'Tag name' }}

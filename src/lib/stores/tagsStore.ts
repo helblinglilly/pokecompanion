@@ -51,6 +51,7 @@ export async function createTag(
 			message: `Created new ${isPrivate ? 'private' : ''} tag "${name}"`,
 			level: 'success'
 		});
+
 		await refetchTags(userId);
 	} catch (err) {
 		addNotification({ message: 'Failed to create tag', level: 'failure' });
