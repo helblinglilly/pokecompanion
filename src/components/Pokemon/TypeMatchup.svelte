@@ -8,7 +8,7 @@
 	<div class="column">
 		<h2>Resists</h2>
 		{#each relations.resists as resists}
-			<div style="display: inline-flex; width: 100%; gap: 0.5rem;">
+			<div class="type">
 				<Image src={resists.icon} alt={resists.name} />
 				{#if resists.multiplier === 0}
 					<b>x {resists.multiplier}</b>
@@ -21,7 +21,7 @@
 	<div class="column">
 		<h2>Weak to</h2>
 		{#each relations.weakAgainst as weakAgainst}
-			<div style="display: inline-flex; width: 100%; gap: 0.5rem;">
+			<div class="type">
 				<Image src={weakAgainst.icon} alt={weakAgainst.name} />
 				{#if weakAgainst.multiplier === 4}
 					<b>x {weakAgainst.multiplier}</b>
@@ -32,3 +32,16 @@
 		{/each}
 	</div>
 </div>
+
+<style>
+	.column {
+		text-align: center;
+	}
+
+	.type {
+		display: inline-flex;
+		width: 100%;
+		gap: 0.5rem;
+		justify-content: center;
+	}
+</style>
