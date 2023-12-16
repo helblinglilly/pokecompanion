@@ -42,14 +42,7 @@ export const getPokemonTypesInGame = (pokemon: IPokemon, generation?: IGeneratio
 		url: string;
 	}[];
 
-	const pokemonTypes = pastTypes.length > 0 ? pastTypes : vanillaTypes;
-
-	// const typeRequests: Promise<Response>[] = [];
-	// pokemonTypes.forEach((type) => {
-	// 	typeRequests.push(fetch(type.url).then((response) => response.json()));
-	// });
-
-	return pokemonTypes;
+	return pastTypes.length > 0 ? pastTypes : vanillaTypes;
 };
 
 export const addImageToType = (type: IType) => {
@@ -58,11 +51,4 @@ export const addImageToType = (type: IType) => {
 		icon: `/icons/types/${type.name}.webp`,
 		url: type.url
 	};
-};
-
-export const getTypeRelations = async (a: IType, b: IType | undefined) => {
-	const [type1, type2] = await Promise.all([fetch(a.url), b ? fetch(b.url) : fetch(a.url)]);
-
-	console.log(type1, type2);
-	return 'hello';
 };

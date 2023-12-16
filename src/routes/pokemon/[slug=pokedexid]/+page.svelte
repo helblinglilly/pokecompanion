@@ -63,8 +63,7 @@
 					baseSprite,
 					showFemaleSpriteIfExists,
 					showShinySpriteIfExists
-				),
-				types: getPokemonTypesInGame(data.pokemon, $selectedGame?.generation)
+				)
 			});
 		}
 	}
@@ -144,7 +143,7 @@
 		<div class="card" style="padding-top: 1rem; position: relative;">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
 				<div style="display: inline-flex; height: 20px; width: 150px;">
-					{#each $pokemonDisplayStore.types as type}
+					{#each data.pokemon.types as type}
 						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
 					{/each}
 				</div>
