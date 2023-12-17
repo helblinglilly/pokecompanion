@@ -57,10 +57,10 @@
 								const newUrl = new URL($page.url);
 								if (e.target.value.endsWith('-default')) {
 									newUrl.searchParams.delete('variety');
-									goto(newUrl.toString(), { replaceState: true });
+									goto(newUrl.toString(), { replaceState: false });
 								} else {
 									newUrl.searchParams.set('variety', e.target.value);
-									goto(newUrl.toString(), { replaceState: true });
+									goto(newUrl.toString(), { replaceState: false });
 								}
 							}
 						}}

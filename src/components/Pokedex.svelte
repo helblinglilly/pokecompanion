@@ -26,7 +26,7 @@
 </script>
 
 <button
-	style="height: 20px; display: inline-flex; align-items: center;"
+	style="height: 20px; display: inline-flex; align-items: center; min-width: fit-content;"
 	on:click={() => {
 		showModal = !showModal;
 	}}
