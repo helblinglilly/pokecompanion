@@ -14,7 +14,7 @@
 
 <div class="card clickable" id={`${pokemon.id}`}>
 	<a
-		href={`/pokemon/${pokemon.id}?shiny=${pokemon.shiny}${
+		href={`/pokemon/${pokemon.id}?shiny=${!!pokemon.shiny}${
 			pokemon.gender ? `&gender=${pokemon.gender}` : ''
 		}`}
 	>

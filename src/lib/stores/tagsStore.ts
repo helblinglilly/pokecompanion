@@ -115,7 +115,7 @@ export function doesTagContainPokemon(pokemon: IDisplayPokemon, tag: ITags) {
 	return tag.contents.pokemon.some((a) => {
 		return (
 			a.id === pokemon.id &&
-			a.shiny === (pokemon.hasShinySprite && pokemon.showShinySpriteIfExists) &&
+			(!pokemon.hasShinySprite || !a.shiny || a.shiny === pokemon.showShinySpriteIfExists) &&
 			(!pokemon.gender || !a.gender || a.gender === pokemon.gender)
 		);
 	});
