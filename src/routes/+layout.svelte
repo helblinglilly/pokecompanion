@@ -139,7 +139,7 @@
 			class="navbar__button hidden--mobile"
 			on:click={() => {
 				toggleMobileNavExtended();
-				setCookie('auth-redirect', $page.url.pathname);
+				setCookie('auth-redirect', `${$page.url.pathname}/${$page.url.search}`);
 			}}
 		>
 			<button>{$currentUser ? `Me - ${$currentUser.username}` : 'Sign In'}</button>
