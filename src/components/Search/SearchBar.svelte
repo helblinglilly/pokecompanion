@@ -1,40 +1,17 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-
 	const placeholders = ['All sorts', 'Pokémon', 'Pokédex ID', 'Items', 'Moves', 'Abilities'];
 	let id = Math.floor(Math.random() * (placeholders.length - 1 - 1 + 1)) + 1;
-
-	let searchTerm: string | undefined;
-	const onSubmit = (e: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) => {
-		if (!searchTerm) {
-			e.preventDefault();
-			return;
-		}
-		if (searchTerm) {
-			e.preventDefault();
-			const newUrl = new URL($page.url);
-			newUrl.searchParams.set('term', searchTerm);
-			newUrl.pathname = 'search';
-			goto(newUrl);
-		}
-	};
 </script>
 
-<div id="searchFormWrapper">
-	<form id="searchForm" on:submit={onSubmit}>
-		<input
-			type="text"
-			style="width: 100%"
-			placeholder={`${placeholders[id]}...`}
-			bind:value={searchTerm}
-		/>
+<search>
+	<form id="searchForm" action="/search" method="get">
+		<input type="text" style="width: 100%" placeholder={`${placeholders[id]}...`} name="term" />
 		<button class="button" type="submit">Search</button>
 	</form>
-</div>
+</search>
 
 <style>
-	#searchFormWrapper {
+	search {
 		width: 100%;
 		display: flex;
 		justify-content: center;
