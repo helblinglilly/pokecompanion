@@ -16,7 +16,7 @@ export const load: LayoutServerLoad = async ({ locals, request, cookies }) => {
 		// Entry is not valid - clean up and sign out
 		locals.pb.authStore.clear();
 		locals.user = null;
-		cookies.delete('pb_auth');
+		cookies.delete('pb_auth', { path: '/' });
 
 		return {
 			user: locals.user
@@ -46,7 +46,7 @@ export const load: LayoutServerLoad = async ({ locals, request, cookies }) => {
 		// Login has expired now - sign user out
 		locals.pb.authStore.clear();
 		locals.user = null;
-		cookies.delete('pb_auth');
+		cookies.delete('pb_auth', { path: '/' });
 	}
 
 	return {
