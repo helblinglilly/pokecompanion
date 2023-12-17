@@ -43,7 +43,7 @@
 			<div style="display: inline-block; gap: 1rem;">
 				<h2
 					id="pokemonName"
-					style="min-width: fit-content; margin-top: auto; margin-bottom: auto; padding-bottom: 0;"
+					style="min-width: fit-content; margin-top: auto; margin-bottom: auto; padding-bottom: 0; text-align: center;"
 				>
 					{title}
 				</h2>
@@ -51,7 +51,7 @@
 				{#if forms.length > 1}
 					<select
 						name="variety"
-						style="min-width: 10rem; margin: 0;"
+						style="min-width: 10rem; margin: 0; padding: 0; text-align: center;"
 						on:change={(e) => {
 							if (e.target) {
 								const newUrl = new URL($page.url);
@@ -106,6 +106,7 @@
 				<div style="display: inline-flex; width: 100%; justify-content: space-around;">
 					<select
 						name="variety"
+						style="min-width: 10rem; margin: 0; padding: 0; text-align: center;"
 						on:change={(e) => {
 							if (e.target) {
 								const newUrl = new URL($page.url);
