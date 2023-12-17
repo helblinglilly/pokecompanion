@@ -50,6 +50,7 @@
 
 				{#if forms.length > 1}
 					<select
+						id="formSelector-desktop"
 						name="variety"
 						style="min-width: 10rem; margin: 0; padding: 0; text-align: center;"
 						on:change={(e) => {
@@ -105,6 +106,7 @@
 			{#if forms.length > 1}
 				<div style="display: inline-flex; width: 100%; justify-content: space-around;">
 					<select
+						id="formSelector-mobile"
 						name="variety"
 						style="min-width: 10rem; margin: 0; padding: 0; text-align: center;"
 						on:change={(e) => {

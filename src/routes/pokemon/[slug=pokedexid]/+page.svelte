@@ -194,6 +194,7 @@
 
 			{#if $pokemonDisplayStore.hasShinySprite}
 				<button
+					data-testid="shinyToggle"
 					class="triangle right"
 					style={`border-bottom-color: ${
 						$pokemonDisplayStore.showShinySpriteIfExists ? '#f0e45f' : '#f0e45f'
@@ -213,6 +214,7 @@
 
 			{#if $pokemonDisplayStore.hasFemaleSprite}
 				<button
+					data-testid="genderToggle"
 					class="triangle left"
 					style={`border-bottom-color: ${
 						$pokemonDisplayStore.hasFemaleSprite && $pokemonDisplayStore.showFemaleSpriteIfExists

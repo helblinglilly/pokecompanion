@@ -31,5 +31,7 @@ test('Pokemon page can be rendered without any cookies', async ({ page }) => {
 	await expect(locator).toHaveText('Pikachu');
 
 	await page.getByRole('link', { name: '#26 icon' }).click();
+
+	await page.waitForURL('**/pokemon/26');
 	expect(page).toHaveURL('/pokemon/26');
 });
