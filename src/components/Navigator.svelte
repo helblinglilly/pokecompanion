@@ -15,8 +15,12 @@
 
 <div id="navigator" class="columns mobile">
 	<div class="column" style="max-width: fit-content; display: contents;">
-		{#if currentId - 1 > 0}
-			<a href={`${route}/${currentId - 1}`} class="card" style="width: fit-content; padding: 10px;">
+		<div style="min-width: 90px; min-height: 70px;">
+			<a
+				href={`${route}/${currentId - 1}`}
+				class={`card ${currentId - 1 <= 0 ? 'hidden' : ''}`}
+				style="width: fit-content; padding: 10px;"
+			>
 				<div style="display: inline-flex;">
 					<p style="margin: auto;">#{currentId - 1}</p>
 					{#if iconUrl}
@@ -32,7 +36,7 @@
 					{/if}
 				</div>
 			</a>
-		{/if}
+		</div>
 	</div>
 	<div class="column" style="display: flex; align-items: center; max-width: fit-content;">
 		<h2 class="mobile-only" id="pokemonId">
@@ -78,8 +82,12 @@
 	</div>
 
 	<div class="column" style="justify-content: end; display: contents; max-width: fit-content;">
-		{#if currentId + 1 <= maxId}
-			<a href={`${route}/${currentId + 1}`} class="card" style="width: fit-content; padding: 10px;">
+		<div style="min-width: 90px; min-height: 70px;">
+			<a
+				href={`${route}/${currentId + 1}`}
+				class={`card ${currentId + 1 > maxId ? 'hidden' : ''}`}
+				style="width: fit-content; padding: 10px;"
+			>
 				<div style="display: inline-flex;">
 					<p style="margin: auto;">#{currentId + 1}</p>
 					{#if iconUrl}
@@ -94,7 +102,7 @@
 					{/if}
 				</div>
 			</a>
-		{/if}
+		</div>
 	</div>
 </div>
 

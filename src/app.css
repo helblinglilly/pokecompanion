@@ -222,6 +222,10 @@ div.column {
 	border-bottom: 4rem solid;
 }
 
+.hidden {
+	display: none;
+}
+
 select {
 	color: var(--text);
 	background-color: var(--primary);
