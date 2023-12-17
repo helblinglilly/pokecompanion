@@ -41,7 +41,8 @@
 										gender: $pokemonDisplayStore.gender,
 										shiny:
 											$pokemonDisplayStore.hasShinySprite &&
-											$pokemonDisplayStore.showShinySpriteIfExists
+											$pokemonDisplayStore.showShinySpriteIfExists,
+										variety: $pokemonDisplayStore.variety
 									},
 									tag.id
 								);
@@ -53,7 +54,8 @@
 										gender: $pokemonDisplayStore.gender,
 										shiny:
 											$pokemonDisplayStore.hasShinySprite &&
-											$pokemonDisplayStore.showShinySpriteIfExists
+											$pokemonDisplayStore.showShinySpriteIfExists,
+										variety: $pokemonDisplayStore.variety
 									},
 									tag.id
 								);

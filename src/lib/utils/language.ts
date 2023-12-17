@@ -26,7 +26,8 @@ export const getLanguageEntry = (entries: Languages[], languageCode: keyof Langu
 export const getMultiLanguageName = (
 	entries: Languages[],
 	languageCode: keyof Languages,
-	secondaryCode: keyof Languages | undefined
+	secondaryCode: keyof Languages | undefined,
+	prefix?: string | undefined
 ) => {
 	const primaryLanguage = getLanguageEntry(entries, languageCode);
 	const secondaryLanguage = secondaryCode ? getLanguageEntry(entries, secondaryCode) : undefined;
@@ -34,13 +35,13 @@ export const getMultiLanguageName = (
 	if (!secondaryLanguage && !primaryLanguage) {
 		return 'Missing data';
 	} else if (primaryLanguage && !secondaryLanguage) {
-		return primaryLanguage;
+		return prefix ? prefix + ' ' : '' + primaryLanguage;
 	} else if (secondaryLanguage && !primaryLanguage) {
-		return secondaryLanguage;
+		return prefix ? prefix + ' ' : '' + secondaryLanguage;
 	} else if (primaryLanguage === secondaryLanguage) {
-		return primaryLanguage;
+		return prefix ? prefix + ' ' : '' + primaryLanguage;
 	} else if (primaryLanguage !== secondaryLanguage) {
-		return `${primaryLanguage} - ${secondaryLanguage}`;
+		return `${prefix ? prefix + ': ' : ''}${primaryLanguage} - ${secondaryLanguage}`;
 	}
 };
 

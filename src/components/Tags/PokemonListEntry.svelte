@@ -5,25 +5,30 @@
 	import type { ITagPokemon } from '$lib/types/ITags';
 	import { getPokemonEntry } from '$lib/data/games';
 	import Icon from '$components/Icon.svelte';
+	import { pokemonVarietyNameToDisplay } from '$lib/utils/string';
 
 	export let pokemon: ITagPokemon;
 	export let showRemoveButton: boolean;
 	export let onRemoveClick: () => void;
 	export let showGenderAndShiny: boolean;
+
+	const namePrefix = pokemonVarietyNameToDisplay(pokemon.variety?.name ?? '');
 </script>
 
 <div class="card clickable" id={`${pokemon.id}`}>
 	<a
-		href={`/pokemon/${pokemon.id}?shiny=${!!pokemon.shiny}${
+		href={`/pokemon/${pokemon.id}?shiny=${pokemon.shiny}${
 			pokemon.gender ? `&gender=${pokemon.gender}` : ''
-		}`}
+		}${pokemon.variety ? `&variety=${pokemon.variety.name}` : ''}`}
 	>
 		<div>
 			<div class="spriteWrapper">
 				<Image
 					src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon${
 						pokemon.shiny ? '/shiny' : ''
-					}${pokemon.gender === 'female' ? '/female' : ''}/${pokemon.id}.png`}
+					}${pokemon.gender === 'female' ? '/female' : ''}/${
+						pokemon.variety ? pokemon.variety.spriteId : pokemon.id
+					}.png`}
 					alt={`sprite`}
 					loading="lazy"
 					height="96px"
@@ -36,7 +41,8 @@
 				{getMultiLanguageName(
 					getPokemonEntry(pokemon.id).names,
 					$primaryLanguage,
-					$secondaryLanguage
+					$secondaryLanguage,
+					namePrefix
 				)}
 			</p>
 		</div>

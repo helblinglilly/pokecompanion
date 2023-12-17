@@ -9,7 +9,6 @@
 	} from '$lib/stores/domain';
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Navigator from '$components/Navigator.svelte';
-	import { getPokemonTypesInGame } from '$lib/data/generationAdjuster';
 	import EvolutionChain from '$components/Pokemon/EvolutionChain.svelte';
 	import Image from '$components/Image.svelte';
 	import { onMount } from 'svelte';
@@ -43,6 +42,19 @@
 			const showFemaleSpriteIfExists = $page.url.searchParams.get('gender') === 'female';
 			const showShinySpriteIfExists = $page.url.searchParams.get('shiny') === 'true';
 
+			const primarySprite = findPrimarySprite(
+				baseSprite,
+				showFemaleSpriteIfExists,
+				showShinySpriteIfExists
+			);
+
+			const varietyName = $page.url.searchParams.get('variety');
+
+			const variety = {
+				name: varietyName,
+				spriteId: Number(primarySprite.url.split('/')[8].split('.')[0])
+			};
+
 			pokemonDisplayStore.set({
 				id: data.id,
 				showFemaleSpriteIfExists,
@@ -54,16 +66,13 @@
 					: undefined,
 				showShinySpriteIfExists,
 				hasShinySprite: baseSprite.meta.hasShinySprite,
-				primarySprite: findPrimarySprite(
-					baseSprite,
-					showFemaleSpriteIfExists,
-					showShinySpriteIfExists
-				),
+				primarySprite,
 				secondarySprite: findSecondarySprite(
 					baseSprite,
 					showFemaleSpriteIfExists,
 					showShinySpriteIfExists
-				)
+				),
+				variety: variety.name ? variety : undefined
 			});
 		}
 	}
@@ -170,7 +179,8 @@
 									gender: $pokemonDisplayStore.gender,
 									shiny:
 										$pokemonDisplayStore.hasShinySprite &&
-										$pokemonDisplayStore.showShinySpriteIfExists
+										$pokemonDisplayStore.showShinySpriteIfExists,
+									variety: $pokemonDisplayStore.variety
 								}
 							]
 						}}

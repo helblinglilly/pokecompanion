@@ -116,7 +116,10 @@ export function doesTagContainPokemon(pokemon: IDisplayPokemon, tag: ITags) {
 		return (
 			a.id === pokemon.id &&
 			(!pokemon.hasShinySprite || !a.shiny || a.shiny === pokemon.showShinySpriteIfExists) &&
-			(!pokemon.gender || !a.gender || a.gender === pokemon.gender)
+			(!pokemon.gender || !a.gender || a.gender === pokemon.gender) &&
+			(!a.variety ||
+				(a.variety.name === pokemon.variety?.name &&
+					a.variety.spriteId === pokemon.variety.spriteId))
 		);
 	});
 }

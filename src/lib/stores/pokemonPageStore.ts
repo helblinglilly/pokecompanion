@@ -19,6 +19,13 @@ export interface IDisplayPokemon {
 	showShinySpriteIfExists: boolean;
 
 	gender: 'male' | 'female' | undefined;
+
+	variety:
+		| {
+				spriteId: number | null;
+				name: string | null;
+		  }
+		| undefined;
 }
 
 export const pokemonDisplayStore = writable<IDisplayPokemon>();
