@@ -48,6 +48,6 @@
 
 	p,
 	b {
-		width: 2.5rem;
+		width: 3rem;
 	}
 </style>

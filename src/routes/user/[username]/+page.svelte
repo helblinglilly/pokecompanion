@@ -9,6 +9,8 @@
 	import { pb } from '$lib/stores/domain';
 	import { error } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
+	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
+	import { tagStore } from '$lib/stores/tagsStore';
 
 	export let data;
 </script>
@@ -40,7 +42,21 @@
 			</div>
 
 			<div class="column">
-				<h2>Tag lists</h2>
+				<div
+					style="display: inline-flex; gap: 2rem; justify-content: space-between; width: 100%; text-align: center;"
+				>
+					<h2 style="padding-bottom: 0;">Tag lists</h2>
+					{#if $currentUser}
+						<CreateNewTag
+							userId={$currentUser.id}
+							initialContent={{}}
+							onSuccess={() => {
+								// @ts-ignore Just missing creation/updated timestamps
+								data.tags = $tagStore;
+							}}
+						/>
+					{/if}
+				</div>
 				<div id="taglist">
 					{#each data.tags as tag}
 						<a href={`/user/${data.user.username}/tags/${tag.id}`}>

@@ -130,6 +130,7 @@ export async function DELETE({ request, cookies }) {
 
 	try {
 		await authedPb.collection('tags').delete(body.id);
+		return new Response('Deleted');
 	} catch (err) {
 		error(JSON.stringify(err), 'FailedToDeleteTag');
 		return new Response(`Failed to delete tag`, {

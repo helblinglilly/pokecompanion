@@ -86,7 +86,11 @@
 			tracesSampleRate: 1.0,
 			replaysSessionSampleRate: 0.1,
 			replaysOnErrorSampleRate: 1.0,
-			integrations: [new Sentry.Replay()]
+			integrations: [
+				new Sentry.Replay({
+					maskAllText: false
+				})
+			]
 		});
 
 		initTheme();
@@ -135,7 +139,7 @@
 			class="navbar__button hidden--mobile"
 			on:click={() => {
 				toggleMobileNavExtended();
-				setCookie('auth-redirect', $page.url.pathname);
+				setCookie('auth-redirect', `${$page.url.pathname}/${$page.url.search}`);
 			}}
 		>
 			<button>{$currentUser ? `Me - ${$currentUser.username}` : 'Sign In'}</button>

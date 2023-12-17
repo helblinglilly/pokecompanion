@@ -9,6 +9,7 @@ export interface ITags {
 	created: Date;
 	updated: Date;
 	contents: ITagContents;
+	showShinyAndGender: boolean;
 }
 
 export const getTagsByUser = async (id: string): Promise<ITags[]> => {
@@ -29,7 +30,8 @@ export const getTagsByUser = async (id: string): Promise<ITags[]> => {
 				isPrivate: tag.isPrivate,
 				created: new Date(tag.created),
 				updated: new Date(tag.updated),
-				contents: tag.contents
+				contents: tag.contents,
+				showShinyAndGender: true
 			};
 		});
 	} catch (err) {
