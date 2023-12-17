@@ -4,3 +4,19 @@ export const capitaliseFirstLetter = (input: string) => {
 	const rest = input.slice(1);
 	return first + rest;
 };
+
+/**
+ * To be used when trying to convert variety names such as wooper-paldea into Paldea
+ * @param name
+ */
+export const pokemonVarietyNameToDisplay = (name: string) => {
+	if (!name || !name.includes('-')) {
+		return '';
+	}
+
+	const parts = name.split('-');
+	if (parts.length >= 2 && parts[1]) {
+		return capitaliseFirstLetter(parts[1]);
+	}
+	return '';
+};

@@ -32,22 +32,6 @@ const formatEvolutions = (
 			supplementary?: string;
 		}[] = [];
 
-		if (game) {
-			const isSourceInGame = isPokemonInGame(sourceId, game[0]);
-			const isTargetInGame = isPokemonInGame(targetId, game[0]);
-
-			if (!isSourceInGame || !isTargetInGame) {
-				return {
-					sourceURL: `/pokemon/${sourceId}`,
-					sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${sourceId}.png`,
-					trigger: `Not in ${getGroupName(game, ' & ', false, false, false)}`,
-					requirements: requirements,
-					targetURL: `/pokemon/${targetId}`,
-					targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${targetId}.png`
-				};
-			}
-		}
-
 		if (details.trigger.name === 'level-up') {
 			if (details.min_level) trigger = `Level ${details.min_level}`;
 			else trigger = 'Level Up';
@@ -206,19 +190,28 @@ const formatEvolutions = (
 			});
 		}
 
-		const weirdResults = processWeirdEvolutions(details, sourceId, targetId);
-		if (weirdResults) {
-			return weirdResults;
-		}
-
 		const result = {
 			sourceURL: `/pokemon/${sourceId}`,
 			sourceSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${sourceId}.png`,
 			trigger: trigger,
 			requirements: requirements,
 			targetURL: `/pokemon/${targetId}`,
-			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${targetId}.png`
+			targetSprite: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${targetId}.png`,
+			...processWeirdEvolutions(details, sourceId, targetId)
 		};
+
+		if (game) {
+			const isSourceInGame = isPokemonInGame(sourceId, game[0]);
+			const isTargetInGame = isPokemonInGame(targetId, game[0]);
+
+			if (!isSourceInGame || !isTargetInGame) {
+				return {
+					...result,
+					trigger: `Not in ${getGroupName(game, ' & ', false, false, false)}`
+				};
+			}
+		}
+
 		return result;
 	});
 

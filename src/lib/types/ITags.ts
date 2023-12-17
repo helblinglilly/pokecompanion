@@ -18,6 +18,12 @@ export interface ITagPokemonNew {
 	id: number;
 	gender: 'female' | 'male' | undefined;
 	shiny: true | false | undefined;
+	variety?:
+		| {
+				spriteId: number | null;
+				name: string | null;
+		  }
+		| undefined;
 }
 
 export interface ITagRequestBody {

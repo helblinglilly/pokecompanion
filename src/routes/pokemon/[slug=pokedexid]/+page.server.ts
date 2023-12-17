@@ -3,7 +3,7 @@ import { getPokemonTypesInGame, getTypeRelations } from '$lib/data/generationAdj
 import { pokeApiDomain } from '$lib/stores/domain';
 import type { IPokemon, IPokemonSpecies } from '$lib/types/IPokemon';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
-import { capitaliseFirstLetter } from '$lib/utils/string';
+import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
 
 const loadPokemon = async (id: number): Promise<IPokemon> => {
 	const response = await fetch(pokeApiDomain + `/pokemon/${id}`);
@@ -37,8 +37,12 @@ export const load = async ({ params, url, cookies }) => {
 			const varietyPokemon = await loadPokemon(id);
 
 			const nameParts = varietyPokemon.name.split('-');
-			varietyPokemon.name =
-				capitaliseFirstLetter(nameParts[1]) + ' ' + capitaliseFirstLetter(nameParts[0]);
+			const varietyName = pokemonVarietyNameToDisplay(varietyPokemon.name);
+
+			if (!nameParts) {
+				throw new Error(`Tried to process an invalid variety of a Pokemon`);
+			}
+			varietyPokemon.name = varietyName + ' ' + capitaliseFirstLetter(nameParts[0]);
 
 			pokemon = {
 				...pokemon,
