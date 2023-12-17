@@ -20,7 +20,7 @@ test('a search can be performed and shows results', async ({ page }) => {
 	await page.getByRole('button', { name: 'Show more results...' }).click();
 	await page.getByRole('link', { name: 'Dodrio sprite #85 Dodrio' }).click();
 	await page.getByRole('heading', { name: 'Dodrio' }).click();
-	await expect(page).toHaveURL('/pokemon/85');
+	await expect(page).toHaveURL('/pokemon/85/');
 });
 
 test('Pokemon page can be rendered without any cookies', async ({ page }) => {
