@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	const placeholders = ['All sorts', 'Pokémon', 'Pokédex ID', 'Items', 'Moves', 'Abilities'];
 	let id = Math.floor(Math.random() * (placeholders.length - 1 - 1 + 1)) + 1;
@@ -12,7 +13,10 @@
 		}
 		if (searchTerm) {
 			e.preventDefault();
-			goto(`/search?term=${searchTerm}`);
+			const newUrl = new URL($page.url);
+			newUrl.searchParams.set('term', searchTerm);
+			newUrl.pathname = 'search';
+			goto(newUrl);
 		}
 	};
 </script>

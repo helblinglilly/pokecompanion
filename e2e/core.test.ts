@@ -9,7 +9,7 @@ test('the user can navigate to the homepage', async ({ page }) => {
 test('the user can navigate to the settings page', async ({ page }) => {
 	await page.goto('/');
 	await page.getByRole('button', { name: 'Settings' }).click();
-	await expect(page).toHaveURL('/settings');
+	await expect(page).toHaveURL('/settings/');
 });
 
 test('a search can be performed and shows results', async ({ page }) => {
