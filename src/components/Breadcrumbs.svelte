@@ -22,4 +22,8 @@
 		gap: 0.25rem;
 		width: 100%;
 	}
+
+	a {
+		min-width: fit-content;
+	}
 </style>

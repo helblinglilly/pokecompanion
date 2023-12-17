@@ -32,7 +32,7 @@ interface Ability2 {
 	url: string;
 }
 
-interface Form {
+export interface Form {
 	name: string;
 	url: string;
 }

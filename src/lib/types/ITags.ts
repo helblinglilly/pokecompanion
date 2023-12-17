@@ -20,7 +20,7 @@ export interface ITagPokemonNew {
 	shiny: true | false | undefined;
 	variety?:
 		| {
-				spriteId: number | null;
+				spriteId: string | null;
 				name: string | null;
 		  }
 		| undefined;

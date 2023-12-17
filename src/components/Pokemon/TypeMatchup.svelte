@@ -6,7 +6,7 @@
 
 <div class="columns mobile">
 	<div class="column">
-		<h2>Resists</h2>
+		<h3>Resists</h3>
 		{#each relations.resists as resists}
 			<div class="type">
 				<Image src={resists.icon} alt={resists.name} />
@@ -19,7 +19,7 @@
 		{/each}
 	</div>
 	<div class="column">
-		<h2>Weak to</h2>
+		<h3>Weak to</h3>
 		{#each relations.weakAgainst as weakAgainst}
 			<div class="type">
 				<Image src={weakAgainst.icon} alt={weakAgainst.name} />

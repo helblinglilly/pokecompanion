@@ -22,7 +22,7 @@ export interface IDisplayPokemon {
 
 	variety:
 		| {
-				spriteId: number | null;
+				spriteId: string | null;
 				name: string | null;
 		  }
 		| undefined;

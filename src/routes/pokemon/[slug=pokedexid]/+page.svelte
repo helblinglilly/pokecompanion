@@ -52,7 +52,7 @@
 
 			const variety = {
 				name: varietyName,
-				spriteId: Number(primarySprite.url.split('/')[8].split('.')[0])
+				spriteId: primarySprite.url.split('/')[8].split('.')[0]
 			};
 
 			pokemonDisplayStore.set({
@@ -145,10 +145,11 @@
 	maxId={lastPokedexEntry}
 	iconUrl={removeLastRouteFromURL(data.pokemon.sprites.front_default)}
 	route="/pokemon"
+	forms={data.pokemon.varietyForms}
 />
 
 <div class="columns">
-	<div class="column">
+	<div class="column" style="padding-bottom: 1rem;">
 		<div class="card" style="padding-top: 1rem; position: relative;">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
 				<div style="display: inline-flex; height: 20px; width: 150px;">
