@@ -25,6 +25,7 @@
 				},
 				user: {
 					signedIn: $page.data.user?.id,
+					isSignedIn: $page.data.user ? true : false,
 					rememberToken: getCookie('remember-token')
 				},
 				error: $page.error
@@ -49,6 +50,7 @@
 			},
 			user: {
 				signedIn: $page.data.user?.id,
+				isSignedIn: $page.data.user ? true : false,
 				rememberToken: getCookie('remember-token')
 			},
 			error: $page.error
