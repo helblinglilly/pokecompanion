@@ -25,7 +25,6 @@ function install_listener(event) {
 				.open(ASSETS)
 				.then((cache) => {
 					cache.addAll(staticAssets);
-					console.log(`Service worker initialized`);
 				})
 				.catch((err) => {
 					console.error('Error during installation:', err);
