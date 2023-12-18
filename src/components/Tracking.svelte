@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import * as Sentry from '@sentry/browser';
 	import { PUBLIC_SENTRY_DSN } from '$env/static/public';
+	import { getCookie } from '$lib/utils/cookies';
 
 	navigating.subscribe(async (nav) => {
 		if (nav) {
@@ -22,7 +23,10 @@
 					search: nav.to?.url.search,
 					hash: nav.to?.url.hash
 				},
-				user: $page.data.user?.id,
+				user: {
+					signedIn: $page.data.user?.id,
+					rememberToken: getCookie('remember-token')
+				},
 				error: $page.error
 			});
 		}
@@ -43,7 +47,10 @@
 				search: $page.url.search,
 				hash: $page.url.hash
 			},
-			user: $page.data.user?.id,
+			user: {
+				signedIn: $page.data.user?.id,
+				rememberToken: getCookie('remember-token')
+			},
 			error: $page.error
 		});
 
