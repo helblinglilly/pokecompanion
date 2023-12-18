@@ -156,7 +156,7 @@ async function fetch_listener(event) {
 	}
 
 	// Always serve pokeapi from cache first
-	if (url.hostname === 'pokeapi.co') {
+	if (url.hostname === 'pokeapi.co' || url.hostname === 'raw.githubusercontent.com') {
 		event.respondWith(cacheFirst(request, REQUESTS));
 		return;
 	}
