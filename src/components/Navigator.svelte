@@ -56,7 +56,6 @@
 					<select
 						id="formSelector-desktop"
 						name="variety"
-						style="min-width: 10rem; margin: 0; padding: 0; text-align: center;"
 						on:change={(e) => {
 							if (e.target) {
 								const newUrl = new URL($page.url);
@@ -116,7 +115,6 @@
 					<select
 						id="formSelector-mobile"
 						name="variety"
-						style="min-width: 10rem; margin: 0; padding: 0; text-align: center;"
 						on:change={(e) => {
 							if (e.target) {
 								const newUrl = new URL($page.url);
@@ -152,5 +150,13 @@
 			padding-left: 10px;
 			padding-right: 10px;
 		}
+	}
+
+	select {
+		background-color: var(--accent);
+		text-align: center;
+		padding: 0;
+		margin: 0;
+		min-width: 10rem;
 	}
 </style>
