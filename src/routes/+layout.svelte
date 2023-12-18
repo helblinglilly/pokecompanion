@@ -9,8 +9,7 @@
 	import type { PageData } from './$types';
 	import SearchBar from '$components/Search/SearchBar.svelte';
 	import { setCookie } from '$lib/utils/cookies';
-	import * as Sentry from '@sentry/browser';
-	import { PUBLIC_SENTRY_DSN } from '$env/static/public';
+	import Tracking from '$components/Tracking.svelte';
 
 	let isMobileMenuExpanded = false;
 
@@ -81,18 +80,6 @@
 	};
 
 	onMount(() => {
-		Sentry.init({
-			dsn: PUBLIC_SENTRY_DSN,
-			tracesSampleRate: 1.0,
-			replaysSessionSampleRate: 0.1,
-			replaysOnErrorSampleRate: 1.0,
-			integrations: [
-				new Sentry.Replay({
-					maskAllText: false
-				})
-			]
-		});
-
 		initTheme();
 		// Initialise all cookies and stores
 		for (const value of Object.values(cookieHandlers)) {
@@ -103,6 +90,8 @@
 
 	$: shouldDisplaySearch = !$page.url.pathname.includes('/auth/');
 </script>
+
+<Tracking />
 
 <svelte:head>
 	<title>Pokécompanion</title>
