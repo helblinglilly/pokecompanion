@@ -6,6 +6,7 @@
 	import { addMinutesToDate } from '$lib/utils/date';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import { pb } from '$lib/stores/domain';
+	import { logToAxiom } from '$lib/log';
 
 	let status = 'Authenticating...';
 	let errorDetails = '';
@@ -50,6 +51,7 @@
 				const svgImage = await svgResponse.blob();
 
 				await $pb.collection('users').update(authData.record.id, { avatar: svgImage });
+				logToAxiom({ action: 'oAuthSignIn' });
 			}
 
 			const redirectUrl = getCookie('auth-redirect');
