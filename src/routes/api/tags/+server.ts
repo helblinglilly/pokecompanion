@@ -1,4 +1,4 @@
-import { error, warn } from '$lib/log';
+import { error, logToAxiom, warn } from '$lib/log';
 import isStringToxic from '$lib/server/toxic.js';
 import { validateAuth } from '../helpers.js';
 import type { ITagRequestBody, ITagUpdateBody } from '$lib/types/ITags.js';
@@ -44,6 +44,10 @@ export async function POST({ request, cookies }) {
 			contents: body.initialContent ? body.initialContent : {},
 			isPrivate: body.isPrivate,
 			showGenderAndShiny: body.showGenderAndShiny
+		});
+		logToAxiom({
+			action: 'createdTag',
+			tag: { name: body.name, owner: authedPb.authStore.model?.id }
 		});
 	} catch (err) {
 		error(`Failed to create new tag ${err}`, '', JSON.stringify(request));
@@ -95,6 +99,10 @@ export async function PATCH({ request, cookies }) {
 				isPrivate: entry.isPrivate,
 				showGenderAndShiny: entry.showGenderAndShiny
 			});
+			logToAxiom({
+				action: 'updatedTag',
+				tag: { name: entry.name, owner: authedPb.authStore.model?.id }
+			});
 		});
 	} catch (err) {
 		error(JSON.stringify(err), 'FailedToUpdateTag');
@@ -130,6 +138,7 @@ export async function DELETE({ request, cookies }) {
 
 	try {
 		await authedPb.collection('tags').delete(body.id);
+		logToAxiom({ action: 'deletedTag', tag: { id: body.id, owner: authedPb.authStore.model?.id } });
 		return new Response('Deleted');
 	} catch (err) {
 		error(JSON.stringify(err), 'FailedToDeleteTag');

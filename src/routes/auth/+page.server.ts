@@ -4,6 +4,7 @@ import { toSvg } from 'jdenticon';
 import { isUsernameValid } from '$lib/server/user';
 import { addMinutesToDate } from '$lib/utils/date';
 import { parseCookieString } from '$lib/utils/cookies';
+import { logToAxiom } from '$lib/log';
 
 export const actions: Actions = {
 	signup: async ({ locals, request }) => {
@@ -41,6 +42,7 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection('users').requestVerification(data.email);
+			logToAxiom({ action: 'userCreated ' });
 		} catch (e) {
 			console.error('Failed to request Email verification', e);
 		}
@@ -72,6 +74,8 @@ export const actions: Actions = {
 				httpOnly: cookieValues.httpOnly,
 				secure: cookieValues.Secure
 			});
+
+			logToAxiom({ action: 'signIn ' });
 
 			return {
 				status: 200
