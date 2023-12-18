@@ -143,7 +143,6 @@
 	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
 	currentId={data.id}
 	maxId={lastPokedexEntry}
-	iconUrl={removeLastRouteFromURL(data.pokemon.sprites.front_default)}
 	route="/pokemon"
 	forms={data.pokemon.varietyForms}
 />

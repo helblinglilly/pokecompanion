@@ -8,9 +8,10 @@
 	export let title: string;
 	export let currentId: number;
 	export let maxId: number;
-	export let iconUrl: string | undefined;
 	export let route: string;
 	export let forms: { name: string }[];
+
+	const iconUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
 </script>
 
 <div id="navigator" class="columns mobile">
