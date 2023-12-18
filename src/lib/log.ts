@@ -38,7 +38,7 @@ const error = (message: string, errorId: string, details?: unknown) => {
 	if (!details) details = '';
 
 	console.error(timestamp, level, errorId, `'${message}'`, details);
-	logToAxiom({ action: 'log', level: 'error', message: message });
+	logToAxiom({ action: 'log', level: 'error', message: message, details: details });
 };
 
 const info = (message: string) => {
@@ -46,6 +46,7 @@ const info = (message: string) => {
 	const level = 'INFO';
 
 	console.info(timestamp, level, message);
+	logToAxiom({ action: 'log', level: 'info', message: message });
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,6 +59,7 @@ const warn = (message: string, extra: any) => {
 		extra
 	});
 	console.warn(timestamp, level, message);
+	logToAxiom({ action: 'log', level: 'warning', message: message, extra: { ...extra } });
 };
 
 export { error, info, warn, logToAxiom };
