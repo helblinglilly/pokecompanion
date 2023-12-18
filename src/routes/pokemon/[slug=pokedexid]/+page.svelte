@@ -52,7 +52,7 @@
 
 			const variety = {
 				name: varietyName,
-				spriteId: primarySprite.url.split('/')[8].split('.')[0]
+				spriteId: primarySprite.url?.split('/')[8].split('.')[0]
 			};
 
 			pokemonDisplayStore.set({
