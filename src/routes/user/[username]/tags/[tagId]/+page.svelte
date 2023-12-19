@@ -204,7 +204,7 @@
 </div>
 
 <div style="display: grid; justify-content: center;">
-	<p>{tags.tag.contents.pokemon.length} Pokémon</p>
+	<p style="min-width: fit-content;">{tags.tag.contents.pokemon.length} Pokémon</p>
 </div>
 
 <Modal bind:showModal={showRenameOverlay}>
