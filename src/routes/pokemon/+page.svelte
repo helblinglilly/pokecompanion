@@ -20,16 +20,8 @@
 	$: fromPokemon = 1 + (pageNumber() - 1) * pokemonPageSize - 1;
 
 	let showHints = false;
-	let scrolled = false;
-	onMount(() => {
-		window.addEventListener('scroll', () => {
-			if (window.scrollY >= window.innerHeight) {
-				scrolled = true;
-			} else {
-				scrolled = false;
-			}
-		});
 
+	onMount(() => {
 		document.addEventListener('keydown', (e) => {
 			if (e.key === 'ArrowLeft' && pageNumber() > 1) {
 				goto(`/pokemon?page=${pageNumber() - 1}`);
@@ -43,13 +35,6 @@
 <svelte:head>
 	<title>Pokémon - Pokécompanion</title>
 </svelte:head>
-
-<button
-	id="backToTop"
-	class:show={scrolled}
-	class={`${!scrolled ? 'hidden' : ''}`}
-	on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to top</button
->
 
 <div class="columns">
 	<div class="column" style="display: flex; align-content: center;">

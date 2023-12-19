@@ -10,6 +10,7 @@
 	import SearchBar from '$components/Search/SearchBar.svelte';
 	import { setCookie } from '$lib/utils/cookies';
 	import Tracking from '$components/Tracking.svelte';
+	import ScrollToTop from '$components/ScrollToTop.svelte';
 
 	let isMobileMenuExpanded = false;
 
@@ -96,6 +97,8 @@
 <svelte:head>
 	<title>Pokécompanion</title>
 </svelte:head>
+
+<ScrollToTop />
 
 <nav id="navbar" class="h-12">
 	<a href="/" id="navbar__branding__link">
