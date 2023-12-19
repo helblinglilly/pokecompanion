@@ -104,16 +104,6 @@
 		}
 	}
 
-	const removeLastRouteFromURL = (url: string) => {
-		if (!url) {
-			return;
-		}
-		const parts = url.split('/');
-		parts.pop();
-		const modifiedURL = parts.join('/');
-		return modifiedURL;
-	};
-
 	onMount(() => {
 		document.addEventListener('keydown', (e) => {
 			if (e.key === 'ArrowLeft' && data.id > 1) {

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import Breadcrumbs from '$components/Breadcrumbs.svelte';
 	import Icon from '$components/Icon.svelte';
 	import InlineTextButton from '$components/InlineTextButton.svelte';
@@ -10,6 +11,7 @@
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 	import type { ITagPokemon } from '$lib/types/ITags.js';
+	import { onMount } from 'svelte';
 
 	export let data;
 	$: tags = data;
@@ -20,7 +22,20 @@
 	let showDeleteOverlay = false;
 	let inModifyView = false;
 
-	let displayMode: 'list' | 'card' = 'list';
+	let displayMode: string = $page.url.searchParams.get('view') ?? 'list';
+
+	let isMounted = false;
+	onMount(() => {
+		isMounted = true;
+	});
+
+	$: {
+		if (displayMode && isMounted) {
+			const newUrl = new URL($page.url);
+			newUrl.searchParams.set('view', displayMode);
+			goto(newUrl.toString(), { replaceState: true });
+		}
+	}
 
 	const saveUpdatedTag = async () => {
 		if (hasChanges) {
