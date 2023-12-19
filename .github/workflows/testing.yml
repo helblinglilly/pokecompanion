@@ -29,6 +29,8 @@ jobs:
           SENTRY_PROJECT: ''
           PUBLIC_POCKETBASE_URL: 'http://mock.pocketbase.com'
           PUBLIC_HOST_URL: 'http://localhost:5173'
+          PUBLIC_AXIOM_TOKEN: ''
+          PUBLIC_AXIOM_DATASET: ''
           PERSPECTIVES_API_KEY: ''
       - uses: actions/upload-artifact@v3
         if: always()
