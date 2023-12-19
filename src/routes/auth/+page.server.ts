@@ -75,7 +75,7 @@ export const actions: Actions = {
 				secure: cookieValues.Secure
 			});
 
-			logToAxiom({ action: 'signIn ' });
+			logToAxiom({ action: 'signIn' });
 
 			return {
 				status: 200
