@@ -20,7 +20,7 @@
 			<a
 				href={`${route}/${currentId - 1}`}
 				class={`card ${currentId - 1 <= 0 ? 'hidden' : ''}`}
-				style="width: fit-content; padding: 10px;"
+				style="width: fit-content; padding: 10px; height: auto;"
 			>
 				<div style="display: inline-flex;">
 					<p style="margin: auto;">#{currentId - 1}</p>
@@ -86,7 +86,7 @@
 			<a
 				href={`${route}/${currentId + 1}`}
 				class={`card ${currentId + 1 > maxId ? 'hidden' : ''}`}
-				style="width: fit-content; padding: 10px;"
+				style="width: fit-content; padding: 10px; height: auto;"
 			>
 				<div style="display: inline-flex;">
 					<p style="margin: auto;">#{currentId + 1}</p>
