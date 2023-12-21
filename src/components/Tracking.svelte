@@ -5,6 +5,7 @@
 	import * as Sentry from '@sentry/browser';
 	import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 	import { getCookie } from '$lib/utils/cookies';
+	import { removeLastCharIfExists } from '$lib/utils/string';
 
 	navigating.subscribe(async (nav) => {
 		if (nav) {
@@ -18,8 +19,9 @@
 				status: $page.status,
 				url: {
 					host: nav.to?.url.host,
+					hostname: nav.to?.url.hostname,
 					href: nav.to?.url.href,
-					pathname: nav.to?.url.pathname,
+					pathname: removeLastCharIfExists(nav.to?.url.pathname ?? 'no data', '/'),
 					search: nav.to?.url.search,
 					hash: nav.to?.url.hash
 				},
@@ -43,8 +45,9 @@
 			status: $page.status,
 			url: {
 				host: $page.url.host,
+				hostname: $page.url.hostname,
 				href: $page.url.href,
-				pathname: $page.url.pathname,
+				pathname: removeLastCharIfExists($page.url.pathname, '/'),
 				search: $page.url.search,
 				hash: $page.url.hash
 			},

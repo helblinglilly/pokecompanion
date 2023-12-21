@@ -20,3 +20,11 @@ export const pokemonVarietyNameToDisplay = (name: string) => {
 	}
 	return '';
 };
+
+export const removeLastCharIfExists = (input: string, character: string) => {
+	const copy = input.slice();
+	if (copy.endsWith(character)) {
+		return copy.slice(0, copy.length - 1);
+	}
+	return copy;
+};
