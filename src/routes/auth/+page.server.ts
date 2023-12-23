@@ -42,7 +42,7 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection('users').requestVerification(data.email);
-			logToAxiom({ action: 'userCreated ' });
+			logToAxiom({ action: 'userCreated' });
 		} catch (e) {
 			console.error('Failed to request Email verification', e);
 		}
@@ -56,7 +56,7 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection('users').authWithPassword(data.email, data.password);
-			logToAxiom({ action: 'signIn' });
+			logToAxiom({ action: 'emailSignIn' });
 
 			/*
 				exportToCookie gives us a cookie string that is ready to be used

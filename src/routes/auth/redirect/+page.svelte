@@ -46,13 +46,15 @@
 					}/auth/redirect`
 				);
 
-			logToAxiom({ action: 'oAuthSignIn' });
-
 			if ((authData.meta && authData.meta.isNew) || !authData.record.avatar) {
 				const svgResponse = await fetch(`/api/generateAvatar?key=${authData.record.username}`);
 				const svgImage = await svgResponse.blob();
 
 				await $pb.collection('users').update(authData.record.id, { avatar: svgImage });
+
+				logToAxiom({ action: 'userCreated' });
+			} else {
+				logToAxiom({ action: 'oAuthSignIn' });
 			}
 
 			const redirectUrl = getCookie('auth-redirect');
