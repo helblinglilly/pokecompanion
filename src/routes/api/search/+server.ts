@@ -63,8 +63,6 @@ const getPokemonResults = (searchTerm: string, languages: string[]) => {
 				// @ts-ignore
 				const lang2 = termNormaliser(name[languages[1]]);
 
-				console.log(normalisedTerm, lang1, lang2);
-
 				if (lang1 && !lang2) {
 					return lang1.includes(normalisedTerm);
 				} else if (lang2 && !lang1) {
