@@ -10,15 +10,17 @@ export async function GET({ request }) {
 		return respondWithJson({ error: 'No "term" value in URL' }, 400);
 	}
 
+	const normalisedTerm = decodeURIComponent(searchTerm.replace(/\+/g, ' '));
+
 	const languages = [
 		getCookieValue(request, 'primaryLanguage'),
 		getCookieValue(request, 'secondaryLanguage')
 	];
 	const [pokemonResults, abilityResults, itemResults, moveResults] = await Promise.all([
-		getPokemonResults(searchTerm, languages),
-		getAbilityResults(searchTerm, languages),
-		getItemResults(searchTerm, languages),
-		getMoveResults(searchTerm, languages)
+		getPokemonResults(normalisedTerm, languages),
+		getAbilityResults(normalisedTerm, languages),
+		getItemResults(normalisedTerm, languages),
+		getMoveResults(normalisedTerm, languages)
 	]);
 
 	return respondWithJson({
@@ -32,7 +34,20 @@ export async function GET({ request }) {
 	});
 }
 
+const termNormaliser = (term: string) => {
+	if (!term) {
+		return '';
+	}
+
+	return term
+		.toLowerCase()
+		.trim()
+		.replace(/[^a-zA-Z0-9]/g, '');
+};
+
 const getPokemonResults = (searchTerm: string, languages: string[]) => {
+	const normalisedTerm = termNormaliser(searchTerm);
+
 	return new Promise((resolve) => {
 		const results = PokemonData.filter((pokemon) => {
 			const idMatches = pokemon.id.toString().includes(searchTerm);
@@ -43,20 +58,19 @@ const getPokemonResults = (searchTerm: string, languages: string[]) => {
 			const foundPokemon = pokemon.names.find((name) => {
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				const lang1 = name[languages[0]] as string | undefined;
+				const lang1 = termNormaliser(name[languages[0]]);
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				const lang2 = name[languages[1]] as string | undefined;
+				const lang2 = termNormaliser(name[languages[1]]);
+
+				console.log(normalisedTerm, lang1, lang2);
 
 				if (lang1 && !lang2) {
-					return lang1.toLowerCase().includes(searchTerm.toLowerCase());
+					return lang1.includes(normalisedTerm);
 				} else if (lang2 && !lang1) {
-					return lang2.toLowerCase().includes(searchTerm.toLowerCase());
+					return lang2.includes(normalisedTerm);
 				} else if (lang1 && lang2) {
-					return (
-						lang1.toLowerCase().includes(searchTerm.toLowerCase()) ||
-						lang2.toLowerCase().includes(searchTerm.toLowerCase())
-					);
+					return lang1.includes(normalisedTerm) || lang2.includes(normalisedTerm);
 				}
 				return false;
 			});
@@ -67,25 +81,24 @@ const getPokemonResults = (searchTerm: string, languages: string[]) => {
 };
 
 const getAbilityResults = (searchTerm: string, languages: string[]) => {
+	const normalisedTerm = termNormaliser(searchTerm);
+
 	return new Promise((resolve) => {
 		const results = Abilities.filter((ability) => {
 			const foundEntry = ability.names.find((name) => {
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				const lang1 = name[languages[0]] as string | undefined;
+				const lang1 = termNormaliser(name[languages[0]]);
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				const lang2 = name[languages[1]] as string | undefined;
+				const lang2 = termNormaliser(name[languages[1]]);
 
 				if (lang1 && !lang2) {
-					return lang1.toLowerCase().includes(searchTerm.toLowerCase());
+					return lang1.includes(normalisedTerm);
 				} else if (lang2 && !lang1) {
-					return lang2.toLowerCase().includes(searchTerm.toLowerCase());
+					return lang2.includes(normalisedTerm);
 				} else if (lang1 && lang2) {
-					return (
-						lang1.toLowerCase().includes(searchTerm.toLowerCase()) ||
-						lang2.toLowerCase().includes(searchTerm.toLowerCase())
-					);
+					return lang1.includes(normalisedTerm) || lang2.includes(normalisedTerm);
 				}
 				return false;
 			});
@@ -96,25 +109,24 @@ const getAbilityResults = (searchTerm: string, languages: string[]) => {
 };
 
 const getItemResults = (searchTerm: string, languages: string[]) => {
+	const normalisedTerm = termNormaliser(searchTerm);
+
 	return new Promise((resolve) => {
 		const results = Items.filter((item) => {
 			const foundEntry = item.names.find((name) => {
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				const lang1 = name[languages[0]] as string | undefined;
+				const lang1 = termNormaliser(name[languages[0]]);
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				const lang2 = name[languages[1]] as string | undefined;
+				const lang2 = termNormaliser(name[languages[1]]);
 
 				if (lang1 && !lang2) {
-					return lang1.toLowerCase().includes(searchTerm.toLowerCase());
+					return lang1.includes(normalisedTerm);
 				} else if (lang2 && !lang1) {
-					return lang2.toLowerCase().includes(searchTerm.toLowerCase());
+					return lang2.includes(normalisedTerm);
 				} else if (lang1 && lang2) {
-					return (
-						lang1.toLowerCase().includes(searchTerm.toLowerCase()) ||
-						lang2.toLowerCase().includes(searchTerm.toLowerCase())
-					);
+					return lang1.includes(normalisedTerm) || lang2.includes(normalisedTerm);
 				}
 				return false;
 			});
@@ -125,25 +137,24 @@ const getItemResults = (searchTerm: string, languages: string[]) => {
 };
 
 const getMoveResults = (searchTerm: string, languages: string[]) => {
+	const normalisedTerm = termNormaliser(searchTerm);
+
 	return new Promise((resolve) => {
 		const results = Moves.filter((move) => {
 			const foundEntry = move.names.find((name) => {
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				const lang1 = name[languages[0]] as string | undefined;
+				const lang1 = termNormaliser(name[languages[0]]);
 				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 				// @ts-ignore
-				const lang2 = name[languages[1]] as string | undefined;
+				const lang2 = termNormaliser(name[languages[1]]);
 
 				if (lang1 && !lang2) {
-					return lang1.toLowerCase().includes(searchTerm.toLowerCase());
+					return lang1.includes(normalisedTerm);
 				} else if (lang2 && !lang1) {
-					return lang2.toLowerCase().includes(searchTerm.toLowerCase());
+					return lang2.includes(normalisedTerm);
 				} else if (lang1 && lang2) {
-					return (
-						lang1.toLowerCase().includes(searchTerm.toLowerCase()) ||
-						lang2.toLowerCase().includes(searchTerm.toLowerCase())
-					);
+					return lang1.includes(normalisedTerm) || lang2.includes(normalisedTerm);
 				}
 				return false;
 			});
