@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { rememberToken } from './domain';
 
 export interface SignedInUser {
 	id: string;
@@ -10,3 +11,9 @@ export interface SignedInUser {
 }
 
 export const currentUser = writable<SignedInUser | null>();
+currentUser.subscribe((value) => {
+	if (!value) {
+		return;
+	}
+	rememberToken.set(value.id);
+});
