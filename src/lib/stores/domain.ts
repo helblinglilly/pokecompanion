@@ -6,7 +6,7 @@ import Pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import { currentUser, type SignedInUser } from './user';
 import { findGameFromString, type IGame } from '$lib/data/games';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<IGame | undefined>();
@@ -14,7 +14,7 @@ export const primaryLanguage = writable<keyof Languages>('en');
 export const secondaryLanguage = writable<keyof Languages | undefined>();
 export const versionSpecificSprites = writable<boolean>(true);
 export const animateSprites = writable<boolean>(true);
-export const rememberToken = writable<string>(uuidv4() ?? 'not initialised');
+export const rememberToken = writable<string>('not initialised');
 export const pokeApiDomain = 'https://pokeapi.co/api/v2';
 export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
 export const maxSearchResults = 15;
@@ -121,12 +121,12 @@ export const cookieHandlers = {
 		pb.set(authedPb);
 	},
 	rememberToken: () => {
-		const existingValue = getCookie('remember-token') as string | undefined;
+		let existingValue = getCookie('remember-token') as string | undefined;
 		if (!existingValue) {
+			existingValue = uuid();
 			setCookie('remember-token', get(rememberToken));
-		} else {
-			rememberToken.set(existingValue);
 		}
+		rememberToken.set(existingValue);
 
 		rememberToken.subscribe((value) => {
 			if (!value) {
