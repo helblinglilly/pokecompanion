@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { getCookie, getRawCookie, setCookie } from '../utils/cookies';
 import type { Languages } from '../utils/language';
 import PokemonNames from '$lib/data/pokemonNames.json';
@@ -6,6 +6,7 @@ import Pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import { currentUser, type SignedInUser } from './user';
 import { findGameFromString, type IGame } from '$lib/data/games';
+import { v4 as uuidv4 } from 'uuid';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<IGame | undefined>();
@@ -13,32 +14,12 @@ export const primaryLanguage = writable<keyof Languages>('en');
 export const secondaryLanguage = writable<keyof Languages | undefined>();
 export const versionSpecificSprites = writable<boolean>(true);
 export const animateSprites = writable<boolean>(true);
+export const rememberToken = writable<string>(uuidv4() ?? 'not initialised');
 export const pokeApiDomain = 'https://pokeapi.co/api/v2';
 export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
 export const maxSearchResults = 15;
 export const pokemonPageSize = 50;
 export const pb = writable(new Pocketbase(PUBLIC_POCKETBASE_URL));
-
-function generateUUID() {
-	if (!window.crypto) {
-		console.error('crypto API not available');
-		return null;
-	}
-
-	const array = new Uint32Array(4);
-	window.crypto.getRandomValues(array);
-
-	// RFC4122 requires certain bits to be set
-	array[2] = (array[2] & 0xffff0fff) | 0x4000; // set bits 12-15 to 0100
-	array[3] = (array[3] & 0x3fffffff) | 0x80000000; // set bits 30-31 to 10
-
-	return (
-		array[0].toString(16).padStart(4, '0') +
-		array[1].toString(16).padStart(4, '0') +
-		array[2].toString(16).padStart(4, '0') +
-		array[3].toString(16).padStart(4, '0')
-	);
-}
 
 // TODO - Test this
 export const cookieHandlers = {
@@ -140,17 +121,20 @@ export const cookieHandlers = {
 		pb.set(authedPb);
 	},
 	rememberToken: () => {
-		let existingValue = getCookie('remember-token') as string | undefined;
-		const freshUUId = generateUUID() ?? 'not able to generate';
-
-		if (!existingValue || existingValue === 'not able to generate') {
-			existingValue = 'none';
-			setCookie('remember-token', freshUUId);
+		const existingValue = getCookie('remember-token') as string | undefined;
+		if (!existingValue) {
+			setCookie('remember-token', get(rememberToken));
+		} else {
+			rememberToken.set(existingValue);
 		}
 
-		currentUser.subscribe((value) => {
-			if (value) {
-				setCookie('remember-token', value.id);
+		rememberToken.subscribe((value) => {
+			if (!value) {
+				return;
+			}
+			const existing = getCookie('remember-token');
+			if (!existing || value !== existing) {
+				setCookie('remember-token', value);
 			}
 		});
 	}

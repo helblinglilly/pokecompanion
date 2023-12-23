@@ -56,6 +56,8 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection('users').authWithPassword(data.email, data.password);
+			logToAxiom({ action: 'signIn' });
+
 			/*
 				exportToCookie gives us a cookie string that is ready to be used
 				But svelte will only let us set cookies on the client through cookies.set
@@ -74,8 +76,6 @@ export const actions: Actions = {
 				httpOnly: cookieValues.httpOnly,
 				secure: cookieValues.Secure
 			});
-
-			logToAxiom({ action: 'signIn' });
 
 			return {
 				status: 200
