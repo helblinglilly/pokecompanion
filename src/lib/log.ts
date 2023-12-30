@@ -123,6 +123,7 @@ const error = (message: string, errorId: string, details?: unknown) => {
 	const timestamp = new Date().toISOString();
 	const level = 'ERROR';
 
+	
 	Sentry.captureMessage(message, {
 		level: 'error',
 		extra: {
