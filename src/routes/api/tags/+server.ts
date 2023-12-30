@@ -45,10 +45,14 @@ export async function POST({ request, cookies }) {
 			isPrivate: body.isPrivate,
 			showGenderAndShiny: body.showGenderAndShiny
 		});
-		logToAxiom({
-			action: 'createdTag',
-			tag: { name: body.name, owner: authedPb.authStore.model?.id }
-		});
+		logToAxiom(
+			{
+				action: 'createdTag',
+				tag: { name: body.name, owner: authedPb.authStore.model?.id }
+			},
+			request,
+			cookies
+		);
 	} catch (err) {
 		error(`Failed to create new tag ${err}`, '', JSON.stringify(request));
 		return new Response('Failed to create new tag', {
@@ -99,10 +103,14 @@ export async function PATCH({ request, cookies }) {
 				isPrivate: entry.isPrivate,
 				showGenderAndShiny: entry.showGenderAndShiny
 			});
-			logToAxiom({
-				action: 'updatedTag',
-				tag: { name: entry.name, owner: authedPb.authStore.model?.id }
-			});
+			logToAxiom(
+				{
+					action: 'updatedTag',
+					tag: { name: entry.name, owner: authedPb.authStore.model?.id }
+				},
+				request,
+				cookies
+			);
 		});
 	} catch (err) {
 		error(JSON.stringify(err), 'FailedToUpdateTag');
@@ -138,7 +146,11 @@ export async function DELETE({ request, cookies }) {
 
 	try {
 		await authedPb.collection('tags').delete(body.id);
-		logToAxiom({ action: 'deletedTag', tag: { id: body.id, owner: authedPb.authStore.model?.id } });
+		logToAxiom(
+			{ action: 'deletedTag', tag: { id: body.id, owner: authedPb.authStore.model?.id } },
+			request,
+			cookies
+		);
 		return new Response('Deleted');
 	} catch (err) {
 		error(JSON.stringify(err), 'FailedToDeleteTag');

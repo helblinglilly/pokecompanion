@@ -7,7 +7,7 @@ import { parseCookieString } from '$lib/utils/cookies';
 import { logToAxiom } from '$lib/log';
 
 export const actions: Actions = {
-	signup: async ({ locals, request }) => {
+	signup: async ({ locals, request, cookies }) => {
 		const user = await request.formData();
 
 		const data = Object.fromEntries(user) as {
@@ -42,7 +42,7 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection('users').requestVerification(data.email);
-			logToAxiom({ action: 'userCreated' });
+			logToAxiom({ action: 'userCreated' }, request, cookies);
 		} catch (e) {
 			console.error('Failed to request Email verification', e);
 		}
@@ -56,7 +56,7 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection('users').authWithPassword(data.email, data.password);
-			logToAxiom({ action: 'emailSignIn' });
+			logToAxiom({ action: 'emailSignIn' }, request, cookies);
 
 			/*
 				exportToCookie gives us a cookie string that is ready to be used
