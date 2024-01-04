@@ -4,6 +4,7 @@
 	import ItemResults from '$components/Search/ItemResults.svelte';
 	import MoveResults from '$components/Search/MoveResults.svelte';
 	import PokemonResults from '$components/Search/PokemonResults.svelte';
+	import { error, logToAxiom } from '$lib/log';
 	import { onMount } from 'svelte';
 
 	interface IResults {
@@ -25,11 +26,13 @@
 				results.pokemon.length === 0
 			) {
 				errorMessage = 'No search results. Try another search';
+				logToAxiom({ action: 'no-search-results', searchTerm });
 			} else {
 				errorMessage = '';
 			}
 		} catch (err) {
 			errorMessage = "Couldn't get search results";
+			error('Error occurred when getting search results', 'SearchResultsError', err);
 		}
 	};
 
