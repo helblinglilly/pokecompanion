@@ -3,6 +3,7 @@ import Abilities from '$lib/data/abilities.json';
 import Items from '$lib/data/items.json';
 import Moves from '$lib/data/moves.json';
 import { getSearchParam, getCookieValue } from '../helpers';
+import { termNormaliser } from '$lib/utils/string';
 
 export async function GET({ request }) {
 	const searchTerm = getSearchParam(request.url, 'term');
@@ -33,17 +34,6 @@ export async function GET({ request }) {
 		searchTerm: searchTerm
 	});
 }
-
-const termNormaliser = (term: string) => {
-	if (!term) {
-		return '';
-	}
-
-	return term
-		.toLowerCase()
-		.trim()
-		.replace(/[^a-zA-Z0-9]/g, '');
-};
 
 const getPokemonResults = (searchTerm: string, languages: string[]) => {
 	const normalisedTerm = termNormaliser(searchTerm);

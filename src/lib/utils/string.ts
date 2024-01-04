@@ -28,3 +28,19 @@ export const removeLastCharIfExists = (input: string, character: string) => {
 	}
 	return copy;
 };
+
+/**
+ * To be used when comparing strings in search
+ * @param term
+ * @returns
+ */
+export const termNormaliser = (term: string) => {
+	if (!term) {
+		return '';
+	}
+
+	return term
+		.toLowerCase()
+		.trim()
+		.replace(/[^a-zA-Z0-9]/g, '');
+};

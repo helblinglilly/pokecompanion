@@ -12,9 +12,32 @@
 	import { currentUser } from '$lib/stores/user';
 	import type { ITagPokemon } from '$lib/types/ITags.js';
 	import { onMount } from 'svelte';
+	import { getMultiLanguageName } from '$lib/utils/language';
+	import { getPokemonEntry } from '$lib/data/games.js';
+	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
+	import { termNormaliser } from '$lib/utils/string.js';
 
 	export let data;
 	$: tags = data;
+
+	let filterTerm = '';
+	$: filteredPokemon = filterTerm
+		? tags.tag.contents.pokemon.filter((a) => {
+				const normalised = termNormaliser(filterTerm);
+				const matchesId = `${a.id}`.includes(filterTerm);
+				const names = termNormaliser(
+					getMultiLanguageName(
+						getPokemonEntry(a.id).names,
+						$primaryLanguage,
+						$secondaryLanguage,
+						a.variety?.name ?? ''
+					) ?? ''
+				);
+
+				const matchesName = names.includes(normalised);
+				return matchesId || matchesName;
+		  })
+		: tags.tag.contents.pokemon;
 
 	let hasChanges = false;
 
@@ -116,7 +139,7 @@
 	]}
 />
 
-<div style="display: inline-flex; padding-bottom: 1rem; gap: 0.5rem; width: 100%;">
+<div id="tagHeader">
 	{#if $currentUser?.username === tags.user.username}
 		<button
 			class="button"
@@ -144,12 +167,9 @@
 </div>
 
 {#if inModifyView}
-	<div>
-		<button style="margin-bottom: 1rem;" class="button" on:click={() => (showRenameOverlay = true)}
-			>Rename</button
-		>
+	<div id="modifyWrapper">
+		<button class="button" on:click={() => (showRenameOverlay = true)}>Rename</button>
 		<button
-			style="margin-bottom: 1rem;"
 			class="button"
 			on:click={() => {
 				tags.tag.showGenderAndShiny = !tags.tag.showGenderAndShiny;
@@ -158,7 +178,6 @@
 		>
 		<button
 			class="button"
-			style="margin-bottom: 1rem;"
 			on:click={() => {
 				tags.tag.isPrivate = !tags.tag.isPrivate;
 				hasChanges = true;
@@ -166,7 +185,6 @@
 		>
 		<button
 			class="button error"
-			style="margin-bottom: 1rem;"
 			on:click={() => {
 				showDeleteOverlay = true;
 			}}>Delete Tag</button
@@ -174,7 +192,7 @@
 	</div>
 {/if}
 
-<div style="display: inline-flex; gap: 0.5rem; align-items: center;">
+<div id="viewOptionsWrapper">
 	<p>View:</p>
 	<button
 		class={`button ${displayMode === 'list' ? 'selected' : ''}`}
@@ -190,12 +208,21 @@
 	>
 </div>
 
+<div id="tagSearchWrapper">
+	<input
+		style="height: 3rem; padding-left: 2rem;"
+		type="text"
+		placeholder="Find in tags"
+		bind:value={filterTerm}
+	/>
+</div>
+
 <div id="pokemonTagWrapper">
 	{#if tags.tag.contents.pokemon.length === 0}
 		<p>No Pokémon in this list</p>
 	{/if}
 
-	{#each tags.tag.contents.pokemon.sort((a, b) => (a.id > b.id ? 1 : -1)) as pokemonTag}
+	{#each filteredPokemon.sort((a, b) => (a.id > b.id ? 1 : -1)) as pokemonTag}
 		{#if displayMode === 'card'}
 			<PokemonCardEntry
 				pokemon={pokemonTag}
@@ -278,5 +305,35 @@
 		flex-wrap: wrap;
 		padding: 0;
 		justify-content: space-around;
+	}
+
+	#tagHeader {
+		display: inline-flex;
+		padding-bottom: 1rem;
+		gap: 0.5rem;
+		width: 100%;
+	}
+
+	#modifyWrapper > button {
+		margin-bottom: 1rem;
+	}
+
+	#viewOptionsWrapper {
+		display: inline-flex;
+		gap: 0.5rem;
+		align-items: center;
+	}
+
+	#tagSearchWrapper {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+		display: flex;
+		justify-content: center;
+	}
+
+	@media (max-width: 768px) {
+		#tagSearchWrapper > input {
+			width: 100%;
+		}
 	}
 </style>
