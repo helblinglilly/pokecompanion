@@ -42,7 +42,7 @@
 			const showFemaleSpriteIfExists = $page.url.searchParams.get('gender') === 'female';
 			const showShinySpriteIfExists = $page.url.searchParams.get('shiny') === 'true';
 
-			const primarySprite = findPrimarySprite(
+			let primarySprite = findPrimarySprite(
 				baseSprite,
 				showFemaleSpriteIfExists,
 				showShinySpriteIfExists
@@ -54,6 +54,13 @@
 				name: varietyName,
 				spriteId: primarySprite.url?.split('/')[8].split('.')[0]
 			};
+
+			if (primarySprite.url === null && variety.name === null) {
+				primarySprite = {
+					url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data.id}.png`,
+					alt: 'Default sprite'
+				};
+			}
 
 			pokemonDisplayStore.set({
 				id: data.id,
