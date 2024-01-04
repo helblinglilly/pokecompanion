@@ -35,13 +35,15 @@ export const getMultiLanguageName = (
 	if (!secondaryLanguage && !primaryLanguage) {
 		return 'Missing data';
 	} else if (primaryLanguage && !secondaryLanguage) {
-		return prefix ? prefix + ' ' : '' + primaryLanguage;
+		return prefix ? `${prefix} ${primaryLanguage}` : primaryLanguage;
 	} else if (secondaryLanguage && !primaryLanguage) {
-		return prefix ? prefix + ' ' : '' + secondaryLanguage;
+		return prefix ? `${prefix} ${secondaryLanguage}` : secondaryLanguage;
 	} else if (primaryLanguage === secondaryLanguage) {
-		return prefix ? prefix + ' ' : '' + primaryLanguage;
+		return prefix ? `${prefix} ${primaryLanguage}` : primaryLanguage;
 	} else if (primaryLanguage !== secondaryLanguage) {
-		return `${prefix ? prefix + ': ' : ''}${primaryLanguage} - ${secondaryLanguage}`;
+		return prefix
+			? `${prefix}: ${primaryLanguage} - ${secondaryLanguage}`
+			: `${primaryLanguage} - ${secondaryLanguage}`;
 	}
 };
 
