@@ -9,7 +9,7 @@ const assertSelection = async (page: Page) => {
 export const navigateToSettings = async (page: Page) => {
 	await page.goto('/');
 	await page.getByRole('button', { name: 'Settings' }).click();
-	await expect(page).toHaveURL('/settings/');
+	await expect(page).toHaveURL('/settings');
 };
 
 test('the changed setting persists when navigating through pages', async ({ page }) => {

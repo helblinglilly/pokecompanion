@@ -4,7 +4,7 @@ import { assertCookie } from '../helpers';
 export const navigateToSettings = async (page: Page) => {
 	await page.goto('/');
 	await page.getByRole('button', { name: 'Settings' }).click();
-	await expect(page).toHaveURL('/settings/');
+	await expect(page).toHaveURL('/settings');
 };
 
 const assertSelection = async (page: Page) => {
