@@ -1,11 +1,19 @@
 <script lang="ts">
+	import { searchTerm } from '$lib/stores/searchbar';
+
 	const placeholders = ['All sorts', 'Pokémon', 'Pokédex ID', 'Items', 'Moves', 'Abilities'];
 	let id = Math.floor(Math.random() * (placeholders.length - 1 - 1 + 1)) + 1;
 </script>
 
 <search>
 	<form id="searchForm" action="/search" method="get">
-		<input type="text" style="width: 100%" placeholder={`${placeholders[id]}...`} name="term" />
+		<input
+			type="text"
+			style="width: 100%"
+			placeholder={`${placeholders[id]}...`}
+			name="term"
+			bind:value={$searchTerm}
+		/>
 		<button class="button" type="submit">Search</button>
 	</form>
 </search>

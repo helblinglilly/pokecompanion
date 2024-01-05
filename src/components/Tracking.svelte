@@ -5,11 +5,19 @@
 	import * as Sentry from '@sentry/browser';
 	import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 	import { removeLastCharIfExists } from '$lib/utils/string';
-	import { homepageMessaging } from '$lib/stores/domain';
+	import { homepageMessaging, primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
+	import { getCookie } from '$lib/utils/cookies';
+	import type { Languages } from '$lib/utils/language';
 
 	let navsAsNewUser = 0;
 	navigating.subscribe(async (nav) => {
 		if (nav) {
+			if ($primaryLanguage !== getCookie('primaryLanguage')) {
+				primaryLanguage.set(getCookie('primaryLanguage') as keyof Languages);
+			}
+			if ($secondaryLanguage !== getCookie('secondaryLanguage')) {
+				secondaryLanguage.set(getCookie('secondaryLanguage') as keyof Languages);
+			}
 			await nav.complete;
 			logToAxiom({
 				action: 'pageview',

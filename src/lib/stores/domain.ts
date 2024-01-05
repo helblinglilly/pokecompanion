@@ -7,6 +7,7 @@ import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import { currentUser, type SignedInUser } from './user';
 import { findGameFromString, type IGame } from '$lib/data/games';
 import { v4 as uuid } from 'uuid';
+import { page } from '$app/stores';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<IGame | undefined>();
@@ -48,15 +49,24 @@ export const cookieHandlers = {
 		});
 	},
 	primaryLanguage: () => {
+		const isInSearchParam = get(page).url.searchParams.get('primaryLanguage');
 		let existingValue = getCookie('primaryLanguage') as keyof Languages;
-		if (!existingValue) {
-			existingValue = 'en';
-			setCookie('primaryLanguage', existingValue);
+
+		if (isInSearchParam) {
+			existingValue = isInSearchParam as keyof Languages;
+		} else {
+			if (!existingValue) {
+				existingValue = 'en';
+				setCookie('primaryLanguage', existingValue);
+			}
 		}
+
 		primaryLanguage.set(existingValue);
 
 		primaryLanguage.subscribe((value) => {
-			if (!value) {
+			const isInSearchParam = get(page).url.searchParams.get('primaryLanguage');
+
+			if (!value || isInSearchParam) {
 				return;
 			}
 			const existing = getCookie('primaryLanguage');
@@ -71,15 +81,27 @@ export const cookieHandlers = {
 		});
 	},
 	secondaryLanguage: () => {
+		const isInSearchParam = get(page).url.searchParams.get('secondaryLanguage');
 		let existingValue = getCookie('secondaryLanguage') as keyof Languages | undefined;
-		if (!existingValue) {
-			existingValue = 'none';
-			setCookie('secondaryLanguage', existingValue);
+
+		if (isInSearchParam) {
+			existingValue = isInSearchParam as keyof Languages;
+		} else {
+			if (!existingValue) {
+				existingValue = 'none';
+				setCookie('secondaryLanguage', existingValue);
+			}
 		}
 
 		secondaryLanguage.set(existingValue);
 
 		secondaryLanguage.subscribe((value) => {
+			const isInSearchParam = get(page).url.searchParams.get('secondaryLanguage');
+
+			if (!value || isInSearchParam) {
+				return;
+			}
+
 			if (!value) {
 				value = 'none';
 			}

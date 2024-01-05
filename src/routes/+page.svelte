@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { homepageMessaging } from '$lib/stores/domain';
-	import Image from '$components/Image.svelte';
 </script>
 
 <svelte:head>
 	<title>Pokécompanion</title>
 </svelte:head>
 
-{#if $homepageMessaging === 'new-visitor'}
+{#if $homepageMessaging === 'new-visitor' || !$homepageMessaging}
 	<h1>Hi! Welcome to Pokécompanion</h1>
 	<p>
 		Are you a Pokémon fan and currently playing through a mainline game? You'll feel right at home
@@ -44,7 +43,11 @@
 					Did you play Pokémon in a different language, or have a friend that did? You can change
 					the language and display up to two at once.
 				</p>
-				<p>This even works with the Search!</p>
+				<p>
+					This even works <a href="/search?term=bisasam&primaryLanguage=fr&secondaryLanguage=de"
+						>within the Search!</a
+					>
+				</p>
 			</div>
 		</div>
 	</div>

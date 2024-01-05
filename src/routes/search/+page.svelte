@@ -4,48 +4,25 @@
 	import ItemResults from '$components/Search/ItemResults.svelte';
 	import MoveResults from '$components/Search/MoveResults.svelte';
 	import PokemonResults from '$components/Search/PokemonResults.svelte';
-	import { error, logToAxiom } from '$lib/log';
-	import { onMount } from 'svelte';
+	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
+	import { searchTerm } from '$lib/stores/searchbar.js';
+	import type { Languages } from '$lib/utils/language.js';
 
-	interface IResults {
-		pokemon: any[];
-		items: any[];
-		abilities: any[];
-		moves: any[];
+	export let data;
+	const { errorMessage, results } = data;
+
+	searchTerm.set(data.searchTerm ?? '');
+
+	const primaryLanguageOverride = $page.url.searchParams.get('primaryLanguage');
+	const secondaryLanguageOverride = $page.url.searchParams.get('secondaryLanguage');
+
+	if (primaryLanguageOverride) {
+		primaryLanguage.set(primaryLanguageOverride as keyof Languages);
 	}
 
-	const fetchData = async () => {
-		try {
-			const response = await fetch(`/api/search?term=${searchTerm}`);
-			const body = (await response.json()) as { data: IResults };
-			results = body.data;
-			if (
-				results.abilities.length === 0 &&
-				results.items.length === 0 &&
-				results.moves.length === 0 &&
-				results.pokemon.length === 0
-			) {
-				errorMessage = 'No search results. Try another search';
-				logToAxiom({ action: 'no-search-results', searchTerm });
-			} else {
-				errorMessage = '';
-			}
-		} catch (err) {
-			errorMessage = "Couldn't get search results";
-			error('Error occurred when getting search results', 'SearchResultsError', err);
-		}
-	};
-
-	$: searchTerm = $page.url.searchParams.get('term');
-
-	let errorMessage: string | undefined;
-	let results: IResults;
-
-	onMount(async () => {
-		await fetchData();
-	});
-
-	$: if (searchTerm) fetchData();
+	if (secondaryLanguageOverride) {
+		secondaryLanguage.set(secondaryLanguageOverride as keyof Languages);
+	}
 </script>
 
 <svelte:head>

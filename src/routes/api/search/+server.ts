@@ -14,9 +14,10 @@ export async function GET({ request }) {
 	const normalisedTerm = decodeURIComponent(searchTerm.replace(/\+/g, ' '));
 
 	const languages = [
-		getCookieValue(request, 'primaryLanguage'),
-		getCookieValue(request, 'secondaryLanguage')
+		getSearchParam(request.url, 'primaryLanguage') ?? getCookieValue(request, 'primaryLanguage'),
+		getSearchParam(request.url, 'secondaryLanguage') ?? getCookieValue(request, 'secondaryLanguage')
 	];
+
 	const [pokemonResults, abilityResults, itemResults, moveResults] = await Promise.all([
 		getPokemonResults(normalisedTerm, languages),
 		getAbilityResults(normalisedTerm, languages),
