@@ -5,7 +5,7 @@
 	import type { IAuthProvider } from '../signin/+page';
 	import { addMinutesToDate } from '$lib/utils/date';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
-	import { pb } from '$lib/stores/domain';
+	import { homepageMessaging, pb } from '$lib/stores/domain';
 	import { logToAxiom } from '$lib/log';
 
 	let status = 'Authenticating...';
@@ -46,13 +46,14 @@
 					}/auth/redirect`
 				);
 
+			let isNewUser = false;
+
 			if ((authData.meta && authData.meta.isNew) || !authData.record.avatar) {
 				const svgResponse = await fetch(`/api/generateAvatar?key=${authData.record.username}`);
 				const svgImage = await svgResponse.blob();
 
 				await $pb.collection('users').update(authData.record.id, { avatar: svgImage });
-
-				logToAxiom({ action: 'userCreated' });
+				isNewUser = true;
 			} else {
 				logToAxiom({ action: 'oAuthSignIn' });
 			}
@@ -68,6 +69,15 @@
 				expires: new Date(cookieValues.Expires),
 				path: '/'
 			});
+
+			if (isNewUser) {
+				homepageMessaging.set('new-user');
+				logToAxiom({ action: 'userCreated' });
+				goto(`/`);
+				return;
+			} else {
+				homepageMessaging.set('returning-user');
+			}
 
 			if (redirectUrl) {
 				deleteCookie('auth-redirect');

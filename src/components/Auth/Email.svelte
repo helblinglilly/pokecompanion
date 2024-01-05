@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { pb } from '$lib/stores/domain';
+	import { homepageMessaging, pb } from '$lib/stores/domain';
 	import { addNotification, notifications } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import { deleteCookie, getCookie, getRawCookie } from '$lib/utils/cookies';
@@ -76,6 +76,8 @@
 				// Auth cookie is set as part of form action response
 				$pb.authStore.loadFromCookie(getRawCookie(document.cookie, 'pb_auth') || '');
 				currentUser.set($pb.authStore.model as SignedInUser);
+
+				homepageMessaging.set('returning-user');
 
 				const redirectUrl = getCookie('auth-redirect');
 				if (redirectUrl) {

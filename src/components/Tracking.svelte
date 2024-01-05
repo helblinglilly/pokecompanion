@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { navigating, page } from '$app/stores';
+	import { navigating } from '$app/stores';
 	import { logToAxiom } from '$lib/log';
 	import { onMount } from 'svelte';
 	import * as Sentry from '@sentry/browser';
 	import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 	import { removeLastCharIfExists } from '$lib/utils/string';
+	import { homepageMessaging } from '$lib/stores/domain';
 
+	let navsAsNewUser = 0;
 	navigating.subscribe(async (nav) => {
 		if (nav) {
 			await nav.complete;
@@ -27,6 +29,14 @@
 					hash: nav.to?.url.hash
 				}
 			});
+
+			if ($homepageMessaging === 'new-user') {
+				navsAsNewUser += 1;
+
+				if (navsAsNewUser > 20) {
+					homepageMessaging.set('returning-user');
+				}
+			}
 		}
 	});
 

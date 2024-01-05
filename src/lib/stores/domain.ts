@@ -15,6 +15,7 @@ export const secondaryLanguage = writable<keyof Languages | undefined>();
 export const versionSpecificSprites = writable<boolean>(true);
 export const animateSprites = writable<boolean>(true);
 export const rememberToken = writable<string>('not initialised');
+export const homepageMessaging = writable<string>('');
 export const pokeApiDomain = 'https://pokeapi.co/api/v2';
 export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
 export const maxSearchResults = 15;
@@ -135,6 +136,24 @@ export const cookieHandlers = {
 			const existing = getCookie('remember-token');
 			if (!existing || value !== existing) {
 				setCookie('remember-token', value);
+			}
+		});
+	},
+	homepageMessaging: () => {
+		let existingValue = getCookie('homepage-messaging') as string | undefined;
+		if (!existingValue) {
+			existingValue = 'new-visitor';
+			setCookie('homepage-messaging', get(homepageMessaging));
+		}
+		homepageMessaging.set(existingValue);
+
+		homepageMessaging.subscribe((value) => {
+			if (!value) {
+				return;
+			}
+			const existing = getCookie('homepage-messaging');
+			if (!existing || value !== existing) {
+				setCookie('homepage-messaging', value);
 			}
 		});
 	}
