@@ -21,11 +21,11 @@ export const actions: Actions = {
 			const result = await isUsernameValid(data.username);
 
 			if (!result.valid) {
-				throw error(400, {
-					status: 400,
-					message: `Invalid username: ${result.message}`,
-					errorId: '400InvalidUsername'
-				});
+				error(400, {
+                					status: 400,
+                					message: `Invalid username: ${result.message}`,
+                					errorId: '400InvalidUsername'
+                				});
 			}
 		}
 

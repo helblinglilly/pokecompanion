@@ -12,6 +12,7 @@ import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import PocketBase from 'pocketbase';
 import { getRawCookie } from '$lib/utils/cookies';
 
+// Needs revisiting: https://kit.svelte.dev/docs/migrating-to-sveltekit-2#improved-error-handling
 export const handleError: HandleServerError = async ({ error, event }) => {
 	const errorId = uuidv4();
 

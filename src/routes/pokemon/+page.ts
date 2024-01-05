@@ -9,7 +9,7 @@ export function load({ url }) {
 		const item = Number(jumpToItem);
 		if (item < PokemonNames.length && item >= 1) {
 			const targetPage = Math.ceil(item / pokemonPageSize);
-			throw redirect(302, `/pokemon?page=${targetPage}#${item}`);
+			redirect(302, `/pokemon?page=${targetPage}#${item}`);
 		}
 	}
 }

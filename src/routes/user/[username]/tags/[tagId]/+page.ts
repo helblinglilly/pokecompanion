@@ -17,11 +17,11 @@ export const load = async ({ params }) => {
 	const tag = freshTags as ITag;
 
 	if (!user) {
-		throw error(404, {
-			status: 404,
-			message: 'This user does not exist',
-			errorId: '404UserNotFound'
-		});
+		error(404, {
+        			status: 404,
+        			message: 'This user does not exist',
+        			errorId: '404UserNotFound'
+        		});
 	}
 	return { user, tag };
 };
