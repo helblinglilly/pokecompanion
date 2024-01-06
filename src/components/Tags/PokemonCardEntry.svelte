@@ -45,9 +45,6 @@
 			)}
 		</p>
 	</a>
-	{#if showRemoveButton}
-		<button class="removeButton" on:click={onRemoveClick}>-</button>
-	{/if}
 
 	{#if showGenderAndShiny}
 		<div class="indicators">
@@ -81,17 +78,21 @@
 					/>
 				{/if}
 			{/if}
+
+			{#if showRemoveButton}
+				<button class="removeButton" on:click={onRemoveClick}>-</button>
+			{/if}
 		</div>
 	{/if}
 </div>
 
 <style>
 	a {
-		padding: 2em;
 		text-decoration-line: unset;
 		border-radius: 10px;
-		display: grid;
-		justify-items: center;
+		display: block;
+		height: 100%;
+		padding: 2rem;
 	}
 
 	a > p {
@@ -102,15 +103,11 @@
 	.card {
 		position: relative;
 		margin: 1rem;
-		flex: 1;
-		height: 200px;
-		width: 200px;
-		display: grid;
-		justify-content: center;
-		align-content: center;
 		text-decoration: none;
 		padding: 0;
-		max-width: fit-content;
+		max-width: 20%;
+		height: auto;
+		min-width: 150px;
 	}
 
 	.removeButton {
@@ -124,7 +121,7 @@
 		font-weight: bold;
 		color: var(--light);
 		background-color: var(--error);
-		z-index: 5;
+		z-index: 1;
 	}
 
 	.indicators {
@@ -135,9 +132,8 @@
 		height: 2rem;
 		width: 100%;
 		border-radius: 10%;
-		z-index: 5;
+		z-index: 1;
 		display: inline-flex;
-		margin-top: 0.5rem;
 	}
 
 	.spriteWrapper {
