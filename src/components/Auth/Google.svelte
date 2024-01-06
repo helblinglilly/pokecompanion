@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { setCookie } from '$lib/utils/cookies';
-	import { goto } from '$app/navigation';
 	import type { IAuthProvider } from '../../routes/auth/signin/+page';
 
 	export let data: IAuthProvider;
@@ -13,7 +12,7 @@
 			class="button"
 			on:click={async () => {
 				setCookie('provider', JSON.stringify(data));
-				goto(data.authUrl);
+				window.location.assign(data.authUrl);
 			}}
 		>
 			<svg
