@@ -10,12 +10,13 @@
 	export let pokemon: ITagPokemon;
 	export let showRemoveButton: boolean;
 	export let showGenderAndShiny: boolean;
-	export let onRemoveClick: () => void;
+	export let onRemoveClick: () => void = () => null;
+	export let style: string = '';
 
 	const namePrefix = pokemonVarietyNameToDisplay(pokemon.variety?.name ?? '');
 </script>
 
-<div class="card" id={`${pokemon.id}`}>
+<div class="card" id={`${pokemon.id}`} {style}>
 	<a
 		href={`/pokemon/${pokemon.id}?shiny=${pokemon.shiny}${
 			pokemon.gender ? `&gender=${pokemon.gender}` : ''

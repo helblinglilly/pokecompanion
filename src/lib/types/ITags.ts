@@ -11,12 +11,12 @@ export interface ITagContents {
 }
 
 export interface ITagPokemon extends ITagPokemonNew {
-	added: string;
+	added?: string;
 }
 
 export interface ITagPokemonNew {
 	id: number;
-	gender: 'female' | 'male' | undefined;
+	gender?: 'female' | 'male' | undefined;
 	shiny: true | false | undefined;
 	variety?:
 		| {
