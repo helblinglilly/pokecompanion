@@ -1,4 +1,5 @@
 import PokemonNames from '$lib/data/pokemonNames.json';
+import { lastPokedexEntry } from '$lib/stores/domain';
 export interface IGeneration {
 	name: string;
 	short: string;
@@ -59,7 +60,7 @@ export const Generations: IGeneration[] = [
 		name: 'Generation 9',
 		short: 'Gen 9',
 		pokeApiName: 'generation-ix',
-		nationalDexEnd: 1017
+		nationalDexEnd: PokemonNames[PokemonNames.length - 1].id
 	}
 ];
 
