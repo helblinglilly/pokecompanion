@@ -204,6 +204,10 @@ div.column {
 	z-index: 0;
 }
 
+.card > .card {
+	background-color: var(--primary);
+}
+
 .triangle:hover {
 	background-color: inherit;
 }
@@ -265,6 +269,14 @@ button.toggle:hover {
 .clickable:hover {
 	cursor: pointer;
 	background-color: var(--link_hover);
+}
+
+.card.clickable:hover {
+	background-color: var(--primary);
+}
+
+a.clickable:hover {
+	background-color: var(--primary);
 }
 
 img.icon {

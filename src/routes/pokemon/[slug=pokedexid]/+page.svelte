@@ -27,6 +27,7 @@
 	import { tagStore } from '$lib/stores/tagsStore';
 	import EditTag from '$components/Tags/EditTag.svelte';
 	import TypeMatchup from '$components/Pokemon/TypeMatchup.svelte';
+	import Abilities from '$components/Pokemon/Abilities.svelte';
 
 	export let data;
 
@@ -146,7 +147,7 @@
 
 <div class="columns">
 	<div class="column" style="padding-bottom: 1rem;">
-		<div class="card" style="padding-top: 1rem; position: relative;">
+		<div class="card">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
 				<div style="display: inline-flex; height: 20px; width: 150px;">
 					{#each data.pokemon.types as type}
@@ -243,17 +244,37 @@
 
 <div class="columns">
 	<div class="column">
-		<div class="card" style="padding-top: 1rem; position: relative;">
+		<div class="card">
 			<TypeMatchup relations={data.pokemon.typeRelations} />
 		</div>
 	</div>
+
 	<div class="column" />
-	<!-- 
-	<div class="column">
+
+	<!-- <div class="column">
 		<div class="card" style="padding-top: 1rem; position: relative;">
 			<h3>Forms</h3>
 		</div>
-	</div>
-	</div>
--->
+	</div> -->
 </div>
+
+<div class="columns">
+	<div class="column">
+		<div class="card">
+			<h3>Abilities</h3>
+			<Abilities abilities={data.pokemon.abilities} />
+		</div>
+	</div>
+	<div class="column">
+		<!-- <div class="card" style="padding-top: 1rem; position: relative;">
+			<h3>Moveset</h3>
+		</div> -->
+	</div>
+</div>
+
+<style>
+	.card {
+		padding-top: 1rem;
+		position: relative;
+	}
+</style>

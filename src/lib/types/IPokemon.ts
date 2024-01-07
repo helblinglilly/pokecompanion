@@ -21,10 +21,34 @@ export interface IPokemon {
 	weight: number;
 }
 
-interface Ability {
+export interface Ability {
 	ability: Ability2;
 	is_hidden: boolean;
 	slot: number;
+}
+
+export interface ApiAbility {
+	id: number;
+	effect_entries: {
+		effect: string;
+		short_effect: string;
+		language: Language;
+	}[];
+	name: string;
+	names: Name[];
+	flavor_text_entries: {
+		flavor_text: string;
+		language: Language;
+		version_group: VersionGroup;
+	}[];
+	pokemon: {
+		is_hidden: boolean;
+		slot: number;
+		pokemon: {
+			name: string;
+			url: string;
+		};
+	}[];
 }
 
 interface Ability2 {
