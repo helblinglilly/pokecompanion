@@ -1,5 +1,4 @@
 import PokemonNames from '$lib/data/pokemonNames.json';
-import { lastPokedexEntry } from '$lib/stores/domain';
 export interface IGeneration {
 	name: string;
 	short: string;

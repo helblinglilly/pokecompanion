@@ -15,6 +15,10 @@ export interface IPokemon {
 		generation: Generation;
 		types: ITypeEntry[];
 	}[];
+	past_abilities: {
+		generation: Generation;
+		abilities: Ability[];
+	}[];
 	sprites: ISprites;
 	stats: Stat[];
 	types: ITypeEntry[];
@@ -462,7 +466,7 @@ interface Language2 {
 	url: string;
 }
 
-interface Generation {
+export interface Generation {
 	name: string;
 	url: string;
 }

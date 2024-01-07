@@ -1,5 +1,9 @@
 import { findGameFromString } from '$lib/data/games.js';
-import { getPokemonTypesInGame, getTypeRelations } from '$lib/data/generationAdjuster.js';
+import {
+	fixAbilities,
+	getPokemonTypesInGame,
+	getTypeRelations
+} from '$lib/data/generationAdjuster.js';
 import { pokeApiDomain } from '$lib/stores/domain';
 import type { IPokemon, IPokemonSpecies, ISprites, Name } from '$lib/types/IPokemon';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
@@ -123,6 +127,7 @@ export const load = async ({ params, url, cookies }) => {
 		id: pokedexId,
 		pokemon: {
 			...pokemon,
+			abilities: fixAbilities(pokedexId, pokemon.past_abilities, pokemon.abilities, gameEntry),
 			types,
 			typeRelations: await getTypeRelations(types[0], types[1]),
 			varietyForms: species.varieties

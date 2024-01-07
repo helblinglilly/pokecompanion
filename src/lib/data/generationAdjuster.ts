@@ -1,6 +1,6 @@
 import type { IType } from '$lib/stores/pokemonPageStore';
-import type { IPokemon } from '$lib/types/IPokemon';
-import { Generations, type IGeneration } from './games';
+import type { Ability, Generation, IPokemon } from '$lib/types/IPokemon';
+import { Generations, type IGame, type IGeneration } from './games';
 
 export const getPokemonTypesInGame = (pokemon: IPokemon, generation?: IGeneration): IType[] => {
 	const vanillaTypes = pokemon.types.map((typeEntry) => {
@@ -154,40 +154,46 @@ export const getTypeRelations = async (a: IType, b: IType | undefined): Promise<
 		resists: sortedResists,
 		weakAgainst: sortedWeakAgainst
 	};
+};
 
-	/*
+export const fixAbilities = (
+	id: number,
+	pastAbilities: {
+		abilities: Ability[];
+		generation: Generation;
+	}[],
+	abilities: Ability[],
+	game: IGame | undefined
+) => {
+	if (!game) {
+		return abilities;
+	}
 
-	const weakBackup = [...weakAgainst];
+	const selectedGenerationEntry = Generations.find(
+		(a) => a.pokeApiName === game.generation.pokeApiName
+	);
+	const selectedGeneration = selectedGenerationEntry
+		? Generations.indexOf(selectedGenerationEntry) + 1
+		: Number.MAX_SAFE_INTEGER;
 
-	weakAgainst = weakAgainst.filter((a) => {
-		const resistsEntry = resists.find((b) => b.name === a.name);
-		if (resistsEntry) {
-			return false;
+	const abilityOverrides = pastAbilities
+		.filter((past) => {
+			const pastGeneration = Generations.find((a) => a.pokeApiName === past.generation.name);
+			const pastGenerationIndex = pastGeneration ? Generations.indexOf(pastGeneration) + 1 : -1;
+			return selectedGeneration <= pastGenerationIndex;
+		})
+		.map((a) => a.abilities)
+		.flat();
+
+	const merged = abilities.map((ability) => {
+		const overriddenEntry = abilityOverrides.filter((a) => a.slot === ability.slot);
+
+		if (overriddenEntry.length === 0) {
+			return ability;
 		}
-		return true;
+
+		return overriddenEntry[0];
 	});
 
-	resists = resists
-		.filter((a) => {
-			const weakEntry = weakBackup.find((b) => b.name === a.name);
-			if (weakEntry) {
-				if (a.multiplier === 0) {
-					return true;
-				}
-				return false;
-			}
-			return true;
-		})
-		.sort((a, b) => {
-			return a.name < b.name ? 1 : -1;
-		})
-		.sort((a, b) => {
-			return a.multiplier > b.multiplier ? 1 : -1;
-		});
-
-	return {
-		resists: resists,
-		weakAgainst: weakAgainst.flat()
-	};
-	*/
+	return merged;
 };
