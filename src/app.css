@@ -29,6 +29,7 @@
 	--secondary: var(--light_secondary);
 	--accent: var(--light_accent);
 	--link_hover: var(--light_link_hover);
+	--selected: var(--light_link_hover);
 }
 
 .dark-theme {
@@ -40,6 +41,7 @@
 	--secondary: var(--dark_secondary);
 	--accent: var(--dark_accent);
 	--link_hover: var(--dark_link_hover);
+	--selected: var(--branding-secondary);
 }
 
 /* Mobile Only */

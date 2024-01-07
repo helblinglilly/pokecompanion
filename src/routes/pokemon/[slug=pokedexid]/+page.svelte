@@ -249,16 +249,6 @@
 		</div>
 	</div>
 
-	<div class="column" />
-
-	<!-- <div class="column">
-		<div class="card" style="padding-top: 1rem; position: relative;">
-			<h3>Forms</h3>
-		</div>
-	</div> -->
-</div>
-
-<div class="columns">
 	<div class="column">
 		<div class="card">
 			<a href={`${$page.url.pathname + $page.url.search + '#abilities'}`} class="no-style">
@@ -267,12 +257,19 @@
 			<Abilities abilities={data.pokemon.abilities} />
 		</div>
 	</div>
-	<div class="column">
-		<!-- <div class="card" style="padding-top: 1rem; position: relative;">
-			<h3>Moveset</h3>
-		</div> -->
-	</div>
+
+	<!-- <div class="column">
+		<div class="card" style="padding-top: 1rem; position: relative;">
+			<h3>Forms</h3>
+		</div>
+	</div> -->
 </div>
+
+<!-- <div class="columns">
+	
+	<div class="column">
+	</div>
+</div> -->
 
 <style>
 	.card {

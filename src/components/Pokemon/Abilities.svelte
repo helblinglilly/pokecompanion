@@ -17,6 +17,7 @@
 		effect1: string;
 		effect2: string | undefined;
 	}[] = [];
+	let selectedAbility = -1;
 
 	const fetchData = async () => {
 		const allRequests = await Promise.all(
@@ -67,83 +68,61 @@
 	}
 </script>
 
-<!-- ToDo - Hidden should be shown on the card itself - not as text -->
-{#if data.length === 0}
-	{#each abilities as ability, i}
-		<div
-			class="card"
-			style={`${
-				i !== abilities.length - 1 ? 'margin-bottom: 1rem;' : ''
-			} min-height: 8rem; display: flex;`}
-		>
-			<a
-				href={`/ability/${ability.ability.url.split('/')[6]}`}
-				style="width: 100%; display: grid; justify-content: center; align-content: center;"
-			>
-				<h4>Loading...</h4>
-			</a>
-		</div>
-	{/each}
-{:else}
-	{#each data as ability, i}
-		<div class="card" style={`${i !== data.length - 1 ? 'margin-bottom: 1rem;' : ''}`}>
-			<a href={`/ability/${ability.id}`} style={`${ability.is_hidden ? 'padding-top: 0;' : ''}`}>
-				{#if ability.is_hidden}
-					<div
-						style="display: inline-flex; padding-top: 0.5rem; width: 100%; justify-content: end;"
-					>
+<div class="columns">
+	{#if data.length > 0}
+		{#each data as ability, i}
+			<div class="column" style="display: flex; align-content: center; justify-content: center;">
+				<button
+					class="button secondary"
+					style={`display: inline-flex; width: 100%; min-width: max-content; justify-content: center;${
+						selectedAbility === i ? 'background-color: var(--selected);' : ''
+					}`}
+					on:click={() => {
+						if (selectedAbility === i) {
+							selectedAbility = -1;
+						} else {
+							selectedAbility = i;
+						}
+					}}
+				>
+					{#if ability.is_hidden}
 						<Icon
 							name="hidden"
 							style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
 						/>
-						<p><i>Hidden</i></p>
-					</div>
-				{/if}
-
-				<div class="combined">
-					<div style="display: inline-flex; gap: 0.5rem;">
-						<h4>{ability.names.length >= 2 ? ability.names.join(' - ') : ability.names[0]}</h4>
-					</div>
-					<p>{ability.effect1}</p>
-				</div>
-
-				<div class="columns mobile seperate">
-					<div class="column">
-						<div style="display: inline-flex; gap: 0.5rem;">
-							<h4>{ability.names[0]}</h4>
-						</div>
-						<p>{ability.effect1}</p>
-					</div>
-
-					{#if ability.names.length >= 2}
-						<div class="column lang2">
-							<div style="display: inline-flex; gap: 0.5rem;">
-								<h4>{ability.names[1]}</h4>
-							</div>
-							<p>{ability.effect2}</p>
-						</div>
 					{/if}
-				</div>
-			</a>
-		</div>
-	{/each}
-{/if}
+					<p style="margin-top: auto; margin-bottom: auto; text-align: center;">
+						{ability.names[0] ?? ability.names[1] ?? 'No data'}
+					</p>
+				</button>
+			</div>
+		{/each}
+	{:else}
+		<p>Loading...</p>
+	{/if}
+</div>
+
+{#each data as ability, i}
+	<div style={selectedAbility === i ? 'display: grid;' : 'display: none;'}>
+		<p>{ability.effect1}</p>
+		{#if ability.effect2}
+			<p style="margin-top: 1rem;">{ability.effect2}</p>
+		{/if}
+		{#if selectedAbility !== -1}
+			<a href={`/ability/${ability.id}`} style="display: inline-flex;"
+				>See more <Icon
+					name="link"
+					style="margin-top: auto; margin-bottom: auto; margin-left: 0.5rem;"
+				/></a
+			>
+		{/if}
+	</div>
+{/each}
 
 <style>
 	.card {
 		height: auto;
 		padding: 0;
-	}
-
-	a {
-		display: block;
-		padding: 2rem;
-		border-radius: 10px;
-		text-decoration: none;
-	}
-
-	a:hover {
-		background-color: var(--secondary);
 	}
 
 	@media screen and (max-width: 1200px) {
