@@ -261,7 +261,9 @@
 <div class="columns">
 	<div class="column">
 		<div class="card">
-			<h3>Abilities</h3>
+			<a href={`${$page.url.pathname + $page.url.search + '#abilities'}`} class="no-style">
+				<h3 id="abilities">Abilities</h3>
+			</a>
 			<Abilities abilities={data.pokemon.abilities} />
 		</div>
 	</div>
