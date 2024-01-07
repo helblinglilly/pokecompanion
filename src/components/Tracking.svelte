@@ -5,9 +5,15 @@
 	import * as Sentry from '@sentry/browser';
 	import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 	import { removeLastCharIfExists } from '$lib/utils/string';
-	import { homepageMessaging, primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
+	import {
+		homepageMessaging,
+		primaryLanguage,
+		secondaryLanguage,
+		selectedGame
+	} from '$lib/stores/domain';
 	import { getCookie } from '$lib/utils/cookies';
 	import type { Languages } from '$lib/utils/language';
+	import { findGameFromString } from '$lib/data/games';
 
 	let navsAsNewUser = 0;
 	navigating.subscribe(async (nav) => {
@@ -18,6 +24,10 @@
 			if ($secondaryLanguage !== getCookie('secondaryLanguage')) {
 				secondaryLanguage.set(getCookie('secondaryLanguage') as keyof Languages);
 			}
+			if ($selectedGame !== getCookie('selectedGame')) {
+				selectedGame.set(findGameFromString(getCookie('selectedGame')));
+			}
+
 			await nav.complete;
 			logToAxiom({
 				action: 'pageview',

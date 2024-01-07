@@ -34,7 +34,7 @@ const loadPokemonForm = async (
 
 export const load = async ({ params, url, cookies }) => {
 	const pokedexId = Number(params.slug);
-	const gameEntry = findGameFromString(cookies.get('selectedGame'));
+	const gameEntry = findGameFromString(url.searchParams.get('game') ?? cookies.get('selectedGame'));
 
 	// eslint-disable-next-line prefer-const
 	let [pokemon, species] = await Promise.all([

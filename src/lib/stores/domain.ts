@@ -26,16 +26,28 @@ export const pb = writable(new Pocketbase(PUBLIC_POCKETBASE_URL));
 // TODO - Test this
 export const cookieHandlers = {
 	selectedGame: () => {
+		const isInSearchParam = get(page).url.searchParams.get('game');
 		let existingValue = getCookie('selectedGame');
-		if (!existingValue) {
-			existingValue = 'generic';
-			setCookie('selectedGame', existingValue);
+
+		if (isInSearchParam) {
+			existingValue = isInSearchParam;
+		} else {
+			if (!existingValue) {
+				existingValue = 'generic';
+				setCookie('selectedGame', existingValue);
+			}
 		}
 
 		const foundGame = findGameFromString(existingValue);
 		selectedGame.set(foundGame);
 
 		selectedGame.subscribe((value) => {
+			const isInSearchParam = get(page).url.searchParams.get('game');
+
+			if (isInSearchParam) {
+				return;
+			}
+
 			if (!value) {
 				setCookie('selectedGame', 'generic');
 				return;
