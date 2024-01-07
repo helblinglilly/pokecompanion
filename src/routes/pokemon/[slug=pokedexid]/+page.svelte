@@ -145,7 +145,6 @@
 	forms={data.pokemon.varietyForms}
 />
 
-<p>{JSON.stringify($selectedGame)}</p>
 <div class="columns">
 	<div class="column" style="padding-bottom: 1rem;">
 		<div class="card">
