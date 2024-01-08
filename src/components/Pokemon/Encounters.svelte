@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { navigating } from '$app/stores';
 	import { games, type IGame } from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
 	import { uniques } from '$lib/utils/array';
@@ -9,6 +8,7 @@
 	export let id: number;
 	let selectedLocation = -1;
 	let isLoading = false;
+	let visibleIndex = 5;
 
 	interface IReponse {
 		location_area: {
@@ -138,6 +138,7 @@
 	{#each encounters as encounter, i}
 		<button
 			class="card"
+			style={`${i > visibleIndex ? 'display: none' : ''}`}
 			on:click={() => {
 				if (selectedLocation !== i) {
 					selectedLocation = i;
@@ -175,6 +176,25 @@
 			</div>
 		</button>
 	{/each}
+
+	{#if encounters.length - 1 > visibleIndex}
+		<button
+			class="button secondary viewMore"
+			on:click={() => {
+				visibleIndex += 5;
+			}}
+			>Show {5 <= encounters.length - visibleIndex ? 5 : encounters.length - visibleIndex} more ({encounters.length -
+				visibleIndex})</button
+		>
+	{/if}
+	{#if visibleIndex > 5}
+		<button
+			class="button secondary viewMore"
+			on:click={() => {
+				visibleIndex -= 5;
+			}}>Show 5 less</button
+		>
+	{/if}
 </div>
 
 <style>
@@ -188,5 +208,15 @@
 
 	.extendedWrapper {
 		justify-content: start;
+	}
+
+	@media screen and (max-width: 768px) {
+		button.viewMore {
+			width: 100%;
+		}
+
+		button.viewMore:not(:last-child) {
+			margin-bottom: 1rem;
+		}
 	}
 </style>
