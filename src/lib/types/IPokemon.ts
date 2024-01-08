@@ -375,7 +375,7 @@ interface Icons2 {
 	front_female: any;
 }
 
-interface Stat {
+export interface Stat {
 	base_stat: number;
 	effort: number;
 	stat: Stat2;

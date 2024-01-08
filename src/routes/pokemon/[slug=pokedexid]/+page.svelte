@@ -28,6 +28,8 @@
 	import EditTag from '$components/Tags/EditTag.svelte';
 	import TypeMatchup from '$components/Pokemon/TypeMatchup.svelte';
 	import Abilities from '$components/Pokemon/Abilities.svelte';
+	import BaseStats from '$components/Pokemon/BaseStats.svelte';
+	import Statistics from '$components/Pokemon/Statistics.svelte';
 
 	export let data;
 
@@ -251,25 +253,35 @@
 
 	<div class="column">
 		<div class="card">
+			<BaseStats data={data.pokemon.stats} />
+		</div>
+	</div>
+</div>
+
+<div class="columns">
+	<div class="column">
+		<div class="card">
+			<h3>Encounter places</h3>
+		</div>
+	</div>
+
+	<div class="column">
+		<div class="card">
 			<a href={`${$page.url.pathname + $page.url.search + '#abilities'}`} class="no-style">
 				<h3 id="abilities">Abilities</h3>
 			</a>
 			<Abilities abilities={data.pokemon.abilities} />
 		</div>
 	</div>
-
-	<!-- <div class="column">
-		<div class="card" style="padding-top: 1rem; position: relative;">
-			<h3>Forms</h3>
-		</div>
-	</div> -->
 </div>
 
-<!-- <div class="columns">
-	
+<div class="columns">
 	<div class="column">
+		<div class="card">
+			<h3>Moveset</h3>
+		</div>
 	</div>
-</div> -->
+</div>
 
 <style>
 	.card {

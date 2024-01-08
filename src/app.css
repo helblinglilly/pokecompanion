@@ -71,6 +71,7 @@ h2,
 h3,
 h4,
 h5,
+th,
 i,
 b,
 button,
@@ -392,4 +393,17 @@ button.notification.failure:hover {
 button.notification.info:hover {
 	color: var(--light);
 	background-color: var(--highlight) !important;
+}
+
+progress {
+	width: 100%;
+	border-radius: 10px;
+	background-color: var(--secondary);
+	color: var(--link_hover);
+}
+progress::-moz-progress-bar {
+	background: var(--link_hover);
+}
+progress::-webkit-progress-value {
+	background: var(--link_hover);
 }
