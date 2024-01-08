@@ -17,7 +17,7 @@
 		speed = data.filter((a) => a.stat.name === 'speed')[0].base_stat;
 		spAtt = data.filter((a) => a.stat.name === 'special-attack')[0].base_stat;
 		spDef = data.filter((a) => a.stat.name === 'special-defense')[0].base_stat;
-		avg = (hp + attack + defense + speed + spAtt + spDef) / 6;
+		avg = Math.floor((hp + attack + defense + speed + spAtt + spDef) / 6);
 	}
 </script>
 

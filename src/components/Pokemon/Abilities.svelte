@@ -118,22 +118,3 @@
 		{/if}
 	</div>
 {/each}
-
-<style>
-	.card {
-		height: auto;
-		padding: 0;
-	}
-
-	@media screen and (max-width: 1200px) {
-		.seperate {
-			display: none;
-		}
-	}
-
-	@media screen and (min-width: 1200px) {
-		.combined {
-			display: none;
-		}
-	}
-</style>
