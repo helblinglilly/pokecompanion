@@ -8,7 +8,7 @@
 	export let id: number;
 	let selectedLocation = -1;
 	let isLoading = false;
-	let visibleIndex = 5;
+	let visibleIndex = 1;
 
 	interface IReponse {
 		location_area: {
@@ -177,22 +177,22 @@
 		</button>
 	{/each}
 
-	{#if encounters.length - 1 > visibleIndex}
+	{#if encounters.length > visibleIndex + 1}
 		<button
 			class="button secondary viewMore"
 			on:click={() => {
 				visibleIndex += 5;
 			}}
-			>Show {5 <= encounters.length - visibleIndex ? 5 : encounters.length - visibleIndex} more ({encounters.length -
-				visibleIndex})</button
+			>Show {5 <= encounters.length - visibleIndex ? 5 : encounters.length - (visibleIndex + 1)} more
+			({encounters.length - visibleIndex - 1})</button
 		>
 	{/if}
-	{#if visibleIndex > 5}
+	{#if visibleIndex > 1}
 		<button
 			class="button secondary viewMore"
 			on:click={() => {
 				visibleIndex -= 5;
-			}}>Show 5 less</button
+			}}>Show less</button
 		>
 	{/if}
 </div>
