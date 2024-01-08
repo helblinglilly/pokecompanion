@@ -30,6 +30,7 @@
 	import Abilities from '$components/Pokemon/Abilities.svelte';
 	import BaseStats from '$components/Pokemon/BaseStats.svelte';
 	import Statistics from '$components/Pokemon/Statistics.svelte';
+	import Encounters from '$components/Pokemon/Encounters.svelte';
 
 	export let data;
 
@@ -262,6 +263,7 @@
 	<div class="column">
 		<div class="card">
 			<h3>Encounter places</h3>
+			<Encounters id={data.id} />
 		</div>
 	</div>
 

@@ -94,7 +94,39 @@ export interface IGame {
 	console: Consoles;
 	generation: IGeneration;
 	cookieGroup: string;
+	pokeapiName: string;
+	pokeapiVersionGroup: string;
+	dlcGames?: IDlcGames[];
 }
+
+interface IDlcGames {
+	name: string;
+	shortName: string;
+	pokeapiName: string;
+}
+
+const dlcGames = [
+	{
+		name: 'Isle of Armor',
+		shortName: 'Isle of Armor',
+		pokeapiName: 'the-isle-of-armor'
+	},
+	{
+		name: 'The Crown Tundra',
+		shortName: 'Crown Tundra',
+		pokeapiName: 'the-crown-tundra'
+	},
+	{
+		name: 'The Teal Mask',
+		shortName: 'Teal Mask',
+		pokeapiName: 'the-teal-mask'
+	},
+	{
+		name: 'The Indigo Disk',
+		shortName: 'Indigo Disk',
+		pokeapiName: 'the-indigo-disk'
+	}
+];
 
 const games = [
 	{
@@ -109,7 +141,9 @@ const games = [
 		region: Regions.KANTO,
 		console: Consoles.GB,
 		generation: Generations[0],
-		cookieGroup: 'red-blue'
+		cookieGroup: 'red-blue',
+		pokeapiName: 'red',
+		pokeapiVersionGroup: 'red-blue'
 	},
 	{
 		name: 'Pokémon Blue Version',
@@ -123,7 +157,9 @@ const games = [
 		region: Regions.KANTO,
 		console: Consoles.GB,
 		generation: Generations[0],
-		cookieGroup: 'red-blue'
+		cookieGroup: 'red-blue',
+		pokeapiName: 'blue',
+		pokeapiVersionGroup: 'red-blue'
 	},
 	{
 		name: 'Pokémon Yellow Version',
@@ -137,7 +173,9 @@ const games = [
 		region: Regions.KANTO,
 		console: Consoles.GB,
 		generation: Generations[0],
-		cookieGroup: 'yellow'
+		cookieGroup: 'yellow',
+		pokeapiName: 'yellow',
+		pokeapiVersionGroup: 'yellow'
 	},
 	{
 		name: 'Pokémon Gold Version',
@@ -151,7 +189,9 @@ const games = [
 		region: Regions.JOHTO,
 		console: Consoles.GBC,
 		generation: Generations[1],
-		cookieGroup: 'gold-silver'
+		cookieGroup: 'gold-silver',
+		pokeapiName: 'gold',
+		pokeapiVersionGroup: 'gold-silver'
 	},
 	{
 		name: 'Pokémon Silver Version',
@@ -165,7 +205,9 @@ const games = [
 		region: Regions.JOHTO,
 		console: Consoles.GBC,
 		generation: Generations[1],
-		cookieGroup: 'gold-silver'
+		cookieGroup: 'gold-silver',
+		pokeapiName: 'silver',
+		pokeapiVersionGroup: 'gold-silver'
 	},
 	{
 		name: 'Pokémon Crystal Version',
@@ -179,7 +221,9 @@ const games = [
 		region: Regions.JOHTO,
 		console: Consoles.GBC,
 		generation: Generations[1],
-		cookieGroup: 'crystal'
+		cookieGroup: 'crystal',
+		pokeapiName: 'crystal',
+		pokeapiVersionGroup: 'crystal'
 	},
 	{
 		name: 'Pokémon Ruby Version',
@@ -193,7 +237,9 @@ const games = [
 		region: Regions.HOENN,
 		console: Consoles.GBA,
 		generation: Generations[2],
-		cookieGroup: 'ruby-sapphire'
+		cookieGroup: 'ruby-sapphire',
+		pokeapiName: 'ruby',
+		pokeapiVersionGroup: 'ruby-sapphire'
 	},
 	{
 		name: 'Pokémon Sapphire Version',
@@ -207,7 +253,9 @@ const games = [
 		region: Regions.HOENN,
 		console: Consoles.GBA,
 		generation: Generations[2],
-		cookieGroup: 'ruby-sapphire'
+		cookieGroup: 'ruby-sapphire',
+		pokeapiName: 'sapphire',
+		pokeapiVersionGroup: 'ruby-sapphire'
 	},
 	{
 		name: 'Pokémon Emerald Version',
@@ -221,7 +269,9 @@ const games = [
 		region: Regions.HOENN,
 		console: Consoles.GBA,
 		generation: Generations[2],
-		cookieGroup: 'emerald'
+		cookieGroup: 'emerald',
+		pokeapiName: 'emerald',
+		pokeapiVersionGroup: 'emerald'
 	},
 	{
 		name: 'Pokémon Fire Red Version',
@@ -235,7 +285,9 @@ const games = [
 		region: Regions.KANTO,
 		console: Consoles.GBA,
 		generation: Generations[2],
-		cookieGroup: 'firered-leafgreen'
+		cookieGroup: 'firered-leafgreen',
+		pokeapiName: 'firered',
+		pokeapiVersionGroup: 'firered-leafgreen'
 	},
 	{
 		name: 'Pokémon Leaf Green Version',
@@ -249,7 +301,9 @@ const games = [
 		region: Regions.KANTO,
 		console: Consoles.GBA,
 		generation: Generations[2],
-		cookieGroup: 'firered-leafgreen'
+		cookieGroup: 'firered-leafgreen',
+		pokeapiName: 'leafgreen',
+		pokeapiVersionGroup: 'firered-leafgreen'
 	},
 	{
 		name: 'Pokémon Diamond Version',
@@ -264,7 +318,9 @@ const games = [
 		region: Regions.SINNOH,
 		console: Consoles.NDS,
 		generation: Generations[3],
-		cookieGroup: 'diamond-pearl'
+		cookieGroup: 'diamond-pearl',
+		pokeapiName: 'diamond',
+		pokeapiVersionGroup: 'diamond-pearl'
 	},
 	{
 		name: 'Pokémon Pearl Version',
@@ -279,7 +335,9 @@ const games = [
 		region: Regions.SINNOH,
 		console: Consoles.NDS,
 		generation: Generations[3],
-		cookieGroup: 'diamond-pearl'
+		cookieGroup: 'diamond-pearl',
+		pokeapiName: 'pearl',
+		pokeapiVersionGroup: 'diamond-pearl'
 	},
 	{
 		name: 'Pokémon Platinum Version',
@@ -293,7 +351,9 @@ const games = [
 		region: Regions.SINNOH,
 		console: Consoles.NDS,
 		generation: Generations[3],
-		cookieGroup: 'platinum'
+		cookieGroup: 'platinum',
+		pokeapiName: 'platinum',
+		pokeapiVersionGroup: 'platinum'
 	},
 	{
 		name: 'Pokémon Heart Gold Version',
@@ -307,7 +367,9 @@ const games = [
 		region: Regions.JOHTOKANTO,
 		console: Consoles.NDS,
 		generation: Generations[3],
-		cookieGroup: 'heartgold-soulsilver'
+		cookieGroup: 'heartgold-soulsilver',
+		pokeapiName: 'heartgold',
+		pokeapiVersionGroup: 'heartgold-soulsilver'
 	},
 	{
 		name: 'Pokémon Soul Silver Version',
@@ -321,7 +383,9 @@ const games = [
 		region: Regions.JOHTOKANTO,
 		console: Consoles.NDS,
 		generation: Generations[3],
-		cookieGroup: 'heartgold-soulsilver'
+		cookieGroup: 'heartgold-soulsilver',
+		pokeapiName: 'soulsilver',
+		pokeapiVersionGroup: 'heartgold-soulsilver'
 	},
 	{
 		name: 'Pokémon Black Version',
@@ -335,7 +399,9 @@ const games = [
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
 		generation: Generations[4],
-		cookieGroup: 'black-white'
+		cookieGroup: 'black-white',
+		pokeapiName: 'black',
+		pokeapiVersionGroup: 'black-white'
 	},
 	{
 		name: 'Pokémon White Version',
@@ -349,7 +415,9 @@ const games = [
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
 		generation: Generations[4],
-		cookieGroup: 'black-white'
+		cookieGroup: 'black-white',
+		pokeapiName: 'white',
+		pokeapiVersionGroup: 'black-white'
 	},
 	{
 		name: 'Pokémon Black Version 2',
@@ -363,7 +431,9 @@ const games = [
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
 		generation: Generations[4],
-		cookieGroup: 'black2-white2'
+		cookieGroup: 'black2-white2',
+		pokeapiName: 'black-2',
+		pokeapiVersionGroup: 'black-2-white-2'
 	},
 	{
 		name: 'Pokémon White Version 2',
@@ -377,7 +447,9 @@ const games = [
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
 		generation: Generations[4],
-		cookieGroup: 'black2-white2'
+		cookieGroup: 'black2-white2',
+		pokeapiName: 'white-2',
+		pokeapiVersionGroup: 'black-2-white-2'
 	},
 	{
 		name: 'Pokémon X',
@@ -388,7 +460,9 @@ const games = [
 		region: Regions.KALOS,
 		console: Consoles.N3DS,
 		generation: Generations[5],
-		cookieGroup: 'x-y'
+		cookieGroup: 'x-y',
+		pokeapiName: 'x',
+		pokeapiVersionGroup: 'x-y'
 	},
 	{
 		name: 'Pokémon Y',
@@ -399,7 +473,9 @@ const games = [
 		region: Regions.KALOS,
 		console: Consoles.N3DS,
 		generation: Generations[5],
-		cookieGroup: 'x-y'
+		cookieGroup: 'x-y',
+		pokeapiName: 'y',
+		pokeapiVersionGroup: 'x-y'
 	},
 	{
 		name: 'Pokémon Omega Ruby',
@@ -411,7 +487,9 @@ const games = [
 		region: Regions.HOENN,
 		console: Consoles.N3DS,
 		generation: Generations[5],
-		cookieGroup: 'omegaruby-alphasapphire'
+		cookieGroup: 'omegaruby-alphasapphire',
+		pokeapiName: 'omega-ruby',
+		pokeapiVersionGroup: 'omega-ruby-alpha-sapphire'
 	},
 	{
 		name: 'Pokémon Alpha Sapphire',
@@ -423,7 +501,9 @@ const games = [
 		region: Regions.HOENN,
 		console: Consoles.N3DS,
 		generation: Generations[5],
-		cookieGroup: 'omegaruby-alphasapphire'
+		cookieGroup: 'omegaruby-alphasapphire',
+		pokeapiName: 'alpha-sapphire',
+		pokeapiVersionGroup: 'omega-ruby-alpha-sapphire'
 	},
 	{
 		name: 'Pokémon Sun',
@@ -435,7 +515,9 @@ const games = [
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
 		generation: Generations[6],
-		cookieGroup: 'sun-moon'
+		cookieGroup: 'sun-moon',
+		pokeapiName: 'sun',
+		pokeapiVersionGroup: 'sun-moon'
 	},
 	{
 		name: 'Pokémon Moon',
@@ -447,7 +529,9 @@ const games = [
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
 		generation: Generations[6],
-		cookieGroup: 'sun-moon'
+		cookieGroup: 'sun-moon',
+		pokeapiName: 'moon',
+		pokeapiVersionGroup: 'sun-moon'
 	},
 	{
 		name: 'Pokémon Ultra Sun',
@@ -458,7 +542,9 @@ const games = [
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
 		generation: Generations[6],
-		cookieGroup: 'ultrasun-ultramoon'
+		cookieGroup: 'ultrasun-ultramoon',
+		pokeapiName: 'ultra-sun',
+		pokeapiVersionGroup: 'ultra-sun-ultra-moon'
 	},
 	{
 		name: 'Pokémon Ultra Moon',
@@ -469,7 +555,9 @@ const games = [
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
 		generation: Generations[6],
-		cookieGroup: 'ultrasun-ultramoon'
+		cookieGroup: 'ultrasun-ultramoon',
+		pokeapiName: 'ultra-moon',
+		pokeapiVersionGroup: 'ultra-sun-ultra-moon'
 	},
 	{
 		name: "Pokémon Let's Go Pikachu!",
@@ -480,7 +568,9 @@ const games = [
 		region: Regions.KANTO,
 		console: Consoles.SW,
 		generation: Generations[6],
-		cookieGroup: 'letsgopikachu-letsgoeevee'
+		cookieGroup: 'letsgopikachu-letsgoeevee',
+		pokeapiName: 'lets-go-pikachu',
+		pokeapiVersionGroup: 'lets-go-pikachu-lets-go-eevee'
 	},
 	{
 		name: "Pokémon Let's Go Eevee!",
@@ -491,7 +581,9 @@ const games = [
 		region: Regions.KANTO,
 		console: Consoles.SW,
 		generation: Generations[6],
-		cookieGroup: 'letsgopikachu-letsgoeevee'
+		cookieGroup: 'letsgopikachu-letsgoeevee',
+		pokeapiName: 'lets-go-eevee',
+		pokeapiVersionGroup: 'lets-go-pikachu-lets-go-eevee'
 	},
 	{
 		name: 'Pokémon Sword',
@@ -502,7 +594,10 @@ const games = [
 		region: Regions.GALAR,
 		console: Consoles.SW,
 		generation: Generations[7],
-		cookieGroup: 'sword-shield'
+		cookieGroup: 'sword-shield',
+		pokeapiName: 'sword',
+		dlcGames: [dlcGames[0], dlcGames[1]],
+		pokeapiVersionGroup: 'sword-shield'
 	},
 	{
 		name: 'Pokémon Shield',
@@ -513,7 +608,10 @@ const games = [
 		region: Regions.GALAR,
 		console: Consoles.SW,
 		generation: Generations[7],
-		cookieGroup: 'sword-shield'
+		cookieGroup: 'sword-shield',
+		pokeapiName: 'shield',
+		dlcGames: [dlcGames[0], dlcGames[1]],
+		pokeapiVersionGroup: 'sword-shield'
 	},
 	{
 		name: 'Pokémon Brilliant Diamond',
@@ -524,7 +622,9 @@ const games = [
 		region: Regions.SINNOH,
 		console: Consoles.SW,
 		generation: Generations[7],
-		cookieGroup: 'brilliantdiamond-shiningpearl'
+		cookieGroup: 'brilliantdiamond-shiningpearl',
+		pokeapiName: 'brilliant-diamond',
+		pokeapiVersionGroup: 'brilliant-diamond-shining-pearl'
 	},
 	{
 		name: 'Pokémon Shining Pearl',
@@ -535,7 +635,9 @@ const games = [
 		region: Regions.SINNOH,
 		console: Consoles.SW,
 		generation: Generations[7],
-		cookieGroup: 'brilliantdiamond-shiningpearl'
+		cookieGroup: 'brilliantdiamond-shiningpearl',
+		pokeapiName: 'shining-pearl',
+		pokeapiVersionGroup: 'brilliant-diamond-shining-pearl'
 	},
 	{
 		name: 'Pokémon Legends Arceus',
@@ -546,7 +648,9 @@ const games = [
 		region: Regions.HISUI,
 		console: Consoles.SW,
 		generation: Generations[7],
-		cookieGroup: 'legendsarceus'
+		cookieGroup: 'legendsarceus',
+		pokeapiName: 'legends-arceus',
+		pokeapiVersionGroup: 'legends-arceus'
 	},
 	{
 		name: 'Pokémon Scarlet',
@@ -557,7 +661,10 @@ const games = [
 		region: Regions.PALDEA,
 		console: Consoles.SW,
 		generation: Generations[8],
-		cookieGroup: 'scarlet-violet'
+		cookieGroup: 'scarlet-violet',
+		pokeapiName: 'scarlet',
+		dlcGames: [dlcGames[2], dlcGames[3]],
+		pokeapiVersionGroup: 'scarlet-violet'
 	},
 	{
 		name: 'Pokémon Violet',
@@ -568,7 +675,10 @@ const games = [
 		region: Regions.PALDEA,
 		console: Consoles.SW,
 		generation: Generations[8],
-		cookieGroup: 'scarlet-violet'
+		cookieGroup: 'scarlet-violet',
+		pokeapiName: 'violet',
+		dlcGames: [dlcGames[2], dlcGames[3]],
+		pokeapiVersionGroup: 'scarlet-violet'
 	}
 ];
 
