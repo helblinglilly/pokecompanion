@@ -5,6 +5,13 @@ export const capitaliseFirstLetter = (input: string) => {
 	return first + rest;
 };
 
+export const capitaliseEachWord = (input: string) => {
+	return input
+		.split(' ')
+		.map((a) => capitaliseFirstLetter(a))
+		.join(' ');
+};
+
 /**
  * To be used when trying to convert variety names such as wooper-paldea into Paldea
  * @param name

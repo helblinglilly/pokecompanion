@@ -128,7 +128,7 @@ const dlcGames = [
 	}
 ];
 
-const games = [
+export const games = [
 	{
 		name: 'Pokémon Red Version',
 		shortName: 'Red',
