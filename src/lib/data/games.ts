@@ -141,6 +141,7 @@ export const games = [
 		region: Regions.KANTO,
 		console: Consoles.GB,
 		generation: Generations[0],
+		icon: 'icons/games/red.png',
 		cookieGroup: 'red-blue',
 		pokeapiName: 'red',
 		pokeapiVersionGroup: 'red-blue'
@@ -157,6 +158,7 @@ export const games = [
 		region: Regions.KANTO,
 		console: Consoles.GB,
 		generation: Generations[0],
+		icon: 'icons/games/blue.png',
 		cookieGroup: 'red-blue',
 		pokeapiName: 'blue',
 		pokeapiVersionGroup: 'red-blue'
@@ -173,6 +175,7 @@ export const games = [
 		region: Regions.KANTO,
 		console: Consoles.GB,
 		generation: Generations[0],
+		icon: 'icons/games/yellow.png',
 		cookieGroup: 'yellow',
 		pokeapiName: 'yellow',
 		pokeapiVersionGroup: 'yellow'
@@ -189,6 +192,7 @@ export const games = [
 		region: Regions.JOHTO,
 		console: Consoles.GBC,
 		generation: Generations[1],
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/gold/250.png',
 		cookieGroup: 'gold-silver',
 		pokeapiName: 'gold',
 		pokeapiVersionGroup: 'gold-silver'
@@ -205,6 +209,7 @@ export const games = [
 		region: Regions.JOHTO,
 		console: Consoles.GBC,
 		generation: Generations[1],
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/gold/249.png',
 		cookieGroup: 'gold-silver',
 		pokeapiName: 'silver',
 		pokeapiVersionGroup: 'gold-silver'
@@ -221,6 +226,7 @@ export const games = [
 		region: Regions.JOHTO,
 		console: Consoles.GBC,
 		generation: Generations[1],
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/gold/245.png',
 		cookieGroup: 'crystal',
 		pokeapiName: 'crystal',
 		pokeapiVersionGroup: 'crystal'
@@ -237,6 +243,7 @@ export const games = [
 		region: Regions.HOENN,
 		console: Consoles.GBA,
 		generation: Generations[2],
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/ruby-sapphire/383.png',
 		cookieGroup: 'ruby-sapphire',
 		pokeapiName: 'ruby',
 		pokeapiVersionGroup: 'ruby-sapphire'
@@ -253,6 +260,7 @@ export const games = [
 		region: Regions.HOENN,
 		console: Consoles.GBA,
 		generation: Generations[2],
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/ruby-sapphire/382.png',
 		cookieGroup: 'ruby-sapphire',
 		pokeapiName: 'sapphire',
 		pokeapiVersionGroup: 'ruby-sapphire'
@@ -269,6 +277,7 @@ export const games = [
 		region: Regions.HOENN,
 		console: Consoles.GBA,
 		generation: Generations[2],
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/emerald/384.png',
 		cookieGroup: 'emerald',
 		pokeapiName: 'emerald',
 		pokeapiVersionGroup: 'emerald'
@@ -285,6 +294,7 @@ export const games = [
 		region: Regions.KANTO,
 		console: Consoles.GBA,
 		generation: Generations[2],
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/6.png',
 		cookieGroup: 'firered-leafgreen',
 		pokeapiName: 'firered',
 		pokeapiVersionGroup: 'firered-leafgreen'
@@ -301,6 +311,7 @@ export const games = [
 		region: Regions.KANTO,
 		console: Consoles.GBA,
 		generation: Generations[2],
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iii/firered-leafgreen/3.png',
 		cookieGroup: 'firered-leafgreen',
 		pokeapiName: 'leafgreen',
 		pokeapiVersionGroup: 'firered-leafgreen'
@@ -318,6 +329,7 @@ export const games = [
 		region: Regions.SINNOH,
 		console: Consoles.NDS,
 		generation: Generations[3],
+		icon: 'icons/games/diamond.png',
 		cookieGroup: 'diamond-pearl',
 		pokeapiName: 'diamond',
 		pokeapiVersionGroup: 'diamond-pearl'
@@ -335,6 +347,7 @@ export const games = [
 		region: Regions.SINNOH,
 		console: Consoles.NDS,
 		generation: Generations[3],
+		icon: 'icons/games/pearl.png',
 		cookieGroup: 'diamond-pearl',
 		pokeapiName: 'pearl',
 		pokeapiVersionGroup: 'diamond-pearl'
@@ -351,6 +364,7 @@ export const games = [
 		region: Regions.SINNOH,
 		console: Consoles.NDS,
 		generation: Generations[3],
+		icon: 'icons/games/platinum.png',
 		cookieGroup: 'platinum',
 		pokeapiName: 'platinum',
 		pokeapiVersionGroup: 'platinum'
@@ -368,6 +382,7 @@ export const games = [
 		console: Consoles.NDS,
 		generation: Generations[3],
 		cookieGroup: 'heartgold-soulsilver',
+		icon: 'icons/games/heartgold.gif',
 		pokeapiName: 'heartgold',
 		pokeapiVersionGroup: 'heartgold-soulsilver'
 	},
@@ -384,6 +399,7 @@ export const games = [
 		console: Consoles.NDS,
 		generation: Generations[3],
 		cookieGroup: 'heartgold-soulsilver',
+		icon: 'icons/games/soulsilver.png',
 		pokeapiName: 'soulsilver',
 		pokeapiVersionGroup: 'heartgold-soulsilver'
 	},
@@ -399,6 +415,7 @@ export const games = [
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
 		generation: Generations[4],
+		icon: 'icons/games/black.gif',
 		cookieGroup: 'black-white',
 		pokeapiName: 'black',
 		pokeapiVersionGroup: 'black-white'
@@ -415,6 +432,7 @@ export const games = [
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
 		generation: Generations[4],
+		icon: 'icons/games/white.gif',
 		cookieGroup: 'black-white',
 		pokeapiName: 'white',
 		pokeapiVersionGroup: 'black-white'
@@ -431,6 +449,7 @@ export const games = [
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
 		generation: Generations[4],
+		icon: 'icons/games/black2.png',
 		cookieGroup: 'black2-white2',
 		pokeapiName: 'black-2',
 		pokeapiVersionGroup: 'black-2-white-2'
@@ -447,6 +466,7 @@ export const games = [
 		region: Regions.UNOVA,
 		console: Consoles.NDS,
 		generation: Generations[4],
+		icon: 'icons/games/white2.png',
 		cookieGroup: 'black2-white2',
 		pokeapiName: 'white-2',
 		pokeapiVersionGroup: 'black-2-white-2'
@@ -460,6 +480,7 @@ export const games = [
 		region: Regions.KALOS,
 		console: Consoles.N3DS,
 		generation: Generations[5],
+		icon: 'icons/games/x.png',
 		cookieGroup: 'x-y',
 		pokeapiName: 'x',
 		pokeapiVersionGroup: 'x-y'
@@ -473,6 +494,7 @@ export const games = [
 		region: Regions.KALOS,
 		console: Consoles.N3DS,
 		generation: Generations[5],
+		icon: 'icons/games/y.png',
 		cookieGroup: 'x-y',
 		pokeapiName: 'y',
 		pokeapiVersionGroup: 'x-y'
@@ -487,6 +509,7 @@ export const games = [
 		region: Regions.HOENN,
 		console: Consoles.N3DS,
 		generation: Generations[5],
+		icon: 'icons/games/omega-ruby.png',
 		cookieGroup: 'omegaruby-alphasapphire',
 		pokeapiName: 'omega-ruby',
 		pokeapiVersionGroup: 'omega-ruby-alpha-sapphire'
@@ -502,6 +525,7 @@ export const games = [
 		console: Consoles.N3DS,
 		generation: Generations[5],
 		cookieGroup: 'omegaruby-alphasapphire',
+		icon: 'icons/games/alpha-sapphire.png',
 		pokeapiName: 'alpha-sapphire',
 		pokeapiVersionGroup: 'omega-ruby-alpha-sapphire'
 	},
@@ -515,6 +539,7 @@ export const games = [
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
 		generation: Generations[6],
+		icon: 'icons/games/sun.png',
 		cookieGroup: 'sun-moon',
 		pokeapiName: 'sun',
 		pokeapiVersionGroup: 'sun-moon'
@@ -529,6 +554,7 @@ export const games = [
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
 		generation: Generations[6],
+		icon: 'icons/games/moon.png',
 		cookieGroup: 'sun-moon',
 		pokeapiName: 'moon',
 		pokeapiVersionGroup: 'sun-moon'
@@ -542,6 +568,7 @@ export const games = [
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
 		generation: Generations[6],
+		icon: 'icons/games/ultra-sun.png',
 		cookieGroup: 'ultrasun-ultramoon',
 		pokeapiName: 'ultra-sun',
 		pokeapiVersionGroup: 'ultra-sun-ultra-moon'
@@ -555,6 +582,7 @@ export const games = [
 		region: Regions.ALOLA,
 		console: Consoles.N3DS,
 		generation: Generations[6],
+		icon: 'icons/games/ultra-moon.png',
 		cookieGroup: 'ultrasun-ultramoon',
 		pokeapiName: 'ultra-moon',
 		pokeapiVersionGroup: 'ultra-sun-ultra-moon'
@@ -569,6 +597,7 @@ export const games = [
 		console: Consoles.SW,
 		generation: Generations[6],
 		cookieGroup: 'letsgopikachu-letsgoeevee',
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
 		pokeapiName: 'lets-go-pikachu',
 		pokeapiVersionGroup: 'lets-go-pikachu-lets-go-eevee'
 	},
@@ -582,6 +611,7 @@ export const games = [
 		console: Consoles.SW,
 		generation: Generations[6],
 		cookieGroup: 'letsgopikachu-letsgoeevee',
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/133.png',
 		pokeapiName: 'lets-go-eevee',
 		pokeapiVersionGroup: 'lets-go-pikachu-lets-go-eevee'
 	},
@@ -595,6 +625,7 @@ export const games = [
 		console: Consoles.SW,
 		generation: Generations[7],
 		cookieGroup: 'sword-shield',
+		icon: 'icon/game/sword.png',
 		pokeapiName: 'sword',
 		dlcGames: [dlcGames[0], dlcGames[1]],
 		pokeapiVersionGroup: 'sword-shield'
@@ -609,6 +640,7 @@ export const games = [
 		console: Consoles.SW,
 		generation: Generations[7],
 		cookieGroup: 'sword-shield',
+		icon: 'icon/game/shield.png',
 		pokeapiName: 'shield',
 		dlcGames: [dlcGames[0], dlcGames[1]],
 		pokeapiVersionGroup: 'sword-shield'
@@ -622,6 +654,7 @@ export const games = [
 		region: Regions.SINNOH,
 		console: Consoles.SW,
 		generation: Generations[7],
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/483.png',
 		cookieGroup: 'brilliantdiamond-shiningpearl',
 		pokeapiName: 'brilliant-diamond',
 		pokeapiVersionGroup: 'brilliant-diamond-shining-pearl'
@@ -635,6 +668,7 @@ export const games = [
 		region: Regions.SINNOH,
 		console: Consoles.SW,
 		generation: Generations[7],
+		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/484.png',
 		cookieGroup: 'brilliantdiamond-shiningpearl',
 		pokeapiName: 'shining-pearl',
 		pokeapiVersionGroup: 'brilliant-diamond-shining-pearl'
@@ -648,6 +682,7 @@ export const games = [
 		region: Regions.HISUI,
 		console: Consoles.SW,
 		generation: Generations[7],
+		icon: 'https://gamerwk.sgp1.cdn.digitaloceanspaces.com/2022/02/Pokemon-Legends-Icon.jpeg',
 		cookieGroup: 'legendsarceus',
 		pokeapiName: 'legends-arceus',
 		pokeapiVersionGroup: 'legends-arceus'
@@ -661,6 +696,7 @@ export const games = [
 		region: Regions.PALDEA,
 		console: Consoles.SW,
 		generation: Generations[8],
+		icon: 'icons/games/scarlet.webp',
 		cookieGroup: 'scarlet-violet',
 		pokeapiName: 'scarlet',
 		dlcGames: [dlcGames[2], dlcGames[3]],
@@ -675,6 +711,7 @@ export const games = [
 		region: Regions.PALDEA,
 		console: Consoles.SW,
 		generation: Generations[8],
+		icon: 'https://assets-prd.ignimgs.com/2022/08/03/pokemon-violet-1659542326365.jpg',
 		cookieGroup: 'scarlet-violet',
 		pokeapiName: 'violet',
 		dlcGames: [dlcGames[2], dlcGames[3]],
