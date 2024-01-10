@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ExpandableButton from '$components/UI/ExpandableButton.svelte';
 	import { games, type IGame } from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
 	import { uniques } from '$lib/utils/array';
@@ -6,7 +7,6 @@
 	import { onMount } from 'svelte';
 
 	export let id: number;
-	let selectedLocation = -1;
 	let isLoading = false;
 	let visibleIndex = 1;
 
@@ -136,45 +136,43 @@
 		{/if}
 	{/if}
 	{#each encounters as encounter, i}
-		<button
-			class="card"
-			style={`${i > visibleIndex ? 'display: none' : ''}`}
-			on:click={() => {
-				if (selectedLocation !== i) {
-					selectedLocation = i;
-				} else {
-					selectedLocation = -1;
-				}
-			}}
-		>
-			<!-- Need to add indicators for version exclusivity -->
+		{#if i <= visibleIndex}
+			<ExpandableButton buttonClasses="secondary" buttonStyles="width: 100%;">
+				<p slot="title" style="margin-left: auto; margin-right: auto;">
+					{capitaliseEachWord(encounter.location.name.replaceAll('-', ' '))}
+				</p>
 
-			<h4>{capitaliseEachWord(encounter.location.name.replaceAll('-', ' '))}</h4>
-			<div class="extendedWrapper" style={`${selectedLocation !== i ? 'display: none;' : ''}`}>
-				{#if encounter.methods}
-					<table style="width: 100%;">
-						<thead>
-							<th>Method</th>
-							<th>Level</th>
-							<th>Chance</th>
-						</thead>
-						<tbody>
-							{#each encounter.methods as method}
-								<tr>
-									<td>{capitaliseEachWord(method.method.name.replaceAll('-', ' '))}</td>
-									<p>
-										Lv. {method.min_level === method.max_level
-											? method.min_level
-											: `${method.min_level} - ${method.max_level}`}
-									</p>
-									<td>{method.chance}%</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				{/if}
-			</div>
-		</button>
+				<!-- Need to add indicators for version exclusivity -->
+				<div slot="content" class="extendedWrapper">
+					{#if encounter.methods}
+						<table style="width: 100%;">
+							<thead>
+								<th>Method</th>
+								<th>Level</th>
+								<th>Chance</th>
+							</thead>
+							<tbody>
+								{#each encounter.methods as method}
+									<tr>
+										<td style="text-align: center;"
+											>{capitaliseEachWord(method.method.name.replaceAll('-', ' '))}</td
+										>
+										<td style="text-align: center;">
+											Lv. {method.min_level === method.max_level
+												? method.min_level
+												: `${method.min_level} - ${method.max_level}`}
+										</td>
+										<td style="text-align: center;">{method.chance}%</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+					{:else}
+						<p>Missing info</p>
+					{/if}
+				</div>
+			</ExpandableButton>
+		{/if}
 	{/each}
 
 	{#if encounters.length > visibleIndex + 1}
@@ -208,6 +206,9 @@
 
 	.extendedWrapper {
 		justify-content: start;
+	}
+	button.viewMore {
+		margin-top: 1rem;
 	}
 
 	@media screen and (max-width: 768px) {
