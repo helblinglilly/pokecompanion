@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Image from '$components/Image.svelte';
+	import Image from '$components/UI/Image.svelte';
 	import { setCookie } from '$lib/utils/cookies';
 	import type { IAuthProvider } from '../../routes/auth/signin/+page';
 

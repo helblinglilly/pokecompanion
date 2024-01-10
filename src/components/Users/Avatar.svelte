@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Image from '$components/Image.svelte';
+	import Image from '$components/UI/Image.svelte';
 	import type { IPublicUser } from '$lib/pb/publicUsers';
 
 	export let user: IPublicUser;

@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPageStore';
 	import { capitaliseFirstLetter } from '$lib/utils/string';
-	import Image from './Image.svelte';
+	import Image from './UI/Image.svelte';
 
 	export let title: string;
 	export let currentId: number;

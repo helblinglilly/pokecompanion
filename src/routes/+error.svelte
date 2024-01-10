@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import Image from '$components/Image.svelte';
+	import Image from '$components/UI/Image.svelte';
 	import { error } from '$lib/log';
 
 	error(

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { maxSearchResults, primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import { getLanguageEntry, getMultiLanguageName, type Languages } from '$lib/utils/language';
-	import Image from '$components/Image.svelte';
+	import Image from '$components/UI/Image.svelte';
 
 	interface IItem {
 		names: Languages[];

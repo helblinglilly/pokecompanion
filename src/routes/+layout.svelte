@@ -10,7 +10,7 @@
 	import SearchBar from '$components/Search/SearchBar.svelte';
 	import { setCookie } from '$lib/utils/cookies';
 	import Tracking from '$components/Tracking.svelte';
-	import ScrollToTop from '$components/ScrollToTop.svelte';
+	import ScrollToTop from '$components/UI/ScrollToTop.svelte';
 
 	let isMobileMenuExpanded = false;
 

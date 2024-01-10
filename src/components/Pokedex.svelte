@@ -2,8 +2,8 @@
 	import { findGameFromAPIGameName } from '$lib/data/games';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import type { FlavorTextEntry } from '$lib/types/IPokemon';
-	import Image from './Image.svelte';
-	import Modal from './Modal.svelte';
+	import Image from './UI/Image.svelte';
+	import Modal from './UI/Modal.svelte';
 
 	let showModal = false;
 

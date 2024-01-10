@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { currentUser } from '$lib/stores/user';
-	import Icon from '$components/Icon.svelte';
+	import Icon from '$components/UI/Icon.svelte';
 	import { doesTagContainPokemon, refetchTags, tagStore } from '$lib/stores/tagsStore';
 	import { onMount } from 'svelte';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPageStore';

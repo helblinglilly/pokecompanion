@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Modal from '$components/Modal.svelte';
+	import Modal from '$components/UI/Modal.svelte';
 	import { error } from '$lib/log';
 	import { getIdByUsername } from '$lib/pb/publicUsers';
 	import { pb } from '$lib/stores/domain';

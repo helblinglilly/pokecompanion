@@ -4,7 +4,7 @@
 	import DeleteUser from '$components/Users/DeleteUser.svelte';
 	import ReportUser from '$components/Users/ReportUser.svelte';
 	import { currentUser } from '$lib/stores/user';
-	import Icon from '$components/Icon.svelte';
+	import Icon from '$components/UI/Icon.svelte';
 	import EmailVerification from '$components/Auth/EmailVerification.svelte';
 	import { pb } from '$lib/stores/domain';
 	import { error } from '$lib/log';

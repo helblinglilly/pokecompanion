@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Modal from '$components/Modal.svelte';
+	import Modal from '$components/UI/Modal.svelte';
 	import { pb } from '$lib/stores/domain';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import { deleteCookie } from '$lib/utils/cookies';

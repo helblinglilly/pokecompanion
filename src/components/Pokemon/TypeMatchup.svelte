@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Image from '$components/Image.svelte';
+	import Image from '$components/UI/Image.svelte';
 	import type { ITypeRelations } from '$lib/data/generationAdjuster';
 	export let relations: ITypeRelations;
 </script>

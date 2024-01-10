@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon from '$components/Icon.svelte';
+	import Icon from '$components/UI/Icon.svelte';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import type { Ability, ApiAbility } from '$lib/types/IPokemon';
 	import { dropFalsey, uniques } from '$lib/utils/array';
@@ -51,8 +51,8 @@
 				names: dropFalsey(uniques([lang1, lang2])),
 				slot: ability.slot,
 				is_hidden: ability.is_hidden,
-				effect1: effect1 ? effect1.short_effect : effect2 ? effect2.short_effect : 'No data',
-				effect2: effect2 ? effect2.short_effect : 'No data'
+				effect1: effect1 ? effect1.short_effect : $primaryLanguage !== 'none' ? 'No data' : '',
+				effect2: effect2 ? effect2.short_effect : $secondaryLanguage !== 'none' ? 'No data' : ''
 			};
 		});
 	};

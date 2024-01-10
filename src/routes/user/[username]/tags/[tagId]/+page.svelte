@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import Breadcrumbs from '$components/Breadcrumbs.svelte';
-	import Icon from '$components/Icon.svelte';
+	import Breadcrumbs from '$components/UI/Breadcrumbs.svelte';
+	import Icon from '$components/UI/Icon.svelte';
 	import InlineTextButton from '$components/InlineTextButton.svelte';
-	import Modal from '$components/Modal.svelte';
+	import Modal from '$components/UI/Modal.svelte';
 	import PokemonCardEntry from '$components/Tags/PokemonCardEntry.svelte';
 	import PokemonListEntry from '$components/Tags/PokemonListEntry.svelte';
 	import { error } from '$lib/log';

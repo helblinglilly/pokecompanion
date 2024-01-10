@@ -1,6 +1,6 @@
 <script lang="ts">
 	import InlineTextButton from '$components/InlineTextButton.svelte';
-	import Modal from '$components/Modal.svelte';
+	import Modal from '$components/UI/Modal.svelte';
 	import { createTag } from '$lib/stores/tagsStore';
 	import type { ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
 
