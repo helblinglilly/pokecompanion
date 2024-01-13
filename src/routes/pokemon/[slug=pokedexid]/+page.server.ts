@@ -1,3 +1,4 @@
+import { formatEncounters, type IEncounterResponse } from '$lib/data/encounterFilter';
 import { findGameFromString } from '$lib/data/games.js';
 import {
 	fixAbilities,
@@ -21,6 +22,12 @@ const loadPokemonSpecies = async (id: number): Promise<IPokemonSpecies> => {
 	return body;
 };
 
+const loadPokemonEncounters = async (id: number): Promise<IEncounterResponse[]> => {
+	const response = await fetch(pokeApiDomain + `/pokemon/${id}/encounters`);
+	const body = await response.json();
+	return body;
+};
+
 const loadPokemonForm = async (
 	url: string
 ): Promise<{
@@ -37,9 +44,10 @@ export const load = async ({ params, url, cookies }) => {
 	const gameEntry = findGameFromString(url.searchParams.get('game') ?? cookies.get('selectedGame'));
 
 	// eslint-disable-next-line prefer-const
-	let [pokemon, species] = await Promise.all([
+	let [pokemon, species, encounters] = await Promise.all([
 		loadPokemon(pokedexId),
-		loadPokemonSpecies(pokedexId)
+		loadPokemonSpecies(pokedexId),
+		loadPokemonEncounters(pokedexId)
 	]);
 
 	const requestedVariety = url.searchParams.get('variety');
@@ -147,6 +155,7 @@ export const load = async ({ params, url, cookies }) => {
 		species: {
 			...species,
 			names: speciesNamesToNormalisedNames(species.names)
-		}
+		},
+		encounters: formatEncounters(encounters, gameEntry)
 	};
 };

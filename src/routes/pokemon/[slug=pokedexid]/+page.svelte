@@ -13,7 +13,7 @@
 	import Image from '$components/UI/Image.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { isPokemonInGame } from '$lib/data/games';
+	import { games, isPokemonInGame, type IGame } from '$lib/data/games';
 	import Pokedex from '$components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$components/Tags/SelectedTags.svelte';
@@ -22,14 +22,13 @@
 	import SpritePreview from '$components/Pokemon/SpritePreview.svelte';
 	import Icon from '$components/UI/Icon.svelte';
 	import { page } from '$app/stores';
-	import { pokemonDisplayStore } from '$lib/stores/pokemonPageStore.js';
+	import { encounterDisplayStore, pokemonDisplayStore } from '$lib/stores/pokemonPageStore.js';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tagsStore';
 	import EditTag from '$components/Tags/EditTag.svelte';
 	import TypeMatchup from '$components/Pokemon/TypeMatchup.svelte';
 	import Abilities from '$components/Pokemon/Abilities.svelte';
 	import BaseStats from '$components/Pokemon/BaseStats.svelte';
-	import Statistics from '$components/Pokemon/Statistics.svelte';
 	import Encounters from '$components/Pokemon/Encounters.svelte';
 
 	export let data;
@@ -84,6 +83,19 @@
 					showShinySpriteIfExists
 				),
 				variety: variety.name ? variety : undefined
+			});
+
+			encounterDisplayStore.set({
+				games: data.encounters
+					.map((a) => {
+						return games.find((b) => {
+							return b.pokeapiName === a.versionGroup;
+						}) as IGame;
+					})
+					.flat(),
+				selectedGame: games.find((a) => {
+					return a.pokeapiName === data.encounters[0]?.versionGroup;
+				})
 			});
 		}
 	}
@@ -262,8 +274,30 @@
 <div class="columns">
 	<div class="column">
 		<div class="card">
-			<h3>Encounter places</h3>
-			<Encounters id={data.id} />
+			<div style="display: inline-flex; justify-content: space-between; width: 100%;">
+				<h3 style="margin-top: auto; margin-bottom: auto;">Encounter places</h3>
+				{#if $encounterDisplayStore.games.length > 0}
+					<select
+						style="max-width: 50%; margin-top: 0; margin-bottom: 0; margin-right: 0;"
+						on:change={(event) => {
+							if (event.target) {
+								encounterDisplayStore.set({
+									games: $encounterDisplayStore.games,
+									selectedGame: games.find(
+										// @ts-ignore
+										(a) => a.pokeapiName === event.target.value
+									)
+								});
+							}
+						}}
+					>
+						{#each $encounterDisplayStore.games as game}
+							<option value={game.pokeapiName}>{game.shortName}</option>
+						{/each}
+					</select>
+				{/if}
+			</div>
+			<Encounters encounterData={data.encounters} />
 		</div>
 	</div>
 
@@ -277,13 +311,13 @@
 	</div>
 </div>
 
-<div class="columns">
+<!-- <div class="columns">
 	<div class="column">
 		<div class="card">
 			<h3>Moveset</h3>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <style>
 	.card {

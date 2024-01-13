@@ -1,198 +1,60 @@
 <script lang="ts">
 	import ExpandableButton from '$components/UI/ExpandableButton.svelte';
-	import { games, type IGame } from '$lib/data/games';
-	import { selectedGame } from '$lib/stores/domain';
+	import type { IEncounterGroups } from '$lib/data/encounterFilter';
 	import { uniques } from '$lib/utils/array';
 	import { capitaliseEachWord } from '$lib/utils/string';
-	import { onMount } from 'svelte';
+	import { encounterDisplayStore } from '$lib/stores/pokemonPageStore';
 
-	export let id: number;
-	let isLoading = false;
-	let visibleIndex = 1;
+	export let encounterData: IEncounterGroups[];
 
-	interface IReponse {
-		location_area: {
-			name: string;
-			url: string;
-		};
-		version_details: {
-			max_chance: number;
-			version: {
-				name: string; // short name 'black' or 'white'
-				url: string;
-			};
-			encounter_details: {
-				chance: number;
-				max_level: number;
-				min_level: number;
-				condition_value: {}[];
-				method: {
-					name: string;
-					url: string;
-				};
-			}[];
-		}[];
-	}
-
-	interface IData {
-		location: {
-			name: string;
-			url: string;
-		};
-		methods?: {
-			method: {
-				name: string;
-			};
-			min_level: number;
-			max_level: number;
-			chance: number;
-		}[];
-		games: IGame[];
-	}
-
-	let encounters: IData[] = [];
-
-	const fetchData = async () => {
-		const req = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/encounters`);
-		const body = (await req.json()) as IReponse[];
-
-		const locations: IData[] = [];
-		body.forEach((encounter) => {
-			encounter.version_details
-				.filter((version) => {
-					if (!$selectedGame) {
-						return true;
-					} else {
-						return $selectedGame.pokeapiName === version.version.name;
-					}
-				})
-				.forEach((gameEntry) => {
-					let existingLocation = locations.find((location) => {
-						return encounter.location_area.url === location.location.url;
-					});
-
-					const groupedMethods = gameEntry.encounter_details.reduce(
-						(acc: { [key: string]: any }, detail) => {
-							if (!acc[detail.method.name]) {
-								acc[detail.method.name] = {
-									chance: 0,
-									max_level: 0,
-									min_level: Infinity,
-									method: detail.method
-								};
-							}
-							acc[detail.method.name].chance += detail.chance;
-							acc[detail.method.name].max_level = Math.max(
-								acc[detail.method.name].max_level,
-								detail.max_level
-							);
-							acc[detail.method.name].min_level = Math.min(
-								acc[detail.method.name].min_level,
-								detail.min_level
-							);
-							return acc;
-						},
-						{}
-					);
-
-					if (!existingLocation) {
-						locations.push({
-							location: encounter.location_area,
-							methods: Object.values(groupedMethods),
-							games: games.filter((a) => a.pokeapiName === gameEntry.version.name)
-						});
-					}
-				});
-		});
-		return locations;
-	};
-
-	onMount(async () => {
-		isLoading = true;
-		encounters = [];
-		const data = await fetchData();
-		encounters = uniques(data);
-		isLoading = false;
-	});
-
-	$: {
-		if (id) {
-			isLoading = true;
-			encounters = [];
-			fetchData().then((data) => {
-				encounters = uniques(data);
-				isLoading = false;
-			});
-		}
-	}
+	let visibleIndex = 2;
 </script>
 
 <div>
-	{#if encounters.length === 0}
-		{#if isLoading}
-			<p style="text-align: center;">Loading...</p>
-		{:else}
-			<p style="text-align: center;">This Pokémon cannot be found in the wild</p>
-		{/if}
+	{#if encounterData.length === 0}
+		<p style="text-align: center;">This Pokémon cannot be found in the wild</p>
 	{/if}
-	{#each encounters as encounter, i}
-		{#if i <= visibleIndex}
-			<ExpandableButton buttonClasses="secondary" buttonStyles="width: 100%;">
-				<p slot="title" style="margin-left: auto; margin-right: auto;">
-					{capitaliseEachWord(encounter.location.name.replaceAll('-', ' '))}
-				</p>
 
-				<!-- Need to add indicators for version exclusivity -->
-				<div slot="content" class="extendedWrapper">
-					{#if encounter.methods}
-						<table style="width: 100%;">
-							<thead>
-								<th>Method</th>
-								<th>Level</th>
-								<th>Chance</th>
-							</thead>
-							<tbody>
-								{#each encounter.methods as method}
-									<tr>
-										<td style="text-align: center;"
-											>{capitaliseEachWord(method.method.name.replaceAll('-', ' '))}</td
-										>
-										<td style="text-align: center;">
-											Lv. {method.min_level === method.max_level
-												? method.min_level
-												: `${method.min_level} - ${method.max_level}`}
-										</td>
-										<td style="text-align: center;">{method.chance}%</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table>
-					{:else}
-						<p>Missing info</p>
-					{/if}
-				</div>
-			</ExpandableButton>
-		{/if}
+	{#each encounterData as encounterVersion}
+		{#each encounterVersion.encounters as encounter, i}
+			{#if i <= visibleIndex && (!$encounterDisplayStore.selectedGame || $encounterDisplayStore.selectedGame.pokeapiName === encounterVersion.versionGroup)}
+				<ExpandableButton buttonClasses="secondary" buttonStyles="width: 100%;">
+					<p slot="title" style="margin-left: auto; margin-right: auto;">
+						{capitaliseEachWord(encounter.location.name.replaceAll('-', ' '))}
+					</p>
+
+					<div slot="content" class="extendedWrapper">
+						{#if encounter.methods}
+							<table style="width: 100%;">
+								<thead>
+									<th>Method</th>
+									<th>Level</th>
+									<th>Chance</th>
+								</thead>
+								<tbody>
+									{#each uniques(encounter.methods) as method}
+										<tr>
+											<td style="text-align: center;"
+												>{capitaliseEachWord(method.encounter_method.replaceAll('-', ' '))}</td
+											>
+											<td style="text-align: center;">
+												Lv. {method.min_level === method.max_level
+													? method.min_level
+													: `${method.min_level} - ${method.max_level}`}
+											</td>
+											<td style="text-align: center;">{method.chance}%</td>
+										</tr>
+									{/each}
+								</tbody>
+							</table>
+						{:else}
+							<p>Missing info</p>
+						{/if}
+					</div>
+				</ExpandableButton>
+			{/if}
+		{/each}
 	{/each}
-
-	{#if encounters.length > visibleIndex + 1}
-		<button
-			class="button secondary viewMore"
-			on:click={() => {
-				visibleIndex += 5;
-			}}
-			>Show {5 <= encounters.length - visibleIndex ? 5 : encounters.length - (visibleIndex + 1)} more
-			({encounters.length - visibleIndex - 1})</button
-		>
-	{/if}
-	{#if visibleIndex > 1}
-		<button
-			class="button secondary viewMore"
-			on:click={() => {
-				visibleIndex -= 5;
-			}}>Show less</button
-		>
-	{/if}
 </div>
 
 <style>
