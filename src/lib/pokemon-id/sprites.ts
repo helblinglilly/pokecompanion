@@ -40,7 +40,7 @@ export const findBaseSprites = (
 		}
 	};
 
-	if (versionSpecificSprites && selectedGame) {
+	if (versionSpecificSprites && selectedGame && sprites.versions) {
 		if (selectedGame === 'red-blue' && sprites.versions['generation-i']) {
 			baseSprites.primary.default =
 				sprites.versions['generation-i']['red-blue'].front_transparent ||
