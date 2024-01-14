@@ -17,30 +17,3 @@
 		{/if}
 	{/each}
 </div>
-
-<style>
-	button.card {
-		background-color: var(--secondary);
-		margin-bottom: 1rem;
-	}
-	button.card:hover {
-		background-color: var(--primary);
-	}
-
-	.extendedWrapper {
-		justify-content: start;
-	}
-	button.viewMore {
-		margin-top: 1rem;
-	}
-
-	@media screen and (max-width: 768px) {
-		button.viewMore {
-			width: 100%;
-		}
-
-		button.viewMore:not(:last-child) {
-			margin-bottom: 1rem;
-		}
-	}
-</style>
