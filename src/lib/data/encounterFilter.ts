@@ -16,7 +16,10 @@ export interface IEncounterResponse {
 			chance: number;
 			max_level: number;
 			min_level: number;
-			condition_value: any[];
+			condition_values?: {
+				name: string;
+				url: string;
+			}[];
 			method: {
 				name: string;
 				url: string;
@@ -35,6 +38,7 @@ export interface IEncounter {
 		min_level: number;
 		max_level: number;
 		chance: number;
+		conditions: string;
 	}[];
 }
 
@@ -49,12 +53,21 @@ const getVersionGroupEncounters = (encounters: IEncounterResponse[], versionGrou
 
 	encounters.forEach((encounter) => {
 		encounter.version_details.forEach((version) => {
-			const methods = version.encounter_details.map((detail) => ({
-				encounter_method: detail.method.name,
-				min_level: detail.min_level,
-				max_level: detail.max_level,
-				chance: detail.chance
-			}));
+			const methods = version.encounter_details.map((detail) => {
+				return {
+					encounter_method: detail.method.name,
+					min_level: detail.min_level,
+					max_level: detail.max_level,
+					chance: detail.chance,
+					conditions: detail.condition_values
+						? detail.condition_values
+								.map((a) => {
+									return a.name;
+								})
+								.join(' or ')
+						: ''
+				};
+			});
 
 			if (version.version.name === selectedVersionGroup?.pokeapiName)
 				relevantData.push({
