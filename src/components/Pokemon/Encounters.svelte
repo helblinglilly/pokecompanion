@@ -1,13 +1,9 @@
 <script lang="ts">
-	import ExpandableButton from '$components/UI/ExpandableButton.svelte';
 	import type { IEncounterGroups } from '$lib/data/encounterFilter';
-	import { uniques } from '$lib/utils/array';
-	import { capitaliseEachWord } from '$lib/utils/string';
 	import { encounterDisplayStore } from '$lib/stores/pokemonPageStore';
+	import EncounterVersion from '$components/Pokemon/EncounterVersion.svelte';
 
 	export let encounterData: IEncounterGroups[];
-
-	let visibleIndex = 2;
 </script>
 
 <div>
@@ -16,44 +12,9 @@
 	{/if}
 
 	{#each encounterData as encounterVersion}
-		{#each encounterVersion.encounters as encounter, i}
-			{#if i <= visibleIndex && (!$encounterDisplayStore.selectedGame || $encounterDisplayStore.selectedGame.pokeapiName === encounterVersion.versionGroup)}
-				<ExpandableButton buttonClasses="secondary" buttonStyles="width: 100%;">
-					<p slot="title" style="margin-left: auto; margin-right: auto;">
-						{capitaliseEachWord(encounter.location.name.replaceAll('-', ' '))}
-					</p>
-
-					<div slot="content" class="extendedWrapper">
-						{#if encounter.methods}
-							<table style="width: 100%;">
-								<thead>
-									<th>Method</th>
-									<th>Level</th>
-									<th>Chance</th>
-								</thead>
-								<tbody>
-									{#each uniques(encounter.methods) as method}
-										<tr>
-											<td style="text-align: center;"
-												>{capitaliseEachWord(method.encounter_method.replaceAll('-', ' '))}</td
-											>
-											<td style="text-align: center;">
-												Lv. {method.min_level === method.max_level
-													? method.min_level
-													: `${method.min_level} - ${method.max_level}`}
-											</td>
-											<td style="text-align: center;">{method.chance}%</td>
-										</tr>
-									{/each}
-								</tbody>
-							</table>
-						{:else}
-							<p>Missing info</p>
-						{/if}
-					</div>
-				</ExpandableButton>
-			{/if}
-		{/each}
+		{#if !$encounterDisplayStore.selectedGame || $encounterDisplayStore.selectedGame.pokeapiName === encounterVersion.versionGroup}
+			<EncounterVersion data={encounterVersion} />
+		{/if}
 	{/each}
 </div>
 
