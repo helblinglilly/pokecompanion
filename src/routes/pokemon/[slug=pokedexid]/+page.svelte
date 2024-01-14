@@ -275,7 +275,7 @@
 	<div class="column">
 		<div class="card">
 			<div style="display: inline-flex; justify-content: space-between; width: 100%;">
-				<h3 style="margin-top: auto; margin-bottom: auto;">Encounter places</h3>
+				<h3 style="margin-top: auto; margin-bottom: auto;">Encounters</h3>
 				{#if $encounterDisplayStore.games.length > 0}
 					<select
 						style="max-width: 50%; margin-top: 0; margin-bottom: 0; margin-right: 0;"
