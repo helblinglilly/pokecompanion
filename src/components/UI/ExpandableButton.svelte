@@ -1,10 +1,16 @@
 <script lang="ts">
+	import { navigating } from '$app/stores';
+
 	let isExpanded = false;
 
 	export let onClick: () => void = () => undefined;
 	export let buttonStyles = '';
 	export let buttonClasses = '';
 	export let contentStyles = '';
+
+	navigating.subscribe(() => {
+		isExpanded = false;
+	});
 </script>
 
 <button
@@ -31,11 +37,4 @@
 		min-width: max-content;
 		margin-top: 1rem;
 	}
-
-	/* button.isExpanded {
-		background-color: var(--selected);
-	}
-	button.isExpanded:hover {
-		background-color: var(--selected);
-	} */
 </style>
