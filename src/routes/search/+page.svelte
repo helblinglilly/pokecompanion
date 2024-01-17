@@ -15,10 +15,9 @@
 		if (data) {
 			errorMessage = data.errorMessage;
 			results = data.results;
+			searchTerm.set(data.searchTerm ?? '');
 		}
 	}
-
-	searchTerm.set(data.searchTerm ?? '');
 
 	const primaryLanguageOverride = $page.url.searchParams.get('primaryLanguage');
 	const secondaryLanguageOverride = $page.url.searchParams.get('secondaryLanguage');
