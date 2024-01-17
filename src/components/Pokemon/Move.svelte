@@ -1,0 +1,92 @@
+<script lang="ts">
+	import Image from '$components/UI/Image.svelte';
+	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
+	import type { IMove } from '$lib/types/IMoves';
+	import { getNameEntry } from '$lib/utils/language';
+	import { onMount } from 'svelte';
+
+	export let url: string;
+	export let level: Number | undefined = undefined;
+
+	let move: IMove | undefined;
+
+	// Will need to do all sorts of adjustments here
+	// Like adjust for fairy type, Gen 3 special/physical being tied to
+	// the main type
+	onMount(async () => {
+		const response = await fetch(url);
+		move = (await response.json()) as IMove;
+	});
+
+	$: primaryName = move ? getNameEntry(move.names, $primaryLanguage) : undefined;
+	$: secondaryName =
+		move && $secondaryLanguage ? getNameEntry(move.names, $secondaryLanguage) : undefined;
+</script>
+
+<button>
+	{#if move}
+		<a href={`/move/${move.id}`}>
+			<table>
+				<tbody>
+					<tr>
+						<td class="types">
+							<Image
+								src={`/icons/types/${move.type.name}.webp`}
+								alt={move.type.name}
+								height={'20px'}
+								style="margin-bottom: 0.2rem;"
+							/>
+							<Image
+								src={`/icons/types/damage/${move.damage_class.name}.png`}
+								alt={move.damage_class.name}
+								width={'50px'}
+								height={'20px'}
+							/>
+						</td>
+						<td class="name">
+							<p>{primaryName}</p>
+							{#if secondaryName && primaryName !== secondaryName}
+								<p>{secondaryName}</p>
+							{/if}
+						</td>
+						{#if level}
+							<td class="requirements">
+								Lv. {level}
+							</td>
+						{/if}
+					</tr>
+				</tbody>
+			</table>
+		</a>
+	{:else}
+		<p>Loading...</p>
+	{/if}
+</button>
+
+<style>
+	a {
+		text-decoration: none;
+	}
+	table {
+		width: 100%;
+	}
+	td {
+		justify-content: start;
+	}
+
+	.types {
+		width: 55px;
+	}
+	.name > p {
+		text-align: start;
+	}
+	.requirements {
+		text-align: end;
+		padding-right: 1rem;
+	}
+
+	button {
+		width: 100%;
+		border: 1px solid var(--secondary);
+	}
+</style>

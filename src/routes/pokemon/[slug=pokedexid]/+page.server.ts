@@ -5,6 +5,7 @@ import {
 	getPokemonTypesInGame,
 	getTypeRelations
 } from '$lib/data/generationAdjuster.js';
+import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
 import { pokeApiDomain } from '$lib/stores/domain';
 import type { IPokemon, IPokemonSpecies, ISprites, Name } from '$lib/types/IPokemon';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
@@ -150,7 +151,8 @@ export const load = async ({ params, url, cookies }) => {
 				.filter(
 					(entry, index, arr) =>
 						entry.name.includes('-') && arr.findIndex((e) => e.name === entry.name) === index
-				)
+				),
+			moves: filterMovesetByVersionEntry(pokemon.moves, gameEntry)
 		},
 		species: {
 			...species,

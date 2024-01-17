@@ -30,6 +30,7 @@
 	import Abilities from '$components/Pokemon/Abilities.svelte';
 	import BaseStats from '$components/Pokemon/BaseStats.svelte';
 	import Encounters from '$components/Pokemon/Encounters.svelte';
+	import Moveset from '$components/Pokemon/Moveset.svelte';
 
 	export let data;
 
@@ -311,13 +312,14 @@
 	</div>
 </div>
 
-<!-- <div class="columns">
+<div class="columns">
 	<div class="column">
 		<div class="card">
 			<h3>Moveset</h3>
+			<Moveset allMoves={data.pokemon.moves} />
 		</div>
 	</div>
-</div> -->
+</div>
 
 <style>
 	.card {

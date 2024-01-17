@@ -8,7 +8,7 @@ export interface IPokemon {
 	id: number;
 	is_default: boolean;
 	location_area_encounters: string;
-	moves: Mfe[];
+	moves: Moveset[];
 	name: string;
 	order: number;
 	past_types: {
@@ -75,7 +75,7 @@ interface Version {
 	url: string;
 }
 
-interface Mfe {
+export interface Moveset {
 	move: Move;
 	version_group_details: VersionGroupDetail[];
 }
@@ -96,7 +96,7 @@ interface MoveLearnMethod {
 	url: string;
 }
 
-interface VersionGroup {
+export interface VersionGroup {
 	name: string;
 	url: string;
 }
