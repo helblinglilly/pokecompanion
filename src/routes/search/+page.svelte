@@ -9,7 +9,14 @@
 	import type { Languages } from '$lib/utils/language.js';
 
 	export let data;
-	const { errorMessage, results } = data;
+	let { errorMessage, results } = data;
+
+	$: {
+		if (data) {
+			errorMessage = data.errorMessage;
+			results = data.results;
+		}
+	}
 
 	searchTerm.set(data.searchTerm ?? '');
 
