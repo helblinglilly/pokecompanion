@@ -16,10 +16,12 @@
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation>
 		<div
-			style="display: inline-flex; width: 100%; justify-content: space-between; position: sticky; top: 0; background-color: var(--primary); padding-bottom: 10px; padding-top: 10px; border-bottom: 2px solid var(--text);"
+			style="width: 100%; justify-content: position: sticky; top: 0; background-color: var(--primary); padding-top: 1rem; border-bottom: 2px solid var(--text);"
 		>
+			<div style="position: absolute; top: 0; right: 0;">
+				<button on:click={() => dialog.close()}>X</button>
+			</div>
 			<slot name="header" />
-			<button on:click={() => dialog.close()}>X</button>
 		</div>
 		<slot />
 		<!-- <hr /> -->
@@ -30,7 +32,7 @@
 
 <style>
 	dialog {
-		max-width: 32em;
+		max-width: 32rem;
 		border-radius: 10px;
 		border: none;
 		padding: 0;
@@ -46,6 +48,14 @@
 	dialog[open] {
 		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 	}
+
+	button {
+		border-bottom-left-radius: 10px;
+		background-color: var(--accent);
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+
 	@keyframes zoom {
 		from {
 			transform: scale(0.95);

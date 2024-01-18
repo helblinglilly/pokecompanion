@@ -26,7 +26,6 @@
 </script>
 
 <button
-	style="height: 20px; display: inline-flex; align-items: center; min-width: fit-content;"
 	on:click={() => {
 		showModal = !showModal;
 	}}
@@ -46,3 +45,16 @@
 		</div>
 	{/each}
 </Modal>
+
+<style>
+	button {
+		height: 20px;
+		display: inline-flex;
+		align-items: center;
+		min-width: fit-content;
+	}
+
+	button:hover {
+		background-color: var(--accent);
+	}
+</style>
