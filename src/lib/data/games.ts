@@ -4,6 +4,7 @@ export interface IGeneration {
 	short: string;
 	pokeApiName: string;
 	nationalDexEnd: number;
+	number: number;
 }
 
 export const Generations: IGeneration[] = [
@@ -11,55 +12,64 @@ export const Generations: IGeneration[] = [
 		name: 'Generation 1',
 		short: 'Gen 1',
 		pokeApiName: 'generation-i',
-		nationalDexEnd: 151
+		nationalDexEnd: 151,
+		number: 1
 	},
 	{
 		name: 'Generation 2',
 		short: 'Gen 2',
 		pokeApiName: 'generation-ii',
-		nationalDexEnd: 251
+		nationalDexEnd: 251,
+		number: 2
 	},
 	{
 		name: 'Generation 3',
 		short: 'Gen 3',
 		pokeApiName: 'generation-iii',
-		nationalDexEnd: 386
+		nationalDexEnd: 386,
+		number: 3
 	},
 	{
 		name: 'Generation 4',
 		short: 'Gen 4',
 		pokeApiName: 'generation-iv',
-		nationalDexEnd: 493
+		nationalDexEnd: 493,
+		number: 4
 	},
 	{
 		name: 'Generation 5',
 		short: 'Gen 5',
 		pokeApiName: 'generation-v',
-		nationalDexEnd: 649
+		nationalDexEnd: 649,
+		number: 5
 	},
 	{
 		name: 'Generation 6',
 		short: 'Gen 6',
 		pokeApiName: 'generation-vi',
-		nationalDexEnd: 721
+		nationalDexEnd: 721,
+		number: 6
 	},
 	{
 		name: 'Generation 7',
 		short: 'Gen 7',
 		pokeApiName: 'generation-vii',
-		nationalDexEnd: 809
+		nationalDexEnd: 809,
+		number: 7
 	},
 	{
 		name: 'Generation 8',
 		short: 'Gen 8',
 		pokeApiName: 'generation-viii',
-		nationalDexEnd: 905
+		nationalDexEnd: 905,
+		number: 8
 	},
 	{
 		name: 'Generation 9',
 		short: 'Gen 9',
 		pokeApiName: 'generation-ix',
-		nationalDexEnd: PokemonNames[PokemonNames.length - 1].id
+		nationalDexEnd: PokemonNames[PokemonNames.length - 1].id,
+		number: 9
 	}
 ];
 

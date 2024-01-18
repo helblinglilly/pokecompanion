@@ -138,7 +138,7 @@ export const load = async ({ params, url, cookies }) => {
 			...pokemon,
 			abilities: fixAbilities(pokedexId, pokemon.past_abilities, pokemon.abilities, gameEntry),
 			types,
-			typeRelations: await getTypeRelations(types[0], types[1]),
+			typeRelations: await getTypeRelations(gameEntry?.generation, types[0], types[1]),
 			varietyForms: species.varieties
 				.map((variety) => {
 					return {

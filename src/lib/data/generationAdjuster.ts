@@ -79,7 +79,11 @@ interface ITypeDetails {
 	icon: string;
 }
 
-export const getTypeRelations = async (a: IType, b: IType | undefined): Promise<ITypeRelations> => {
+export const getTypeRelations = async (
+	generation: IGeneration | undefined,
+	a: IType,
+	b: IType | undefined
+): Promise<ITypeRelations> => {
 	const requests = [fetch(a.url)];
 	if (b) {
 		requests.push(fetch(b.url));
@@ -150,12 +154,19 @@ export const getTypeRelations = async (a: IType, b: IType | undefined): Promise<
 		.sort((a, b) => (a.name < b.name ? 1 : -1))
 		.sort((a, b) => (a.multiplier < b.multiplier ? 1 : -1));
 
-	// TODO
-	// Need to adjust for types that don't exist in certain games yet
-	// i.e. Fairy in Gen 5
 	return {
-		resists: sortedResists,
-		weakAgainst: sortedWeakAgainst
+		resists: sortedResists.filter((a) => {
+			if (generation && generation.number < 6) {
+				return a.name !== 'fairy';
+			}
+			return true;
+		}),
+		weakAgainst: sortedWeakAgainst.filter((a) => {
+			if (generation && generation.number < 6) {
+				return a.name !== 'fairy';
+			}
+			return true;
+		})
 	};
 };
 
