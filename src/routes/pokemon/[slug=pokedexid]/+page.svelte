@@ -279,7 +279,8 @@
 				<h3 style="margin-top: auto; margin-bottom: auto;">Encounters</h3>
 				{#if $encounterDisplayStore.games.length > 0}
 					<select
-						style="max-width: 50%; margin-top: 0; margin-bottom: 0; margin-right: 0;"
+						class="specificGameSelector"
+						id="encounterGameSelector"
 						on:change={(event) => {
 							if (event.target) {
 								encounterDisplayStore.set({
@@ -315,7 +316,32 @@
 <div class="columns">
 	<div class="column">
 		<div class="card">
-			<h3>Moveset</h3>
+			<div
+				style="display: inline-flex; width: 100%; justify-content: space-between; margin-bottom: 2rem;"
+			>
+				<h3>Moveset</h3>
+				{#if $encounterDisplayStore.games.length > 0}
+					<select
+						class="specificGameSelector"
+						id="moveGameSelector"
+						on:change={(event) => {
+							if (event.target) {
+								encounterDisplayStore.set({
+									games: $encounterDisplayStore.games,
+									selectedGame: games.find(
+										// @ts-ignore
+										(a) => a.pokeapiName === event.target.value
+									)
+								});
+							}
+						}}
+					>
+						{#each $encounterDisplayStore.games as game}
+							<option value={game.pokeapiName}>{game.shortName}</option>
+						{/each}
+					</select>
+				{/if}
+			</div>
 			<Moveset allMoves={data.pokemon.moves} />
 		</div>
 	</div>
@@ -325,5 +351,27 @@
 	.card {
 		padding-top: 1rem;
 		position: relative;
+	}
+
+	.specificGameSelector {
+		margin-top: 0;
+		margin-bottom: 0;
+		margin-right: 0;
+	}
+
+	#encounterGameSelector {
+		max-width: 50%;
+	}
+
+	@media screen and (min-width: 768px) {
+		#moveGameSelector {
+			max-width: 25%;
+		}
+	}
+
+	@media screen and (max-width: 768px) {
+		#moveGameSelector {
+			max-width: 50%;
+		}
 	}
 </style>

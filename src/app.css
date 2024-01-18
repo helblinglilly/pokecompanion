@@ -65,6 +65,11 @@
 		display: none;
 	}
 }
+
+* {
+	min-width: 0px;
+}
+
 p,
 h1,
 h2,
@@ -75,6 +80,7 @@ th,
 i,
 b,
 button,
+td,
 a {
 	color: var(--text);
 }
