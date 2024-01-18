@@ -52,12 +52,16 @@
 			{#if pokemon.gender === 'female'}
 				<Icon
 					name="venus"
-					style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'};`}
+					style={`margin-top: auto; margin-bottom: auto; padding-left: 10px; fill: ${
+						$theme === 'dark' ? '#f6abd9' : '#ee5db7'
+					};`}
 				/>
 			{:else if pokemon.gender === 'male'}
 				<Icon
 					name="mars"
-					style={`padding-left: 10px; fill: ${$theme === 'dark' ? '#99b3ff' : '#3366ff'};`}
+					style={`margin-top: auto; margin-bottom: auto; padding-left: 10px; fill: ${
+						$theme === 'dark' ? '#99b3ff' : '#3366ff'
+					};`}
 				/>
 			{/if}
 
@@ -65,13 +69,13 @@
 				{#if $theme === 'light'}
 					<Icon
 						name="spark"
-						style="margin-top: -0.25rem;"
+						style="margin-top: 0.2rem;"
 						lineStroke="var(--text)"
 						pathStroke="var(--text)"
 					/>
 				{:else}
 					<Icon
-						style="margin-top: -0.25rem;"
+						style="margin-top: 0.2rem;"
 						name="spark-full"
 						pathFill="var(--text)"
 						lineStroke="var(--text)"
