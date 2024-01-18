@@ -87,13 +87,19 @@
 			});
 
 			encounterDisplayStore.set({
-				games: data.encounters
-					.map((a) => {
-						return games.find((b) => {
-							return b.pokeapiName === a.versionGroup;
-						}) as IGame;
+				games: games
+					.filter((game) => {
+						return (
+							data.encounters.some((encounter) => {
+								return encounter.versionGroup === game.pokeapiVersionGroup;
+							}) ||
+							data.pokemon.moves.some((move) => {
+								return move.versionGroup === game.pokeapiVersionGroup;
+							})
+						);
 					})
 					.flat(),
+
 				selectedGame: games.find((a) => {
 					return a.pokeapiName === data.encounters[0]?.versionGroup;
 				})
@@ -294,7 +300,11 @@
 						}}
 					>
 						{#each $encounterDisplayStore.games as game}
-							<option value={game.pokeapiName}>{game.shortName}</option>
+							<option
+								value={game.pokeapiName}
+								selected={$encounterDisplayStore.selectedGame?.pokeapiVersionGroup ===
+									game.pokeapiVersionGroup}>{game.shortName}</option
+							>
 						{/each}
 					</select>
 				{/if}
@@ -337,7 +347,11 @@
 						}}
 					>
 						{#each $encounterDisplayStore.games as game}
-							<option value={game.pokeapiName}>{game.shortName}</option>
+							<option
+								value={game.pokeapiName}
+								selected={$encounterDisplayStore.selectedGame?.pokeapiVersionGroup ===
+									game.pokeapiVersionGroup}>{game.shortName}</option
+							>
 						{/each}
 					</select>
 				{/if}

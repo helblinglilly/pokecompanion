@@ -4,16 +4,20 @@
 	import EncounterVersion from '$components/Pokemon/EncounterVersion.svelte';
 
 	export let encounterData: IEncounterGroups[];
+	$: relevantEncounters = encounterData.filter((data) => {
+		return (
+			!$encounterDisplayStore.selectedGame ||
+			$encounterDisplayStore.selectedGame.pokeapiName === data.versionGroup
+		);
+	});
 </script>
 
 <div>
-	{#if encounterData.length === 0}
-		<p style="text-align: center;">This Pokémon cannot be found in the wild</p>
+	{#if relevantEncounters.length === 0}
+		<p style="text-align: center; margin-top: 2rem;">This Pokémon cannot be found in the wild</p>
 	{/if}
 
-	{#each encounterData as encounterVersion}
-		{#if !$encounterDisplayStore.selectedGame || $encounterDisplayStore.selectedGame.pokeapiName === encounterVersion.versionGroup}
-			<EncounterVersion data={encounterVersion} />
-		{/if}
+	{#each relevantEncounters as encounterVersion}
+		<EncounterVersion data={encounterVersion} />
 	{/each}
 </div>
