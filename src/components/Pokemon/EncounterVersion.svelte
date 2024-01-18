@@ -68,12 +68,12 @@
 	<hr style="margin-top: 1rem;" />
 {/if}
 
-{#if visibleIndex <= data.encounters.length}
+{#if visibleIndex < data.encounters.length}
 	<button
 		class="button secondary"
 		style="margin-top: 1rem; width: 100%;"
 		on:click={() => {
-			visibleIndex += visibilityIndexStepCount;
+			visibleIndex += Math.min(visibilityIndexStepCount, data.encounters.length - visibleIndex);
 		}}>Show more ({visibleIndex}/{data.encounters.length})</button
 	>
 {/if}
@@ -83,7 +83,10 @@
 		class="button secondary"
 		style="margin-top: 1rem; width: 100%;"
 		on:click={() => {
-			visibleIndex -= visibilityIndexStepCount;
-		}}>Show {visibilityIndexStepCount} less</button
+			visibleIndex -= Math.min(visibilityIndexStepCount, data.encounters.length - visibleIndex + 1);
+		}}
+		>Show {data.encounters.length < visibleIndex + visibilityIndexStepCount
+			? data.encounters.length - visibleIndex + 1
+			: visibilityIndexStepCount} less</button
 	>
 {/if}
