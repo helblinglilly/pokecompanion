@@ -44,6 +44,7 @@
 	let showRenameOverlay = false;
 	let showDeleteOverlay = false;
 	let inModifyView = false;
+	let isLiked = false;
 
 	let displayMode: string = $page.url.searchParams.get('view') ?? 'list';
 
@@ -193,6 +194,16 @@
 {/if}
 
 <div id="viewOptionsWrapper">
+	<div>
+		<button class="button" on:click={async () => {}}>Copy</button>
+		<button
+			class="button"
+			on:click={() => {
+				isLiked = !isLiked;
+			}}><Icon name={isLiked ? 'heart-full' : 'heart'} style="" /></button
+		>
+	</div>
+
 	<p>View:</p>
 	<button
 		class={`button ${displayMode === 'list' ? 'selected' : ''}`}
