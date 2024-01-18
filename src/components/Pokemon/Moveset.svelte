@@ -54,13 +54,20 @@
 </div>
 
 <style>
-	.container {
-		min-width: 100%;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		grid-gap: 2rem;
+	@media screen and (max-width: 768px) {
+		.container {
+			min-width: 100%;
+			display: grid;
+			grid-gap: 2rem;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		}
 	}
-
-	.item {
+	@media screen and (min-width: 768px) {
+		.container {
+			min-width: 100%;
+			display: grid;
+			grid-gap: 2rem;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		}
 	}
 </style>
