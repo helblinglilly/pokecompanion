@@ -1,4 +1,4 @@
-#pokemonOTDWrapper > .card {
+.column > .card {
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -9,12 +9,12 @@
 		padding-right: 0;
 	}
 
-	#pokemonOTDWrapper {
+	.column {
 		display: grid;
 		justify-content: center;
 	}
 
-	#pokemonOTDWrapper > .card {
+	.column > .card {
 		min-width: 100%;
 	}
 }
@@ -27,7 +27,7 @@
 		padding-right: 0;
 	}
 
-	#pokemonOTDWrapper > .card {
+	.column > .card {
 		min-width: 33.3333334%;
 	}
 }
