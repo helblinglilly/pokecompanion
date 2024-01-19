@@ -86,23 +86,22 @@
 				variety: variety.name ? variety : undefined
 			});
 
-			encounterDisplayStore.set({
-				games: games
-					.filter((game) => {
-						return (
-							data.encounters.some((encounter) => {
-								return encounter.versionGroup === game.pokeapiVersionGroup;
-							}) ||
-							data.pokemon.moves.some((move) => {
-								return move.versionGroup === game.pokeapiVersionGroup;
-							})
-						);
-					})
-					.flat(),
-
-				selectedGame: games.find((a) => {
-					return a.pokeapiName === data.encounters[0]?.versionGroup;
+			const allRelevantGames = games
+				.filter((game) => {
+					return (
+						data.encounters.some((encounter) => {
+							return encounter.versionGroup === game.pokeapiVersionGroup;
+						}) ||
+						data.pokemon.moves.some((move) => {
+							return move.versionGroup === game.pokeapiVersionGroup;
+						})
+					);
 				})
+				.flat();
+
+			encounterDisplayStore.set({
+				games: allRelevantGames,
+				selectedGame: allRelevantGames[0]
 			});
 		}
 	}
@@ -283,6 +282,7 @@
 		<div class="card">
 			<div style="display: inline-flex; justify-content: space-between; width: 100%;">
 				<h3 style="margin-top: auto; margin-bottom: auto;">Encounters</h3>
+
 				{#if $encounterDisplayStore.games.length > 0}
 					<select
 						class="specificGameSelector"
@@ -302,8 +302,8 @@
 						{#each $encounterDisplayStore.games as game}
 							<option
 								value={game.pokeapiName}
-								selected={$encounterDisplayStore.selectedGame?.pokeapiVersionGroup ===
-									game.pokeapiVersionGroup}>{game.shortName}</option
+								selected={$encounterDisplayStore.selectedGame?.pokeapiName === game.pokeapiName}
+								>{game.shortName}</option
 							>
 						{/each}
 					</select>
@@ -349,8 +349,8 @@
 						{#each $encounterDisplayStore.games as game}
 							<option
 								value={game.pokeapiName}
-								selected={$encounterDisplayStore.selectedGame?.pokeapiVersionGroup ===
-									game.pokeapiVersionGroup}>{game.shortName}</option
+								selected={$encounterDisplayStore.selectedGame?.pokeapiName === game.pokeapiName}
+								>{game.shortName}</option
 							>
 						{/each}
 					</select>
