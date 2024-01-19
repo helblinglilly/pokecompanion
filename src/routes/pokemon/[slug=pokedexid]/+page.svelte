@@ -13,7 +13,7 @@
 	import Image from '$components/UI/Image.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { games, isPokemonInGame, findGameGroupFromString } from '$lib/data/games';
+	import { games, isPokemonInGame, findGameGroupFromString, type IGame } from '$lib/data/games';
 	import Pokedex from '$components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$components/Tags/SelectedTags.svelte';
@@ -134,6 +134,19 @@
 			changeUrlQueryParam('shiny', $pokemonDisplayStore.showShinySpriteIfExists ? 'true' : 'false');
 		}
 	}
+
+	$: gameVersionGroups = uniques(
+		$encounterDisplayStore.games
+			.filter((game) => {
+				if ($selectedGame) {
+					return game.pokeapiName === $selectedGame.pokeapiName;
+				}
+				return true;
+			})
+			.map((game) => {
+				return findGameGroupFromString(game.cookieGroup);
+			})
+	);
 
 	onMount(() => {
 		document.addEventListener('keydown', (e) => {
@@ -330,10 +343,10 @@
 	<div class="column">
 		<div class="card">
 			<div
-				style="display: inline-flex; width: 100%; justify-content: space-between; margin-bottom: 2rem;"
+				style="display: inline-flex; width: 100%; justify-content: space-between; margin-bottom: 1rem;"
 			>
 				<h3>Moveset</h3>
-				{#if $encounterDisplayStore.games.length > 0}
+				{#if gameVersionGroups.length > 1}
 					<select
 						class="specificGameSelector"
 						id="moveGameSelector"
@@ -348,9 +361,7 @@
 							}
 						}}
 					>
-						{#each uniques($encounterDisplayStore.games.map((game) => {
-								return findGameGroupFromString(game.cookieGroup);
-							})) as gameGroup}
+						{#each gameVersionGroups as gameGroup}
 							{#if gameGroup}
 								<option
 									value={gameGroup[0].cookieGroup}
