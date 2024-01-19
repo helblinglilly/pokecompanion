@@ -6,8 +6,10 @@
 	export let allMoves: IMoves[];
 
 	$: relevantMoves = allMoves.find((moveset) => {
-		if ($encounterDisplayStore) {
-			return moveset.versionGroup === $encounterDisplayStore?.selectedGame?.pokeapiVersionGroup;
+		if ($encounterDisplayStore && $encounterDisplayStore.selectedGameGroup) {
+			return (
+				moveset.versionGroup === $encounterDisplayStore?.selectedGameGroup[0].pokeapiVersionGroup
+			);
 		}
 		return true;
 	});

@@ -13,7 +13,7 @@
 	import Image from '$components/UI/Image.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { games, isPokemonInGame, type IGame } from '$lib/data/games';
+	import { games, isPokemonInGame, findGameGroupFromString } from '$lib/data/games';
 	import Pokedex from '$components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$components/Tags/SelectedTags.svelte';
@@ -31,6 +31,7 @@
 	import BaseStats from '$components/Pokemon/BaseStats.svelte';
 	import Encounters from '$components/Pokemon/Encounters.svelte';
 	import Moveset from '$components/Pokemon/Moveset.svelte';
+	import { uniques } from '$lib/utils/array';
 
 	export let data;
 
@@ -101,7 +102,8 @@
 
 			encounterDisplayStore.set({
 				games: allRelevantGames,
-				selectedGame: allRelevantGames[0]
+				selectedGame: allRelevantGames[0],
+				selectedGameGroup: findGameGroupFromString(allRelevantGames[0].shortName)
 			});
 		}
 	}
@@ -294,7 +296,8 @@
 									selectedGame: games.find(
 										// @ts-ignore
 										(a) => a.pokeapiName === event.target.value
-									)
+									),
+									selectedGameGroup: $encounterDisplayStore.selectedGameGroup
 								});
 							}
 						}}
@@ -338,20 +341,30 @@
 							if (event.target) {
 								encounterDisplayStore.set({
 									games: $encounterDisplayStore.games,
-									selectedGame: games.find(
-										// @ts-ignore
-										(a) => a.pokeapiName === event.target.value
-									)
+									selectedGame: $encounterDisplayStore.selectedGame,
+									// @ts-ignore
+									selectedGameGroup: findGameGroupFromString(event.target.value)
 								});
 							}
 						}}
 					>
-						{#each $encounterDisplayStore.games as game}
-							<option
-								value={game.pokeapiName}
-								selected={$encounterDisplayStore.selectedGame?.pokeapiName === game.pokeapiName}
-								>{game.shortName}</option
-							>
+						{#each uniques($encounterDisplayStore.games.map((game) => {
+								return findGameGroupFromString(game.cookieGroup);
+							})) as gameGroup}
+							{#if gameGroup}
+								<option
+									value={gameGroup[0].cookieGroup}
+									selected={$encounterDisplayStore.selectedGameGroup
+										? $encounterDisplayStore.selectedGameGroup[0].cookieGroup ===
+										  gameGroup[0].cookieGroup
+										: false}
+									>{gameGroup
+										?.map((a) => {
+											return a.shortName;
+										})
+										.join(' / ')}</option
+								>
+							{/if}
 						{/each}
 					</select>
 				{/if}
