@@ -126,6 +126,10 @@
 			<button>Settings</button>
 		</a>
 
+		<a href="/about" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>
+			<button>About</button>
+		</a>
+
 		<a
 			href={`${$currentUser ? `/user/${$currentUser.username}` : '/auth/signin'}`}
 			class="navbar__button hidden--mobile"

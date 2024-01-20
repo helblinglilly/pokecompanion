@@ -118,7 +118,7 @@ body {
 }
 
 hr {
-	background-color: var(--primary);
+	border-color: var(--text);
 	height: 0.2rem;
 	margin-top: 0.2rem;
 	margin-bottom: 0.2rem;
