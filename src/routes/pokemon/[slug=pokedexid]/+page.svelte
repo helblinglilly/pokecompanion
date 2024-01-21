@@ -104,13 +104,13 @@
 				games: allRelevantGames,
 				selectedGame: $selectedGame
 					? $selectedGame
-					: allRelevantGames
+					: allRelevantGames.length > 0
 					? allRelevantGames[0]
 					: undefined,
 				selectedGameGroup: findGameGroupFromString(
 					$selectedGame
 						? $selectedGame.shortName
-						: allRelevantGames
+						: allRelevantGames.length > 0
 						? allRelevantGames[0].shortName
 						: undefined
 				)
