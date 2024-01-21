@@ -102,8 +102,18 @@
 
 			encounterDisplayStore.set({
 				games: allRelevantGames,
-				selectedGame: allRelevantGames[0],
-				selectedGameGroup: findGameGroupFromString(allRelevantGames[0].shortName)
+				selectedGame: $selectedGame
+					? $selectedGame
+					: allRelevantGames
+					? allRelevantGames[0]
+					: undefined,
+				selectedGameGroup: findGameGroupFromString(
+					$selectedGame
+						? $selectedGame.shortName
+						: allRelevantGames
+						? allRelevantGames[0].shortName
+						: undefined
+				)
 			});
 		}
 	}
