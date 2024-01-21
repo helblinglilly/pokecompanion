@@ -1,54 +1,46 @@
-/*
-	Server side sentry logging is not yet supported in non-node
-	environments such as cloudflare or vercel.
-	So server side logging is disabeled for now.
-	Github Issue: https://github.com/getsentry/sentry-javascript/issues/8291
-*/
-// import { sequence } from '@sveltejs/kit/hooks';
-// import * as Sentry from '@sentry/sveltekit';
-import type { Handle, HandleServerError } from '@sveltejs/kit';
-import { v4 as uuidv4 } from 'uuid';
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { PUBLIC_ENVIRONMENT, PUBLIC_POCKETBASE_URL, PUBLIC_SENTRY_DSN } from '$env/static/public';
 import PocketBase from 'pocketbase';
 import { getRawCookie } from '$lib/utils/cookies';
+// Error handling needs revisiting: https://kit.svelte.dev/docs/migrating-to-sveltekit-2#improved-error-handling
+/*
+Workaround for Github Issue: https://github.com/getsentry/sentry-javascript/issues/8291
+Will need to switch to permanent fix once available
+ */
+import { init } from '@jill64/sentry-sveltekit-cloudflare/server';
+import { error } from '$lib/log';
 
-// Needs revisiting: https://kit.svelte.dev/docs/migrating-to-sveltekit-2#improved-error-handling
-export const handleError: HandleServerError = async ({ error, event }) => {
-	const errorId = uuidv4();
-
-	if (process.env.NODE_ENV === 'production') {
-		try {
-			// Sentry.captureException(error, { extra: { event, errorId } });
-		} catch (err) {
-			console.log(`Failed to initialise sentry exception catpure`, err);
+const { onHandle, onError } = init(
+	PUBLIC_SENTRY_DSN,
+	{
+		toucanOptions: {
+			environment: PUBLIC_ENVIRONMENT
 		}
 	}
-
-	if (error && typeof error === 'object') {
-		if (error.toString().includes('Error: Not found:')) {
-			return {
-				message: 'Page not found',
-				status: 404,
-				errorId: '404'
-			};
-		}
-	}
+	// ,
+	// {
+	//   toucanOptions: {
+	//     // ... Other Sentry Config
+	//   },
+	//   handleOptions: {
+	//     handleUnknownRoutes: boolean (default: false)
+	//   },
+	//   enableInDevMode: boolean (default: false)
+	// }
+);
+export const handleError = onError((e, sentryEventId) => {
 	console.dir({
 		level: 'ERROR',
 		timestamp: new Date().toISOString(),
-		errorId: errorId,
-		stacktrace: error,
-		event
+		errorId: sentryEventId,
+		stackTrace: e.error
 	});
+	error(e.message, sentryEventId ?? 'unknown-serverside-error', {
+		status: e.status
+	});
+});
 
-	return {
-		message: 'Server side error',
-		status: 500,
-		errorId
-	};
-};
-
-export const handle: Handle = async ({ event, resolve }) => {
+export const handle = onHandle(async ({ event, resolve }) => {
+	// Your Handle Code
 	// Must initialise PB so that it's available in other server actions
 	const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 
@@ -63,4 +55,4 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
 
 	return response;
-};
+});

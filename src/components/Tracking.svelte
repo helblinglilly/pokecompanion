@@ -2,8 +2,6 @@
 	import { navigating } from '$app/stores';
 	import { logToAxiom } from '$lib/log';
 	import { onMount } from 'svelte';
-	import * as Sentry from '@sentry/browser';
-	import { PUBLIC_SENTRY_DSN } from '$env/static/public';
 	import { removeLastCharIfExists } from '$lib/utils/string';
 	import {
 		homepageMessaging,
@@ -14,6 +12,8 @@
 	import { getCookie } from '$lib/utils/cookies';
 	import type { Languages } from '$lib/utils/language';
 	import { findGameFromString } from '$lib/data/games';
+	import { PUBLIC_ENVIRONMENT, PUBLIC_SENTRY_DSN } from '$env/static/public';
+	import * as Sentry from '@sentry/browser';
 
 	let navsAsNewUser = 0;
 	navigating.subscribe(async (nav) => {
@@ -69,14 +69,11 @@
 
 		Sentry.init({
 			dsn: PUBLIC_SENTRY_DSN,
+			environment: PUBLIC_ENVIRONMENT ?? 'local',
+			integrations: [new Sentry.BrowserTracing()],
 			tracesSampleRate: 1.0,
-			replaysSessionSampleRate: 0.1,
 			replaysOnErrorSampleRate: 1.0,
-			integrations: [
-				new Sentry.Replay({
-					maskAllText: false
-				})
-			]
+			sendDefaultPii: true
 		});
 	});
 </script>

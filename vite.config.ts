@@ -14,6 +14,9 @@ export default defineConfig({
 		// }),
 		sveltekit()
 	],
+	ssr: {
+		noExternal: ['@jill64/sentry-sveltekit-cloudflare']
+	},
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
