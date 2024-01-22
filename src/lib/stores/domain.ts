@@ -22,6 +22,7 @@ export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
 export const maxSearchResults = 15;
 export const pokemonPageSize = 50;
 export const pb = writable(new Pocketbase(PUBLIC_POCKETBASE_URL));
+import * as Sentry from '@sentry/browser';
 
 // TODO - Test this
 export const cookieHandlers = {
@@ -42,6 +43,8 @@ export const cookieHandlers = {
 		selectedGame.set(foundGame);
 
 		selectedGame.subscribe((value) => {
+			Sentry.setTag('selectedGame', value?.name);
+
 			const isInSearchParam = get(page).url.searchParams.get('game');
 
 			if (isInSearchParam) {
@@ -76,6 +79,7 @@ export const cookieHandlers = {
 		primaryLanguage.set(existingValue);
 
 		primaryLanguage.subscribe((value) => {
+			Sentry.setTag('primaryLanguage', value);
 			const isInSearchParam = get(page).url.searchParams.get('primaryLanguage');
 
 			if (!value || isInSearchParam) {
@@ -108,6 +112,7 @@ export const cookieHandlers = {
 		secondaryLanguage.set(existingValue);
 
 		secondaryLanguage.subscribe((value) => {
+			Sentry.setTag('secondaryLanguage', value);
 			const isInSearchParam = get(page).url.searchParams.get('secondaryLanguage');
 
 			if (!value || isInSearchParam) {
@@ -133,6 +138,7 @@ export const cookieHandlers = {
 		versionSpecificSprites.set(existingValue);
 
 		versionSpecificSprites.subscribe((value) => {
+			Sentry.setTag('versionSpecificSprites', value);
 			setCookie('versionSpecificSprites', value.toString());
 		});
 	},
@@ -146,6 +152,7 @@ export const cookieHandlers = {
 		animateSprites.set(existingValue);
 
 		animateSprites.subscribe((value) => {
+			Sentry.setTag('animateSprites', value);
 			setCookie('animateSprites', value.toString());
 		});
 	},
@@ -164,6 +171,10 @@ export const cookieHandlers = {
 		rememberToken.set(existingValue);
 
 		rememberToken.subscribe((value) => {
+			Sentry.setUser({
+				id: value
+			});
+
 			if (!value) {
 				return;
 			}

@@ -4,10 +4,13 @@
 	import { onMount } from 'svelte';
 	import { removeLastCharIfExists } from '$lib/utils/string';
 	import {
+		animateSprites,
 		homepageMessaging,
 		primaryLanguage,
+		rememberToken,
 		secondaryLanguage,
-		selectedGame
+		selectedGame,
+		versionSpecificSprites
 	} from '$lib/stores/domain';
 	import { getCookie } from '$lib/utils/cookies';
 	import type { Languages } from '$lib/utils/language';
@@ -73,7 +76,18 @@
 			integrations: [new Sentry.BrowserTracing()],
 			tracesSampleRate: 1.0,
 			replaysOnErrorSampleRate: 1.0,
-			sendDefaultPii: true
+			initialScope: {
+				user: {
+					id: $rememberToken
+				},
+				tags: {
+					selectedGame: $selectedGame?.name ?? 'No game set',
+					primaryLanguage: $primaryLanguage,
+					secondaryLanguage: $secondaryLanguage,
+					versionSpecificSprites: $versionSpecificSprites,
+					animateSprites: $animateSprites
+				}
+			}
 		});
 	});
 </script>

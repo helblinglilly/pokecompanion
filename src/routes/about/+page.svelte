@@ -1,9 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-
-	onMount(() => {
-		throw new Error('Throwing a mock test in /about');
-	});
 </script>
 
 <div>
