@@ -13,19 +13,19 @@ import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/s
 
 const loadPokemon = async (id: number): Promise<IPokemon> => {
 	const response = await fetch(pokeApiDomain + `/pokemon/${id}`);
-	const body = await response.json();
+	const body = (await response.json()) as IPokemon;
 	return body;
 };
 
 const loadPokemonSpecies = async (id: number): Promise<IPokemonSpecies> => {
 	const response = await fetch(pokeApiDomain + `/pokemon-species/${id}`);
-	const body = await response.json();
+	const body = (await response.json()) as IPokemonSpecies;
 	return body;
 };
 
 const loadPokemonEncounters = async (id: number): Promise<IEncounterResponse[]> => {
 	const response = await fetch(pokeApiDomain + `/pokemon/${id}/encounters`);
-	const body = await response.json();
+	const body = (await response.json()) as IEncounterResponse[];
 	return body;
 };
 
@@ -37,7 +37,7 @@ const loadPokemonForm = async (
 }> => {
 	const response = await fetch(url);
 	const body = await response.json();
-	return body;
+	return body as unknown as { sprites: ISprites; names: Name[] };
 };
 
 export const load = async ({ params, url, cookies }) => {
