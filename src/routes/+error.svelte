@@ -19,7 +19,7 @@
 				style="padding-top: 0; width: 80%; max-width: 450px; margin-left: auto; margin-right: auto;"
 			/>
 
-			<h2 style="padding-top: 2rem;">You are offline</h2>
+			<h2 class="h2" style="padding-top: 2rem;">You are offline</h2>
 			<p>
 				A page that you tried to access hasn't been cached yet, and is therefore not able to load
 			</p>
@@ -28,7 +28,7 @@
 		{:else}
 			<Image src="/missingno.png" alt="missingno" style="margin-left: auto; margin-right: auto;" />
 
-			<h1>Something went wrong!</h1>
+			<h1 class="h1">Something went wrong!</h1>
 
 			<p>
 				Sorry about that! The details below should give some indication as to what happened. If you
@@ -43,7 +43,7 @@
 		<hr />
 
 		<div id="errorDetails">
-			<h2>Status: {$page.error?.status ?? $page.status}</h2>
+			<h2 class="h2">Status: {$page.error?.status ?? $page.status}</h2>
 
 			{#if $page.status === 400 || $page.error?.status === 400}
 				{#if $page.error?.message}

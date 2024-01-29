@@ -306,7 +306,7 @@
 	<div class="column">
 		<div class="card">
 			<div style="display: inline-flex; justify-content: space-between; width: 100%;">
-				<h3 style="margin-top: auto; margin-bottom: auto;">Encounters</h3>
+				<h3 class="h3" style="margin-top: auto; margin-bottom: auto;">Encounters</h3>
 
 				{#if $encounterDisplayStore.games.length > 0}
 					<select
@@ -342,7 +342,7 @@
 	<div class="column">
 		<div class="card">
 			<a href={`${$page.url.pathname + $page.url.search + '#abilities'}`} class="no-style">
-				<h3 id="abilities">Abilities</h3>
+				<h3 class="h3" id="abilities">Abilities</h3>
 			</a>
 			<Abilities abilities={data.pokemon.abilities} />
 		</div>
@@ -355,7 +355,7 @@
 			<div
 				style="display: inline-flex; width: 100%; justify-content: space-between; margin-bottom: 1rem;"
 			>
-				<h3>Moveset</h3>
+				<h3 class="h3">Moveset</h3>
 				{#if gameVersionGroups.length > 1}
 					<select
 						class="specificGameSelector"

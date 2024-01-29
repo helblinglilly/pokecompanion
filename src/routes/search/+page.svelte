@@ -35,7 +35,7 @@
 	<title>Search results - Pokecompanion</title>
 </svelte:head>
 
-<h1>Search results</h1>
+<h1 class="h1">Search results</h1>
 
 {#if errorMessage}
 	<p>{errorMessage}</p>
@@ -45,28 +45,28 @@
 	<div id="searchResults">
 		{#if results.pokemon.length > 0}
 			<div>
-				<h2 id="pokemon">Pokémon</h2>
+				<h2 class="h2" id="pokemon">Pokémon</h2>
 				<PokemonResults pokemonResults={results.pokemon} />
 			</div>
 		{/if}
 
 		{#if results.items.length > 0}
 			<div>
-				<h2 id="items">Items</h2>
+				<h2 class="h2" id="items">Items</h2>
 				<ItemResults itemResults={results.items} />
 			</div>
 		{/if}
 
 		{#if results.abilities.length > 0}
 			<div>
-				<h2 id="abilities">Abilities</h2>
+				<h2 class="h2" id="abilities">Abilities</h2>
 				<AbilityResults abilityResults={results.abilities} />
 			</div>
 		{/if}
 
 		{#if results.moves.length > 0}
 			<div>
-				<h2 id="moves">Moves</h2>
+				<h2 class="h2" id="moves">Moves</h2>
 				<MoveResults moveResults={results.moves} />
 			</div>
 		{/if}

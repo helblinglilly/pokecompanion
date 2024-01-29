@@ -21,12 +21,12 @@
 	};
 </script>
 
-<h1>Account recovery</h1>
+<h1 class="h1">Account recovery</h1>
 
 <div class="columns">
 	<div class="column">
 		<div class="card">
-			<h2>Social recovery</h2>
+			<h2 class="h2">Social recovery</h2>
 			<p>
 				If you have a <b>Google</b> or <b>GitHub</b> account with the same Email address:
 			</p>
@@ -45,7 +45,7 @@
 <div class="columns">
 	<div class="column">
 		<div class="card">
-			<h2>Reset password</h2>
+			<h2 class="h2">Reset password</h2>
 			<InlineTextButton
 				buttonConfig={{ text: 'Reset', onClick: onResetClick, class: 'secondary' }}
 				inputConfig={{ placeholder: 'Email' }}

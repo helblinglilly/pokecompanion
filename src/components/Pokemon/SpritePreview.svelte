@@ -74,7 +74,7 @@
 </div>
 
 <Modal bind:showModal>
-	<h2 slot="header">
+	<h2 class="h2" slot="header">
 		{modalContent.alt}
 	</h2>
 

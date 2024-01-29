@@ -24,9 +24,9 @@
 	}}
 >
 	<div style="display: flex; justify-content: space-between; padding: 2rem;">
-		<h2>{title}</h2>
+		<h2 class="h2">{title}</h2>
 		{#if secondaryTitle}
-			<h2>{secondaryTitle}</h2>
+			<h2 class="h2">{secondaryTitle}</h2>
 		{/if}
 	</div>
 </button>

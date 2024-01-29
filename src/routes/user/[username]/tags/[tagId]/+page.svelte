@@ -161,7 +161,7 @@
 		</button>
 	{/if}
 
-	<h1 style="padding: 0;">{tags.tag.name}</h1>
+	<h1 class="h1" style="padding: 0;">{tags.tag.name}</h1>
 	{#if tags.tag.isPrivate}
 		<Icon name="lock" style="margin-top: auto; margin-bottom: auto;" />
 	{/if}
@@ -261,7 +261,7 @@
 </div>
 
 <Modal bind:showModal={showRenameOverlay}>
-	<h2 slot="header">Rename Tag</h2>
+	<h2 class="h2" slot="header">Rename Tag</h2>
 
 	<InlineTextButton
 		buttonConfig={{
@@ -282,7 +282,7 @@
 </Modal>
 
 <Modal bind:showModal={showDeleteOverlay}>
-	<h2 slot="header">Delete Tag</h2>
+	<h2 class="h2" slot="header">Delete Tag</h2>
 
 	<div style="padding-top: 1rem;">
 		<p>Are you sure you want to delete this tag and all of its contents?</p>

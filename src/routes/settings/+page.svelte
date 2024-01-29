@@ -60,7 +60,7 @@
 </svelte:head>
 
 <main>
-	<h1 style="margin-bottom: 20px;">Settings</h1>
+	<h1 class="h1" style="margin-bottom: 20px;">Settings</h1>
 
 	<div class="columns">
 		<div class="column">
@@ -71,7 +71,7 @@
 
 		<div class="column">
 			<div class="card">
-				<h3>Sprites</h3>
+				<h3 class="h3">Sprites</h3>
 				<div class="input-group">
 					<input
 						on:change={() => {
@@ -102,11 +102,11 @@
 		</div>
 	</div>
 
-	<h2>Language</h2>
+	<h2 class="h2">Language</h2>
 	<div class="columns">
 		<div class="column">
 			<div class="card">
-				<label for="primaryLanguageSelector"><h3>Primary Language</h3></label>
+				<label for="primaryLanguageSelector"><h3 class="h3">Primary Language</h3></label>
 				<select
 					bind:value={$primaryLanguage}
 					on:change={(event) => {

@@ -45,7 +45,7 @@
 	<button class="button secondary" {style} on:click={() => (showModal = true)}> Report </button>
 {/if}
 <Modal bind:showModal>
-	<h2 slot="header">Report {username}</h2>
+	<h2 class="h2" slot="header">Report {username}</h2>
 	<p><i>Optional</i></p>
 
 	<form

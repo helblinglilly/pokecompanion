@@ -31,9 +31,9 @@
 
 <div class="card">
 	{#if primaryFlavourText}
-		<h3>{primaryFlavourText?.flavor_text}</h3>
+		<h3 class="h3">{primaryFlavourText?.flavor_text}</h3>
 	{/if}
 	{#if secondaryFlavourText}
-		<h3>{secondaryFlavourText?.flavor_text}</h3>
+		<h3 class="h3">{secondaryFlavourText?.flavor_text}</h3>
 	{/if}
 </div>

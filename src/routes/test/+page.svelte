@@ -3,7 +3,7 @@
 	export let data;
 </script>
 
-<h1>{JSON.stringify(data)}</h1>
+<h1 class="h1">{JSON.stringify(data)}</h1>
 <ul />
 
 <a href="/">Home</a>
