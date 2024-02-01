@@ -18,7 +18,10 @@ export const animateSprites = writable<boolean>(true);
 export const rememberToken = writable<string>(uuid());
 export const homepageMessaging = writable<string>('');
 export const pokeApiDomain = 'https://pokeapi.co/api/v2';
-export const lastPokedexEntry = PokemonNames[PokemonNames.length - 1].id;
+export const lastPokedexEntry =
+	PokemonNames.findLast((entry) => {
+		return entry.id < 10000;
+	})?.id ?? 5000;
 export const maxSearchResults = 15;
 export const pokemonPageSize = 50;
 export const pb = writable(new Pocketbase(PUBLIC_POCKETBASE_URL));
