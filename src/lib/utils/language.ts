@@ -56,7 +56,7 @@ export const speciesNamesToNormalisedNames = (input: Name[]) => {
 	});
 };
 
-export const getNameEntry = (entries: Name[], languageCode: keyof Languages) => {
+export const getNameEntry = (entries: Name[], languageCode: keyof Languages | undefined) => {
 	const entry = entries.find((a) => {
 		return a.language.name === languageCode;
 	});
