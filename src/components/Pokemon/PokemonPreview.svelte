@@ -32,3 +32,9 @@
 		</p>
 	</div>
 </a>
+
+<style>
+	a {
+		width: 100%;
+	}
+</style>

@@ -885,6 +885,7 @@ export interface IStaticPokemon {
 		ko?: string | undefined;
 		roomaji?: string | undefined;
 	}[];
+	redirect: string | undefined;
 }
 /**
  * Return a scraped entry of a Pokemon with a given ID
@@ -904,7 +905,8 @@ export const getPokemonEntry = (id: number): IStaticPokemon => {
 				}
 			],
 			id: -1,
-			generation: -1
+			generation: -1,
+			redirect: undefined
 		};
 	}
 	return entry;

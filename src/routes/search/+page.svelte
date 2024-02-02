@@ -4,6 +4,7 @@
 	import ItemResults from '$components/Search/ItemResults.svelte';
 	import MoveResults from '$components/Search/MoveResults.svelte';
 	import PokemonResults from '$components/Search/PokemonResults.svelte';
+	import PokemonGroup from '$components/UI/PokemonGroup.svelte';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { searchTerm } from '$lib/stores/searchbar.js';
 	import type { Languages } from '$lib/utils/language.js';
@@ -46,7 +47,11 @@
 		{#if results.pokemon.length > 0}
 			<div>
 				<h2 class="h2" id="pokemon">Pokémon</h2>
-				<PokemonResults pokemonResults={results.pokemon} />
+				<PokemonGroup
+					pokemonResults={results.pokemon}
+					showMoreText="Show more results..."
+					filterTerm=""
+				/>
 			</div>
 		{/if}
 

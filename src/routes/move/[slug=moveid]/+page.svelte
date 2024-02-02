@@ -1,12 +1,14 @@
 <script lang="ts">
 	import PokemonPreview from '$components/Pokemon/PokemonPreview.svelte';
 	import Image from '$components/UI/Image.svelte';
+	import PokemonGroup from '$components/UI/PokemonGroup.svelte';
 	import type { IGame } from '$lib/data/games';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import type { IMove } from '$lib/types/IMoves.js';
 	import { getNameEntries, joinNameEntries } from '$lib/utils/language';
 
 	export let data;
+	let filterTerm = '';
 
 	const findFlavourEntry = (
 		move: IMove,
@@ -54,7 +56,7 @@
 <div class="columns">
 	<div class="column">
 		<h2 class="h3">Overview</h2>
-		<div class="card">
+		<div class="card" style="height: auto;">
 			<div id="moveCard">
 				<Image
 					src={`/icons/types/${data.move.type.name}.webp`}
@@ -119,16 +121,28 @@
 			{/if}
 		</div>
 	</div>
-	<div class="column">
-		<h2 class="h3">Can be learnt by</h2>
-		{#each data.move.learned_by_pokemon as pokemon}
-			<div style="width: 100%;">
-				<PokemonPreview pokemon={{ id: Number(pokemon.url.split('/')[6]) }} />
-			</div>
-		{/each}
-	</div>
+	<div class="column" />
+	<div class="columns" />
 </div>
-<div class="columns" />
+
+<h2 class="h3">Can be learnt by</h2>
+
+{#if data.move.learned_by_pokemon.length > 10}
+	<input
+		style="height: 3rem; padding-left: 2rem;"
+		type="text"
+		placeholder="Filter"
+		bind:value={filterTerm}
+	/>
+{/if}
+
+<PokemonGroup
+	pokemonResults={data.move.learned_by_pokemon.map((val) => {
+		return { id: Number(val.url.split('/')[6]) };
+	})}
+	showMoreText="Show more"
+	{filterTerm}
+/>
 
 <style>
 	#moveCard {

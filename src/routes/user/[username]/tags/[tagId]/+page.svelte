@@ -10,7 +10,7 @@
 	import { error } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
-	import type { ITagPokemon } from '$lib/types/ITags.js';
+	import type { ITag, ITagPokemon } from '$lib/types/ITags.js';
 	import { onMount } from 'svelte';
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import { getPokemonEntry } from '$lib/data/games.js';
@@ -78,7 +78,7 @@
 					throw new Error(`Non-200 status code ${response.status}`);
 				}
 
-				const newBody = await response.json();
+				const newBody = (await response.json()) as ITag;
 				tags.tag = newBody;
 			} catch (err) {
 				addNotification({ message: 'Failed to save tag', level: 'failure' });
