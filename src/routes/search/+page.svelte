@@ -3,7 +3,6 @@
 	import AbilityResults from '$components/Search/AbilityResults.svelte';
 	import ItemResults from '$components/Search/ItemResults.svelte';
 	import MoveResults from '$components/Search/MoveResults.svelte';
-	import PokemonResults from '$components/Search/PokemonResults.svelte';
 	import PokemonGroup from '$components/UI/PokemonGroup.svelte';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { searchTerm } from '$lib/stores/searchbar.js';

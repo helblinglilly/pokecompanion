@@ -4,6 +4,7 @@ import Items from '$lib/data/items.json';
 import Moves from '$lib/data/moves.json';
 import { getSearchParam, getCookieValue } from '../helpers';
 import { termNormaliser } from '$lib/utils/string';
+import type { IStaticPokemon } from '$lib/data/games';
 
 export async function GET({ request }) {
 	const searchTerm = getSearchParam(request.url, 'term');
@@ -36,13 +37,13 @@ export async function GET({ request }) {
 	});
 }
 
-const getPokemonResults = (searchTerm: string, languages: string[]) => {
+const getPokemonResults = (searchTerm: string, languages: string[]): Promise<IStaticPokemon[]> => {
 	const normalisedTerm = termNormaliser(searchTerm);
 
 	return new Promise((resolve) => {
 		const results = PokemonData.filter((pokemon) => {
 			const idMatches = pokemon.id.toString().includes(searchTerm);
-			if (idMatches) {
+			if (idMatches && pokemon.id < 10000) {
 				return true;
 			}
 

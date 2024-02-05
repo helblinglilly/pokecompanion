@@ -909,5 +909,17 @@ export const getPokemonEntry = (id: number): IStaticPokemon => {
 			redirect: undefined
 		};
 	}
-	return entry;
+
+	const speciesId = entry.redirect ? Number(entry.redirect.split('?')[0]) : entry.id;
+
+	if (entry.id > 10000) {
+		return {
+			...entry,
+			id: speciesId
+		};
+	}
+	return {
+		...entry,
+		redirect: speciesId.toString()
+	};
 };
