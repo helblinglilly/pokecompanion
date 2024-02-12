@@ -26,7 +26,7 @@
 </button>
 
 <Modal bind:showModal={showAddNewOverlay}>
-	<h2 slot="header">Create new tag</h2>
+	<h2 class="h2" slot="header">Create new tag</h2>
 
 	{#if Object.keys(initialContent).length > 0}
 		<p style="padding-top: 1rem;">The current item will be added to it after it's created</p>

@@ -8,7 +8,7 @@
 			src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-question.png"
 			alt="Questionmark Incognito"
 		/>
-		<h1>About Pokécompanion</h1>
+		<h1 class="h1">About Pokécompanion</h1>
 	</span>
 
 	<hr />
@@ -45,7 +45,7 @@
 	</section>
 
 	<section>
-		<h2>Legal</h2>
+		<h2 class="h2">Legal</h2>
 		<p>
 			Neither this website, nor its creators or otherwise affiliated are associated with Nintendo.
 			Pokémon and any associated contents displayed are trademarks of Nintendo.

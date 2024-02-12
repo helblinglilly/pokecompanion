@@ -41,7 +41,7 @@
 
 <div class="columns">
 	<div class="column" style="display: grid; justify-content: center;">
-		<h2>Reset your password</h2>
+		<h2 class="h2">Reset your password</h2>
 		<div style="display: grid; gap: 1rem; max-width: 400px;">
 			<input type="password" placeholder="New password" bind:value={newPassword} />
 

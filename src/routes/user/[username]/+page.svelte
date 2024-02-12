@@ -31,7 +31,7 @@
 						{#if $currentUser && $currentUser.username === data.user.username}
 							<ChangeUsername />
 						{:else}
-							<h4 style="text-align: center;">{data.user.username}</h4>
+							<h4 class="h4" style="text-align: center;">{data.user.username}</h4>
 							<div style="display: inline-flex; justify-content: space-around; width: 100%;">
 								<ReportUser username={data.user.username} style="padding: 5px;" />
 								<!-- <button class="button secondary" style="padding: 5px;">Block</button> -->
@@ -45,7 +45,7 @@
 				<div
 					style="display: inline-flex; gap: 2rem; justify-content: space-between; width: 100%; text-align: center;"
 				>
-					<h2 style="padding-bottom: 0;">Tag lists</h2>
+					<h2 class="h2" style="padding-bottom: 0;">Tag lists</h2>
 					{#if $currentUser}
 						<CreateNewTag
 							userId={$currentUser.id}
@@ -71,7 +71,7 @@
 												name="lock"
 											/>
 										{/if}
-										<h4>{tag.name}</h4>
+										<h4 class="h4">{tag.name}</h4>
 									</div>
 									<p style="padding-left: 1rem; min-width: fit-content;">
 										<i>({tag.contents.pokemon.length} entries)</i>
@@ -89,7 +89,7 @@
 			<div class="columns">
 				<div class="column">
 					<div style="padding-top: 1rem; padding-bottom: 1rem;">
-						<h3>Reset password</h3>
+						<h3 class="h3">Reset password</h3>
 						<button
 							class="button secondary"
 							on:click={async () => {
@@ -120,14 +120,14 @@
 					<hr />
 
 					<div style="padding-top: 1rem; padding-bottom: 1rem;">
-						<h3>Email verification</h3>
+						<h3 class="h3">Email verification</h3>
 						<EmailVerification />
 					</div>
 
 					<hr />
 
 					<div style="padding-top: 1.5rem;">
-						<h2>Danger Zone</h2>
+						<h2 class="h2">Danger Zone</h2>
 						<DeleteUser user={$currentUser} />
 					</div>
 				</div>

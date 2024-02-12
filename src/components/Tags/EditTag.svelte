@@ -21,7 +21,7 @@
 >
 
 <Modal bind:showModal={showAddToOverlay}>
-	<h2 slot="header">Add and remove tags</h2>
+	<h2 class="h2" slot="header">Add and remove tags</h2>
 
 	<div style="display: grid; gap: 1rem;">
 		<p>Select the tags which this item should be attached to</p>

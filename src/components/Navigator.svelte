@@ -40,18 +40,19 @@
 		</div>
 	</div>
 	<div class="column" style="display: flex; align-items: center; max-width: fit-content;">
-		<h2 class="mobile-only" id="pokemonId">
+		<h1 class="mobile-only h2" id="pokemonId">
 			#{currentId}
-		</h2>
+		</h1>
 
 		<div class="desktop-only">
 			<div style="display: inline-block; gap: 1rem;">
-				<h2
+				<h1
+					class="h2"
 					id="pokemonName"
 					style="min-width: fit-content; margin-top: auto; margin-bottom: auto; padding-bottom: 0; text-align: center;"
 				>
 					{title}
-				</h2>
+				</h1>
 
 				{#if forms.length > 1}
 					<select
@@ -109,7 +110,7 @@
 <div class="mobile-only">
 	<div class="columns" style="justify-content: space-between;">
 		<div class="column">
-			<h2 style="text-align: center;">{title}</h2>
+			<h1 class="h2" style="text-align: center;">{title}</h1>
 
 			{#if forms.length > 1}
 				<div style="display: inline-flex; width: 100%; justify-content: space-around;">

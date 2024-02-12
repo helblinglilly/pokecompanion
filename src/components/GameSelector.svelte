@@ -8,7 +8,7 @@
 </script>
 
 <div>
-	<label for="gameSelector"><h3>Select Game</h3></label>
+	<label for="gameSelector"><h3 class="h3">Select Game</h3></label>
 	<select
 		name="gameSelector"
 		id="gameSelector"

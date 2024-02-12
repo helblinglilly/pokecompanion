@@ -19,7 +19,7 @@
 	{#if relevantMoves}
 		{#if relevantMoves.levelupMoves.length > 0}
 			<div class="item">
-				<h4>Level up</h4>
+				<h4 class="h4">Level up</h4>
 				{#each relevantMoves.levelupMoves.sort((a, b) => {
 					return a.level > b.level ? 1 : -1;
 				}) as levelMove}
@@ -30,7 +30,7 @@
 
 		{#if relevantMoves.tmMoves.length > 0}
 			<div class="item">
-				<h4>TM / HM</h4>
+				<h4 class="h4">TM / HM</h4>
 				{#each relevantMoves.tmMoves.sort((a, b) => {
 					return a.move.name > b.move.name ? 1 : -1;
 				}) as tmMove}
@@ -41,7 +41,7 @@
 
 		{#if relevantMoves.breedMoves.length > 0}
 			<div class="item">
-				<h4>Breeding</h4>
+				<h4 class="h4">Breeding</h4>
 				{#each relevantMoves.breedMoves.sort((a, b) => {
 					return a.move.name > b.move.name ? 1 : -1;
 				}) as breedMove}
@@ -52,7 +52,7 @@
 
 		{#if relevantMoves.tutorMoves.length > 0}
 			<div class="item">
-				<h4>Tutored</h4>
+				<h4 class="h4">Tutored</h4>
 				{#each relevantMoves.tutorMoves.sort((a, b) => {
 					return a.move.name > b.move.name ? 1 : -1;
 				}) as tutorMove}

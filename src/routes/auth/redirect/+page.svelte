@@ -96,7 +96,7 @@
 <div class="columns">
 	<div class="column centered">
 		<div>
-			<h2>{status}</h2>
+			<h2 class="h2">{status}</h2>
 		</div>
 	</div>
 </div>

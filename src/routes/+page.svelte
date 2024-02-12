@@ -28,7 +28,7 @@
 
 <div class="columns">
 	<div class="column" id="pokemonOTDWrapper">
-		<h2>Pokémon of the day</h2>
+		<h2 class="h2">Pokémon of the day</h2>
 		<PokemonCardEntry
 			pokemon={featuredPokemon}
 			showRemoveButton={false}

@@ -40,7 +40,7 @@
 	{#each pokedexEntries as pokedexEntry}
 		<!-- Add a language flag icon? -->
 		<div style="margin-top: 20px;">
-			<h3>{pokedexEntry.game}</h3>
+			<h3 class="h3">{pokedexEntry.game}</h3>
 			<p>{pokedexEntry.textEntry}</p>
 		</div>
 	{/each}

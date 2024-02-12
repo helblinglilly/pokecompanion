@@ -2,7 +2,7 @@
 	export let mode: 'new' | 'returning';
 </script>
 
-<h1>
+<h1 class="h1">
 	{#if mode === 'new'}
 		Hi! Welcome to Pokécompanion
 	{/if}
