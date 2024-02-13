@@ -96,6 +96,7 @@
 
 <svelte:head>
 	<title>Pokécompanion</title>
+	<meta property="og:image" content="socialpreview/generic.svg" />
 </svelte:head>
 
 <ScrollToTop />
