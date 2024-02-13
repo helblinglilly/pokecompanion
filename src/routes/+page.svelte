@@ -17,7 +17,6 @@
 </script>
 
 <svelte:head>
-	<title>Pokécompanion</title>
 	<link rel="stylesheet" href="styles/home.css" />
 </svelte:head>
 
