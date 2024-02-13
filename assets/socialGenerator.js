@@ -17,14 +17,36 @@ function getLastPokemonId() {
 }
 const lastPokemonId = getLastPokemonId();
 
-function convertSvgToPng(svgContent, pngFilePath, width, height) {
-	sharp(Buffer.from(svgContent), { density: 300 }) // Set density for better quality (optional)
-		.resize(width, height)
-		.toFile(pngFilePath, (err, info) => {
+function convertSvgToPng(svgContent, pngFilePath, width, height, overlayBuffer) {
+	// sharp(Buffer.from(svgContent), { density: 300 }) // Set density for better quality (optional)
+	// 	.resize(width, height)
+	// 	.toFile(pngFilePath, (err, info) => {
+	// 		if (err) {
+	// 			console.error('Error converting SVG to PNG:', err, info);
+	// 		}
+	// 	});
+	const image = sharp(Buffer.from(svgContent), { density: 300 }) // Set density for better quality (optional)
+		.resize(width, height);
+	if (overlayBuffer) {
+		// image.composite([{ input: overlayBuffer, top: 20, left: 20 }]); // Adjust top and left values as needed
+		sharp(overlayBuffer)
+			.resize({ width: 300, height: 300 }) // Scale the image by 2x
+			.toBuffer()
+			.then((scaledOverlayBuffer) => {
+				image.composite([{ input: scaledOverlayBuffer, top: 280, left: 270 }]); // Adjust top and left values as needed
+				image.toFile(pngFilePath, (err, info) => {
+					if (err) {
+						console.error('Error converting SVG to PNG:', err, info);
+					}
+				});
+			});
+	} else {
+		image.toFile(pngFilePath, (err, info) => {
 			if (err) {
 				console.error('Error converting SVG to PNG:', err, info);
 			}
 		});
+	}
 }
 
 if (!fs.existsSync('./static/socialpreview')) {
@@ -62,6 +84,7 @@ convertSvgToPng(pokemonPage, `./static/socialpreview/pokemonPage.png`, 1200, 630
 const movesPage = genericFile.replace(/Top Text/, 'Pokécompanion').replace(/Bottom Text/, 'Moves');
 convertSvgToPng(movesPage, `./static/socialpreview/moves.png`, 1200, 630);
 
+// for (let i = 0; i < 2; i++) {
 for (let i = 0; i < lastPokemonId; i++) {
 	const name = PokemonNames[i].names.find((name) => {
 		return name.en;
@@ -97,7 +120,8 @@ for (let i = 0; i < lastPokemonId; i++) {
 				fullData,
 				`./static/socialpreview/pokemon/${i + 1}/shiny-female.png`,
 				1200,
-				630
+				630,
+				buffer
 			);
 
 			const shinyMale = fullData.replace('id="female"', 'id="female" style="display: none;"');
@@ -105,16 +129,29 @@ for (let i = 0; i < lastPokemonId; i++) {
 				shinyMale,
 				`./static/socialpreview/pokemon/${i + 1}/shiny-male.png`,
 				1200,
-				630
+				630,
+				buffer
 			);
 			const male = shinyMale.replace('id="shiny"', 'id="shiny" style="display: none;"');
-			convertSvgToPng(male, `./static/socialpreview/pokemon/${i + 1}/male.png`, 1200, 630);
+			convertSvgToPng(male, `./static/socialpreview/pokemon/${i + 1}/male.png`, 1200, 630, buffer);
 
 			const female = fullData.replace('id="shiny"', 'id="shiny" style="display: none;"');
-			convertSvgToPng(female, `./static/socialpreview/pokemon/${i + 1}/female.png`, 1200, 630);
+			convertSvgToPng(
+				female,
+				`./static/socialpreview/pokemon/${i + 1}/female.png`,
+				1200,
+				630,
+				buffer
+			);
 
 			const generic = female.replace('id="gender"', 'id="gender" style="display: none;"');
-			convertSvgToPng(generic, `./static/socialpreview/pokemon/${i + 1}/generic.png`, 1200, 630);
+			convertSvgToPng(
+				generic,
+				`./static/socialpreview/pokemon/${i + 1}/generic.png`,
+				1200,
+				630,
+				buffer
+			);
 		})
 		.catch((err) => console.error(`Error fetching image: ${err}`));
 }
