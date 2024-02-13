@@ -106,11 +106,11 @@
     <g id="primary-text-wrapper" serif:id="primary text" transform="matrix(0.51568,0,0,0.51568,64.4451,50.1325)">
         <g transform="matrix(170.649,0,0,170.649,1968.72,373)">
         </g>
-        <text id="primary-text" x="645px" y="373px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:170.649px;fill:white;">Top Text</text>
+        <text id="primary-text" x="560px" y="373px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:170.649px;fill:white;">Top Text</text>
     </g>
     
     <g id="secondary-text-wrapper" transform="matrix(0.51568,0,0,0.51568,62.9976,151.247)">
-        <text id="secondary-text" x="645px" y="373px" style="font-family:'Helvetica';font-size:170.649px;fill:white;">Bottom Text</text>
+        <text id="secondary-text" x="560px" y="373px" style="font-family:'Helvetica';font-size:170.649px;fill:white;">Bottom Text</text>
     </g>
     <g transform="matrix(7.40126,0,0,7.40126,-71.1429,107.765)">
         <use xlink:href="#pokemonSprite" x="0" y="0" width="68px" height="56px"/>
