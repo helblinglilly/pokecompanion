@@ -14,6 +14,9 @@
 
 	let isMobileMenuExpanded = false;
 
+	let socialDescription =
+		'Explore the world of the Pokémon video games without the information overload. Set your game and never get lost in the flood of information again!';
+
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
 
@@ -97,6 +100,22 @@
 <svelte:head>
 	<title>Pokécompanion</title>
 	<meta property="og:image" content="/socialpreview/generic.png" />
+	<meta name="description" content={socialDescription} />
+
+	<!-- Facebook Meta Tags -->
+	<meta property="og:url" content="https://pokecompanion.helbling.uk" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Pokécompanion" />
+	<meta property="og:description" content={socialDescription} />
+	<meta property="og:image" content="/socialpreview/generic.png" />
+
+	<!-- Twitter Meta Tags -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta property="twitter:domain" content="/socialpreview/generic.png" />
+	<meta property="twitter:url" content="https://pokecompanion.helbling.uk" />
+	<meta name="twitter:title" content="Pokécompanion" />
+	<meta name="twitter:description" content={socialDescription} />
+	<meta name="twitter:image" content="/socialpreview/generic.png" />
 </svelte:head>
 
 <ScrollToTop />
