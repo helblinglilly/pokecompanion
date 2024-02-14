@@ -98,8 +98,6 @@
 <Tracking />
 
 <svelte:head>
-	<title>Pokécompanion</title>
-
 	<meta name="description" content={socialDescription} />
 	<meta property="og:description" content={socialDescription} />
 	<meta name="twitter:description" content={socialDescription} />

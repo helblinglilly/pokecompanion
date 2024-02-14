@@ -33,6 +33,8 @@
 
 <svelte:head>
 	<title>Search results - Pokecompanion</title>
+	<meta property="og:image" content={`/socialpreview/results.png`} />
+	<meta name="twitter:image" content={`/socialpreview/results.png`} />
 </svelte:head>
 
 <h1 class="h1">Search results</h1>

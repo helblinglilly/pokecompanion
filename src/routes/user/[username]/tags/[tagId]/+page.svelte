@@ -126,6 +126,9 @@
 
 <svelte:head>
 	<title>{tags.tag.name} - Pokécompanion</title>
+
+	<meta property="og:image" content={`/socialpreview/generic.png`} />
+	<meta name="twitter:image" content={`/socialpreview/generic.png`} />
 </svelte:head>
 
 <Breadcrumbs

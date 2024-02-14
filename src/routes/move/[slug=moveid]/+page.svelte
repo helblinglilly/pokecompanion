@@ -49,6 +49,14 @@
 	$: secondaryEffectEntry = findEffectEntry(data.move, $secondaryLanguage);
 </script>
 
+<svelte:head>
+	<title
+		>{getNameEntries(data.move.names, $primaryLanguage, $secondaryLanguage).primary} - Pokécompanion</title
+	>
+
+	<meta property="og:image" content={`/socialpreview/moves.png`} />
+	<meta name="twitter:image" content={`/socialpreview/moves.png`} />
+</svelte:head>
 <h1 class="h2">
 	{joinNameEntries(getNameEntries(data.move.names, $primaryLanguage, $secondaryLanguage), '-')}
 </h1>
