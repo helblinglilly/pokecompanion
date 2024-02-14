@@ -18,17 +18,9 @@ function getLastPokemonId() {
 const lastPokemonId = getLastPokemonId();
 
 function convertSvgToPng(svgContent, pngFilePath, width, height, overlayBuffer) {
-	// sharp(Buffer.from(svgContent), { density: 300 }) // Set density for better quality (optional)
-	// 	.resize(width, height)
-	// 	.toFile(pngFilePath, (err, info) => {
-	// 		if (err) {
-	// 			console.error('Error converting SVG to PNG:', err, info);
-	// 		}
-	// 	});
 	const image = sharp(Buffer.from(svgContent), { density: 300 }) // Set density for better quality (optional)
 		.resize(width, height);
 	if (overlayBuffer) {
-		// image.composite([{ input: overlayBuffer, top: 20, left: 20 }]); // Adjust top and left values as needed
 		sharp(overlayBuffer)
 			.resize({ width: 300, height: 300 }) // Scale the image by 2x
 			.toBuffer()
@@ -39,6 +31,9 @@ function convertSvgToPng(svgContent, pngFilePath, width, height, overlayBuffer) 
 						console.error('Error converting SVG to PNG:', err, info);
 					}
 				});
+			})
+			.catch((err) => {
+				console.log(`Failure when overlaying image ${pngFilePath} - ${err}`);
 			});
 	} else {
 		image.toFile(pngFilePath, (err, info) => {
@@ -99,16 +94,7 @@ for (let i = 0; i < lastPokemonId; i++) {
 			return { buffer: await res.arrayBuffer(), status: res.status };
 		})
 		.then(({ buffer, status }) => {
-			const base64Image = Buffer.from(buffer).toString('base64');
-			const dataUrl = `data:image/jpeg;base64,${base64Image}`;
-
-			const regex = /<image[^>]*>/;
-			const newImageTag = `<image id="pokemonSprite" ${
-				status === 404 ? 'style="display: none;"' : ''
-			} x="50" y="20" width="45px" height="56px" xlink:href="${dataUrl}" />`;
-
 			const fullData = pokemonFile
-				.replace(regex, newImageTag)
 				.replace(/Top Text/, 'Pokécompanion')
 				.replace(/Bottom Text/, name.en);
 
@@ -121,7 +107,7 @@ for (let i = 0; i < lastPokemonId; i++) {
 				`./static/socialpreview/pokemon/${i + 1}/shiny-female.png`,
 				1200,
 				630,
-				buffer
+				status === 200 ? buffer : undefined
 			);
 
 			const shinyMale = fullData.replace('id="female"', 'id="female" style="display: none;"');
@@ -130,7 +116,7 @@ for (let i = 0; i < lastPokemonId; i++) {
 				`./static/socialpreview/pokemon/${i + 1}/shiny-male.png`,
 				1200,
 				630,
-				buffer
+				status === 200 ? buffer : undefined
 			);
 			const male = shinyMale.replace('id="shiny"', 'id="shiny" style="display: none;"');
 			convertSvgToPng(male, `./static/socialpreview/pokemon/${i + 1}/male.png`, 1200, 630, buffer);
@@ -141,7 +127,7 @@ for (let i = 0; i < lastPokemonId; i++) {
 				`./static/socialpreview/pokemon/${i + 1}/female.png`,
 				1200,
 				630,
-				buffer
+				status === 200 ? buffer : undefined
 			);
 
 			const generic = female.replace('id="gender"', 'id="gender" style="display: none;"');
@@ -150,7 +136,7 @@ for (let i = 0; i < lastPokemonId; i++) {
 				`./static/socialpreview/pokemon/${i + 1}/generic.png`,
 				1200,
 				630,
-				buffer
+				status === 200 ? buffer : undefined
 			);
 		})
 		.catch((err) => console.error(`Error fetching image: ${err}`));
