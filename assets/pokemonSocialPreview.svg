@@ -115,7 +115,4 @@
     <g transform="matrix(7.40126,0,0,7.40126,-71.1429,107.765)">
         <use xlink:href="#pokemonSprite" x="0" y="0" width="68px" height="56px"/>
     </g>
-    <defs>
-        <image id="pokemonSprite" x="13" y="9" width="45px" height="56px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAA4CAYAAABE814IAAABFklEQVRo3u2XvQ3CMBBGmYsuKSmzAiUlJSswAiswgldgDNYwnKUvOk5ORxGd35NOdn4aP31ny4cDAAAAAAAAAAAAAAAAAAAAAADAnqhhHFvG7XWrfhw9GfXyXJoMG0cVsoqYr8dWmjspw4hpi/YC4qh5Vil+UXW5L93Fb82zSfEbZZ2mqQmxhfbERCn2T0ohqvPj3KRIjOT0hOh7WiEmQxuoxPi0+Moq5CcdkmEV0+IT44WkS4ct2kvZqthC9pxORjnNaxp82/RkxLTYc+rNVC0jATpxJCmWWiu9FB2/wktQMlILiS1i797fVooyJMBLydg2652l1xY+FVFIKSX9Xab2qidotIvdjyS1jpHxqP1HcgBg/3wAXy794AZDAeYAAAAASUVORK5CYII="/>
-    </defs>
 </svg>
