@@ -4,8 +4,8 @@
 
 <svelte:head>
 	<title>About - Pokécompanion</title>
-	<meta property="og:image" content={`/socialpreview/about.png`} />
-	<meta name="twitter:image" content={`/socialpreview/about.png`} />
+	<meta property="og:image" content={`/api/socialpreview/about`} />
+	<meta name="twitter:image" content={`/api/socialpreview/about`} />
 </svelte:head>
 <div>
 	<span>
