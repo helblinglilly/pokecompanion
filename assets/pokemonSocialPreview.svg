@@ -88,8 +88,8 @@
         </g>
     </g>
     <g id="gender" transform="matrix(1.12933,0,0,1.12933,-186.162,-101.837)">
-        <g id="male" transform="matrix(0.909811,0,0,0.909811,120.054,67.4734)">
-            <g id="blue" transform="matrix(0.282422,0.282422,-0.414453,0.414453,1184.89,540.888)">
+        <g id="male" transform="matrix(0.909811,0,0,0.909811,127.138,86.7005)">
+            <g id="blue" transform="matrix(0.282422,0.282422,-0.461085,0.461085,1164.22,576.18)">
                 <rect x="-191" y="-402" width="494" height="890" style="fill:rgb(37,75,226);"/>
             </g>
             <g transform="matrix(0.234106,-2.77556e-17,0,0.234106,1121.07,575.531)">
@@ -97,21 +97,21 @@
             </g>
         </g>
         <g id="female" transform="matrix(0.909811,0,0,0.909811,120.054,67.4734)">
-            <g id="pink" transform="matrix(0.267026,0.267026,-0.403529,0.403529,1161.13,557.392)">
+            <g id="pink" transform="matrix(0.292067,0.292067,-0.403529,0.403529,1145.76,622.478)">
                 <rect x="-191" y="-402" width="494" height="890" style="fill:rgb(236,59,146);"/>
             </g>
-            <g transform="matrix(0.234106,-2.77556e-17,0,0.234106,1101.76,598.768)">
+            <g transform="matrix(0.234106,-2.77556e-17,0,0.234106,1128.49,598.768)">
                 <text x="0px" y="0px" style="font-family:'AppleColorEmoji', 'Apple Color Emoji';font-size:250px;fill:white;">♀</text>
             </g>
         </g>
     </g>
     <g id="primary-text-wrapper" transform="matrix(0.51568,0,0,0.51568,353.226,242.481)">
-        <g serif:id="primary text">
+        <g id="primary-text1" serif:id="primary text">
             <text id="primary-text" serif:id="primary-text" x="0px" y="0px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:170.649px;fill:white;">Top Text</text>
         </g>
     </g>
     <g id="secondary-text-wrapper" transform="matrix(0.51568,0,0,0.51568,351.778,343.596)">
-        <g id="secondary-text-1">
+        <g id="secondary-text1">
             <text id="secondary-text" serif:id="secondary-text" x="0px" y="0px" style="font-family:'Helvetica';font-size:170.649px;fill:white;">Bottom Text</text>
         </g>
     </g>
