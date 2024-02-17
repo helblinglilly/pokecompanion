@@ -19,7 +19,7 @@
 {/if}
 
 <Modal bind:showModal>
-	<h2 slot="header">Pokédex Entries</h2>
+	<h2 class="h2" slot="header">Pokédex Entries</h2>
 
 	{#each pokedexEntries as pokedexEntry}
 		<!-- Add a language flag icon? -->
