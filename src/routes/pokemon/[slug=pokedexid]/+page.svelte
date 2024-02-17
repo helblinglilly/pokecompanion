@@ -201,7 +201,7 @@
 
 <SocialPreview
 	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
-	previewImage={`/socialpreview/pokemon/${data.pokemon.id}/${filename}.png`}
+	previewImage={`/socialpreview/pokemon/${data.id}/${filename}.png`}
 	description={data.species.flavor_text_entries.length > 0
 		? data.species.flavor_text_entries[0].textEntry
 		: `View ${getMultiLanguageName(
