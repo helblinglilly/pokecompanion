@@ -16,6 +16,7 @@
 	import { getPokemonEntry } from '$lib/data/games.js';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { termNormaliser } from '$lib/utils/string.js';
+	import SocialPreview from '$components/SocialPreview.svelte';
 
 	export let data;
 	$: tags = data;
@@ -124,12 +125,7 @@
 	};
 </script>
 
-<svelte:head>
-	<title>{tags.tag.name} - Pokécompanion</title>
-
-	<meta property="og:image" content={`/socialpreview/generic.png`} />
-	<meta name="twitter:image" content={`/socialpreview/generic.png`} />
-</svelte:head>
+<SocialPreview title={`${tags.tag.name} - Pokécompanion`} />
 
 <Breadcrumbs
 	breadcrumbs={[

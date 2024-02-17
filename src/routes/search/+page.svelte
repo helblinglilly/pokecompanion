@@ -3,6 +3,7 @@
 	import AbilityResults from '$components/Search/AbilityResults.svelte';
 	import ItemResults from '$components/Search/ItemResults.svelte';
 	import MoveResults from '$components/Search/MoveResults.svelte';
+	import SocialPreview from '$components/SocialPreview.svelte';
 	import PokemonGroup from '$components/UI/PokemonGroup.svelte';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { searchTerm } from '$lib/stores/searchbar.js';
@@ -31,11 +32,11 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Search results - Pokecompanion</title>
-	<meta property="og:image" content={`/socialpreview/results.png`} />
-	<meta name="twitter:image" content={`/socialpreview/results.png`} />
-</svelte:head>
+<SocialPreview
+	title={`${data.searchTerm} results`}
+	previewImage="/socialpreview/results.png"
+	description={`View results across Pokémon, Items, Moves and Abilities`}
+/>
 
 <h1 class="h1">Search results</h1>
 

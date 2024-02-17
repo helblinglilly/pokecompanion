@@ -3,14 +3,16 @@
 	import Github from '$components/Auth/Github.svelte';
 	import Google from '$components/Auth/Google.svelte';
 	import Spotify from '$components/Auth/Spotify.svelte';
+	import SocialPreview from '$components/SocialPreview.svelte';
 	import type { IAuthProvider } from './+page';
 
 	export let data: { oAuthMethods: IAuthProvider[] };
 </script>
 
-<svelte:head>
-	<title>Sign in - Pokecompanion</title>
-</svelte:head>
+<SocialPreview
+	title="Sign In - Pokécompanion"
+	description={`Manage your tags to organise the world of Pokémon to your heart's content`}
+/>
 
 {#each data.oAuthMethods.sort((a, b) => (a.name < b.name ? -1 : 1)) as oAuthMethod}
 	{#if oAuthMethod.name === 'google'}

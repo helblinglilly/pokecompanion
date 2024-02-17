@@ -1,5 +1,6 @@
 <script lang="ts">
 	import GameSelector from '$components/GameSelector.svelte';
+	import SocialPreview from '$components/SocialPreview.svelte';
 	import {
 		animateSprites,
 		primaryLanguage,
@@ -55,11 +56,7 @@
 	};
 </script>
 
-<svelte:head>
-	<title>Settings - Pokecompanion</title>
-	<meta property="og:image" content={`/socialpreview/settings.png`} />
-	<meta name="twitter:image" content={`/socialpreview/settings.png`} />
-</svelte:head>
+<SocialPreview title="Settings - Pokécompanion" previewImage="/socialpreview/settings.png" />
 
 <main>
 	<h1 class="h1" style="margin-bottom: 20px;">Settings</h1>

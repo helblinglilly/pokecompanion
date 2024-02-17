@@ -1,4 +1,5 @@
 <script lang="ts">
+	import SocialPreview from '$components/SocialPreview.svelte';
 	import Image from '$components/UI/Image.svelte';
 	import PokemonGroup from '$components/UI/PokemonGroup.svelte';
 	import type { IGame } from '$lib/data/games';
@@ -50,14 +51,11 @@
 	$: names = getNameEntries(data.move.names, $primaryLanguage, $secondaryLanguage);
 </script>
 
-<svelte:head>
-	<title
-		>{getNameEntries(data.move.names, $primaryLanguage, $secondaryLanguage).primary} - Pokécompanion</title
-	>
-
-	<meta property="og:image" content={`/socialpreview/moves.png`} />
-	<meta name="twitter:image" content={`/socialpreview/moves.png`} />
-</svelte:head>
+<SocialPreview
+	title={`${names.primary ?? names.secondary} - Pokécompanion`}
+	previewImage="/socialpreview/moves.png"
+	description={primaryEffectEntry ?? secondaryEffectEntry}
+/>
 
 <div style="width: 100%; display: inline-flex; justify-content: center;">
 	<div class="card centeredDesktopContent">

@@ -6,6 +6,7 @@
 	import { Generations, Regions } from '$lib/data/games';
 	import PokemonPreview from '$components/Pokemon/PokemonPreview.svelte';
 	import { pokemonPageSize } from '$lib/stores/domain';
+	import SocialPreview from '$components/SocialPreview.svelte';
 
 	const numberOfPages = Math.ceil(PokemonNames.length / pokemonPageSize);
 
@@ -32,11 +33,7 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Pokémon - Pokécompanion</title>
-	<meta property="og:image" content={`/socialpreview/pokemonPage.png`} />
-	<meta name="twitter:image" content={`/socialpreview/pokemonPage.png`} />
-</svelte:head>
+<SocialPreview title="Pokémon - Pokécompanion" previewImage="/socialpreview/pokemonPage.png" />
 
 <div class="columns">
 	<div class="column" style="display: flex; align-content: center;">

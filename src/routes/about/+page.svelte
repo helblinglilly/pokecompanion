@@ -1,12 +1,10 @@
 <script>
+	import SocialPreview from '$components/SocialPreview.svelte';
 	import { onMount } from 'svelte';
 </script>
 
-<svelte:head>
-	<title>About - Pokécompanion</title>
-	<meta property="og:image" content={`/socialpreview/about.png`} />
-	<meta name="twitter:image" content={`/socialpreview/about.png`} />
-</svelte:head>
+<SocialPreview title="About - Pokécompanion" previewImage="/socialpreview/about.png" />
+
 <div>
 	<span>
 		<img

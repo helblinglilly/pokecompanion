@@ -38,6 +38,7 @@
 	import Encounters from '$components/Pokemon/Encounters.svelte';
 	import Moveset from '$components/Pokemon/Moveset.svelte';
 	import { uniques } from '$lib/utils/array';
+	import SocialPreview from '$components/SocialPreview.svelte';
 
 	export let data;
 
@@ -181,14 +182,31 @@
 			}
 		});
 	});
+
+	const filename =
+		$pokemonDisplayStore.showFemaleSpriteIfExists && !$pokemonDisplayStore.showShinySpriteIfExists
+			? 'female'
+			: $pokemonDisplayStore.showFemaleSpriteIfExists &&
+			  $pokemonDisplayStore.showShinySpriteIfExists
+			? 'shiny-female'
+			: !$pokemonDisplayStore.showFemaleSpriteIfExists &&
+			  !$pokemonDisplayStore.showShinySpriteIfExists
+			? 'male'
+			: !$pokemonDisplayStore.showFemaleSpriteIfExists &&
+			  $pokemonDisplayStore.showShinySpriteIfExists
+			? 'shiny-male'
+			: 'generic';
 </script>
 
-<svelte:head>
-	<title
-		>#{data.id}
-		{`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}</title
-	>
-</svelte:head>
+<SocialPreview
+	title={`${getMultiLanguageName(
+		data.species.names,
+		$primaryLanguage,
+		$secondaryLanguage
+	)} - Pokécompanion`}
+	previewImage={`/socialpreview/pokemon/${data.pokemon.id}/${filename}.png`}
+	description={`View results across Pokémon, Items, Moves and Abilities`}
+/>
 
 <Breadcrumbs
 	breadcrumbs={[

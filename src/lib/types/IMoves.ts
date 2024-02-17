@@ -148,5 +148,5 @@ export async function getMove(id: string | number, selectedGame: IGame | undefin
 		body.damage_class.name = getLegacyDamageClass(body.damage_class.name, body.type.name);
 	}
 
-	if (selectedGame.generation) return body;
+	return body;
 }

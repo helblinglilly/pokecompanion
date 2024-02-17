@@ -11,16 +11,12 @@
 	import { addNotification } from '$lib/stores/notifications';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tagsStore';
+	import SocialPreview from '$components/SocialPreview.svelte';
 
 	export let data;
 </script>
 
-<svelte:head>
-	<title>{data.user.username}</title>
-
-	<meta property="og:image" content={`/socialpreview/generic.png`} />
-	<meta name="twitter:image" content={`/socialpreview/generic.png`} />
-</svelte:head>
+<SocialPreview title={`${data.user.username} - Pokécompanion`} />
 
 <div id="userWrapper">
 	<div class="card">
