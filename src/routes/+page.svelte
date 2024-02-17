@@ -17,8 +17,10 @@
 </script>
 
 <svelte:head>
-	<title>Pokécompanion</title>
 	<link rel="stylesheet" href="styles/home.css" />
+	<title>Pokécompanion</title>
+	<meta property="og:image" content={`/socialpreview/home.png`} />
+	<meta name="twitter:image" content={`/socialpreview/home.png`} />
 </svelte:head>
 
 <!-- {#if $homepageMessaging === 'new-visitor' || !$homepageMessaging} -->

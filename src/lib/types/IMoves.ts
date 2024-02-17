@@ -1,3 +1,5 @@
+import type { IGame } from '$lib/data/games';
+import { pokeApiDomain } from '$lib/stores/domain';
 import type { Name, VersionGroup } from './IPokemon';
 
 export interface IMove {
@@ -97,4 +99,54 @@ export interface IMove {
 		name: string;
 		url: string;
 	};
+}
+
+const legacyPhysicalTypes = [
+	'normal',
+	'fighting',
+	'poison',
+	'ground',
+	'flying',
+	'bug',
+	'rock',
+	'ghost',
+	'steel'
+];
+const legacySpecialTypes = [
+	'fire',
+	'water',
+	'electric',
+	'grass',
+	'ice',
+	'physic',
+	'dragon',
+	'dark'
+];
+
+const getLegacyDamageClass = (existing: string, type: string) => {
+	if (existing === 'status') {
+		return 'status';
+	}
+	if (legacyPhysicalTypes.includes(type)) {
+		return 'physical';
+	}
+	if (legacySpecialTypes.includes(type)) {
+		return 'special';
+	}
+	return existing;
+};
+
+export async function getMove(id: string | number, selectedGame: IGame | undefined) {
+	const response = await fetch(pokeApiDomain + `/move/${id}`);
+	const body = (await response.json()) as IMove;
+
+	if (!selectedGame) {
+		return body;
+	}
+
+	if (selectedGame.generation.number <= 3) {
+		body.damage_class.name = getLegacyDamageClass(body.damage_class.name, body.type.name);
+	}
+
+	if (selectedGame.generation) return body;
 }

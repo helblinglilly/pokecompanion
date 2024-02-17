@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Image from '$components/UI/Image.svelte';
-	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
-	import type { IMove } from '$lib/types/IMoves';
+	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
+	import { getMove, type IMove } from '$lib/types/IMoves';
 	import { getNameEntry } from '$lib/utils/language';
 	import { onMount } from 'svelte';
 
@@ -10,12 +10,9 @@
 
 	let move: IMove | undefined;
 
-	// Will need to do all sorts of adjustments here
-	// Like adjust for fairy type, Gen 3 special/physical being tied to
-	// the main type
 	onMount(async () => {
-		const response = await fetch(url);
-		move = (await response.json()) as IMove;
+		const id = url.split('/')[6];
+		move = await getMove(id, $selectedGame);
 	});
 
 	$: primaryName = move ? getNameEntry(move.names, $primaryLanguage) : undefined;
@@ -23,7 +20,7 @@
 		move && $secondaryLanguage ? getNameEntry(move.names, $secondaryLanguage) : undefined;
 </script>
 
-<button>
+<button class="button secondary">
 	{#if move}
 		<a href={`/move/${move.id}`}>
 			<table>
@@ -87,12 +84,11 @@
 
 	button {
 		width: 100%;
-		border: 1px solid var(--secondary);
 		border-radius: 0.5rem;
-		padding-left: 0.5rem;
+		padding-left: 1rem;
 		padding-right: 0.5rem;
-		padding-top: 0.25rem;
-		padding-bottom: 0.25rem;
-		margin-bottom: 0.5rem;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+		margin-bottom: 1rem;
 	}
 </style>

@@ -82,4 +82,8 @@
 			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 		}
 	}
+
+	.item > h4 {
+		padding-bottom: 1rem;
+	}
 </style>

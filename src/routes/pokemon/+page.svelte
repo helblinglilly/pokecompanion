@@ -34,6 +34,8 @@
 
 <svelte:head>
 	<title>Pokémon - Pokécompanion</title>
+	<meta property="og:image" content={`/socialpreview/pokemonPage.png`} />
+	<meta name="twitter:image" content={`/socialpreview/pokemonPage.png`} />
 </svelte:head>
 
 <div class="columns">

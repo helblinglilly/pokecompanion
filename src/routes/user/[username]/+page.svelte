@@ -17,6 +17,9 @@
 
 <svelte:head>
 	<title>{data.user.username}</title>
+
+	<meta property="og:image" content={`/socialpreview/generic.png`} />
+	<meta name="twitter:image" content={`/socialpreview/generic.png`} />
 </svelte:head>
 
 <div id="userWrapper">
