@@ -193,7 +193,7 @@
 			: $page.url.searchParams.get('gender') === 'male' &&
 			  $page.url.searchParams.get('shiny') !== 'true'
 			? 'male'
-			: $page.url.searchParams.get('gender') === 'female' &&
+			: $page.url.searchParams.get('gender') === 'male' &&
 			  $page.url.searchParams.get('shiny') === 'true'
 			? 'shiny-male'
 			: 'generic';
