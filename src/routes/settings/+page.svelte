@@ -57,8 +57,8 @@
 
 <svelte:head>
 	<title>Settings - Pokecompanion</title>
-	<meta property="og:image" content={`/socialpreview/pokemon/settings.png`} />
-	<meta name="twitter:image" content={`/socialpreview/pokemon/settings.png`} />
+	<meta property="og:image" content={`/socialpreview/settings.png`} />
+	<meta name="twitter:image" content={`/socialpreview/settings.png`} />
 </svelte:head>
 
 <main>
