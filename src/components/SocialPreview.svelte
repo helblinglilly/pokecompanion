@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-	<title>{title}</title>
+	<title>{title + ' - Pokécompanion'}</title>
 	<meta property="og:title" content={title} />
 	<meta name="twitter:title" content={title} />
 

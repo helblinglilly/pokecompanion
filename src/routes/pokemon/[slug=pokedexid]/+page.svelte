@@ -200,11 +200,7 @@
 </script>
 
 <SocialPreview
-	title={`${getMultiLanguageName(
-		data.species.names,
-		$primaryLanguage,
-		$secondaryLanguage
-	)} - Pokécompanion`}
+	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
 	previewImage={`/socialpreview/pokemon/${data.pokemon.id}/${filename}.png`}
 	description={`View results across Pokémon, Items, Moves and Abilities`}
 />

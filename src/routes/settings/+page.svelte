@@ -56,7 +56,7 @@
 	};
 </script>
 
-<SocialPreview title="Settings - Pokécompanion" previewImage="/socialpreview/settings.png" />
+<SocialPreview title="Settings" previewImage="/socialpreview/settings.png" />
 
 <main>
 	<h1 class="h1" style="margin-bottom: 20px;">Settings</h1>

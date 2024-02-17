@@ -125,7 +125,7 @@
 	};
 </script>
 
-<SocialPreview title={`${tags.tag.name} - Pokécompanion`} />
+<SocialPreview title={`${tags.tag.name}`} />
 
 <Breadcrumbs
 	breadcrumbs={[

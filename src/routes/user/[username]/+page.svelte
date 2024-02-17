@@ -16,7 +16,7 @@
 	export let data;
 </script>
 
-<SocialPreview title={`${data.user.username} - Pokécompanion`} />
+<SocialPreview title={`${data.user.username}`} />
 
 <div id="userWrapper">
 	<div class="card">

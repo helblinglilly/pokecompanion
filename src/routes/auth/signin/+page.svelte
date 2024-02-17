@@ -10,7 +10,7 @@
 </script>
 
 <SocialPreview
-	title="Sign In - Pokécompanion"
+	title="Sign In"
 	description={`Manage your tags to organise the world of Pokémon to your heart's content`}
 />
 

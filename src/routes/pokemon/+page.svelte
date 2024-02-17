@@ -33,7 +33,7 @@
 	});
 </script>
 
-<SocialPreview title="Pokémon - Pokécompanion" previewImage="/socialpreview/pokemonPage.png" />
+<SocialPreview title="Pokémon" previewImage="/socialpreview/pokemonPage.png" />
 
 <div class="columns">
 	<div class="column" style="display: flex; align-content: center;">

@@ -52,7 +52,7 @@
 </script>
 
 <SocialPreview
-	title={`${names.primary ?? names.secondary} - Pokécompanion`}
+	title={`${names.primary ?? names.secondary}`}
 	previewImage="/socialpreview/moves.png"
 	description={primaryEffectEntry ?? secondaryEffectEntry}
 />

@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 </script>
 
-<SocialPreview title="About - Pokécompanion" previewImage="/socialpreview/about.png" />
+<SocialPreview title="About" previewImage="/socialpreview/about.png" />
 
 <div>
 	<span>
