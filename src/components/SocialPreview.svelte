@@ -1,12 +1,13 @@
 <script lang="ts">
-	export let title = 'Pokécompanion';
+	let defaultTitle = 'Pokécompanion';
+	export let title = defaultTitle;
 	export let description =
 		'Explore the world of the Pokémon video games without the information overload. Set your game and never get lost in the flood of information again!';
 	export let previewImage = '/socialpreview/generic.png';
 </script>
 
 <svelte:head>
-	<title>{title + ' - Pokécompanion'}</title>
+	<title>{title === defaultTitle ? title : title + ' - ' + defaultTitle}</title>
 	<meta property="og:title" content={title} />
 	<meta name="twitter:title" content={title} />
 
