@@ -23,7 +23,7 @@
 		move && $secondaryLanguage ? getNameEntry(move.names, $secondaryLanguage) : undefined;
 </script>
 
-<button>
+<button class="button secondary">
 	{#if move}
 		<a href={`/move/${move.id}`}>
 			<table>
@@ -87,12 +87,11 @@
 
 	button {
 		width: 100%;
-		border: 1px solid var(--secondary);
 		border-radius: 0.5rem;
-		padding-left: 0.5rem;
+		padding-left: 1rem;
 		padding-right: 0.5rem;
-		padding-top: 0.25rem;
-		padding-bottom: 0.25rem;
-		margin-bottom: 0.5rem;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+		margin-bottom: 1rem;
 	}
 </style>
