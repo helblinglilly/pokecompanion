@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Image from '$components/UI/Image.svelte';
-	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
-	import type { IMove } from '$lib/types/IMoves';
+	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
+	import { getMove, type IMove } from '$lib/types/IMoves';
 	import { getNameEntry } from '$lib/utils/language';
 	import { onMount } from 'svelte';
 
@@ -10,12 +10,9 @@
 
 	let move: IMove | undefined;
 
-	// Will need to do all sorts of adjustments here
-	// Like adjust for fairy type, Gen 3 special/physical being tied to
-	// the main type
 	onMount(async () => {
-		const response = await fetch(url);
-		move = (await response.json()) as IMove;
+		const id = url.split('/')[6];
+		move = await getMove(id, $selectedGame);
 	});
 
 	$: primaryName = move ? getNameEntry(move.names, $primaryLanguage) : undefined;
