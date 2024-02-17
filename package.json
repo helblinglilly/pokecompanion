@@ -4,8 +4,9 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
-		"build": "node assets/socialGenerator.js && vite build",
-		"build:quick": "vite build",
+		"build": "npm run build:assets && npm run build:app",
+		"build:assets": "node assets/socialGenerator.js",
+		"build:app": "vite build",
 		"preview": "vite preview",
 		"test": "npm run test:integration && npm run test:unit",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
