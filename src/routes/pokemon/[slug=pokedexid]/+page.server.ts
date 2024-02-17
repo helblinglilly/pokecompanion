@@ -66,7 +66,8 @@ const filterPokedexEntries = (
 			return {
 				language: entry.language.name,
 				game: findGameFromAPIGameName(entry.version.name)?.shortName ?? 'Not found',
-				textEntry: entry.flavor_text
+				// eslint-disable-next-line no-control-regex
+				textEntry: entry.flavor_text.replace(/\n|\u000c/g, ' ')
 			};
 		});
 	// To do: Move the selected game entry to the top
