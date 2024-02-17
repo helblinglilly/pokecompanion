@@ -1,28 +1,10 @@
 <script lang="ts">
-	import { findGameFromAPIGameName } from '$lib/data/games';
-	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
-	import type { FlavorTextEntry } from '$lib/types/IPokemon';
 	import Image from './UI/Image.svelte';
 	import Modal from './UI/Modal.svelte';
 
 	let showModal = false;
 
-	export let flavourTextEntries: FlavorTextEntry[];
-
-	$: pokedexEntries = flavourTextEntries
-		.filter((a) => a.language.name === $primaryLanguage || a.language.name === $secondaryLanguage)
-		.map((a) => {
-			const foundGame = findGameFromAPIGameName(a.version.name);
-			return {
-				language: a.language.name,
-				game: foundGame ? foundGame.shortName : 'Not found',
-				textEntry: a.flavor_text
-			};
-		})
-		.sort((a) => {
-			// To do: Move the selected game entry to the top
-			return 1;
-		});
+	export let pokedexEntries: { language: string; game: string; textEntry: string }[];
 </script>
 
 <button

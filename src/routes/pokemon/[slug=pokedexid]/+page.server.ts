@@ -1,5 +1,5 @@
 import { formatEncounters, type IEncounterResponse } from '$lib/data/encounterFilter';
-import { findGameFromString } from '$lib/data/games.js';
+import { findGameFromAPIGameName, findGameFromString, type IGame } from '$lib/data/games.js';
 import {
 	fixAbilities,
 	getPokemonTypesInGame,
@@ -7,7 +7,13 @@ import {
 } from '$lib/data/generationAdjuster.js';
 import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
 import { pokeApiDomain } from '$lib/stores/domain';
-import type { IPokemon, IPokemonSpecies, ISprites, Name } from '$lib/types/IPokemon';
+import type {
+	FlavorTextEntry,
+	IPokemon,
+	IPokemonSpecies,
+	ISprites,
+	Name
+} from '$lib/types/IPokemon';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
 
@@ -40,9 +46,38 @@ const loadPokemonForm = async (
 	return body as unknown as { sprites: ISprites; names: Name[] };
 };
 
+const filterPokedexEntries = (
+	allEntries: FlavorTextEntry[],
+	primaryLang: string | undefined,
+	secondaryLang: string | undefined
+) => {
+	const hasMatchingLanguageEntries = allEntries.some(
+		(entry) => entry.language.name === primaryLang || entry.language.name === secondaryLang
+	);
+
+	return allEntries
+		.filter((entry) => {
+			if (!hasMatchingLanguageEntries) {
+				return true;
+			}
+			return entry.language.name === primaryLang || entry.language.name === secondaryLang;
+		})
+		.map((entry) => {
+			return {
+				language: entry.language.name,
+				game: findGameFromAPIGameName(entry.version.name)?.shortName ?? 'Not found',
+				textEntry: entry.flavor_text
+			};
+		});
+	// To do: Move the selected game entry to the top
+};
+
 export const load = async ({ params, url, cookies }) => {
 	const pokedexId = Number(params.slug);
 	const gameEntry = findGameFromString(url.searchParams.get('game') ?? cookies.get('selectedGame'));
+	const primaryLanguage = url.searchParams.get('primaryLanguage') ?? cookies.get('primaryLanguage');
+	const secondaryLanguage =
+		url.searchParams.get('secondaryLanguage') ?? cookies.get('secondaryLanguage');
 
 	// eslint-disable-next-line prefer-const
 	let [pokemon, species, encounters] = await Promise.all([
@@ -156,7 +191,12 @@ export const load = async ({ params, url, cookies }) => {
 		},
 		species: {
 			...species,
-			names: speciesNamesToNormalisedNames(species.names)
+			names: speciesNamesToNormalisedNames(species.names),
+			flavor_text_entries: filterPokedexEntries(
+				species.flavor_text_entries,
+				primaryLanguage,
+				secondaryLanguage
+			)
 		},
 		encounters: formatEncounters(encounters, gameEntry)
 	};

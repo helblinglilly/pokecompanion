@@ -202,7 +202,13 @@
 <SocialPreview
 	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
 	previewImage={`/socialpreview/pokemon/${data.pokemon.id}/${filename}.png`}
-	description={`View results across Pokémon, Items, Moves and Abilities`}
+	description={data.species.flavor_text_entries.length > 0
+		? data.species.flavor_text_entries[0].textEntry
+		: `View ${getMultiLanguageName(
+				data.species.names,
+				'en',
+				undefined
+		  )}'s evolutions, abilities, moves and more!'`}
 />
 
 <Breadcrumbs
@@ -229,7 +235,7 @@
 						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
 					{/each}
 				</div>
-				<Pokedex flavourTextEntries={data.species.flavor_text_entries} />
+				<Pokedex pokedexEntries={data.species.flavor_text_entries} />
 			</div>
 
 			<SpritePreview
