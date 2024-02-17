@@ -7,14 +7,16 @@
 	export let pokedexEntries: { language: string; game: string; textEntry: string }[];
 </script>
 
-<button
-	on:click={() => {
-		showModal = !showModal;
-	}}
->
-	Pokédex
-	<Image src={'/icons/pokedex.png'} alt={'Pokédex'} style="height: 20px;" />
-</button>
+{#if pokedexEntries.length > 0}
+	<button
+		on:click={() => {
+			showModal = !showModal;
+		}}
+	>
+		Pokédex
+		<Image src={'/icons/pokedex.png'} alt={'Pokédex'} style="height: 20px;" />
+	</button>
+{/if}
 
 <Modal bind:showModal>
 	<h2 slot="header">Pokédex Entries</h2>
