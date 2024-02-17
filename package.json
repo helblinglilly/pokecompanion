@@ -14,12 +14,7 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"test:integration": "playwright test",
 		"test:integration-ui": "playwright test --ui",
-		"test:unit": "vitest",
-		"scrape": "npm run scrape:abilities && npm run scrape:items && npm run scrape:moves && npm run scrape:pokemon",
-		"scrape:abilities": "node ./src/build/scrapers/abilities.js",
-		"scrape:items": "node ./src/build/scrapers/items.js",
-		"scrape:moves": "node ./src/build/scrapers/moves.js",
-		"scrape:pokemon": "node ./src/build/scrapers/pokemon.js"
+		"test:unit": "vitest"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20240208.0",
@@ -33,7 +28,6 @@
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"autoprefixer": "^10.4.15",
-		"cheerio": "^1.0.0-rc.12",
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-svelte": "^2.30.0",
