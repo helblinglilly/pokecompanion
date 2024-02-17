@@ -13,7 +13,13 @@
 	import Image from '$components/UI/Image.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { games, isPokemonInGame, findGameGroupFromString, type IGame } from '$lib/data/games';
+	import {
+		games,
+		isPokemonInGame,
+		findGameGroupFromString,
+		type IGame,
+		findGameFromAPIGameName
+	} from '$lib/data/games';
 	import Pokedex from '$components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$components/Tags/SelectedTags.svelte';
@@ -100,13 +106,21 @@
 				})
 				.flat();
 
+			const encounterRelevantGames = data.encounters
+				.filter((data) => {
+					return data.encounters.length > 0;
+				})
+				.map((entry) => {
+					return findGameFromAPIGameName(entry.versionGroup) as IGame;
+				});
+
 			encounterDisplayStore.set({
-				games: allRelevantGames,
+				games: encounterRelevantGames,
 				selectedGame: $selectedGame
-					? $selectedGame
-					: allRelevantGames.length > 0
-					? allRelevantGames[0]
-					: undefined,
+					? encounterRelevantGames.find((encounterGame: IGame) => {
+							return $selectedGame?.pokeapiVersionGroup === encounterGame.pokeapiVersionGroup;
+					  }) ?? $selectedGame
+					: encounterRelevantGames[0],
 				selectedGameGroup: findGameGroupFromString(
 					$selectedGame
 						? $selectedGame.shortName
