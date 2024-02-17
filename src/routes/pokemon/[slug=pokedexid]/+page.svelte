@@ -184,16 +184,17 @@
 	});
 
 	const filename =
-		$pokemonDisplayStore.showFemaleSpriteIfExists && !$pokemonDisplayStore.showShinySpriteIfExists
+		$page.url.searchParams.get('gender') === 'female' &&
+		$page.url.searchParams.get('shiny') !== 'true'
 			? 'female'
-			: $pokemonDisplayStore.showFemaleSpriteIfExists &&
-			  $pokemonDisplayStore.showShinySpriteIfExists
+			: $page.url.searchParams.get('gender') === 'female' &&
+			  $page.url.searchParams.get('shiny') === 'true'
 			? 'shiny-female'
-			: !$pokemonDisplayStore.showFemaleSpriteIfExists &&
-			  !$pokemonDisplayStore.showShinySpriteIfExists
+			: $page.url.searchParams.get('gender') === 'male' &&
+			  $page.url.searchParams.get('shiny') !== 'true'
 			? 'male'
-			: !$pokemonDisplayStore.showFemaleSpriteIfExists &&
-			  $pokemonDisplayStore.showShinySpriteIfExists
+			: $page.url.searchParams.get('gender') === 'female' &&
+			  $page.url.searchParams.get('shiny') === 'true'
 			? 'shiny-male'
 			: 'generic';
 </script>

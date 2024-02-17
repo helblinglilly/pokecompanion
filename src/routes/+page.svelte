@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Greeting from '$components/Homepage/Greeting.svelte';
 	import SelfMarketing from '$components/Homepage/SelfMarketing.svelte';
+	import SocialPreview from '$components/SocialPreview.svelte';
 	import PokemonCardEntry from '$components/Tags/PokemonCardEntry.svelte';
 	import { lastPokedexEntry } from '$lib/stores/domain';
 	import { daysPassedInYear, randomDailyNumber } from '$lib/utils/number';
@@ -19,6 +20,8 @@
 <svelte:head>
 	<link rel="stylesheet" href="styles/home.css" />
 </svelte:head>
+
+<SocialPreview />
 
 <!-- {#if $homepageMessaging === 'new-visitor' || !$homepageMessaging} -->
 <Greeting mode="new" />
