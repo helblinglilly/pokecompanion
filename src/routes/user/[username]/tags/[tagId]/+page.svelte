@@ -126,8 +126,8 @@
 </script>
 
 <SocialPreview
-	title={`${tags.tag.name}`}
-	description={`View ${tags.user.username}'s tag collection ${tags.tag.name} which has ${tags.tag.contents.pokemon.length} Pokémon in it`}
+	title={`"${tags.tag.name}" tag`}
+	description={`A tag collection from ${tags.user.username} with ${tags.tag.contents.pokemon.length} Pokémon`}
 />
 
 <Breadcrumbs
