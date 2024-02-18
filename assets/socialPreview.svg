@@ -76,7 +76,7 @@
     <g id="primary-text-wrapper" transform="matrix(0.51568,0,0,0.51568,331.226,304.572)">
         <text id="primary-text" x="0px" y="0px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:170.649px;fill:white;">Top Text</text>
     </g>
-    <g id="centered-text-wrapper" serif:id="primary-text" transform="matrix(0.603671,0,0,0.603671,328.455,351.828)">
+    <g id="centered-text-wrapper" serif:id="primary-text" transform="matrix(0.51568,0,0,0.51568,331.226,338.452)">
         <text id="centered-text" x="0px" y="0px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:170.649px;fill:white;">Centred Text</text>
     </g>
     <g id="secondary-text-wrapper" transform="matrix(0.51568,0,0,0.51568,325.882,403.621)">
