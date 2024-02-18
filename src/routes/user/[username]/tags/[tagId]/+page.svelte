@@ -127,7 +127,7 @@
 
 <SocialPreview
 	title={`"${tags.tag.name}" tag`}
-	description={`A tag collection from ${tags.user.username} with ${tags.tag.contents.pokemon.length} Pokémon`}
+	description={`${tags.user.username} created this tag with ${tags.tag.contents.pokemon.length} Pokémon`}
 />
 
 <Breadcrumbs

@@ -17,7 +17,7 @@
 </script>
 
 <SocialPreview
-	title={`${data.user.username}'s profile'`}
+	title={`${data.user.username}'s profile`}
 	description={`This user has ${data.tags.length} tag collection${
 		data.tags.length !== 1 ? 's' : ''
 	}`}
