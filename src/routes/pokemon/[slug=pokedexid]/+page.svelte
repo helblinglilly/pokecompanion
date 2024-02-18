@@ -197,13 +197,16 @@
 			  $page.url.searchParams.get('shiny') === 'true'
 			? 'shiny-male'
 			: 'generic';
+	const englishPokedexEntries = data.species.flavor_text_entries.filter(
+		(entry) => entry.language === 'en'
+	);
 </script>
 
 <SocialPreview
 	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
 	previewImage={`/socialpreview/pokemon/${data.id}/${filename}.png`}
-	description={data.species.flavor_text_entries.length > 0
-		? data.species.flavor_text_entries[data.species.flavor_text_entries.length - 1].textEntry
+	description={englishPokedexEntries.length > 0
+		? englishPokedexEntries[englishPokedexEntries.length - 1].textEntry
 		: `View ${getMultiLanguageName(
 				data.species.names,
 				'en',
