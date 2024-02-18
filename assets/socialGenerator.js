@@ -51,32 +51,47 @@ if (!fs.existsSync('./static/socialpreview/pokemon')) {
 	fs.mkdirSync('./static/socialpreview/pokemon');
 }
 
-const generic = genericFile.replace(/Top Text/, 'Pokécompanion').replace(/Bottom Text/, '');
+const generic = genericFile
+	.replace(/Top Text/, '')
+	.replace(/Bottom Text/, '')
+	.replace(/Centred Text/, 'Pokécompanion');
 convertSvgToPng(generic, `./static/socialpreview/generic.png`, 1200, 630);
 
-const home = genericFile.replace(/Top Text/, 'Pokécompanion').replace(/Bottom Text/, 'Homepage');
+const home = genericFile
+	.replace(/Top Text/, 'Pokécompanion')
+	.replace(/Bottom Text/, 'Homepage')
+	.replace(/Centred Text/, '');
 convertSvgToPng(home, `./static/socialpreview/home.png`, 1200, 630);
 
-const about = genericFile.replace(/Top Text/, 'Pokécompanion').replace(/Bottom Text/, 'About');
+const about = genericFile
+	.replace(/Top Text/, 'Pokécompanion')
+	.replace(/Bottom Text/, 'About')
+	.replace(/Centred Text/, '');
 convertSvgToPng(about, `./static/socialpreview/about.png`, 1200, 630);
 
 const settings = genericFile
 	.replace(/Top Text/, 'Pokécompanion')
-	.replace(/Bottom Text/, 'Settings');
+	.replace(/Bottom Text/, 'Settings')
+	.replace(/Centred Text/, '');
 convertSvgToPng(settings, `./static/socialpreview/settings.png`, 1200, 630);
 
 const results = genericFile
 	.replace(/Top Text/, 'Pokécompanion')
-	.replace(/Bottom Text/, 'Search Results');
+	.replace(/Bottom Text/, 'Search Results')
+	.replace(/Centred Text/, '');
 convertSvgToPng(results, `./static/socialpreview/results.png`, 1200, 630);
 
 const pokemonPage = genericFile
 	.replace(/Top Text/, 'Pokécompanion')
-	.replace(/Bottom Text/, 'Pokémon');
+	.replace(/Bottom Text/, 'Pokémon')
+	.replace(/Centred Text/, '');
 
 convertSvgToPng(pokemonPage, `./static/socialpreview/pokemonPage.png`, 1200, 630);
 
-const movesPage = genericFile.replace(/Top Text/, 'Pokécompanion').replace(/Bottom Text/, 'Moves');
+const movesPage = genericFile
+	.replace(/Top Text/, 'Pokécompanion')
+	.replace(/Bottom Text/, 'Moves')
+	.replace(/Centred Text/, '');
 convertSvgToPng(movesPage, `./static/socialpreview/moves.png`, 1200, 630);
 
 // for (let i = 0; i < 2; i++) {
