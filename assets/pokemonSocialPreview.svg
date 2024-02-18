@@ -93,15 +93,15 @@
                 <rect x="-191" y="-402" width="494" height="890" style="fill:rgb(127,187,240);"/>
             </g>
             <g transform="matrix(-0.234106,-2.77556e-17,0,0.234106,1193.86,575.531)">
-                <text x="0px" y="0px" style="font-family:'AppleColorEmoji', 'Apple Color Emoji';font-size:250px;fill:white;">♂</text>
+                <text x="0px" y="0px" style="font-family:'AppleColorEmoji', 'Apple Color Emoji';font-size:250px;">♂</text>
             </g>
         </g>
-        <g id="female" transform="matrix(-0.909811,0,0,0.909811,1276.64,67.4734)">
+        <g id="female" transform="matrix(-0.909811,0,0,0.909811,1271.9,67.4734)">
             <g id="pink" transform="matrix(0.292067,0.292067,-0.403529,0.403529,1145.76,622.478)">
                 <rect x="-191" y="-402" width="494" height="890" style="fill:rgb(245,171,216);"/>
             </g>
             <g transform="matrix(0.234106,-2.77556e-17,0,0.234106,1128.49,598.768)">
-                <text x="0px" y="0px" style="font-family:'AppleColorEmoji', 'Apple Color Emoji';font-size:250px;fill:white;">♀</text>
+                <text x="0px" y="0px" style="font-family:'AppleColorEmoji', 'Apple Color Emoji';font-size:250px;">♀</text>
             </g>
         </g>
     </g>
