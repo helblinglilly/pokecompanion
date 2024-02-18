@@ -125,7 +125,10 @@
 	};
 </script>
 
-<SocialPreview title={`${tags.tag.name}`} />
+<SocialPreview
+	title={`${tags.tag.name}`}
+	description={`View ${tags.user.username}'s tag collection ${tags.tag.name} which has ${tags.tag.contents.pokemon.length} Pokémon in it`}
+/>
 
 <Breadcrumbs
 	breadcrumbs={[

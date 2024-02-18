@@ -16,7 +16,12 @@
 	export let data;
 </script>
 
-<SocialPreview title={`${data.user.username}`} />
+<SocialPreview
+	title={`${data.user.username}`}
+	description={`View ${data.user.username}'s ${data.tags.length} tag collection${
+		data.tags.length !== 1 ? 's' : ''
+	}`}
+/>
 
 <div id="userWrapper">
 	<div class="card">
