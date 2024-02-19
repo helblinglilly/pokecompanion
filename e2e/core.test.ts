@@ -16,7 +16,9 @@ test('a search can be performed and shows results', async ({ page }) => {
 	await page.goto('/');
 	await page.locator('#searchForm > input').fill('5');
 	await page.getByRole('button', { name: 'Search' }).click();
-	await expect(page).toHaveURL('/search?term=5');
+	await page.waitForResponse(
+		(response) => response.url().includes('/search?term=5') && response.status() === 200
+	);
 	await page.getByRole('button', { name: 'Show more results...' }).click();
 	await page.getByRole('link', { name: 'Dodrio sprite #85 Dodrio' }).click();
 	await page.getByRole('heading', { name: 'Dodrio' }).click();
