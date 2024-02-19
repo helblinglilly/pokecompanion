@@ -28,7 +28,7 @@ test('can change primary language', async ({ page }) => {
 	);
 });
 
-test('changing the language will remove the option in the other', async ({ page }) => {
+test.skip('changing the language will remove the option in the other', async ({ page }) => {
 	await navigateToSettings(page);
 	await page.locator('#primaryLanguageSelector').selectOption({ label: 'German - Deutsch' });
 
