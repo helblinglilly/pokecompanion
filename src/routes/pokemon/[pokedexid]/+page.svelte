@@ -233,7 +233,7 @@
 	<div class="column" style="padding-bottom: 1rem;">
 		<div class="card">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
-				<div style="display: inline-flex; height: 20px; width: 150px;">
+				<div style="display: inline-flex; height: 20px; width: fit-content;">
 					{#each data.pokemon.types as type}
 						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
 					{/each}

@@ -64,7 +64,7 @@
 	{/if}
 {/each}
 
-{#if visibleIndex <= data.encounters.length || visibleIndex > defaultVisibilityIndex}
+{#if visibleIndex < data.encounters.length || visibleIndex > defaultVisibilityIndex}
 	<hr style="margin-top: 1rem;" />
 {/if}
 
