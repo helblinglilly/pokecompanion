@@ -6,7 +6,7 @@ import {
 	getTypeRelations
 } from '$lib/data/generationAdjuster.js';
 import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
-import { pokeApiDomain } from '$lib/stores/domain';
+import { lastPokedexEntry, pokeApiDomain } from '$lib/stores/domain';
 import type {
 	FlavorTextEntry,
 	IPokemon,
@@ -16,6 +16,7 @@ import type {
 } from '$lib/types/IPokemon';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
+import { error } from '@sveltejs/kit';
 
 const loadPokemon = async (id: number): Promise<IPokemon> => {
 	const response = await fetch(pokeApiDomain + `/pokemon/${id}`);
@@ -74,7 +75,14 @@ const filterPokedexEntries = (
 };
 
 export const load = async ({ params, url, cookies }) => {
-	const pokedexId = Number(params.slug);
+	const pokedexId = Number(params.pokedexid);
+
+	if (pokedexId < 1 || pokedexId >= lastPokedexEntry) {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore Docs literally say passing strings is supported
+		throw error(404, 'Pokémon not found');
+	}
+
 	const gameEntry = findGameFromString(url.searchParams.get('game') ?? cookies.get('selectedGame'));
 	const primaryLanguage = url.searchParams.get('primaryLanguage') ?? cookies.get('primaryLanguage');
 	const secondaryLanguage =
