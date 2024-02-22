@@ -136,7 +136,7 @@
 	const changeUrlQueryParam = (param: string, value: string) => {
 		const newUrl = new URL($page.url);
 		newUrl.searchParams.set(param, value);
-		goto(newUrl.toString(), { replaceState: true });
+		goto(newUrl.toString(), { replaceState: true, noScroll: true });
 	};
 
 	$: {
