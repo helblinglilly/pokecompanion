@@ -136,7 +136,7 @@
 	const changeUrlQueryParam = (param: string, value: string) => {
 		const newUrl = new URL($page.url);
 		newUrl.searchParams.set(param, value);
-		goto(newUrl.toString(), { replaceState: true });
+		goto(newUrl.toString(), { replaceState: true, noScroll: true });
 	};
 
 	$: {
@@ -233,7 +233,7 @@
 	<div class="column" style="padding-bottom: 1rem;">
 		<div class="card">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
-				<div style="display: inline-flex; height: 20px; width: 150px;">
+				<div style="display: inline-flex; height: 20px; width: fit-content;">
 					{#each data.pokemon.types as type}
 						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
 					{/each}
