@@ -35,8 +35,11 @@
 			pokemon={featuredPokemon}
 			showRemoveButton={false}
 			showGenderAndShiny={false}
+			style="max-width: 100%; margin: 0;"
 		/>
 	</div>
+	<div class="column" />
+	<div class="column" />
 </div>
 
 <style src="./home.css"></style>
