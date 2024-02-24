@@ -52,7 +52,10 @@ const logToAxiom = (other: object, serverRequest?: Request, serverCookies?: Cook
 		}).catch((error) => console.error('Error:', error));
 	} catch {
 		if (!serverRequest) {
-			console.error('Trying to log on the server side, but no request has been provided');
+			console.warn(
+				'Trying to log on the server side, but no request has been provided',
+				new Error().stack
+			);
 
 			fetch(apiUrl, {
 				method: 'POST',
@@ -67,6 +70,7 @@ const logToAxiom = (other: object, serverRequest?: Request, serverCookies?: Cook
 							application: 'pokecompanion',
 							status: 500,
 							error: 'FAILED_TO_LOG',
+							logFailureStackTrace: new Error().stack,
 							...other
 						}
 					}
