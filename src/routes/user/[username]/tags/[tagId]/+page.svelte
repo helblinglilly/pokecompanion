@@ -13,33 +13,53 @@
 	import type { ITag, ITagPokemon } from '$lib/types/ITags.js';
 	import { onMount } from 'svelte';
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import { getPokemonEntry } from '$lib/data/games.js';
+	import { getMoveEntry, getPokemonEntry } from '$lib/data/games.js';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { termNormaliser } from '$lib/utils/string.js';
 	import SocialPreview from '$components/SocialPreview.svelte';
+	import MoveCardEntry from '$components/Tags/MoveListEntry.svelte';
+	import Move from '$components/Pokemon/Move.svelte';
 
 	export let data;
 	$: tags = data;
 
 	let filterTerm = '';
-	$: filteredPokemon = filterTerm
-		? tags.tag.contents.pokemon.filter((a) => {
-				const normalised = termNormaliser(filterTerm);
-				const matchesId = `${a.id}`.includes(filterTerm);
-				const names = termNormaliser(
-					getMultiLanguageName(
-						getPokemonEntry(a.id).names,
-						$primaryLanguage,
-						$secondaryLanguage,
-						a.variety?.name ?? ''
-					) ?? ''
-				);
+	$: filteredPokemon =
+		filterTerm && tags.tag.contents.pokemon
+			? tags.tag.contents.pokemon.filter((a) => {
+					const normalised = termNormaliser(filterTerm);
+					const matchesId = `${a.id}`.includes(filterTerm);
+					const names = termNormaliser(
+						getMultiLanguageName(
+							getPokemonEntry(a.id).names,
+							$primaryLanguage,
+							$secondaryLanguage,
+							a.variety?.name ?? ''
+						) ?? ''
+					);
 
-				const matchesName = names.includes(normalised);
-				return matchesId || matchesName;
-		  })
-		: tags.tag.contents.pokemon;
+					const matchesName = names.includes(normalised);
+					return matchesId || matchesName;
+			  })
+			: tags.tag.contents.pokemon ?? [];
 
+	$: filteredMove =
+		filterTerm && tags.tag.contents.move
+			? tags.tag.contents.move.filter((move) => {
+					const normalised = termNormaliser(filterTerm);
+					const matchesId = `${move.id}`.includes(normalised);
+					const names = termNormaliser(
+						getMultiLanguageName(
+							getMoveEntry(move.id).names,
+							$primaryLanguage,
+							$secondaryLanguage
+						) ?? ''
+					);
+
+					const matchesName = names.includes(normalised);
+					return matchesId || matchesName;
+			  })
+			: tags.tag.contents.move ?? [];
 	let hasChanges = false;
 
 	let showRenameOverlay = false;
@@ -94,8 +114,9 @@
 		}
 	};
 
+	// Needs splitting out
 	const removeFromTag = (pokemon: ITagPokemon) => {
-		tags.tag.contents.pokemon = tags.tag.contents.pokemon.filter((tagMon) => {
+		tags.tag.contents.pokemon = tags.tag.contents.pokemon?.filter((tagMon) => {
 			return !(JSON.stringify(tagMon) === JSON.stringify(pokemon));
 		});
 		hasChanges = true;
@@ -127,7 +148,9 @@
 
 <SocialPreview
 	title={`"${tags.tag.name}" tag`}
-	description={`${tags.user.username} created this tag with ${tags.tag.contents.pokemon.length} Pokémon`}
+	description={`${tags.user.username} created this tag with ${
+		tags.tag.contents.pokemon ? tags.tag.contents.pokemon.length : 0
+	} Pokémon`}
 />
 
 <Breadcrumbs
@@ -231,7 +254,7 @@
 </div>
 
 <div id="pokemonTagWrapper">
-	{#if tags.tag.contents.pokemon.length === 0}
+	{#if tags.tag.contents.pokemon?.length === 0}
 		<p>No Pokémon in this list</p>
 	{/if}
 
@@ -258,9 +281,33 @@
 	{/each}
 </div>
 
-<div style="display: grid; justify-content: center;">
-	<p style="min-width: fit-content;">{tags.tag.contents.pokemon.length} Pokémon</p>
+{#if tags.tag.contents.pokemon && tags.tag.contents.pokemon.length > 0}
+	<div style="display: grid; justify-content: center;">
+		<p style="min-width: fit-content;">{tags.tag.contents.pokemon.length} Pokémon</p>
+	</div>
+{/if}
+
+<div id="moveTagWrapper">
+	{#if tags.tag.contents.move?.length === 0}
+		<p>No Moves in this list</p>
+	{/if}
+
+	{#each filteredMove.sort((a, b) => (a.id > b.id ? 1 : -1)) as moveTag}
+		{#if displayMode === 'card'}
+			<p>Move {moveTag.id}</p>
+		{:else}
+			<MoveCardEntry id={moveTag.id} showRemoveButton={inModifyView} onRemoveClick={() => {}} />
+		{/if}
+	{/each}
 </div>
+
+{#if tags.tag.contents.move && tags.tag.contents.move.length > 0}
+	<div style="display: grid; justify-content: center;">
+		<p style="min-width: fit-content;">
+			{tags.tag.contents.move.length} Move{tags.tag.contents.move.length === 1 ? '' : 's'}
+		</p>
+	</div>
+{/if}
 
 <Modal bind:showModal={showRenameOverlay}>
 	<h2 class="h2" slot="header">Rename Tag</h2>
@@ -318,6 +365,13 @@
 		flex-wrap: wrap;
 		padding: 0;
 		justify-content: space-around;
+	}
+
+	#moveTagWrapper {
+		padding-top: 3rem;
+		justify-content: space-around;
+		display: flex;
+		flex-wrap: wrap;
 	}
 
 	#tagHeader {
