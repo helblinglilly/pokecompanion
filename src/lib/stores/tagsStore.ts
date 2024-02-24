@@ -8,6 +8,11 @@ import type { IDisplayPokemon } from './pokemonPageStore';
 
 export const tagStore = writable<ITags[]>([]);
 
+/* There are currently functions in here to add/remove each possible content of
+ * a tag. Before adding the next type of content, these should really be
+ * abstracted and refactored.
+ */
+
 export async function refetchTags(userId: string) {
 	try {
 		tagStore.set(await getTagsByUser(userId));
@@ -68,7 +73,7 @@ export async function createTag(
 
 export async function addPokemonToTag(pokemon: ITagPokemonNew, tagId: string) {
 	try {
-		await fetch(`/api/tag`, {
+		const res = await fetch(`/api/tag`, {
 			method: 'POST',
 			body: JSON.stringify({
 				id: tagId,
@@ -82,6 +87,18 @@ export async function addPokemonToTag(pokemon: ITagPokemonNew, tagId: string) {
 				}
 			})
 		});
+		switch (res.status) {
+			case 200 || 201:
+				return;
+			case 403 || 401:
+				addNotification({
+					message: `Could not add tag due to authentication. Please sign in and try again`,
+					level: 'failure'
+				});
+				break;
+			default:
+				throw new Error(`Unsuccessful response code: ${res.status}`);
+		}
 	} catch (err) {
 		addNotification({ message: 'Could not add tag. Please try again', level: 'failure' });
 		error(
@@ -94,7 +111,7 @@ export async function addPokemonToTag(pokemon: ITagPokemonNew, tagId: string) {
 
 export async function addMoveToTag(move: ITagMoveNew, tagId: string) {
 	try {
-		await fetch(`/api/tag`, {
+		const res = await fetch(`/api/tag`, {
 			method: 'POST',
 			body: JSON.stringify({
 				id: tagId,
@@ -108,6 +125,18 @@ export async function addMoveToTag(move: ITagMoveNew, tagId: string) {
 				}
 			})
 		});
+		switch (res.status) {
+			case 200 || 201:
+				return;
+			case 403 || 401:
+				addNotification({
+					message: `Could not add tag due to authentication. Please sign in and try again`,
+					level: 'failure'
+				});
+				break;
+			default:
+				throw new Error(`Unsuccessful response code: ${res.status}`);
+		}
 	} catch (err) {
 		addNotification({ message: 'Could not add tag. Please try again', level: 'failure' });
 		error(
@@ -120,7 +149,7 @@ export async function addMoveToTag(move: ITagMoveNew, tagId: string) {
 
 export async function removePokemonFromTag(pokemon: ITagPokemonNew, tagId: string) {
 	try {
-		await fetch('/api/tag', {
+		const res = await fetch('/api/tag', {
 			method: 'DELETE',
 			body: JSON.stringify({
 				id: tagId,
@@ -130,6 +159,18 @@ export async function removePokemonFromTag(pokemon: ITagPokemonNew, tagId: strin
 				}
 			})
 		});
+		switch (res.status) {
+			case 200 || 201:
+				return;
+			case 403 || 401:
+				addNotification({
+					message: `Could not remove tag due to authentication. Please sign in and try again`,
+					level: 'failure'
+				});
+				break;
+			default:
+				throw new Error(`Unsuccessful response code: ${res.status}`);
+		}
 	} catch (err) {
 		addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });
 		error(
@@ -142,7 +183,7 @@ export async function removePokemonFromTag(pokemon: ITagPokemonNew, tagId: strin
 
 export async function removeMoveFromTag(move: ITagMoveNew, tagId: string) {
 	try {
-		await fetch('/api/tag', {
+		const res = await fetch('/api/tag', {
 			method: 'DELETE',
 			body: JSON.stringify({
 				id: tagId,
@@ -151,6 +192,18 @@ export async function removeMoveFromTag(move: ITagMoveNew, tagId: string) {
 				}
 			})
 		});
+		switch (res.status) {
+			case 200 || 201:
+				return;
+			case 403 || 401:
+				addNotification({
+					message: `Could not remove tag due to authentication. Please sign in and try again`,
+					level: 'failure'
+				});
+				break;
+			default:
+				throw new Error(`Unsuccessful response code: ${res.status}`);
+		}
 	} catch (err) {
 		addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });
 		error(
