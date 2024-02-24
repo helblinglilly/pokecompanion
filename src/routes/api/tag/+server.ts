@@ -148,7 +148,6 @@ export async function PATCH({ request, cookies }) {
 
 	if (
 		!body.contents ||
-		body.contents.pokemon?.length === undefined ||
 		!body.name ||
 		body.isPrivate === undefined ||
 		body.showGenderAndShiny === undefined
@@ -161,7 +160,8 @@ export async function PATCH({ request, cookies }) {
 	try {
 		await authedPb.collection('tags').update(body.id, {
 			contents: {
-				pokemon: body.contents.pokemon
+				pokemon: body.contents.pokemon,
+				move: body.contents.move
 			},
 			name: body.name,
 			isPrivate: body.isPrivate,

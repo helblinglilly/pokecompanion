@@ -10,7 +10,7 @@
 	import { error } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
-	import type { ITag, ITagPokemon } from '$lib/types/ITags.js';
+	import type { ITag, ITagMove, ITagPokemon } from '$lib/types/ITags.js';
 	import { onMount } from 'svelte';
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import { getMoveEntry, getPokemonEntry } from '$lib/data/games.js';
@@ -60,6 +60,12 @@
 					return matchesId || matchesName;
 			  })
 			: tags.tag.contents.move ?? [];
+
+	$: amountOfItems = Object.keys(tags.tag.contents).reduce((accum, current) => {
+		// @ts-ignore cba - we're going over Object.keys
+		return accum + tags.tag.contents[current].length;
+	}, 0);
+
 	let hasChanges = false;
 
 	let showRenameOverlay = false;
@@ -115,10 +121,18 @@
 	};
 
 	// Needs splitting out
-	const removeFromTag = (pokemon: ITagPokemon) => {
-		tags.tag.contents.pokemon = tags.tag.contents.pokemon?.filter((tagMon) => {
-			return !(JSON.stringify(tagMon) === JSON.stringify(pokemon));
-		});
+	const removeFromTag = ({ pokemon, move }: { pokemon?: ITagPokemon; move?: ITagMove }) => {
+		if (pokemon) {
+			tags.tag.contents.pokemon = tags.tag.contents.pokemon?.filter((tagMon) => {
+				return !(JSON.stringify(tagMon) === JSON.stringify(pokemon));
+			});
+		}
+
+		if (move) {
+			tags.tag.contents.move = tags.tag.contents.move?.filter((tagMove) => {
+				return !(JSON.stringify(tagMove) === JSON.stringify(move));
+			});
+		}
 		hasChanges = true;
 	};
 
@@ -253,61 +267,77 @@
 	/>
 </div>
 
-<div id="pokemonTagWrapper">
-	{#if tags.tag.contents.pokemon?.length === 0}
-		<p>No Pokémon in this list</p>
-	{/if}
-
-	{#each filteredPokemon.sort((a, b) => (a.id > b.id ? 1 : -1)) as pokemonTag}
-		{#if displayMode === 'card'}
-			<PokemonCardEntry
-				pokemon={pokemonTag}
-				showRemoveButton={inModifyView}
-				showGenderAndShiny={tags.tag.showGenderAndShiny}
-				onRemoveClick={() => {
-					removeFromTag(pokemonTag);
-				}}
-			/>
-		{:else}
-			<PokemonListEntry
-				pokemon={pokemonTag}
-				showRemoveButton={inModifyView}
-				showGenderAndShiny={tags.tag.showGenderAndShiny}
-				onRemoveClick={() => {
-					removeFromTag(pokemonTag);
-				}}
-			/>
-		{/if}
-	{/each}
-</div>
-
-{#if tags.tag.contents.pokemon && tags.tag.contents.pokemon.length > 0}
-	<div style="display: grid; justify-content: center;">
-		<p style="min-width: fit-content;">{tags.tag.contents.pokemon.length} Pokémon</p>
-	</div>
+{#if amountOfItems === 0}
+	<p>This tag has no items in it</p>
 {/if}
 
-<div id="moveTagWrapper">
-	{#if tags.tag.contents.move?.length === 0}
-		<p>No Moves in this list</p>
-	{/if}
+<div id="pokemonTagWrapper" style={tags.tag.contents.pokemon?.length === 0 ? 'display: none' : ''}>
+	<div class="tagWrapper">
+		{#each filteredPokemon.sort((a, b) => (a.id > b.id ? 1 : -1)) as pokemonTag}
+			{#if displayMode === 'card'}
+				<PokemonCardEntry
+					pokemon={pokemonTag}
+					showRemoveButton={inModifyView}
+					showGenderAndShiny={tags.tag.showGenderAndShiny}
+					onRemoveClick={() => {
+						removeFromTag({ pokemon: pokemonTag });
+					}}
+				/>
+			{:else}
+				<PokemonListEntry
+					pokemon={pokemonTag}
+					showRemoveButton={inModifyView}
+					showGenderAndShiny={tags.tag.showGenderAndShiny}
+					onRemoveClick={() => {
+						removeFromTag({ pokemon: pokemonTag });
+					}}
+				/>
+			{/if}
+		{/each}
+	</div>
 
-	{#each filteredMove.sort((a, b) => (a.id > b.id ? 1 : -1)) as moveTag}
-		{#if displayMode === 'card'}
-			<MoveCardEntry id={moveTag.id} showRemoveButton={inModifyView} onRemoveClick={() => {}} />
-		{:else}
-			<MoveListEntry id={moveTag.id} showRemoveButton={inModifyView} onRemoveClick={() => {}} />
-		{/if}
-	{/each}
+	{#if tags.tag.contents.pokemon && tags.tag.contents.pokemon.length > 0}
+		<div style="display: grid; justify-content: center;">
+			<p style="min-width: fit-content;">{tags.tag.contents.pokemon.length} Pokémon</p>
+		</div>
+	{/if}
 </div>
 
-{#if tags.tag.contents.move && tags.tag.contents.move.length > 0}
-	<div style="display: grid; justify-content: center;">
-		<p style="min-width: fit-content;">
-			{tags.tag.contents.move.length} Move{tags.tag.contents.move.length === 1 ? '' : 's'}
-		</p>
+<div
+	id="moveTagWrapper"
+	class="tagGroup"
+	style={tags.tag.contents.move?.length === 0 ? 'display: none' : ''}
+>
+	<div class="tagWrapper">
+		{#each filteredMove.sort((a, b) => (a.id > b.id ? 1 : -1)) as moveTag}
+			{#if displayMode === 'card'}
+				<MoveCardEntry
+					id={moveTag.id}
+					showRemoveButton={inModifyView}
+					onRemoveClick={() => {
+						removeFromTag({ move: moveTag });
+					}}
+				/>
+			{:else}
+				<MoveListEntry
+					id={moveTag.id}
+					showRemoveButton={inModifyView}
+					onRemoveClick={() => {
+						removeFromTag({ move: moveTag });
+					}}
+				/>
+			{/if}
+		{/each}
 	</div>
-{/if}
+
+	{#if tags.tag.contents.move && tags.tag.contents.move.length > 0}
+		<div style="display: grid; justify-content: center;">
+			<p style="min-width: fit-content;">
+				{tags.tag.contents.move.length} Move{tags.tag.contents.move.length === 1 ? '' : 's'}
+			</p>
+		</div>
+	{/if}
+</div>
 
 <Modal bind:showModal={showRenameOverlay}>
 	<h2 class="h2" slot="header">Rename Tag</h2>
@@ -360,18 +390,11 @@
 </Modal>
 
 <style>
-	#pokemonTagWrapper {
+	.tagWrapper {
 		display: flex;
 		flex-wrap: wrap;
 		padding: 0;
 		justify-content: space-around;
-	}
-
-	#moveTagWrapper {
-		padding-top: 3rem;
-		justify-content: space-around;
-		display: flex;
-		flex-wrap: wrap;
 	}
 
 	#tagHeader {
