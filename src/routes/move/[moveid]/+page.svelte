@@ -40,11 +40,7 @@
 			return entry.language.name === language;
 		});
 
-		if (!effect) {
-			return '';
-		}
-
-		return effect.effect;
+		return effect?.effect ?? '';
 	};
 
 	$: primaryFlavourText = findFlavourEntry(data.move, $primaryLanguage, $selectedGame);

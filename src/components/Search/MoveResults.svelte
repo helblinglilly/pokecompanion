@@ -10,19 +10,15 @@
 	let maxResults = maxSearchResults;
 </script>
 
-{#each moveResults as move, index}
-	{#if index < maxResults}
-		<a href={`/move/${move.id}`} class="no-style" id={`ability-preview-${move.id}`}>
-			<div
-				class="card clickable"
-				style="display: flex; align-items: center; padding: 1rem; margin-top: 1rem;"
-			>
-				<p>
-					{getMultiLanguageName(move.names, $primaryLanguage, $secondaryLanguage)}
-				</p>
-			</div>
-		</a>
-	{/if}
+{#each moveResults.slice(0, maxResults) as move}
+	<a href={`/move/${move.id}`} class="no-style" id={`ability-preview-${move.id}`}>
+		<div
+			class="card clickable"
+			style="display: flex; align-items: center; padding: 1rem; margin-top: 1rem;"
+		>
+			<p>{getMultiLanguageName(move.names, $primaryLanguage, $secondaryLanguage)}</p>
+		</div>
+	</a>
 {/each}
 {#if maxResults < moveResults.length}
 	<div style="display: flex; flex-direction: column">
