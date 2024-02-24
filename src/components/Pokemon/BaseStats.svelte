@@ -23,8 +23,8 @@
 
 <table>
 	<thead>
-		<th style="padding-right: 0.5rem; padding-bottom: 0.5rem;"> Stat </th>
-		<td style="display: inline-flex; width: 100%; justify-content: space-between;">
+		<th> Stat </th>
+		<td id="statTableHeading">
 			<p>0</p>
 			<p>70 Average</p>
 			<p>220</p>
@@ -130,7 +130,8 @@
 	}
 	th {
 		text-align: start;
-		/* padding-bottom: 1rem; */
+		padding-right: 0.5rem;
+		padding-bottom: 0.5rem;
 	}
 	tr {
 		padding-bottom: 0.5rem;
@@ -142,8 +143,13 @@
 		min-width: fit-content;
 	}
 	tfoot {
-		/* border-top: 1px solid grey; */
 		margin-top: 20px;
+	}
+
+	#statTableHeading {
+		display: inline-flex;
+		width: 100%;
+		justify-content: space-between;
 	}
 
 	.data {

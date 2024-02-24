@@ -7,7 +7,7 @@
 	import PokemonGroup from '$components/UI/PokemonGroup.svelte';
 	import type { IGame } from '$lib/data/games';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
-	import { tagStore } from '$lib/stores/tagsStore.js';
+	import { tagStore } from '$lib/stores/tags.js';
 	import { currentUser } from '$lib/stores/user';
 	import type { IMove } from '$lib/types/IMoves.js';
 	import { getNameEntries, joinNameEntries } from '$lib/utils/language';

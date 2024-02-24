@@ -28,9 +28,9 @@
 	import SpritePreview from '$components/Pokemon/SpritePreview.svelte';
 	import Icon from '$components/UI/Icon.svelte';
 	import { page } from '$app/stores';
-	import { encounterDisplayStore, pokemonDisplayStore } from '$lib/stores/pokemonPageStore.js';
+	import { encounterDisplayStore, pokemonDisplayStore } from '$lib/stores/pokemonPage.js';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
-	import { tagStore } from '$lib/stores/tagsStore';
+	import { tagStore } from '$lib/stores/tags.js';
 	import EditTag from '$components/Tags/EditTag.svelte';
 	import TypeMatchup from '$components/Pokemon/TypeMatchup.svelte';
 	import Abilities from '$components/Pokemon/Abilities.svelte';

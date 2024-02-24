@@ -4,7 +4,7 @@ import { currentUser } from './user';
 import { error } from '$lib/log';
 import { addNotification } from './notifications';
 import type { ITagMove, ITagMoveNew, ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
-import type { IDisplayPokemon } from './pokemonPageStore';
+import type { IDisplayPokemon } from './pokemonPage';
 
 export const tagStore = writable<ITags[]>([]);
 

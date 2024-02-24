@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Modal from '$components/UI/Modal.svelte';
-	import { pokemonDisplayStore, type IDisplayPokemon } from '$lib/stores/pokemonPageStore';
+	import { pokemonDisplayStore, type IDisplayPokemon } from '$lib/stores/pokemonPage';
 	import {
 		addMoveToTag,
 		addPokemonToTag,
@@ -10,7 +10,7 @@
 		removeMoveFromTag,
 		removePokemonFromTag,
 		tagStore
-	} from '$lib/stores/tagsStore';
+	} from '$lib/stores/tags';
 	import type { ITagMoveNew } from '$lib/types/ITags';
 
 	let showAddToOverlay = false;

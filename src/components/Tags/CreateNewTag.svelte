@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import Modal from '$components/UI/Modal.svelte';
-	import { createTag } from '$lib/stores/tagsStore';
+	import { createTag } from '$lib/stores/tags';
 	import type { ITagMove, ITagMoveNew, ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
 
 	export let userId: string;

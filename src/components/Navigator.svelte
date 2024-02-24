@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { pokemonDisplayStore } from '$lib/stores/pokemonPageStore';
+	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
 	import { capitaliseFirstLetter } from '$lib/utils/string';
 	import Image from './UI/Image.svelte';
 

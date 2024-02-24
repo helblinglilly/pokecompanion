@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Icon from '$components/UI/Icon.svelte';
+	import { warn } from '$lib/log';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import type { Ability, ApiAbility } from '$lib/types/IPokemon';
 	import { dropFalsey, uniques } from '$lib/utils/array';
@@ -24,7 +25,10 @@
 			abilities.map((ability) => {
 				return fetch(ability.ability.url);
 			})
-		);
+		).catch((err) => {
+			warn(`Failed to fetch abilities`, `ClientSideFetchError`, err);
+			return [];
+		});
 
 		const apiAbilities = (await Promise.all(
 			allRequests.map((res) => res.json())
@@ -69,37 +73,37 @@
 </script>
 
 <div class="columns">
-	{#if data.length > 0}
-		{#each data as ability, i}
-			<div class="column" style="display: flex; align-content: center; justify-content: center;">
-				<button
-					class="button secondary"
-					style={`display: inline-flex; width: 100%; min-width: max-content; justify-content: center;${
-						selectedAbility === i ? 'background-color: var(--selected);' : ''
-					}`}
-					on:click={() => {
-						if (selectedAbility === i) {
-							selectedAbility = -1;
-						} else {
-							selectedAbility = i;
-						}
-					}}
-				>
-					{#if ability.is_hidden}
-						<Icon
-							name="hidden"
-							style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
-						/>
-					{/if}
-					<p style="margin-top: auto; margin-bottom: auto; text-align: center;">
-						{ability.names[0] ?? ability.names[1] ?? 'No data'}
-					</p>
-				</button>
-			</div>
-		{/each}
-	{:else}
+	{#if data.length === 0}
 		<p>Loading...</p>
 	{/if}
+
+	{#each data as ability, i}
+		<div class="column" style="display: flex; align-content: center; justify-content: center;">
+			<button
+				class="button secondary"
+				style={`display: inline-flex; width: 100%; min-width: max-content; justify-content: center;${
+					selectedAbility === i ? 'background-color: var(--selected);' : ''
+				}`}
+				on:click={() => {
+					if (selectedAbility === i) {
+						selectedAbility = -1;
+					} else {
+						selectedAbility = i;
+					}
+				}}
+			>
+				{#if ability.is_hidden}
+					<Icon
+						name="hidden"
+						style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
+					/>
+				{/if}
+				<p style="margin-top: auto; margin-bottom: auto; text-align: center;">
+					{ability.names[0] ?? ability.names[1] ?? 'No data'}
+				</p>
+			</button>
+		</div>
+	{/each}
 </div>
 
 {#each data as ability, i}

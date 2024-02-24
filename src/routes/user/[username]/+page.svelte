@@ -10,7 +10,7 @@
 	import { error } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
-	import { tagStore } from '$lib/stores/tagsStore';
+	import { tagStore } from '$lib/stores/tags.js';
 	import SocialPreview from '$components/SocialPreview.svelte';
 
 	export let data;

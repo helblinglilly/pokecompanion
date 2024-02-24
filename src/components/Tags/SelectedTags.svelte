@@ -6,9 +6,9 @@
 		doesTagContainPokemon,
 		refetchTags,
 		tagStore
-	} from '$lib/stores/tagsStore';
+	} from '$lib/stores/tags';
 	import { onMount } from 'svelte';
-	import { type IDisplayPokemon } from '$lib/stores/pokemonPageStore';
+	import { type IDisplayPokemon } from '$lib/stores/pokemonPage';
 
 	export let userId: string;
 	export let pokemon: IDisplayPokemon | undefined = undefined;

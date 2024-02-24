@@ -22,10 +22,10 @@ export const actions: Actions = {
 
 			if (!result.valid) {
 				error(400, {
-                					status: 400,
-                					message: `Invalid username: ${result.message}`,
-                					errorId: '400InvalidUsername'
-                				});
+					status: 400,
+					message: `Invalid username: ${result.message}`,
+					errorId: '400InvalidUsername'
+				});
 			}
 		}
 

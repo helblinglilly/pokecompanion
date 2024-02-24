@@ -1,4 +1,4 @@
-import type { IType } from '$lib/stores/pokemonPageStore';
+import type { IType } from '$lib/stores/pokemonPage';
 import type { Ability, Generation, IPokemon } from '$lib/types/IPokemon';
 import { Generations, type IGame, type IGeneration } from './games';
 
