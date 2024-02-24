@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { replaceState } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPageStore';
 	import { capitaliseFirstLetter } from '$lib/utils/string';
@@ -64,11 +64,11 @@
 								// @ts-ignore complains that .value does not exist
 								if (e.target.value.endsWith('-default')) {
 									newUrl.searchParams.delete('variety');
-									replaceState(newUrl, $page.state);
+									goto(newUrl.toString());
 								} else {
 									// @ts-ignore complains that .value does not exist
 									newUrl.searchParams.set('variety', e.target.value);
-									replaceState(newUrl, $page.state);
+									goto(newUrl.toString());
 								}
 							}
 						}}
@@ -125,11 +125,11 @@
 								// @ts-ignore complains that .value does not exist
 								if (e.target.value.endsWith('-default')) {
 									newUrl.searchParams.delete('variety');
-									replaceState(newUrl, $page.state);
+									goto(newUrl.toString());
 								} else {
 									// @ts-ignore complains that .value does not exist
 									newUrl.searchParams.set('variety', e.target.value);
-									replaceState(newUrl, $page.state);
+									goto(newUrl.toString());
 								}
 							}
 						}}
