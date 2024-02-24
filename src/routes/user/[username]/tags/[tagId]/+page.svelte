@@ -17,8 +17,8 @@
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { termNormaliser } from '$lib/utils/string.js';
 	import SocialPreview from '$components/SocialPreview.svelte';
-	import MoveCardEntry from '$components/Tags/MoveListEntry.svelte';
-	import Move from '$components/Pokemon/Move.svelte';
+	import MoveCardEntry from '$components/Tags/MoveCardEntry.svelte';
+	import MoveListEntry from '$components/Tags/MoveListEntry.svelte';
 
 	export let data;
 	$: tags = data;
@@ -219,7 +219,7 @@
 {/if}
 
 <div id="viewOptionsWrapper">
-	<div>
+	<div style="display: none;">
 		<button class="button" on:click={async () => {}}>Copy</button>
 		<button
 			class="button"
@@ -294,9 +294,9 @@
 
 	{#each filteredMove.sort((a, b) => (a.id > b.id ? 1 : -1)) as moveTag}
 		{#if displayMode === 'card'}
-			<p>Move {moveTag.id}</p>
-		{:else}
 			<MoveCardEntry id={moveTag.id} showRemoveButton={inModifyView} onRemoveClick={() => {}} />
+		{:else}
+			<MoveListEntry id={moveTag.id} showRemoveButton={inModifyView} onRemoveClick={() => {}} />
 		{/if}
 	{/each}
 </div>
