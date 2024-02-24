@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { pokemonDisplayStore } from '$lib/stores/pokemonPageStore';
+	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
 	import { capitaliseFirstLetter } from '$lib/utils/string';
 	import Image from './UI/Image.svelte';
 
@@ -61,12 +61,14 @@
 						on:change={(e) => {
 							if (e.target) {
 								const newUrl = new URL($page.url);
+								// @ts-ignore complains that .value does not exist
 								if (e.target.value.endsWith('-default')) {
 									newUrl.searchParams.delete('variety');
-									goto(newUrl.toString(), { replaceState: false });
+									goto(newUrl.toString());
 								} else {
+									// @ts-ignore complains that .value does not exist
 									newUrl.searchParams.set('variety', e.target.value);
-									goto(newUrl.toString(), { replaceState: false });
+									goto(newUrl.toString());
 								}
 							}
 						}}
@@ -120,12 +122,14 @@
 						on:change={(e) => {
 							if (e.target) {
 								const newUrl = new URL($page.url);
+								// @ts-ignore complains that .value does not exist
 								if (e.target.value.endsWith('-default')) {
 									newUrl.searchParams.delete('variety');
-									goto(newUrl.toString(), { replaceState: true });
+									goto(newUrl.toString());
 								} else {
+									// @ts-ignore complains that .value does not exist
 									newUrl.searchParams.set('variety', e.target.value);
-									goto(newUrl.toString(), { replaceState: true });
+									goto(newUrl.toString());
 								}
 							}
 						}}

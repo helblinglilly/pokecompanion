@@ -1,16 +1,22 @@
 <script lang="ts">
 	import Modal from '$components/UI/Modal.svelte';
-	import { pokemonDisplayStore } from '$lib/stores/pokemonPageStore';
+	import { pokemonDisplayStore, type IDisplayPokemon } from '$lib/stores/pokemonPage';
 	import {
+		addMoveToTag,
 		addPokemonToTag,
+		doesTagContainMove,
 		doesTagContainPokemon,
 		refetchTags,
+		removeMoveFromTag,
 		removePokemonFromTag,
 		tagStore
-	} from '$lib/stores/tagsStore';
+	} from '$lib/stores/tags';
+	import type { ITagMoveNew } from '$lib/types/ITags';
 
 	let showAddToOverlay = false;
 	export let userId: string;
+	export let pokemon: IDisplayPokemon | undefined = undefined;
+	export let move: ITagMoveNew | undefined = undefined;
 </script>
 
 <button
@@ -32,33 +38,42 @@
 					<input
 						type="checkbox"
 						id={tag.name}
-						checked={doesTagContainPokemon($pokemonDisplayStore, tag)}
+						checked={pokemon
+							? doesTagContainPokemon(pokemon, tag)
+							: move
+							? doesTagContainMove(move.id, tag)
+							: false}
 						on:change={async (e) => {
 							if (e.currentTarget.checked) {
-								await addPokemonToTag(
-									{
-										id: $pokemonDisplayStore.id,
-										gender: $pokemonDisplayStore.gender,
-										shiny:
-											$pokemonDisplayStore.hasShinySprite &&
-											$pokemonDisplayStore.showShinySpriteIfExists,
-										variety: $pokemonDisplayStore.variety
-									},
-									tag.id
-								);
+								if (pokemon) {
+									await addPokemonToTag(
+										{
+											id: pokemon.id,
+											gender: pokemon.gender,
+											shiny: pokemon.hasShinySprite && pokemon.showShinySpriteIfExists,
+											variety: pokemon.variety
+										},
+										tag.id
+									);
+								} else if (move) {
+									await addMoveToTag(move, tag.id);
+								}
+
 								await refetchTags(userId);
 							} else {
-								await removePokemonFromTag(
-									{
-										id: $pokemonDisplayStore.id,
-										gender: $pokemonDisplayStore.gender,
-										shiny:
-											$pokemonDisplayStore.hasShinySprite &&
-											$pokemonDisplayStore.showShinySpriteIfExists,
-										variety: $pokemonDisplayStore.variety
-									},
-									tag.id
-								);
+								if (pokemon) {
+									await removePokemonFromTag(
+										{
+											id: pokemon.id,
+											gender: pokemon.gender,
+											shiny: pokemon.hasShinySprite && pokemon.showShinySpriteIfExists,
+											variety: pokemon.variety
+										},
+										tag.id
+									);
+								} else if (move) {
+									await removeMoveFromTag(move, tag.id);
+								}
 								await refetchTags(userId);
 							}
 						}}

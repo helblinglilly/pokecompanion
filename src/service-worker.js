@@ -24,7 +24,9 @@ function install_listener(event) {
 			caches
 				.open(ASSETS)
 				.then((cache) => {
-					cache.addAll(staticAssets);
+					cache.addAll(staticAssets).catch((err) => {
+						console.log(`Failed to add asset to static cache - ${err}`);
+					});
 				})
 				.catch((err) => {
 					console.error('Error during installation:', err);
@@ -168,6 +170,11 @@ async function fetch_listener(event) {
 			url.pathname.includes('/user/')
 		) {
 			event.respondWith(networkOnly(request));
+			return;
+		}
+
+		if (url.pathname.startsWith('/src/lib/data')) {
+			event.respondWith(cacheFirst(request));
 			return;
 		}
 		// Try to get every other request fresh first - search should be cached in the future

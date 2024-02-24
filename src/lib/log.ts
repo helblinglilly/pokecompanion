@@ -52,7 +52,10 @@ const logToAxiom = (other: object, serverRequest?: Request, serverCookies?: Cook
 		}).catch((error) => console.error('Error:', error));
 	} catch {
 		if (!serverRequest) {
-			console.error('Trying to log on the server side, but no request has been provided');
+			console.warn(
+				'Trying to log on the server side, but no request has been provided',
+				new Error().stack
+			);
 
 			fetch(apiUrl, {
 				method: 'POST',
@@ -67,6 +70,7 @@ const logToAxiom = (other: object, serverRequest?: Request, serverCookies?: Cook
 							application: 'pokecompanion',
 							status: 500,
 							error: 'FAILED_TO_LOG',
+							logFailureStackTrace: new Error().stack,
 							...other
 						}
 					}
@@ -123,7 +127,6 @@ const error = (message: string, errorId: string, details?: unknown) => {
 	const timestamp = new Date().toISOString();
 	const level = 'ERROR';
 
-	
 	Sentry.captureMessage(message, {
 		level: 'error',
 		extra: {
@@ -147,16 +150,20 @@ const info = (message: string) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const warn = (message: string, extra: any) => {
+const warn = (message: string, errorId: string, details?: unknown) => {
 	const timestamp = new Date().toISOString();
 	const level = 'WARN';
 
 	Sentry.captureMessage(message, {
 		level: 'warning',
-		extra
+		extra: {
+			errorId,
+			details
+		}
 	});
-	console.warn(timestamp, level, message);
-	logToAxiom({ action: 'log', level: 'warning', message: message, extra: { ...extra } });
+
+	console.error(timestamp, level, errorId, `'${message}'`, details);
+	logToAxiom({ action: 'log', level: 'warning', message: message, details: details });
 };
 
 export { error, info, warn, logToAxiom };

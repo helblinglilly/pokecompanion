@@ -18,3 +18,6 @@ vite.config.ts.timestamp-*
 
 # Social previews
 static/socialpreview**
+
+.zed
+scripts/*

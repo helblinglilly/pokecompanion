@@ -12,7 +12,10 @@ export async function POST({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', request);
+		warn('Failed to parse JSON from request body', `FailedPostTag`, {
+			cookies: cookies,
+			request: request
+		});
 		return new Response('Invalid body', {
 			status: 400
 		});
@@ -25,11 +28,13 @@ export async function POST({ request, cookies }) {
 	}
 
 	const existingContent = (await authedPb.collection('tags').getOne(body.id)) as ITag;
-
+	const existingPokemon = existingContent.contents.pokemon ?? [];
+	const existingMoves = existingContent.contents.move ?? [];
 	try {
 		await authedPb.collection('tags').update(body.id, {
 			contents: {
-				pokemon: existingContent.contents.pokemon.concat(body.contents.pokemon)
+				pokemon: existingPokemon.concat(body.contents.pokemon ?? []),
+				move: existingMoves.concat(body.contents.move ?? [])
 			}
 		});
 	} catch (err) {
@@ -53,7 +58,10 @@ export async function DELETE({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', request);
+		warn('Failed to parse JSON from request body', `FailedDeleteFromTag`, {
+			cookies: cookies,
+			request: request
+		});
 		return new Response('Invalid body', {
 			status: 400
 		});
@@ -68,9 +76,16 @@ export async function DELETE({ request, cookies }) {
 	const existingContent = (await authedPb.collection('tags').getOne(body.id)) as ITag;
 
 	const newContents = {
-		pokemon: existingContent.contents.pokemon.filter((existing) => {
+		pokemon: existingContent.contents.pokemon?.filter((existing) => {
 			return (
-				body?.contents.pokemon.find((req) => {
+				body?.contents.pokemon?.find((req) => {
+					return req.id !== existing.id;
+				}) !== undefined
+			);
+		}),
+		move: existingContent.contents.move?.filter((existing) => {
+			return (
+				body?.contents.move?.find((req) => {
 					return req.id !== existing.id;
 				}) !== undefined
 			);
@@ -79,11 +94,15 @@ export async function DELETE({ request, cookies }) {
 	try {
 		await authedPb.collection('tags').update(body.id, {
 			contents: {
-				pokemon: newContents.pokemon
+				pokemon: newContents.pokemon,
+				move: newContents.move
 			}
 		});
 	} catch (err) {
-		error(JSON.stringify(err), 'FailedToRemoveFromTag');
+		error(JSON.stringify(err), 'FailedToRemoveFromTag', {
+			pokemon: body.contents.pokemon,
+			move: body.contents.move
+		});
 		return new Response('Failed to remove item from tag', {
 			status: 500
 		});
@@ -112,7 +131,10 @@ export async function PATCH({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', request);
+		warn('Failed to parse JSON from request body', `FailedPatchTag`, {
+			cookies: cookies,
+			request: request
+		});
 		return new Response('Invalid body', {
 			status: 400
 		});
@@ -126,7 +148,6 @@ export async function PATCH({ request, cookies }) {
 
 	if (
 		!body.contents ||
-		body.contents.pokemon.length === undefined ||
 		!body.name ||
 		body.isPrivate === undefined ||
 		body.showGenderAndShiny === undefined
@@ -139,7 +160,8 @@ export async function PATCH({ request, cookies }) {
 	try {
 		await authedPb.collection('tags').update(body.id, {
 			contents: {
-				pokemon: body.contents.pokemon
+				pokemon: body.contents.pokemon,
+				move: body.contents.move
 			},
 			name: body.name,
 			isPrivate: body.isPrivate,

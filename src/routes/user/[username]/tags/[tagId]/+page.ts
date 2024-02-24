@@ -5,6 +5,8 @@ import { error } from '@sveltejs/kit';
 import Pocketbase from 'pocketbase';
 import type { RecordModel } from 'pocketbase';
 
+type TagRecord = ITag & RecordModel;
+
 export const load = async ({ params }) => {
 	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
 	const [user, freshTags] = await Promise.all([
@@ -14,14 +16,14 @@ export const load = async ({ params }) => {
 
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	//@ts-ignore Extends ITag[] and RecordModel[]
-	const tag = freshTags as ITag;
+	const tag = freshTags as TagRecord;
 
 	if (!user) {
 		error(404, {
-        			status: 404,
-        			message: 'This user does not exist',
-        			errorId: '404UserNotFound'
-        		});
+			status: 404,
+			message: 'This user does not exist',
+			errorId: '404UserNotFound'
+		});
 	}
 	return { user, tag };
 };

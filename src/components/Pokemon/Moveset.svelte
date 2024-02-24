@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { IMoves } from '$lib/data/movesetFilter';
-	import { encounterDisplayStore } from '$lib/stores/pokemonPageStore';
+	import { encounterDisplayStore } from '$lib/stores/pokemonPage';
 	import Move from './Move.svelte';
 
 	export let allMoves: IMoves[];

@@ -49,6 +49,14 @@ export const handle = onHandle(async ({ event, resolve }) => {
 
 	pb.authStore.loadFromCookie(pbAuth);
 
+	try {
+		// get an up-to-date auth store state by verifying and refreshing the loaded auth model (if any)
+		pb.authStore.isValid && (await pb.collection('users').authRefresh());
+	} catch (err) {
+		// clear the auth store on failed refresh
+		pb.authStore.clear();
+	}
+
 	event.locals.pb = pb;
 	event.locals.user = pb.authStore.model;
 

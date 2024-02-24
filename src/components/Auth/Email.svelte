@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
-	import { addNotification, notifications } from '$lib/stores/notifications';
+	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import { deleteCookie, getCookie, getRawCookie } from '$lib/utils/cookies';
 	import { isPasswordValid } from '$lib/utils/user-client';
@@ -43,8 +43,6 @@
 		if (hasFormError) {
 			return;
 		}
-
-		let errorMessage = mode === 'login' ? 'Login failed' : 'Sign up failed';
 
 		try {
 			const formData = new FormData();

@@ -18,7 +18,7 @@ const getRawCookie = (cookieString: string | null, name: string) => {
 		// eslint-disable-next-line no-useless-escape
 		new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
 	);
-	return matches ? matches[0] : '';
+	return matches ? matches[0].replace('; ', '') : '';
 };
 
 const setCookie = (
@@ -49,6 +49,7 @@ const setCookie = (
 };
 
 const deleteCookie = (name: string) => {
+	console.log(`DELETING COOKIE ${name}`);
 	setCookie(name, '', {
 		'max-age': -1
 	});

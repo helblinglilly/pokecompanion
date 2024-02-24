@@ -1,4 +1,5 @@
 import PokemonNames from '$lib/data/pokemonNames.json';
+import MoveNames from '$lib/data/moves.json';
 export interface IGeneration {
 	name: string;
 	short: string;
@@ -887,6 +888,23 @@ export interface IStaticPokemon {
 	}[];
 	redirect: string | undefined;
 }
+
+export interface IStaticMove {
+	id: number;
+	names: {
+		'ja-Hrkt'?: string | undefined;
+		'zh-Hans'?: string | undefined;
+		'zh-Hant'?: string | undefined;
+		de?: string | undefined;
+		en?: string | undefined;
+		es?: string | undefined;
+		fr?: string | undefined;
+		it?: string | undefined;
+		ja?: string | undefined;
+		ko?: string | undefined;
+		roomaji?: string | undefined;
+	}[];
+}
 /**
  * Return a scraped entry of a Pokemon with a given ID
  * @param id The national dex id for a pokemon
@@ -922,4 +940,23 @@ export const getPokemonEntry = (id: number): IStaticPokemon => {
 		...entry,
 		redirect: speciesId.toString()
 	};
+};
+
+export const getMoveEntry = (id: number): IStaticMove => {
+	const entry = MoveNames.find((a) => {
+		return a.id === id;
+	});
+
+	if (!entry) {
+		return {
+			id: id,
+			names: [
+				{
+					'ja-Hrkt': ''
+				}
+			]
+		};
+	}
+
+	return entry;
 };

@@ -28,9 +28,9 @@
 	import SpritePreview from '$components/Pokemon/SpritePreview.svelte';
 	import Icon from '$components/UI/Icon.svelte';
 	import { page } from '$app/stores';
-	import { encounterDisplayStore, pokemonDisplayStore } from '$lib/stores/pokemonPageStore.js';
+	import { encounterDisplayStore, pokemonDisplayStore } from '$lib/stores/pokemonPage.js';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
-	import { tagStore } from '$lib/stores/tagsStore';
+	import { tagStore } from '$lib/stores/tags.js';
 	import EditTag from '$components/Tags/EditTag.svelte';
 	import TypeMatchup from '$components/Pokemon/TypeMatchup.svelte';
 	import Abilities from '$components/Pokemon/Abilities.svelte';
@@ -248,9 +248,9 @@
 
 			{#if $currentUser}
 				<div style="display: flex; justify-content: center; width: 100%; flex-flow: wrap;">
-					<SelectedTags userId={$currentUser.id} />
+					<SelectedTags userId={$currentUser.id} pokemon={$pokemonDisplayStore} />
 					{#if $tagStore.length > 0}
-						<EditTag userId={$currentUser.id} />
+						<EditTag userId={$currentUser.id} pokemon={$pokemonDisplayStore} />
 					{/if}
 					<CreateNewTag
 						userId={$currentUser.id}

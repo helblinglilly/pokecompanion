@@ -10,7 +10,7 @@
 	import { error } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
-	import { tagStore } from '$lib/stores/tagsStore';
+	import { tagStore } from '$lib/stores/tags';
 	import SocialPreview from '$components/SocialPreview.svelte';
 
 	export let data;
@@ -78,7 +78,12 @@
 										<h4 class="h4">{tag.name}</h4>
 									</div>
 									<p style="padding-left: 1rem; min-width: fit-content;">
-										<i>({tag.contents.pokemon.length} entries)</i>
+										<i
+											>({Object.keys(tag.contents).reduce((accumulator, current) => {
+												// @ts-ignore can't tell compiler that current is a key of
+												return accumulator + tag.contents[current].length;
+											}, 0)} entries)</i
+										>
 									</p>
 								</div>
 							</section>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Icon from '$components/UI/Icon.svelte';
+	import { warn } from '$lib/log';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import type { Ability, ApiAbility } from '$lib/types/IPokemon';
 	import { dropFalsey, uniques } from '$lib/utils/array';
@@ -24,7 +25,10 @@
 			abilities.map((ability) => {
 				return fetch(ability.ability.url);
 			})
-		);
+		).catch((err) => {
+			warn(`Failed to fetch abilities`, `ClientSideFetchError`, err);
+			return [];
+		});
 
 		const apiAbilities = (await Promise.all(
 			allRequests.map((res) => res.json())
@@ -37,22 +41,26 @@
 			const lang2 = getNameEntry(apiAbility?.names || [], $secondaryLanguage ?? 'none');
 
 			const effect1 =
-				apiAbility?.effect_entries.find((entry) => {
-					return entry.language.name === $primaryLanguage;
-				}) || undefined;
+				apiAbility?.effect_entries.find((entry) => entry.language.name === $primaryLanguage)
+					?.short_effect ??
+				apiAbility?.flavor_text_entries.find((entry) => entry.language.name === $primaryLanguage)
+					?.flavor_text ??
+				'No data';
 
 			const effect2 =
-				apiAbility?.effect_entries.find((entry) => {
-					return entry.language.name === $secondaryLanguage;
-				}) || undefined;
+				apiAbility?.effect_entries.find((entry) => entry.language.name === $secondaryLanguage)
+					?.short_effect ??
+				apiAbility?.flavor_text_entries.find((entry) => entry.language.name === $secondaryLanguage)
+					?.flavor_text ??
+				'No data';
 
 			return {
 				id: apiAbility?.id || 0,
 				names: dropFalsey(uniques([lang1, lang2])),
 				slot: ability.slot,
 				is_hidden: ability.is_hidden,
-				effect1: effect1 ? effect1.short_effect : $primaryLanguage !== 'none' ? 'No data' : '',
-				effect2: effect2 ? effect2.short_effect : $secondaryLanguage !== 'none' ? 'No data' : ''
+				effect1,
+				effect2
 			};
 		});
 	};
@@ -69,37 +77,37 @@
 </script>
 
 <div class="columns">
-	{#if data.length > 0}
-		{#each data as ability, i}
-			<div class="column" style="display: flex; align-content: center; justify-content: center;">
-				<button
-					class="button secondary"
-					style={`display: inline-flex; width: 100%; min-width: max-content; justify-content: center;${
-						selectedAbility === i ? 'background-color: var(--selected);' : ''
-					}`}
-					on:click={() => {
-						if (selectedAbility === i) {
-							selectedAbility = -1;
-						} else {
-							selectedAbility = i;
-						}
-					}}
-				>
-					{#if ability.is_hidden}
-						<Icon
-							name="hidden"
-							style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
-						/>
-					{/if}
-					<p style="margin-top: auto; margin-bottom: auto; text-align: center;">
-						{ability.names[0] ?? ability.names[1] ?? 'No data'}
-					</p>
-				</button>
-			</div>
-		{/each}
-	{:else}
+	{#if data.length === 0}
 		<p>Loading...</p>
 	{/if}
+
+	{#each data as ability, i}
+		<div class="column" style="display: flex; align-content: center; justify-content: center;">
+			<button
+				class="button secondary"
+				style={`display: inline-flex; width: 100%; min-width: max-content; justify-content: center;${
+					selectedAbility === i ? 'background-color: var(--selected);' : ''
+				}`}
+				on:click={() => {
+					if (selectedAbility === i) {
+						selectedAbility = -1;
+					} else {
+						selectedAbility = i;
+					}
+				}}
+			>
+				{#if ability.is_hidden}
+					<Icon
+						name="hidden"
+						style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
+					/>
+				{/if}
+				<p style="margin-top: auto; margin-bottom: auto; text-align: center;">
+					{ability.names[0] ?? ability.names[1] ?? 'No data'}
+				</p>
+			</button>
+		</div>
+	{/each}
 </div>
 
 {#each data as ability, i}

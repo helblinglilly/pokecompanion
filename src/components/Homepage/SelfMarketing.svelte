@@ -1,7 +1,3 @@
-<script lang="ts">
-	import { homepageMessaging } from '$lib/stores/domain';
-</script>
-
 <div class="columns">
 	<div class="column">
 		<div class="card">
