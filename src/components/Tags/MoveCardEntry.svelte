@@ -103,11 +103,6 @@
 		justify-content: start;
 	}
 
-	span {
-		margin-top: auto;
-		margin-bottom: auto;
-	}
-
 	.types {
 		width: 55px;
 	}

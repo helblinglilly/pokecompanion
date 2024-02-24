@@ -3,7 +3,9 @@ import { getUserByUsername } from '$lib/pb/publicUsers';
 import type { ITag } from '$lib/types/ITags.js';
 import { error } from '@sveltejs/kit';
 import Pocketbase from 'pocketbase';
-// import type { RecordModel } from 'pocketbase';
+import type { RecordModel } from 'pocketbase';
+
+type IRecordTag = ITag & RecordModel;
 
 export const load = async ({ params }) => {
 	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
@@ -14,9 +16,7 @@ export const load = async ({ params }) => {
 		})
 	]);
 
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	//@ts-ignore Extends ITag[] and RecordModel[]
-	const tags = freshTags as ITag[];
+	const tags = freshTags as IRecordTag[];
 
 	if (!user) {
 		error(404, {
