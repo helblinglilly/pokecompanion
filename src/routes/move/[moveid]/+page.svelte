@@ -44,7 +44,7 @@
 			return '';
 		}
 
-		return effect.effect.replaceAll('$effect_chance', move.effect_chance?.toString());
+		return effect.effect;
 	};
 
 	$: primaryFlavourText = findFlavourEntry(data.move, $primaryLanguage, $selectedGame);
