@@ -12,7 +12,10 @@ export async function POST({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', request);
+		warn('Failed to parse JSON from request body', `FailedPostTag`, {
+			cookies: cookies,
+			request: request
+		});
 		return new Response('Invalid body', {
 			status: 400
 		});
@@ -53,7 +56,10 @@ export async function DELETE({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', request);
+		warn('Failed to parse JSON from request body', `FailedDeleteTag`, {
+			cookies: cookies,
+			request: request
+		});
 		return new Response('Invalid body', {
 			status: 400
 		});
@@ -112,7 +118,10 @@ export async function PATCH({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', request);
+		warn('Failed to parse JSON from request body', `FailedPatchTag`, {
+			cookies: cookies,
+			request: request
+		});
 		return new Response('Invalid body', {
 			status: 400
 		});

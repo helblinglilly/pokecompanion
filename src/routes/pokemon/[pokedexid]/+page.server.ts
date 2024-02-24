@@ -1,5 +1,5 @@
 import { formatEncounters, type IEncounterResponse } from '$lib/data/encounterFilter';
-import { findGameFromAPIGameName, findGameFromString, type IGame } from '$lib/data/games.js';
+import { findGameFromAPIGameName, findGameFromString } from '$lib/data/games.js';
 import {
 	fixAbilities,
 	getPokemonTypesInGame,

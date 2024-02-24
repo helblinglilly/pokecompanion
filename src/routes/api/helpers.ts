@@ -1,4 +1,5 @@
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { warn } from '$lib/log';
 import { getRawCookie, parseCookieString } from '$lib/utils/cookies';
 import { addMinutesToDate } from '$lib/utils/date';
 import type { Cookies } from '@sveltejs/kit';
@@ -77,7 +78,11 @@ export const validateAuth = async (request: Request, cookies: Cookies) => {
 			httpOnly: cookieValues.httpOnly,
 			secure: cookieValues.Secure
 		});
-	} catch {
+	} catch (err) {
+		warn('Failed to auth refresh with a signed in user', `FailedAuthRefresh`, {
+			cookies: cookies,
+			request: request
+		});
 		return false;
 	}
 	return pb;
