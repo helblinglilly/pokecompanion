@@ -41,22 +41,26 @@
 			const lang2 = getNameEntry(apiAbility?.names || [], $secondaryLanguage ?? 'none');
 
 			const effect1 =
-				apiAbility?.effect_entries.find((entry) => {
-					return entry.language.name === $primaryLanguage;
-				}) || undefined;
+				apiAbility?.effect_entries.find((entry) => entry.language.name === $primaryLanguage)
+					?.short_effect ??
+				apiAbility?.flavor_text_entries.find((entry) => entry.language.name === $primaryLanguage)
+					?.flavor_text ??
+				'No data';
 
 			const effect2 =
-				apiAbility?.effect_entries.find((entry) => {
-					return entry.language.name === $secondaryLanguage;
-				}) || undefined;
+				apiAbility?.effect_entries.find((entry) => entry.language.name === $secondaryLanguage)
+					?.short_effect ??
+				apiAbility?.flavor_text_entries.find((entry) => entry.language.name === $secondaryLanguage)
+					?.flavor_text ??
+				'No data';
 
 			return {
 				id: apiAbility?.id || 0,
 				names: dropFalsey(uniques([lang1, lang2])),
 				slot: ability.slot,
 				is_hidden: ability.is_hidden,
-				effect1: effect1 ? effect1.short_effect : $primaryLanguage !== 'none' ? 'No data' : '',
-				effect2: effect2 ? effect2.short_effect : $secondaryLanguage !== 'none' ? 'No data' : ''
+				effect1,
+				effect2
 			};
 		});
 	};
