@@ -7,7 +7,8 @@ export interface ITag {
 }
 
 export interface ITagContents {
-	pokemon: ITagPokemon[];
+	pokemon?: ITagPokemon[];
+	move?: ITagMove[];
 }
 
 export interface ITagPokemon extends ITagPokemonNew {
@@ -24,6 +25,13 @@ export interface ITagPokemonNew {
 				name: string | null;
 		  }
 		| undefined;
+}
+
+export interface ITagMove extends ITagMoveNew {
+	added?: string;
+}
+export interface ITagMoveNew {
+	id: number;
 }
 
 export interface ITagRequestBody {

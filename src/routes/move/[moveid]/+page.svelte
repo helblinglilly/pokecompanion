@@ -1,9 +1,14 @@
 <script lang="ts">
 	import SocialPreview from '$components/SocialPreview.svelte';
+	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
+	import SelectedTags from '$components/Tags/SelectedTags.svelte';
+	import EditTag from '$components/Tags/EditTag.svelte';
 	import Image from '$components/UI/Image.svelte';
 	import PokemonGroup from '$components/UI/PokemonGroup.svelte';
 	import type { IGame } from '$lib/data/games';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
+	import { tagStore } from '$lib/stores/tagsStore.js';
+	import { currentUser } from '$lib/stores/user';
 	import type { IMove } from '$lib/types/IMoves.js';
 	import { getNameEntries, joinNameEntries } from '$lib/utils/language';
 
@@ -117,6 +122,27 @@
 
 		{#if !primaryEffectEntry && !secondaryEffectEntry}
 			<p>{findEffectEntry(data.move, 'en')}</p>
+		{/if}
+
+		{#if $currentUser}
+			<hr />
+
+			<div style="display: flex; justify-content: center; width: 100%; flex-flow: wrap;">
+				<SelectedTags userId={$currentUser.id} moveId={data.move.id} />
+				{#if $tagStore.length > 0}
+					<EditTag userId={$currentUser.id} move={{ id: data.move.id }} />
+				{/if}
+				<CreateNewTag
+					userId={$currentUser.id}
+					initialContent={{
+						move: [
+							{
+								id: data.move.id
+							}
+						]
+					}}
+				/>
+			</div>
 		{/if}
 	</div>
 </div>

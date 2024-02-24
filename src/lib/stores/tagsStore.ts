@@ -3,7 +3,7 @@ import { writable } from 'svelte/store';
 import { currentUser } from './user';
 import { error } from '$lib/log';
 import { addNotification } from './notifications';
-import type { ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
+import type { ITagMove, ITagMoveNew, ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
 import type { IDisplayPokemon } from './pokemonPageStore';
 
 export const tagStore = writable<ITags[]>([]);
@@ -27,11 +27,13 @@ export async function createTag(
 	isPrivate: boolean,
 	initialContent?: {
 		pokemon?: ITagPokemon[];
+		move?: ITagMove[];
 	}
 ) {
 	try {
 		const actualInitialContent = {
-			pokemon: initialContent?.pokemon ?? []
+			pokemon: initialContent?.pokemon ?? [],
+			move: initialContent?.move ?? []
 		};
 		const payload = {
 			name,
@@ -44,6 +46,7 @@ export async function createTag(
 			method: 'POST',
 			body: JSON.stringify(payload)
 		});
+
 		if (!response.ok) {
 			throw new Error(`${response.status}, ${JSON.stringify(payload)}`);
 		}
@@ -89,6 +92,32 @@ export async function addPokemonToTag(pokemon: ITagPokemonNew, tagId: string) {
 	}
 }
 
+export async function addMoveToTag(move: ITagMoveNew, tagId: string) {
+	try {
+		await fetch(`/api/tag`, {
+			method: 'POST',
+			body: JSON.stringify({
+				id: tagId,
+				contents: {
+					move: [
+						{
+							...move,
+							added: new Date().toISOString()
+						}
+					]
+				}
+			})
+		});
+	} catch (err) {
+		addNotification({ message: 'Could not add tag. Please try again', level: 'failure' });
+		error(
+			'Failed to add item to tag',
+			'FailedToAddToTag',
+			`Tag ID: ${tagId}, Move: ${move}, Error: ${JSON.stringify(err)}`
+		);
+	}
+}
+
 export async function removePokemonFromTag(pokemon: ITagPokemonNew, tagId: string) {
 	try {
 		await fetch('/api/tag', {
@@ -111,8 +140,29 @@ export async function removePokemonFromTag(pokemon: ITagPokemonNew, tagId: strin
 	}
 }
 
+export async function removeMoveFromTag(move: ITagMoveNew, tagId: string) {
+	try {
+		await fetch('/api/tag', {
+			method: 'DELETE',
+			body: JSON.stringify({
+				id: tagId,
+				contents: {
+					move: [{ id: move.id }]
+				}
+			})
+		});
+	} catch (err) {
+		addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });
+		error(
+			`Failed to remove item from tag'`,
+			'FailedToRemoveFromTag',
+			`Tag ID: ${tagId}, Pokemon: ${move.id}, Error: ${JSON.stringify(err)}`
+		);
+	}
+}
+
 export function doesTagContainPokemon(pokemon: IDisplayPokemon, tag: ITags) {
-	return tag.contents.pokemon.some((a) => {
+	return tag.contents.pokemon?.some((a) => {
 		return (
 			a.id === pokemon.id &&
 			(!pokemon.hasShinySprite || !a.shiny || a.shiny === pokemon.showShinySpriteIfExists) &&
@@ -121,6 +171,12 @@ export function doesTagContainPokemon(pokemon: IDisplayPokemon, tag: ITags) {
 				(a.variety.name === pokemon.variety?.name &&
 					a.variety.spriteId === pokemon.variety.spriteId))
 		);
+	});
+}
+
+export function doesTagContainMove(moveId: number, tag: ITags) {
+	return tag.contents.move?.some((a) => {
+		return a.id === moveId;
 	});
 }
 

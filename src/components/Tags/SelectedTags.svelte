@@ -1,14 +1,26 @@
 <script lang="ts">
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$components/UI/Icon.svelte';
-	import { doesTagContainPokemon, refetchTags, tagStore } from '$lib/stores/tagsStore';
+	import {
+		doesTagContainMove,
+		doesTagContainPokemon,
+		refetchTags,
+		tagStore
+	} from '$lib/stores/tagsStore';
 	import { onMount } from 'svelte';
-	import { pokemonDisplayStore } from '$lib/stores/pokemonPageStore';
+	import { type IDisplayPokemon } from '$lib/stores/pokemonPageStore';
 
 	export let userId: string;
+	export let pokemon: IDisplayPokemon | undefined = undefined;
+	export let moveId: number | undefined = undefined;
 
 	$: currentTags = $tagStore.filter((tag) => {
-		return doesTagContainPokemon($pokemonDisplayStore, tag);
+		if (pokemon) {
+			return doesTagContainPokemon(pokemon, tag);
+		} else if (moveId) {
+			return doesTagContainMove(moveId, tag);
+		}
+		return false;
 	});
 
 	onMount(async () => {
@@ -17,10 +29,18 @@
 </script>
 
 {#each currentTags as tag}
-	<a class="tag" href={`/user/${$currentUser?.username}/tags/${tag.id}#${$pokemonDisplayStore.id}`}>
-		<Icon style="margin-top: auto; margin-bottom: auto;" name="tag" />
-		<p>{tag.name}</p>
-	</a>
+	{#if pokemon}
+		<a class="tag" href={`/user/${$currentUser?.username}/tags/${tag.id}#${pokemon.id}`}>
+			<Icon style="margin-top: auto; margin-bottom: auto;" name="tag" />
+			<p>{tag.name}</p>
+		</a>
+	{/if}
+	{#if moveId}
+		<a class="tag" href={`/user/${$currentUser?.username}/tags/${tag.id}#move-${moveId}`}>
+			<Icon style="margin-top: auto; margin-bottom: auto;" name="tag" />
+			<p>{tag.name}</p>
+		</a>
+	{/if}
 {/each}
 
 <style>

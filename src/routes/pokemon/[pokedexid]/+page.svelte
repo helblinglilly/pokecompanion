@@ -248,9 +248,9 @@
 
 			{#if $currentUser}
 				<div style="display: flex; justify-content: center; width: 100%; flex-flow: wrap;">
-					<SelectedTags userId={$currentUser.id} />
+					<SelectedTags userId={$currentUser.id} pokemon={$pokemonDisplayStore} />
 					{#if $tagStore.length > 0}
-						<EditTag userId={$currentUser.id} />
+						<EditTag userId={$currentUser.id} pokemon={$pokemonDisplayStore} />
 					{/if}
 					<CreateNewTag
 						userId={$currentUser.id}
