@@ -1,7 +1,7 @@
 <div class="columns">
 	<div class="column">
 		<div class="card">
-			<h1 class="h2">View your favourite Pokémon</h1>
+			<h2 class="h3">View your favourite Pokémon</h2>
 			<p>
 				Take a look at <a href="/pokemon/194?variety=wooper-paldea">Paldean Wooper</a>, isn't he
 				just great?
