@@ -5,6 +5,7 @@
 	import type { Ability, ApiAbility } from '$lib/types/IPokemon';
 	import { dropFalsey, uniques } from '$lib/utils/array';
 	import { getNameEntry } from '$lib/utils/language';
+	import { debounce } from 'lodash-es';
 	import { onMount } from 'svelte';
 
 	export let abilities: Ability[];
@@ -20,7 +21,7 @@
 	}[] = [];
 	let selectedAbility = -1;
 
-	const fetchData = async () => {
+	const fetchData = debounce(async () => {
 		const allRequests = await Promise.all(
 			abilities.map((ability) => {
 				return fetch(ability.ability.url);
@@ -63,7 +64,7 @@
 				effect2
 			};
 		});
-	};
+	}, 500);
 
 	onMount(async () => {
 		await fetchData();

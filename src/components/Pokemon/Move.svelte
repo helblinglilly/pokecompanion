@@ -3,6 +3,7 @@
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { getMove, type IMove } from '$lib/types/IMoves';
 	import { getNameEntry } from '$lib/utils/language';
+	import { debounce } from 'lodash-es';
 	import { onMount } from 'svelte';
 
 	export let url: string;
@@ -10,10 +11,12 @@
 
 	let move: IMove | undefined;
 
-	onMount(async () => {
+	const fetchMove = debounce(async () => {
 		const id = url.split('/')[6];
 		move = await getMove(id, $selectedGame);
-	});
+	}, 500);
+
+	onMount(fetchMove);
 
 	$: primaryName = move ? getNameEntry(move.names, $primaryLanguage) : undefined;
 	$: secondaryName =
