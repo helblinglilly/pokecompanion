@@ -3,18 +3,26 @@
 	import SelfMarketing from '$components/Homepage/SelfMarketing.svelte';
 	import SocialPreview from '$components/SocialPreview.svelte';
 	import PokemonCardEntry from '$components/Tags/PokemonCardEntry.svelte';
+	import { logToAxiom } from '$lib/log';
 	import { lastPokedexEntry } from '$lib/stores/domain';
 	import { daysPassedInYear, randomDailyNumber } from '$lib/utils/number';
+	import { onMount } from 'svelte';
 
 	// import { homepageMessaging } from '$lib/stores/domain';
 
 	const pokemonOtdId = randomDailyNumber(lastPokedexEntry)[daysPassedInYear()];
 	const featuredPokemon = {
-		id: randomDailyNumber(lastPokedexEntry)[daysPassedInYear()],
+		id: pokemonOtdId,
 		// 1% chance to show a shiny.
 		// Zacian is the first Pokemon to have been shiny locked - no shiny exists
 		shiny: Math.random() < 0.01 && pokemonOtdId < 888
 	};
+
+	onMount(() => {
+		logToAxiom({
+			pokemonOtd: pokemonOtdId
+		});
+	});
 </script>
 
 <svelte:head>
