@@ -64,7 +64,7 @@
 			<Image
 				src={`/icons/types/${data.move.type.name}.webp`}
 				alt={data.move.type.name}
-				style="margin-right: 4px; width: 50px;"
+				style="margin-right: 4px; width: 50px; height: 24px;"
 			/>
 
 			<div style="display: inline-flex; justify-content: space-between; width: 100%;">
