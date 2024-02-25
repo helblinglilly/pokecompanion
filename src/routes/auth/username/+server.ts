@@ -2,6 +2,7 @@ import type { SignedInUser } from '$lib/stores/user.js';
 import isStringToxic from '$lib/server/toxic.js';
 import { validateAuth } from '../../api/helpers.js';
 import { addMinutesToDate } from '$lib/utils/date.js';
+import { logError, warn } from '$lib/log.js';
 
 export async function PATCH({ request, cookies }) {
 	const pb = await validateAuth(request, cookies);
@@ -11,7 +12,7 @@ export async function PATCH({ request, cookies }) {
 		});
 	}
 
-	const { updatedUsername } = await request.json();
+	const { updatedUsername } = (await request.json()) as unknown as { updatedUsername: string };
 	if (!updatedUsername) {
 		return new Response(
 			JSON.stringify({
@@ -28,7 +29,11 @@ export async function PATCH({ request, cookies }) {
 
 	const isToxic = await isStringToxic(updatedUsername);
 	if (isToxic) {
-		console.log(`Toxic username has been shown 500: ${updatedUsername}`);
+		warn(`Toxic username has been detected`, `ToxicPrevention`, {
+			attemptedUsername: updatedUsername,
+			request,
+			cookies
+		});
 		return new Response('Something went wrong', {
 			status: 500
 		});
@@ -41,14 +46,16 @@ export async function PATCH({ request, cookies }) {
 			avatar: currentUser.avatar
 		});
 	} catch (error) {
-		console.error(error);
+		logError(`Error when updating username`, `FailedUpdateUsername`, {
+			error,
+			request,
+			cookies
+		});
 		return new Response('Error when updating username', {
 			status: 500
 		});
 	}
 
-	// Refreshing auth here is not working correctly
-	// Vulnerable to replay attacks after user has signed out
 	return new Response(JSON.stringify({ score: 'yes' }), {
 		headers: {
 			'Content-Type': 'application/json',

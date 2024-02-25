@@ -1,4 +1,5 @@
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { logError } from '$lib/log';
 import Pocketbase from 'pocketbase';
 
 export const load = async ({ params }) => {
@@ -9,7 +10,7 @@ export const load = async ({ params }) => {
 			success: true
 		};
 	} catch (err) {
-		console.error('Email verification failed', err);
+		logError('Email verification failed', 'FailedEmailVerification', err);
 		return {
 			success: false
 		};

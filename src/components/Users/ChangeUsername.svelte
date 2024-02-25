@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { currentUser } from '$lib/stores/user';
-	import { notifications } from '$lib/stores/notifications';
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import { goto } from '$app/navigation';
 	import { pb } from '$lib/stores/domain';
-	import { error } from '$lib/log';
+	import { logError } from '$lib/log';
 
 	let newUsername: string;
 	let errorMessage: string;
@@ -38,7 +37,7 @@
 			if (!repsonse.ok) {
 				errorMessage = 'Failed to update username';
 				if (repsonse.status > 401) {
-					error(
+					logError(
 						`Failed to update username`,
 						`FailedToUpdateUsername`,
 						`Current: ${$currentUser.username}, New: ${newUsername}, Error: ${repsonse.status}`

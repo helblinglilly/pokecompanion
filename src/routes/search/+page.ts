@@ -1,4 +1,4 @@
-import { error, logToAxiom } from '$lib/log';
+import { logError, logToAxiom } from '$lib/log';
 
 export interface IResults {
 	pokemon: any[];
@@ -45,7 +45,7 @@ export const load = async ({ fetch, url }) => {
 		}
 	} catch (err) {
 		errorMessage = "Couldn't get search results";
-		error('Error occurred when getting search results', 'SearchResultsError', err);
+		logError('Error occurred when getting search results', 'SearchResultsError', err);
 	}
 
 	return {

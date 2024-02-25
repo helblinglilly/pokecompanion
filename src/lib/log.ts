@@ -123,7 +123,7 @@ const logToAxiom = (other: object, serverRequest?: Request, serverCookies?: Cook
 	}
 };
 
-const error = (message: string, errorId: string, details?: unknown) => {
+const logError = (message: string, errorId: string, details?: unknown) => {
 	const timestamp = new Date().toISOString();
 	const level = 'ERROR';
 
@@ -166,4 +166,4 @@ const warn = (message: string, errorId: string, details?: unknown) => {
 	logToAxiom({ action: 'log', level: 'warning', message: message, details: details });
 };
 
-export { error, info, warn, logToAxiom };
+export { logError, info, warn, logToAxiom };

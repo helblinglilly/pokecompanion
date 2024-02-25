@@ -6,6 +6,7 @@
 	import Image from '../UI/Image.svelte';
 	import { selectedGame } from '$lib/stores/domain';
 	import { findGameGroupFromString } from '$lib/data/games';
+	import { warn } from '$lib/log';
 
 	export let evolutionChainUrl: string;
 
@@ -29,6 +30,13 @@
 						);
 					})
 					.flat();
+			})
+			.catch((err) => {
+				warn(`Failed to process evolution chain`, `ClientSideFetchError`, {
+					err,
+					url: evolutionChainUrl
+				});
+				return [];
 			})
 			.finally(() => {
 				isMounted = true;

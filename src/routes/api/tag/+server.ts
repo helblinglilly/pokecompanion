@@ -1,4 +1,4 @@
-import { error, warn } from '$lib/log';
+import { logError, warn } from '$lib/log';
 import { validateAuth } from '../helpers.js';
 import type { ITag, ITagContents } from '$lib/types/ITags.js';
 
@@ -38,7 +38,10 @@ export async function POST({ request, cookies }) {
 			}
 		});
 	} catch (err) {
-		error(JSON.stringify(err), 'FailedToAppendToTag');
+		logError(`Failed to update tag - POST`, `FailedToAppendToTag`, {
+			error: err,
+			body
+		});
 		return new Response('Failed to update tag', {
 			status: 500
 		});
@@ -99,7 +102,8 @@ export async function DELETE({ request, cookies }) {
 			}
 		});
 	} catch (err) {
-		error(JSON.stringify(err), 'FailedToRemoveFromTag', {
+		logError(`Failed to remove from tag - DELETE`, 'FailedToRemoveFromTag', {
+			error: err,
 			pokemon: body.contents.pokemon,
 			move: body.contents.move
 		});
@@ -132,6 +136,7 @@ export async function PATCH({ request, cookies }) {
 		body = await request.json();
 	} catch (err) {
 		warn('Failed to parse JSON from request body', `FailedPatchTag`, {
+			error: err,
 			cookies: cookies,
 			request: request
 		});
@@ -168,7 +173,10 @@ export async function PATCH({ request, cookies }) {
 			showGenderAndShiny: body.showGenderAndShiny
 		});
 	} catch (err) {
-		error(JSON.stringify(err), 'FailedToUpdateTag');
+		logError(`Failed to update tag - PATCH`, 'FailedToUpdateTag', {
+			error: err,
+			body
+		});
 		return new Response('Failed to update tag', {
 			status: 500
 		});

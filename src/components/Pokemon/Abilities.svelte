@@ -31,9 +31,10 @@
 			return [];
 		});
 
-		const apiAbilities = (await Promise.all(
-			allRequests.map((res) => res.json())
-		)) as unknown as ApiAbility[];
+		const apiAbilities = (await Promise.all(allRequests.map((res) => res.json())).catch((err) => {
+			warn(`Failed to fetch abilities`, `ClientSideFetchError`, err);
+			return [];
+		})) as unknown as ApiAbility[];
 
 		data = abilities.map((ability) => {
 			const apiAbility = apiAbilities.find((a) => a.name === ability.ability.name);

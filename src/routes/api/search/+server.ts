@@ -5,6 +5,7 @@ import Moves from '$lib/data/moves.json';
 import { getSearchParam, getCookieValue } from '../helpers';
 import { termNormaliser } from '$lib/utils/string';
 import type { IStaticPokemon } from '$lib/data/games';
+import { logError } from '$lib/log';
 
 export async function GET({ request }) {
 	const searchTerm = getSearchParam(request.url, 'term');
@@ -24,7 +25,13 @@ export async function GET({ request }) {
 		getAbilityResults(normalisedTerm, languages),
 		getItemResults(normalisedTerm, languages),
 		getMoveResults(normalisedTerm, languages)
-	]);
+	]).catch((err) => {
+		logError(`Failed to get parts of the search results`, `SearchResultsError`, {
+			error: err,
+			searchTerm
+		});
+		return [[], [], [], []];
+	});
 
 	return respondWithJson({
 		data: {

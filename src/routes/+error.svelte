@@ -1,18 +1,24 @@
 <script>
 	import { page } from '$app/stores';
+	import Feedback from '$components/Feedback.svelte';
 	import Image from '$components/UI/Image.svelte';
-	import { error } from '$lib/log';
+	import { logError } from '$lib/log';
 
-	error(
-		$page.error?.message ?? 'User reached error page',
-		$page.error?.errorId ?? 'Unknown',
-		($page.error?.status ?? $page.status).toString()
-	);
+	logError('User reached error boundary', 'ErrorBoundary', {
+		...$page
+	});
+
+	const errorTitle =
+		$page.status === 404
+			? '404 - This page could not be found'
+			: $page.status < 500
+			? `${$page.status} - The last request wasn't quite right`
+			: `${$page.status} - Something went wrong`;
 </script>
 
 <div id="pageWrapper">
 	<div id="errorHeader">
-		{#if $page.error?.status === 523}
+		{#if $page.status === 523}
 			<Image
 				src="/offline.png"
 				alt="trading card game of the Chrome Offline Dinosaur"
@@ -28,7 +34,7 @@
 		{:else}
 			<Image src="/missingno.png" alt="missingno" style="margin-left: auto; margin-right: auto;" />
 
-			<h1 class="h1">Something went wrong!</h1>
+			<h2 class="h2">{errorTitle}</h2>
 
 			<p>
 				Sorry about that! The details below should give some indication as to what happened. If you
@@ -39,13 +45,11 @@
 		{/if}
 	</div>
 
-	{#if $page.error?.status !== 523}
+	{#if $page.status !== 523}
 		<hr />
 
 		<div id="errorDetails">
-			<h2 class="h2">Status: {$page.error?.status ?? $page.status}</h2>
-
-			{#if $page.status === 400 || $page.error?.status === 400}
+			{#if $page.status === 400}
 				{#if $page.error?.message}
 					<p>{$page.error?.message}</p>
 				{:else}
@@ -60,17 +64,28 @@
 				<p>Go back and try to access a different page</p>
 			{:else if $page.status === 500}
 				<p>Your last action caused something to go wrong on the server.</p>
-				<p>ID: {$page.error?.errorId}</p>
 			{:else}
 				<p>Message: {$page.error?.message}</p>
 			{/if}
 		</div>
+	{/if}
+
+	{#if $page.status >= 500}
+		<hr />
+
+		<h2 class="h2">Journey reporting</h2>
+		<p>
+			If you could spare the time to share how you got to this error screen that would be gratefully
+			appreciated.
+		</p>
+		<Feedback placeholder={'Would you like to share how you got here?'} />
 	{/if}
 </div>
 
 <style>
 	#pageWrapper {
 		margin: 4rem;
+		margin-top: 2rem;
 	}
 	#errorHeader {
 		display: grid;
@@ -82,12 +97,6 @@
 
 	#errorDetails > p {
 		text-align: center;
-	}
-
-	h1 {
-		padding-top: 1rem;
-		text-align: center;
-		padding-bottom: 1rem;
 	}
 
 	hr {

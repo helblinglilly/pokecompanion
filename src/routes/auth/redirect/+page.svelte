@@ -6,7 +6,7 @@
 	import { addMinutesToDate } from '$lib/utils/date';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
-	import { logToAxiom } from '$lib/log';
+	import { logError, logToAxiom } from '$lib/log';
 
 	let status = 'Authenticating...';
 	let errorDetails = '';
@@ -89,6 +89,9 @@
 		} catch (err) {
 			status = 'Sign in failed';
 			errorDetails = 'Could not sign you in. Please try again.';
+			logError(`Failed to sign in`, `SignInFailed`, {
+				error: err
+			});
 		}
 	});
 </script>

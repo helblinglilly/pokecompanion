@@ -6,11 +6,7 @@ declare global {
 			pb: import('pocketbase').default;
 			user: import('pocketbase').default['authStore']['model'];
 		}
-		interface Error {
-			message: string;
-			errorId: string;
-			status: number;
-		}
+		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}
 		// interface Platform {}

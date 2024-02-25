@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Modal from '$components/UI/Modal.svelte';
+	import { logError } from '$lib/log';
 	import { pb } from '$lib/stores/domain';
+	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import { deleteCookie } from '$lib/utils/cookies';
 
@@ -9,11 +11,23 @@
 	export let user: SignedInUser;
 
 	const onDeleteClick = async () => {
-		await $pb.collection('users').delete(user.id);
-		$pb.authStore.clear();
-		currentUser.set(null);
-		deleteCookie('pb_auth');
-		goto('/');
+		try {
+			await $pb.collection('users').delete(user.id);
+			$pb.authStore.clear();
+			currentUser.set(null);
+			deleteCookie('pb_auth');
+			goto('/');
+		} catch (err) {
+			logError(`Failed to delete user account`, `FailedDeleteUser`, {
+				userId: user.id,
+				err
+			});
+			addNotification({
+				message:
+					'Failed to delete user account. Please contact pokecompanion@helbling.uk to delete your account.',
+				level: 'failure'
+			});
+		}
 	};
 </script>
 

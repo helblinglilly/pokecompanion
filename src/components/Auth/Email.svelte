@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { logError } from '$lib/log';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
@@ -85,7 +86,7 @@
 				}
 				goto('/');
 			}
-		} catch {
+		} catch (err) {
 			if (mode === 'login') {
 				passwordError = 'Login failed';
 			} else {
@@ -93,6 +94,7 @@
 			}
 
 			addNotification({ message: 'Oh oh, that was our fault. Please try again', level: 'failure' });
+			logError(passwordError ? 'Login failed' : 'Sign up failed', 'AuthenticationIssue', err);
 		}
 	};
 </script>

@@ -1,6 +1,8 @@
 import type { IGame } from '$lib/data/games';
 import { pokeApiDomain } from '$lib/stores/domain';
 import type { Name, VersionGroup } from './IPokemon';
+import { logError } from '$lib/log';
+import { error } from '@sveltejs/kit';
 
 export interface IMove {
 	accuracy: number | null;
@@ -137,16 +139,27 @@ const getLegacyDamageClass = (existing: string, type: string) => {
 };
 
 export async function getMove(id: string | number, selectedGame: IGame | undefined) {
-	const response = await fetch(pokeApiDomain + `/move/${id}`);
-	const body = (await response.json()) as IMove;
+	try {
+		const response = await fetch(pokeApiDomain + `/move/${id}`);
+		if (!response.ok) {
+			throw new Error(`Non-200 status code - ${response.status}`);
+		}
+		const body = (await response.json()) as IMove;
 
-	if (!selectedGame) {
+		if (!selectedGame) {
+			return body;
+		}
+
+		if (selectedGame.generation.number <= 3) {
+			body.damage_class.name = getLegacyDamageClass(body.damage_class.name, body.type.name);
+		}
+
 		return body;
+	} catch (err) {
+		logError(`Failed to get Move API Data`, 'MoveLoadFailed', {
+			requestUrl: `/move/${id}`,
+			requestError: err
+		});
+		error(500, 'Failed to get Move API data');
 	}
-
-	if (selectedGame.generation.number <= 3) {
-		body.damage_class.name = getLegacyDamageClass(body.damage_class.name, body.type.name);
-	}
-
-	return body;
 }

@@ -9,7 +9,6 @@
 	import { onMount } from 'svelte';
 
 	// import { homepageMessaging } from '$lib/stores/domain';
-
 	const pokemonOtdId = randomDailyNumber(lastPokedexEntry)[daysPassedInYear()];
 	const featuredPokemon = {
 		id: pokemonOtdId,

@@ -1,5 +1,5 @@
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { error } from '$lib/log';
+import { logError } from '$lib/log';
 import Pocketbase from 'pocketbase';
 
 interface IPublicUserResponse {
@@ -25,7 +25,7 @@ export const getUserById = async (id: string): Promise<IPublicUser | undefined> 
 			avatar: `${PUBLIC_POCKETBASE_URL}/${user.avatar_url}`
 		};
 	} catch (err) {
-		error(`Failed to get public user by ID ${id}`, `Failed to fetch user`, err);
+		logError(`Failed to get public user by ID ${id}`, `Failed to fetch user`, err);
 		return;
 	}
 };
@@ -44,7 +44,7 @@ export const getUserByUsername = async (username: string): Promise<IPublicUser |
 			avatar: user.avatar_url
 		};
 	} catch (err) {
-		error(`Failed to get user by username ${username}`, 'Failed to fetch user', err);
+		logError(`Failed to get user by username ${username}`, 'Failed to fetch user', err);
 		return;
 	}
 };
@@ -60,7 +60,7 @@ export const getIdByUsername = async (username: string): Promise<string | undefi
 			.getFirstListItem(`username="${username}"`)) as IPublicUserResponse;
 		return user.id;
 	} catch (err) {
-		error(`Failed to get user id by username ${username}`, `Failed to fetch user`, err);
+		logError(`Failed to get user id by username ${username}`, `Failed to fetch user`, err);
 		return;
 	}
 };

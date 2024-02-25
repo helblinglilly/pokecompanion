@@ -4,7 +4,7 @@ import { toSvg } from 'jdenticon';
 import { isUsernameValid } from '$lib/server/user';
 import { addMinutesToDate } from '$lib/utils/date';
 import { parseCookieString } from '$lib/utils/cookies';
-import { logToAxiom } from '$lib/log';
+import { logError, logToAxiom, warn } from '$lib/log';
 
 export const actions: Actions = {
 	signup: async ({ locals, request, cookies }) => {
@@ -21,11 +21,7 @@ export const actions: Actions = {
 			const result = await isUsernameValid(data.username);
 
 			if (!result.valid) {
-				error(400, {
-					status: 400,
-					message: `Invalid username: ${result.message}`,
-					errorId: '400InvalidUsername'
-				});
+				error(400, `Invalid username: ${result.message}`);
 			}
 		}
 
@@ -36,7 +32,11 @@ export const actions: Actions = {
 		try {
 			await locals.pb.collection('users').create(user);
 		} catch (e) {
-			console.error(e);
+			logError(`Failed to create new user`, `FailedCreateUser`, {
+				error: e,
+				request,
+				cookies
+			});
 			throw e;
 		}
 
@@ -81,7 +81,9 @@ export const actions: Actions = {
 				status: 200
 			};
 		} catch (e) {
-			console.error(e);
+			warn(`Login failed`, `LoginFailed`, {
+				error: e
+			});
 
 			throw e;
 		}

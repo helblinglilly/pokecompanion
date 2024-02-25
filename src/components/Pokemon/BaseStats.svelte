@@ -11,12 +11,12 @@
 	let avg = 0;
 
 	$: {
-		hp = data.filter((a) => a.stat.name === 'hp')[0].base_stat;
-		attack = data.filter((a) => a.stat.name === 'attack')[0].base_stat;
-		defense = data.filter((a) => a.stat.name === 'defense')[0].base_stat;
-		speed = data.filter((a) => a.stat.name === 'speed')[0].base_stat;
-		spAtt = data.filter((a) => a.stat.name === 'special-attack')[0].base_stat;
-		spDef = data.filter((a) => a.stat.name === 'special-defense')[0].base_stat;
+		hp = data.filter((a) => a.stat.name === 'hp')[0]?.base_stat ?? 0;
+		attack = data.filter((a) => a.stat.name === 'attack')[0]?.base_stat ?? 0;
+		defense = data.filter((a) => a.stat.name === 'defense')[0]?.base_stat ?? 0;
+		speed = data.filter((a) => a.stat.name === 'speed')[0]?.base_stat ?? 0;
+		spAtt = data.filter((a) => a.stat.name === 'special-attack')[0]?.base_stat ?? 0;
+		spDef = data.filter((a) => a.stat.name === 'special-defense')[0]?.base_stat ?? 0;
 		avg = Math.floor((hp + attack + defense + speed + spAtt + spDef) / 6);
 	}
 </script>

@@ -7,7 +7,7 @@
 	import Icon from '$components/UI/Icon.svelte';
 	import EmailVerification from '$components/Auth/EmailVerification.svelte';
 	import { pb } from '$lib/stores/domain';
-	import { error } from '$lib/log';
+	import { logError } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tags';
@@ -116,7 +116,7 @@
 										message: 'Failed to request password reset. Please try again',
 										level: 'failure'
 									});
-									error(
+									logError(
 										'Failed to request password reset',
 										'FailedToRequestPasswordReset',
 										JSON.stringify(err)

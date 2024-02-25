@@ -45,9 +45,7 @@ const redirectOffDummyData = (id: number) => {
 export async function load({ params, cookies }) {
 	const moveId = redirectOffDummyData(Number(params.moveid));
 	if (moveId < 1 || moveId > Moves[Moves.length - 1].id) {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore Docs literally say passing strings is supported
-		throw error(404, 'Move not found');
+		error(404, 'Move not found');
 	}
 	const game = findGameFromString(cookies.get('selectedGame'));
 

@@ -80,6 +80,7 @@ export const validateAuth = async (request: Request, cookies: Cookies) => {
 		});
 	} catch (err) {
 		warn('Failed to auth refresh with a signed in user', `FailedAuthRefresh`, {
+			error: err,
 			cookies: cookies,
 			request: request
 		});

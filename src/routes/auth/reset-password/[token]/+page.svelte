@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { error } from '$lib/log';
+	import { logError } from '$lib/log';
 	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
 	import { isPasswordValid } from '$lib/utils/user-client';
@@ -34,7 +34,7 @@
 			passwordError = 'Your password has been changed';
 		} catch (err) {
 			addNotification({ message: 'Failed to reset password', level: 'failure' });
-			error('Failed to Reset Password', `FailedToResetPassword`, `${JSON.stringify(err)}`);
+			logError('Failed to Reset Password', `FailedToResetPassword`, `${JSON.stringify(err)}`);
 		}
 	};
 </script>

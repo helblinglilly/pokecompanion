@@ -1,5 +1,5 @@
 <script>
-	import { error } from '$lib/log';
+	import { logError } from '$lib/log';
 	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
@@ -19,7 +19,7 @@
 				await $pb.collection('users').requestVerification($currentUser.email);
 			} catch (err) {
 				addNotification({ message: 'Failed to request verification Email', level: 'failure' });
-				error('Failed to request verification email', 'FailedToRequestVerificationEmail', err);
+				logError('Failed to request verification email', 'FailedToRequestVerificationEmail', err);
 			}
 		}}>Request verification email</button
 	>

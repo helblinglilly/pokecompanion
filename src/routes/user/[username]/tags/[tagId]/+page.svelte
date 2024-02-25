@@ -7,10 +7,10 @@
 	import Modal from '$components/UI/Modal.svelte';
 	import PokemonCardEntry from '$components/Tags/PokemonCardEntry.svelte';
 	import PokemonListEntry from '$components/Tags/PokemonListEntry.svelte';
-	import { error } from '$lib/log';
+	import { logError } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
-	import type { ITag, ITagMove, ITagPokemon } from '$lib/types/ITags.js';
+	import type { ITag, ITagMove, ITagPokemon, TagRecord } from '$lib/types/ITags.js';
 	import { onMount } from 'svelte';
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import { getMoveEntry, getPokemonEntry } from '$lib/data/games.js';
@@ -112,7 +112,7 @@
 				};
 			} catch (err) {
 				addNotification({ message: 'Failed to save tag', level: 'failure' });
-				error(
+				logError(
 					'Failed to save tag',
 					'FailedToSaveTag',
 					`Tag ID: ${data.tag.id}, Name: ${tags.tag.name}, Contents: ${
@@ -150,7 +150,7 @@
 			addNotification({ message: `Deleted "${tags.tag.name}"`, level: 'success' });
 			goto(`/user/${$currentUser?.username}`);
 		} catch (err) {
-			error(
+			logError(
 				'Failed to delete Tag',
 				'FailedToDeleteTag',
 				`User: ${$currentUser?.username}, ID: ${tags.tag.id}, Error: ${err}`

@@ -1,4 +1,5 @@
 import { PERSPECTIVES_API_KEY } from '$env/static/private';
+import { logError } from '$lib/log';
 const endpoint = 'https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze';
 
 const isStringToxic = async (term: string) => {
@@ -20,19 +21,34 @@ const isStringToxic = async (term: string) => {
 
 	let toxicityScore = 1;
 
-	const response = await fetch(`${endpoint}?key=${PERSPECTIVES_API_KEY}`, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	});
+	try {
+		const response = await fetch(`${endpoint}?key=${PERSPECTIVES_API_KEY}`, {
+			method: 'POST',
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
 
-	if (response.ok) {
-		const repsonseData = await response.json();
+		if (response.ok) {
+			throw new Error(`Non-200 response code - ${response.status}`);
+		}
+
+		const repsonseData = (await response.json()) as unknown as {
+			attributeScores: {
+				TOXICITY: {
+					summaryScore: {
+						value: number;
+					};
+				};
+			};
+		};
 		toxicityScore = repsonseData.attributeScores.TOXICITY.summaryScore.value;
-	} else {
-		console.error('Error while checking term:', await response.text());
+	} catch (err) {
+		logError(`Failed to check term for toxicity`, `ToxicityCheckError`, {
+			term: term,
+			error: err
+		});
 	}
 
 	return toxicityScore >= 0.3;

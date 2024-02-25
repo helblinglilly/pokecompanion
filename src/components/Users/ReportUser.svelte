@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Modal from '$components/UI/Modal.svelte';
-	import { error } from '$lib/log';
+	import { logError } from '$lib/log';
 	import { getIdByUsername } from '$lib/pb/publicUsers';
 	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
@@ -32,11 +32,11 @@
 				message: `Failed to report ${username}. Please try again`,
 				level: 'failure'
 			});
-			error(
-				'Failed to report user',
-				'FailedToReportUser',
-				`User: ${$currentUser?.id}, Reporting: ${username}, ${JSON.stringify(err)}`
-			);
+			logError('Failed to report user', 'FailedToReportUser', {
+				user: $currentUser?.id,
+				reportingUser: username,
+				error: err
+			});
 		}
 	};
 </script>

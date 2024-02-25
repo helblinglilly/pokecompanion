@@ -1,3 +1,5 @@
+import type { RecordModel } from 'pocketbase';
+
 export interface ITag {
 	id: string;
 	name: string;
@@ -50,3 +52,5 @@ export interface ITagUpdateBody {
 		showGenderAndShiny: boolean;
 	}[];
 }
+
+export type TagRecord = ITag & RecordModel;

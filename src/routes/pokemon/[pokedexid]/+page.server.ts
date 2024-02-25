@@ -1,10 +1,10 @@
 import { formatEncounters, type IEncounterResponse } from '$lib/data/encounterFilter';
-import { findGameFromAPIGameName, findGameFromString } from '$lib/data/games.js';
+import { findGameFromAPIGameName, findGameFromString } from '$lib/data/games';
 import {
 	fixAbilities,
 	getPokemonTypesInGame,
 	getTypeRelations
-} from '$lib/data/generationAdjuster.js';
+} from '$lib/data/generationAdjuster';
 import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
 import { lastPokedexEntry, pokeApiDomain } from '$lib/stores/domain';
 import type {
@@ -17,23 +17,55 @@ import type {
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
 import { error } from '@sveltejs/kit';
+import { logError } from '$lib/log';
 
 const loadPokemon = async (id: number): Promise<IPokemon> => {
-	const response = await fetch(pokeApiDomain + `/pokemon/${id}`);
-	const body = (await response.json()) as IPokemon;
-	return body;
+	try {
+		const response = await fetch(pokeApiDomain + `/pokemon/${id}`);
+		if (!response.ok) {
+			throw new Error(`Non-200 status code - ${response.status}`);
+		}
+		return (await response.json()) as IPokemon;
+	} catch (err) {
+		logError(`Failed to get Pokémon API Data`, 'PokemonLoadFailed', {
+			requestUrl: `/pokemon/${id}`,
+			requestError: err
+		});
+		error(500, 'Failed to get Pokémon API data');
+	}
 };
 
 const loadPokemonSpecies = async (id: number): Promise<IPokemonSpecies> => {
-	const response = await fetch(pokeApiDomain + `/pokemon-species/${id}`);
-	const body = (await response.json()) as IPokemonSpecies;
-	return body;
+	try {
+		const response = await fetch(pokeApiDomain + `/pokemon-species/${id}`);
+		if (!response.ok) {
+			throw new Error(`Non-200 status code - ${response.status}`);
+		}
+		const body = (await response.json()) as IPokemonSpecies;
+		return body;
+	} catch (err) {
+		logError(`Failed to get Pokémon Species API Data`, 'PokemonLoadFailed', {
+			requestUrl: `/pokemon-species/${id}`,
+			requestError: err
+		});
+		error(500, 'Failed to get Pokémon Species API data');
+	}
 };
 
 const loadPokemonEncounters = async (id: number): Promise<IEncounterResponse[]> => {
-	const response = await fetch(pokeApiDomain + `/pokemon/${id}/encounters`);
-	const body = (await response.json()) as IEncounterResponse[];
-	return body;
+	try {
+		const response = await fetch(pokeApiDomain + `/pokemon/${id}/encounters`);
+		if (!response.ok) {
+			throw new Error(`Non-200 status code - ${response.status}`);
+		}
+		return (await response.json()) as IEncounterResponse[];
+	} catch (err) {
+		logError(`Failed to get Pokémon Encounter API Data`, 'PokemonLoadFailed', {
+			requestUrl: `/pokemon/${id}/encounters`,
+			requestError: err
+		});
+		return [];
+	}
 };
 
 const loadPokemonForm = async (
@@ -42,9 +74,16 @@ const loadPokemonForm = async (
 	sprites: ISprites;
 	names: Name[];
 }> => {
-	const response = await fetch(url);
-	const body = await response.json();
-	return body as unknown as { sprites: ISprites; names: Name[] };
+	try {
+		const response = await fetch(url);
+		return (await response.json()) as { sprites: ISprites; names: Name[] };
+	} catch (err) {
+		logError(`Failed to get Pokémon Form API Data`, 'PokemonLoadFailed', {
+			requestUrl: url,
+			requestError: err
+		});
+		error(500, 'Failed to get Pokémon Form API data');
+	}
 };
 
 const filterPokedexEntries = (
@@ -78,9 +117,7 @@ export const load = async ({ params, url, cookies }) => {
 	const pokedexId = Number(params.pokedexid);
 
 	if (pokedexId < 1 || pokedexId >= lastPokedexEntry) {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore Docs literally say passing strings is supported
-		throw error(404, 'Pokémon not found');
+		error(404, 'Pokémon not found');
 	}
 
 	const gameEntry = findGameFromString(url.searchParams.get('game') ?? cookies.get('selectedGame'));
@@ -88,6 +125,7 @@ export const load = async ({ params, url, cookies }) => {
 	const secondaryLanguage =
 		url.searchParams.get('secondaryLanguage') ?? cookies.get('secondaryLanguage');
 
+	// Only encounters will be reassigned
 	// eslint-disable-next-line prefer-const
 	let [pokemon, species, encounters] = await Promise.all([
 		loadPokemon(pokedexId),
@@ -170,7 +208,10 @@ export const load = async ({ params, url, cookies }) => {
 				...varietyPokemon
 			};
 		} catch (err) {
-			console.error(err);
+			logError('Something went wrong when trying to process forms', 'PokemonFormError', {
+				err,
+				...varietyEntry
+			});
 		}
 	}
 

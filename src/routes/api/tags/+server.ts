@@ -1,4 +1,4 @@
-import { error, logToAxiom, warn } from '$lib/log';
+import { logError, logToAxiom, warn } from '$lib/log';
 import isStringToxic from '$lib/server/toxic.js';
 import { validateAuth } from '../helpers.js';
 import type { ITagRequestBody, ITagUpdateBody } from '$lib/types/ITags.js';
@@ -13,7 +13,8 @@ export async function POST({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', `FailedPostTags`, {
+		warn('Failed to parse JSON from request body - POST', `FailedPostTags`, {
+			error: err,
 			cookies: cookies,
 			request: request
 		});
@@ -57,7 +58,11 @@ export async function POST({ request, cookies }) {
 			cookies
 		);
 	} catch (err) {
-		error(`Failed to create new tag ${err}`, '', JSON.stringify(request));
+		logError(`Failed to create new tag ${err} - POST`, 'FailedToCreateTag', {
+			error: err,
+			request,
+			cookies
+		});
 		return new Response('Failed to create new tag', {
 			status: 500
 		});
@@ -119,7 +124,11 @@ export async function PATCH({ request, cookies }) {
 			);
 		});
 	} catch (err) {
-		error(JSON.stringify(err), 'FailedToUpdateTag');
+		logError(`Failed to update tag - PATCH`, 'FailedToUpdateTag', {
+			error: err,
+			request,
+			cookies
+		});
 		return new Response(`Failed to update tag`, {
 			status: 500
 		});
@@ -162,7 +171,11 @@ export async function DELETE({ request, cookies }) {
 		);
 		return new Response('Deleted');
 	} catch (err) {
-		error(JSON.stringify(err), 'FailedToDeleteTag');
+		logError(`Failed to delete tag`, 'FailedToDeleteTag', {
+			error: err,
+			request,
+			cookies
+		});
 		return new Response(`Failed to delete tag`, {
 			status: 500
 		});
