@@ -409,3 +409,25 @@ progress::-moz-progress-bar {
 progress::-webkit-progress-value {
 	background: var(--link_hover);
 }
+
+#userFeedbackWrapper {
+	width: 100%;
+	justify-content: center;
+}
+#errorDetail {
+	width: 100%;
+	justify-content: center;
+	margin-top: 2rem;
+}
+@media screen and (min-width: 768px) {
+	#userFeedbackWrapper > div {
+		max-width: 50%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	#errorDetail > p {
+		max-width: 50%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
