@@ -106,7 +106,10 @@
 				}
 
 				const newBody = (await response.json()) as ITag;
-				tags.tag = newBody;
+				tags.tag = {
+					...tags.tag,
+					...newBody
+				};
 			} catch (err) {
 				addNotification({ message: 'Failed to save tag', level: 'failure' });
 				error(
