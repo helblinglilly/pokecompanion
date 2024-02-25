@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { logToAxiom } from '$lib/log';
+	import { addNotification } from '$lib/stores/notifications';
 
 	export let placeholder: string = 'What are your thoughts?';
 	let freetext: string = '';
@@ -7,8 +9,13 @@
 	const onSubmit = () => {
 		logToAxiom({
 			action: 'userFeedback',
-			text: freetext
+			feedback: {
+				freeText: freetext
+			}
 		});
+		addNotification({ message: 'Got it! Thanks for your input!', level: 'success' });
+		freetext = '';
+		goto('/');
 	};
 </script>
 
