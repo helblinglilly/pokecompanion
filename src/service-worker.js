@@ -100,6 +100,28 @@ async function cacheFirst(request, cacheName = REQUESTS) {
 	const cachedResponse = await cache.match(request);
 
 	if (cachedResponse) {
+		// Check if the cached response is older than 30 minutes
+		const cacheAge = Date.now() - new Date(cachedResponse.headers.get('date')).getTime();
+		const thirtyMinutes = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+		if (cacheAge > thirtyMinutes) {
+			try {
+				cache.delete(request);
+
+				const networkResponse = await fetch(request);
+				console.log('updating cached entry for', request);
+				if (networkResponse.status < 400) {
+					cache.put(request, networkResponse.clone());
+				}
+				return networkResponse;
+			} catch (err) {
+				return new Response({
+					status: 503,
+					statusText: 'Failed to connect to server'
+				});
+			}
+		}
+
 		return cachedResponse;
 	}
 
