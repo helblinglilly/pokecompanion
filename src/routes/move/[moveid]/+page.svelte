@@ -78,10 +78,10 @@
 			</div>
 		</div>
 
-		<hr style="margin-top: 1rem; margin-bottom: 1rem;" />
+		<hr />
 
 		<div>
-			<table style="width: 100%;">
+			<table>
 				<thead>
 					<th>Category</th>
 					<th>Power</th>
@@ -104,10 +104,10 @@
 				</tbody>
 			</table>
 		</div>
-		<hr style="margin-top: 1rem; margin-bottom: 1rem;" />
+		<hr />
 		<p>{primaryFlavourText ?? secondaryFlavourText}</p>
 
-		<hr style="margin-top: 1rem; margin-bottom: 1rem;" />
+		<hr />
 
 		{#if primaryEffectEntry}
 			<p>{primaryEffectEntry}</p>
@@ -151,12 +151,7 @@
 			</div>
 			{#if data.move.learned_by_pokemon.length > 10}
 				<div class="column">
-					<input
-						style="height: 3rem; padding-left: 2rem; width: 100%;"
-						type="text"
-						placeholder="Filter"
-						bind:value={filterTerm}
-					/>
+					<input type="text" placeholder="Filter" bind:value={filterTerm} />
 				</div>
 			{/if}
 		</div>
@@ -172,6 +167,20 @@
 </div>
 
 <style>
+	hr {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	table {
+		width: 100%;
+	}
+
+	input {
+		height: 3rem;
+		padding-left: 2rem;
+		width: 100%;
+	}
 	@media screen and (min-width: 768px) {
 		.centeredDesktopContent {
 			max-width: 800px;
