@@ -183,20 +183,23 @@
 		});
 	});
 
-	const filename =
-		$page.url.searchParams.get('gender') === 'female' &&
-		$page.url.searchParams.get('shiny') !== 'true'
-			? 'female'
-			: $page.url.searchParams.get('gender') === 'female' &&
-			  $page.url.searchParams.get('shiny') === 'true'
-			? 'shiny-female'
-			: $page.url.searchParams.get('gender') === 'male' &&
-			  $page.url.searchParams.get('shiny') !== 'true'
-			? 'male'
-			: $page.url.searchParams.get('gender') === 'male' &&
-			  $page.url.searchParams.get('shiny') === 'true'
-			? 'shiny-male'
-			: 'generic';
+	const filename = (shiny: string | null, gender: string | null) => {
+		if (shiny === 'true') {
+			if (gender === 'male') {
+				return 'shiny-male';
+			} else if (gender === 'female') {
+				return 'shiny-female';
+			}
+			return 'shiny';
+		}
+		if (gender === 'male') {
+			return 'male';
+		} else if (gender === 'female') {
+			return 'female';
+		}
+		return 'generic';
+	};
+
 	const englishPokedexEntries = data.species.flavor_text_entries.filter(
 		(entry) => entry.language === 'en'
 	);
@@ -204,7 +207,10 @@
 
 <SocialPreview
 	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
-	previewImage={`/socialpreview/pokemon/${data.id}/${filename}.png`}
+	previewImage={`/socialpreview/pokemon/${data.id}/${filename(
+		$page.url.searchParams.get('shiny'),
+		$page.url.searchParams.get('gender')
+	)}.png`}
 	description={englishPokedexEntries.length > 0
 		? englishPokedexEntries[englishPokedexEntries.length - 1].textEntry
 		: `View ${getMultiLanguageName(
