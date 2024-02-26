@@ -77,15 +77,15 @@
             </g>
         </g>
     </g>
-    <g id="top-text" transform="matrix(0.51568,0,0,0.51568,366.195,265.388)">
+    <g id="top-text" transform="matrix(0.48,0,0,0.51568,366.195,265.388)">
         <g transform="matrix(170.649,0,0,170.649,1225.96,0)">
         </g>
-        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:170.649px;">P<tspan x="105.676px 201.796px 291.601px 381.407px 471.213px 567.332px 713.793px 809.913px 899.719px 992.767px 1028.65px 1124.77px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">okécompanion</tspan></text>
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:170.649px;">Pokécompanion</text>
     </g>
-    <g id="centered-text" transform="matrix(0.51568,0,0,0.51568,366.195,299.072)">
+    <g id="centered-text" transform="matrix(0.48,0,0,0.51568,366.195,299.072)">
         <g transform="matrix(170.649,0,0,170.649,1225.96,0)">
         </g>
-        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:170.649px;">P<tspan x="105.676px 201.796px 291.601px 381.407px 471.213px 567.332px 713.793px 809.913px 899.719px 992.767px 1028.65px 1124.77px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">okécompanion</tspan></text>
+        <text x="0px" y="0px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:170.649px;">Pokécompanion</text>
     </g>
     <g id="bottom-text" transform="matrix(0.51568,0,0,0.51568,365.778,366.297)">
         <text x="0px" y="0px" style="font-family:'Helvetica';font-size:170.649px;">Bottom Text</text>
