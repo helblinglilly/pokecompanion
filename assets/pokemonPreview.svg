@@ -116,7 +116,7 @@
         <g id="double-male" serif:id="male" transform="matrix(0.516797,-6.12715e-17,0,0.516797,-85.6839,562.119)">
             <text x="0px" y="0px" style="font-family:'AppleColorEmoji', 'Apple Color Emoji';font-size:250px;fill:white;">♂</text>
         </g>
-        <g id="double-female" serif:id="female" transform="matrix(-0.500078,-5.92892e-17,0,0.500078,72.8968,557.164)">
+        <g id="double-female" serif:id="female" transform="matrix(0.516797,-6.12715e-17,0,0.516797,-85.6839,562.119)">
             <text x="0px" y="0px" style="font-family:'AppleColorEmoji', 'Apple Color Emoji';font-size:250px;fill:white;">♀</text>
         </g>
     </g>

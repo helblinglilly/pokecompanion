@@ -50,9 +50,6 @@ if (!fs.existsSync('./static/socialpreview/pokemon')) {
 	fs.mkdirSync('./static/socialpreview/pokemon');
 }
 
-const topTspanTag = `<tspan x="105.762px 192.608px 231.96px 271.312px 358.159px 500.311px 536.663px 613.927px 700.774px 778.039px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">`;
-const bottomTspanTag = `<tspan x="105.762px 192.608px 231.96px 271.312px 358.159px 500.311px 536.663px 613.927px 700.774px 778.039px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">`;
-
 const generic = genericFile
 	.replace(/bottom-text"/, '" style="display: none;"')
 	.replace(/top-text"/, '" style="display: none;"')
