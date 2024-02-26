@@ -105,12 +105,12 @@
             </g>
         </g>
     </g>
-    <g id="primary-text-wrapper" transform="matrix(0.51568,0,0,0.51568,353.226,242.481)">
+    <g id="primary-text" transform="matrix(0.51568,0,0,0.51568,353.226,242.481)">
         <g id="primary-text1" serif:id="primary text">
             <text id="primary-text" serif:id="primary-text" x="0px" y="0px" style="font-family:'HelveticaNeue-Bold', 'Helvetica Neue';font-weight:700;font-size:170.649px;fill:white;">Top Text</text>
         </g>
     </g>
-    <g id="secondary-text-wrapper" transform="matrix(0.51568,0,0,0.51568,351.778,343.596)">
+    <g id="secondary-text" transform="matrix(0.51568,0,0,0.51568,351.778,343.596)">
         <g id="secondary-text1">
             <text id="secondary-text" serif:id="secondary-text" x="0px" y="0px" style="font-family:'Helvetica';font-size:170.649px;fill:white;">Bottom Text</text>
         </g>

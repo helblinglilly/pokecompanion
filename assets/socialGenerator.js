@@ -3,8 +3,7 @@ import fetch from 'node-fetch';
 import PokemonNames from '../src/lib/data/pokemonNames.json' assert { type: 'json' };
 import sharp from 'sharp';
 
-const genericFile = fs.readFileSync('./assets/socialPreview.svg', 'utf-8');
-const pokemonFile = fs.readFileSync('./assets/pokemonSocialPreview.svg', 'utf-8');
+const genericFile = fs.readFileSync('./assets/pokemonPreview.svg', 'utf-8');
 
 function getLastPokemonId() {
 	let highest = 1;
@@ -22,10 +21,10 @@ function convertSvgToPng(svgContent, pngFilePath, width, height, overlayBuffer) 
 		.resize(width, height);
 	if (overlayBuffer) {
 		sharp(overlayBuffer)
-			.resize({ width: 300, height: 300 }) // Scale the image by 2x
+			.resize({ width: 280, height: 280 }) // Scale the image by 2x
 			.toBuffer()
 			.then((scaledOverlayBuffer) => {
-				image.composite([{ input: scaledOverlayBuffer, top: 280, left: 270 }]); // Adjust top and left values as needed
+				image.composite([{ input: scaledOverlayBuffer, top: 340, left: 900 }]); // Adjust top and left values as needed
 				image.toFile(pngFilePath, (err, info) => {
 					if (err) {
 						console.error('Error converting SVG to PNG:', err, info);
@@ -51,50 +50,60 @@ if (!fs.existsSync('./static/socialpreview/pokemon')) {
 	fs.mkdirSync('./static/socialpreview/pokemon');
 }
 
+const topTspanTag = `<tspan x="105.762px 192.608px 231.96px 271.312px 358.159px 500.311px 536.663px 613.927px 700.774px 778.039px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">`;
+const bottomTspanTag = `<tspan x="105.762px 192.608px 231.96px 271.312px 358.159px 500.311px 536.663px 613.927px 700.774px 778.039px " y="0px 0px 0px 0px 0px 0px 0px 0px 0px 0px ">`;
+
 const generic = genericFile
-	.replace(/Top Text/, '')
-	.replace(/Bottom Text/, '')
-	.replace(/Centred Text/, 'Pokécompanion');
+	.replace(/bottom-text"/, '" style="display: none;"')
+	.replace(/top-text"/, '" style="display: none;"')
+	.replace(/single-modifier"/, '" style="display: none;"')
+	.replace(/double-modifier"/, '" style="display: none;"');
 convertSvgToPng(generic, `./static/socialpreview/generic.png`, 1200, 630);
 
 const home = genericFile
-	.replace(/Top Text/, 'Pokécompanion')
-	.replace(/Bottom Text/, 'Homepage')
-	.replace(/Centred Text/, '');
+	.replace(`Bottom Text`, `Homepage`)
+	.replace(/centered-text"/, '" style="display: none;"')
+	.replace(/single-modifier"/, '" style="display: none;"')
+	.replace(/double-modifier"/, '" style="display: none;"');
 convertSvgToPng(home, `./static/socialpreview/home.png`, 1200, 630);
 
 const about = genericFile
-	.replace(/Top Text/, 'Pokécompanion')
-	.replace(/Bottom Text/, 'About')
-	.replace(/Centred Text/, '');
+	.replace(`Bottom Text`, `About`)
+	.replace(/centered-text"/, '" style="display: none;"')
+	.replace(/single-modifier"/, '" style="display: none;"')
+	.replace(/double-modifier"/, '" style="display: none;"');
 convertSvgToPng(about, `./static/socialpreview/about.png`, 1200, 630);
 
 const settings = genericFile
-	.replace(/Top Text/, 'Pokécompanion')
-	.replace(/Bottom Text/, 'Settings')
-	.replace(/Centred Text/, '');
+	.replace(`Bottom Text`, `Settings`)
+	.replace(/centered-text"/, '" style="display: none;"')
+	.replace(/single-modifier"/, '" style="display: none;"')
+	.replace(/double-modifier"/, '" style="display: none;"');
 convertSvgToPng(settings, `./static/socialpreview/settings.png`, 1200, 630);
 
 const results = genericFile
-	.replace(/Top Text/, 'Pokécompanion')
-	.replace(/Bottom Text/, 'Search Results')
-	.replace(/Centred Text/, '');
+	.replace(`Bottom Text`, `Search Results`)
+	.replace(/centered-text"/, '" style="display: none;"')
+	.replace(/single-modifier"/, '" style="display: none;"')
+	.replace(/double-modifier"/, '" style="display: none;"');
 convertSvgToPng(results, `./static/socialpreview/results.png`, 1200, 630);
 
 const pokemonPage = genericFile
-	.replace(/Top Text/, 'Pokécompanion')
-	.replace(/Bottom Text/, 'Pokémon')
-	.replace(/Centred Text/, '');
+	.replace(`Bottom Text`, `Pokémon`)
+	.replace(/centered-text"/, '" style="display: none;"')
+	.replace(/single-modifier"/, '" style="display: none;"')
+	.replace(/double-modifier"/, '" style="display: none;"');
 
 convertSvgToPng(pokemonPage, `./static/socialpreview/pokemonPage.png`, 1200, 630);
 
 const movesPage = genericFile
-	.replace(/Top Text/, 'Pokécompanion')
-	.replace(/Bottom Text/, 'Moves')
-	.replace(/Centred Text/, '');
+	.replace(`Bottom Text`, `Moves`)
+	.replace(/centered-text"/, '" style="display: none;"')
+	.replace(/single-modifier"/, '" style="display: none;"')
+	.replace(/double-modifier"/, '" style="display: none;"');
 convertSvgToPng(movesPage, `./static/socialpreview/moves.png`, 1200, 630);
 
-// for (let i = 0; i < 2; i++) {
+// for (let i = 0; i < 1; i++) {
 for (let i = 0; i < lastPokemonId; i++) {
 	const name = PokemonNames[i].names.find((name) => {
 		return name.en;
@@ -109,34 +118,61 @@ for (let i = 0; i < lastPokemonId; i++) {
 			return { buffer: await res.arrayBuffer(), status: res.status };
 		})
 		.then(({ buffer, status }) => {
-			const fullData = pokemonFile
-				.replace(/Top Text/, 'Pokécompanion')
-				.replace(/Bottom Text/, name.en);
+			const plainFile = genericFile
+				.replace(`Bottom Text`, name.en)
+				.replace(/centered-text"/, '" style="display: none;"')
+				.replace(/single-modifier"/, '" style="display: none;"')
+				.replace(/double-modifier"/, '" style="display: none;"');
 
 			if (!fs.existsSync(`./static/socialpreview/pokemon/${i + 1}`)) {
 				fs.mkdirSync(`./static/socialpreview/pokemon/${i + 1}`);
 			}
 
 			convertSvgToPng(
-				fullData,
-				`./static/socialpreview/pokemon/${i + 1}/shiny-female.png`,
+				plainFile,
+				`./static/socialpreview/pokemon/${i + 1}/generic.png`,
 				1200,
 				630,
 				status === 200 ? buffer : undefined
 			);
 
-			const shinyMale = fullData.replace('id="female"', 'id="female" style="display: none;"');
+			const shiny = genericFile
+				.replace(`Bottom Text`, name.en)
+				.replace(/centered-text"/, '" style="display: none;"')
+				.replace(/single-male"/, '" style="display: none;"')
+				.replace(/single-female"/, '" style="display: none;"')
+				.replace(/double-modifier"/, '" style="display: none;"');
+
 			convertSvgToPng(
-				shinyMale,
-				`./static/socialpreview/pokemon/${i + 1}/shiny-male.png`,
+				shiny,
+				`./static/socialpreview/pokemon/${i + 1}/shiny.png`,
 				1200,
 				630,
 				status === 200 ? buffer : undefined
 			);
-			const male = shinyMale.replace('id="shiny"', 'id="shiny" style="display: none;"');
-			convertSvgToPng(male, `./static/socialpreview/pokemon/${i + 1}/male.png`, 1200, 630, buffer);
 
-			const female = fullData.replace('id="shiny"', 'id="shiny" style="display: none;"');
+			const male = genericFile
+				.replace(`Bottom Text`, name.en)
+				.replace(/centered-text"/, '" style="display: none;"')
+				.replace(/single-shiny"/, '" style="display: none;"')
+				.replace(/single-female"/, '" style="display: none;"')
+				.replace(/double-modifier"/, '" style="display: none;"');
+
+			convertSvgToPng(
+				male,
+				`./static/socialpreview/pokemon/${i + 1}/male.png`,
+				1200,
+				630,
+				status === 200 ? buffer : undefined
+			);
+
+			const female = genericFile
+				.replace(`Bottom Text`, name.en)
+				.replace(/centered-text"/, '" style="display: none;"')
+				.replace(/single-shiny"/, '" style="display: none;"')
+				.replace(/single-male"/, '" style="display: none;"')
+				.replace(/double-modifier"/, '" style="display: none;"');
+
 			convertSvgToPng(
 				female,
 				`./static/socialpreview/pokemon/${i + 1}/female.png`,
@@ -145,10 +181,29 @@ for (let i = 0; i < lastPokemonId; i++) {
 				status === 200 ? buffer : undefined
 			);
 
-			const generic = female.replace('id="gender"', 'id="gender" style="display: none;"');
+			const maleShiny = genericFile
+				.replace(`Bottom Text`, name.en)
+				.replace(/centered-text"/, '" style="display: none;"')
+				.replace(/double-female"/, '" style="display: none;"')
+				.replace(/single-modifier"/, '" style="display: none;"');
+
 			convertSvgToPng(
-				generic,
-				`./static/socialpreview/pokemon/${i + 1}/generic.png`,
+				maleShiny,
+				`./static/socialpreview/pokemon/${i + 1}/shiny-male.png`,
+				1200,
+				630,
+				status === 200 ? buffer : undefined
+			);
+
+			const femaleShiny = genericFile
+				.replace(`Bottom Text`, name.en)
+				.replace(/centered-text"/, '" style="display: none;"')
+				.replace(/double-male"/, '" style="display: none;"')
+				.replace(/single-modifier"/, '" style="display: none;"');
+
+			convertSvgToPng(
+				femaleShiny,
+				`./static/socialpreview/pokemon/${i + 1}/shiny-female.png`,
 				1200,
 				630,
 				status === 200 ? buffer : undefined
