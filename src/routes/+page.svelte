@@ -28,7 +28,7 @@
 	<link rel="stylesheet" href="styles/home.css" />
 </svelte:head>
 
-<SocialPreview title="Homepage" />
+<SocialPreview title="Homepage" previewImage={`/socialpreview/home.png`} />
 
 <!-- {#if $homepageMessaging === 'new-visitor' || !$homepageMessaging} -->
 <Greeting mode="new" />
