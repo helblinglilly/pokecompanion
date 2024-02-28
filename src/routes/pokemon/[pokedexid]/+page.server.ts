@@ -34,7 +34,7 @@ const loadPokemon = async (id: number, serverRequest: IServerRequestDetails): Pr
 			request: serverRequest.request,
 			cookies: serverRequest.cookies
 		});
-		error(500, 'Failed to get Pokémon API data');
+		error(500, `Failed to get Pokémon API data - ${err}`);
 	}
 };
 
