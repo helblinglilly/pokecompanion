@@ -102,7 +102,7 @@ async function cacheFirst(request, cacheName = REQUESTS) {
 	if (cachedResponse) {
 		// Check if the cached response is older than 30 minutes
 		const cacheAge = Date.now() - new Date(cachedResponse.headers.get('date')).getTime();
-		const thirtyMinutes = 30 * 60 * 1000; // 30 minutes in milliseconds
+		const thirtyMinutes = 3 * 24 * 60 * 60 * 1000;
 
 		if (cacheAge > thirtyMinutes) {
 			try {
