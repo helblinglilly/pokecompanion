@@ -65,7 +65,7 @@
 				effect2
 			};
 		});
-	}, 500);
+	}, 1000);
 
 	onMount(async () => {
 		await fetchData();

@@ -14,7 +14,7 @@
 	const fetchMove = debounce(async () => {
 		const id = url.split('/')[6];
 		move = await getMove(id, $selectedGame);
-	}, 500);
+	}, 1000);
 
 	onMount(fetchMove);
 

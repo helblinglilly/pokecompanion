@@ -45,7 +45,9 @@ export const load = async ({ fetch, url }) => {
 		}
 	} catch (err) {
 		errorMessage = "Couldn't get search results";
-		logError('Error occurred when getting search results', 'SearchResultsError', err);
+		logError('Error occurred when getting search results', 'SearchResultsError', {
+			error: err
+		});
 	}
 
 	return {

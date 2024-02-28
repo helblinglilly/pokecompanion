@@ -6,7 +6,13 @@ import {
 	getTypeRelations
 } from '$lib/data/generationAdjuster';
 import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
-import { lastPokedexEntry, pokeApiDomain } from '$lib/stores/domain';
+import {
+	lastPokedexEntry,
+	pokeApiDomain,
+	primaryLanguage,
+	secondaryLanguage,
+	selectedGame
+} from '$lib/stores/domain';
 import type {
 	FlavorTextEntry,
 	IPokemon,
@@ -18,9 +24,9 @@ import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
 import { error } from '@sveltejs/kit';
 import { logError } from '$lib/log';
-import type { IServerRequestDetails } from '$lib/types/IServerRequests';
+import { get } from 'svelte/store';
 
-const loadPokemon = async (id: number, serverRequest: IServerRequestDetails): Promise<IPokemon> => {
+const loadPokemon = async (id: number): Promise<IPokemon> => {
 	try {
 		const response = await fetch(pokeApiDomain + `/pokemon/${id}`);
 		if (!response.ok) {
@@ -30,18 +36,13 @@ const loadPokemon = async (id: number, serverRequest: IServerRequestDetails): Pr
 	} catch (err) {
 		logError(`Failed to get Pokémon API Data`, 'PokemonLoadFailed', {
 			requestUrl: `/pokemon/${id}`,
-			requestError: err instanceof Error ? err.toString() : err,
-			request: serverRequest.request,
-			cookies: serverRequest.cookies
+			requestError: err instanceof Error ? err.toString() : err
 		});
 		error(500, `Failed to get Pokémon API data - ${err}`);
 	}
 };
 
-const loadPokemonSpecies = async (
-	id: number,
-	serverRequest: IServerRequestDetails
-): Promise<IPokemonSpecies> => {
+const loadPokemonSpecies = async (id: number): Promise<IPokemonSpecies> => {
 	try {
 		const response = await fetch(pokeApiDomain + `/pokemon-species/${id}`);
 		if (!response.ok) {
@@ -52,18 +53,13 @@ const loadPokemonSpecies = async (
 	} catch (err) {
 		logError(`Failed to get Pokémon Species API Data`, 'PokemonLoadFailed', {
 			requestUrl: `/pokemon-species/${id}`,
-			requestError: err instanceof Error ? err.toString() : err,
-			request: serverRequest.request,
-			cookies: serverRequest.cookies
+			requestError: err instanceof Error ? err.toString() : err
 		});
 		error(500, 'Failed to get Pokémon Species API data');
 	}
 };
 
-const loadPokemonEncounters = async (
-	id: number,
-	serverRequest: IServerRequestDetails
-): Promise<IEncounterResponse[]> => {
+const loadPokemonEncounters = async (id: number): Promise<IEncounterResponse[]> => {
 	try {
 		const response = await fetch(pokeApiDomain + `/pokemon/${id}/encounters`);
 		if (!response.ok) {
@@ -73,17 +69,14 @@ const loadPokemonEncounters = async (
 	} catch (err) {
 		logError(`Failed to get Pokémon Encounter API Data`, 'PokemonLoadFailed', {
 			requestUrl: `/pokemon/${id}/encounters`,
-			requestError: err instanceof Error ? err.toString() : err,
-			request: serverRequest.request,
-			cookies: serverRequest.cookies
+			requestError: err instanceof Error ? err.toString() : err
 		});
 		return [];
 	}
 };
 
 const loadPokemonForm = async (
-	url: string,
-	serverRequest: IServerRequestDetails
+	url: string
 ): Promise<{
 	sprites: ISprites;
 	names: Name[];
@@ -94,9 +87,7 @@ const loadPokemonForm = async (
 	} catch (err) {
 		logError(`Failed to get Pokémon Form API Data`, 'PokemonLoadFailed', {
 			requestUrl: url,
-			requestError: err instanceof Error ? err.toString() : err,
-			request: serverRequest.request,
-			cookies: serverRequest.cookies
+			requestError: err instanceof Error ? err.toString() : err
 		});
 		error(500, 'Failed to get Pokémon Form API data');
 	}
@@ -129,24 +120,23 @@ const filterPokedexEntries = (
 	// To do: Move the selected game entry to the top
 };
 
-export const load = async ({ params, url, cookies, request }) => {
+export const load = async ({ params, url }) => {
 	const pokedexId = Number(params.pokedexid);
 
 	if (pokedexId < 1 || pokedexId >= lastPokedexEntry) {
 		error(404, 'Pokémon not found');
 	}
 
-	const gameEntry = findGameFromString(url.searchParams.get('game') ?? cookies.get('selectedGame'));
-	const primaryLanguage = url.searchParams.get('primaryLanguage') ?? cookies.get('primaryLanguage');
-	const secondaryLanguage =
-		url.searchParams.get('secondaryLanguage') ?? cookies.get('secondaryLanguage');
+	const gameEntry = findGameFromString(url.searchParams.get('game') ?? get(selectedGame));
+	const primLanguage = url.searchParams.get('primaryLanguage') ?? get(primaryLanguage);
+	const secLanguage = url.searchParams.get('secondaryLanguage') ?? get(secondaryLanguage);
 
 	// Only encounters will be reassigned
 	// eslint-disable-next-line prefer-const
 	let [pokemon, species, encounters] = await Promise.all([
-		loadPokemon(pokedexId, { request, cookies }),
-		loadPokemonSpecies(pokedexId, { request, cookies }),
-		loadPokemonEncounters(pokedexId, { request, cookies })
+		loadPokemon(pokedexId),
+		loadPokemonSpecies(pokedexId),
+		loadPokemonEncounters(pokedexId)
 	]);
 
 	const requestedVariety = url.searchParams.get('variety');
@@ -154,7 +144,7 @@ export const load = async ({ params, url, cookies, request }) => {
 	const formEntry = pokemon.forms.find((entry) => entry.name === requestedVariety);
 	if (formEntry) {
 		try {
-			const formData = await loadPokemonForm(formEntry.url, { request, cookies });
+			const formData = await loadPokemonForm(formEntry.url);
 			pokemon = {
 				...pokemon,
 				sprites: formData.sprites
@@ -175,7 +165,7 @@ export const load = async ({ params, url, cookies, request }) => {
 		try {
 			const parts = varietyEntry.pokemon.url.split('/');
 			const id = Number(parts[parts.length - 2]);
-			let varietyPokemon = await loadPokemon(id, { request, cookies });
+			let varietyPokemon = await loadPokemon(id);
 
 			const nameParts = varietyPokemon.name.split('-');
 
@@ -187,7 +177,7 @@ export const load = async ({ params, url, cookies, request }) => {
 			const varietyName = pokemonVarietyNameToDisplay(varietyPokemon.name);
 
 			if (varietyForm) {
-				const varietyFormPokemon = await loadPokemonForm(varietyForm?.url, { request, cookies });
+				const varietyFormPokemon = await loadPokemonForm(varietyForm?.url);
 				const hasNewSprites = Object.keys(varietyFormPokemon.sprites).some((key) => {
 					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					// @ts-ignore Literally iterating over the keys
@@ -260,8 +250,8 @@ export const load = async ({ params, url, cookies, request }) => {
 			names: speciesNamesToNormalisedNames(species.names),
 			flavor_text_entries: filterPokedexEntries(
 				species.flavor_text_entries,
-				primaryLanguage,
-				secondaryLanguage
+				primLanguage,
+				secLanguage
 			)
 		},
 		encounters: formatEncounters(encounters, gameEntry)
