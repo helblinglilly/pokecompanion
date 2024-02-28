@@ -18,8 +18,9 @@ import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
 import { error } from '@sveltejs/kit';
 import { logError } from '$lib/log';
+import type { IServerRequestDetails } from '$lib/types/IServerRequests';
 
-const loadPokemon = async (id: number): Promise<IPokemon> => {
+const loadPokemon = async (id: number, serverRequest: IServerRequestDetails): Promise<IPokemon> => {
 	try {
 		const response = await fetch(pokeApiDomain + `/pokemon/${id}`);
 		if (!response.ok) {
@@ -29,13 +30,18 @@ const loadPokemon = async (id: number): Promise<IPokemon> => {
 	} catch (err) {
 		logError(`Failed to get Pokémon API Data`, 'PokemonLoadFailed', {
 			requestUrl: `/pokemon/${id}`,
-			requestError: err
+			requestError: err instanceof Error ? err.toString() : err,
+			request: serverRequest.request,
+			cookies: serverRequest.cookies
 		});
 		error(500, 'Failed to get Pokémon API data');
 	}
 };
 
-const loadPokemonSpecies = async (id: number): Promise<IPokemonSpecies> => {
+const loadPokemonSpecies = async (
+	id: number,
+	serverRequest: IServerRequestDetails
+): Promise<IPokemonSpecies> => {
 	try {
 		const response = await fetch(pokeApiDomain + `/pokemon-species/${id}`);
 		if (!response.ok) {
@@ -46,13 +52,18 @@ const loadPokemonSpecies = async (id: number): Promise<IPokemonSpecies> => {
 	} catch (err) {
 		logError(`Failed to get Pokémon Species API Data`, 'PokemonLoadFailed', {
 			requestUrl: `/pokemon-species/${id}`,
-			requestError: err
+			requestError: err instanceof Error ? err.toString() : err,
+			request: serverRequest.request,
+			cookies: serverRequest.cookies
 		});
 		error(500, 'Failed to get Pokémon Species API data');
 	}
 };
 
-const loadPokemonEncounters = async (id: number): Promise<IEncounterResponse[]> => {
+const loadPokemonEncounters = async (
+	id: number,
+	serverRequest: IServerRequestDetails
+): Promise<IEncounterResponse[]> => {
 	try {
 		const response = await fetch(pokeApiDomain + `/pokemon/${id}/encounters`);
 		if (!response.ok) {
@@ -62,14 +73,17 @@ const loadPokemonEncounters = async (id: number): Promise<IEncounterResponse[]> 
 	} catch (err) {
 		logError(`Failed to get Pokémon Encounter API Data`, 'PokemonLoadFailed', {
 			requestUrl: `/pokemon/${id}/encounters`,
-			requestError: err
+			requestError: err instanceof Error ? err.toString() : err,
+			request: serverRequest.request,
+			cookies: serverRequest.cookies
 		});
 		return [];
 	}
 };
 
 const loadPokemonForm = async (
-	url: string
+	url: string,
+	serverRequest: IServerRequestDetails
 ): Promise<{
 	sprites: ISprites;
 	names: Name[];
@@ -80,7 +94,9 @@ const loadPokemonForm = async (
 	} catch (err) {
 		logError(`Failed to get Pokémon Form API Data`, 'PokemonLoadFailed', {
 			requestUrl: url,
-			requestError: err
+			requestError: err instanceof Error ? err.toString() : err,
+			request: serverRequest.request,
+			cookies: serverRequest.cookies
 		});
 		error(500, 'Failed to get Pokémon Form API data');
 	}
@@ -113,7 +129,7 @@ const filterPokedexEntries = (
 	// To do: Move the selected game entry to the top
 };
 
-export const load = async ({ params, url, cookies }) => {
+export const load = async ({ params, url, cookies, request }) => {
 	const pokedexId = Number(params.pokedexid);
 
 	if (pokedexId < 1 || pokedexId >= lastPokedexEntry) {
@@ -128,9 +144,9 @@ export const load = async ({ params, url, cookies }) => {
 	// Only encounters will be reassigned
 	// eslint-disable-next-line prefer-const
 	let [pokemon, species, encounters] = await Promise.all([
-		loadPokemon(pokedexId),
-		loadPokemonSpecies(pokedexId),
-		loadPokemonEncounters(pokedexId)
+		loadPokemon(pokedexId, { request, cookies }),
+		loadPokemonSpecies(pokedexId, { request, cookies }),
+		loadPokemonEncounters(pokedexId, { request, cookies })
 	]);
 
 	const requestedVariety = url.searchParams.get('variety');
@@ -138,7 +154,7 @@ export const load = async ({ params, url, cookies }) => {
 	const formEntry = pokemon.forms.find((entry) => entry.name === requestedVariety);
 	if (formEntry) {
 		try {
-			const formData = await loadPokemonForm(formEntry.url);
+			const formData = await loadPokemonForm(formEntry.url, { request, cookies });
 			pokemon = {
 				...pokemon,
 				sprites: formData.sprites
@@ -159,7 +175,7 @@ export const load = async ({ params, url, cookies }) => {
 		try {
 			const parts = varietyEntry.pokemon.url.split('/');
 			const id = Number(parts[parts.length - 2]);
-			let varietyPokemon = await loadPokemon(id);
+			let varietyPokemon = await loadPokemon(id, { request, cookies });
 
 			const nameParts = varietyPokemon.name.split('-');
 
@@ -171,7 +187,7 @@ export const load = async ({ params, url, cookies }) => {
 			const varietyName = pokemonVarietyNameToDisplay(varietyPokemon.name);
 
 			if (varietyForm) {
-				const varietyFormPokemon = await loadPokemonForm(varietyForm?.url);
+				const varietyFormPokemon = await loadPokemonForm(varietyForm?.url, { request, cookies });
 				const hasNewSprites = Object.keys(varietyFormPokemon.sprites).some((key) => {
 					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					// @ts-ignore Literally iterating over the keys

@@ -42,14 +42,14 @@ const redirectOffDummyData = (id: number) => {
 	return pairs[id] ?? id;
 };
 
-export async function load({ params, cookies }) {
+export async function load({ params, cookies, request }) {
 	const moveId = redirectOffDummyData(Number(params.moveid));
 	if (moveId < 1 || moveId > Moves[Moves.length - 1].id) {
 		error(404, 'Move not found');
 	}
 	const game = findGameFromString(cookies.get('selectedGame'));
 
-	const move = await getMove(moveId, game);
+	const move = await getMove(moveId, game, { request, cookies });
 
 	return {
 		move

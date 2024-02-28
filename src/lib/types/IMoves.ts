@@ -3,6 +3,7 @@ import { pokeApiDomain } from '$lib/stores/domain';
 import type { Name, VersionGroup } from './IPokemon';
 import { logError } from '$lib/log';
 import { error } from '@sveltejs/kit';
+import type { IServerRequestDetails } from './IServerRequests';
 
 export interface IMove {
 	accuracy: number | null;
@@ -138,7 +139,11 @@ const getLegacyDamageClass = (existing: string, type: string) => {
 	return existing;
 };
 
-export async function getMove(id: string | number, selectedGame: IGame | undefined) {
+export async function getMove(
+	id: string | number,
+	selectedGame: IGame | undefined,
+	serverRequest?: IServerRequestDetails
+) {
 	try {
 		const response = await fetch(pokeApiDomain + `/move/${id}`);
 		if (!response.ok) {
@@ -158,7 +163,9 @@ export async function getMove(id: string | number, selectedGame: IGame | undefin
 	} catch (err) {
 		logError(`Failed to get Move API Data`, 'MoveLoadFailed', {
 			requestUrl: `/move/${id}`,
-			requestError: err
+			requestError: err,
+			request: serverRequest?.request,
+			cookies: serverRequest?.cookies
 		});
 		error(500, 'Failed to get Move API data');
 	}
