@@ -9,7 +9,8 @@
 
 	onMount(() => {
 		logError('User reached error boundary', 'ErrorBoundary', {
-			...$page
+			...$page,
+			data: null
 		});
 	});
 </script>
