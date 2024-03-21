@@ -27,7 +27,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ''
           SENTRY_ORG: ''
           SENTRY_PROJECT: ''
-          PUBLIC_POCKETBASE_URL: 'http://mock.pocketbase.com'
+          PUBLIC_POCKETBASE_URL: 'http://pocketbase.aws.helbling.uk'
           PUBLIC_HOST_URL: 'http://localhost:5173'
           PUBLIC_AXIOM_TOKEN: ''
           PUBLIC_AXIOM_DATASET: ''
