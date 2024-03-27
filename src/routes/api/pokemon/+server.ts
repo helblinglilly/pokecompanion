@@ -1,4 +1,4 @@
-import { logError } from '$lib/log';
+import { logError, logToAxiom } from '$lib/log';
 import { lastPokedexEntry, pokeApiDomain } from '$lib/stores/domain';
 import type { FlavorTextEntry, IPokemon, IPokemonSpecies, ISprites, Name } from '$lib/types/IPokemon';
 import type { RequestHandler } from './$types';
@@ -14,14 +14,28 @@ const fetchCacheFirst = async(url: string | URL, cache: CacheStorage & {
 } | undefined): Promise<Response> => {
 	const req = new Request(url);
 
-	const cacheResponse = await cache?.default.match(req);
-	if (cacheResponse){
-		return cacheResponse;
+	try {
+		const cacheResponse = await cache?.default.match(req);
+		if (cacheResponse){
+			return cacheResponse;
+		}
+	} catch(err){
+		logToAxiom({
+			message: 'Failed to access cache',
+			error: err
+		})
 	}
 
 	const res = await fetch(req);
 	if (res.ok && cache){
-		await cache.default.put(req, res);
+		try {
+			await cache.default.put(req, res);
+		} catch(err){
+			logToAxiom({
+				message: 'Failed to put to cache',
+				error: err
+			})
+		}
 	}
 	return res;
 }
