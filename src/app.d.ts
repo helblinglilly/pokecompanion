@@ -9,7 +9,7 @@ declare global {
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}
-		interface Platform {
+		export interface Platform {
 			context: {
 				waitUntil(promise: Promise<unknown>): void;
 			}

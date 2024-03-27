@@ -9,27 +9,38 @@ import { formatEncounters, type IEncounterResponse } from '$lib/data/encounterFi
 import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 
-const fetchCacheFirst = async(url: string | URL, cache: CacheStorage & {
-	default: Cache;
-} | undefined): Promise<Response> => {
-	const req = new Request(url);
+interface Platform {
+	context: {
+		waitUntil(promise: Promise<unknown>): void;
+	}
+	caches: CacheStorage & { default: Cache }
+}
 
-	try {
-		const cacheResponse = await cache?.default.match(req);
-		if (cacheResponse){
-			return cacheResponse;
+const fetchCacheFirst = async(url: string | URL, platform: Readonly<Platform> | undefined): Promise<Response> => {
+	const parsedUrl = new URL(url);
+	const req = new Request(parsedUrl);
+
+	if (platform?.caches?.default){
+		try {
+			const cacheResponse = await platform.caches.default.match(parsedUrl.pathname);
+			if (cacheResponse){
+				return cacheResponse;
+			}
+		} catch(err){
+			logToAxiom({
+				message: 'Failed to access cache',
+				error: err
+			})
 		}
-	} catch(err){
-		logToAxiom({
-			message: 'Failed to access cache',
-			error: err
-		})
 	}
 
 	const res = await fetch(req);
-	if (res.ok && cache){
+	if (res.ok && platform?.caches?.default){
 		try {
-			await cache.default.put(req, res);
+			const responseToCache = res.clone();
+            platform.context.waitUntil(
+                platform.caches.default.put(parsedUrl.pathname, responseToCache)
+            );
 		} catch(err){
 			logToAxiom({
 				message: 'Failed to put to cache',
@@ -40,41 +51,33 @@ const fetchCacheFirst = async(url: string | URL, cache: CacheStorage & {
 	return res;
 }
 
-const fetchPokemon = async (id: number, cache: CacheStorage & {
-	default: Cache;
-} | undefined): Promise<IPokemon> => {
-	const res = await fetchCacheFirst(pokeApiDomain + '/pokemon/' + id, cache);
+const fetchPokemon = async (id: number, platform: Platform | undefined): Promise<IPokemon> => {
+	const res = await fetchCacheFirst(pokeApiDomain + '/pokemon/' + id, platform);
 	if (!res.ok){
 		throw new Error(`Non-200 status code when fetching /pokemon - ${res.status}`);
 	}
 	return await res.json() as IPokemon;
 }
 
-const fetchPokemonSpecies = async(id: number, cache: CacheStorage & {
-	default: Cache;
-} | undefined ): Promise<IPokemonSpecies> => {
-	const res = await fetchCacheFirst(pokeApiDomain + '/pokemon-species/' + id, cache);
+const fetchPokemonSpecies = async(id: number, platform: Platform | undefined): Promise<IPokemonSpecies> => {
+	const res = await fetchCacheFirst(pokeApiDomain + '/pokemon-species/' + id, platform);
 	if (!res.ok){
 		throw new Error(`Non-200 status code when fetching /pokemon-species - ${res.status}`);
 	}
 	return await res.json() as IPokemonSpecies;
 }
 
-const fetchPokemonForm = async(url: string, cache: CacheStorage & {
-	default: Cache;
-} | undefined ): Promise<{sprites: ISprites;
+const fetchPokemonForm = async(url: string, platform: Platform | undefined): Promise<{sprites: ISprites;
 	names: Name[]}> => {
-	const res = await fetchCacheFirst(url, cache);
+	const res = await fetchCacheFirst(url, platform);
 	if (!res.ok){
 		throw new Error(`Non-200 status code when getting ${url} - ${res.status}`)
 	}
 	return await res.json() as { sprites: ISprites; names: Name[] };
 }
 
-const fetchPokemonEncounters = async(id: number, cache: CacheStorage & {
-	default: Cache;
-} | undefined ): Promise<IEncounterResponse[]> => {
-	const res = await fetchCacheFirst(`${pokeApiDomain}/pokemon/${id}/encounters`, cache);
+const fetchPokemonEncounters = async(id: number, platform: Platform | undefined): Promise<IEncounterResponse[]> => {
+	const res = await fetchCacheFirst(`${pokeApiDomain}/pokemon/${id}/encounters`, platform);
 	if (!res.ok){
 		logError(`Non-200 status code when fetching /pokemon/${id}/encounters - ${res.status}`, 'PokemonEncounterLoadFailed', {
 			requestUrl: `/pokemon/${id}/encounters`,
@@ -135,8 +138,8 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 
 
 	let [pokemon, species] = await Promise.all([
-		fetchPokemon(id, platform?.caches),
-		fetchPokemonSpecies(id, platform?.caches)
+		fetchPokemon(id, platform),
+		fetchPokemonSpecies(id, platform)
 	])
 
 	const gameEntry = findGameFromString(url.searchParams.get('game') ?? cookies.get('game'));
@@ -147,7 +150,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 	const formEntry = pokemon.forms.find((entry) => entry.name === variety);
 	if (formEntry) {
 		try {
-			const formData = await fetchPokemonForm(formEntry.url, platform?.caches);
+			const formData = await fetchPokemonForm(formEntry.url, platform);
 			pokemon = {
 				...pokemon,
 				sprites: formData.sprites
@@ -168,7 +171,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 		try {
 			const parts = varietyEntry.pokemon.url.split('/');
 			const id = Number(parts[parts.length - 2]);
-			let varietyPokemon = await fetchPokemon(id, platform?.caches);
+			let varietyPokemon = await fetchPokemon(id, platform);
 
 			const nameParts = varietyPokemon.name.split('-');
 
@@ -180,7 +183,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 			const varietyName = pokemonVarietyNameToDisplay(varietyPokemon.name);
 
 			if (varietyForm) {
-				const varietyFormPokemon = await fetchPokemonForm(varietyForm?.url, platform?.caches);
+				const varietyFormPokemon = await fetchPokemonForm(varietyForm?.url, platform);
 				const hasNewSprites = Object.keys(varietyFormPokemon.sprites).some((key) => {
 					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					// @ts-ignore Literally iterating over the keys
@@ -226,7 +229,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 
 	const types = getPokemonTypesInGame(pokemon, gameEntry?.generation);
 
-	const encounters = await fetchPokemonEncounters(id, platform?.caches);
+	const encounters = await fetchPokemonEncounters(id, platform);
 
 	return new Response(JSON.stringify({
 		id,
@@ -262,7 +265,8 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 		encounters: formatEncounters(encounters, gameEntry)
 	}), {
 		headers: {
-			'Content-Type': 'application/json'
-		}
+            'Content-Type': 'application/json',
+            'Cache-Control': 'public, max-age=86400',
+        },
 	});
 };
