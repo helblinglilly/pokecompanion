@@ -9,7 +9,12 @@ declare global {
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}
-		// interface Platform {}
+		interface Platform {
+			context: {
+				waitUntil(promise: Promise<unknown>): void;
+			}
+			caches: CacheStorage & { default: Cache }
+		}
 	}
 }
 

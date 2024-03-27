@@ -88,3 +88,15 @@ export const validateAuth = async (request: Request, cookies: Cookies) => {
 	}
 	return pb;
 };
+
+
+export const respondWithJson = (payload: object | Array<unknown>, status?: number) => {
+	const responseCode = status ?? payload ? 200 : 204;
+
+	return new Response(JSON.stringify(payload), {
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		status: responseCode
+	});
+};
