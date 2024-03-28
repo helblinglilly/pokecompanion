@@ -82,7 +82,15 @@
 		{#each evolutions as evolution}
 			<div class="columns mobile">
 				<div class="column" style="display: grid; justify-content: center;">
-					<a href={evolution.sourceURL}>
+					<a
+						href={evolution.sourceURL}
+						on:click={() => {
+							window?.newrelic?.addPageAction('UIInteraction', {
+								field: 'EvolutionPokemon',
+								action: 'Navigation'
+							});
+						}}
+					>
 						<Image src={evolution.sourceSprite} alt={evolution.sourceSprite} classNames="sprite" />
 					</a>
 				</div>
@@ -117,6 +125,11 @@
 							<a
 								href={requirement.supplementary}
 								style="width: 100%; display: inline-flex; justify-content: center;"
+								on:click={() => {
+									window?.newrelic?.addPageAction('UIInteraction', {
+										field: 'EvolutionUseItemNavigation'
+									});
+								}}
 							>
 								<p>Use</p>
 								<Image
@@ -132,6 +145,12 @@
 							<a
 								href={requirement.supplementary}
 								style="width: 100%; display: inline-flex; justify-content: center;"
+								on:click={() => {
+									window?.newrelic?.addPageAction('UIInteraction', {
+										field: 'EvolutionHoldItem',
+										action: 'Navigation'
+									});
+								}}
 							>
 								<p>Hold</p>
 								<Image
@@ -160,23 +179,63 @@
 						{/if}
 
 						{#if requirement.type === 'party_have'}
-							<a href={requirement.supplementary}>Have {requirement.info} in party</a>
+							<a
+								href={requirement.supplementary}
+								on:click={() => {
+									window?.newrelic?.addPageAction('UIInteraction', {
+										field: 'EvolutionPartyHave',
+										action: 'Navigation'
+									});
+								}}>Have {requirement.info} in party</a
+							>
 						{/if}
 
 						{#if requirement.type === 'know_move'}
-							<a href={requirement.info}>Knows {requirement.supplementary}</a>
+							<a
+								href={requirement.info}
+								on:click={() => {
+									window?.newrelic?.addPageAction('UIInteraction', {
+										field: 'EvolutionKnowMove',
+										action: 'Navigation'
+									});
+								}}>Knows {requirement.supplementary}</a
+							>
 						{/if}
 
 						{#if requirement.type === 'use_move'}
-							<a href={requirement.info}>{requirement.supplementary}</a>
+							<a
+								href={requirement.info}
+								on:click={() => {
+									window?.newrelic?.addPageAction('UIInteraction', {
+										field: 'EvolutionUseMove',
+										action: 'Navigation'
+									});
+								}}>{requirement.supplementary}</a
+							>
 						{/if}
 
 						{#if requirement.type === 'collect_items'}
-							<a href={requirement.info}>{requirement.supplementary}</a>
+							<a
+								href={requirement.info}
+								on:click={() => {
+									window?.newrelic?.addPageAction('UIInteraction', {
+										field: 'EvolutionCollectItems',
+										action: 'Navigation'
+									});
+								}}>{requirement.supplementary}</a
+							>
 						{/if}
 
 						{#if requirement.type === 'trade_for'}
-							<a href={requirement.supplementary}>Trade for {requirement.info}</a>
+							<a
+								href={requirement.supplementary}
+								on:click={() => {
+									window?.newrelic?.addPageAction('UIInteraction', {
+										field: 'EvolutionTradeFor',
+										action: 'Navigation'
+									});
+								}}>Trade for {requirement.info}</a
+							>
 						{/if}
 
 						{#if requirement.type === 'location'}
@@ -232,7 +291,15 @@
 					{/each}
 				</div>
 				<div class="column" style="display: grid; justify-content: center;">
-					<a href={evolution.targetURL}>
+					<a
+						href={evolution.targetURL}
+						on:click={() => {
+							window?.newrelic?.addPageAction('UIInteraction', {
+								field: 'EvolutionPokemon',
+								action: 'Navigation'
+							});
+						}}
+					>
 						<Image src={evolution.targetSprite} alt={evolution.targetURL} classNames="sprite" />
 					</a>
 				</div>

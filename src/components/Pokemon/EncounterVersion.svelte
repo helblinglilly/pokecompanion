@@ -17,7 +17,15 @@
 
 {#each data.encounters as encounter, i}
 	{#if i < visibleIndex}
-		<ExpandableButton buttonClasses="secondary" buttonStyles="width: 100%;">
+		<ExpandableButton
+			buttonClasses="secondary"
+			buttonStyles="width: 100%;"
+			onClick={() => {
+				window?.newrelic?.addPageAction('UIInteraction', {
+					field: 'Encounter'
+				});
+			}}
+		>
 			<p slot="title" style="margin-left: auto; margin-right: auto;">
 				{capitaliseEachWord(encounter.location.name.replaceAll('-', ' '))}
 			</p>

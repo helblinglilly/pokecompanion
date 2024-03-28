@@ -25,7 +25,15 @@
 
 <button class="button secondary">
 	{#if move}
-		<a href={`/move/${move.id}`}>
+		<a
+			href={`/move/${move.id}`}
+			on:click={() => {
+				window?.newrelic?.addPageAction('UIInteraction', {
+					field: 'Move',
+					action: 'Navigation'
+				});
+			}}
+		>
 			<table>
 				<tbody>
 					<tr>

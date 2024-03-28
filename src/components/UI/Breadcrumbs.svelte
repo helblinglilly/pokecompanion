@@ -5,7 +5,15 @@
 <div>
 	{#each breadcrumbs as { display, url }, index (url)}
 		{#if url}
-			<a href={url}>{display}</a>
+			<a
+				href={url}
+				on:click={() => {
+					window?.newrelic?.addPageAction('UIInteraction', {
+						field: 'Breadcrumbs',
+						action: 'Navigation'
+					});
+				}}>{display}</a
+			>
 		{:else}
 			<p>{display}</p>
 		{/if}

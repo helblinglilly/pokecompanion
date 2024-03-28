@@ -9,7 +9,21 @@
 		pokemon?: ITagPokemonNew[];
 		move?: ITagMoveNew[];
 	};
-	export let onSuccess = () => {};
+	export let onSuccess = ({
+		user,
+		name,
+		isPrivate
+	}: {
+		user: string;
+		name: string;
+		isPrivate: boolean;
+	}) => {
+		window?.newrelic?.addPageAction('TagCreated', {
+			user,
+			name,
+			isPrivate
+		});
+	};
 
 	let mappedPokemon: ITagPokemon[] = [];
 	let mappedMoves: ITagMove[] = [];
@@ -63,7 +77,11 @@
 						});
 						showAddNewOverlay = false;
 						newListName = '';
-						onSuccess();
+						onSuccess({
+							user: userId,
+							name: newListName,
+							isPrivate
+						});
 					}
 				}}
 				inputConfig={{ placeholder: 'Tag name' }}

@@ -287,6 +287,10 @@
 						$pokemonDisplayStore.showShinySpriteIfExists ? '#f0e45f' : '#f0e45f'
 					}`}
 					on:click={() => {
+						window?.newrelic?.addPageAction('UIInteraction', {
+							field: 'SpriteShiny',
+							action: 'Sprite Change'
+						});
 						$pokemonDisplayStore.showShinySpriteIfExists =
 							!$pokemonDisplayStore.showShinySpriteIfExists;
 					}}
@@ -309,6 +313,10 @@
 							: '#7fbbf0'
 					};`}
 					on:click={() => {
+						window?.newrelic?.addPageAction('UIInteraction', {
+							field: 'SpriteGender',
+							action: 'Sprite Change'
+						});
 						$pokemonDisplayStore.showFemaleSpriteIfExists =
 							!$pokemonDisplayStore.showFemaleSpriteIfExists;
 					}}

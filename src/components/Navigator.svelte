@@ -21,6 +21,12 @@
 				href={`${route}/${currentId - 1}`}
 				class={`card ${currentId - 1 <= 0 ? 'hidden' : ''}`}
 				style="width: fit-content; padding: 10px; height: auto;"
+				on:click={() => {
+					window?.newrelic?.addPageAction('UIInteraction', {
+						field: 'PokemonNavigation',
+						action: 'Navigation'
+					});
+				}}
 			>
 				<div style="display: inline-flex;">
 					<p style="margin: auto;">#{currentId - 1}</p>
@@ -60,6 +66,10 @@
 						name="variety"
 						on:change={(e) => {
 							if (e.target) {
+								window?.newrelic?.addPageAction('UIInteraction', {
+									field: 'Variety',
+									action: 'Navigation'
+								});
 								const newUrl = new URL($page.url);
 								// @ts-ignore complains that .value does not exist
 								if (e.target.value.endsWith('-default')) {
@@ -90,6 +100,12 @@
 				href={`${route}/${currentId + 1}`}
 				class={`card ${currentId + 1 > maxId ? 'hidden' : ''}`}
 				style="width: fit-content; padding: 10px; height: auto;"
+				on:click={() => {
+					window?.newrelic?.addPageAction('UIInteraction', {
+						field: 'PokemonNavigation',
+						action: 'Navigation'
+					});
+				}}
 			>
 				<div style="display: inline-flex;">
 					<p style="margin: auto;">#{currentId + 1}</p>

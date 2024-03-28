@@ -10,6 +10,12 @@
 {#if pokedexEntries.length > 0}
 	<button
 		on:click={() => {
+			if (!showModal) {
+				window?.newrelic?.addPageAction('UIInteraction', {
+					field: 'Pokedex',
+					action: 'Overlay Shown'
+				});
+			}
 			showModal = !showModal;
 		}}
 	>
