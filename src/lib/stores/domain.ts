@@ -47,6 +47,7 @@ export const cookieHandlers = {
 
 		selectedGame.subscribe((value) => {
 			Sentry.setTag('selectedGame', value?.name);
+			window?.newrelic?.setCustomAttribute("selectedGame", value?.name);
 
 			const isInSearchParam = get(page).url.searchParams.get('game');
 
@@ -83,6 +84,7 @@ export const cookieHandlers = {
 
 		primaryLanguage.subscribe((value) => {
 			Sentry.setTag('primaryLanguage', value);
+			window?.newrelic?.setCustomAttribute("primaryLanguage", value);
 			const isInSearchParam = get(page).url.searchParams.get('primaryLanguage');
 
 			if (!value || isInSearchParam) {
@@ -116,6 +118,8 @@ export const cookieHandlers = {
 
 		secondaryLanguage.subscribe((value) => {
 			Sentry.setTag('secondaryLanguage', value);
+			window?.newrelic?.setCustomAttribute("secondaryLanguage", value);
+
 			const isInSearchParam = get(page).url.searchParams.get('secondaryLanguage');
 
 			if (!value || isInSearchParam) {
@@ -141,6 +145,7 @@ export const cookieHandlers = {
 		versionSpecificSprites.set(existingValue);
 
 		versionSpecificSprites.subscribe((value) => {
+			window?.newrelic?.setCustomAttribute("versionSpecificSprites", value);
 			Sentry.setTag('versionSpecificSprites', value);
 			setCookie('versionSpecificSprites', value.toString());
 		});
@@ -156,6 +161,7 @@ export const cookieHandlers = {
 
 		animateSprites.subscribe((value) => {
 			Sentry.setTag('animateSprites', value);
+			window?.newrelic?.setCustomAttribute("animateSprites", value);
 			setCookie('animateSprites', value.toString());
 		});
 	},
@@ -177,6 +183,7 @@ export const cookieHandlers = {
 			Sentry.setUser({
 				id: value
 			});
+			window?.newrelic?.setUserId(value);
 
 			if (!value) {
 				return;
