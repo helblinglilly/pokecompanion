@@ -13,6 +13,9 @@
 				freeText: freetext
 			}
 		});
+		window?.newrelic?.addPageAction('UserFeedback', {
+			message: freetext
+		});
 		addNotification({ message: 'Got it! Thanks for your input!', level: 'success' });
 		freetext = '';
 		goto('/');

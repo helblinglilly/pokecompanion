@@ -8,6 +8,7 @@
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { searchTerm } from '$lib/stores/searchbar.js';
 	import type { Languages } from '$lib/utils/language.js';
+	import { onMount } from 'svelte';
 
 	export let data;
 	let { errorMessage, results } = data;
@@ -19,6 +20,17 @@
 			searchTerm.set(data.searchTerm ?? '');
 		}
 	}
+
+	onMount(() => {
+		window?.newrelic?.addPageAction('SearchResult', {
+			searchTerm: data.searchTerm,
+			message: data.errorMessage,
+			abilityResults: data.results.abilities.length,
+			itemResults: data.results.items.length,
+			moveResults: data.results.moves.length,
+			pokemonResults: data.results.pokemon.length
+		});
+	});
 
 	const primaryLanguageOverride = $page.url.searchParams.get('primaryLanguage');
 	const secondaryLanguageOverride = $page.url.searchParams.get('secondaryLanguage');

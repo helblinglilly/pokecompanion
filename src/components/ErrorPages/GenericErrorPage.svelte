@@ -12,6 +12,10 @@
 			...$page,
 			data: null
 		});
+		window?.newrelic?.addPageAction('ErrorBoundary', {
+			kind: 'Generic',
+			error: $page.error?.message
+		});
 	});
 </script>
 
