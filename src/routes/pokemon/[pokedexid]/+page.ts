@@ -1,4 +1,5 @@
 import { error } from '@sveltejs/kit';
+import type { IPokemonResponse } from '../../api/pokemon/types';
 
 
 export const load = async ({ params, fetch }) => {
@@ -8,7 +9,7 @@ export const load = async ({ params, fetch }) => {
 			throw new Error(`Failed to fetch API data`);
 		}
 		try {
-			const body = await res.json();
+			const body = await res.json() as IPokemonResponse;
 			return body;
 		} catch {
 			throw new Error(`Failed to parse JSON response`);

@@ -1,6 +1,5 @@
 <script>
 	import SocialPreview from '$components/SocialPreview.svelte';
-	import { onMount } from 'svelte';
 </script>
 
 <SocialPreview title="About" previewImage="/socialpreview/about.png" />

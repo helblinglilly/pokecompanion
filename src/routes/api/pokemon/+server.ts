@@ -9,13 +9,10 @@ import { formatEncounters, type IEncounterResponse } from '$lib/data/encounterFi
 import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { parseUserPreferences } from '../helpers';
+import type { Platform } from '../types';
+import type { IPokemonResponse } from './types';
 
-interface Platform {
-	context: {
-		waitUntil(promise: Promise<unknown>): void;
-	}
-	caches: CacheStorage & { default: Cache }
-}
+
 
 const fetchCacheFirst = async(url: string | URL, platform: Readonly<Platform> | undefined): Promise<Response> => {
 	const parsedUrl = new URL(url);
@@ -256,7 +253,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 
 	const encounters = await fetchPokemonEncounters(id, platform);
 
-	return new Response(JSON.stringify({
+	const response: IPokemonResponse = {
 		id,
 		pokemon: {
 			...pokemon,
@@ -288,7 +285,8 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 			)
 		},
 		encounters: formatEncounters(encounters, selectedGame)
-	}), {
+	}
+	return new Response(JSON.stringify(response), {
 		headers: {
             'Content-Type': 'application/json',
             'Cache-Control': 'public, max-age=86400',
