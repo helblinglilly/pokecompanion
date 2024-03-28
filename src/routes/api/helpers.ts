@@ -1,10 +1,11 @@
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { findGameFromString, type IGame } from '$lib/data/games';
+import { findGameFromString } from '$lib/data/games';
 import { warn } from '$lib/log';
 import { getRawCookie, parseCookieString } from '$lib/utils/cookies';
 import { addMinutesToDate } from '$lib/utils/date';
 import type { Cookies } from '@sveltejs/kit';
 import Pocketbase from 'pocketbase';
+import type { IUserPreferences } from './types';
 
 export const getSearchParam = (url: string, name: string) => {
 	const searchParts = url.split('?')[1];
@@ -101,12 +102,6 @@ export const respondWithJson = (payload: object | Array<unknown>, status?: numbe
 		status: responseCode
 	});
 };
-
-export interface IUserPreferences {
-	primaryLanguage: string;
-	secondaryLanguage: string | undefined;
-	selectedGame: IGame | undefined;
-}
 
 export const parseUserPreferences = (url: URL, cookies: Cookies): IUserPreferences => {
 	const gameEntry = findGameFromString(url.searchParams.get('game') ?? cookies.get('game'));
