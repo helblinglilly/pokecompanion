@@ -1,4 +1,5 @@
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import { findGameFromString, type IGame } from '$lib/data/games';
 import { warn } from '$lib/log';
 import { getRawCookie, parseCookieString } from '$lib/utils/cookies';
 import { addMinutesToDate } from '$lib/utils/date';
@@ -100,3 +101,21 @@ export const respondWithJson = (payload: object | Array<unknown>, status?: numbe
 		status: responseCode
 	});
 };
+
+export interface IUserPreferences {
+	primaryLanguage: string;
+	secondaryLanguage: string | undefined;
+	selectedGame: IGame | undefined;
+}
+
+export const parseUserPreferences = (url: URL, cookies: Cookies): IUserPreferences => {
+	const gameEntry = findGameFromString(url.searchParams.get('game') ?? cookies.get('game'));
+	const primaryLanguage = url.searchParams.get('primaryLanguage') ?? cookies.get('primaryLanguage') ?? 'en';
+	const secondaryLanguage = url.searchParams.get('secondaryLanguage') ?? cookies.get('secondaryLanguage');
+
+	return {
+		selectedGame: gameEntry,
+		primaryLanguage,
+		secondaryLanguage
+	}
+}

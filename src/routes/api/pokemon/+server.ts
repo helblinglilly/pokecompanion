@@ -1,13 +1,14 @@
 import { logError, logToAxiom } from '$lib/log';
 import { lastPokedexEntry, pokeApiDomain } from '$lib/stores/domain';
-import type { FlavorTextEntry, IPokemon, IPokemonSpecies, ISprites, Name } from '$lib/types/IPokemon';
+import { emptySprites, type FlavorTextEntry, type IPokemon, type IPokemonSpecies, type ISprites, type Name } from '$lib/types/IPokemon';
 import type { RequestHandler } from './$types';
-import { findGameFromAPIGameName, findGameFromString } from '$lib/data/games';
+import { findGameFromAPIGameName } from '$lib/data/games';
 import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
 import { fixAbilities, getPokemonTypesInGame, getTypeRelations } from '$lib/data/generationAdjuster';
 import { formatEncounters, type IEncounterResponse } from '$lib/data/encounterFilter';
 import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
+import { parseUserPreferences } from '../helpers';
 
 interface Platform {
 	context: {
@@ -70,10 +71,40 @@ const fetchPokemonSpecies = async(id: number, platform: Platform | undefined): P
 const fetchPokemonForm = async(url: string, platform: Platform | undefined): Promise<{sprites: ISprites;
 	names: Name[]}> => {
 	const res = await fetchCacheFirst(url, platform);
-	if (!res.ok){
-		throw new Error(`Non-200 status code when getting ${url} - ${res.status}`)
+
+	const returnEmptyResponse = () => {
+		let id: number;
+		try{
+			const potentialId = url.split('/')[6];
+			id = Number(potentialId);
+		} catch {
+			id = -1;
+		}
+		return {
+			sprites: emptySprites(id),
+			names: []
+		}
 	}
-	return await res.json() as { sprites: ISprites; names: Name[] };
+
+	if (!res.ok){
+		logError('Failed to fetch Pokemon form', 'PokemonFormError', {
+			url: url,
+			status: res.status
+		});
+		return returnEmptyResponse();
+	}
+
+	try {
+		const body = await res.json() as { sprites: ISprites; names: Name[] };
+		return body;
+	} catch(err){
+		logError('Failed to parse response body', 'PokemonFormError', {
+			url: url,
+			status: res.status,
+			error: err
+		});
+		return returnEmptyResponse();
+	}
 }
 
 const fetchPokemonEncounters = async(id: number, platform: Platform | undefined): Promise<IEncounterResponse[]> => {
@@ -136,37 +167,31 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 		})
 	}
 
-
 	let [pokemon, species] = await Promise.all([
 		fetchPokemon(id, platform),
 		fetchPokemonSpecies(id, platform)
 	])
 
-	const gameEntry = findGameFromString(url.searchParams.get('game') ?? cookies.get('game'));
-	const primaryLanguage = url.searchParams.get('primaryLanguage') ?? cookies.get('primaryLanguage') ?? 'en';
-	const secondaryLanguage = url.searchParams.get('secondaryLanguage') ?? cookies.get('secondaryLanguage');
-	const variety = url.searchParams.get('variety');
+	const { primaryLanguage, secondaryLanguage, selectedGame, variety} = {
+		...parseUserPreferences(url, cookies),
+		variety: url.searchParams.get('variety')
+	}
 
 	const formEntry = pokemon.forms.find((entry) => entry.name === variety);
 	if (formEntry) {
-		try {
-			const formData = await fetchPokemonForm(formEntry.url, platform);
-			pokemon = {
-				...pokemon,
-				sprites: formData.sprites
-			};
+		const formData = await fetchPokemonForm(formEntry.url, platform);
+		pokemon = {
+			...pokemon,
+			sprites: formData.sprites
+		};
 
-			species = {
-				...species,
-				names: formData.names
-			};
-		} catch (err) {
-			console.error(err);
-		}
+		species = {
+			...species,
+			names: formData.names
+		};
 	}
 
 	const varietyEntry = species.varieties.find((entry) => entry.pokemon.name === variety);
-
 	if (varietyEntry) {
 		try {
 			const parts = varietyEntry.pokemon.url.split('/');
@@ -227,7 +252,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 		}
 	}
 
-	const types = getPokemonTypesInGame(pokemon, gameEntry?.generation);
+	const types = getPokemonTypesInGame(pokemon, selectedGame?.generation);
 
 	const encounters = await fetchPokemonEncounters(id, platform);
 
@@ -235,9 +260,9 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 		id,
 		pokemon: {
 			...pokemon,
-			abilities: fixAbilities(id, pokemon.past_abilities, pokemon.abilities, gameEntry),
+			abilities: fixAbilities(id, pokemon.past_abilities, pokemon.abilities, selectedGame),
 			types,
-			typeRelations: await getTypeRelations(gameEntry?.generation, types[0], types[1]),
+			typeRelations: await getTypeRelations(selectedGame?.generation, types[0], types[1]),
 			varietyForms: species.varieties
 				.map((variety) => {
 					return {
@@ -251,7 +276,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 					(entry, index, arr) =>
 						entry.name.includes('-') && arr.findIndex((e) => e.name === entry.name) === index
 				),
-			moves: filterMovesetByVersionEntry(pokemon.moves, gameEntry)
+			moves: filterMovesetByVersionEntry(pokemon.moves, selectedGame)
 		},
 		species: {
 			...species,
@@ -262,7 +287,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 				secondaryLanguage
 			)
 		},
-		encounters: formatEncounters(encounters, gameEntry)
+		encounters: formatEncounters(encounters, selectedGame)
 	}), {
 		headers: {
             'Content-Type': 'application/json',
