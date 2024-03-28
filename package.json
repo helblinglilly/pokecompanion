@@ -54,6 +54,7 @@
 		"@jill64/sentry-sveltekit-cloudflare": "^1.7.2",
 		"@sentry/browser": "^7.86.0",
 		"@sentry/integrations": "^7.94.1",
+		"jdenticon": "^3.2.0",
 		"pocketbase": "^0.18.2",
 		"uuid": "^9.0.1"
 	}
