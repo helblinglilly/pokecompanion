@@ -29,12 +29,13 @@ export class Logger {
 			if (window?.newrelic){
 				window.newrelic.noticeError(error, {
 					errorClass,
-					info
+					...info
 				})
 				window.newrelic?.addPageAction('ClientSideLog', {
 					level: 'error',
+					message: info?.context,
 					errorClass,
-					info,
+					...info,
 				})
 				return;
 			}
@@ -54,7 +55,7 @@ export class Logger {
 						name: error.name,
 						message: error.message
 					},
-					info
+					...info
 				})
 			})
 			if (!res.ok){
@@ -73,7 +74,7 @@ export class Logger {
 				window.newrelic?.addPageAction('ClientSideLog', {
 					level: 'info',
 					message,
-					info,
+					...info,
 				})
 				return;
 			}
@@ -91,7 +92,7 @@ export class Logger {
 					eventType: 'ServerSideLog',
 					level: 'warning',
 					message,
-					info
+					...info
 				})
 			})
 			if (!res.ok){
@@ -110,7 +111,7 @@ export class Logger {
 				window.newrelic?.addPageAction('ClientSideLog', {
 					level: 'warning',
 					message,
-					info,
+					...info,
 				})
 				return;
 			}
@@ -127,7 +128,7 @@ export class Logger {
 					eventType: 'ServerSideLog',
 					level: 'warning',
 					message,
-					info
+					...info
 				})
 			})
 			if (!res.ok){
@@ -146,7 +147,7 @@ export class Logger {
 			if (window?.newrelic){
 				window.newrelic?.addPageAction(name, {
 					message,
-					info,
+					...info,
 				})
 				return;
 			}
@@ -162,7 +163,7 @@ export class Logger {
 				body: JSON.stringify({
 					eventType: name,
 					message,
-					info
+					...info
 				})
 			})
 			if (!res.ok){
