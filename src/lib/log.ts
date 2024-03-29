@@ -31,7 +31,7 @@ export class Logger {
 					errorClass,
 					info
 				})
-				window.newrelic?.addPageAction('ServerSideLog', {
+				window.newrelic?.addPageAction('ClientSideLog', {
 					level: 'error',
 					errorClass,
 					info,
@@ -70,7 +70,7 @@ export class Logger {
 	
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
-				window.newrelic?.addPageAction('Log', {
+				window.newrelic?.addPageAction('ClientSideLog', {
 					level: 'info',
 					message,
 					info,
@@ -107,7 +107,7 @@ export class Logger {
 		
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
-				window.newrelic?.addPageAction('Log', {
+				window.newrelic?.addPageAction('ClientSideLog', {
 					level: 'warning',
 					message,
 					info,
