@@ -24,6 +24,6 @@
 
 	<meta name="twitter:card" content="summary_large_image" />
 
-	<meta property="og:image" content={`${$page.url.origin}${previewImage}`} />
-	<meta name="twitter:image" content={`${$page.url.origin}${previewImage}`} />
+	<meta property="og:image" content={`${previewImage}`} />
+	<meta name="twitter:image" content={`${previewImage}`} />
 </svelte:head>
