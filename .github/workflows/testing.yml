@@ -30,7 +30,6 @@ jobs:
           PUBLIC_POCKETBASE_URL: 'http://pocketbase.aws.helbling.uk'
           PERSPECTIVES_API_KEY: ''
           PUBLIC_ENVIRONMENT: 'e2e'
-          ADMIN_EMAIL: ''
           PUBLIC_LOGGING_API_KEY: ''
           NEW_RELIC_APP_NAME: ''
           NEW_RELIC_LICENSE_KEY: ''
