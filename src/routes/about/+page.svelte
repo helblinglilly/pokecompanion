@@ -2,7 +2,10 @@
 	import SocialPreview from '$components/SocialPreview.svelte';
 </script>
 
-<SocialPreview title="About" previewImage="/socialpreview/about.png" />
+<SocialPreview
+	title="About"
+	previewImage="https://socialpreviews.pokecompanion.helbling.uk/about.png"
+/>
 
 <div>
 	<span>

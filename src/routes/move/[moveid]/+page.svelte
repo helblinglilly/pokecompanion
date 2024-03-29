@@ -54,7 +54,7 @@
 
 <SocialPreview
 	title={`${names.primary ?? names.secondary}`}
-	previewImage="/socialpreview/moves.png"
+	previewImage="https://socialpreviews.pokecompanion.helbling.uk/moves.png"
 	description={primaryEffectEntry ?? secondaryEffectEntry}
 />
 

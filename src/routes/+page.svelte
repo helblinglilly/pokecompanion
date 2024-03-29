@@ -40,7 +40,10 @@
 	<link rel="stylesheet" href="styles/home.css" />
 </svelte:head>
 
-<SocialPreview title="Homepage" previewImage={`/socialpreview/home.png`} />
+<SocialPreview
+	title="Homepage"
+	previewImage={`https://socialpreviews.pokecompanion.helbling.uk/home.png`}
+/>
 
 <!-- {#if $homepageMessaging === 'new-visitor' || !$homepageMessaging} -->
 <Greeting mode="new" />

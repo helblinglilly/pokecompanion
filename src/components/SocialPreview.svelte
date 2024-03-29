@@ -3,7 +3,7 @@
 	export let title = defaultTitle;
 	export let description =
 		'Explore the world of the Pokémon video games without the information overload. Set your game and never get lost in the flood of information again!';
-	export let previewImage = '/socialpreview/generic.png';
+	export let previewImage = 'https://socialpreviews.pokecompanion.helbling.uk/generic.png';
 	import { page } from '$app/stores';
 </script>
 

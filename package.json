@@ -4,8 +4,8 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
-		"build": "npm run build:assets && npm run build:app",
-		"build:assets": "node assets/socialGenerator.js",
+		"build": "npm run build:app",
+		"build:assets": "node scripts/socialpreviews/socialGenerator.js",
 		"build:app": "vite build",
 		"preview": "vite preview",
 		"test": "npm run test:integration && npm run test:unit",

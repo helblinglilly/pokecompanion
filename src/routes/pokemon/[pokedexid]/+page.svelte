@@ -207,7 +207,7 @@
 
 <SocialPreview
 	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
-	previewImage={`/socialpreview/pokemon/${data.id}/${filename(
+	previewImage={`https://socialpreviews.pokecompanion.helbling.uk/pokemon/${data.id}-${filename(
 		$page.url.searchParams.get('shiny'),
 		$page.url.searchParams.get('gender')
 	)}.png`}

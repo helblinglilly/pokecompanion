@@ -1,6 +1,6 @@
 import fs from 'fs';
 import fetch from 'node-fetch';
-import PokemonNames from '../src/lib/data/pokemonNames.json' assert { type: 'json' };
+import PokemonNames from '../../src/lib/data/pokemonNames.json' assert { type: 'json' };
 import sharp from 'sharp';
 
 const genericFile = fs.readFileSync('./assets/pokemonPreview.svg', 'utf-8');
@@ -121,13 +121,9 @@ for (let i = 0; i < lastPokemonId; i++) {
 				.replace(/single-modifier"/, '" style="display: none;"')
 				.replace(/double-modifier"/, '" style="display: none;"');
 
-			if (!fs.existsSync(`./static/socialpreview/pokemon/${i + 1}`)) {
-				fs.mkdirSync(`./static/socialpreview/pokemon/${i + 1}`);
-			}
-
 			convertSvgToPng(
 				plainFile,
-				`./static/socialpreview/pokemon/${i + 1}/generic.png`,
+				`./static/socialpreview/pokemon-${i + 1}-generic.png`,
 				1200,
 				630,
 				status === 200 ? buffer : undefined
@@ -142,7 +138,7 @@ for (let i = 0; i < lastPokemonId; i++) {
 
 			convertSvgToPng(
 				shiny,
-				`./static/socialpreview/pokemon/${i + 1}/shiny.png`,
+				`./static/socialpreview/pokemon-${i + 1}-shiny.png`,
 				1200,
 				630,
 				status === 200 ? buffer : undefined
@@ -157,7 +153,7 @@ for (let i = 0; i < lastPokemonId; i++) {
 
 			convertSvgToPng(
 				male,
-				`./static/socialpreview/pokemon/${i + 1}/male.png`,
+				`./static/socialpreview/pokemon-${i + 1}-male.png`,
 				1200,
 				630,
 				status === 200 ? buffer : undefined
@@ -172,7 +168,7 @@ for (let i = 0; i < lastPokemonId; i++) {
 
 			convertSvgToPng(
 				female,
-				`./static/socialpreview/pokemon/${i + 1}/female.png`,
+				`./static/socialpreview/pokemon-${i + 1}-female.png`,
 				1200,
 				630,
 				status === 200 ? buffer : undefined
@@ -186,7 +182,7 @@ for (let i = 0; i < lastPokemonId; i++) {
 
 			convertSvgToPng(
 				maleShiny,
-				`./static/socialpreview/pokemon/${i + 1}/shiny-male.png`,
+				`./static/socialpreview/pokemon-${i + 1}-shiny-male.png`,
 				1200,
 				630,
 				status === 200 ? buffer : undefined
@@ -200,7 +196,7 @@ for (let i = 0; i < lastPokemonId; i++) {
 
 			convertSvgToPng(
 				femaleShiny,
-				`./static/socialpreview/pokemon/${i + 1}/shiny-female.png`,
+				`./static/socialpreview/pokemon-${i + 1}-shiny-female.png`,
 				1200,
 				630,
 				status === 200 ? buffer : undefined

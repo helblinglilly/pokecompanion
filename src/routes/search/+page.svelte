@@ -46,7 +46,7 @@
 
 <SocialPreview
 	title={`${data.searchTerm} results`}
-	previewImage="/socialpreview/results.png"
+	previewImage="https://socialpreviews.pokecompanion.helbling.uk/results.png"
 	description={`View results across Pokémon, Items, Moves and Abilities`}
 />
 
