@@ -90,7 +90,7 @@ export class Logger {
 				},
 				body: JSON.stringify({
 					eventType: 'ServerSideLog',
-					level: 'warning',
+					level: 'info',
 					message,
 					...info
 				})
