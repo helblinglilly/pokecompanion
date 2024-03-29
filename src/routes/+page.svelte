@@ -21,6 +21,10 @@
 		Logger.addPageAction('PokemonOTD', pokemonOtdId.toString(), {
 			isShiny: featuredPokemon.shiny
 		});
+
+		Logger.info('Hello test message', {
+			context: 'Testing'
+		});
 	});
 </script>
 
