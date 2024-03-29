@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { logError } from '$lib/log';
+	import { Logger } from '$lib/log';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
@@ -94,7 +94,10 @@
 			}
 
 			addNotification({ message: 'Oh oh, that was our fault. Please try again', level: 'failure' });
-			logError(passwordError ? 'Login failed' : 'Sign up failed', 'AuthenticationIssue', err);
+
+			await Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(err), {
+				context: passwordError ? 'Login failed' : 'Sign up failed'
+			});
 		}
 	};
 </script>

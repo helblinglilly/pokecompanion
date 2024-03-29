@@ -3,7 +3,7 @@
 	import SelfMarketing from '$components/Homepage/SelfMarketing.svelte';
 	import SocialPreview from '$components/SocialPreview.svelte';
 	import PokemonCardEntry from '$components/Tags/PokemonCardEntry.svelte';
-	import { logToAxiom } from '$lib/log';
+	import { Logger } from '$lib/log';
 	import { lastPokedexEntry } from '$lib/stores/domain';
 	import { daysPassedInYear, randomDailyNumber } from '$lib/utils/number';
 	import { onMount } from 'svelte';
@@ -17,9 +17,9 @@
 		shiny: Math.random() < 0.01 && pokemonOtdId < 888
 	};
 
-	onMount(() => {
-		logToAxiom({
-			pokemonOtd: pokemonOtdId
+	onMount(async () => {
+		Logger.addPageAction('PokemonOTD', pokemonOtdId.toString(), {
+			isShiny: featuredPokemon.shiny
 		});
 	});
 </script>

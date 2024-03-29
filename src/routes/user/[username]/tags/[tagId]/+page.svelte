@@ -7,7 +7,6 @@
 	import Modal from '$components/UI/Modal.svelte';
 	import PokemonCardEntry from '$components/Tags/PokemonCardEntry.svelte';
 	import PokemonListEntry from '$components/Tags/PokemonListEntry.svelte';
-	import { logError } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 	import type { ITag, ITagMove, ITagPokemon, TagRecord } from '$lib/types/ITags.js';
@@ -19,6 +18,7 @@
 	import SocialPreview from '$components/SocialPreview.svelte';
 	import MoveCardEntry from '$components/Tags/MoveCardEntry.svelte';
 	import MoveListEntry from '$components/Tags/MoveListEntry.svelte';
+	import { Logger } from '$lib/log.js';
 
 	export let data;
 	$: tags = data;
@@ -112,13 +112,11 @@
 				};
 			} catch (err) {
 				addNotification({ message: 'Failed to save tag', level: 'failure' });
-				logError(
-					'Failed to save tag',
-					'FailedToSaveTag',
-					`Tag ID: ${data.tag.id}, Name: ${tags.tag.name}, Contents: ${
-						tags.tag.contents
-					}, Error: ${JSON.stringify(err)}`
-				);
+				await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
+					context: 'Failed to save tag',
+					tag: data.tag.id,
+					user: $currentUser?.id
+				});
 			}
 		}
 	};
@@ -150,11 +148,11 @@
 			addNotification({ message: `Deleted "${tags.tag.name}"`, level: 'success' });
 			goto(`/user/${$currentUser?.username}`);
 		} catch (err) {
-			logError(
-				'Failed to delete Tag',
-				'FailedToDeleteTag',
-				`User: ${$currentUser?.username}, ID: ${tags.tag.id}, Error: ${err}`
-			);
+			await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
+				context: 'Failed to delete tag',
+				user: $currentUser?.id,
+				tag: tags.tag.id
+			});
 			addNotification({
 				message: `Failure to delete tag "${tags.tag.name}""`,
 				level: 'failure'

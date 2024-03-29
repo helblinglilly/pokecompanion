@@ -6,7 +6,7 @@
 	import { addMinutesToDate } from '$lib/utils/date';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
-	import { logError, logToAxiom } from '$lib/log';
+	import { Logger } from '$lib/log';
 
 	let status = 'Authenticating...';
 	let errorDetails = '';
@@ -52,11 +52,21 @@
 				const svgResponse = await fetch(`https://avatar.helbling.uk/${authData.record.username}`);
 				const svgImage = await svgResponse.blob();
 
-				await $pb.collection('users').update(authData.record.id, { avatar: svgImage });
+				try {
+					await $pb.collection('users').update(authData.record.id, { avatar: svgImage });
+				} catch (err) {
+					await Logger.warn('Failed to set a profile picture for a new user', {
+						error: Logger.buildError(err).message,
+						user: authData.record.id
+					});
+				}
 				isNewUser = true;
-			} else {
-				logToAxiom({ action: 'oAuthSignIn' });
 			}
+
+			await Logger.addPageAction('User', isNewUser ? 'OAuthSignUp' : 'OAuthSignIn', {
+				provider: provider.name,
+				user: authData.record.id
+			});
 
 			const redirectUrl = getCookie('auth-redirect');
 			const cookie = $pb.authStore.exportToCookie({ expires: addMinutesToDate(new Date(), 30) });
@@ -72,7 +82,6 @@
 
 			if (isNewUser) {
 				homepageMessaging.set('new-user');
-				logToAxiom({ action: 'userCreated' });
 				goto(`/`);
 				return;
 			} else {
@@ -89,8 +98,9 @@
 		} catch (err) {
 			status = 'Sign in failed';
 			errorDetails = 'Could not sign you in. Please try again.';
-			logError(`Failed to sign in`, `SignInFailed`, {
-				error: err
+
+			await Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(err), {
+				context: 'OAuth Sign In failed'
 			});
 		}
 	});

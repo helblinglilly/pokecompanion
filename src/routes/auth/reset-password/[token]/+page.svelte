@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { logError } from '$lib/log';
+	import { Logger } from '$lib/log';
 	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
 	import { isPasswordValid } from '$lib/utils/user-client';
@@ -32,9 +32,13 @@
 		try {
 			await $pb.collection('users').confirmPasswordReset(token, newPassword, confirmNewPassword);
 			passwordError = 'Your password has been changed';
+			await Logger.addPageAction('User', 'PasswordReset');
 		} catch (err) {
 			addNotification({ message: 'Failed to reset password', level: 'failure' });
-			logError('Failed to Reset Password', `FailedToResetPassword`, `${JSON.stringify(err)}`);
+			await Logger.warn('User', {
+				context: 'PasswordResetFailed',
+				error: Logger.buildError(err)
+			});
 		}
 	};
 </script>

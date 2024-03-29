@@ -7,7 +7,7 @@ Workaround for Github Issue: https://github.com/getsentry/sentry-javascript/issu
 Will need to switch to permanent fix once available
  */
 import { init } from '@jill64/sentry-sveltekit-cloudflare/server';
-import { logError } from '$lib/log';
+import { Logger } from '$lib/log';
 
 const { onHandle, onError } = init(
 	PUBLIC_SENTRY_DSN,
@@ -27,16 +27,23 @@ const { onHandle, onError } = init(
 	//   enableInDevMode: boolean (default: false)
 	// }
 );
-export const handleError = onError((e, sentryEventId) => {
+export const handleError = onError(async (e, sentryEventId) => {
 	console.dir({
 		level: 'ERROR',
 		timestamp: new Date().toISOString(),
 		errorId: sentryEventId,
 		stackTrace: e.error
 	});
-	logError(e.message, sentryEventId ?? 'unknown-serverside-error', {
-		status: e.status
-	});
+	await Logger.error(
+		Logger.ErrorClasses.Unknown,
+		Logger.buildError(e.error),
+		{
+			context: 'Unknown error caught in hooks.server',
+			event: e.event.url,
+			statusMessage: e.status,
+			message: e.message
+		}
+	)
 });
 
 export const handle = onHandle(async ({ event, resolve }) => {

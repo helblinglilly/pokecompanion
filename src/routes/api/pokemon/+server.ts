@@ -1,4 +1,3 @@
-import { logError, logToAxiom } from '$lib/log';
 import { lastPokedexEntry, pokeApiDomain } from '$lib/stores/domain';
 import { emptySprites, type FlavorTextEntry, type IPokemon, type IPokemonSpecies, type ISprites, type Name } from '$lib/types/IPokemon';
 import type { RequestHandler } from './$types';
@@ -11,8 +10,7 @@ import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { parseUserPreferences } from '../helpers';
 import type { Platform } from '../types';
 import type { IPokemonResponse } from './types';
-
-
+import { Logger } from '$lib/log';
 
 const fetchCacheFirst = async(url: string | URL, platform: Readonly<Platform> | undefined): Promise<Response> => {
 	const parsedUrl = new URL(url);
@@ -24,11 +22,16 @@ const fetchCacheFirst = async(url: string | URL, platform: Readonly<Platform> | 
 			if (cacheResponse){
 				return cacheResponse;
 			}
-		} catch(err){
-			logToAxiom({
-				message: 'Failed to access cache',
-				error: err
-			})
+		} catch(err){			
+			platform.context.waitUntil(
+				Logger.warn(
+					'Tried to read request from cache, but threw an error',
+					{
+						request: url,
+						error: Logger.buildError(err).message
+					}
+				)
+			)
 		}
 	}
 
@@ -40,10 +43,15 @@ const fetchCacheFirst = async(url: string | URL, platform: Readonly<Platform> | 
                 platform.caches.default.put(parsedUrl.pathname, responseToCache)
             );
 		} catch(err){
-			logToAxiom({
-				message: 'Failed to put to cache',
-				error: err
-			})
+			platform.context.waitUntil(
+				Logger.warn(
+					'Failed to place successful request in cache',
+					{
+						request: url,
+						error: Logger.buildError(err).message
+					}
+				)
+			)
 		}
 	}
 	return res;
@@ -84,10 +92,17 @@ const fetchPokemonForm = async(url: string, platform: Platform | undefined): Pro
 	}
 
 	if (!res.ok){
-		logError('Failed to fetch Pokemon form', 'PokemonFormError', {
-			url: url,
-			status: res.status
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.OptionalOperationFailed, 
+				new Error(`Non-200 status code when fetching ${url} - ${res.status}`),
+				{
+					context: 'When processing forms for a Pokemon',
+					request: url,
+					responseStatus: res.status
+				}
+			)
+		)
 		return returnEmptyResponse();
 	}
 
@@ -95,22 +110,32 @@ const fetchPokemonForm = async(url: string, platform: Platform | undefined): Pro
 		const body = await res.json() as { sprites: ISprites; names: Name[] };
 		return body;
 	} catch(err){
-		logError('Failed to parse response body', 'PokemonFormError', {
-			url: url,
-			status: res.status,
-			error: err
-		});
+		Logger.error(
+			Logger.ErrorClasses.OptionalOperationFailed, 
+			Logger.buildError(err),
+			{
+				context: 'Failed to parse response body',
+				request: url
+			}
+		)
 		return returnEmptyResponse();
 	}
 }
 
 const fetchPokemonEncounters = async(id: number, platform: Platform | undefined): Promise<IEncounterResponse[]> => {
-	const res = await fetchCacheFirst(`${pokeApiDomain}/pokemon/${id}/encounters`, platform);
+	const url = `${pokeApiDomain}/pokemon/${id}/encounters`;
+	const res = await fetchCacheFirst(url, platform);
 	if (!res.ok){
-		logError(`Non-200 status code when fetching /pokemon/${id}/encounters - ${res.status}`, 'PokemonEncounterLoadFailed', {
-			requestUrl: `/pokemon/${id}/encounters`,
-			requestError: res.statusText
-		})
+		Logger.error(
+			Logger.ErrorClasses.OptionalOperationFailed, 
+			new Error(`Non-200 status code when fetching ${url} - ${res.status}`),
+			{
+				context: 'Failed to fetch encounters for a Pokemon',
+				pokemon: id,
+				request: url,
+				responseStatus: res.status
+			}
+		)
 		return [];		
 	}
 	return await res.json() as IEncounterResponse[];
@@ -143,7 +168,7 @@ const filterPokedexEntries = (
 	// To do: Move the selected game entry to the top
 };
 
-export const GET: RequestHandler = async ({ url, platform, cookies }) => {
+export const GET: RequestHandler = async ({ url, platform, cookies }) => {	
 	const rawId = url.searchParams.get('pokemon');
 	if (!rawId){
 		return new Response('Missing pokemon in search param', {
@@ -242,10 +267,17 @@ export const GET: RequestHandler = async ({ url, platform, cookies }) => {
 				...varietyPokemon
 			};
 		} catch (err) {
-			logError('Something went wrong when trying to process forms', 'PokemonFormError', {
-				err,
-				...varietyEntry
-			});
+			platform?.context.waitUntil(
+				Logger.error(
+					Logger.ErrorClasses.RuntimeError, 
+					new Error(`Something went wrong when trying to process Pokemon forms`),
+					{
+						context: 'Failed to parse Pokemon forms',
+						pokemon: id,
+						variety: varietyEntry.pokemon.name
+					}
+				)
+			)
 		}
 	}
 

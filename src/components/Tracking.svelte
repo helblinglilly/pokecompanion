@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { navigating } from '$app/stores';
-	import { logToAxiom } from '$lib/log';
 	import { onMount } from 'svelte';
-	import { removeLastCharIfExists } from '$lib/utils/string';
 	import {
 		animateSprites,
 		homepageMessaging,
@@ -32,24 +30,6 @@
 			}
 
 			await nav.complete;
-			logToAxiom({
-				action: 'pageview',
-				referrer: {
-					url: nav.from?.url.href,
-					navSource: 'internal'
-				},
-				url: {
-					host: nav.to?.url.host,
-					hostname: nav.to?.url.hostname,
-					href: nav.to?.url.href,
-					pathname:
-						nav.to?.url.pathname !== '/'
-							? removeLastCharIfExists(nav.to?.url.pathname ?? 'no data', '/')
-							: '/',
-					search: nav.to?.url.search,
-					hash: nav.to?.url.hash
-				}
-			});
 
 			if ($homepageMessaging === 'new-user') {
 				navsAsNewUser += 1;
@@ -62,14 +42,6 @@
 	});
 
 	onMount(() => {
-		logToAxiom({
-			action: 'pageview',
-			referrer: {
-				url: document.referrer,
-				navSource: 'external'
-			}
-		});
-
 		Sentry.init({
 			dsn: PUBLIC_SENTRY_DSN,
 			environment: PUBLIC_ENVIRONMENT ?? 'local',

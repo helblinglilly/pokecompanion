@@ -28,11 +28,13 @@ jobs:
           SENTRY_ORG: ''
           SENTRY_PROJECT: ''
           PUBLIC_POCKETBASE_URL: 'http://pocketbase.aws.helbling.uk'
-          PUBLIC_HOST_URL: 'http://localhost:5173'
-          PUBLIC_AXIOM_TOKEN: ''
-          PUBLIC_AXIOM_DATASET: ''
           PERSPECTIVES_API_KEY: ''
           PUBLIC_ENVIRONMENT: 'e2e'
+          ADMIN_EMAIL: ''
+          PUBLIC_LOGGING_API_KEY: ''
+          NEW_RELIC_APP_NAME: ''
+          NEW_RELIC_LICENSE_KEY: ''
+          NEW_RELIC_ACCOUNT_ID: ''
       - uses: actions/upload-artifact@v3
         if: always()
         with:

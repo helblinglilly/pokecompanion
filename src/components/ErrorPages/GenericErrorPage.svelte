@@ -1,19 +1,14 @@
 <script>
 	import { page } from '$app/stores';
-	import { logError } from '$lib/log';
 	import { onMount } from 'svelte';
 	import FiveHundred from './Generic/FiveHundred.svelte';
 	import FourOhFour from './Generic/FourOhFour.svelte';
 	import FiveTwoThree from './Generic/FiveTwoThree.svelte';
 	import Pokemon404 from './Pokemon/Pokemon404.svelte';
+	import { Logger } from '$lib/log';
 
-	onMount(() => {
-		logError('User reached error boundary', 'ErrorBoundary', {
-			...$page,
-			data: null
-		});
-		window?.newrelic?.addPageAction('ErrorBoundary', {
-			kind: 'Generic',
+	onMount(async () => {
+		await Logger.addPageAction('ErrorBoundary', 'Generic', {
 			error: $page.error?.message
 		});
 	});

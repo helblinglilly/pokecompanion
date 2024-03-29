@@ -1,7 +1,7 @@
 import Pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import type { ITagContents } from '$lib/types/ITags';
-import { warn } from '$lib/log';
+import { Logger } from '$lib/log';
 
 export interface ITags {
 	id: string;
@@ -36,10 +36,14 @@ export const getTagsByUser = async (id: string): Promise<ITags[]> => {
 			};
 		});
 	} catch (err) {
-		warn(`Failed to get tags by user`, `TagLoadFailed`, {
-			error: err,
-			userId: id
-		});
+		await Logger.error(
+			Logger.ErrorClasses.TagOperation,
+			Logger.buildError(err),
+			{
+				context: 'Failed to get Tags by user',
+				user: id
+			}
+		)
 		return [];
 	}
 };

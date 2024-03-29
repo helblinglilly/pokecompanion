@@ -1,9 +1,9 @@
 import type { IGame } from '$lib/data/games';
 import { pokeApiDomain } from '$lib/stores/domain';
 import type { Name, VersionGroup } from './IPokemon';
-import { logError } from '$lib/log';
 import { error } from '@sveltejs/kit';
 import type { IServerRequestDetails } from './IServerRequests';
+import { Logger } from '$lib/log';
 
 export interface IMove {
 	accuracy: number | null;
@@ -144,8 +144,9 @@ export async function getMove(
 	selectedGame: IGame | undefined,
 	serverRequest?: IServerRequestDetails
 ) {
+	const url = `${pokeApiDomain}/move/${id}`;
 	try {
-		const response = await fetch(pokeApiDomain + `/move/${id}`);
+		const response = await fetch(url);
 		if (!response.ok) {
 			throw new Error(`Non-200 status code - ${response.status}`);
 		}
@@ -161,12 +162,14 @@ export async function getMove(
 
 		return body;
 	} catch (err) {
-		logError(`Failed to get Move API Data`, 'MoveLoadFailed', {
-			requestUrl: `/move/${id}`,
-			requestError: err,
-			request: serverRequest?.request,
-			cookies: serverRequest?.cookies
-		});
+		await Logger.error(
+			Logger.ErrorClasses.ExternalAPIRequestFailed,
+			Logger.buildError(err),
+			{
+				context: 'Failed to get Move API Data',
+				url,
+			}
+		)
 		error(500, 'Failed to get Move API data');
 	}
 }

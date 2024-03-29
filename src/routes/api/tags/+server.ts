@@ -1,9 +1,9 @@
-import { logError, logToAxiom, warn } from '$lib/log';
 import isStringToxic from '$lib/server/toxic.js';
 import { validateAuth } from '../helpers.js';
 import type { ITagRequestBody, ITagUpdateBody } from '$lib/types/ITags.js';
+import { Logger } from '$lib/log.js';
 
-export async function POST({ request, cookies }) {
+export async function POST({ request, cookies, platform }) {
 	const authedPb = await validateAuth(request, cookies);
 	if (!authedPb) {
 		return new Response('Not authorised', { status: 401 });
@@ -13,11 +13,19 @@ export async function POST({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body - POST', `FailedPostTags`, {
-			error: err,
-			cookies: cookies,
-			request: request
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+	
+					context: 'Creating a new tag',
+					errorMessage: 'Failed to parse JSON from request body when trying to create a new tag',
+					user: cookies.get('remember-token'),
+					referrer: request.referrer
+				}
+			)
+		)
 		return new Response('Invalid body', {
 			status: 400
 		});
@@ -49,20 +57,25 @@ export async function POST({ request, cookies }) {
 			isPrivate: body.isPrivate,
 			showGenderAndShiny: body.showGenderAndShiny
 		});
-		logToAxiom(
-			{
-				action: 'createdTag',
-				tag: { name: body.name, owner: authedPb.authStore.model?.id }
-			},
-			request,
-			cookies
-		);
+		platform?.context.waitUntil(
+			Logger.addPageAction('TagCreated', 'Created a new tag', {
+				name: body.name,
+				user: authedPb.authStore.model?.id
+			})
+		)
 	} catch (err) {
-		logError(`Failed to create new tag ${err} - POST`, 'FailedToCreateTag', {
-			error: err,
-			request,
-			cookies
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Creating a new tag',
+					errorMessage: 'Failed to insert a new tag into the DB',
+					user: cookies.get('remember-token'),
+					name: body.name
+				}
+			)
+		)
 		return new Response('Failed to create new tag', {
 			status: 500
 		});
@@ -71,7 +84,7 @@ export async function POST({ request, cookies }) {
 	return new Response('created');
 }
 
-export async function PATCH({ request, cookies }) {
+export async function PATCH({ request, cookies, platform }) {
 	const authedPb = await validateAuth(request, cookies);
 	if (!authedPb || !authedPb.authStore.model) {
 		return new Response('Not authorised', { status: 401 });
@@ -81,10 +94,17 @@ export async function PATCH({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', `failedPatchTags`, {
-			cookies: cookies,
-			request: request
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Updating a Tag',
+					errorMessage: 'Failed to parse JSON from request',
+					user: cookies.get('remember-token')
+				}
+			)
+		)
 		return new Response('Invalid body', {
 			status: 400
 		});
@@ -114,21 +134,27 @@ export async function PATCH({ request, cookies }) {
 				isPrivate: entry.isPrivate,
 				showGenderAndShiny: entry.showGenderAndShiny
 			});
-			logToAxiom(
-				{
-					action: 'updatedTag',
-					tag: { name: entry.name, owner: authedPb.authStore.model?.id }
-				},
-				request,
-				cookies
-			);
+
+			platform?.context.waitUntil(
+				Logger.addPageAction('TagUpdated', 'User has updated a tag', {
+					name: entry.name,
+					user: authedPb.authStore.model?.id
+				})
+			)
 		});
 	} catch (err) {
-		logError(`Failed to update tag - PATCH`, 'FailedToUpdateTag', {
-			error: err,
-			request,
-			cookies
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Updating a tag',
+					errorMessage: 'DB operation to update a tag has failed',
+					body: JSON.stringify(body),
+					user: cookies.get('remember-token')
+				}
+			)
+		)
 		return new Response(`Failed to update tag`, {
 			status: 500
 		});
@@ -137,7 +163,7 @@ export async function PATCH({ request, cookies }) {
 	return new Response('Ok', { status: 200 });
 }
 
-export async function DELETE({ request, cookies }) {
+export async function DELETE({ request, cookies, platform }) {
 	const authedPb = await validateAuth(request, cookies);
 	if (!authedPb || !authedPb.authStore.model) {
 		return new Response('Not authorised', { status: 401 });
@@ -147,10 +173,18 @@ export async function DELETE({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', `FailedDeleteTags`, {
-			cookies: cookies,
-			request: request
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Deleting a tag',
+					errorMessage: 'Failed to parse JSON from request body',
+					user: cookies.get('remember-token')
+				}
+			)
+		)
+
 		return new Response('Invalid body', {
 			status: 400
 		});
@@ -164,18 +198,29 @@ export async function DELETE({ request, cookies }) {
 
 	try {
 		await authedPb.collection('tags').delete(body.id);
-		logToAxiom(
-			{ action: 'deletedTag', tag: { id: body.id, owner: authedPb.authStore.model?.id } },
-			request,
-			cookies
-		);
+		
+		platform?.context.waitUntil(
+			Logger.addPageAction('TagUpdated', 'User has deleted a tag', {
+				id: body.id,
+				user: authedPb.authStore.model?.id
+			})
+		)
+
 		return new Response('Deleted');
 	} catch (err) {
-		logError(`Failed to delete tag`, 'FailedToDeleteTag', {
-			error: err,
-			request,
-			cookies
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Deleting a tag',
+					errorMessage: 'DB Operation to delete tag has failed',
+					user: cookies.get('remember-token'),
+					id: body.id
+				}
+			)
+		)
+
 		return new Response(`Failed to delete tag`, {
 			status: 500
 		});

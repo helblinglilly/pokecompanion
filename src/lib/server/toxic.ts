@@ -1,5 +1,5 @@
 import { PERSPECTIVES_API_KEY } from '$env/static/private';
-import { logError } from '$lib/log';
+import { Logger } from '$lib/log';
 const endpoint = 'https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze';
 
 const isStringToxic = async (term: string) => {
@@ -45,13 +45,26 @@ const isStringToxic = async (term: string) => {
 		};
 		toxicityScore = repsonseData.attributeScores.TOXICITY.summaryScore.value;
 	} catch (err) {
-		logError(`Failed to check term for toxicity`, `ToxicityCheckError`, {
-			term: term,
-			error: err
-		});
+		Logger.error(
+			Logger.ErrorClasses.ExternalAPIRequestFailed,
+			Logger.buildError(err),
+			{
+				context: 'Failed to check term for toxicity',
+				term,
+				outcome: 'User rejected'
+			}
+		)
 	}
 
-	return toxicityScore >= 0.3;
+	if (toxicityScore >= 0.3){
+		Logger.addPageAction('ToxicityDenied', 'Rejected toxic user content from being inserted', {
+			term,
+			toxicityScore,
+		})
+		return true;
+	}
+
+	return false;
 };
 
 export default isStringToxic;

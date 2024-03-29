@@ -2,9 +2,9 @@ import type { SignedInUser } from '$lib/stores/user.js';
 import isStringToxic from '$lib/server/toxic.js';
 import { validateAuth } from '../../api/helpers.js';
 import { addMinutesToDate } from '$lib/utils/date.js';
-import { logError, warn } from '$lib/log.js';
+import { Logger } from '$lib/log.js';
 
-export async function PATCH({ request, cookies }) {
+export async function PATCH({ request, cookies, platform }) {
 	const pb = await validateAuth(request, cookies);
 	if (!pb) {
 		return new Response(null, {
@@ -29,11 +29,13 @@ export async function PATCH({ request, cookies }) {
 
 	const isToxic = await isStringToxic(updatedUsername);
 	if (isToxic) {
-		warn(`Toxic username has been detected`, `ToxicPrevention`, {
-			attemptedUsername: updatedUsername,
-			request,
-			cookies
-		});
+		platform?.context.waitUntil(
+			Logger.addPageAction('ToxicityDenied', 'A user tried to change their username to something toxic', {
+				user: cookies.get('remember-token'),
+				name: updatedUsername,
+			})
+		)
+
 		return new Response('Something went wrong', {
 			status: 500
 		});

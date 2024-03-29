@@ -1,242 +1,175 @@
-import * as Sentry from '@sentry/browser';
-/* https://github.com/getsentry/sentry-javascript/issues/8291 */
-import { PUBLIC_AXIOM_TOKEN, PUBLIC_AXIOM_DATASET } from '$env/static/public';
-import { page } from '$app/stores';
-import { get } from 'svelte/store';
-import { removeLastCharIfExists } from './utils/string';
-import { rememberToken } from './stores/domain';
-import type { Cookies } from '@sveltejs/kit';
+import { PUBLIC_LOGGING_API_KEY } from '$env/static/public';
 
-const apiUrl = `https://api.axiom.co/v1/datasets/${PUBLIC_AXIOM_DATASET}/ingest`;
+enum ErrorClasses {
+	ExternalAPIRequestFailed = 'External API Request Failed',
+	OptionalOperationFailed = 'Optional Operation Failed',
+	RuntimeError = 'Runtime error',
+	SearchResults = 'SearchResultsError',
+	TagOperation = 'TagOperationError',
+	UserOperation = 'UserOperationError',
+	Unknown = 'Unknown'
+}
 
-const logToAxiom = async (
-	other: object,
-	serverRequest?: Request | undefined,
-	serverCookies?: Cookies | undefined
-) => {
-	try {
-		// Try to log on client
-		// Subscribing to store will fail on server side
-		const ps = get(page);
-		const rememberStore = get(rememberToken);
+interface Info {
+	context?: string;
+	[key: string]: unknown;
+}
 
-		fetch(apiUrl, {
-			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${PUBLIC_AXIOM_TOKEN}`,
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify([
-				{
-					_time: new Date().toISOString(),
-					data: {
-						application: 'pokecompanion',
-						status: ps.status,
-						error: ps.error,
-						url: {
-							host: ps.url.host,
-							hostname: ps.url.hostname,
-							href: ps.url.href,
-							pathname:
-								ps.url.pathname !== '/'
-									? removeLastCharIfExists(ps.url.pathname, '/')
-									: ps.url.pathname,
-							search: ps.url.search,
-							hash: ps.url.hash
-						},
-						user: {
-							signedIn: ps.data.user?.id,
-							isSignedIn: ps.data.user?.id ? true : false,
-							rememberToken: rememberStore
-						},
-						...other
-					}
-				}
-			])
-		}).catch((error) => console.error('Error:', error));
-	} catch {
-		if (!serverRequest) {
-			console.warn(
-				'Trying to log on the server side, but no request has been provided',
-				new Error().stack
-			);
+export class Logger {
+	static ErrorClasses = ErrorClasses;
 
-			fetch(apiUrl, {
+	static buildError (err: unknown){
+		return err instanceof Error ? err : new Error(String(err))
+	}
+
+	static async error(errorClass: ErrorClasses, error: Error, info?: Info){
+		console.error(new Date().toISOString(), 'error',  errorClass, info, error)
+	
+		if (typeof window !== 'undefined'){
+			if (window?.newrelic){
+				window.newrelic.noticeError(error, {
+					errorClass,
+					info
+				})
+				window.newrelic?.addPageAction('ServerSideLog', {
+					level: 'error',
+					errorClass,
+					info,
+				})
+				return;
+			}
+		}
+
+		try {
+			const res = await fetch('https://pokecompanion.helbling.uk/api/log', {
 				method: 'POST',
 				headers: {
-					Authorization: `Bearer ${PUBLIC_AXIOM_TOKEN}`,
+					'Authentication': PUBLIC_LOGGING_API_KEY,
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify([
-					{
-						_time: new Date().toISOString(),
-						data: {
-							application: 'pokecompanion',
-							logIssue: 'Could not log client side but not request/cookies have been provided',
-							...other
-						}
-					}
-				])
-			}).catch((error) => console.error('Failed to log on the server side:', error));
-
-			return;
+				body: JSON.stringify({
+					eventType: 'ServerSideLog',
+					level: 'error',
+					error: {
+						name: error.name,
+						message: error.message
+					},
+					info
+				})
+			})
+			if (!res.ok){
+				throw new Error(`Non-200 response code - ${res.status}`)
+			}
+		} catch(err){
+			console.log('Server Side Log: Failed to log error', errorClass, error, info, err)
+		}
+	};
+	
+	static async info(message: string, info?: Info){
+		console.info(new Date().toISOString(), 'info',  message)
+	
+		if (typeof window !== 'undefined'){
+			if (window?.newrelic){
+				window.newrelic?.addPageAction('Log', {
+					level: 'info',
+					message,
+					info,
+				})
+				return;
+			}
+		}
+		
+		
+		try {
+			const res = await fetch('https://pokecompanion.helbling.uk/api/log', {
+				method: 'POST',
+				headers: {
+					'Authentication': PUBLIC_LOGGING_API_KEY,
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					eventType: 'ServerSideLog',
+					level: 'warning',
+					message,
+					info
+				})
+			})
+			if (!res.ok){
+				throw new Error(`Non-200 response code - ${res.status}`)
+			}
+		} catch(err){
+			console.log('Server Side Log: Failed to log info', message, info, err)
+		}
+	};
+	
+	static async warn(message: string, info?: Info){
+		console.warn(new Date().toISOString, 'warning', message, info);
+		
+		if (typeof window !== 'undefined'){
+			if (window?.newrelic){
+				window.newrelic?.addPageAction('Log', {
+					level: 'warning',
+					message,
+					info,
+				})
+				return;
+			}
+		}
+		
+		try {
+			const res = await fetch('https://pokecompanion.helbling.uk/api/log', {
+				method: 'POST',
+				headers: {
+					'Authentication': PUBLIC_LOGGING_API_KEY,
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					eventType: 'ServerSideLog',
+					level: 'warning',
+					message,
+					info
+				})
+			})
+			if (!res.ok){
+				throw new Error(`Non-200 response code - ${res.status}`)
+			}
+		} catch(err){
+			console.log('Server Side Log: Failed to log warning', message, info, err)
 		}
 
-		const urlParts = serverRequest.url.split('/');
-		const host = urlParts[2];
-		const hostname = urlParts[2].split(':')[0];
+	};
+	
+	static async addPageAction(name: string, message: string, info?: Info){
+		console.info(new Date().toISOString, 'notice', message, info);
+		
+		if (typeof window !== 'undefined'){
+			if (window?.newrelic){
+				window.newrelic?.addPageAction(name, {
+					message,
+					info,
+				})
+				return;
+			}
+		}
 
-		const route = '/' + urlParts.splice(3).join('/');
-		const pathname = removeLastCharIfExists(route, '/');
-
-		// Make default > 16 chars as that will show as not signed in
-		const rememberToken =
-			serverCookies?.get('remember-token') ?? 'no remember token present on server request';
-
-		fetch(apiUrl, {
-			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${PUBLIC_AXIOM_TOKEN}`,
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify([
-				{
-					_time: new Date().toISOString(),
-					data: {
-						application: 'pokecompanion',
-						url: {
-							host,
-							hostname,
-							href: serverRequest.url,
-							pathname,
-							search: serverRequest.url.split('?')[1],
-							hash: serverRequest.url.split('#')[1]
-						},
-						user: {
-							// signedIn based on length of rememberToken
-							isSignedIn: rememberToken.length <= 16,
-							rememberToken: rememberToken
-						},
-						...other
-					}
-				}
-			])
-		}).catch((error) => console.error('Failed to log on the server side:', error));
+		try {
+			const res = await fetch('https://pokecompanion.helbling.uk/api/log', {
+				method: 'POST',
+				headers: {
+					'Authentication': PUBLIC_LOGGING_API_KEY,
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					eventType: name,
+					message,
+					info
+				})
+			})
+			if (!res.ok){
+				throw new Error(`Non-200 response code - ${res.status}`)
+			}
+		} catch(err){
+			console.log('Server Side Log: Failed to log page action', name, message, info, err)
+		}
 	}
-};
-
-const logError = async (
-	message: string,
-	errorId: string,
-	details?: {
-		request?: Request;
-		cookies?: Cookies;
-	} & Record<string, unknown>
-) => {
-	const timestamp = new Date().toISOString();
-	const level = 'ERROR';
-
-	const smallDetails = {
-		...details
-	};
-	delete smallDetails.cookies;
-	delete smallDetails.request;
-
-	Sentry.captureMessage(message, {
-		level: 'error',
-		extra: {
-			errorId,
-			details: smallDetails
-		}
-	});
-
-	console.error(timestamp, level, errorId, message, smallDetails);
-	await logToAxiom(
-		{
-			action: 'log',
-			level: 'error',
-			message: message,
-			errorId,
-			details: { ...smallDetails }
-		},
-		details?.request,
-		details?.cookies
-	);
-};
-
-const info = async (
-	message: string,
-	details?: {
-		request?: Request;
-		cookies?: Cookies;
-	} & Record<string, unknown>
-) => {
-	const timestamp = new Date().toISOString();
-	const level = 'INFO';
-
-	const smallDetails = {
-		...details
-	};
-	delete smallDetails.cookies;
-	delete smallDetails.request;
-
-	console.info(timestamp, level, message);
-	Sentry.captureMessage(message, {
-		level: 'info',
-		extra: {
-			details: smallDetails
-		}
-	});
-
-	await logToAxiom(
-		{
-			action: 'log',
-			level: 'info',
-			message: message,
-			details: { ...smallDetails }
-		},
-		details?.request,
-		details?.cookies
-	);
-};
-
-const warn = async (
-	message: string,
-	errorId: string,
-	details?: {
-		request?: Request;
-		cookies?: Cookies;
-	} & Record<string, unknown>
-) => {
-	const timestamp = new Date().toISOString();
-	const level = 'WARNING';
-
-	const smallDetails = {
-		...details
-	};
-	delete smallDetails.cookies;
-	delete smallDetails.request;
-
-	Sentry.captureMessage(message, {
-		level: 'warning',
-		extra: {
-			errorId,
-			details: smallDetails
-		}
-	});
-
-	console.warn(timestamp, level, errorId, message, smallDetails);
-	await logToAxiom(
-		{
-			action: 'log',
-			level: 'warn',
-			message: message,
-			errorId,
-			details: { ...smallDetails }
-		},
-		details?.request,
-		details?.cookies
-	);
-};
-
-export { logError, info, warn, logToAxiom };
+}

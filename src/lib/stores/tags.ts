@@ -1,10 +1,10 @@
 import { getTagsByUser, type ITags } from '$lib/pb/tags';
 import { writable } from 'svelte/store';
 import { currentUser } from './user';
-import { logError } from '$lib/log';
 import { addNotification } from './notifications';
 import type { ITagMove, ITagMoveNew, ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
 import type { IDisplayPokemon } from './pokemonPage';
+import { Logger } from '$lib/log';
 
 export const tagStore = writable<ITags[]>([]);
 
@@ -18,10 +18,14 @@ export async function refetchTags(userId: string) {
 		tagStore.set(await getTagsByUser(userId));
 	} catch (err) {
 		addNotification({ message: 'Failed to get tags for user', level: 'failure' });
-		logError('Failed to get tags for user', 'FailedToGetTagsByUser', {
-			user: userId,
-			error: err
-		});
+		await Logger.error(
+			Logger.ErrorClasses.TagOperation,
+			Logger.buildError(err),
+			{
+				context: 'Failed to get tags for user',
+				user: userId,
+			}
+		)
 	}
 }
 
@@ -62,11 +66,15 @@ export async function createTag(
 		await refetchTags(userId);
 	} catch (err) {
 		addNotification({ message: 'Failed to create tag', level: 'failure' });
-		logError('Failed to create new tag', 'FailedToCreateTag', {
-			newName: name,
-			private: isPrivate,
-			error: err
-		});
+
+		await Logger.error(
+			Logger.ErrorClasses.TagOperation,
+			Logger.buildError(err),
+			{
+				name,
+				user: userId
+			}
+		)
 	}
 }
 
@@ -100,11 +108,15 @@ export async function addPokemonToTag(pokemon: ITagPokemonNew, tagId: string) {
 		}
 	} catch (err) {
 		addNotification({ message: 'Could not add tag. Please try again', level: 'failure' });
-		logError('Failed to add item to tag', 'FailedToAddToTag', {
-			tagId: tagId,
-			pokemon: pokemon.id,
-			error: err
-		});
+		await Logger.error(
+			Logger.ErrorClasses.TagOperation,
+			Logger.buildError(err),
+			{
+				context: 'Add Pokemon to Tag',
+				tag: tagId,
+				pokemon: pokemon.id
+			}
+		)
 	}
 }
 
@@ -138,11 +150,15 @@ export async function addMoveToTag(move: ITagMoveNew, tagId: string) {
 		}
 	} catch (err) {
 		addNotification({ message: 'Could not add tag. Please try again', level: 'failure' });
-		logError('Failed to add item to tag', 'FailedToAddToTag', {
-			tagId: tagId,
-			move: move,
-			error: err
-		});
+		await Logger.error(
+			Logger.ErrorClasses.TagOperation,
+			Logger.buildError(err),
+			{
+				context: 'Add Move to Tag',
+				tag: tagId,
+				move: move.id
+			}
+		)
 	}
 }
 
@@ -172,11 +188,15 @@ export async function removePokemonFromTag(pokemon: ITagPokemonNew, tagId: strin
 		}
 	} catch (err) {
 		addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });
-		logError(`Failed to remove item from tag'`, 'FailedToRemoveFromTag', {
-			tagId: tagId,
-			pokemon: pokemon.id,
-			error: err
-		});
+		await Logger.error(
+			Logger.ErrorClasses.TagOperation,
+			Logger.buildError(err),
+			{
+				context: 'Remove Pokemon from Tag',
+				tag: tagId,
+				pokemon: pokemon.id
+			}
+		)
 	}
 }
 
@@ -205,11 +225,15 @@ export async function removeMoveFromTag(move: ITagMoveNew, tagId: string) {
 		}
 	} catch (err) {
 		addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });
-		logError(`Failed to remove item from tag'`, 'FailedToRemoveFromTag', {
-			tagId: tagId,
-			move: move.id,
-			error: err
-		});
+		await Logger.error(
+			Logger.ErrorClasses.TagOperation,
+			Logger.buildError(err),
+			{
+				context: 'Remove Move from Tag',
+				tag: tagId,
+				move: move.id,
+			}
+		)
 	}
 }
 

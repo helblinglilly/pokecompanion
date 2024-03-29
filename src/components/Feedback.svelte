@@ -1,19 +1,13 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { logToAxiom } from '$lib/log';
+	import { Logger } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 
 	export let placeholder: string = 'What are your thoughts?';
 	let freetext: string = '';
 
-	const onSubmit = () => {
-		logToAxiom({
-			action: 'userFeedback',
-			feedback: {
-				freeText: freetext
-			}
-		});
-		window?.newrelic?.addPageAction('UserFeedback', {
+	const onSubmit = async () => {
+		await Logger.addPageAction('UserFeedback', '', {
 			message: freetext
 		});
 		addNotification({ message: 'Got it! Thanks for your input!', level: 'success' });

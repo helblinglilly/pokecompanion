@@ -5,9 +5,9 @@ import Moves from '$lib/data/moves.json';
 import { getSearchParam, getCookieValue } from '../helpers';
 import { termNormaliser } from '$lib/utils/string';
 import type { IStaticPokemon } from '$lib/data/games';
-import { logError } from '$lib/log';
+import { Logger } from '$lib/log';
 
-export async function GET({ request }) {
+export async function GET({ request, platform }) {
 	const searchTerm = getSearchParam(request.url, 'term');
 	if (!searchTerm) {
 		return respondWithJson({ error: 'No "term" value in URL' }, 400);
@@ -26,10 +26,17 @@ export async function GET({ request }) {
 		getItemResults(normalisedTerm, languages),
 		getMoveResults(normalisedTerm, languages)
 	]).catch((err) => {
-		logError(`Failed to get parts of the search results`, `SearchResultsError`, {
-			error: err,
-			searchTerm
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.SearchResults,
+				Logger.buildError(err),
+				{
+					searchTerm,
+					primaryLanguage: languages[0],
+					secondaryLanguage: languages[1]
+				}
+			)
+		)
 		return [[], [], [], []];
 	});
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Modal from '$components/UI/Modal.svelte';
-	import { logError } from '$lib/log';
+	import { Logger } from '$lib/log';
 	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
@@ -18,9 +18,9 @@
 			deleteCookie('pb_auth');
 			goto('/');
 		} catch (err) {
-			logError(`Failed to delete user account`, `FailedDeleteUser`, {
-				userId: user.id,
-				err
+			await Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(err), {
+				context: 'Delete user',
+				user: user.id
 			});
 			addNotification({
 				message:

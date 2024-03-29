@@ -1,5 +1,5 @@
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { logError } from '$lib/log.js';
+import { Logger } from '$lib/log.js';
 import { getUserByUsername } from '$lib/pb/publicUsers';
 import type { TagRecord } from '$lib/types/ITags';
 import { error } from '@sveltejs/kit';
@@ -10,12 +10,16 @@ export const load = async ({ params }) => {
 	const [user, freshTags] = await Promise.all([
 		getUserByUsername(params.username),
 		pb.collection('tags').getOne(params.tagId)
-	]).catch((err) => {
-		logError(`Failed to get tag for user`, `GetTagFailed`, {
-			error: err,
-			user: params.username,
-			tag: params.tagId
-		});
+	]).catch(async (err) => {
+		await Logger.error(
+			Logger.ErrorClasses.TagOperation,
+			Logger.buildError(err),
+			{
+				context: 'When loading a specific tag page',
+				username: params.username,
+				tag: params.tagId
+			}
+		)
 		return [];
 	});
 

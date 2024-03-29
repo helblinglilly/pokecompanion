@@ -3,7 +3,7 @@
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import { goto } from '$app/navigation';
 	import { pb } from '$lib/stores/domain';
-	import { logError } from '$lib/log';
+	import { Logger } from '$lib/log';
 
 	let newUsername: string;
 	let errorMessage: string;
@@ -37,10 +37,15 @@
 			if (!repsonse.ok) {
 				errorMessage = 'Failed to update username';
 				if (repsonse.status > 401) {
-					logError(
-						`Failed to update username`,
-						`FailedToUpdateUsername`,
-						`Current: ${$currentUser.username}, New: ${newUsername}, Error: ${repsonse.status}`
+					await Logger.error(
+						Logger.ErrorClasses.UserOperation,
+						new Error('Failed to update username'),
+						{
+							context: 'Failed to update username',
+							user: $currentUser?.id,
+							newUsername,
+							statusCode: repsonse.status
+						}
 					);
 				}
 			}

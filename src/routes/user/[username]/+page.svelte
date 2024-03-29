@@ -7,11 +7,11 @@
 	import Icon from '$components/UI/Icon.svelte';
 	import EmailVerification from '$components/Auth/EmailVerification.svelte';
 	import { pb } from '$lib/stores/domain';
-	import { logError } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tags';
 	import SocialPreview from '$components/SocialPreview.svelte';
+	import { Logger } from '$lib/log';
 
 	export let data;
 </script>
@@ -116,11 +116,9 @@
 										message: 'Failed to request password reset. Please try again',
 										level: 'failure'
 									});
-									logError(
-										'Failed to request password reset',
-										'FailedToRequestPasswordReset',
-										JSON.stringify(err)
-									);
+									await Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(err), {
+										context: 'Failed to request password reset'
+									});
 								}
 							}}>Request reset</button
 						>

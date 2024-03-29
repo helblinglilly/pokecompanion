@@ -1,8 +1,8 @@
-import { logError, warn } from '$lib/log';
 import { validateAuth } from '../helpers.js';
 import type { ITag, ITagContents } from '$lib/types/ITags.js';
+import { Logger } from '$lib/log.js';
 
-export async function POST({ request, cookies }) {
+export async function POST({ request, cookies, platform }) {
 	const authedPb = await validateAuth(request, cookies);
 	if (!authedPb) {
 		return new Response('Not authorised', { status: 401 });
@@ -12,10 +12,17 @@ export async function POST({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', `FailedPostTag`, {
-			cookies: cookies,
-			request: request
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Creating a tag',
+					errorMessage: 'Failed to parse JSON from request body',
+					user: cookies.get('remember-token')
+				}
+			)
+		)
 		return new Response('Invalid body', {
 			status: 400
 		});
@@ -38,10 +45,19 @@ export async function POST({ request, cookies }) {
 			}
 		});
 	} catch (err) {
-		logError(`Failed to update tag - POST`, `FailedToAppendToTag`, {
-			error: err,
-			body
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Updating a tag',
+					errorMessage: 'DB Operation to update a tag has failed',
+					user: cookies.get('remember-token'),
+					id: body.id
+				}
+			)
+		)
+
 		return new Response('Failed to update tag', {
 			status: 500
 		});
@@ -50,7 +66,7 @@ export async function POST({ request, cookies }) {
 	return new Response('Added', { status: 200 });
 }
 
-export async function DELETE({ request, cookies }) {
+export async function DELETE({ request, cookies, platform }) {
 	const authedPb = await validateAuth(request, cookies);
 
 	if (!authedPb) {
@@ -61,10 +77,18 @@ export async function DELETE({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', `FailedDeleteFromTag`, {
-			cookies: cookies,
-			request: request
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Deleting a tag',
+					errorMessage: 'Failed to parse JSON from request body',
+					user: cookies.get('remember-token')
+				}
+			)
+		)
+
 		return new Response('Invalid body', {
 			status: 400
 		});
@@ -102,11 +126,19 @@ export async function DELETE({ request, cookies }) {
 			}
 		});
 	} catch (err) {
-		logError(`Failed to remove from tag - DELETE`, 'FailedToRemoveFromTag', {
-			error: err,
-			pokemon: body.contents.pokemon,
-			move: body.contents.move
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Removing entries from tag',
+					errorMessage: 'DB Operation: Failed to update tag to remove existing entries from it',
+					user: cookies.get('remember-token'),
+					tag: body.id
+				}
+			)
+		)
+
 		return new Response('Failed to remove item from tag', {
 			status: 500
 		});
@@ -115,7 +147,7 @@ export async function DELETE({ request, cookies }) {
 	return new Response(JSON.stringify(newContents), { status: 200 });
 }
 
-export async function PATCH({ request, cookies }) {
+export async function PATCH({ request, cookies, platform }) {
 	const authedPb = await validateAuth(request, cookies);
 
 	if (!authedPb) {
@@ -135,11 +167,17 @@ export async function PATCH({ request, cookies }) {
 	try {
 		body = await request.json();
 	} catch (err) {
-		warn('Failed to parse JSON from request body', `FailedPatchTag`, {
-			error: err,
-			cookies: cookies,
-			request: request
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Updating a tag',
+					errorMessage: 'Failed to parse JSON from request body',
+					user: cookies.get('remember-token')
+				}
+			)
+		)
 		return new Response('Invalid body', {
 			status: 400
 		});
@@ -173,10 +211,18 @@ export async function PATCH({ request, cookies }) {
 			showGenderAndShiny: body.showGenderAndShiny
 		});
 	} catch (err) {
-		logError(`Failed to update tag - PATCH`, 'FailedToUpdateTag', {
-			error: err,
-			body
-		});
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Updating a tag',
+					errorMessage: 'DB Operation to update a tag has failed',
+					user: cookies.get('remember-token'),
+					tag: body.id
+				}
+			)
+		)
 		return new Response('Failed to update tag', {
 			status: 500
 		});

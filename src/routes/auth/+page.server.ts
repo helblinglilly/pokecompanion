@@ -4,10 +4,10 @@ import { toSvg } from 'jdenticon';
 import { isUsernameValid } from '$lib/server/user';
 import { addMinutesToDate } from '$lib/utils/date';
 import { parseCookieString } from '$lib/utils/cookies';
-import { logError, logToAxiom, warn } from '$lib/log';
+import { Logger } from '$lib/log';
 
 export const actions: Actions = {
-	signup: async ({ locals, request, cookies }) => {
+	signup: async ({ locals, request, cookies, platform }) => {
 		const user = await request.formData();
 
 		const data = Object.fromEntries(user) as {
@@ -32,23 +32,33 @@ export const actions: Actions = {
 		try {
 			await locals.pb.collection('users').create(user);
 		} catch (e) {
-			logError(`Failed to create new user`, `FailedCreateUser`, {
-				error: e,
-				request,
-				cookies
-			});
+			platform?.context.waitUntil(
+				Logger.error(
+					Logger.ErrorClasses.UserOperation,
+					Logger.buildError(e),
+					{
+						user: cookies.get('remember-token'),
+						email: data.email
+					}
+				)
+			)
 			throw e;
 		}
 
 		try {
 			await locals.pb.collection('users').requestVerification(data.email);
-			logToAxiom({ action: 'userCreated' }, request, cookies);
+			platform?.context.waitUntil(
+				Logger.addPageAction('User', 'CreatedEmail', {
+					user: cookies.get('remember-token'),
+					email: data.email
+				})
+			)
 		} catch (e) {
 			console.error('Failed to request Email verification', e);
 		}
 	},
 
-	login: async ({ locals, request, cookies }) => {
+	login: async ({ locals, request, cookies, platform }) => {
 		const data = Object.fromEntries(await request.formData()) as {
 			email: string;
 			password: string;
@@ -56,7 +66,12 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection('users').authWithPassword(data.email, data.password);
-			logToAxiom({ action: 'emailSignIn' }, request, cookies);
+			platform?.context.waitUntil(
+				Logger.addPageAction('User', 'SignInEmail', {
+					user: cookies.get('remember-token'),
+					email: data.email
+				})
+			)
 
 			/*
 				exportToCookie gives us a cookie string that is ready to be used
@@ -81,9 +96,13 @@ export const actions: Actions = {
 				status: 200
 			};
 		} catch (e) {
-			warn(`Login failed`, `LoginFailed`, {
-				error: e
-			});
+			platform?.context.waitUntil(
+				Logger.warn('User', {
+					context: 'SignInFailed',
+					user: cookies.get('remember-token'),
+					error: Logger.buildError(e).message
+				})
+			)
 
 			throw e;
 		}

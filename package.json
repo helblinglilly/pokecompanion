@@ -25,6 +25,7 @@
 		"@sveltejs/kit": "^2.5.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/lodash-es": "^4.17.8",
+		"@types/pako": "^2.0.3",
 		"@types/uuid": "^9.0.7",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
@@ -55,6 +56,7 @@
 		"@sentry/browser": "^7.86.0",
 		"@sentry/integrations": "^7.94.1",
 		"jdenticon": "^3.2.0",
+		"pako": "^2.1.0",
 		"pocketbase": "^0.18.2",
 		"uuid": "^9.0.1"
 	}

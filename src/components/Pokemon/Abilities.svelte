@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '$components/UI/Icon.svelte';
-	import { warn } from '$lib/log';
+	import { Logger } from '$lib/log';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import type { Ability, ApiAbility } from '$lib/types/IPokemon';
 	import { dropFalsey, uniques } from '$lib/utils/array';
@@ -26,15 +26,23 @@
 			abilities.map((ability) => {
 				return fetch(ability.ability.url);
 			})
-		).catch((err) => {
-			warn(`Failed to fetch abilities`, `ClientSideFetchError`, err);
+		).catch(async (err) => {
+			await Logger.warn('Failed to fetch abilities', {
+				context: 'When initialising a Pokemons Ability, one or more request failed',
+				error: Logger.buildError(err)
+			});
 			return [];
 		});
 
-		const apiAbilities = (await Promise.all(allRequests.map((res) => res.json())).catch((err) => {
-			warn(`Failed to fetch abilities`, `ClientSideFetchError`, err);
-			return [];
-		})) as unknown as ApiAbility[];
+		const apiAbilities = (await Promise.all(allRequests.map((res) => res.json())).catch(
+			async (err) => {
+				await Logger.warn('Failed to process abilities', {
+					context: 'When initialising a Pokemons Ability, parsing one or more ability has failed',
+					error: Logger.buildError(err)
+				});
+				return [];
+			}
+		)) as unknown as ApiAbility[];
 
 		data = abilities.map((ability) => {
 			const apiAbility = apiAbilities.find((a) => a.name === ability.ability.name);

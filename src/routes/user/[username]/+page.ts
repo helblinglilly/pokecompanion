@@ -1,5 +1,5 @@
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { warn } from '$lib/log.js';
+import { Logger } from '$lib/log.js';
 import { getUserByUsername } from '$lib/pb/publicUsers';
 import type { ITag } from '$lib/types/ITags.js';
 import { error } from '@sveltejs/kit';
@@ -15,11 +15,15 @@ export const load = async ({ params }) => {
 		pb.collection('tags').getFullList({
 			filter: `owner.username ~ "${params.username}"`
 		})
-	]).catch((err) => {
-		warn(`Failed to get tags for user`, `FailedGetTags`, {
-			error: err,
-			username: params.username
-		});
+	]).catch(async (err) => {
+		await Logger.error(
+			Logger.ErrorClasses.TagOperation,
+			Logger.buildError(err),
+			{
+				context: 'Failed to get tags for user',
+				username: params.username,
+			}
+		)
 		return [];
 	});
 
