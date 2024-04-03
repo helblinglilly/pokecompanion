@@ -21,18 +21,6 @@
 		Logger.addPageAction('PokemonOTD', pokemonOtdId.toString(), {
 			isShiny: featuredPokemon.shiny
 		});
-
-		Logger.info('Hello test message', {
-			context: 'Test info'
-		});
-
-		Logger.warn('Hello test warning', {
-			context: 'Test warning'
-		});
-
-		Logger.error(Logger.ErrorClasses.Unknown, new Error('Throwing a random error'), {
-			context: 'Test error message'
-		});
 	});
 </script>
 

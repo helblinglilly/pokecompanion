@@ -1,9 +1,12 @@
 <script>
+	import { page } from '$app/stores';
 	import Image from '$components/UI/Image.svelte';
+	import { Logger } from '$lib/log';
 	import { onMount } from 'svelte';
-	onMount(() => {
-		window?.newrelic?.addPageAction('ErrorBoundary', {
-			kind: 'Pokemon404'
+
+	onMount(async () => {
+		await Logger.addPageAction('ErrorBoundary', 'Pokemon404', {
+			error: $page.error?.message
 		});
 	});
 </script>

@@ -8,9 +8,11 @@
 	import { Logger } from '$lib/log';
 
 	onMount(async () => {
-		await Logger.addPageAction('ErrorBoundary', 'Generic', {
-			error: $page.error?.message
-		});
+		if (![404, 523].includes($page.status)) {
+			await Logger.addPageAction('ErrorBoundary', 'Generic', {
+				error: $page.error?.message
+			});
+		}
 	});
 </script>
 
