@@ -198,8 +198,8 @@
 <footer id="pageFooter">
 	<p>Powered by <a href="https://pokeapi.co">PokéAPI</a></p>
 	<p>
-		Built at <a href="https://github.com/helblingjoel/pokecompanion"
-			>github.com/helblingjoel/pokecompanion</a
+		Built at <a href="https://github.com/helblinglilly/pokecompanion"
+			>github.com/helblinglilly/pokecompanion</a
 		>
 	</p>
 	<p>Pokémon and Pokémon character names are trademarks of Nintendo.</p>

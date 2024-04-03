@@ -63,7 +63,7 @@
 
 		<p>
 			This website is licensed under <a
-				href="https://github.com/helblingjoel/pokecompanion/blob/main/LICENSE"
+				href="https://github.com/helblinglilly/pokecompanion/blob/main/LICENSE"
 				>GNU General Public License v3.0.</a
 			>
 		</p>

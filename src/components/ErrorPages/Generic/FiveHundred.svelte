@@ -22,7 +22,7 @@
 	<p>
 		Sorry about that! The details above might give some indication as to what happened. If you think
 		that this is a bug, please file an issue in the <a
-			href="https://github.com/helblingjoel/pokewiki">GitHub repo</a
+			href="https://github.com/helblinglilly/pokecompanion">GitHub repo</a
 		>
 	</p>
 </div>
