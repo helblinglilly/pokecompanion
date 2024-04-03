@@ -135,18 +135,21 @@ footer {
 	text-align: center;
 }
 
-button.button {
+button.button,
+p.button {
 	background-color: var(--accent);
 	color: var(--text);
 	padding: 1rem;
 	border-radius: 10px;
 }
 
-button:hover {
+button:hover,
+p.button:hover {
 	background-color: var(--secondary);
 }
 
-button.selected {
+button.selected,
+p.button.selected {
 	background-color: var(--secondary);
 	border: 1px solid var(--text);
 }
@@ -159,7 +162,8 @@ button:disabled {
 	color: var(--accent);
 }
 
-button.button.secondary {
+button.button.secondary,
+p.button.secondary {
 	background-color: var(--secondary);
 	color: var(--text);
 	padding: 1rem;
@@ -171,7 +175,8 @@ button.secondary:disabled {
 	color: var(--light);
 }
 
-button.button.secondary:hover {
+button.button.secondary:hover,
+p.button.secondary:hover {
 	background-color: var(--primary);
 }
 

@@ -19,14 +19,14 @@
 	{#if i < visibleIndex}
 		<ExpandableButton
 			buttonClasses="secondary"
-			buttonStyles="width: 100%;"
+			buttonStyles="width: 100%; display: contents;"
 			onClick={() => {
 				window?.newrelic?.addPageAction('UIInteraction', {
 					field: 'Encounter'
 				});
 			}}
 		>
-			<p slot="title" style="margin-left: auto; margin-right: auto;">
+			<p slot="title" class="button secondary ml-auto mr-auto mt-3">
 				{capitaliseEachWord(encounter.location.name.replaceAll('-', ' '))}
 			</p>
 
