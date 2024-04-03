@@ -81,9 +81,8 @@ const getPokemonResults = (searchTerm: string, languages: string[]): Promise<ISt
 			return foundPokemon;
 		}).sort((a, b) => {
 			try {
-				const aId = a.id < 10000 ? a.id : a.redirect.split('?')[0];
-				const bId = b.id < 10000 ? b.id : b.redirect.split('?')[0];
-
+				const aId = a.redirect ? (a.id < 10000 ? a.id : a.redirect.split('?')[0]) : a.id;
+				const bId = b.redirect ? (b.id < 10000 ? b.id : b.redirect.split('?')[0]) : b.id;
 				return aId > bId ? 1 : -1;
 			} catch(err){
 				Logger.error(
@@ -97,6 +96,17 @@ const getPokemonResults = (searchTerm: string, languages: string[]): Promise<ISt
 				)
 			}
 			return a.id > b.id ? 1 : -1;
+		}).sort((a, b) => {
+			const aId = a.redirect ? Number(a.redirect.split('?')[0]) : a.id;
+			const bId = b.redirect ? Number(b.redirect.split('?')[0]) : b.id;
+
+			if (aId === bId){
+				if (a.redirect && b.redirect){
+					return a.id < b.id ? 1 : -1;
+				} 
+				return -1;
+			}
+			return 1;
 		});
 		resolve(results);
 	});
