@@ -79,6 +79,24 @@ const getPokemonResults = (searchTerm: string, languages: string[]): Promise<ISt
 				return false;
 			});
 			return foundPokemon;
+		}).sort((a, b) => {
+			try {
+				const aId = a.id < 10000 ? a.id : a.redirect.split('?')[0];
+				const bId = b.id < 10000 ? b.id : b.redirect.split('?')[0];
+
+				return aId > bId ? 1 : -1;
+			} catch(err){
+				Logger.error(
+					Logger.ErrorClasses.OptionalOperationFailed,
+					Logger.buildError(err),
+					{
+						context: 'Sorting pokemon results in /api/search and accounting for forms/varieties',
+						pokemon1: a.id + a.redirect,
+						pokemon2: b.id + b.redirect
+					}
+				)
+			}
+			return a.id > b.id ? 1 : -1;
 		});
 		resolve(results);
 	});
