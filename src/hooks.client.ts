@@ -17,7 +17,7 @@ export const handleError: HandleServerError = async ({ error, event, status, mes
 
 	return {
 		message,
-		status: 400,
+		status,
 		errorId: errorId
 	};
 };

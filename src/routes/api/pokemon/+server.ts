@@ -171,29 +171,50 @@ const filterPokedexEntries = (
 export const GET: RequestHandler = async ({ url, platform, cookies }) => {	
 	const rawId = url.searchParams.get('pokemon');
 	if (!rawId){
-		return new Response('Missing pokemon in search param', {
-			status: 404
+		return new Response(JSON.stringify({
+			error: 'Missing pokemon in search params',
+			searchParam: 'pokemon=:id'
+		}), {
+			status: 404,
+			headers: {
+				'content-type': 'application/json'
+			}
 		})
-	} 
+	}
 	
 	const id = parseInt(rawId, 10);
 	if (isNaN(id)) {
-		return new Response('Pokemon provided is not a number', {
-			status: 404
+		return new Response(JSON.stringify({
+			error: 'Provided pokemon value is not a number',
+			requested: id
+		}), {
+			status: 404,
+			headers: {
+				'content-type': 'application/json'
+			}
 		})
 	}
 
-	if (id < 1 || id >= lastPokedexEntry){
-		return new Response('Pokemon is outside of known range', {
-			status: 404
+	if (id < 1 || id > lastPokedexEntry){
+		return new Response(JSON.stringify({
+			error: 'Pokemon is outside of known range',
+			knownPokemon: {
+				from: 1,
+				to: lastPokedexEntry
+			},
+			requested: id
+		}), {
+			status: 404,
+			headers: {
+				'content-type': 'application/json'
+			}
 		})
 	}
-
+	
 	let [pokemon, species] = await Promise.all([
 		fetchPokemon(id, platform),
 		fetchPokemonSpecies(id, platform)
 	])
-
 	const { primaryLanguage, secondaryLanguage, selectedGame, variety} = {
 		...parseUserPreferences(url, cookies),
 		variety: url.searchParams.get('variety')
