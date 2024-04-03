@@ -69,7 +69,7 @@ export const Generations: IGeneration[] = [
 		name: 'Generation 9',
 		short: 'Gen 9',
 		pokeApiName: 'generation-ix',
-		nationalDexEnd: PokemonNames[PokemonNames.length - 1].id,
+		nationalDexEnd: PokemonNames.findLast((a) => a.id < 10000)?.id ?? PokemonNames[PokemonNames.length - 1].id,
 		number: 9
 	}
 ];
