@@ -27,13 +27,7 @@ const { onHandle, onError } = init(
 	//   enableInDevMode: boolean (default: false)
 	// }
 );
-export const handleError = onError(async (e, sentryEventId) => {
-	console.dir({
-		level: 'ERROR',
-		timestamp: new Date().toISOString(),
-		errorId: sentryEventId,
-		stackTrace: e.error
-	});
+export const handleError = onError(async (e) => {
 	await Logger.error(
 		Logger.ErrorClasses.Unknown,
 		Logger.buildError(e.error),
@@ -41,7 +35,8 @@ export const handleError = onError(async (e, sentryEventId) => {
 			context: 'Unknown error caught in hooks.server',
 			event: e.event.url,
 			statusMessage: e.status,
-			message: e.message
+			message: e.message,
+			stackTrace: e.error
 		}
 	)
 });
@@ -67,7 +62,5 @@ export const handle = onHandle(async ({ event, resolve }) => {
 	event.locals.pb = pb;
 	event.locals.user = pb.authStore.model;
 
-	const response = await resolve(event);
-
-	return response;
+	return await resolve(event);
 });
