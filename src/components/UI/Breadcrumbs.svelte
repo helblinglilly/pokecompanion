@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { Logger } from '$lib/log';
+
 	export let breadcrumbs: { display: string; url?: string }[] = [];
 </script>
 
@@ -8,8 +10,7 @@
 			<a
 				href={url}
 				on:click={() => {
-					window?.newrelic?.addPageAction('UIInteraction', {
-						field: 'Breadcrumbs',
+					Logger.addPageAction('UIInteraction', 'Breadcrumbs', {
 						action: 'Navigation'
 					});
 				}}>{display}</a

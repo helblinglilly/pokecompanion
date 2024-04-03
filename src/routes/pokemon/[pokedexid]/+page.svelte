@@ -39,6 +39,7 @@
 	import Moveset from '$components/Pokemon/Moveset.svelte';
 	import { uniques } from '$lib/utils/array';
 	import SocialPreview from '$components/SocialPreview.svelte';
+	import { Logger } from '$lib/log.js';
 
 	export let data;
 
@@ -287,8 +288,7 @@
 						$pokemonDisplayStore.showShinySpriteIfExists ? '#f0e45f' : '#f0e45f'
 					}`}
 					on:click={() => {
-						window?.newrelic?.addPageAction('UIInteraction', {
-							field: 'SpriteShiny',
+						Logger.addPageAction('UIInteraction', 'SpriteShiny', {
 							action: 'Sprite Change'
 						});
 						$pokemonDisplayStore.showShinySpriteIfExists =
@@ -313,10 +313,10 @@
 							: '#7fbbf0'
 					};`}
 					on:click={() => {
-						window?.newrelic?.addPageAction('UIInteraction', {
-							field: 'SpriteGender',
+						Logger.addPageAction('UIInteraction', 'SpriteGender', {
 							action: 'Sprite Change'
 						});
+
 						$pokemonDisplayStore.showFemaleSpriteIfExists =
 							!$pokemonDisplayStore.showFemaleSpriteIfExists;
 					}}

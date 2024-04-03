@@ -85,8 +85,7 @@
 					<a
 						href={evolution.sourceURL}
 						on:click={() => {
-							window?.newrelic?.addPageAction('UIInteraction', {
-								field: 'EvolutionPokemon',
+							Logger.addPageAction('UIInteraction', 'EvolutionPokemon', {
 								action: 'Navigation'
 							});
 						}}
@@ -126,9 +125,7 @@
 								href={requirement.supplementary}
 								style="width: 100%; display: inline-flex; justify-content: center;"
 								on:click={() => {
-									window?.newrelic?.addPageAction('UIInteraction', {
-										field: 'EvolutionUseItemNavigation'
-									});
+									Logger.addPageAction('UIInteraction', 'EvolutionUseItemNavigation');
 								}}
 							>
 								<p>Use</p>
@@ -146,8 +143,7 @@
 								href={requirement.supplementary}
 								style="width: 100%; display: inline-flex; justify-content: center;"
 								on:click={() => {
-									window?.newrelic?.addPageAction('UIInteraction', {
-										field: 'EvolutionHoldItem',
+									Logger.addPageAction('UIInteraction', 'EvolutionHoldItem', {
 										action: 'Navigation'
 									});
 								}}
@@ -182,8 +178,7 @@
 							<a
 								href={requirement.supplementary}
 								on:click={() => {
-									window?.newrelic?.addPageAction('UIInteraction', {
-										field: 'EvolutionPartyHave',
+									Logger.addPageAction('UIInteraction', 'EvolutionPartyHave', {
 										action: 'Navigation'
 									});
 								}}>Have {requirement.info} in party</a
@@ -194,8 +189,7 @@
 							<a
 								href={requirement.info}
 								on:click={() => {
-									window?.newrelic?.addPageAction('UIInteraction', {
-										field: 'EvolutionKnowMove',
+									Logger.addPageAction('UIInteraction', 'EvolutionKnowMove', {
 										action: 'Navigation'
 									});
 								}}>Knows {requirement.supplementary}</a
@@ -206,8 +200,7 @@
 							<a
 								href={requirement.info}
 								on:click={() => {
-									window?.newrelic?.addPageAction('UIInteraction', {
-										field: 'EvolutionUseMove',
+									Logger.addPageAction('UIInteraction', 'EvolutionUseMove', {
 										action: 'Navigation'
 									});
 								}}>{requirement.supplementary}</a
@@ -218,8 +211,7 @@
 							<a
 								href={requirement.info}
 								on:click={() => {
-									window?.newrelic?.addPageAction('UIInteraction', {
-										field: 'EvolutionCollectItems',
+									Logger.addPageAction('UIInteraction', 'EvolutionCollectItems', {
 										action: 'Navigation'
 									});
 								}}>{requirement.supplementary}</a
@@ -230,8 +222,7 @@
 							<a
 								href={requirement.supplementary}
 								on:click={() => {
-									window?.newrelic?.addPageAction('UIInteraction', {
-										field: 'EvolutionTradeFor',
+									Logger.addPageAction('UIInteraction', 'EvolutionTradeFor', {
 										action: 'Navigation'
 									});
 								}}>Trade for {requirement.info}</a
@@ -294,8 +285,7 @@
 					<a
 						href={evolution.targetURL}
 						on:click={() => {
-							window?.newrelic?.addPageAction('UIInteraction', {
-								field: 'EvolutionPokemon',
+							Logger.addPageAction('UIInteraction', 'EvolutionPokemon', {
 								action: 'Navigation'
 							});
 						}}

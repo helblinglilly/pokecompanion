@@ -5,6 +5,7 @@
 	import MoveResults from '$components/Search/MoveResults.svelte';
 	import SocialPreview from '$components/SocialPreview.svelte';
 	import PokemonGroup from '$components/UI/PokemonGroup.svelte';
+	import { Logger } from '$lib/log.js';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { searchTerm } from '$lib/stores/searchbar.js';
 	import type { Languages } from '$lib/utils/language.js';
@@ -21,10 +22,9 @@
 		}
 	}
 
-	onMount(() => {
-		window?.newrelic?.addPageAction('SearchResult', {
+	onMount(async () => {
+		await Logger.addPageAction('SearchResult', data.errorMessage, {
 			searchTerm: data.searchTerm,
-			message: data.errorMessage,
 			abilityResults: data.results.abilities.length,
 			itemResults: data.results.items.length,
 			moveResults: data.results.moves.length,

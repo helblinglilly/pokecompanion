@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Logger } from '$lib/log';
 	import Image from './UI/Image.svelte';
 	import Modal from './UI/Modal.svelte';
 
@@ -11,8 +12,7 @@
 	<button
 		on:click={() => {
 			if (!showModal) {
-				window?.newrelic?.addPageAction('UIInteraction', {
-					field: 'Pokedex',
+				Logger.addPageAction('UIInteraction', 'Pokedex', {
 					action: 'Overlay Shown'
 				});
 			}

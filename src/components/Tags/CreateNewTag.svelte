@@ -1,6 +1,7 @@
 <script lang="ts">
 	import InlineTextButton from '$components/InlineTextButton.svelte';
 	import Modal from '$components/UI/Modal.svelte';
+	import { Logger } from '$lib/log';
 	import { createTag } from '$lib/stores/tags';
 	import type { ITagMove, ITagMoveNew, ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
 
@@ -18,7 +19,7 @@
 		name: string;
 		isPrivate: boolean;
 	}) => {
-		window?.newrelic?.addPageAction('TagCreated', {
+		Logger.addPageAction('TagCreated', '', {
 			user,
 			name,
 			isPrivate

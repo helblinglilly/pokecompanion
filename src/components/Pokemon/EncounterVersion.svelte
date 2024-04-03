@@ -2,6 +2,7 @@
 	import { navigating } from '$app/stores';
 	import ExpandableButton from '$components/UI/ExpandableButton.svelte';
 	import type { IEncounterGroups } from '$lib/data/encounterFilter';
+	import { Logger } from '$lib/log';
 	import { uniques } from '$lib/utils/array';
 	import { capitaliseEachWord } from '$lib/utils/string';
 
@@ -21,9 +22,7 @@
 			buttonClasses="secondary"
 			buttonStyles="width: 100%; display: contents;"
 			onClick={() => {
-				window?.newrelic?.addPageAction('UIInteraction', {
-					field: 'Encounter'
-				});
+				Logger.addPageAction('UIInteraction', 'Encounter');
 			}}
 		>
 			<p slot="title" class="button secondary ml-auto mr-auto mt-3">

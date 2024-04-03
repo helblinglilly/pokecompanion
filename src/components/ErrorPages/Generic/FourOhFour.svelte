@@ -2,10 +2,11 @@
 	import { page } from '$app/stores';
 	import Feedback from '$components/Feedback.svelte';
 	import Image from '$components/UI/Image.svelte';
+	import { Logger } from '$lib/log';
 	import { onMount } from 'svelte';
 
 	onMount(() => {
-		window?.newrelic?.addPageAction('ErrorBoundary', {
+		Logger.addPageAction('ErrorBoundary', $page.error?.message ?? '', {
 			kind: 'FourOhFour'
 		});
 	});

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Image from '$components/UI/Image.svelte';
+	import { Logger } from '$lib/log';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { getMove, type IMove } from '$lib/types/IMoves';
 	import { getNameEntry } from '$lib/utils/language';
@@ -28,8 +29,7 @@
 		<a
 			href={`/move/${move.id}`}
 			on:click={() => {
-				window?.newrelic?.addPageAction('UIInteraction', {
-					field: 'Move',
+				Logger.addPageAction('UIInteraction', 'Move', {
 					action: 'Navigation'
 				});
 			}}

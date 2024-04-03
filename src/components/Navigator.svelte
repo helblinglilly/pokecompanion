@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { Logger } from '$lib/log';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
 	import { capitaliseFirstLetter } from '$lib/utils/string';
 	import Image from './UI/Image.svelte';
@@ -22,8 +23,7 @@
 				class={`card ${currentId - 1 <= 0 ? 'hidden' : ''}`}
 				style="width: fit-content; padding: 10px; height: auto;"
 				on:click={() => {
-					window?.newrelic?.addPageAction('UIInteraction', {
-						field: 'PokemonNavigation',
+					Logger.addPageAction('UIInteraction', 'PokemonNavigation', {
 						action: 'Navigation'
 					});
 				}}
@@ -66,10 +66,10 @@
 						name="variety"
 						on:change={(e) => {
 							if (e.target) {
-								window?.newrelic?.addPageAction('UIInteraction', {
-									field: 'Variety',
+								Logger.addPageAction('UIInteraction', 'Variety', {
 									action: 'Navigation'
 								});
+
 								const newUrl = new URL($page.url);
 								// @ts-ignore complains that .value does not exist
 								if (e.target.value.endsWith('-default')) {
@@ -101,8 +101,7 @@
 				class={`card ${currentId + 1 > maxId ? 'hidden' : ''}`}
 				style="width: fit-content; padding: 10px; height: auto;"
 				on:click={() => {
-					window?.newrelic?.addPageAction('UIInteraction', {
-						field: 'PokemonNavigation',
+					Logger.addPageAction('UIInteraction', 'PokemonNavigation', {
 						action: 'Navigation'
 					});
 				}}

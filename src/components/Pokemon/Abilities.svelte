@@ -101,14 +101,12 @@
 				on:click={() => {
 					if (selectedAbility === i) {
 						selectedAbility = -1;
-						window?.newrelic?.addPageAction('UIInteraction', {
-							field: 'Ability',
+						Logger.addPageAction('UIInteraction', 'Ability', {
 							action: 'Collapse'
 						});
 					} else {
 						selectedAbility = i;
-						window?.newrelic?.addPageAction('UIInteraction', {
-							field: 'Ability',
+						Logger.addPageAction('UIInteraction', 'Ability', {
 							action: 'Expand'
 						});
 					}
