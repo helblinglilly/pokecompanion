@@ -2,7 +2,7 @@ import PokemonData from '$lib/data/pokemonNames.json';
 import Abilities from '$lib/data/abilities.json';
 import Items from '$lib/data/items.json';
 import Moves from '$lib/data/moves.json';
-import { getSearchParam, getCookieValue } from '../helpers';
+import { getSearchParam } from '../helpers';
 import { termNormaliser } from '$lib/utils/string';
 import type { IStaticPokemon } from '$lib/data/games';
 import { Logger } from '$lib/log';
@@ -16,8 +16,8 @@ export async function GET({ request, platform }) {
 	const normalisedTerm = decodeURIComponent(searchTerm.replace(/\+/g, ' '));
 
 	const languages = [
-		getSearchParam(request.url, 'primaryLanguage') ?? getCookieValue(request, 'primaryLanguage'),
-		getSearchParam(request.url, 'secondaryLanguage') ?? getCookieValue(request, 'secondaryLanguage')
+		getSearchParam(request.url, 'primaryLanguage') ?? 'en',
+		getSearchParam(request.url, 'secondaryLanguage') ?? ''
 	];
 
 	const [pokemonResults, abilityResults, itemResults, moveResults] = await Promise.all([
