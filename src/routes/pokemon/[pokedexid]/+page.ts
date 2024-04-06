@@ -3,7 +3,7 @@ import type { IPokemonResponse } from '../../api/pokemon/types';
 
 
 export const load = async ({ params, fetch }) => {
-	const res = await fetch(`/api/pokemon?pokemon=${params.pokedexid}`).catch((err) => {
+	const res = await fetch(`/api/pokemon/${params.pokedexid}`).catch((err) => {
 		error(500, (err as unknown as Error).message)
 	});
 

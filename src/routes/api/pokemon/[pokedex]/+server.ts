@@ -1,15 +1,15 @@
 import { lastPokedexEntry, pokeApiDomain } from '$lib/stores/domain';
 import { emptySprites, type FlavorTextEntry, type IPokemon, type IPokemonSpecies, type ISprites, type Name } from '$lib/types/IPokemon';
-import type { RequestHandler } from './$types';
+import type { RequestHandler } from '../$types';
 import { findGameFromAPIGameName } from '$lib/data/games';
 import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
 import { fixAbilities, getPokemonTypesInGame, getTypeRelations } from '$lib/data/generationAdjuster';
 import { formatEncounters, type IEncounterResponse } from '$lib/data/encounterFilter';
 import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
-import { parseUserPreferences } from '../helpers';
-import type { Platform } from '../types';
-import type { IPokemonResponse } from './types';
+import { parseUserPreferences } from '../../helpers';
+import type { Platform } from '../../types';
+import type { IPokemonResponse } from './../types';
 import { Logger } from '$lib/log';
 
 const fetchCacheFirst = async(url: string | URL, platform: Readonly<Platform> | undefined): Promise<Response> => {
@@ -168,8 +168,8 @@ const filterPokedexEntries = (
 	// To do: Move the selected game entry to the top
 };
 
-export const GET: RequestHandler = async ({ url, platform, cookies }) => {	
-	const rawId = url.searchParams.get('pokemon');
+export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {	
+	const rawId = params.pokedex;
 	if (!rawId){
 		return new Response(JSON.stringify({
 			error: 'Missing pokemon in search params',
