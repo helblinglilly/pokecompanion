@@ -55,3 +55,33 @@ test('Will update the URL when different forms are selected', async ({ page }) =
 	page.getByTestId('shinyToggle').click();
 	await page.waitForURL('**/pokemon/194?gender=male&shiny=false');
 });
+
+test('Will respect language, game and variety', async ({ page }) => {
+	await page.context().clearCookies();
+	await page
+		.context()
+		.addCookies([
+			{ name: 'selectedGame', value: 'black-white', domain: 'localhost', path: '/' },
+			{ name: 'primaryLanguage', value: 'de', domain: 'localhost', path: '/' },
+			{ name: 'secondaryLanguage', value: 'fr', domain: 'localhost', path: '/' }
+		]);
+
+	// Bulbasaur
+	await page.goto('/pokemon/1', { waitUntil: 'networkidle' });
+	
+	// Ensure languages are being respected
+	page.getByRole('heading', { name: 'Bisasam - Bulbizarre' });
+
+	// Ensure sprite is version specific
+	const primarySpriteBulbasaur = page.locator('#primarySprite');
+	const bulbasaurSpriteURL = await primarySpriteBulbasaur.getAttribute('src');
+	expect(bulbasaurSpriteURL).toBe('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/1.gif');
+
+	// Ensure variety
+	await page.goto('/pokemon/25?variety=pikachu-gmax', { waitUntil: 'networkidle' });
+	page.getByRole('heading', { name: 'Gigadynamax-Pikachu - Pikachu Gigamax' });
+	
+	const primarySpritePikachuGmax = page.locator('#primarySprite');
+	const pikachuGmaxSpriteURL = await primarySpritePikachuGmax.getAttribute('src');
+	expect(pikachuGmaxSpriteURL).toBe('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10199.png');
+})
