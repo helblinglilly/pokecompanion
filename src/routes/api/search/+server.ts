@@ -2,22 +2,24 @@ import PokemonData from '$lib/data/pokemonNames.json';
 import Abilities from '$lib/data/abilities.json';
 import Items from '$lib/data/items.json';
 import Moves from '$lib/data/moves.json';
-import { getSearchParam } from '../helpers';
 import { termNormaliser } from '$lib/utils/string';
 import type { IStaticPokemon } from '$lib/data/games';
 import { Logger } from '$lib/log';
 
 export async function GET({ request, platform }) {
-	const searchTerm = getSearchParam(request.url, 'term');
+	const url = new URL(request.url);
+
+	const searchTerm = url.searchParams.get('term');
 	if (!searchTerm) {
 		return respondWithJson({ error: 'No "term" value in URL' }, 400);
 	}
 
 	const normalisedTerm = decodeURIComponent(searchTerm.replace(/\+/g, ' '));
 
+	request.url
 	const languages = [
-		getSearchParam(request.url, 'primaryLanguage') ?? 'en',
-		getSearchParam(request.url, 'secondaryLanguage') ?? ''
+		url.searchParams.get('primaryLanguage') ?? 'en',
+		url.searchParams.get('secondaryLanguage') ?? '',
 	];
 
 	const [pokemonResults, abilityResults, itemResults, moveResults] = await Promise.all([
