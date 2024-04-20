@@ -42,7 +42,7 @@ export class Logger {
 		}
 
 		try {
-			const res = await fetch('https://pokecompanion.helbling.uk/api/log', {
+			const res = await fetch('https://pokecompanion.com/api/log', {
 				method: 'POST',
 				headers: {
 					'Authentication': PUBLIC_LOGGING_API_KEY,
@@ -82,7 +82,7 @@ export class Logger {
 		
 		
 		try {
-			const res = await fetch('https://pokecompanion.helbling.uk/api/log', {
+			const res = await fetch('https://pokecompanion.com/api/log', {
 				method: 'POST',
 				headers: {
 					'Authentication': PUBLIC_LOGGING_API_KEY,
@@ -118,7 +118,7 @@ export class Logger {
 		}
 		
 		try {
-			const res = await fetch('https://pokecompanion.helbling.uk/api/log', {
+			const res = await fetch('https://pokecompanion.com/api/log', {
 				method: 'POST',
 				headers: {
 					'Authentication': PUBLIC_LOGGING_API_KEY,
@@ -154,7 +154,7 @@ export class Logger {
 		}
 
 		try {
-			const res = await fetch('https://pokecompanion.helbling.uk/api/log', {
+			const res = await fetch('https://pokecompanion.com/api/log', {
 				method: 'POST',
 				headers: {
 					'Authentication': PUBLIC_LOGGING_API_KEY,
