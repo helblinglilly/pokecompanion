@@ -92,6 +92,10 @@
 	$: shouldDisplaySearch = !$page.url.pathname.includes('/auth/');
 </script>
 
+<svelte:head>
+	<link rel="canonical" href={`https://pokecompanion.com${$page.url.href.replace($page.url.origin, '')}`} />
+</svelte:head>
+
 <Tracking />
 
 <ScrollToTop />
