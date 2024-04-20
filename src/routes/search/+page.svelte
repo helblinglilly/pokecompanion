@@ -44,6 +44,10 @@
 	}
 </script>
 
+<svelte:head>
+	<meta name="robots" content="noindex">
+</svelte:head>
+
 <SocialPreview
 	title={`${data.searchTerm} results`}
 	previewImage="https://socialpreviews.pokecompanion.helbling.uk/results.png"

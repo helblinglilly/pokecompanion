@@ -56,6 +56,10 @@
 	};
 </script>
 
+<svelte:head>
+	<meta name="robots" content="noindex">
+</svelte:head>
+
 <SocialPreview
 	title="Settings"
 	previewImage="https://socialpreviews.pokecompanion.helbling.uk/settings.png"
