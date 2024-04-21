@@ -26,14 +26,6 @@ export const filterMovesetByVersionEntry = (moves: Moveset[], game?: IGame): IMo
 	const entries: IMoves[] = [];
 
 	moves
-		.filter((move) => {
-			if (!game) {
-				return true;
-			}
-			return move.version_group_details.some((details) => {
-				return details.version_group.name === game?.pokeapiVersionGroup;
-			});
-		})
 		.forEach((move) => {
 			move.version_group_details.forEach((details) => {
 				const hasExistingEntry = entries.some((entry) => {
@@ -69,5 +61,10 @@ export const filterMovesetByVersionEntry = (moves: Moveset[], game?: IGame): IMo
 			});
 		});
 
-	return entries;
+	return entries.filter((entry) => {
+		if (!game){
+			return true;
+		}
+		return entry.versionGroup === game.pokeapiVersionGroup;
+	});
 };
