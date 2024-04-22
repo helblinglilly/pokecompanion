@@ -18,7 +18,8 @@
 		isPokemonInGame,
 		findGameGroupFromString,
 		type IGame,
-		findGameFromAPIGameName
+		findGameFromAPIGameName,
+		gameGroups
 	} from '$lib/data/games';
 	import Pokedex from '$components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
@@ -28,7 +29,11 @@
 	import SpritePreview from '$components/Pokemon/SpritePreview.svelte';
 	import Icon from '$components/UI/Icon.svelte';
 	import { page } from '$app/stores';
-	import { encounterDisplayStore, pokemonDisplayStore } from '$lib/stores/pokemonPage.js';
+	import {
+		encounterDisplayStore,
+		moveDisplayStore,
+		pokemonDisplayStore
+	} from '$lib/stores/pokemonPage.js';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tags.js';
 	import EditTag from '$components/Tags/EditTag.svelte';
@@ -116,6 +121,11 @@
 					return findGameFromAPIGameName(entry.versionGroup) as IGame;
 				});
 
+			moveDisplayStore.set({
+				games: data.moveGames.filter((a) => a !== 'xd' && a !== 'colosseum'),
+				selectedGameGroup: $selectedGame ? $selectedGame.pokeapiVersionGroup : data.moveGames[0]
+			});
+
 			encounterDisplayStore.set({
 				games: encounterRelevantGames,
 				selectedGame: $selectedGame
@@ -168,6 +178,9 @@
 					return game.pokeapiName === $selectedGame.pokeapiName;
 				}
 				return true;
+			})
+			.sort((a, b) => {
+				return a?.generation < b?.generation ? 1 : -1;
 			})
 			.map((game) => {
 				return findGameGroupFromString(game.cookieGroup);
@@ -408,33 +421,29 @@
 				style="display: inline-flex; width: 100%; justify-content: space-between; margin-bottom: 1rem;"
 			>
 				<h3 class="h3">Moveset</h3>
-				{#if gameVersionGroups.length > 1}
+				{#if $moveDisplayStore.games.length > 1}
 					<select
 						class="specificGameSelector"
 						id="moveGameSelector"
 						on:change={(event) => {
 							if (event.target) {
-								encounterDisplayStore.set({
-									games: $encounterDisplayStore.games,
-									selectedGame: $encounterDisplayStore.selectedGame,
+								moveDisplayStore.set({
+									games: $moveDisplayStore.games,
 									// @ts-ignore
-									selectedGameGroup: findGameGroupFromString(event.target.value)
+									selectedGameGroup: findGameGroupFromString(event.target.value)[0]
+										.pokeapiVersionGroup
 								});
 							}
 						}}
 					>
-						{#each gameVersionGroups as gameGroup}
+						{#each $moveDisplayStore.games as gameGroup}
 							{#if gameGroup}
 								<option
-									value={gameGroup[0].cookieGroup}
-									selected={$encounterDisplayStore.selectedGameGroup
-										? $encounterDisplayStore.selectedGameGroup[0].cookieGroup ===
-										  gameGroup[0].cookieGroup
-										: false}
-									>{gameGroup
-										?.map((a) => {
-											return a.shortName;
-										})
+									value={gameGroup}
+									selected={$moveDisplayStore.selectedGameGroup === gameGroup ?? false}
+									>{gameGroups
+										.find((group) => group.some((a) => a.pokeapiVersionGroup === gameGroup))
+										?.map((a) => a.shortName)
 										.join(' / ')}</option
 								>
 							{/if}
@@ -442,7 +451,14 @@
 					</select>
 				{/if}
 			</div>
-			<Moveset allMoves={data.pokemon.moves} />
+
+			{#await data.moveData}
+				<p>Loading moves...</p>
+			{:then moveData}
+				<Moveset completeData={moveData} />
+			{:catch error}
+				<p>error loading comments: {error}</p>
+			{/await}
 		</div>
 	</div>
 </div>

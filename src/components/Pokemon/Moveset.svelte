@@ -1,28 +1,28 @@
 <script lang="ts">
-	import type { IMoves } from '$lib/data/movesetFilter';
 	import { Logger } from '$lib/log';
-	import { encounterDisplayStore } from '$lib/stores/pokemonPage';
+	import { moveDisplayStore } from '$lib/stores/pokemonPage';
+	import type { IPokemonMinimalMoveGroups } from '../../routes/api/pokemon/types';
 	import Move from './Move.svelte';
 
-	export let allMoves: IMoves[];
-
-	$: relevantMoves = allMoves.find((moveset) => {
-		if ($encounterDisplayStore && $encounterDisplayStore.selectedGameGroup) {
-			return (
-				moveset.versionGroup === $encounterDisplayStore?.selectedGameGroup[0].pokeapiVersionGroup
-			);
-		}
-		return true;
-	});
+	interface APIMoveData {
+		[key: string]: IPokemonMinimalMoveGroups;
+	}
+	export let completeData: APIMoveData;
 
 	$: showLevelMovesOnMobile = false;
 	$: showTmMovesOnMobile = false;
 	$: showBreedMovesOnMobile = false;
 	$: showTutoredMovesOnMobile = false;
+
+	$: relevantMoves = completeData[$moveDisplayStore.selectedGameGroup] as
+		| IPokemonMinimalMoveGroups
+		| undefined;
 </script>
 
 <div class="container">
-	{#if relevantMoves}
+	{#if !relevantMoves}
+		<p>No moves</p>
+	{:else}
 		{#if relevantMoves.levelupMoves.length > 0}
 			<div class="item">
 				<h4 class="h4">Level up</h4>
@@ -41,9 +41,9 @@
 
 				<span class={`${!showLevelMovesOnMobile ? 'hidden' : ''} md:grid`}>
 					{#each relevantMoves.levelupMoves.sort((a, b) => {
-						return a.level > b.level ? 1 : -1;
+						return (a.level || -1) > (b.level || -1) ? 1 : -1;
 					}) as levelMove}
-						<Move url={levelMove.move.url} level={levelMove.level} />
+						<Move move={levelMove} />
 					{/each}
 				</span>
 			</div>
@@ -65,9 +65,9 @@
 
 				<span class={`${!showTmMovesOnMobile ? 'hidden' : ''} md:grid`}>
 					{#each relevantMoves.tmMoves.sort((a, b) => {
-						return a.move.name > b.move.name ? 1 : -1;
+						return a.id > b.id ? 1 : -1;
 					}) as tmMove}
-						<Move url={tmMove.move.url} />
+						<Move move={tmMove} />
 					{/each}
 				</span>
 			</div>
@@ -91,9 +91,9 @@
 
 				<span class={`${!showBreedMovesOnMobile ? 'hidden' : ''} md:grid`}>
 					{#each relevantMoves.breedMoves.sort((a, b) => {
-						return a.move.name > b.move.name ? 1 : -1;
+						return a.id > b.id ? 1 : -1;
 					}) as breedMove}
-						<Move url={breedMove.move.url} />
+						<Move move={breedMove} />
 					{/each}
 				</span>
 			</div>
@@ -117,15 +117,13 @@
 
 				<span class={`${!showTutoredMovesOnMobile ? 'hidden' : ''} md:grid`}>
 					{#each relevantMoves.tutorMoves.sort((a, b) => {
-						return a.move.name > b.move.name ? 1 : -1;
+						return a.id > b.id ? 1 : -1;
 					}) as tutorMove}
-						<Move url={tutorMove.move.url} />
+						<Move move={tutorMove} />
 					{/each}
 				</span>
 			</div>
 		{/if}
-	{:else}
-		<p>No data</p>
 	{/if}
 </div>
 

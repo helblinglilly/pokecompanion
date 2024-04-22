@@ -188,14 +188,17 @@ async function fetch_listener(event) {
 		// Never cache protected routes
 		if (
 			url.pathname.includes('/auth/') ||
-			url.pathname.includes('/api/') ||
+			url.pathname.includes('/api/log') ||
 			url.pathname.includes('/user/')
 		) {
 			event.respondWith(networkOnly(request));
 			return;
 		}
 
-		if (url.pathname.startsWith('/src/lib/data')) {
+		if (
+			url.pathname.startsWith('/src/lib/data') ||
+			url.pathname.startsWith('/api/pokemon')
+		) {
 			event.respondWith(cacheFirst(request));
 			return;
 		}

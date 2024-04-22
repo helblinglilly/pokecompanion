@@ -33,19 +33,20 @@ export interface IPokemonResponse {
 		}
 	};
 	encounters: IEncounterGroups[]; 
+	moveGames: string[];
 };
 
 export interface IPokemonMinimalMove {
-	id: number | undefined;
-    names: Name[] | undefined;
+	id: number;
+    names: Name[];
     type: {
         name: string;
         url: string;
-    } | undefined;
+    };
     damage_class: {
         name: string;
         url: string;
-    } | undefined;
+    };
     level?: number | undefined;
 }
 

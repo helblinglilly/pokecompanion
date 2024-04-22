@@ -37,3 +37,8 @@ export interface IEncounterPokemon {
 	selectedGameGroup: IGame[] | undefined;
 }
 export const encounterDisplayStore = writable<IEncounterPokemon>();
+
+export const moveDisplayStore = writable<{
+	games: string[];
+	selectedGameGroup: string;
+}>();

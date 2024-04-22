@@ -668,7 +668,7 @@ export const games = [
 		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/483.png',
 		cookieGroup: 'brilliantdiamond-shiningpearl',
 		pokeapiName: 'brilliant-diamond',
-		pokeapiVersionGroup: 'brilliant-diamond-shining-pearl'
+		pokeapiVersionGroup: 'brilliant-diamond-and-shining-pearl'
 	},
 	{
 		name: 'Pokémon Shining Pearl',

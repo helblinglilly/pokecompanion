@@ -1,23 +1,11 @@
 <script lang="ts">
 	import Image from '$components/UI/Image.svelte';
 	import { Logger } from '$lib/log';
-	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
-	import { getMove, type IMove } from '$lib/types/IMoves';
+	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import { getNameEntry } from '$lib/utils/language';
-	import { debounce } from 'lodash-es';
-	import { onMount } from 'svelte';
+	import type { IPokemonMinimalMove } from '../../routes/api/pokemon/types';
 
-	export let url: string;
-	export let level: Number | undefined = undefined;
-
-	let move: IMove | undefined;
-
-	const fetchMove = debounce(async () => {
-		const id = url.split('/')[6];
-		move = await getMove(id, $selectedGame);
-	}, 1000);
-
-	onMount(fetchMove);
+	export let move: IPokemonMinimalMove;
 
 	$: primaryName = move ? getNameEntry(move.names, $primaryLanguage) : undefined;
 	$: secondaryName =
@@ -57,9 +45,9 @@
 								<p>{secondaryName}</p>
 							{/if}
 						</td>
-						{#if level}
+						{#if move.level}
 							<td class="requirements">
-								Lv. {level}
+								Lv. {move.level}
 							</td>
 						{/if}
 					</tr>

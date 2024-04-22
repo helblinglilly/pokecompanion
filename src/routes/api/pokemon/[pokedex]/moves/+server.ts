@@ -5,6 +5,8 @@ import { parseUserPreferences } from '../../../helpers';
 import { fetchCacheFirst, fetchPokemon } from '../../cachedFetch';
 import type { IPokemonMinimalMove, IPokemonMinimalMoveGroups } from '../../types';
 
+export interface IPokemonMoveAPIResponse { [key: string]: IPokemonMinimalMoveGroups }
+
 export async function GET({ request, cookies, platform, params }) {
 	const pokedexId = Number(params.pokedex);
 
@@ -52,15 +54,15 @@ export async function GET({ request, cookies, platform, params }) {
 		});
 
 		return {
-			id: matching?.id,
-			names: matching?.names,
-			type: matching?.type,
-			damage_class: matching?.damage_class,
+			id: matching?.id || -1,
+			names: matching?.names || [],
+			type: matching?.type || { name: 'Unknown', url: ''},
+			damage_class: matching?.damage_class || { name: '', url: ''},
 			level: staticMove?.level
 		}
 	}
 
-	const mappedResponses: { [key: string]: IPokemonMinimalMoveGroups } = {};
+	const mappedResponses: IPokemonMoveAPIResponse = {};
 	allPokemonMoves.forEach((monEntry) => {
 		const versionGroup = monEntry.versionGroup;
 		mappedResponses[versionGroup] = {

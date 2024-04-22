@@ -179,6 +179,19 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 
 	const encounters = await fetchPokemonEncounters(id, platform);
 
+	const moveGames: Array<string> = [];
+
+	pokemon.moves.forEach((move) => {
+		move.version_group_details.forEach((details) => {
+			if (details.version_group.name === 'brilliant-diamond-and-shining-pearl'){
+				console.log(move);
+			}
+			if (!moveGames.includes(details.version_group.name)){
+				moveGames.push(details.version_group.name);
+			}
+		})
+	})
+
 	const response: IPokemonResponse = {
 		id,
 		pokemon: {
@@ -210,7 +223,8 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 				secondaryLanguage
 			)
 		},
-		encounters: formatEncounters(encounters, selectedGame)
+		encounters: formatEncounters(encounters, selectedGame),
+		moveGames,
 	}
 	return new Response(JSON.stringify(response), {
 		headers: {
