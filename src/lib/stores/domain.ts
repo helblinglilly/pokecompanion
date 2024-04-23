@@ -5,12 +5,12 @@ import PokemonNames from '$lib/data/pokemonNames.json';
 import Pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import { currentUser, type SignedInUser } from './user';
-import { findGameFromString, type IGame } from '$lib/data/games';
+import { getGameGroupFromName, PokeapiVersionGroups, type IGameGroups } from '$lib/data/games';
 import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';
 
 export const theme = writable<'dark' | 'light' | undefined>();
-export const selectedGame = writable<IGame | undefined>();
+export const selectedGame = writable<IGameGroups | undefined>();
 export const primaryLanguage = writable<keyof Languages>('en');
 export const secondaryLanguage = writable<keyof Languages | undefined>();
 export const versionSpecificSprites = writable<boolean>(true);
@@ -30,8 +30,9 @@ import * as Sentry from '@sentry/browser';
 // TODO - Test this
 export const cookieHandlers = {
 	selectedGame: () => {
-		const isInSearchParam = get(page).url.searchParams.get('game');
-		let existingValue = getCookie('selectedGame');
+		const isInSearchParam = get(page).url.searchParams.get('game') as PokeapiVersionGroups | 'generic' | undefined;
+
+		let existingValue = getCookie('selectedGame') as PokeapiVersionGroups | 'generic' | undefined;
 
 		if (isInSearchParam) {
 			existingValue = isInSearchParam;
@@ -42,12 +43,12 @@ export const cookieHandlers = {
 			}
 		}
 
-		const foundGame = findGameFromString(existingValue);
+		const foundGame = getGameGroupFromName(existingValue);
 		selectedGame.set(foundGame);
 
 		selectedGame.subscribe((value) => {
-			Sentry.setTag('selectedGame', value?.name);
-			window?.newrelic?.setCustomAttribute("selectedGame", value?.name);
+			Sentry.setTag('selectedGame', value?.pokeapi);
+			window?.newrelic?.setCustomAttribute("selectedGame", value?.pokeapi);
 
 			const isInSearchParam = get(page).url.searchParams.get('game');
 
@@ -60,10 +61,15 @@ export const cookieHandlers = {
 				return;
 			}
 
-			const existingCookie = getCookie('selectedGame');
-			const existingValue = findGameFromString(existingCookie || '');
-			if (!existingValue || value.cookieGroup !== existingValue.cookieGroup) {
-				setCookie('selectedGame', value.cookieGroup);
+			const existingCookie = getCookie('selectedGame') as PokeapiVersionGroups | 'generic' | undefined;
+			let existingValue = undefined;
+
+			if (existingCookie){
+				existingValue = getGameGroupFromName(existingCookie);
+			}
+
+			if (!existingValue || value.pokeapi !== existingValue.pokeapi) {
+				setCookie('selectedGame', value.pokeapi);
 			}
 		});
 	},
