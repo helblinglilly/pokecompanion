@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { findGameFromString, gameGroups } from '$lib/data/games';
+	import { GameGroups, getGameGroupFromName } from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
 
 	let selectedGameGroup: any;
 
-	$: selectedGameGroup = $selectedGame ? $selectedGame.cookieGroup : 'generic';
+	$: selectedGameGroup = $selectedGame ? $selectedGame.pokeapi : 'generic';
 </script>
 
 <div>
@@ -15,7 +15,7 @@
 		on:change={(event) => {
 			if (event.target) {
 				// @ts-ignore Value will exist, but type does not know this
-				const gameValue = findGameFromString(event.target.value);
+				const gameValue = getGameGroupFromName(event.target.value);
 				selectedGame.set(gameValue);
 			}
 		}}
@@ -25,18 +25,13 @@
 			class={$selectedGame === undefined ? 'selected' : undefined}
 			selected={$selectedGame === undefined}>Generic</option
 		>
-		{#each gameGroups as gameGroup}
+		{#each GameGroups as gameGroup}
 			<option
-				value={gameGroup[0].cookieGroup}
-				class={gameGroup[0].cookieGroup === $selectedGame?.cookieGroup ? 'selected' : undefined}
-				selected={gameGroup[0].cookieGroup === $selectedGame?.cookieGroup}
+				value={gameGroup.pokeapi}
+				class={gameGroup.pokeapi === $selectedGame?.pokeapi ? 'selected' : undefined}
+				selected={gameGroup.pokeapi === $selectedGame?.pokeapi}
 			>
-				{#each gameGroup as game, i}
-					{game.shortName}
-					{#if i < gameGroup.length - 1}
-						<p>{` / `}</p>
-					{/if}
-				{/each}
+				<p>{gameGroup.shortName}</p>
 			</option>
 		{/each}
 	</select>

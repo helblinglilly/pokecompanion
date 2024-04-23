@@ -12,9 +12,9 @@
 	} from '$lib/stores/domain';
 	import { getCookie } from '$lib/utils/cookies';
 	import type { Languages } from '$lib/utils/language';
-	import { findGameFromString } from '$lib/data/games';
 	import { PUBLIC_ENVIRONMENT, PUBLIC_SENTRY_DSN } from '$env/static/public';
 	import * as Sentry from '@sentry/browser';
+	import { PokeapiVersionGroups, getGameGroupFromName } from '$lib/data/games';
 
 	let navsAsNewUser = 0;
 	navigating.subscribe(async (nav) => {
@@ -26,7 +26,13 @@
 				secondaryLanguage.set(getCookie('secondaryLanguage') as keyof Languages);
 			}
 			if ($selectedGame !== getCookie('selectedGame')) {
-				selectedGame.set(findGameFromString(getCookie('selectedGame')));
+				const cookieValue = getCookie('selectedGame') as
+					| PokeapiVersionGroups
+					| 'generic'
+					| undefined;
+				if (cookieValue) {
+					selectedGame.set(getGameGroupFromName(cookieValue));
+				}
 			}
 
 			await nav.complete;
@@ -53,7 +59,7 @@
 					id: $rememberToken
 				},
 				tags: {
-					selectedGame: $selectedGame?.name ?? 'No game set',
+					selectedGame: $selectedGame?.pokeapi ?? 'No game set',
 					primaryLanguage: $primaryLanguage,
 					secondaryLanguage: $secondaryLanguage,
 					versionSpecificSprites: $versionSpecificSprites,
