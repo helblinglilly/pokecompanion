@@ -5,8 +5,8 @@
 	import { onMount } from 'svelte';
 	import Image from '../UI/Image.svelte';
 	import { selectedGame } from '$lib/stores/domain';
-	import { findGameGroupFromString } from '$lib/data/games';
 	import { Logger } from '$lib/log';
+	import { getGameGroupFromName } from '$lib/data/games';
 
 	export let evolutionChainUrl: string;
 
@@ -26,7 +26,7 @@
 						return formatEvolutions(
 							direction,
 							Number(sourceId),
-							findGameGroupFromString($selectedGame?.cookieGroup)
+							getGameGroupFromName($selectedGame?.pokeapi)
 						);
 					})
 					.flat();
@@ -55,7 +55,7 @@
 					return formatEvolutions(
 						direction,
 						Number(sourceId),
-						findGameGroupFromString($selectedGame?.cookieGroup)
+						getGameGroupFromName($selectedGame?.pokeapi)
 					);
 				})
 				.flat();

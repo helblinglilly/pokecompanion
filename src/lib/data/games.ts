@@ -453,7 +453,11 @@ export const GameGroups: IGameGroups[] = [
 	},
 ]
 
-export function getGame(pokeapiname: PokeapiVersionNames){
+export function getGame(pokeapiname: PokeapiVersionNames | undefined){
+	if (!pokeapiname){
+		return;
+	}
+	
 	const matchingGame = GameGroups.find((gameGroup) => {
 		return gameGroup.games.find((game) => game.pokeapi === pokeapiname)
 	})
@@ -466,8 +470,8 @@ export function getGame(pokeapiname: PokeapiVersionNames){
 	return matchingDLC;
 }
 
-export function getGameGroupFromName(pokeapiname: PokeapiVersionGroups | 'generic'){
-	if (pokeapiname === 'generic'){
+export function getGameGroupFromName(pokeapiname: PokeapiVersionGroups | 'generic' | undefined){
+	if (!pokeapiname || pokeapiname === 'generic'){
 		return;
 	}
 
@@ -485,6 +489,7 @@ export const isPokemonInGameGroup = (nationalDexId: number, gameGroup: IGameGrou
 	
 	return nationalDexId < gameGroup.generation.nationalDexEnd;
 }
+
 
 
 

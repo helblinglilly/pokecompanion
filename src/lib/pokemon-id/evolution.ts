@@ -1,4 +1,4 @@
-import { isPokemonInGame, type IGame, getGroupName } from '$lib/data/games';
+import { isPokemonInGameGroup, type IGameGroups } from '$lib/data/games';
 import type { EvolutionDetail, IEvolutionChain } from '$lib/types/IEvolution';
 
 export interface IEvolution {
@@ -20,7 +20,7 @@ export interface IEvolution {
 const formatEvolutions = (
 	evolution: IEvolutionChain,
 	sourceId: number,
-	game: IGame[] | undefined
+	game: IGameGroups | undefined
 ): IEvolution[] => {
 	let results = evolution.evolution_details.map((details: EvolutionDetail) => {
 		const targetId = Number(evolution.species.url.split('/')[6]);
@@ -201,13 +201,13 @@ const formatEvolutions = (
 		};
 
 		if (game) {
-			const isSourceInGame = isPokemonInGame(sourceId, game[0]);
-			const isTargetInGame = isPokemonInGame(targetId, game[0]);
+			const isSourceInGame = isPokemonInGameGroup(sourceId, game);
+			const isTargetInGame = isPokemonInGameGroup(targetId, game);
 
 			if (!isSourceInGame || !isTargetInGame) {
 				return {
 					...result,
-					trigger: `Not in ${getGroupName(game, ' & ', false, false, false)}`
+					trigger: `Not in ${game.shortName}`
 				};
 			}
 		}

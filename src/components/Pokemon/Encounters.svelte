@@ -8,7 +8,7 @@
 	$: relevantEncounters = encounterData.filter((data) => {
 		return (
 			!$encounterDisplayStore.selectedGame ||
-			$encounterDisplayStore.selectedGame.pokeapiName === data.versionGroup
+			$encounterDisplayStore.selectedGame.pokeapi === data.versionGroup
 		);
 	});
 </script>
