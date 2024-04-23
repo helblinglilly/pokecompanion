@@ -3,6 +3,7 @@
 	import { moveDisplayStore } from '$lib/stores/pokemonPage';
 	import type { IPokemonMinimalMoveGroups } from '../../routes/api/pokemon/types';
 	import Move from './Move.svelte';
+	import { games } from '$lib/data/games';
 
 	interface APIMoveData {
 		[key: string]: IPokemonMinimalMoveGroups;
@@ -21,7 +22,16 @@
 
 <div class="container">
 	{#if !relevantMoves}
-		<p>No moves</p>
+		{#if !Object.keys(completeData).includes($moveDisplayStore.selectedGameGroup)}
+			<p>
+				No move data for {games
+					.filter((game) => game.pokeapiVersionGroup === $moveDisplayStore.selectedGameGroup)
+					.map((a) => a.shortName)
+					.join(' / ')}
+			</p>
+		{:else}
+			<p>No moves</p>
+		{/if}
 	{:else}
 		{#if relevantMoves.levelupMoves.length > 0}
 			<div class="item">

@@ -155,7 +155,7 @@ export const games = [
 		icon: 'icons/games/red.png',
 		cookieGroup: 'red-blue',
 		pokeapiName: 'red',
-		pokeapiVersionGroup: 'red-blue'
+		pokeapiVersionGroup: 'red-blue',
 	},
 	{
 		name: 'Pokémon Blue Version',
@@ -682,7 +682,7 @@ export const games = [
 		icon: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/484.png',
 		cookieGroup: 'brilliantdiamond-shiningpearl',
 		pokeapiName: 'shining-pearl',
-		pokeapiVersionGroup: 'brilliant-diamond-shining-pearl'
+		pokeapiVersionGroup: 'brilliant-diamond-and-shining-pearl'
 	},
 	{
 		name: 'Pokémon Legends Arceus',
