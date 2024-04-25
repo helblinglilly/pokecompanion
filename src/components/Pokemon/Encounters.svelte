@@ -6,12 +6,6 @@
 
 	export let encounterData: IEncounterGroups[];
 	$: relevantEncounters = [];
-	// encounterData.filter((data) => {
-	// 	return (
-	// 		!$encounterDisplayStore.selectedGame ||
-	// 		$encounterDisplayStore.selectedGame.pokeapi === data.versionGroup
-	// 	);
-	// });
 </script>
 
 <div>

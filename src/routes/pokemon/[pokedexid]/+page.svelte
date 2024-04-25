@@ -38,6 +38,7 @@
 	import SocialPreview from '$components/SocialPreview.svelte';
 	import { Logger } from '$lib/log';
 	import { GameGroups, getGameGroupFromName, isPokemonInGameGroup } from '$lib/data/games';
+	import EncounterCard from '$components/Pokemon/Encounters/EncounterCard.svelte';
 
 	export let data;
 
@@ -362,35 +363,8 @@
 		<div class="card">
 			<div style="display: inline-flex; justify-content: space-between; width: 100%;">
 				<h3 class="h3" style="margin-top: auto; margin-bottom: auto;">Encounters</h3>
-
-				<!-- {#if $encounterDisplayStore.games.length > 0}
-					<select
-						class="specificGameSelector"
-						id="encounterGameSelector"
-						on:change={(event) => {
-							if (event.target) {
-								// encounterDisplayStore.set({
-								// 	games: $encounterDisplayStore.games,
-								// 	selectedGame: games.find(
-								// 		// @ts-ignore
-								// 		(a) => a.pokeapiName === event.target.value
-								// 	),
-								// 	selectedGameGroup: $encounterDisplayStore.selectedGameGroup
-								// });
-							}
-						}}
-					>
-						{#each $encounterDisplayStore.games as game}
-							<option
-								value={game.pokeapiName}
-								selected={$encounterDisplayStore.selectedGame?.pokeapiName === game.pokeapiName}
-								>{game.shortName}</option
-							>
-						{/each}
-					</select>
-				{/if} -->
 			</div>
-			<Encounters encounterData={data.encounters} />
+			<EncounterCard encounterData={data.encounters} />
 		</div>
 	</div>
 

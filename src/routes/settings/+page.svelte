@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GameSelector from '$components/GameSelector.svelte';
+	import VersionGroupSelector from '$components/GameSelectors/VersionGroupSelector';
 	import SocialPreview from '$components/SocialPreview.svelte';
 	import {
 		animateSprites,
@@ -57,7 +57,7 @@
 </script>
 
 <svelte:head>
-	<meta name="robots" content="noindex">
+	<meta name="robots" content="noindex" />
 </svelte:head>
 
 <SocialPreview
@@ -71,7 +71,7 @@
 	<div class="columns">
 		<div class="column">
 			<div class="card">
-				<GameSelector />
+				<VersionGroupSelector />
 			</div>
 		</div>
 

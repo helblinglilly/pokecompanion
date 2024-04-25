@@ -93,6 +93,8 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		variety: url.searchParams.get('variety')
 	}
 
+	console.log('selected game is', selectedGame)
+
 	const formEntry = pokemon.forms.find((entry) => entry.name === variety);
 	if (formEntry) {
 		const formData = await fetchPokemonForm(formEntry.url, platform);
@@ -221,7 +223,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 			// 	secondaryLanguage
 			// )
 		},
-		encounters: [], // formatEncounters(encounters, selectedGame),
+		encounters: formatEncounters(encounters),
 		moveGames,
 	}
 	return new Response(JSON.stringify(response), {

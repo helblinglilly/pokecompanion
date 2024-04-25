@@ -454,7 +454,7 @@ export const GameGroups: IGameGroups[] = [
 	},
 ]
 
-export function getGame(pokeapiname: PokeapiVersionNames | undefined){
+export function getGame(pokeapiname: PokeapiVersionNames | undefined): IGame | undefined{
 	if (!pokeapiname){
 		return;
 	}
@@ -463,12 +463,12 @@ export function getGame(pokeapiname: PokeapiVersionNames | undefined){
 		return gameGroup.games.find((game) => game.pokeapi === pokeapiname)
 	})
 	if (matchingGame){
-		return matchingGame
+		return matchingGame.games.find((game) => game.pokeapi === pokeapiname)
 	}
 	const matchingDLC = GameGroups.find((gameGroups) => {
 		return gameGroups.dlcGames.find((game) => game.pokeapi === pokeapiname)
 	})
-	return matchingDLC;
+	return matchingDLC?.dlcGames.find((game) => game.pokeapi === pokeapiname)
 }
 
 export function getGameGroupFromName(pokeapiname: UserPreferencePokemonVersion){
