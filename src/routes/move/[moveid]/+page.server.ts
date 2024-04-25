@@ -1,7 +1,8 @@
-import { findGameFromString } from '$lib/data/games.js';
 import { getMove } from '$lib/types/IMoves';
 import Moves from '$lib/data/moves.json';
 import { error } from '@sveltejs/kit';
+import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games.js';
+import type { UserPreferencePokemonVersion } from '$lib/stores/domain.js';
 
 /**
  * See https://github.com/PokeAPI/pokeapi/issues/1048
@@ -42,14 +43,15 @@ const redirectOffDummyData = (id: number) => {
 	return pairs[id] ?? id;
 };
 
-export async function load({ params, cookies, request }) {
+export async function load({ params, cookies }) {
 	const moveId = redirectOffDummyData(Number(params.moveid));
 	if (moveId < 1 || moveId > Moves[Moves.length - 1].id) {
 		error(404, 'Move not found');
 	}
-	const game = findGameFromString(cookies.get('selectedGame'));
 
-	const move = await getMove(moveId, game, { request, cookies });
+	const game = getGameGroupFromName(cookies.get('selectedGame') as UserPreferencePokemonVersion)
+
+	const move = await getMove(moveId, game);
 
 	return {
 		move

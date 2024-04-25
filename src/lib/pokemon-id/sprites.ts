@@ -165,7 +165,7 @@ export const findBaseSprites = (
 				sprites.versions['generation-iv']['heartgold-soulsilver'].back_shiny_female ||
 				baseSprites.secondary.shinyFemale;
 		} else if (
-			(selectedGame === 'black-white' || selectedGame === 'black2-white2') &&
+			(selectedGame === 'black-white' || selectedGame === 'black-2-white-2') &&
 			sprites.versions['generation-v']
 		) {
 			if (animatedSprites) {

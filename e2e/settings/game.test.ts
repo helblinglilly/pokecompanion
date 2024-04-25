@@ -9,7 +9,7 @@ export const navigateToSettings = async (page: Page) => {
 
 const assertSelection = async (page: Page) => {
 	await expect(page.locator('#gameSelector > option.selected')).toHaveText('Black 2 / White 2');
-	await assertCookie(page, 'selectedGame', 'black2-white2');
+	await assertCookie(page, 'selectedGame', 'black-2-white-2');
 };
 
 test('has a default value "Generic"', async ({ page }) => {

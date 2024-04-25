@@ -1,4 +1,4 @@
-import type { IGame } from '$lib/data/games';
+import type { IGame, IGameGroups } from '$lib/data/games';
 import { pokeApiDomain } from '$lib/stores/domain';
 import type { Name, VersionGroup } from './IPokemon';
 import { error } from '@sveltejs/kit';
@@ -141,8 +141,7 @@ const getLegacyDamageClass = (existing: string, type: string) => {
 
 export async function getMove(
 	id: string | number,
-	selectedGame: IGame | undefined,
-	serverRequest?: IServerRequestDetails
+	selectedGame: IGameGroups | undefined,
 ) {
 	const url = `${pokeApiDomain}/move/${id}`;
 	try {

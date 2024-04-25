@@ -93,8 +93,6 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		variety: url.searchParams.get('variety')
 	}
 
-	console.log('selected game is', selectedGame)
-
 	const formEntry = pokemon.forms.find((entry) => entry.name === variety);
 	if (formEntry) {
 		const formData = await fetchPokemonForm(formEntry.url, platform);
