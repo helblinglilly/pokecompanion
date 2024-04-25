@@ -105,7 +105,7 @@ export enum PokeapiVersionNames {
 	PEARL = 'pearl',
 	PLATINUM = 'platinum',
 	HEART_GOLD = 'heartgold',
-	SOUL_SILVER = 'souldsilver',
+	SOUL_SILVER = 'soulsilver',
 	BLACK = 'black',
 	WHITE = 'white',
 	BLACK_2 = 'black-2',
