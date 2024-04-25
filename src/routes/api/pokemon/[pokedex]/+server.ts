@@ -1,7 +1,6 @@
 import { lastPokedexEntry } from '$lib/stores/domain';
 import { type FlavorTextEntry } from '$lib/types/IPokemon';
 import type { RequestHandler } from '../$types';
-import { findGameFromAPIGameName } from '$lib/data/games';
 import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
 import { fixAbilities, getPokemonTypesInGame, getTypeRelations } from '$lib/data/generationAdjuster';
 import { formatEncounters } from '$lib/data/encounterFilter';
@@ -11,6 +10,7 @@ import { parseUserPreferences } from '../../helpers';
 import type { IPokemonResponse } from './../types';
 import { Logger } from '$lib/log';
 import { fetchPokemon, fetchPokemonEncounters, fetchPokemonForm, fetchPokemonSpecies } from '../cachedFetch';
+import { getGameGroupFromGame, getGameGroupFromName } from '$lib/data/games';
 
 const filterPokedexEntries = (
 	allEntries: FlavorTextEntry[],
@@ -31,7 +31,7 @@ const filterPokedexEntries = (
 		.map((entry) => {
 			return {
 				language: entry.language.name,
-				game: findGameFromAPIGameName(entry.version.name)?.shortName ?? 'Not found',
+				game: getGameGroupFromName(entry.version.name)?.games.map((game => game.shortName)),
 				// eslint-disable-next-line no-control-regex
 				textEntry: entry.flavor_text.replace(/\n|\u000c/g, ' ')
 			};
@@ -183,9 +183,6 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 
 	pokemon.moves.forEach((move) => {
 		move.version_group_details.forEach((details) => {
-			if (details.version_group.name === 'brilliant-diamond-and-shining-pearl'){
-				console.log(move);
-			}
 			if (!moveGames.includes(details.version_group.name)){
 				moveGames.push(details.version_group.name);
 			}
@@ -217,13 +214,14 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		species: {
 			...species,
 			names: speciesNamesToNormalisedNames(species.names),
-			flavor_text_entries: filterPokedexEntries(
-				species.flavor_text_entries,
-				primaryLanguage,
-				secondaryLanguage
-			)
+			flavor_text_entries: [],
+			// filterPokedexEntries(
+			// 	species.flavor_text_entries,
+			// 	primaryLanguage,
+			// 	secondaryLanguage
+			// )
 		},
-		encounters: formatEncounters(encounters, selectedGame),
+		encounters: [], // formatEncounters(encounters, selectedGame),
 		moveGames,
 	}
 	return new Response(JSON.stringify(response), {

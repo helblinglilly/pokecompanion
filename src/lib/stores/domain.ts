@@ -27,12 +27,14 @@ export const pokemonPageSize = 50;
 export const pb = writable(new Pocketbase(PUBLIC_POCKETBASE_URL));
 import * as Sentry from '@sentry/browser';
 
+export type UserPreferencePokemonVersion = PokeapiVersionGroups | 'generic' | undefined;
+
 // TODO - Test this
 export const cookieHandlers = {
 	selectedGame: () => {
-		const isInSearchParam = get(page).url.searchParams.get('game') as PokeapiVersionGroups | 'generic' | undefined;
+		const isInSearchParam = get(page).url.searchParams.get('game') as UserPreferencePokemonVersion;
 
-		let existingValue = getCookie('selectedGame') as PokeapiVersionGroups | 'generic' | undefined;
+		let existingValue = getCookie('selectedGame') as UserPreferencePokemonVersion;
 
 		if (isInSearchParam) {
 			existingValue = isInSearchParam;

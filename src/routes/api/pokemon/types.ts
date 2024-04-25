@@ -1,4 +1,5 @@
 import type { IEncounterGroups } from "$lib/data/encounterFilter";
+import type { PokeapiVersionNames } from "$lib/data/games";
 import type { ITypeRelations } from "$lib/data/generationAdjuster";
 import type { IMoves } from "$lib/data/movesetFilter";
 import type { IType } from "$lib/stores/pokemonPage";
@@ -25,7 +26,7 @@ export interface IPokemonResponse {
 		}[],
 		flavor_text_entries: {
 			language: string;
-    		game: string;
+    		game: PokeapiVersionNames;
     		textEntry: string;
 		}[];
 		evolution_chain: {

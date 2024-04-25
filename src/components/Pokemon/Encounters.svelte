@@ -5,12 +5,13 @@
 	import { selectedGame } from '$lib/stores/domain';
 
 	export let encounterData: IEncounterGroups[];
-	$: relevantEncounters = encounterData.filter((data) => {
-		return (
-			!$encounterDisplayStore.selectedGame ||
-			$encounterDisplayStore.selectedGame.pokeapi === data.versionGroup
-		);
-	});
+	$: relevantEncounters = [];
+	// encounterData.filter((data) => {
+	// 	return (
+	// 		!$encounterDisplayStore.selectedGame ||
+	// 		$encounterDisplayStore.selectedGame.pokeapi === data.versionGroup
+	// 	);
+	// });
 </script>
 
 <div>

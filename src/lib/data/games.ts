@@ -1,5 +1,6 @@
 import PokemonNames from '$lib/data/pokemonNames.json';
 import MoveNames from '$lib/data/moves.json';
+import type { UserPreferencePokemonVersion } from '$lib/stores/domain';
 export interface IGeneration {
 	name: string;
 	short: string;
@@ -470,7 +471,7 @@ export function getGame(pokeapiname: PokeapiVersionNames | undefined){
 	return matchingDLC;
 }
 
-export function getGameGroupFromName(pokeapiname: PokeapiVersionGroups | 'generic' | undefined){
+export function getGameGroupFromName(pokeapiname: UserPreferencePokemonVersion){
 	if (!pokeapiname || pokeapiname === 'generic'){
 		return;
 	}
@@ -480,7 +481,10 @@ export function getGameGroupFromName(pokeapiname: PokeapiVersionGroups | 'generi
 	})
 }
 
-export function getGameGroupFromGame(game: IGame) {
+export function getGameGroupFromGame(game: IGame | undefined) {
+	if (!game){
+		return;
+	}
 	return GameGroups.find((groupGame) => groupGame.games.includes(game));
 }
 

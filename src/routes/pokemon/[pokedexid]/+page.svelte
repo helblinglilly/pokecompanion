@@ -9,18 +9,10 @@
 	} from '$lib/stores/domain';
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Navigator from '$components/Navigator.svelte';
-	import EvolutionChain from '$components/Pokemon/EvolutionChain.svelte';
+	import EvolutionChain from '$components/Pokemon/EvolutionChain/';
 	import Image from '$components/UI/Image.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import {
-		games,
-		isPokemonInGame,
-		findGameGroupFromString,
-		type IGame,
-		findGameFromAPIGameName,
-		gameGroups
-	} from '$lib/data/games';
 	import Pokedex from '$components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$components/Tags/SelectedTags.svelte';
@@ -33,9 +25,9 @@
 		encounterDisplayStore,
 		moveDisplayStore,
 		pokemonDisplayStore
-	} from '$lib/stores/pokemonPage.js';
+	} from '$lib/stores/pokemonPage';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
-	import { tagStore } from '$lib/stores/tags.js';
+	import { tagStore } from '$lib/stores/tags';
 	import EditTag from '$components/Tags/EditTag.svelte';
 	import TypeMatchup from '$components/Pokemon/TypeMatchup.svelte';
 	import Abilities from '$components/Pokemon/Abilities.svelte';
@@ -44,7 +36,8 @@
 	import Moveset from '$components/Pokemon/Moveset.svelte';
 	import { uniques } from '$lib/utils/array';
 	import SocialPreview from '$components/SocialPreview.svelte';
-	import { Logger } from '$lib/log.js';
+	import { Logger } from '$lib/log';
+	import { GameGroups, getGameGroupFromName, isPokemonInGameGroup } from '$lib/data/games';
 
 	export let data;
 
@@ -53,7 +46,7 @@
 			const baseSprite = findBaseSprites(
 				data.pokemon.sprites,
 				$versionSpecificSprites,
-				$selectedGame?.cookieGroup,
+				$selectedGame?.pokeapi,
 				$animateSprites
 			);
 
@@ -100,47 +93,43 @@
 				variety: variety.name ? variety : undefined
 			});
 
-			const allRelevantGames = games
-				.filter((game) => {
-					return (
-						data.encounters.some((encounter) => {
-							return encounter.versionGroup === game.pokeapiVersionGroup;
-						}) ||
-						data.pokemon.moves.some((move) => {
-							return move.versionGroup === game.pokeapiVersionGroup;
-						})
-					);
-				})
-				.flat();
+			const allRelevantGames = GameGroups.filter((game) => {
+				return (
+					data.encounters.some((encounter) => {
+						return encounter.versionGroup === game.pokeapi;
+					}) ||
+					data.pokemon.moves.some((move) => {
+						return move.versionGroup === game.pokeapi;
+					})
+				);
+			}).flat();
 
 			const encounterRelevantGames = data.encounters
 				.filter((data) => {
 					return data.encounters.length > 0;
 				})
 				.map((entry) => {
-					return findGameFromAPIGameName(entry.versionGroup) as IGame;
+					return getGameGroupFromName(entry.versionGroup);
 				});
 
 			moveDisplayStore.set({
 				games: data.moveGames.filter((a) => a !== 'xd' && a !== 'colosseum'),
-				selectedGameGroup: $selectedGame ? $selectedGame.pokeapiVersionGroup : data.moveGames[0]
+				selectedGameGroup: $selectedGame ? $selectedGame.pokeapi : data.moveGames[0]
 			});
 
-			encounterDisplayStore.set({
-				games: encounterRelevantGames,
-				selectedGame: $selectedGame
-					? encounterRelevantGames.find((encounterGame: IGame) => {
-							return $selectedGame?.pokeapiVersionGroup === encounterGame.pokeapiVersionGroup;
-					  }) ?? $selectedGame
-					: encounterRelevantGames[0],
-				selectedGameGroup: findGameGroupFromString(
-					$selectedGame
-						? $selectedGame.shortName
-						: allRelevantGames.length > 0
-						? allRelevantGames[0].shortName
-						: undefined
-				)
-			});
+			// encounterDisplayStore.set({
+			// 	games: encounterRelevantGames,
+			// 	selectedGame: $selectedGame
+			// 		? encounterRelevantGames.find((encounterGame: IGame) => {
+			// 				return $selectedGame?.pokeapi === encounterGame.pokeapiVersionGroup;
+			// 		  }) ?? $selectedGame
+			// 		: encounterRelevantGames[0],
+			// 	selectedGameGroup: $selectedGame ? getGameGroupFromName(
+			// 			allRelevantGames.length > 0
+			// 			? allRelevantGames[0].shortName
+			// 			: undefined
+			// 	)
+			// });
 		}
 	}
 
@@ -171,21 +160,22 @@
 		}
 	}
 
-	$: gameVersionGroups = uniques(
-		$encounterDisplayStore.games
-			.filter((game) => {
-				if ($selectedGame) {
-					return game.pokeapiName === $selectedGame.pokeapiName;
-				}
-				return true;
-			})
-			.sort((a, b) => {
-				return a?.generation < b?.generation ? 1 : -1;
-			})
-			.map((game) => {
-				return findGameGroupFromString(game.cookieGroup);
-			})
-	);
+	$: gameVersionGroups = [];
+	//  uniques(
+	// 	$encounterDisplayStore.games
+	// 		.filter((game) => {
+	// 			if ($selectedGame) {
+	// 				return game.pokeapi === $selectedGame.pokeapi;
+	// 			}
+	// 			return true;
+	// 		})
+	// 		.sort((a, b) => {
+	// 			return a?.generation < b?.generation ? 1 : -1;
+	// 		})
+	// 		.map((game) => {
+	// 			return game;
+	// 		})
+	// );
 
 	onMount(() => {
 		document.addEventListener('keydown', (e) => {
@@ -289,7 +279,7 @@
 					/>
 				</div>
 			{/if}
-			{#if !isPokemonInGame(data.id, $selectedGame)}
+			{#if !isPokemonInGameGroup(data.id, $selectedGame)}
 				<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
 			{/if}
 
@@ -373,20 +363,20 @@
 			<div style="display: inline-flex; justify-content: space-between; width: 100%;">
 				<h3 class="h3" style="margin-top: auto; margin-bottom: auto;">Encounters</h3>
 
-				{#if $encounterDisplayStore.games.length > 0}
+				<!-- {#if $encounterDisplayStore.games.length > 0}
 					<select
 						class="specificGameSelector"
 						id="encounterGameSelector"
 						on:change={(event) => {
 							if (event.target) {
-								encounterDisplayStore.set({
-									games: $encounterDisplayStore.games,
-									selectedGame: games.find(
-										// @ts-ignore
-										(a) => a.pokeapiName === event.target.value
-									),
-									selectedGameGroup: $encounterDisplayStore.selectedGameGroup
-								});
+								// encounterDisplayStore.set({
+								// 	games: $encounterDisplayStore.games,
+								// 	selectedGame: games.find(
+								// 		// @ts-ignore
+								// 		(a) => a.pokeapiName === event.target.value
+								// 	),
+								// 	selectedGameGroup: $encounterDisplayStore.selectedGameGroup
+								// });
 							}
 						}}
 					>
@@ -398,7 +388,7 @@
 							>
 						{/each}
 					</select>
-				{/if}
+				{/if} -->
 			</div>
 			<Encounters encounterData={data.encounters} />
 		</div>
@@ -427,16 +417,14 @@
 						id="moveGameSelector"
 						on:change={(event) => {
 							if (event.target) {
-								moveDisplayStore.set({
-									games: $moveDisplayStore.games,
-									// @ts-ignore
-									selectedGameGroup: findGameGroupFromString(event.target.value)[0]
-										.pokeapiVersionGroup
-								});
+								// moveDisplayStore.set({
+								// 	games: $moveDisplayStore.games,
+								// 	selectedGameGroup: getGameGroupFromName(event.target.value)?.pokeapi
+								// });
 							}
 						}}
 					>
-						{#each $moveDisplayStore.games as gameGroup}
+						<!-- {#each $moveDisplayStore.games as gameGroup}
 							{#if gameGroup}
 								<option
 									value={gameGroup}
@@ -447,7 +435,7 @@
 										.join(' / ')}</option
 								>
 							{/if}
-						{/each}
+						{/each} -->
 					</select>
 				{/if}
 			</div>

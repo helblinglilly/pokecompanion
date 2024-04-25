@@ -1,5 +1,5 @@
 import type { Moveset } from '$lib/types/IPokemon';
-import { type IGame } from './games';
+import { type IGame, type IGameGroups } from './games';
 
 interface IMove {
 	name: string;
@@ -22,7 +22,7 @@ export interface IMoves {
 		move: IMove;
 	}[];
 }
-export const filterMovesetByVersionEntry = (moves: Moveset[], game?: IGame): IMoves[] => {
+export const filterMovesetByVersionEntry = (moves: Moveset[], game?: IGameGroups): IMoves[] => {
 	const entries: IMoves[] = [];
 
 	moves
@@ -65,6 +65,6 @@ export const filterMovesetByVersionEntry = (moves: Moveset[], game?: IGame): IMo
 		if (!game){
 			return true;
 		}
-		return entry.versionGroup === game.pokeapiVersionGroup;
+		return entry.versionGroup === game.pokeapi;
 	});
 };

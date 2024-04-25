@@ -1,4 +1,4 @@
-import type { IGame } from "$lib/data/games";
+import type { IGameGroups } from "$lib/data/games";
 
 export interface Platform {
 	context: {
@@ -10,5 +10,5 @@ export interface Platform {
 export interface IUserPreferences {
 	primaryLanguage: string;
 	secondaryLanguage: string | undefined;
-	selectedGame: IGame | undefined;
+	selectedGame: IGameGroups | undefined;
 }

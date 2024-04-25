@@ -1,4 +1,4 @@
-import type { IGame } from '$lib/data/games';
+import type { IGame, IGameGroups } from '$lib/data/games';
 import type { ISpriteImage } from '$lib/pokemon-id/sprites';
 import { writable } from 'svelte/store';
 
@@ -32,7 +32,7 @@ export interface IDisplayPokemon {
 export const pokemonDisplayStore = writable<IDisplayPokemon>();
 
 export interface IEncounterPokemon {
-	games: IGame[];
+	games: IGameGroups[];
 	selectedGame: IGame | undefined;
 	selectedGameGroup: IGame[] | undefined;
 }

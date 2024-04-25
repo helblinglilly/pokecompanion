@@ -1,6 +1,6 @@
 import type { IType } from '$lib/stores/pokemonPage';
 import type { Ability, Generation, IPokemon } from '$lib/types/IPokemon';
-import { Generations, type IGame, type IGeneration } from './games';
+import { Generations, type IGame, type IGameGroups, type IGeneration } from './games';
 
 export const getPokemonTypesInGame = (pokemon: IPokemon, generation?: IGeneration): IType[] => {
 	const vanillaTypes = pokemon.types.map((typeEntry) => {
@@ -177,7 +177,7 @@ export const fixAbilities = (
 		generation: Generation;
 	}[],
 	abilities: Ability[],
-	game: IGame | undefined
+	game: IGameGroups | undefined
 ) => {
 	if (!game) {
 		return abilities;

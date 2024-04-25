@@ -1,5 +1,5 @@
 import { uniques } from '$lib/utils/array';
-import { findGameFromAPIGameName, findGameGroupFromString, games, type IGame } from './games';
+import { getGame, getGameGroupFromName, PokeapiVersionNames, type IGame, type PokeapiVersionGroups } from './games';
 
 export interface IEncounterResponse {
 	location_area: {
@@ -9,7 +9,7 @@ export interface IEncounterResponse {
 	version_details: {
 		max_chance: number;
 		version: {
-			name: string; // short name 'black' or 'white'
+			name: PokeapiVersionNames;
 			url: string;
 		};
 		encounter_details: {
@@ -43,13 +43,13 @@ export interface IEncounter {
 }
 
 export interface IEncounterGroups {
-	versionGroup: string;
+	versionGroup: PokeapiVersionGroups;
 	encounters: IEncounter[];
 }
 
-const getVersionGroupEncounters = (encounters: IEncounterResponse[], versionGroup: string) => {
+const getVersionGroupEncounters = (encounters: IEncounterResponse[], versionGroup: PokeapiVersionGroups) => {
 	const relevantData: IEncounter[] = [];
-	const selectedVersionGroup = findGameFromAPIGameName(versionGroup);
+	const selectedVersionGroup = getGameGroupFromName(versionGroup);
 
 	encounters.forEach((encounter) => {
 		encounter.version_details.forEach((version) => {
@@ -69,7 +69,7 @@ const getVersionGroupEncounters = (encounters: IEncounterResponse[], versionGrou
 				};
 			});
 
-			if (version.version.name === selectedVersionGroup?.pokeapiName)
+			if (selectedVersionGroup?.games.some((selectedGame) => selectedGame.pokeapi === version.version.name))
 				relevantData.push({
 					location: encounter.location_area,
 					methods
@@ -92,27 +92,26 @@ export const formatEncounters = (
 				});
 			})
 			.flat()
-	);
+	) as PokeapiVersionNames[];
 
-	const selectedVersionGroup = findGameGroupFromString(game?.cookieGroup);
-	const pokeApiNames = selectedVersionGroup?.map((group) => {
-		return group.pokeapiName;
-	});
+	const selectedVersionGroup = getGame(game?.pokeapi);
+	const pokeApiNames = selectedVersionGroup?.games.map((game) => game.pokeapi);
 
-	const relevantVersionGroups = allVersionGroups.filter((version) => {
-		return game ? pokeApiNames?.includes(version) : true;
-	});
+	// const relevantVersionGroups = allVersionGroups.filter((version) => {
+	// 	return game ? pokeApiNames?.includes(version) : true;
+	// });
 
-	return relevantVersionGroups
-		.map((versionGroup) => {
-			return {
-				versionGroup: versionGroup,
-				encounters: getVersionGroupEncounters(encounters, versionGroup)
-			};
-		})
-		.sort((a, b) => {
-			const aIndex = games.findIndex((c) => c.pokeapiName === a.versionGroup);
-			const bIndex = games.findIndex((c) => c.pokeapiName === b.versionGroup);
-			return aIndex < bIndex ? 1 : -1;
-		});
+	return [];
+	// relevantVersionGroups
+	// 	.map((versionGroup) => {
+	// 		return {
+	// 			versionGroup: versionGroup,
+	// 			encounters: getVersionGroupEncounters(encounters, versionGroup)
+	// 		};
+	// 	})
+	// 	.sort((a, b) => {
+	// 		const aIndex = 1;
+	// 		const bIndex = 2;
+	// 		return aIndex < bIndex ? 1 : -1;
+	// 	});
 };

@@ -1,9 +1,9 @@
 import { error } from '@sveltejs/kit';
 import type { IPokemonResponse } from '../../api/pokemon/types';
 import { get } from 'svelte/store';
-import { findGameFromString } from '$lib/data/games';
 import { selectedGame, primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 import type { IPokemonMoveAPIResponse } from '../../api/pokemon/[pokedex]/moves/+server';
+import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
 
 const loadMoveData = async (url: URL, fetchFn: (_a: URL) => Promise<Response>): Promise<IPokemonMoveAPIResponse> => {
 	const moveUrl = new URL(url.origin + url.pathname + '/moves' + url.search)
@@ -22,10 +22,10 @@ export const load = async ({ params, fetch, url }) => {
 	requestUrl.searchParams.append('primaryLanguage', url.searchParams.get('primaryLanguage') ?? get(primaryLanguage));
 	requestUrl.searchParams.append('secondaryLanguage', url.searchParams.get('secondaryLanguage') ?? get(secondaryLanguage) ?? '');
 	requestUrl.searchParams.append('variety', url.searchParams.get('variety') ?? '');
-	const game = findGameFromString(url.searchParams.get('game') ?? get(selectedGame)?.cookieGroup);
+	const game = getGameGroupFromName(url.searchParams.get('game') as PokeapiVersionGroups ?? get(selectedGame)?.pokeapi)
 
 	if (game){
-		requestUrl.searchParams.append('game', game.cookieGroup)
+		requestUrl.searchParams.append('game', game.pokeapi)
 	}
 
 	const res = await fetch(requestUrl).catch((err) => {

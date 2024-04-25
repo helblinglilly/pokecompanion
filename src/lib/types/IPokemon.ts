@@ -1,3 +1,5 @@
+import type { PokeapiVersionGroups } from "$lib/data/games";
+
 export interface IPokemon {
 	abilities: Ability[];
 	base_experience: number;
@@ -97,7 +99,7 @@ interface MoveLearnMethod {
 }
 
 export interface VersionGroup {
-	name: string;
+	name: PokeapiVersionGroups;
 	url: string;
 }
 
@@ -452,7 +454,7 @@ interface Language {
 }
 
 interface Version2 {
-	name: string;
+	name: PokeapiVersionGroups;
 	url: string;
 }
 

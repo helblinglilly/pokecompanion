@@ -1,11 +1,12 @@
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { findGameFromString } from '$lib/data/games';
 import { getRawCookie, parseCookieString } from '$lib/utils/cookies';
 import { addMinutesToDate } from '$lib/utils/date';
 import type { Cookies } from '@sveltejs/kit';
 import Pocketbase from 'pocketbase';
 import type { IUserPreferences } from './types';
 import { Logger } from '$lib/log';
+import { getGameGroupFromName, PokeapiVersionNames } from '$lib/data/games';
+import type { UserPreferencePokemonVersion } from '$lib/stores/domain';
 
 export const getSearchParam = (url: string, name: string) => {
 	const searchParts = url.split('?')[1];
@@ -104,7 +105,7 @@ export const respondWithJson = (payload: object | Array<unknown>, status?: numbe
 };
 
 export const parseUserPreferences = (url: URL, cookies: Cookies): IUserPreferences => {
-	const gameEntry = findGameFromString(url.searchParams.get('game') ?? cookies.get('game'));
+	const gameEntry = getGameGroupFromName(url.searchParams.get('game') as UserPreferencePokemonVersion ?? cookies.get('game') as UserPreferencePokemonVersion);
 	const primaryLanguage = url.searchParams.get('primaryLanguage') ?? cookies.get('primaryLanguage') ?? 'en';
 	const secondaryLanguage = url.searchParams.get('secondaryLanguage') ?? cookies.get('secondaryLanguage');
 
