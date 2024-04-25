@@ -21,23 +21,17 @@
 	import SpritePreview from '$components/Pokemon/SpritePreview.svelte';
 	import Icon from '$components/UI/Icon.svelte';
 	import { page } from '$app/stores';
-	import {
-		encounterDisplayStore,
-		moveDisplayStore,
-		pokemonDisplayStore
-	} from '$lib/stores/pokemonPage';
+	import { moveDisplayStore, pokemonDisplayStore } from '$lib/stores/pokemonPage';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tags';
 	import EditTag from '$components/Tags/EditTag.svelte';
 	import TypeMatchup from '$components/Pokemon/TypeMatchup.svelte';
 	import Abilities from '$components/Pokemon/Abilities.svelte';
 	import BaseStats from '$components/Pokemon/BaseStats.svelte';
-	import Encounters from '$components/Pokemon/Encounters.svelte';
 	import Moveset from '$components/Pokemon/Moveset.svelte';
-	import { uniques } from '$lib/utils/array';
 	import SocialPreview from '$components/SocialPreview.svelte';
 	import { Logger } from '$lib/log';
-	import { GameGroups, getGameGroupFromName, isPokemonInGameGroup } from '$lib/data/games';
+	import { GameGroups, isPokemonInGameGroup } from '$lib/data/games';
 	import EncounterCard from '$components/Pokemon/Encounters/EncounterCard.svelte';
 
 	export let data;
@@ -105,32 +99,10 @@
 				);
 			}).flat();
 
-			const encounterRelevantGames = data.encounters
-				.filter((data) => {
-					return data.encounters.length > 0;
-				})
-				.map((entry) => {
-					return getGameGroupFromName(entry.versionGroup);
-				});
-
 			moveDisplayStore.set({
 				games: data.moveGames.filter((a) => a !== 'xd' && a !== 'colosseum'),
 				selectedGameGroup: $selectedGame ? $selectedGame.pokeapi : data.moveGames[0]
 			});
-
-			// encounterDisplayStore.set({
-			// 	games: encounterRelevantGames,
-			// 	selectedGame: $selectedGame
-			// 		? encounterRelevantGames.find((encounterGame: IGame) => {
-			// 				return $selectedGame?.pokeapi === encounterGame.pokeapiVersionGroup;
-			// 		  }) ?? $selectedGame
-			// 		: encounterRelevantGames[0],
-			// 	selectedGameGroup: $selectedGame ? getGameGroupFromName(
-			// 			allRelevantGames.length > 0
-			// 			? allRelevantGames[0].shortName
-			// 			: undefined
-			// 	)
-			// });
 		}
 	}
 
@@ -162,21 +134,6 @@
 	}
 
 	$: gameVersionGroups = [];
-	//  uniques(
-	// 	$encounterDisplayStore.games
-	// 		.filter((game) => {
-	// 			if ($selectedGame) {
-	// 				return game.pokeapi === $selectedGame.pokeapi;
-	// 			}
-	// 			return true;
-	// 		})
-	// 		.sort((a, b) => {
-	// 			return a?.generation < b?.generation ? 1 : -1;
-	// 		})
-	// 		.map((game) => {
-	// 			return game;
-	// 		})
-	// );
 
 	onMount(() => {
 		document.addEventListener('keydown', (e) => {
