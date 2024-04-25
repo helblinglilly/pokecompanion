@@ -18,9 +18,14 @@ export default defineConfig({
 		noExternal: ['@jill64/sentry-sveltekit-cloudflare']
 	},
 	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}']
+		include: ['src/**/*.{test,spec}.{js,ts}'],
 	},
 	define: {
 		'process.browser': true
-	}
+	},
+	resolve: {
+		conditions: [
+		  ...process.env.VITEST ? ['browser'] : []
+		]
+	  }
 });
