@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { GameGroups, getGameGroupFromName } from '$lib/data/games';
+	import { GameGroups, getGameGroupFromName, type IGameGroups } from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
 
+	export let versionGroups: IGameGroups[];
 	let selectedGameGroup: any;
 
 	$: selectedGameGroup = $selectedGame ? $selectedGame.pokeapi : 'generic';
@@ -25,7 +26,7 @@
 			class={$selectedGame === undefined ? 'selected' : undefined}
 			selected={$selectedGame === undefined}>Generic</option
 		>
-		{#each GameGroups as gameGroup}
+		{#each versionGroups as gameGroup}
 			<option
 				value={gameGroup.pokeapi}
 				class={gameGroup.pokeapi === $selectedGame?.pokeapi ? 'selected' : undefined}

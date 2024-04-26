@@ -1,6 +1,7 @@
 <script lang="ts">
 	import VersionGroupSelector from '$components/GameSelectors/VersionGroupSelector';
 	import SocialPreview from '$components/SocialPreview.svelte';
+	import { GameGroups } from '$lib/data/games';
 	import {
 		animateSprites,
 		primaryLanguage,
@@ -71,7 +72,7 @@
 	<div class="columns">
 		<div class="column">
 			<div class="card">
-				<VersionGroupSelector />
+				<VersionGroupSelector versionGroups={GameGroups} />
 			</div>
 		</div>
 
