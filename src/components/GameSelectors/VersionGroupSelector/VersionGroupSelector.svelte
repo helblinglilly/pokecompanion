@@ -1,39 +1,45 @@
 <script lang="ts">
-	import { GameGroups, getGameGroupFromName, type IGameGroups } from '$lib/data/games';
-	import { selectedGame } from '$lib/stores/domain';
+	import { PokeapiVersionGroups, type IGameGroups } from '$lib/data/games';
 
 	export let versionGroups: IGameGroups[];
-	let selectedGameGroup: any;
+	export let currentlySelected: PokeapiVersionGroups | 'generic' | undefined;
+	export let onChange: (_a: PokeapiVersionGroups | 'generic') => any;
+	export let isVisibleOnEmptyOptions: boolean = false;
+	export let showGenericOption: boolean = false;
 
-	$: selectedGameGroup = $selectedGame ? $selectedGame.pokeapi : 'generic';
+	const convertType = (event: Event & { currentTarget: EventTarget & HTMLSelectElement }) => {
+		const eventTarget = event.target as HTMLInputElement;
+		if (eventTarget?.value) {
+			return eventTarget.value as PokeapiVersionGroups | 'generic';
+		}
+	};
 </script>
 
-<div>
-	<label for="gameSelector"><h3 class="h3">Select Game</h3></label>
+{#if isVisibleOnEmptyOptions || (!isVisibleOnEmptyOptions && versionGroups.length > 0)}
 	<select
 		name="gameSelector"
 		id="gameSelector"
 		on:change={(event) => {
-			if (event.target) {
-				// @ts-ignore Value will exist, but type does not know this
-				const gameValue = getGameGroupFromName(event.target.value);
-				selectedGame.set(gameValue);
+			const newValue = convertType(event);
+			if (newValue) {
+				onChange(newValue);
 			}
 		}}
 	>
-		<option
-			value={'generic'}
-			class={$selectedGame === undefined ? 'selected' : undefined}
-			selected={$selectedGame === undefined}>Generic</option
-		>
+		{#if showGenericOption}
+			<option
+				value={'generic'}
+				class={!currentlySelected || currentlySelected === 'generic' ? 'selected' : undefined}
+				selected={!currentlySelected || currentlySelected === 'generic'}>-</option
+			>
+		{/if}
+
 		{#each versionGroups as gameGroup}
 			<option
 				value={gameGroup.pokeapi}
-				class={gameGroup.pokeapi === $selectedGame?.pokeapi ? 'selected' : undefined}
-				selected={gameGroup.pokeapi === $selectedGame?.pokeapi}
+				class={gameGroup.pokeapi === currentlySelected ? 'selected' : undefined}
+				selected={gameGroup.pokeapi === currentlySelected}>{gameGroup.shortName}</option
 			>
-				<p>{gameGroup.shortName}</p>
-			</option>
 		{/each}
 	</select>
-</div>
+{/if}

@@ -5,6 +5,7 @@
 	export let versions: PokeapiVersionNames[];
 	export let currentlySelected: PokeapiVersionNames | 'generic' | undefined;
 	export let onChange: (_a: PokeapiVersionNames | 'generic') => any;
+	export let isVisibleOnEmptyOptions: boolean = false;
 
 	$: games = versions.map((version) => getGame(version)).filter((a) => a);
 
@@ -20,25 +21,27 @@
 	};
 </script>
 
-<select
-	on:change={(event) => {
-		const newValue = convertType(event);
-		if (newValue) {
-			onChange(newValue);
-		}
-	}}
->
-	{#if !$selectedGame?.games.some( (selectedGame) => games.some((game) => selectedGame.pokeapi === game?.pokeapi) )}
-		<option value={'generic'}> - </option>
-	{:else if !games.some((game) => game?.pokeapi === currentlySelected)}
-		<option value={currentlySelected}> - </option>
-	{/if}
-
-	{#each games as game}
-		{#if game}
-			<option value={game.pokeapi} selected={currentlySelected === game.pokeapi}>
-				{game.shortName}
-			</option>
+{#if versions.length > 0 || isVisibleOnEmptyOptions}
+	<select
+		on:change={(event) => {
+			const newValue = convertType(event);
+			if (newValue) {
+				onChange(newValue);
+			}
+		}}
+	>
+		{#if !$selectedGame?.games.some( (selectedGame) => games.some((game) => selectedGame.pokeapi === game?.pokeapi) )}
+			<option value={'generic'}> - </option>
+		{:else if !games.some((game) => game?.pokeapi === currentlySelected)}
+			<option value={currentlySelected}> - </option>
 		{/if}
-	{/each}
-</select>
+
+		{#each games as game}
+			{#if game}
+				<option value={game.pokeapi} selected={currentlySelected === game.pokeapi}>
+					{game.shortName}
+				</option>
+			{/if}
+		{/each}
+	</select>
+{/if}
