@@ -21,18 +21,18 @@
 	import SpritePreview from '$components/Pokemon/SpritePreview.svelte';
 	import Icon from '$components/UI/Icon.svelte';
 	import { page } from '$app/stores';
-	import { moveDisplayStore, pokemonDisplayStore } from '$lib/stores/pokemonPage';
+	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
 	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tags';
 	import EditTag from '$components/Tags/EditTag.svelte';
 	import TypeMatchup from '$components/Pokemon/TypeMatchup.svelte';
 	import Abilities from '$components/Pokemon/Abilities.svelte';
 	import BaseStats from '$components/Pokemon/BaseStats.svelte';
-	import Moveset from '$components/Pokemon/Moveset.svelte';
 	import SocialPreview from '$components/SocialPreview.svelte';
 	import { Logger } from '$lib/log';
-	import { GameGroups, isPokemonInGameGroup } from '$lib/data/games';
+	import { isPokemonInGameGroup } from '$lib/data/games';
 	import EncounterCard from '$components/Pokemon/Encounters/EncounterCard.svelte';
+	import MovesetCard from '$components/Pokemon/Moveset/MovesetCard.svelte';
 
 	export let data;
 
@@ -87,22 +87,6 @@
 				),
 				variety: variety.name ? variety : undefined
 			});
-
-			const allRelevantGames = GameGroups.filter((game) => {
-				return (
-					data.encounters.some((encounter) => {
-						return encounter.versionGroup === game.pokeapi;
-					}) ||
-					data.pokemon.moves.some((move) => {
-						return move.versionGroup === game.pokeapi;
-					})
-				);
-			}).flat();
-
-			moveDisplayStore.set({
-				games: data.moveGames.filter((a) => a !== 'xd' && a !== 'colosseum'),
-				selectedGameGroup: $selectedGame ? $selectedGame.pokeapi : data.moveGames[0]
-			});
 		}
 	}
 
@@ -132,8 +116,6 @@
 			changeUrlQueryParam('shiny', $pokemonDisplayStore.showShinySpriteIfExists ? 'true' : 'false');
 		}
 	}
-
-	$: gameVersionGroups = [];
 
 	onMount(() => {
 		document.addEventListener('keydown', (e) => {
@@ -237,6 +219,7 @@
 					/>
 				</div>
 			{/if}
+
 			{#if !isPokemonInGameGroup(data.id, $selectedGame)}
 				<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
 			{/if}
@@ -338,43 +321,14 @@
 <div class="columns">
 	<div class="column">
 		<div class="card">
-			<div
-				style="display: inline-flex; width: 100%; justify-content: space-between; margin-bottom: 1rem;"
-			>
+			<div style="display: inline-flex; width: 100%; justify-content: space-between;">
 				<h3 class="h3">Moveset</h3>
-				{#if $moveDisplayStore.games.length > 1}
-					<select
-						class="specificGameSelector"
-						id="moveGameSelector"
-						on:change={(event) => {
-							if (event.target) {
-								// moveDisplayStore.set({
-								// 	games: $moveDisplayStore.games,
-								// 	selectedGameGroup: getGameGroupFromName(event.target.value)?.pokeapi
-								// });
-							}
-						}}
-					>
-						<!-- {#each $moveDisplayStore.games as gameGroup}
-							{#if gameGroup}
-								<option
-									value={gameGroup}
-									selected={$moveDisplayStore.selectedGameGroup === gameGroup ?? false}
-									>{gameGroups
-										.find((group) => group.some((a) => a.pokeapiVersionGroup === gameGroup))
-										?.map((a) => a.shortName)
-										.join(' / ')}</option
-								>
-							{/if}
-						{/each} -->
-					</select>
-				{/if}
 			</div>
 
 			{#await data.moveData}
 				<p>Loading moves...</p>
-			{:then moveData}
-				<Moveset completeData={moveData} />
+			{:then movesetData}
+				<MovesetCard {movesetData} />
 			{:catch error}
 				<p>error loading comments: {error}</p>
 			{/await}
@@ -386,27 +340,5 @@
 	.card {
 		padding-top: 1rem;
 		position: relative;
-	}
-
-	.specificGameSelector {
-		margin-top: 0;
-		margin-bottom: 0;
-		margin-right: 0;
-	}
-
-	#encounterGameSelector {
-		max-width: 50%;
-	}
-
-	@media screen and (min-width: 768px) {
-		#moveGameSelector {
-			max-width: 25%;
-		}
-	}
-
-	@media screen and (max-width: 768px) {
-		#moveGameSelector {
-			max-width: 50%;
-		}
 	}
 </style>

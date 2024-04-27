@@ -1,11 +1,12 @@
 <script lang="ts">
 	import VersionGroupSelector from '$components/GameSelectors/VersionGroupSelector';
 	import SocialPreview from '$components/SocialPreview.svelte';
-	import { GameGroups } from '$lib/data/games';
+	import { GameGroups, getGameGroupFromName } from '$lib/data/games';
 	import {
 		animateSprites,
 		primaryLanguage,
 		secondaryLanguage,
+		selectedGame,
 		versionSpecificSprites
 	} from '$lib/stores/domain';
 	import type { Languages } from '$lib/utils/language';
@@ -72,7 +73,13 @@
 	<div class="columns">
 		<div class="column">
 			<div class="card">
-				<VersionGroupSelector versionGroups={GameGroups} />
+				<label for="gameSelector"><h3 class="h3">Select Game</h3></label>
+				<VersionGroupSelector
+					versionGroups={GameGroups}
+					onChange={(newValue) => selectedGame.set(getGameGroupFromName(newValue))}
+					showGenericOption={true}
+					currentlySelected={$selectedGame?.pokeapi}
+				/>
 			</div>
 		</div>
 

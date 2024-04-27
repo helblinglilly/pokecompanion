@@ -22,7 +22,7 @@ export interface IMoves {
 		move: IMove;
 	}[];
 }
-export const filterMovesetByVersionEntry = (moves: Moveset[], game?: IGameGroups): IMoves[] => {
+export const filterMovesetByVersionEntry = (moves: Moveset[]): IMoves[] => {
 	const entries: IMoves[] = [];
 
 	moves
@@ -62,9 +62,9 @@ export const filterMovesetByVersionEntry = (moves: Moveset[], game?: IGameGroups
 		});
 
 	return entries.filter((entry) => {
-		if (!game){
-			return true;
-		}
-		return entry.versionGroup === game.pokeapi;
-	});
+		return entry.breedMoves.length > 0 ||
+			entry.levelupMoves.length > 0 ||
+			entry.tmMoves.length > 0 ||
+			entry.tutorMoves.length > 0
+	})
 };

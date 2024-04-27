@@ -1,22 +1,17 @@
 
 import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
 import type { IMove } from '$lib/types/IMoves';
-import { parseUserPreferences } from '../../../helpers';
 import { fetchCacheFirst, fetchPokemon } from '../../cachedFetch';
 import type { IPokemonMinimalMove, IPokemonMinimalMoveGroups } from '../../types';
 
 export interface IPokemonMoveAPIResponse { [key: string]: IPokemonMinimalMoveGroups }
 
-export async function GET({ request, cookies, platform, params }) {
+export async function GET({ platform, params }) {
 	const pokedexId = Number(params.pokedex);
-
-	const { selectedGame } = {
-		...parseUserPreferences(new URL(request.url), cookies),
-	}
 
 	const pokemon = await fetchPokemon(pokedexId, platform)
 
-	const allPokemonMoves = filterMovesetByVersionEntry(pokemon.moves, selectedGame)
+	const allPokemonMoves = filterMovesetByVersionEntry(pokemon.moves)
 
 	const allPokemonMoveURLs: Set<string> = new Set();
 

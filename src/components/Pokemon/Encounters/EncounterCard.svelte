@@ -23,6 +23,7 @@
 	versions={encounterData.map((encounter) => encounter.versionGroup)}
 	currentlySelected={selectedVersion}
 	onChange={(newVal) => (selectedVersion = newVal)}
+	isVisibleOnEmptyOptions={false}
 />
 
 {#if !currentEncounterData || currentEncounterData.length === 0}

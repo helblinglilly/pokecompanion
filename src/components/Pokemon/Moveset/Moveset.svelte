@@ -1,40 +1,19 @@
 <script lang="ts">
-	import { GameGroups } from '$lib/data/games';
 	import { Logger } from '$lib/log';
-	import { moveDisplayStore } from '$lib/stores/pokemonPage';
 	import type { IPokemonMinimalMoveGroups } from '../../routes/api/pokemon/types';
 	import Move from './Move.svelte';
 
-	interface APIMoveData {
-		[key: string]: IPokemonMinimalMoveGroups;
-	}
-	export let completeData: APIMoveData;
+	export let completeData: IPokemonMinimalMoveGroups | undefined;
 
 	$: showLevelMovesOnMobile = false;
 	$: showTmMovesOnMobile = false;
 	$: showBreedMovesOnMobile = false;
 	$: showTutoredMovesOnMobile = false;
-
-	$: relevantMoves = completeData[$moveDisplayStore.selectedGameGroup] as
-		| IPokemonMinimalMoveGroups
-		| undefined;
 </script>
 
 <div class="container">
-	{#if !relevantMoves}
-		{#if !Object.keys(completeData).includes($moveDisplayStore.selectedGameGroup)}
-			<p>
-				No move data for {GameGroups.filter(
-					(game) => game.pokeapi === $moveDisplayStore.selectedGameGroup
-				)
-					.map((a) => a.shortName)
-					.join(' / ')}
-			</p>
-		{:else}
-			<p>No moves</p>
-		{/if}
-	{:else}
-		{#if relevantMoves.levelupMoves.length > 0}
+	{#if completeData}
+		{#if completeData.levelupMoves.length > 0}
 			<div class="item">
 				<h4 class="h4">Level up</h4>
 				<button
@@ -47,11 +26,11 @@
 						});
 					}}
 					>{showLevelMovesOnMobile ? 'Hide' : 'Show'}
-					{relevantMoves.levelupMoves.length} moves</button
+					{completeData.levelupMoves.length} moves</button
 				>
 
 				<span class={`${!showLevelMovesOnMobile ? 'hidden' : ''} md:grid`}>
-					{#each relevantMoves.levelupMoves.sort((a, b) => {
+					{#each completeData.levelupMoves.sort((a, b) => {
 						return (a.level || -1) > (b.level || -1) ? 1 : -1;
 					}) as levelMove}
 						<Move move={levelMove} />
@@ -60,7 +39,7 @@
 			</div>
 		{/if}
 
-		{#if relevantMoves.tmMoves.length > 0}
+		{#if completeData.tmMoves.length > 0}
 			<div class="item">
 				<h4 class="h4">TM / HM</h4>
 				<button
@@ -71,11 +50,11 @@
 							action: showTmMovesOnMobile ? 'Hide' : 'Show',
 							context: 'TMMoves'
 						});
-					}}>{showTmMovesOnMobile ? 'Hide' : 'Show'} {relevantMoves.tmMoves.length} moves</button
+					}}>{showTmMovesOnMobile ? 'Hide' : 'Show'} {completeData.tmMoves.length} moves</button
 				>
 
 				<span class={`${!showTmMovesOnMobile ? 'hidden' : ''} md:grid`}>
-					{#each relevantMoves.tmMoves.sort((a, b) => {
+					{#each completeData.tmMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as tmMove}
 						<Move move={tmMove} />
@@ -84,7 +63,7 @@
 			</div>
 		{/if}
 
-		{#if relevantMoves.breedMoves.length > 0}
+		{#if completeData.breedMoves.length > 0}
 			<div class="item">
 				<h4 class="h4">Breeding</h4>
 				<button
@@ -97,11 +76,11 @@
 						});
 					}}
 					>{showBreedMovesOnMobile ? 'Hide' : 'Show'}
-					{relevantMoves.breedMoves.length} moves</button
+					{completeData.breedMoves.length} moves</button
 				>
 
 				<span class={`${!showBreedMovesOnMobile ? 'hidden' : ''} md:grid`}>
-					{#each relevantMoves.breedMoves.sort((a, b) => {
+					{#each completeData.breedMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as breedMove}
 						<Move move={breedMove} />
@@ -110,7 +89,7 @@
 			</div>
 		{/if}
 
-		{#if relevantMoves.tutorMoves.length > 0}
+		{#if completeData.tutorMoves.length > 0}
 			<div class="item">
 				<h4 class="h4">Tutored</h4>
 				<button
@@ -123,11 +102,11 @@
 						});
 					}}
 					>{showTutoredMovesOnMobile ? 'Hide' : 'Show'}
-					{relevantMoves.tutorMoves.length} moves</button
+					{completeData.tutorMoves.length} moves</button
 				>
 
 				<span class={`${!showTutoredMovesOnMobile ? 'hidden' : ''} md:grid`}>
-					{#each relevantMoves.tutorMoves.sort((a, b) => {
+					{#each completeData.tutorMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as tutorMove}
 						<Move move={tutorMove} />
