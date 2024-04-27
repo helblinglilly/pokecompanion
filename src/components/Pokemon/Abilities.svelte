@@ -55,14 +55,14 @@
 					?.short_effect ??
 				apiAbility?.flavor_text_entries.find((entry) => entry.language.name === $primaryLanguage)
 					?.flavor_text ??
-				'No data';
+				'';
 
 			const effect2 =
 				apiAbility?.effect_entries.find((entry) => entry.language.name === $secondaryLanguage)
 					?.short_effect ??
 				apiAbility?.flavor_text_entries.find((entry) => entry.language.name === $secondaryLanguage)
 					?.flavor_text ??
-				'No data';
+				'';
 
 			return {
 				id: apiAbility?.id || 0,
