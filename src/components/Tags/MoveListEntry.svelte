@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Image from '$components/UI/Image.svelte';
+	import Image from '$/components/UI/Image.svelte';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { getMove, type IMove } from '$lib/types/IMoves';
 	import { getNameEntry } from '$lib/utils/language';

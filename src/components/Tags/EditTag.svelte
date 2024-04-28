@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Modal from '$components/UI/Modal.svelte';
+	import Modal from '$/components/UI/Modal.svelte';
 	import { type IDisplayPokemon } from '$lib/stores/pokemonPage';
 	import {
 		addMoveToTag,

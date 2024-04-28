@@ -1,5 +1,5 @@
 <script>
-	import InlineTextButton from '$components/InlineTextButton.svelte';
+	import InlineTextButton from '$/components/InlineTextButton.svelte';
 	import { pb } from '$lib/stores/domain';
 
 	let email = '';

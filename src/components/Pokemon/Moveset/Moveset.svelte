@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Logger } from '$lib/log';
-	import type { IPokemonMinimalMoveGroups } from '../../routes/api/pokemon/types';
+	import type { IPokemonMinimalMoveGroups } from '../../../routes/api/pokemon/types';
 	import Move from './Move.svelte';
 
 	export let completeData: IPokemonMinimalMoveGroups | undefined;

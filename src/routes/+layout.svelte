@@ -7,10 +7,10 @@
 	import { notifications, removeNotification } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import type { PageData } from './$types';
-	import SearchBar from '$components/Search/SearchBar.svelte';
+	import SearchBar from '$/components/Search/SearchBar.svelte';
 	import { setCookie } from '$lib/utils/cookies';
-	import Tracking from '$components/Tracking.svelte';
-	import ScrollToTop from '$components/UI/ScrollToTop.svelte';
+	import Tracking from '$/components/Tracking.svelte';
+	import ScrollToTop from '$/components/UI/ScrollToTop.svelte';
 
 	let isMobileMenuExpanded = false;
 

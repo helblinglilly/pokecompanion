@@ -1,6 +1,6 @@
 <script lang="ts">
-	import VersionGroupSelector from '$components/GameSelectors/VersionGroupSelector';
-	import SocialPreview from '$components/SocialPreview.svelte';
+	import VersionGroupSelector from '$/components/GameSelectors/VersionGroupSelector';
+	import SocialPreview from '$/components/SocialPreview.svelte';
 	import { GameGroups, getGameGroupFromName } from '$lib/data/games';
 	import {
 		animateSprites,

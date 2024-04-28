@@ -1,5 +1,5 @@
 <script>
-	import SocialPreview from '$components/SocialPreview.svelte';
+	import SocialPreview from '$/components/SocialPreview.svelte';
 </script>
 
 <SocialPreview

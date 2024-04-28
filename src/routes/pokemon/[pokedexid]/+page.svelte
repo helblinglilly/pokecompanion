@@ -8,31 +8,31 @@
 		versionSpecificSprites
 	} from '$lib/stores/domain';
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import Navigator from '$components/Navigator.svelte';
-	import EvolutionChain from '$components/Pokemon/EvolutionChain/';
-	import Image from '$components/UI/Image.svelte';
+	import Navigator from '$/components/Navigator.svelte';
+	import EvolutionChain from '$/components/Pokemon/EvolutionChain/';
+	import Image from '$/components/UI/Image.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import Pokedex from '$components/Pokedex.svelte';
+	import Pokedex from '$/components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
-	import SelectedTags from '$components/Tags/SelectedTags.svelte';
-	import Breadcrumbs from '$components/UI/Breadcrumbs.svelte';
+	import SelectedTags from '$/components/Tags/SelectedTags.svelte';
+	import Breadcrumbs from '$/components/UI/Breadcrumbs.svelte';
 	import { findBaseSprites, findPrimarySprite, findSecondarySprite } from '$lib/pokemon-id/sprites';
-	import SpritePreview from '$components/Pokemon/SpritePreview.svelte';
-	import Icon from '$components/UI/Icon.svelte';
+	import SpritePreview from '$/components/Pokemon/SpritePreview.svelte';
+	import Icon from '$/components/UI/Icon.svelte';
 	import { page } from '$app/stores';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
-	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
+	import CreateNewTag from '$/components/Tags/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tags';
-	import EditTag from '$components/Tags/EditTag.svelte';
-	import TypeMatchup from '$components/Pokemon/TypeMatchup.svelte';
-	import Abilities from '$components/Pokemon/Abilities.svelte';
-	import BaseStats from '$components/Pokemon/BaseStats.svelte';
-	import SocialPreview from '$components/SocialPreview.svelte';
+	import EditTag from '$/components/Tags/EditTag.svelte';
+	import TypeMatchup from '$/components/Pokemon/TypeMatchup.svelte';
+	import Abilities from '$/components/Pokemon/Abilities.svelte';
+	import BaseStats from '$/components/Pokemon/BaseStats.svelte';
+	import SocialPreview from '$/components/SocialPreview.svelte';
 	import { Logger } from '$lib/log';
 	import { isPokemonInGameGroup } from '$lib/data/games';
-	import EncounterCard from '$components/Pokemon/Encounters/EncounterCard.svelte';
-	import MovesetCard from '$components/Pokemon/Moveset/MovesetCard.svelte';
+	import EncounterCard from '$/components/Pokemon/Encounters/EncounterCard.svelte';
+	import MovesetCard from '$/components/Pokemon/Moveset/MovesetCard.svelte';
 
 	export let data;
 

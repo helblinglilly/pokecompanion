@@ -1,5 +1,4 @@
 <script lang="ts">
-	import formatEvolutions, { type IEvolution } from '$lib/pokemon-id/evolution';
 	import type { IAPIEvolution } from '$lib/types/IEvolution';
 	import { capitaliseFirstLetter } from '$lib/utils/string';
 	import { onMount } from 'svelte';
@@ -7,6 +6,8 @@
 	import { selectedGame } from '$lib/stores/domain';
 	import { Logger } from '$lib/log';
 	import { getGameGroupFromName } from '$lib/data/games';
+	import type { IEvolution } from '$/lib/pokemon-id/evolution';
+	import formatEvolutions from '$/lib/pokemon-id/evolution';
 
 	export let evolutionChainUrl: string;
 

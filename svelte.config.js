@@ -19,7 +19,7 @@ const config = {
 			}
 		}),
 		alias: {
-			$components: resolve('./src/components')
+			$: resolve('./src'),
 		}
 	}
 };

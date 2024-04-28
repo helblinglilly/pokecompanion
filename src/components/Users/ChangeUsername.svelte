@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { currentUser } from '$lib/stores/user';
-	import InlineTextButton from '$components/InlineTextButton.svelte';
+	import InlineTextButton from '$/components/InlineTextButton.svelte';
 	import { goto } from '$app/navigation';
 	import { pb } from '$lib/stores/domain';
 	import { Logger } from '$lib/log';

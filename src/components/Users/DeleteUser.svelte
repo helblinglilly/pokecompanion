@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Modal from '$components/UI/Modal.svelte';
+	import Modal from '$/components/UI/Modal.svelte';
 	import { Logger } from '$lib/log';
 	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';

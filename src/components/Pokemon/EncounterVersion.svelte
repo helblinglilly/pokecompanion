@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { navigating } from '$app/stores';
-	import ExpandableButton from '$components/UI/ExpandableButton.svelte';
+	import ExpandableButton from '$/components/UI/ExpandableButton.svelte';
 	import type { IEncounterGroups } from '$lib/data/encounterFilter';
 	import { Logger } from '$lib/log';
 	import { uniques } from '$lib/utils/array';

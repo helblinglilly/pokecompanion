@@ -4,9 +4,9 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { Generations, Regions } from '$lib/data/games';
-	import PokemonPreview from '$components/Pokemon/PokemonPreview.svelte';
+	import PokemonPreview from '$/components/Pokemon/PokemonPreview.svelte';
 	import { pokemonPageSize } from '$lib/stores/domain';
-	import SocialPreview from '$components/SocialPreview.svelte';
+	import SocialPreview from '$/components/SocialPreview.svelte';
 
 	const numberOfPages = Math.ceil(PokemonNames.length / pokemonPageSize);
 

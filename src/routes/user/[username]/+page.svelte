@@ -1,16 +1,16 @@
 <script>
-	import Avatar from '$components/Users/Avatar.svelte';
-	import ChangeUsername from '$components/Users/ChangeUsername.svelte';
-	import DeleteUser from '$components/Users/DeleteUser.svelte';
-	import ReportUser from '$components/Users/ReportUser.svelte';
+	import Avatar from '$/components/Users/Avatar.svelte';
+	import ChangeUsername from '$/components/Users/ChangeUsername.svelte';
+	import DeleteUser from '$/components/Users/DeleteUser.svelte';
+	import ReportUser from '$/components/Users/ReportUser.svelte';
 	import { currentUser } from '$lib/stores/user';
-	import Icon from '$components/UI/Icon.svelte';
-	import EmailVerification from '$components/Auth/EmailVerification.svelte';
+	import Icon from '$/components/UI/Icon.svelte';
+	import EmailVerification from '$/components/Auth/EmailVerification.svelte';
 	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
-	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
+	import CreateNewTag from '$/components/Tags/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tags';
-	import SocialPreview from '$components/SocialPreview.svelte';
+	import SocialPreview from '$/components/SocialPreview.svelte';
 	import { Logger } from '$lib/log';
 
 	export let data;

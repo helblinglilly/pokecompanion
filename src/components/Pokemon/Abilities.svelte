@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon from '$components/UI/Icon.svelte';
+	import Icon from '$/components/UI/Icon.svelte';
 	import { Logger } from '$lib/log';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import type { Ability, ApiAbility } from '$lib/types/IPokemon';

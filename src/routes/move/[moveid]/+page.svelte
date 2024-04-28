@@ -1,10 +1,10 @@
 <script lang="ts">
-	import SocialPreview from '$components/SocialPreview.svelte';
-	import CreateNewTag from '$components/Tags/CreateNewTag.svelte';
-	import SelectedTags from '$components/Tags/SelectedTags.svelte';
-	import EditTag from '$components/Tags/EditTag.svelte';
-	import Image from '$components/UI/Image.svelte';
-	import PokemonGroup from '$components/UI/PokemonGroup.svelte';
+	import SocialPreview from '$/components/SocialPreview.svelte';
+	import CreateNewTag from '$/components/Tags/CreateNewTag.svelte';
+	import SelectedTags from '$/components/Tags/SelectedTags.svelte';
+	import EditTag from '$/components/Tags/EditTag.svelte';
+	import Image from '$/components/UI/Image.svelte';
+	import PokemonGroup from '$/components/UI/PokemonGroup.svelte';
 	import type { IGameGroups } from '$lib/data/games';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { tagStore } from '$lib/stores/tags.js';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { currentUser } from '$lib/stores/user';
-	import Icon from '$components/UI/Icon.svelte';
+	import Icon from '$/components/UI/Icon.svelte';
 	import {
 		doesTagContainMove,
 		doesTagContainPokemon,

@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import Breadcrumbs from '$components/UI/Breadcrumbs.svelte';
-	import Icon from '$components/UI/Icon.svelte';
-	import InlineTextButton from '$components/InlineTextButton.svelte';
-	import Modal from '$components/UI/Modal.svelte';
-	import PokemonCardEntry from '$components/Tags/PokemonCardEntry.svelte';
-	import PokemonListEntry from '$components/Tags/PokemonListEntry.svelte';
+	import Breadcrumbs from '$/components/UI/Breadcrumbs.svelte';
+	import Icon from '$/components/UI/Icon.svelte';
+	import InlineTextButton from '$/components/InlineTextButton.svelte';
+	import Modal from '$/components/UI/Modal.svelte';
+	import PokemonCardEntry from '$/components/Tags/PokemonCardEntry.svelte';
+	import PokemonListEntry from '$/components/Tags/PokemonListEntry.svelte';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 	import type { ITag, ITagMove, ITagPokemon, TagRecord } from '$lib/types/ITags.js';
@@ -15,9 +15,9 @@
 	import { getMoveEntry, getPokemonEntry } from '$lib/data/games.js';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { termNormaliser } from '$lib/utils/string.js';
-	import SocialPreview from '$components/SocialPreview.svelte';
-	import MoveCardEntry from '$components/Tags/MoveCardEntry.svelte';
-	import MoveListEntry from '$components/Tags/MoveListEntry.svelte';
+	import SocialPreview from '$/components/SocialPreview.svelte';
+	import MoveCardEntry from '$/components/Tags/MoveCardEntry.svelte';
+	import MoveListEntry from '$/components/Tags/MoveListEntry.svelte';
 	import { Logger } from '$lib/log.js';
 
 	export let data;

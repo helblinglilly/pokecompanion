@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Image from '$components/UI/Image.svelte';
+	import Image from '$/components/UI/Image.svelte';
 	import { Logger } from '$lib/log';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import { getNameEntry } from '$lib/utils/language';

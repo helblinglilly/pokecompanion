@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PokemonPreview from '$components/Pokemon/PokemonPreview.svelte';
+	import PokemonPreview from '$/components/Pokemon/PokemonPreview.svelte';
 	import { getPokemonEntry, type IStaticPokemon } from '$lib/data/games';
 	import { maxSearchResults, primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import { getLanguageEntry } from '$lib/utils/language';

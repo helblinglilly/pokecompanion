@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import Image from '$components/UI/Image.svelte';
+	import Image from '$/components/UI/Image.svelte';
 	import { primaryLanguage, secondaryLanguage, theme } from '$lib/stores/domain';
 	import type { ITagPokemon } from '$lib/types/ITags';
 	import { getPokemonEntry } from '$lib/data/games';
-	import Icon from '$components/UI/Icon.svelte';
+	import Icon from '$/components/UI/Icon.svelte';
 	import { pokemonVarietyNameToDisplay } from '$lib/utils/string';
 
 	export let pokemon: ITagPokemon;

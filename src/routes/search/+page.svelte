@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import AbilityResults from '$components/Search/AbilityResults.svelte';
-	import ItemResults from '$components/Search/ItemResults.svelte';
-	import MoveResults from '$components/Search/MoveResults.svelte';
-	import SocialPreview from '$components/SocialPreview.svelte';
-	import PokemonGroup from '$components/UI/PokemonGroup.svelte';
+	import AbilityResults from '$/components/Search/AbilityResults.svelte';
+	import ItemResults from '$/components/Search/ItemResults.svelte';
+	import MoveResults from '$/components/Search/MoveResults.svelte';
+	import SocialPreview from '$/components/SocialPreview.svelte';
+	import PokemonGroup from '$/components/UI/PokemonGroup.svelte';
 	import { Logger } from '$lib/log.js';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { searchTerm } from '$lib/stores/searchbar.js';

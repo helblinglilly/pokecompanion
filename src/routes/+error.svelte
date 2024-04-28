@@ -1,5 +1,5 @@
 <script>
-	import GenericErrorPage from '$components/ErrorPages/GenericErrorPage.svelte';
+	import GenericErrorPage from '$/components/ErrorPages/GenericErrorPage.svelte';
 </script>
 
 <div id="pageWrapper">

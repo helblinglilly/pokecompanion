@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Greeting from '$components/Homepage/Greeting.svelte';
-	import SelfMarketing from '$components/Homepage/SelfMarketing.svelte';
-	import SocialPreview from '$components/SocialPreview.svelte';
-	import PokemonCardEntry from '$components/Tags/PokemonCardEntry.svelte';
+	import Greeting from '$/components/Homepage/Greeting.svelte';
+	import SelfMarketing from '$/components/Homepage/SelfMarketing.svelte';
+	import SocialPreview from '$/components/SocialPreview.svelte';
+	import PokemonCardEntry from '$/components/Tags/PokemonCardEntry.svelte';
 	import { Logger } from '$lib/log';
 	import { lastPokedexEntry } from '$lib/stores/domain';
 	import { daysPassedInYear, randomDailyNumber } from '$lib/utils/number';

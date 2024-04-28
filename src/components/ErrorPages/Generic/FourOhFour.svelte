@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
-	import Feedback from '$components/Feedback.svelte';
-	import Image from '$components/UI/Image.svelte';
+	import Feedback from '$/components/Feedback.svelte';
+	import Image from '$/components/UI/Image.svelte';
 	import { Logger } from '$lib/log';
 	import { onMount } from 'svelte';
 

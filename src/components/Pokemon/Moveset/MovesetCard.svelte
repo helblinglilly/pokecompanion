@@ -5,7 +5,7 @@
 		type PokeapiVersionGroups
 	} from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
-	import VersionGroupSelector from '$components/GameSelectors/VersionGroupSelector/VersionGroupSelector.svelte';
+	import VersionGroupSelector from '$/components/GameSelectors/VersionGroupSelector/VersionGroupSelector.svelte';
 	import type { IPokemonMoveAPIResponse } from '../../../routes/api/pokemon/[pokedex]/moves/+server';
 	import Moveset from './Moveset.svelte';
 

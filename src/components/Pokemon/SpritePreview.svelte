@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Modal from '$components/UI/Modal.svelte';
+	import Modal from '$/components/UI/Modal.svelte';
 	import type { ISpriteImage } from '$lib/pokemon-id/sprites';
 	import { onMount } from 'svelte';
-	import Image from '$components/UI/Image.svelte';
+	import Image from '$/components/UI/Image.svelte';
 
 	export let primarySprite: ISpriteImage;
 	export let secondarySprite: ISpriteImage;
