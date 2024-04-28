@@ -5,7 +5,7 @@
 	import EditTag from '$components/Tags/EditTag.svelte';
 	import Image from '$components/UI/Image.svelte';
 	import PokemonGroup from '$components/UI/PokemonGroup.svelte';
-	import type { IGame } from '$lib/data/games';
+	import type { IGameGroups } from '$lib/data/games';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { tagStore } from '$lib/stores/tags.js';
 	import { currentUser } from '$lib/stores/user';
@@ -18,13 +18,12 @@
 	const findFlavourEntry = (
 		move: IMove,
 		languageCode: string | undefined,
-		selectedGame?: IGame | undefined
+		selectedGame?: IGameGroups | undefined
 	) => {
 		const entry = move.flavor_text_entries.find((entry) => {
 			if (selectedGame) {
 				return (
-					entry.language.name === languageCode &&
-					entry.version_group.name === selectedGame.pokeapiVersionGroup
+					entry.language.name === languageCode && entry.version_group.name === selectedGame.pokeapi
 				);
 			}
 			return entry.language.name === languageCode;

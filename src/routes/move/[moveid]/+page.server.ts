@@ -1,7 +1,7 @@
 import { getMove } from '$lib/types/IMoves';
 import Moves from '$lib/data/moves.json';
 import { error } from '@sveltejs/kit';
-import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games.js';
+import { getGameGroupFromName } from '$lib/data/games.js';
 import type { UserPreferencePokemonVersion } from '$lib/stores/domain.js';
 
 /**
