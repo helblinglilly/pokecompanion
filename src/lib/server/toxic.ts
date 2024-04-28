@@ -30,7 +30,7 @@ const isStringToxic = async (term: string) => {
 			}
 		});
 
-		if (response.ok) {
+		if (!response.ok) {
 			throw new Error(`Non-200 response code - ${response.status}`);
 		}
 
