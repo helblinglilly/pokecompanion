@@ -22,9 +22,7 @@ export class Logger {
 		return err instanceof Error ? err : new Error(String(err))
 	}
 
-	static async error(errorClass: ErrorClasses, error: Error, info?: Info){
-		console.error(new Date().toISOString(), 'error',  errorClass, info, error)
-	
+	static async error(errorClass: ErrorClasses, error: Error, info?: Info){	
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
 				window.newrelic.noticeError(error, {
@@ -38,6 +36,8 @@ export class Logger {
 					...info,
 				})
 				return;
+			} else {
+				console.error(new Date().toISOString(), 'error',  errorClass, info, error)
 			}
 		}
 
@@ -66,9 +66,7 @@ export class Logger {
 		}
 	};
 	
-	static async info(message: string, info?: Info){
-		console.info(new Date().toISOString(), 'info',  message)
-	
+	static async info(message: string, info?: Info){	
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
 				window.newrelic?.addPageAction('ClientSideLog', {
@@ -77,6 +75,8 @@ export class Logger {
 					...info,
 				})
 				return;
+			} else {
+				console.info(new Date().toISOString(), 'info',  message)
 			}
 		}
 		
@@ -103,9 +103,7 @@ export class Logger {
 		}
 	};
 	
-	static async warn(message: string, info?: Info){
-		console.warn(new Date().toISOString, 'warning', message, info);
-		
+	static async warn(message: string, info?: Info){		
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
 				window.newrelic?.addPageAction('ClientSideLog', {
@@ -114,6 +112,8 @@ export class Logger {
 					...info,
 				})
 				return;
+			} else {
+				console.warn(new Date().toISOString, 'warning', message, info);
 			}
 		}
 		
@@ -140,9 +140,7 @@ export class Logger {
 
 	};
 	
-	static async addPageAction(name: string, message: string, info?: Info){
-		console.info(new Date().toISOString, 'notice', message, info);
-		
+	static async addPageAction(name: string, message: string, info?: Info){		
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
 				window.newrelic?.addPageAction(name, {
@@ -150,6 +148,8 @@ export class Logger {
 					...info,
 				})
 				return;
+			} else {
+				console.info(new Date().toISOString, 'notice', name, message, info);
 			}
 		}
 
