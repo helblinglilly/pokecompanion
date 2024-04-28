@@ -48,25 +48,27 @@
 	});
 
 	onMount(() => {
-		Sentry.init({
-			dsn: PUBLIC_SENTRY_DSN,
-			environment: PUBLIC_ENVIRONMENT ?? 'local',
-			integrations: [new Sentry.BrowserTracing()],
-			tracesSampleRate: 1.0,
-			replaysOnErrorSampleRate: 1.0,
-			initialScope: {
-				user: {
-					id: $rememberToken
-				},
-				tags: {
-					selectedGame: $selectedGame?.pokeapi ?? 'No game set',
-					primaryLanguage: $primaryLanguage,
-					secondaryLanguage: $secondaryLanguage,
-					versionSpecificSprites: $versionSpecificSprites,
-					animateSprites: $animateSprites
+		if (!(PUBLIC_ENVIRONMENT === 'local')) {
+			Sentry.init({
+				dsn: PUBLIC_SENTRY_DSN,
+				environment: PUBLIC_ENVIRONMENT ?? 'local',
+				integrations: [new Sentry.BrowserTracing()],
+				tracesSampleRate: 1.0,
+				replaysOnErrorSampleRate: 1.0,
+				initialScope: {
+					user: {
+						id: $rememberToken
+					},
+					tags: {
+						selectedGame: $selectedGame?.pokeapi ?? 'No game set',
+						primaryLanguage: $primaryLanguage,
+						secondaryLanguage: $secondaryLanguage,
+						versionSpecificSprites: $versionSpecificSprites,
+						animateSprites: $animateSprites
+					}
 				}
-			}
-		});
+			});
+		}
 	});
 </script>
 
