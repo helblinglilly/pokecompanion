@@ -1,9 +1,18 @@
-import type { IGame, IGameGroups } from '$lib/data/games';
+import type { IGameGroups, PokeapiVersionGroups } from '$lib/data/games';
 import { pokeApiDomain } from '$lib/stores/domain';
 import type { Name, VersionGroup } from './IPokemon';
 import { error } from '@sveltejs/kit';
-import type { IServerRequestDetails } from './IServerRequests';
 import { Logger } from '$lib/log';
+import adjustMoveForGame from '../gameAdjustors/move';
+
+interface IEffectEntries {
+	effect: string;
+		short_effect: string;
+		language: {
+			name: string;
+			url: string;
+		};
+}
 
 export interface IMove {
 	accuracy: number | null;
@@ -29,14 +38,7 @@ export interface IMove {
 	};
 	effect_chance: number;
 	effect_changes: unknown[];
-	effect_entries: {
-		effect: string;
-		short_effect: string;
-		language: {
-			name: string;
-			url: string;
-		};
-	}[];
+	effect_entries: IEffectEntries[];
 	flavor_text_entries: {
 		flavor_text: string;
 		language: {
@@ -86,8 +88,22 @@ export interface IMove {
 	};
 	name: string;
 	names: Name[];
-	past_values: unknown[];
-	power: unknown | null;
+	past_values: {
+		accuracy: number | null;
+		effect_chance: number | null;
+		effect_entries: IEffectEntries[];
+		power: number | null;
+		pp: number | null;
+		type: {	
+			name: string;
+			url: string;
+		} | null;
+		version_group: {
+			name: PokeapiVersionGroups;
+			url: string;
+		}
+	}[];
+	power: number | null;
 	pp: number;
 	priority: number;
 	stat_changes: unknown[];
@@ -104,40 +120,6 @@ export interface IMove {
 	};
 }
 
-const legacyPhysicalTypes = [
-	'normal',
-	'fighting',
-	'poison',
-	'ground',
-	'flying',
-	'bug',
-	'rock',
-	'ghost',
-	'steel'
-];
-const legacySpecialTypes = [
-	'fire',
-	'water',
-	'electric',
-	'grass',
-	'ice',
-	'physic',
-	'dragon',
-	'dark'
-];
-
-const getLegacyDamageClass = (existing: string, type: string) => {
-	if (existing === 'status') {
-		return 'status';
-	}
-	if (legacyPhysicalTypes.includes(type)) {
-		return 'physical';
-	}
-	if (legacySpecialTypes.includes(type)) {
-		return 'special';
-	}
-	return existing;
-};
 
 export async function getMove(
 	id: string | number,
@@ -155,11 +137,7 @@ export async function getMove(
 			return body;
 		}
 
-		if (selectedGame.generation.number <= 3) {
-			body.damage_class.name = getLegacyDamageClass(body.damage_class.name, body.type.name);
-		}
-
-		return body;
+		return adjustMoveForGame(body, selectedGame.pokeapi);
 	} catch (err) {
 		await Logger.error(
 			Logger.ErrorClasses.ExternalAPIRequestFailed,
