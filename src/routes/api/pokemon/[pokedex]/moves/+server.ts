@@ -61,10 +61,58 @@ export async function GET({ platform, params }) {
 		});
 		if (!matching){
 			return {
-				id: -1,
-				names: [],
+				id: Number(staticMove.move.url.split('/')[6] ?? -1),
+				names: [{
+					language: {
+						name: 'ja-Hrkt',
+						url: ''
+					},
+					name: 'Error'
+				}, {
+					language: {
+						name: 'roomaji',
+						url: ''
+					},
+					name: 'Error'
+				}, {
+					language: {
+						name: 'ko',
+						url: ''
+					},
+					name: 'Error'
+				}, {
+					language: {
+						name: 'fr',
+						url: ''
+					},
+					name: 'Error'
+				}, {
+					language: {
+						name: 'de',
+						url: ''
+					},
+					name: 'Error'
+				}, {
+					language: {
+						name: 'fr',
+						url: ''
+					},
+					name: 'Error'
+				}, {
+					language: {
+						name: 'en',
+						url: ''
+					},
+					name: 'Error'
+				}, {
+					language: {
+						name: 'ja',
+						url: ''
+					},
+					name: 'Error'
+				}],
 				type: { 'name': 'normal', url: ''},
-				damage_class: { name: '', url: ''}
+				damage_class: { name: 'status', url: ''}
 			}
 		}
 
