@@ -10,7 +10,7 @@ export const fetchCacheFirst = async(url: string | URL, platform: Readonly<Platf
 
 	if (platform?.caches?.default){
 		try {
-			const cacheResponse = await platform.caches.default.match(parsedUrl.pathname);
+			const cacheResponse = await platform.caches.default.match(req.url);
 			if (cacheResponse){
 				return cacheResponse;
 			}

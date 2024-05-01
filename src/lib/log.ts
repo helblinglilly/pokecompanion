@@ -25,17 +25,22 @@ export class Logger {
 	static async error(errorClass: ErrorClasses, error: Error, info?: Info){	
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
-				window.newrelic.noticeError(error, {
-					errorClass,
-					...info
-				})
-				window.newrelic?.addPageAction('ClientSideLog', {
-					level: 'error',
-					message: info?.context,
-					errorClass,
-					...info,
-				})
-				return;
+				try {
+					window.newrelic.noticeError(error, {
+						errorClass,
+						...info
+					})
+					window.newrelic?.addPageAction('ClientSideLog', {
+						level: 'error',
+						message: info?.context,
+						errorClass,
+						...info,
+					})
+					return;
+				} catch(err){
+					console.error(new Date().toISOString(), 'error',  errorClass, info, error)
+					return;
+				}
 			} else {
 				console.error(new Date().toISOString(), 'error',  errorClass, info, error)
 			}
@@ -69,12 +74,17 @@ export class Logger {
 	static async info(message: string, info?: Info){	
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
-				window.newrelic?.addPageAction('ClientSideLog', {
-					level: 'info',
-					message,
-					...info,
-				})
-				return;
+				try {
+					window.newrelic?.addPageAction('ClientSideLog', {
+						level: 'info',
+						message,
+						...info,
+					})
+					return;
+				} catch(err){
+					console.info(new Date().toISOString(), 'info',  message, err)
+					return;
+				}
 			} else {
 				console.info(new Date().toISOString(), 'info',  message)
 			}
@@ -106,12 +116,17 @@ export class Logger {
 	static async warn(message: string, info?: Info){		
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
-				window.newrelic?.addPageAction('ClientSideLog', {
-					level: 'warning',
-					message,
-					...info,
-				})
-				return;
+				try {
+					window.newrelic?.addPageAction('ClientSideLog', {
+						level: 'warning',
+						message,
+						...info,
+					})
+					return;
+				} catch(err){
+					console.warn(new Date().toISOString, 'warning', message, info);
+					return;
+				}
 			} else {
 				console.warn(new Date().toISOString, 'warning', message, info);
 			}
@@ -143,11 +158,15 @@ export class Logger {
 	static async addPageAction(name: string, message: string, info?: Info){		
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
-				window.newrelic?.addPageAction(name, {
-					message,
-					...info,
-				})
-				return;
+				try {
+					window.newrelic?.addPageAction(name, {
+						message,
+						...info,
+					})
+					return;
+				} catch(err){
+					console.info(new Date().toISOString, 'notice', name, message, info, err);
+				}
 			} else {
 				console.info(new Date().toISOString, 'notice', name, message, info);
 			}
