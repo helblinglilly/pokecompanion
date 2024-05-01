@@ -1,5 +1,6 @@
 
-import { getGameGroupFromName, PokeapiVersionGroups } from '$/lib/data/games';
+import { PokeapiVersionGroups } from '$/lib/data/games';
+import adjustMoveForGame from '$/lib/gameAdjustors/move';
 import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
 import type { IMove } from '$lib/types/IMoves';
 import { fetchCacheFirst, fetchPokemon } from '../../cachedFetch';
@@ -57,36 +58,7 @@ export async function GET({ platform, params }) {
 			}
 		}
 
-		const currentGame = getGameGroupFromName(versionGroup);
-		const adjustedEntry = { ...matching };
-
-		if (currentGame){
-			matching.past_values.forEach((pastEntry) => {
-				const pastEntryGame = getGameGroupFromName(pastEntry.version_group.name);
-				if (pastEntryGame){
-					if (currentGame.generation.number < pastEntryGame.generation.number){
-						if (pastEntry.accuracy){
-							adjustedEntry.accuracy = pastEntry.accuracy;
-						}
-						if (pastEntry.effect_chance){
-							adjustedEntry.effect_chance = pastEntry.effect_chance;
-						}
-						if (pastEntry.effect_entries.length > 0){
-							adjustedEntry.effect_entries = pastEntry.effect_entries;
-						}
-						if (pastEntry.power){
-							adjustedEntry.power = pastEntry.power;
-						}
-						if (pastEntry.pp){
-							adjustedEntry.pp = pastEntry.pp;
-						}
-						if (pastEntry.type){
-							adjustedEntry.type = pastEntry.type;
-						}
-					}
-				}
-			})
-		}
+		const adjustedEntry = adjustMoveForGame(matching, versionGroup);
 
 		return {
 			id: adjustedEntry.id,

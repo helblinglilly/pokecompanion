@@ -1,9 +1,9 @@
-import type { IGame, IGameGroups, PokeapiVersionGroups } from '$lib/data/games';
+import type { IGameGroups, PokeapiVersionGroups } from '$lib/data/games';
 import { pokeApiDomain } from '$lib/stores/domain';
 import type { Name, VersionGroup } from './IPokemon';
 import { error } from '@sveltejs/kit';
-import type { IServerRequestDetails } from './IServerRequests';
 import { Logger } from '$lib/log';
+import adjustMoveForGame from '../gameAdjustors/move';
 
 interface IEffectEntries {
 	effect: string;
@@ -120,40 +120,6 @@ export interface IMove {
 	};
 }
 
-const legacyPhysicalTypes = [
-	'normal',
-	'fighting',
-	'poison',
-	'ground',
-	'flying',
-	'bug',
-	'rock',
-	'ghost',
-	'steel'
-];
-const legacySpecialTypes = [
-	'fire',
-	'water',
-	'electric',
-	'grass',
-	'ice',
-	'physic',
-	'dragon',
-	'dark'
-];
-
-const getLegacyDamageClass = (existing: string, type: string) => {
-	if (existing === 'status') {
-		return 'status';
-	}
-	if (legacyPhysicalTypes.includes(type)) {
-		return 'physical';
-	}
-	if (legacySpecialTypes.includes(type)) {
-		return 'special';
-	}
-	return existing;
-};
 
 export async function getMove(
 	id: string | number,
@@ -171,11 +137,7 @@ export async function getMove(
 			return body;
 		}
 
-		if (selectedGame.generation.number <= 3) {
-			body.damage_class.name = getLegacyDamageClass(body.damage_class.name, body.type.name);
-		}
-
-		return body;
+		return adjustMoveForGame(body, selectedGame.pokeapi);
 	} catch (err) {
 		await Logger.error(
 			Logger.ErrorClasses.ExternalAPIRequestFailed,
