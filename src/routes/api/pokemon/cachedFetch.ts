@@ -4,12 +4,16 @@ import { pokeApiDomain } from "$lib/stores/domain";
 import { type IPokemon, type IPokemonSpecies, type ISprites, type Name, emptySprites } from "$lib/types/IPokemon";
 import type { Platform } from "../types";
 
+let activeCacheFirstRequests = 0;
+const activeCacheFirstLimit = 40;
+
 export const fetchCacheFirst = async(url: string | URL, platform: Readonly<Platform> | undefined): Promise<Response> => {
 	const parsedUrl = new URL(url);
 	const req = new Request(parsedUrl);
 
-	if (platform?.caches?.default){
+	if (platform?.caches?.default && activeCacheFirstRequests < activeCacheFirstLimit){
 		try {
+			activeCacheFirstRequests += 1;
 			const cacheResponse = await platform.caches.default.match(url);
 			if (cacheResponse){
 				return cacheResponse;
@@ -28,7 +32,8 @@ export const fetchCacheFirst = async(url: string | URL, platform: Readonly<Platf
 	}
 
 	const res = await fetch(req);
-	if (res.ok && platform?.caches?.default){
+	if (res.ok && platform?.caches?.default && activeCacheFirstRequests < activeCacheFirstLimit){
+		activeCacheFirstRequests += 1;
 		try {
 			const responseToCache = res.clone();
             platform.context.waitUntil(
