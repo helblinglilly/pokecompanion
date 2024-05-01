@@ -1,6 +1,7 @@
 
 import { PokeapiVersionGroups } from '$/lib/data/games';
 import adjustMoveForGame from '$/lib/gameAdjustors/move';
+import { Logger } from '$/lib/log';
 import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
 import type { IMove } from '$lib/types/IMoves';
 import { fetchCacheFirst, fetchPokemon } from '../../cachedFetch';
@@ -43,7 +44,16 @@ export async function GET({ platform, params }) {
 			...parsed
 		}
 	}
-	));
+	)).catch((err) => {
+		Logger.error(
+			Logger.ErrorClasses.ExternalAPIRequestFailed,
+			Logger.buildError(err),
+			{
+				context: `/pokemon/${params.pokedex}/moves`
+			}
+		);
+		return [];
+	});
 
 	function matchMoveEntryWithAPI(staticMove: { level?: number; move: { name: string; url: string;} }, versionGroup: PokeapiVersionGroups): IPokemonMinimalMove{
 		const matching = allValues.find((apiMove) => {
@@ -73,10 +83,10 @@ export async function GET({ platform, params }) {
 	allPokemonMoves.forEach((monEntry) => {
 		const versionGroup = monEntry.versionGroup as PokeapiVersionGroups;
 		mappedResponses[versionGroup] = {
-			breedMoves: monEntry.breedMoves.map((move) => matchMoveEntryWithAPI(move, versionGroup)),
-			levelupMoves: monEntry.levelupMoves.map((move) => matchMoveEntryWithAPI(move, versionGroup)),
-			tmMoves: monEntry.tmMoves.map((move) => matchMoveEntryWithAPI(move, versionGroup)),
-			tutorMoves: monEntry.tutorMoves.map((move) => matchMoveEntryWithAPI(move, versionGroup)),
+			breedMoves: monEntry.breedMoves.map((move) => matchMoveEntryWithAPI(move, versionGroup)).filter((move) => move.id !== -1),
+			levelupMoves: monEntry.levelupMoves.map((move) => matchMoveEntryWithAPI(move, versionGroup)).filter((move) => move.id !== -1),
+			tmMoves: monEntry.tmMoves.map((move) => matchMoveEntryWithAPI(move, versionGroup)).filter((move) => move.id !== -1),
+			tutorMoves: monEntry.tutorMoves.map((move) => matchMoveEntryWithAPI(move, versionGroup)).filter((move) => move.id !== -1),
 		};
 	});
 
