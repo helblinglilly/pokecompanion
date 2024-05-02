@@ -37,6 +37,10 @@ export async function GET({ platform, params }) {
 
 	const allRespones = await Promise.allSettled(allPokemonMovePromises);
 	const allSuccessful = allRespones.filter((res) => res.status === 'fulfilled');
+	allRespones.filter((res) => res.status === 'rejected').forEach((res) => {
+		console.log('Promise failed because of', res.reason)
+	})
+
 	const allValues = await Promise.all(allSuccessful.map(async (res) =>{
 		const parsed = await res.value.json() as IMove;
 		return {
@@ -59,6 +63,9 @@ export async function GET({ platform, params }) {
 		const matching = allValues.find((apiMove) => {
 			return apiMove.url === staticMove.move.url;
 		});
+
+		
+
 		if (!matching){
 			return {
 				id: Number(staticMove.move.url.split('/')[6] ?? -1),
