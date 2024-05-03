@@ -10,7 +10,7 @@ import type { IPokemonMinimalMove, IPokemonMinimalMoveGroups } from '../../types
 export interface IPokemonMoveAPIResponse { [key: string]: IPokemonMinimalMoveGroups }
 
 export async function GET({ platform, params }) {
-		const pokedexId = Number(params.pokedex);
+	const pokedexId = Number(params.pokedex);
 
 	const pokemon = await fetchPokemon(pokedexId, platform)
 
@@ -35,10 +35,27 @@ export async function GET({ platform, params }) {
 
 	const allPokemonMovePromises = Array.from(allPokemonMoveURLs).map((url) => fetchCacheFirst(url, platform));
 
+	Logger.info(`allPokemonMovePromisesLength: ${allPokemonMovePromises.length}`)
+
 	const allRespones = await Promise.allSettled(allPokemonMovePromises);
+
+	Logger.info(`allRespones length ${allRespones.length}`);
+
 	const allSuccessful = allRespones.filter((res) => res.status === 'fulfilled');
-	allRespones.filter((res) => res.status === 'rejected').forEach((res) => {
-		console.log('Promise failed because of', res.reason)
+
+	const allFailed = allRespones.filter((res) => res.status === 'rejected');
+
+	Logger.info(`allSuccessful length ${allSuccessful.length}`);
+	Logger.info(`allFailed length ${allFailed.length}`);
+
+	allFailed.forEach((res) => {
+		Logger.error(
+			Logger.ErrorClasses.ExternalAPIRequestFailed,
+			Logger.buildError(res.reason),
+			{
+				context: `/pokemon/${pokedexId}/move`
+			}
+		)
 	})
 
 	const allValues = await Promise.all(allSuccessful.map(async (res) =>{
@@ -61,15 +78,10 @@ export async function GET({ platform, params }) {
 
 	function matchMoveEntryWithAPI(staticMove: { level?: number; move: { name: string; url: string;} }, versionGroup: PokeapiVersionGroups): IPokemonMinimalMove{
 		const matching = allValues.find((apiMove) => {
-			console.log(apiMove?.url, staticMove.move.url, apiMove.url === staticMove.move.url);
 			return apiMove.url === staticMove.move.url;
 		});
 		
 		if (!matching){
-			Logger.info('Could not find a matching move', {
-				context: `StaticMove: ${staticMove.move.name}, ${staticMove.move.url}, VersionGroup: ${versionGroup}, allValues: ${allValues.length > 0 ? 'true' : 'false'}, ${JSON.stringify(allValues.slice(0, 3))}`,
-				allValues
-			})
 			return {
 				id: Number(staticMove.move.url.split('/')[6] ?? -1),
 				names: [{
