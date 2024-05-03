@@ -10,7 +10,6 @@ import type { IPokemonMinimalMove, IPokemonMinimalMoveGroups } from '../../types
 export interface IPokemonMoveAPIResponse { [key: string]: IPokemonMinimalMoveGroups }
 
 export async function GET({ platform, params }) {
-	try {
 		const pokedexId = Number(params.pokedex);
 
 	const pokemon = await fetchPokemon(pokedexId, platform)
@@ -67,6 +66,10 @@ export async function GET({ platform, params }) {
 		});
 		
 		if (!matching){
+			Logger.info('Could not find a matching move', {
+				context: `StaticMove: ${staticMove.move.name}, ${staticMove.move.url}, VersionGroup: ${versionGroup}`,
+				allValues
+			})
 			return {
 				id: Number(staticMove.move.url.split('/')[6] ?? -1),
 				names: [{
@@ -150,16 +153,5 @@ export async function GET({ platform, params }) {
 			'Content-Type': 'application/json'
 		}
 	});
-	} catch(err){
-		await Logger.error(
-			Logger.ErrorClasses.Unknown,
-			Logger.buildError(err),
-		)
-		return new Response(JSON.stringify(err), {
-			status: 500, headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-	}
 }
 
