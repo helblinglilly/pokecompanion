@@ -67,7 +67,7 @@ export async function GET({ platform, params }) {
 		
 		if (!matching){
 			Logger.info('Could not find a matching move', {
-				context: `StaticMove: ${staticMove.move.name}, ${staticMove.move.url}, VersionGroup: ${versionGroup}`,
+				context: `StaticMove: ${staticMove.move.name}, ${staticMove.move.url}, VersionGroup: ${versionGroup}, allValues: ${allValues.length > 0 ? 'true' : 'false'}, ${JSON.stringify(allValues.slice(0, 3))}`,
 				allValues
 			})
 			return {
