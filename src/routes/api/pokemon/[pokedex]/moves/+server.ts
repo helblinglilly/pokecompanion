@@ -9,8 +9,9 @@ import type { IPokemonMinimalMove, IPokemonMinimalMoveGroups } from '../../types
 
 export interface IPokemonMoveAPIResponse { [key: string]: IPokemonMinimalMoveGroups }
 
-export async function GET({ platform, params, request }) {
-	const pokedexId = Number(params.pokedex);
+export async function GET({ platform, params }) {
+	try {
+		const pokedexId = Number(params.pokedex);
 
 	const pokemon = await fetchPokemon(pokedexId, platform)
 
@@ -149,5 +150,16 @@ export async function GET({ platform, params, request }) {
 			'Content-Type': 'application/json'
 		}
 	});
+	} catch(err){
+		await Logger.error(
+			Logger.ErrorClasses.Unknown,
+			Logger.buildError(err),
+		)
+		return new Response(JSON.stringify(err), {
+			status: 500, headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+	}
 }
 
