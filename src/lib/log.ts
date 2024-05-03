@@ -58,7 +58,7 @@ export class Logger {
 					level: 'error',
 					error: {
 						name: error.name,
-						message: error.message
+						message: errorClass
 					},
 					...info
 				})
