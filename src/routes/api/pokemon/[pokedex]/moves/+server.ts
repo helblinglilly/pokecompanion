@@ -35,18 +35,13 @@ export async function GET({ platform, params }) {
 
 	const allPokemonMovePromises = Array.from(allPokemonMoveURLs).map((url) => fetchCacheFirst(url, platform));
 
-	Logger.info(`allPokemonMovePromisesLength: ${allPokemonMovePromises.length}`)
-
 	const allRespones = await Promise.allSettled(allPokemonMovePromises);
-
-	Logger.info(`allRespones length ${allRespones.length}`);
 
 	const allSuccessful = allRespones.filter((res) => res.status === 'fulfilled');
 
 	const allFailed = allRespones.filter((res) => res.status === 'rejected');
 
 	Logger.info(`allSuccessful length ${allSuccessful.length}`);
-	Logger.info(`allFailed length ${allFailed.length}`);
 
 	allFailed.forEach((res) => {
 		Logger.error(
@@ -59,10 +54,26 @@ export async function GET({ platform, params }) {
 	})
 
 	const allValues = await Promise.all(allSuccessful.map(async (res) =>{
-		const parsed = await res.value.json() as IMove;
+		let value: IMove | undefined;
+		try {
+			const parsed = await res.value.json() as IMove;
+			Logger.info(`Parsed value is ${JSON.stringify(parsed)}`)
+			return {
+				url: res.value.url,
+				...parsed
+			}
+		} catch(err){
+			await Logger.error(
+				Logger.ErrorClasses.ExternalAPIRequestFailed,
+				Logger.buildError(err),
+				{
+					context: `When parsing fulfilled promises value - ${res.value.status}`
+				}
+			)
+		}
 		return {
-			url: res.value.url,
-			...parsed
+			url: undefined,
+			...value
 		}
 	}
 	)).catch((err) => {
