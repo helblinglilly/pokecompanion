@@ -73,8 +73,7 @@ export async function GET({ platform, params }) {
 				Logger.ErrorClasses.ExternalAPIRequestFailed,
 				Logger.buildError(err),
 				{
-					context: `When parsing fulfilled promises value - ${statusText} - ${responseBody}`,
-					responseBody: responseBody // Include response body in the logs
+					context: `When parsing fulfilled promises value - ${statusText} - ${responseBody.slice(0, 500)}`,
 				}
 			)
 		}
