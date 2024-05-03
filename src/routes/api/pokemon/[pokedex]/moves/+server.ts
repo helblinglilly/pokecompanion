@@ -56,18 +56,21 @@ export async function GET({ platform, params }) {
 	const allValues = await Promise.all(allSuccessful.map(async (res) =>{
 		let value: IMove | undefined;
 		try {
-			const parsed = await res.value.json() as IMove;
+			const parsed = await res.value.json();// as IMove;
 			Logger.info(`Parsed value is ${JSON.stringify(parsed)}`)
 			return {
 				url: res.value.url,
 				...parsed
 			}
 		} catch (err) {
+			// Clone the response to read the body multiple times
+			const clonedResponse = res.value.clone();
+
 			// Accessing status text for more information
-			const statusText = res.value.statusText;
+			const statusText = clonedResponse.statusText;
 		
 			// Reading response body for additional details
-			const responseBody = await res.value.text();
+			const responseBody = await clonedResponse.text();
 		
 			await Logger.error(
 				Logger.ErrorClasses.ExternalAPIRequestFailed,
