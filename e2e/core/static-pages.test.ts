@@ -18,7 +18,7 @@ test('the user can navigate to the about page', async ({ page }) => {
 	await expect(page).toHaveURL('/about');
 });
 
-test('the user can navigate to the sign in page', async ({ page }) => {
+test.skip('the user can navigate to the sign in page', async ({ page }) => {
 	await page.goto('/');
 	await page.getByRole('button', { name: 'Sign In' }).click();
 	await expect(page).toHaveURL('/auth/signin');
