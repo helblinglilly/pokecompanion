@@ -1,11 +1,28 @@
 <script lang="ts">
 	import Image from '$/components/UI/Image.svelte';
+	import adjustMoveForGame from '$/lib/gameAdjustors/move';
+	import type { IMove } from '$/lib/types/IMoves';
+	import type { IPokemonMinimalMove } from '$/routes/api/pokemon/types';
 	import { Logger } from '$lib/log';
-	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
+	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { getNameEntry } from '$lib/utils/language';
-	import type { IPokemonMinimalMove } from '../../routes/api/pokemon/types';
 
 	export let move: IPokemonMinimalMove;
+
+	const getPokeapiMove = async () => {
+		try {
+			const res = await fetch(`https://pokeapi.co/api/v2/move/${move.id}`);
+			if (!res.ok) {
+				throw new Error('Non-200 status when fetching move client side');
+			}
+			const rawMove = (await res.json()) as IMove;
+			return adjustMoveForGame(rawMove, $selectedGame?.pokeapi);
+		} catch {
+			return;
+		}
+	};
+
+	$: pokeapiPromise = getPokeapiMove();
 
 	$: primaryName = move ? getNameEntry(move.names, $primaryLanguage) : undefined;
 	$: secondaryName =
@@ -26,18 +43,35 @@
 				<tbody>
 					<tr>
 						<td class="types">
-							<Image
-								src={`/icons/types/${move.type.name}.webp`}
-								alt={move.type.name}
-								height={'20px'}
-								style="margin-bottom: 0.2rem;"
-							/>
-							<Image
-								src={`/icons/types/damage/${move.damage_class.name}.png`}
-								alt={move.damage_class.name}
-								width={'50px'}
-								height={'20px'}
-							/>
+							{#await pokeapiPromise}
+								<Image
+									src={`/icons/types/${move.type.name}.webp`}
+									alt={move.type.name}
+									height={'20px'}
+									style="margin-bottom: 0.2rem;"
+								/>
+								<Image
+									src={`/icons/types/damage/${move.damage_class.name}.png`}
+									alt={move.damage_class.name}
+									width={'50px'}
+									height={'20px'}
+								/>
+							{:then pokeapi}
+								<Image
+									src={`/icons/types/${pokeapi?.type.name ?? move.type.name}.webp`}
+									alt={pokeapi?.type.name ?? move.type.name}
+									height={'20px'}
+									style="margin-bottom: 0.2rem;"
+								/>
+								<Image
+									src={`/icons/types/damage/${pokeapi?.damage_class.name}.png`}
+									alt={pokeapi?.damage_class.name ?? move.damage_class.name}
+									width={'50px'}
+									height={'20px'}
+								/>
+							{:catch error}
+								<p>{error.message}</p>
+							{/await}
 						</td>
 						<td class="name">
 							<p>{primaryName}</p>

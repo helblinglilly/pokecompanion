@@ -6,10 +6,10 @@
 	} from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
 	import VersionGroupSelector from '$/components/GameSelectors/VersionGroupSelector/VersionGroupSelector.svelte';
-	import type { IPokemonMoveAPIResponse } from '../../../routes/api/pokemon/[pokedex]/moves/+server';
 	import Moveset from './Moveset.svelte';
+	import type { IMoves } from '$/lib/data/movesetFilter';
 
-	export let movesetData: IPokemonMoveAPIResponse;
+	export let movesetData: IMoves;
 
 	$: allApplicableVersions = Object.keys(movesetData)
 		.map((key) => getGameGroupFromName(key as PokeapiVersionGroups))

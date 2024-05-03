@@ -2,7 +2,7 @@ import { getGameGroupFromName, type PokeapiVersionGroups } from "../data/games";
 import type { IMove } from "../types/IMoves";
 import getLegacyDamageClass from "./damageClass";
 
-function adjustMoveForGame(move: IMove, versionGroupName: PokeapiVersionGroups){
+function adjustMoveForGame(move: IMove, versionGroupName: PokeapiVersionGroups | undefined){
     const adjusted = { ...move };
 
     const selectedGame = getGameGroupFromName(versionGroupName);

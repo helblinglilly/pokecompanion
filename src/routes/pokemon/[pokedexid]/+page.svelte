@@ -325,13 +325,7 @@
 				<h3 class="h3">Moveset</h3>
 			</div>
 
-			{#await data.moveData}
-				<p>Loading moves...</p>
-			{:then movesetData}
-				<MovesetCard {movesetData} />
-			{:catch error}
-				<p>error loading comments: {error}</p>
-			{/await}
+			<MovesetCard movesetData={data.pokemon.moves} />
 		</div>
 	</div>
 </div>

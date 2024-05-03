@@ -2,19 +2,7 @@ import { error } from '@sveltejs/kit';
 import type { IPokemonResponse } from '../../api/pokemon/types';
 import { get } from 'svelte/store';
 import { selectedGame, primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
-import type { IPokemonMoveAPIResponse } from '../../api/pokemon/[pokedex]/moves/+server';
 import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
-
-const loadMoveData = async (url: URL, fetchFn: (_a: URL) => Promise<Response>): Promise<IPokemonMoveAPIResponse> => {
-	const moveUrl = new URL(url.origin + url.pathname + '/moves' + url.search)
-
-	const fetchResponse = await fetchFn(moveUrl);
-	if (fetchResponse.ok){
-		const data = await fetchResponse.json() as IPokemonMoveAPIResponse;
-		return data;
-	}
-	return {};
-}
 
 export const load = async ({ params, fetch, url }) => {
 	const requestUrl = new URL(`${url.origin}/api/pokemon/${params.pokedexid}`);
@@ -42,11 +30,7 @@ export const load = async ({ params, fetch, url }) => {
 
 	try {
 		const pokemonData = await res.json() as IPokemonResponse;
-
-		return {
-			...pokemonData,
-			moveData: loadMoveData(requestUrl, fetch)
-		}
+		return pokemonData;
 	} catch {
 		error(500, `Failed to parse JSON response from internal API - ${res.status}`)
 	}

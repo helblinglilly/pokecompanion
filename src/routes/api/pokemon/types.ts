@@ -14,7 +14,7 @@ export interface IPokemonResponse {
 		varietyForms: {
 			name: string;
 		}[];
-		moves: IMoves[];
+		moves: IMoves;
 		base_experience: number;
 		forms: Form[];
 		stats: Stat[];

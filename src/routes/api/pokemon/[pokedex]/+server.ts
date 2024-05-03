@@ -4,7 +4,7 @@ import type { RequestHandler } from '../$types';
 import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
 import { fixAbilities, getPokemonTypesInGame, getTypeRelations } from '$lib/data/generationAdjuster';
 import { formatEncounters } from '$lib/data/encounterFilter';
-import { filterMovesetByVersionEntry } from '$lib/data/movesetFilter';
+import { formatMovesetToVersionEntries } from '$lib/data/movesetFilter';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { parseUserPreferences } from '../../helpers';
 import type { IPokemonResponse } from './../types';
@@ -209,7 +209,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 					(entry, index, arr) =>
 						entry.name.includes('-') && arr.findIndex((e) => e.name === entry.name) === index
 				),
-			moves: filterMovesetByVersionEntry(pokemon.moves, selectedGame)
+			moves: formatMovesetToVersionEntries(pokemon.moves)
 		},
 		species: {
 			...species,
