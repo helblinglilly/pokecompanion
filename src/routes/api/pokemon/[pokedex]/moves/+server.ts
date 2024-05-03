@@ -9,7 +9,7 @@ import type { IPokemonMinimalMove, IPokemonMinimalMoveGroups } from '../../types
 
 export interface IPokemonMoveAPIResponse { [key: string]: IPokemonMinimalMoveGroups }
 
-export async function GET({ platform, params }) {
+export async function GET({ platform, params, request }) {
 	const pokedexId = Number(params.pokedex);
 
 	const pokemon = await fetchPokemon(pokedexId, platform)
@@ -61,11 +61,10 @@ export async function GET({ platform, params }) {
 
 	function matchMoveEntryWithAPI(staticMove: { level?: number; move: { name: string; url: string;} }, versionGroup: PokeapiVersionGroups): IPokemonMinimalMove{
 		const matching = allValues.find((apiMove) => {
+			console.log(apiMove?.url, staticMove.move.url, apiMove.url === staticMove.move.url);
 			return apiMove.url === staticMove.move.url;
 		});
-
 		
-
 		if (!matching){
 			return {
 				id: Number(staticMove.move.url.split('/')[6] ?? -1),
