@@ -62,12 +62,19 @@ export async function GET({ platform, params }) {
 				url: res.value.url,
 				...parsed
 			}
-		} catch(err){
+		} catch (err) {
+			// Accessing status text for more information
+			const statusText = res.value.statusText;
+		
+			// Reading response body for additional details
+			const responseBody = await res.value.text();
+		
 			await Logger.error(
 				Logger.ErrorClasses.ExternalAPIRequestFailed,
 				Logger.buildError(err),
 				{
-					context: `When parsing fulfilled promises value - ${res.value.status}`
+					context: `When parsing fulfilled promises value - ${statusText} - ${responseBody}`,
+					responseBody: responseBody // Include response body in the logs
 				}
 			)
 		}
