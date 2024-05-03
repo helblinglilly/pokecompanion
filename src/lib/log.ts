@@ -56,10 +56,9 @@ export class Logger {
 				body: JSON.stringify({
 					eventType: 'ServerSideLog',
 					level: 'error',
-					error: {
-						name: error.name,
-						message: errorClass
-					},
+					errorName: error.name,
+					errorClass: errorClass,
+					errorMessage: error.message,
 					...info
 				})
 			})
