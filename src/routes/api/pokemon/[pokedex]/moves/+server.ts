@@ -87,8 +87,7 @@ export async function GET({ platform, params }) {
 			url: undefined,
 			...value
 		}
-	}));
-	)).catch((err) => {
+	})).catch((err) => {
 		Logger.error(
 			Logger.ErrorClasses.ExternalAPIRequestFailed,
 			Logger.buildError(err),
