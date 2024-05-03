@@ -56,7 +56,10 @@ export async function GET({ platform, params }) {
 	const allValues = await Promise.all(allSuccessful.map(async (res) =>{
 		let value: IMove | undefined;
 		try {
-			const parsed = await res.value.json();// as IMove;
+			// Clone the response before reading the body
+			const clonedResponse = res.value.clone();
+	
+			const parsed = await clonedResponse.json();// as IMove;
 			Logger.info(`Parsed value is ${JSON.stringify(parsed)}`)
 			return {
 				url: res.value.url,
@@ -65,7 +68,7 @@ export async function GET({ platform, params }) {
 		} catch (err) {
 			// Clone the response to read the body multiple times
 			const clonedResponse = res.value.clone();
-
+	
 			// Accessing status text for more information
 			const statusText = clonedResponse.statusText;
 		
@@ -84,7 +87,7 @@ export async function GET({ platform, params }) {
 			url: undefined,
 			...value
 		}
-	}
+	}));
 	)).catch((err) => {
 		Logger.error(
 			Logger.ErrorClasses.ExternalAPIRequestFailed,

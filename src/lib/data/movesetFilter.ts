@@ -1,5 +1,4 @@
 import type { Moveset } from '$lib/types/IPokemon';
-import { type IGame, type IGameGroups } from './games';
 
 interface IMove {
 	name: string;
