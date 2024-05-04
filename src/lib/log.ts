@@ -1,4 +1,4 @@
-import { PUBLIC_LOGGING_API_KEY } from '$env/static/public';
+import { PUBLIC_ENVIRONMENT, PUBLIC_LOGGING_API_KEY } from '$env/static/public';
 
 enum ErrorClasses {
 	ExternalAPIRequestFailed = 'External API Request Failed',
@@ -59,6 +59,7 @@ export class Logger {
 					errorName: error.name,
 					errorClass: errorClass,
 					message: error.message,
+					environment: PUBLIC_ENVIRONMENT,
 					...info
 				})
 			})
@@ -101,6 +102,7 @@ export class Logger {
 					eventType: 'ServerSideLog',
 					level: 'info',
 					message,
+					environment: PUBLIC_ENVIRONMENT,
 					...info
 				})
 			})
@@ -142,6 +144,7 @@ export class Logger {
 					eventType: 'ServerSideLog',
 					level: 'warning',
 					message,
+					environment: PUBLIC_ENVIRONMENT,
 					...info
 				})
 			})
@@ -181,6 +184,7 @@ export class Logger {
 				body: JSON.stringify({
 					eventType: name,
 					message,
+					environment: PUBLIC_ENVIRONMENT,
 					...info
 				})
 			})

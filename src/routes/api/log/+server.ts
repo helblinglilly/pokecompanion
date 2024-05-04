@@ -29,7 +29,10 @@ export const POST = async ({ request }) => {
 	}
 
 	try {
-		const res = await serverSideNRLog(body);
+		const res = await serverSideNRLog({
+			...body,
+			referrer: request.referrer,
+		});
 		if (!res){
 			throw new Error('No "eventType" has been provided in the body');
 		}

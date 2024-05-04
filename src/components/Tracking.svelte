@@ -69,6 +69,10 @@
 				}
 			});
 		}
+
+		if (window.newrelic) {
+			window.newrelic.setCustomAttribute('environment', PUBLIC_ENVIRONMENT);
+		}
 	});
 </script>
 
