@@ -89,11 +89,13 @@
 		fixImages();
 	});
 
+	$: currentPage = $page.url.pathname + $page.url.search + $page.url.hash;
+
 	$: shouldDisplaySearch = !$page.url.pathname.includes('/auth/');
 </script>
 
 <svelte:head>
-	<link rel="canonical" href={`https://pokecompanion.com${$page.url.href.replace($page.url.origin, '')}`} />
+	<link rel="canonical" href={`https://pokecompanion.com${currentPage}`} />
 </svelte:head>
 
 <Tracking />
