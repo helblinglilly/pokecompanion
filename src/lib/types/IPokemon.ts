@@ -1,4 +1,4 @@
-import type { PokeapiVersionGroups } from "$lib/data/games";
+import type { PokeapiVersionGroups, PokeapiVersionNames } from "$lib/data/games";
 
 export interface IPokemon {
 	abilities: Ability[];
@@ -445,16 +445,14 @@ interface EvolutionChain {
 export interface FlavorTextEntry {
 	flavor_text: string;
 	language: Language;
-	version: Version2;
+	version: {
+		name: PokeapiVersionNames,
+		url: string;
+	}
 }
 
 interface Language {
 	name: string;
-	url: string;
-}
-
-interface Version2 {
-	name: PokeapiVersionGroups;
 	url: string;
 }
 

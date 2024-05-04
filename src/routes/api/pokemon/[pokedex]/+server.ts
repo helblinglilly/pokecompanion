@@ -10,7 +10,7 @@ import { parseUserPreferences } from '../../helpers';
 import type { IPokemonResponse } from './../types';
 import { Logger } from '$lib/log';
 import { fetchPokemon, fetchPokemonEncounters, fetchPokemonForm, fetchPokemonSpecies } from '../cachedFetch';
-import { getGameGroupFromGame, getGameGroupFromName } from '$lib/data/games';
+import { getGame } from '$lib/data/games';
 
 const filterPokedexEntries = (
 	allEntries: FlavorTextEntry[],
@@ -31,7 +31,7 @@ const filterPokedexEntries = (
 		.map((entry) => {
 			return {
 				language: entry.language.name,
-				game: getGameGroupFromName(entry.version.name)?.games.map((game => game.shortName)),
+				game: getGame(entry.version.name)?.shortName ?? entry.version.name,
 				// eslint-disable-next-line no-control-regex
 				textEntry: entry.flavor_text.replace(/\n|\u000c/g, ' ')
 			};
@@ -214,12 +214,11 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		species: {
 			...species,
 			names: speciesNamesToNormalisedNames(species.names),
-			flavor_text_entries: [],
-			// filterPokedexEntries(
-			// 	species.flavor_text_entries,
-			// 	primaryLanguage,
-			// 	secondaryLanguage
-			// )
+			flavor_text_entries: filterPokedexEntries(
+				species.flavor_text_entries,
+				primaryLanguage,
+				secondaryLanguage
+			)
 		},
 		encounters: formatEncounters(encounters),
 		moveGames,
