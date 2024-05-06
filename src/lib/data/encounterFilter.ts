@@ -1,5 +1,4 @@
-import { uniques } from '$lib/utils/array';
-import { getGame, PokeapiVersionNames } from './games';
+import { PokeapiVersionNames } from './games';
 
 export interface IEncounterResponse {
 	location_area: {
@@ -42,63 +41,48 @@ export interface IEncounter {
 	}[];
 }
 
-export interface IEncounterGroups {
-	versionGroup: PokeapiVersionNames;
-	encounters: IEncounter[];
+export type IEncounterLocation = {
+		method: string;
+		minLevel: number;
+		maxLevel: number;
+		chance: number;
+		conditions: string[];
 }
 
-const getVersionGroupEncounters = (encounters: IEncounterResponse[], versionGroup: PokeapiVersionNames) => {
-	const relevantData: IEncounter[] = [];
-	const selectedVersionGroup = getGame(versionGroup);
-
-	encounters.forEach((encounter) => {
-		encounter.version_details.forEach((version) => {
-			const methods = version.encounter_details.map((detail) => {
-				return {
-					encounter_method: detail.method.name,
-					min_level: detail.min_level,
-					max_level: detail.max_level,
-					chance: detail.chance,
-					conditions: detail.condition_values
-						? detail.condition_values
-								.map((a) => {
-									return a.name;
-								})
-								.join(' or ')
-						: ''
-				};
-			});
-
-			// if (version.version.name === selectedVersionGroup?.pokeapi){
-				relevantData.push({
-					location: encounter.location_area,
-					methods
-				});
-			// }
-		});
-	});
-	return uniques(relevantData);
-
+export type IEncounters = {
+	[version_name in PokeapiVersionNames]?: {
+        [location_area: string]: IEncounterLocation[]
+    };
 };
 
 export const formatEncounters = (
 	encounters: IEncounterResponse[],
-): IEncounterGroups[] => {
-	const allVersionGroups = uniques(
-		encounters
-			.map((encounter) => {
-				return encounter.version_details.map((version) => {
-					return version.version.name;
-				});
-			})
-			.flat()
-	);
+): IEncounters => {
+	const formattedEncounters: IEncounters = {};
 
-	return allVersionGroups
-		.map((versionGroup) => {
-			return {
-				versionGroup: versionGroup,
-				encounters: getVersionGroupEncounters(encounters, versionGroup)
-			};
-		})
+	encounters.forEach((encounter) => {
+		encounter.version_details.forEach((versionDetails) => {
+			const versionName = versionDetails.version.name as PokeapiVersionNames;			
+			if (!formattedEncounters[versionName]) {
+				formattedEncounters[versionName] = {};
+			}
+			if (!formattedEncounters[versionName][encounter.location_area.name]){
+				formattedEncounters[versionName][encounter.location_area.name] = [];
+			}
+
+			versionDetails.encounter_details.forEach((encounterDetails) => {
+				if (formattedEncounters[versionName]){
+					formattedEncounters[versionName][encounter.location_area.name].push({
+						method: encounterDetails.method.name,
+						minLevel: encounterDetails.min_level,
+						maxLevel: encounterDetails.max_level,
+						chance: encounterDetails.chance,
+						conditions: encounterDetails.condition_values?.map((condition) => condition.name) ?? []
+					})
+				}
+			})
+		});
+	});
+
+	return formattedEncounters;
 };

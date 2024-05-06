@@ -1,4 +1,4 @@
-import type { IEncounterGroups } from "$lib/data/encounterFilter";
+import type { IEncounters } from "$lib/data/encounterFilter";
 import type { ITypeRelations } from "$lib/data/generationAdjuster";
 import type { IMoves } from "$lib/data/movesetFilter";
 import type { IType } from "$lib/stores/pokemonPage";
@@ -32,8 +32,7 @@ export interface IPokemonResponse {
 			url: string;
 		}
 	};
-	encounters: IEncounterGroups[]; 
-	moveGames: string[];
+	encounters: IEncounters; 
 };
 
 export interface IPokemonMinimalMove {
