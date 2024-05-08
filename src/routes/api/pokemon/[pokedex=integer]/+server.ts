@@ -7,7 +7,7 @@ import { formatEncounters } from '$lib/data/encounterFilter';
 import { formatMovesetToVersionEntries } from '$lib/data/movesetFilter';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { parseUserPreferences } from '../../helpers';
-import type { IPokemonResponse } from './../types';
+import type { IPokemonResponse } from '../types';
 import { Logger } from '$lib/log';
 import { fetchPokemon, fetchPokemonEncounters, fetchPokemonForm, fetchPokemonSpecies } from '../cachedFetch';
 import { getGame } from '$lib/data/games';
@@ -42,24 +42,11 @@ const filterPokedexEntries = (
 export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {	
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore Fails to understand that pokedex param exists
-	const rawId = params.pokedex;
-	if (!rawId){
+	const id = params.pokedex as number;;
+	if (!id){
 		return new Response(JSON.stringify({
 			error: 'Missing pokemon in search params',
 			searchParam: 'pokemon=:id'
-		}), {
-			status: 404,
-			headers: {
-				'content-type': 'application/json'
-			}
-		})
-	}
-	
-	const id = parseInt(rawId, 10);
-	if (isNaN(id)) {
-		return new Response(JSON.stringify({
-			error: 'Provided pokemon value is not a number',
-			requested: id
 		}), {
 			status: 404,
 			headers: {
