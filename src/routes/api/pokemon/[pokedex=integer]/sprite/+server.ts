@@ -2,6 +2,8 @@ import type { RequestHandler } from "@sveltejs/kit";
 import { fetchCacheFirst } from "../../cachedFetch";
 import type { Platform } from "$/routes/api/types";
 import type { IPokemon, IPokemonSpecies, ISprites } from "$/lib/types/IPokemon";
+import { getGameGroupFromGame, getGameGroupFromName, PokeapiVersionGroups, PokeapiVersionNames } from "$/lib/data/games";
+import type { UserPreferencePokemonVersion } from "$/lib/stores/domain";
 
 const baseUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon`;
 
@@ -198,6 +200,10 @@ function getSpriteAndInfo(sprite: any, wantsShiny: boolean, wantsFemale: boolean
 	}
 }
 
+function getVersionEntry(sprite: any, version: PokeapiVersionGroups){
+	console.log(sprite);
+}
+
 function mergeObjects(obj1: Record<string, any>, obj2: Record<string, any>): Record<string, any> {
 	const mergedObj = { ...obj1 };
 	for (const key in obj2) {
@@ -243,13 +249,42 @@ export const GET: RequestHandler = async ({ url, platform, params }) => {
 		matchesForm = true;
 	}
 
-
-
 	const wantsShiny = url.searchParams.get('shiny') === 'true';
 	const wantsFemale = url.searchParams.get('gender') === 'female';
 	const wantsBack = url.searchParams.get('direction') === 'back';
-	const spriteInfo = getSpriteAndInfo(plainPokemon.data.sprites, wantsShiny, wantsFemale, wantsBack);
+	const selectedGame = getGameGroupFromName(url.searchParams.get('game') as UserPreferencePokemonVersion);
+	const showAnimated = url.searchParams.get('animate') === 'true';
 
+	let specificGameSprites: undefined | ISprites;
+	let animatedGameSprites: undefined | ISprites;
+	if (selectedGame){ // and user is authed
+		let pokeapiSpriteName: PokeapiVersionNames | PokeapiVersionGroups = selectedGame.pokeapi;
+		if (selectedGame.pokeapi === PokeapiVersionGroups.BLACK_2_WHITE_2){
+			pokeapiSpriteName = PokeapiVersionGroups.BLACK_WHITE;
+		} else if (selectedGame.pokeapi === PokeapiVersionGroups.GOLD_SILVER){
+			pokeapiSpriteName = PokeapiVersionNames.GOLD;
+		}
+		
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore TODO: Can't be asked to type this properly
+		specificGameSprites = plainPokemon.data.sprites.versions[selectedGame.generation.pokeApiName][pokeapiSpriteName];
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore TODO: Can't be asked to type this properly
+		if (showAnimated === true && specificGameSprites?.animated){
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore TODO: Can't be asked to type this properly
+			animatedGameSprites = specificGameSprites?.animated;
+		}
+	}
+
+	const spriteInfo = getSpriteAndInfo(
+		animatedGameSprites ?? 
+		specificGameSprites ?? 
+		plainPokemon.data.sprites, 
+		wantsShiny, 
+		wantsFemale, 
+		wantsBack
+	);
 	if (!spriteInfo.url){
 		return new Response(null, {
 			status: 404
@@ -261,6 +296,7 @@ export const GET: RequestHandler = async ({ url, platform, params }) => {
 		(!wantsBack || wantsBack && spriteInfo.isBack) &&
 		matchesForm && 
 		plainPokemon.matchesVariety;
+
 
 	return respondWithImage(spriteInfo.url, {
 		'Cache-Control': `public, max-age=${isPerfectMatch ? 86400 : 600}, s-maxage=${isPerfectMatch ? 86400 : 600}`,
