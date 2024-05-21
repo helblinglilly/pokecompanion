@@ -18,6 +18,6 @@ jobs:
         with:
           apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
           guid: ${{ secrets.NEW_RELIC_DEPLOYMENT_ENTITY_GUID }}
-          version: '${{ env.RELEASE_VERSION }}'
+          version: '${{ github.sha }}'
           user: '${{ github.actor }}'
           region: EU
