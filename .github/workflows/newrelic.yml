@@ -2,7 +2,7 @@ name: NR Deployment Marker
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   newrelic:
