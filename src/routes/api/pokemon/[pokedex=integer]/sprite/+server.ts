@@ -165,7 +165,7 @@ export const GET: RequestHandler = async ({ url, platform, params }) => {
 		'X-Matches-Form': matchesForm,
 		'X-Is-Back': spriteInfo.isBack,
 		'X-Matches-Variety': plainPokemon.matchesVariety,
-		'X-Alt-Text': `${spriteInfo.isBack ? 'Back' : 'Front'}${wantsShiny && spriteInfo.hasShiny ? ' Shiny' : ''}${wantsFemale && spriteInfo.hasFemale ? ' Female' : ''}${variety ? ` ${capitaliseEachWord(variety.replaceAll('-', ' '))}`  : ''}`,
+		'X-Alt-Text': `${spriteInfo.isBack ? 'Back' : 'Front'}${wantsShiny && spriteInfo.hasShiny ? ' Shiny' : ''}${wantsFemale && spriteInfo.hasFemale ? ' Female' : ''}${variety && (plainPokemon.matchesVariety || matchesForm) ? ` ${capitaliseEachWord(variety.replaceAll('-', ' '))}`  : ''}`,
 	},
 );
 };

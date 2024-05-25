@@ -157,12 +157,19 @@ export function getSpriteForGameAnimation(pokemon: IPokemon, selectedGame: IGame
             pokeapiSpriteName = PokeapiVersionGroups.BLACK_WHITE;
         } else if (selectedGame.pokeapi === PokeapiVersionGroups.GOLD_SILVER){
             pokeapiSpriteName = PokeapiVersionNames.GOLD;
-        }
-        
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        }       
+
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore TODO: Can't be asked to type this properly
-        specificGameSprites = plainPokemon.data.sprites.versions[selectedGame.generation.pokeApiName][pokeapiSpriteName];
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
+		const generationSpecific = pokemon.sprites.versions ? pokemon.sprites.versions[selectedGame.generation.pokeApiName] : undefined
+		if (generationSpecific){
+			if (generationSpecific[pokeapiSpriteName]){
+				specificGameSprites = generationSpecific[pokeapiSpriteName]
+			}
+		}
+
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore TODO: Can't be asked to type this properly
         if (showAnimated === true && specificGameSprites?.animated){
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
