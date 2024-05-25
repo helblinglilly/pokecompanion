@@ -155,7 +155,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 					...varietyFormPokemon,
 				};
 
-				if (varietyFormPokemon.names.length) {
+				if (varietyFormPokemon.names.length && varietyFormPokemon.names.some((varietyName) => varietyName.language.name === primaryLanguage || varietyName.language.name === secondaryLanguage)) {
 					species.names = varietyFormPokemon.names;
 				} else {
 					species.names = species.names.map((name) => {

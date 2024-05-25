@@ -37,7 +37,9 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
 			const formRes = await fetchCacheFirst(matchingForm.url, platform);
 			if (formRes.ok){
 				const data = await formRes.json() as IPokemon;
-				plainPokemon.data.sprites = mergeObjects(plainPokemon.data, data.sprites) as ISprites;
+				if (!plainPokemon.matchesVariety){
+					plainPokemon.data.sprites = mergeObjects(plainPokemon.data, data.sprites) as ISprites;
+				}
 				matchesForm = true;
 			}
 		}

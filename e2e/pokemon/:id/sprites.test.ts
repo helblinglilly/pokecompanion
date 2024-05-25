@@ -124,6 +124,19 @@ test.describe('?variety=string', () => {
             expect(headers).toHaveProperty("x-alt-text", "Front Shiny Unown C");
         })
     })
+
+    test('Paldean Wooper - Returns valid sprite', async ({ page }) => {
+        const response = await page.goto("/api/pokemon/194/sprite?variety=wooper-paldea");
+        await expect(page.locator('pre')).toContainText('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10253.png');
+            
+        const headers = response?.headers();
+        expect(headers).toHaveProperty("content-type", "text/plain");
+        expect(headers).toHaveProperty("cache-control", "public, max-age=86400, s-maxage=86400");
+        
+        expect(headers).toHaveProperty("x-has-shiny", "true")
+        expect(headers).toHaveProperty("x-matches-form", "true");
+        expect(headers).toHaveProperty("x-matches-variety", "true");
+    })
 })
 
 test.describe('?gender=male|female|undefined', () => {
