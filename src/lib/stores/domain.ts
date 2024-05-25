@@ -144,13 +144,13 @@ export const cookieHandlers = {
 		});
 	},
 	versionSpecificSprites: () => {
-		let existingValue = getCookie('versionSpecificSprites') as boolean | undefined;
+		let existingValue = getCookie('versionSpecificSprites') as string | undefined;
 		if (existingValue === undefined || null) {
-			existingValue = true;
-			setCookie('versionSpecificSprites', existingValue.toString());
+			existingValue = 'true'
+			setCookie('versionSpecificSprites', existingValue);
 		}
 
-		versionSpecificSprites.set(existingValue);
+		versionSpecificSprites.set(existingValue === 'true' ? true : false);
 
 		versionSpecificSprites.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute("versionSpecificSprites", value);
@@ -159,13 +159,13 @@ export const cookieHandlers = {
 		});
 	},
 	animateSprites: () => {
-		let existingValue = getCookie('animateSprites') as boolean | undefined;
+		let existingValue = getCookie('animateSprites') as string | undefined;
 		if (existingValue === undefined || null) {
-			existingValue = true;
-			setCookie('animateSprites', existingValue.toString());
+			existingValue = 'true';
+			setCookie('animateSprites', existingValue);
 		}
 
-		animateSprites.set(existingValue);
+		animateSprites.set(existingValue === 'true' ? true : false);
 
 		animateSprites.subscribe((value) => {
 			Sentry.setTag('animateSprites', value);
