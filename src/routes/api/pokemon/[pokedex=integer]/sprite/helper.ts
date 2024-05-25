@@ -34,7 +34,6 @@ export function getSpriteAndInfo(sprite: any, wantsShiny: boolean, wantsFemale: 
 				}
 			}
 		} else if (!wantsFemale && wantsShiny){
-			console.log(sprite);
 			if (sprite.back_shiny){
 				return {
 					url: sprite.back_shiny,
@@ -128,7 +127,6 @@ export function getSpriteAndInfo(sprite: any, wantsShiny: boolean, wantsFemale: 
 		}
 	} else if (!wantsFemale && wantsShiny){
 		if (sprite.front_shiny){
-			console.log(sprite);
 			return {
 				url: sprite.front_shiny,
 				hasShiny: true,
