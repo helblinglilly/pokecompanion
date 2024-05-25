@@ -147,6 +147,10 @@
 	const englishPokedexEntries = data.species.flavor_text_entries.filter(
 		(entry) => entry.language === 'en'
 	);
+
+	async function getPrimarySprite(id: number) {
+		return await fetch(`/api/pokemon/${id}/sprite`);
+	}
 </script>
 
 <SocialPreview

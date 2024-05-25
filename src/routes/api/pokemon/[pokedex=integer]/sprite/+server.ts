@@ -2,22 +2,30 @@ import type { RequestHandler } from "@sveltejs/kit";
 import { fetchCacheFirst } from "../../cachedFetch";
 import type { Platform } from "$/routes/api/types";
 import type { IPokemon, IPokemonSpecies, ISprites } from "$/lib/types/IPokemon";
-import { getGameGroupFromGame, getGameGroupFromName, PokeapiVersionGroups, PokeapiVersionNames } from "$/lib/data/games";
+import { getGameGroupFromName } from "$/lib/data/games";
 import type { UserPreferencePokemonVersion } from "$/lib/stores/domain";
+import { getSpriteAndInfo, getSpriteForGameAnimation } from "./helper";
+import { capitaliseEachWord } from "$/lib/utils/string";
 
 const baseUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon`;
 
-async function respondWithImage(url: string, headers: object) {
-	const response = await fetch(url);
-	console.log(url, headers);
-    const blob = await response.blob();
-
-    return new Response(blob, {
-        headers: { 
-			'Content-Type': response.headers.get('Content-Type') || '',
-			...headers
-		},
-    });
+async function respond(url: string, respondImage: boolean, headers: object) {
+	if (respondImage){
+		const response = await fetch(url);
+		const blob = await response.blob();
+	
+		return new Response(blob, {
+			headers: { 
+				'Content-Type': response.headers.get('Content-Type') || '',
+				...headers
+			},
+		});
+	}
+	return new Response(url, { headers: { 
+		'Content-Type': 'text/plain',
+		...headers
+	}
+	})
 }
 
 async function getPokemonFromVariety(id: number, variety: string | null, platform: Readonly<Platform> | undefined): Promise<{
@@ -74,136 +82,6 @@ async function getPokemonFromVariety(id: number, variety: string | null, platfor
 	}
 }
 
-function getSpriteAndInfo(sprite: any, wantsShiny: boolean, wantsFemale: boolean, wantsBack: boolean){
-	if (wantsBack){
-		if (wantsFemale && wantsShiny){
-			if (sprite.back_shiny_female){
-				return {
-					url: sprite.back_shiny_female,
-					hasShiny: true,
-					hasFemale: true,
-					isBack: true
-				}
-			} else if (sprite.back_shiny){
-				return {
-					url: sprite.back_shiny,
-					hasShiny: true,
-					hasFemale: false,
-					isBack: true
-				}
-			} else if (sprite.back_female){
-				return {
-					url: sprite.back_female,
-					hasShiny: false,
-					hasFemale: true,
-					isBack: true
-				}
-			} else {
-				return {
-					url: sprite.back_default ?? '',
-					hasShiny: false,
-					hasFemale: false,
-					isBack: false
-				}
-			}
-		} else if (!wantsFemale && wantsShiny){
-			console.log(sprite);
-			if (sprite.back_shiny){
-				return {
-					url: sprite.back_shiny,
-					hasShiny: true,
-					hasFemale: Boolean(sprite.back_shiny_female),
-					isBack: true
-				}
-			} else {
-				return {
-					url: undefined,
-					hasShiny: false,
-					hasFemale: Boolean(sprite.back_shiny_female),
-					isBack: false
-				}
-			}
-		} else if (wantsFemale && !wantsShiny){
-			if (sprite.back_female){
-				return {
-					url: sprite.back_female,
-					hasShiny: Boolean(sprite.back_shiny_female),
-					hasFemale: true,
-					isBack: true
-				}
-			} else {
-				return {
-					url: sprite.back_default ?? '',
-					hasShiny: false,
-					hasFemale: false,
-					isBack: true
-				}
-			}
-		} else if (!wantsFemale && !wantsShiny){
-			if (sprite.back_default){
-				return {
-					url: sprite.back_default,
-					hasShiny: Boolean(sprite.back_shiny),
-					hasFemale: Boolean(sprite.back_female),
-					isBack: true
-				}
-			} else {
-				return {
-					url: '',
-					hasShiny: false,
-					hasFemale: false,
-					isBack: false
-				}
-			}
-		} 
-	}
-
-	if (wantsFemale && wantsShiny){
-		if (sprite.front_shiny_female){
-			return {
-				url: sprite.front_shiny_female,
-				hasShiny: true,
-				hasFemale: true,
-				isBack: false
-			}
-		} else if (sprite.front_shiny){
-			return {
-				url: sprite.front_shiny,
-				hasShiny: true,
-				hasFemale: false,
-				isBack: false
-			}
-		} else if (sprite.front_female){
-			return {
-				url: sprite.front_female,
-				hasShiny: false,
-				hasFemale: true,
-				isBack: false
-			}
-		}
-	} else if (!wantsFemale && wantsShiny){
-		if (sprite.front_shiny){
-			return {
-				url: sprite.front_shiny,
-				hasShiny: true,
-				hasFemale: Boolean(sprite.front_female_shiny),
-				isBack: false
-			}
-		}
-	}
-
-	return {
-		url: sprite.front_default ?? '',
-		hasShiny: Boolean(sprite.front_shiny),
-		hasFemale: Boolean(sprite.front_female),
-		isBack: false
-	}
-}
-
-function getVersionEntry(sprite: any, version: PokeapiVersionGroups){
-	console.log(sprite);
-}
-
 function mergeObjects(obj1: Record<string, any>, obj2: Record<string, any>): Record<string, any> {
 	const mergedObj = { ...obj1 };
 	for (const key in obj2) {
@@ -219,24 +97,26 @@ export const GET: RequestHandler = async ({ url, platform, params }) => {
 	// @ts-ignore Doesn't understand
 	const id = params.pokedex as number;
 	const ultimateFallback = baseUrl + `/${id}.png`;
+	const respondWithImage = url.searchParams.get('image') === 'true';
 
 	let matchesForm = false;
 
 	const plainPokemon = await getPokemonFromVariety(id, url.searchParams.get('variety'), platform);
 	if (!plainPokemon.data){
-		return respondWithImage(ultimateFallback, {
+		return respond(ultimateFallback, respondWithImage, {
 			'Cache-Control': 'public, max-age=600, s-maxage=600',
 			'X-Has-Female': false,
 			'X-Has-Shiny': false,
 			'X-Matches-Form': false,
 			'X-Matches-Variety': false,
 			'X-Is-Back': false,
+			'X-Alt-Text': `Front`,
 		});
 	}
 
-	const form = url.searchParams.get('form');
-	if (form){
-		const matchingForm = plainPokemon.data.forms.find((apiForm) => apiForm.name === form);
+	const variety = url.searchParams.get('variety');
+	if (variety){
+		const matchingForm = plainPokemon.data.forms.find((apiForm) => apiForm.name === variety);
 		if (matchingForm){
 			const formRes = await fetchCacheFirst(matchingForm.url, platform);
 			if (formRes.ok){
@@ -249,38 +129,18 @@ export const GET: RequestHandler = async ({ url, platform, params }) => {
 		matchesForm = true;
 	}
 
+
+
 	const wantsShiny = url.searchParams.get('shiny') === 'true';
 	const wantsFemale = url.searchParams.get('gender') === 'female';
 	const wantsBack = url.searchParams.get('direction') === 'back';
 	const selectedGame = getGameGroupFromName(url.searchParams.get('game') as UserPreferencePokemonVersion);
 	const showAnimated = url.searchParams.get('animate') === 'true';
 
-	let specificGameSprites: undefined | ISprites;
-	let animatedGameSprites: undefined | ISprites;
-	if (selectedGame){ // and user is authed
-		let pokeapiSpriteName: PokeapiVersionNames | PokeapiVersionGroups = selectedGame.pokeapi;
-		if (selectedGame.pokeapi === PokeapiVersionGroups.BLACK_2_WHITE_2){
-			pokeapiSpriteName = PokeapiVersionGroups.BLACK_WHITE;
-		} else if (selectedGame.pokeapi === PokeapiVersionGroups.GOLD_SILVER){
-			pokeapiSpriteName = PokeapiVersionNames.GOLD;
-		}
-		
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore TODO: Can't be asked to type this properly
-		specificGameSprites = plainPokemon.data.sprites.versions[selectedGame.generation.pokeApiName][pokeapiSpriteName];
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore TODO: Can't be asked to type this properly
-		if (showAnimated === true && specificGameSprites?.animated){
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore TODO: Can't be asked to type this properly
-			animatedGameSprites = specificGameSprites?.animated;
-		}
-	}
+	const gameAnimationSpecificSprites = getSpriteForGameAnimation(plainPokemon.data, selectedGame, showAnimated);
 
 	const spriteInfo = getSpriteAndInfo(
-		animatedGameSprites ?? 
-		specificGameSprites ?? 
-		plainPokemon.data.sprites, 
+		gameAnimationSpecificSprites,
 		wantsShiny, 
 		wantsFemale, 
 		wantsBack
@@ -298,13 +158,14 @@ export const GET: RequestHandler = async ({ url, platform, params }) => {
 		plainPokemon.matchesVariety;
 
 
-	return respondWithImage(spriteInfo.url, {
+	return respond(spriteInfo.url, respondWithImage, {
 		'Cache-Control': `public, max-age=${isPerfectMatch ? 86400 : 600}, s-maxage=${isPerfectMatch ? 86400 : 600}`,
 		'X-Has-Female': spriteInfo.hasFemale,
 		'X-Has-Shiny': spriteInfo.hasShiny,
 		'X-Matches-Form': matchesForm,
 		'X-Is-Back': spriteInfo.isBack,
 		'X-Matches-Variety': plainPokemon.matchesVariety,
+		'X-Alt-Text': `${spriteInfo.isBack ? 'Back' : 'Front'}${wantsShiny && spriteInfo.hasShiny ? ' Shiny' : ''}${wantsFemale && spriteInfo.hasFemale ? ' Female' : ''}${variety ? ` ${capitaliseEachWord(variety.replaceAll('-', ' '))}`  : ''}`,
 	},
 );
 };
