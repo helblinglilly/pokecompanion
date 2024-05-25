@@ -19,7 +19,7 @@
 	<div class="column" style="max-width: fit-content; display: contents;">
 		<div style="min-width: 90px; min-height: 70px;">
 			<a
-				href={`${route}/${currentId - 1}`}
+				href={`${route}/${currentId - 1}${$pokemonDisplayStore.transferableQueryParams}`}
 				class={`card ${currentId - 1 <= 0 ? 'hidden' : ''}`}
 				style="width: fit-content; padding: 10px; height: auto;"
 				on:click={() => {
@@ -97,7 +97,7 @@
 	<div class="column" style="justify-content: end; display: contents; max-width: fit-content;">
 		<div style="min-width: 90px; min-height: 70px;">
 			<a
-				href={`${route}/${currentId + 1}`}
+				href={`${route}/${currentId + 1}${$pokemonDisplayStore.transferableQueryParams}`}
 				class={`card ${currentId + 1 > maxId ? 'hidden' : ''}`}
 				style="width: fit-content; padding: 10px; height: auto;"
 				on:click={() => {

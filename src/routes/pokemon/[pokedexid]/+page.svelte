@@ -3,9 +3,7 @@
 		lastPokedexEntry,
 		primaryLanguage,
 		secondaryLanguage,
-		selectedGame,
-		animateSprites,
-		versionSpecificSprites
+		selectedGame
 	} from '$lib/stores/domain';
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Navigator from '$/components/Navigator.svelte';
@@ -17,7 +15,6 @@
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$/components/Tags/SelectedTags.svelte';
 	import Breadcrumbs from '$/components/UI/Breadcrumbs.svelte';
-	import { findBaseSprites, findPrimarySprite, findSecondarySprite } from '$lib/pokemon-id/sprites';
 	import SpritePreview from '$/components/Pokemon/SpritePreview.svelte';
 	import Icon from '$/components/UI/Icon.svelte';
 	import { page } from '$app/stores';
@@ -38,54 +35,24 @@
 
 	$: {
 		if (data) {
-			const baseSprite = findBaseSprites(
-				data.pokemon.sprites,
-				$versionSpecificSprites,
-				$selectedGame?.pokeapi,
-				$animateSprites
-			);
-
 			const showFemaleSpriteIfExists = $page.url.searchParams.get('gender') === 'female';
 			const showShinySpriteIfExists = $page.url.searchParams.get('shiny') === 'true';
-
-			let primarySprite = findPrimarySprite(
-				baseSprite,
-				showFemaleSpriteIfExists,
-				showShinySpriteIfExists
-			);
-
 			const varietyName = $page.url.searchParams.get('variety');
 
 			const variety = {
 				name: varietyName,
-				spriteId: primarySprite.url?.split('/')[8].split('.')[0]
+				spriteId: data.sprites.primary.url?.split('/')[8].split('.')[0]
 			};
-
-			if (primarySprite.url === null && variety.name === null) {
-				primarySprite = {
-					url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data.id}.png`,
-					alt: 'Default sprite'
-				};
-			}
 
 			pokemonDisplayStore.set({
 				id: data.id,
 				showFemaleSpriteIfExists,
-				hasFemaleSprite: baseSprite.meta.hasFemaleSprite,
-				gender: baseSprite.meta.hasFemaleSprite
-					? showFemaleSpriteIfExists
-						? 'female'
-						: 'male'
-					: undefined,
+				hasFemaleSprite: data.sprites.hasFemale,
+				gender: data.sprites.hasFemale ? (showFemaleSpriteIfExists ? 'female' : 'male') : undefined,
 				showShinySpriteIfExists,
-				hasShinySprite: baseSprite.meta.hasShinySprite,
-				primarySprite,
-				secondarySprite: findSecondarySprite(
-					baseSprite,
-					showFemaleSpriteIfExists,
-					showShinySpriteIfExists
-				),
-				variety: variety.name ? variety : undefined
+				hasShinySprite: data.sprites.hasShiny,
+				variety: variety.name ? variety : undefined,
+				transferableQueryParams: '' // Gets auto-updated within the store anyway
 			});
 		}
 	}
@@ -196,8 +163,8 @@
 			</div>
 
 			<SpritePreview
-				primarySprite={$pokemonDisplayStore.primarySprite}
-				secondarySprite={$pokemonDisplayStore.secondarySprite}
+				primarySprite={data.sprites.primary}
+				secondarySprite={data.sprites.secondary}
 			/>
 
 			{#if $currentUser}
