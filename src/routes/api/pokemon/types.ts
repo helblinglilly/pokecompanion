@@ -1,3 +1,4 @@
+import type { IGameGroups } from "$/lib/data/games";
 import type { IEncounters } from "$lib/data/encounterFilter";
 import type { ITypeRelations } from "$lib/data/generationAdjuster";
 import type { IMoves } from "$lib/data/movesetFilter";
@@ -33,6 +34,7 @@ export interface IPokemonResponse {
 		}
 	};
 	encounters: IEncounters; 
+	sprites: ISpritesConsumable;
 };
 
 export interface IPokemonMinimalMove {
@@ -55,3 +57,24 @@ export interface IPokemonMinimalMoveGroups {
 	tmMoves: IPokemonMinimalMove[];
 	tutorMoves: IPokemonMinimalMove[];
 } 
+
+export interface IPokemonRequestPreferences {
+	variety: string | null;
+	shiny: boolean;
+	isFemale: boolean;
+	primaryLanguage: string;
+	secondaryLanguage: string | undefined;
+	selectedGame: IGameGroups | undefined;
+	animateSprites: boolean;
+}
+
+export interface ISpritesConsumable {
+	primary: {
+		url: string;
+		alt: string;
+	},
+	secondary: {
+		url: string;
+		alt: string;
+	}
+}
