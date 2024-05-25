@@ -11,4 +11,5 @@ export interface IUserPreferences {
 	primaryLanguage: string;
 	secondaryLanguage: string | undefined;
 	selectedGame: IGameGroups | undefined;
+	animateSprites: boolean;
 }
