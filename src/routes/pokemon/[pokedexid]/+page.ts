@@ -10,6 +10,8 @@ export const load = async ({ params, fetch, url }) => {
 	requestUrl.searchParams.append('primaryLanguage', url.searchParams.get('primaryLanguage') ?? get(primaryLanguage));
 	requestUrl.searchParams.append('secondaryLanguage', url.searchParams.get('secondaryLanguage') ?? get(secondaryLanguage) ?? '');
 	requestUrl.searchParams.append('variety', url.searchParams.get('variety') ?? '');
+	requestUrl.searchParams.append('shiny', url.searchParams.get('shiny') ?? '');
+	requestUrl.searchParams.append('gender', url.searchParams.get('gender') ?? '');
 	const game = getGameGroupFromName(url.searchParams.get('game') as PokeapiVersionGroups ?? get(selectedGame)?.pokeapi)
 
 	if (game){
