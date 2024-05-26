@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Image from '$/components/UI/Image.svelte';
-	import { primaryLanguage, secondaryLanguage, theme } from '$lib/stores/domain';
+	import {
+		animateSprites,
+		primaryLanguage,
+		secondaryLanguage,
+		selectedGame,
+		theme,
+		versionSpecificSprites
+	} from '$lib/stores/domain';
 	import type { ITagPokemon } from '$lib/types/ITags';
 	import { getPokemonEntry } from '$lib/data/games';
 	import Icon from '$/components/UI/Icon.svelte';
@@ -13,28 +20,70 @@
 	export let onRemoveClick: () => void = () => null;
 	export let style: string = '';
 
-	const namePrefix = pokemonVarietyNameToDisplay(pokemon.variety?.name ?? '');
+	const namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
+
+	const queryParams = new URLSearchParams();
+
+	$: {
+		if (pokemon) {
+			if (pokemon.gender) {
+				queryParams.set('gender', pokemon.gender);
+			} else {
+				queryParams.delete('gender');
+			}
+			if (pokemon.shiny) {
+				queryParams.set('shiny', 'true');
+			} else {
+				queryParams.delete('shiny');
+			}
+			if (pokemon.variety) {
+				queryParams.set('variety', pokemon.variety);
+			} else {
+				queryParams.delete('variety');
+			}
+		}
+	}
+
+	const fallbackSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
+
+	async function getSpriteURL(shiny: boolean, isFemale: boolean) {
+		const queryParamsCopy = new URLSearchParams(queryParams.toString());
+		queryParamsCopy.set('shiny', `${shiny}`);
+		queryParamsCopy.set('gender', isFemale ? 'female' : '');
+
+		console.log($animateSprites);
+
+		if ($versionSpecificSprites === true && $selectedGame) {
+			queryParamsCopy.set('game', $selectedGame.pokeapi);
+
+			if ($animateSprites) {
+				queryParamsCopy.set('animate', $animateSprites ? 'true' : 'false');
+			}
+		}
+
+		const res = await fetch(`/api/pokemon/${pokemon.id}/sprite?${queryParamsCopy.toString()}`);
+		if (res.ok) {
+			return await res.text();
+		}
+		return fallbackSpriteUrl;
+	}
 </script>
 
 <div class="card" id={`${pokemon.id}`} {style}>
-	<a
-		href={`/pokemon/${pokemon.id}?shiny=${pokemon.shiny}${
-			pokemon.gender ? `&gender=${pokemon.gender}` : ''
-		}${pokemon.variety ? `&variety=${pokemon.variety.name}` : ''}`}
-		class="clickable"
-	>
+	<a href={`/pokemon/${pokemon.id}?${queryParams.toString()}`} class="clickable">
 		<div class="spriteWrapper">
-			<Image
-				src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon${
-					pokemon.shiny ? '/shiny' : ''
-				}${pokemon.gender === 'female' ? '/female' : ''}/${
-					pokemon.variety ? pokemon.variety.spriteId : pokemon.id
-				}.png`}
-				alt={`sprite`}
-				loading="lazy"
-				height="96px"
-				width="96px"
-			/>
+			{#await getSpriteURL(showGenderAndShiny ? pokemon.shiny === true : false, showGenderAndShiny ? pokemon.gender === 'female' : false)}
+				<Image src={'/placeholder.png'} alt={`sprite`} loading="lazy" height="96px" width="96px" />
+			{:then spriteURL}
+				<Image
+					classNames="ml-auto mr-auto"
+					src={spriteURL}
+					alt={`sprite`}
+					loading="lazy"
+					height="96px"
+					width="auto"
+				/>
+			{/await}
 		</div>
 		<p>#{pokemon.id}</p>
 		<p>
@@ -146,5 +195,6 @@
 		width: 96px;
 		margin-left: auto;
 		margin-right: auto;
+		align-content: center;
 	}
 </style>
