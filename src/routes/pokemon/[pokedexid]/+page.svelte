@@ -39,13 +39,6 @@
 			const showShinySpriteIfExists = $page.url.searchParams.get('shiny') === 'true';
 			const varietyName = $page.url.searchParams.get('variety');
 
-			const variety = {
-				name: varietyName,
-				spriteId: data.sprites.primary.url
-					? data.sprites.primary.url.split('/')[8].split('.')[0]
-					: ''
-			};
-
 			pokemonDisplayStore.set({
 				id: data.id,
 				showFemaleSpriteIfExists,
@@ -53,7 +46,7 @@
 				gender: data.sprites.hasFemale ? (showFemaleSpriteIfExists ? 'female' : 'male') : undefined,
 				showShinySpriteIfExists,
 				hasShinySprite: data.sprites.hasShiny,
-				variety: variety.name ? variety : undefined,
+				variety: varietyName ?? undefined,
 				transferableQueryParams: '' // Gets auto-updated within the store anyway
 			});
 		}

@@ -19,12 +19,7 @@ export interface IDisplayPokemon {
 
 	transferableQueryParams: string;
 
-	variety:
-		| {
-				spriteId: string | null;
-				name: string | null;
-		  }
-		| undefined;
+	variety: string | undefined;
 }
 
 export const pokemonDisplayStore = writable<IDisplayPokemon>();

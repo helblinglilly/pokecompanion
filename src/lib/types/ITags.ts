@@ -21,12 +21,7 @@ export interface ITagPokemonNew {
 	id: number;
 	gender?: 'female' | 'male' | undefined;
 	shiny: true | false | undefined;
-	variety?:
-		| {
-				spriteId: string | null;
-				name: string | null;
-		  }
-		| undefined;
+	variety?: string;
 }
 
 export interface ITagMove extends ITagMoveNew {

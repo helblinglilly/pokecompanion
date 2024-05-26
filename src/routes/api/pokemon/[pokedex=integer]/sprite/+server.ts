@@ -2,6 +2,7 @@ import type { RequestHandler } from "@sveltejs/kit";
 import { getGameGroupFromName } from "$/lib/data/games";
 import type { UserPreferencePokemonVersion } from "$/lib/stores/domain";
 import { getPokemonSprite } from "./internal";
+import { Logger } from "$/lib/log";
 
 
 async function respond(url: string, respondImage: boolean, headers: object) {
@@ -41,8 +42,20 @@ export const GET: RequestHandler = async ({ url, platform, params }) => {
 	)
 	
 	if (!sprite.url){
+		Logger.warn('/api/pokemon/:id/sprite returned 404', {
+			context: `Pokemon ${id}`,
+			searchParams: url.searchParams.toString()
+		})
+
 		return new Response(null, {
 			status: 404
+		})
+	}
+
+	if (!sprite.isPerfectMatch){
+		Logger.warn('/api/pokemon/:id/sprite failed to find a perfect match', {
+			context: `Pokemon ${id}`,
+			searchParams: url.searchParams.toString()
 		})
 	}
 
