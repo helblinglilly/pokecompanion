@@ -14,10 +14,9 @@ test('Pokemon page can be rendered without any cookies', async ({ page }) => {
 	await page.context().clearCookies();
 	await page.goto('/pokemon/25', { waitUntil: 'networkidle' });
 
-	const locator = page.locator('#pokemonName');
-	await expect(locator).toHaveText('Pikachu');
+	await expect(page.locator('#pokemonName')).toHaveText('Pikachu');
 
 	await page.getByRole('link', { name: '#26 icon' }).click();
 
-	await page.waitForURL('**/pokemon/26');
+	await expect(page).toHaveURL('/pokemon/26');
 });

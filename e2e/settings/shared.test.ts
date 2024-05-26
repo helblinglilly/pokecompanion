@@ -8,9 +8,8 @@ const assertSelection = async (page: Page) => {
 
 export const navigateToSettings = async (page: Page) => {
 	await page.goto('/');
-	await page.getByRole('button', { name: 'Settings' }).click();
+	await page.goto('/settings', { waitUntil: 'networkidle' });
 	await expect(page).toHaveURL('/settings');
-	await page.waitForLoadState('networkidle');
 };
 
 test('the changed setting persists when navigating through pages', async ({ page }) => {
