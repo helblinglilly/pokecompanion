@@ -130,7 +130,7 @@
 									Logger.addPageAction('UIInteraction', 'EvolutionUseItemNavigation');
 								}}
 							>
-								<p>Use</p>
+								<p class="min-w-fit">Use</p>
 								<Image
 									src={requirement.info}
 									height="30"
@@ -173,7 +173,7 @@
 						{/if}
 
 						{#if requirement.type === 'friendship'}
-							<p>Friendship</p>
+							<p class="text-nowrap">Friend&shy;ship</p>
 						{/if}
 
 						{#if requirement.type === 'party_have'}
