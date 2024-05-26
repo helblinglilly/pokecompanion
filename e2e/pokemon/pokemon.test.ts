@@ -1,7 +1,10 @@
 import { test, expect } from '@playwright/test';
 
-test('Pokemon page can be rendered when selectedGame is generic', async ({ page }) => {
+test.beforeEach(async ({ page }) => {
 	await page.context().clearCookies();
+})
+
+test('Pokemon page can be rendered when selectedGame is generic', async ({ page }) => {
 	await page
 		.context()
 		.addCookies([{ name: 'selectedGame', value: 'generic', domain: 'localhost', path: '/' }]);
@@ -12,7 +15,6 @@ test('Pokemon page can be rendered when selectedGame is generic', async ({ page 
 });
 
 test('When Pokemon is not in game, will display correct, relative data', async ({ page }) => {
-	await page.context().clearCookies();
 	await page
 		.context()
 		.addCookies([{ name: 'selectedGame', value: 'black-white', domain: 'localhost', path: '/' }]);
@@ -28,8 +30,6 @@ test('When Pokemon is not in game, will display correct, relative data', async (
 });
 
 test('Will update the URL when different forms are selected', async ({ page }) => {
-	await page.context().clearCookies();
-
 	// Wooper
 	await page.goto('/pokemon/194', { waitUntil: 'networkidle' });
 	page.getByRole('heading', { name: 'Wooper' });
@@ -57,27 +57,18 @@ test('Will update the URL when different forms are selected', async ({ page }) =
 });
 
 test('Will respect language, game and variety', async ({ page }) => {
-	await page.context().clearCookies();
-	await page
-		.context()
-		.addCookies([
-			{ name: 'selectedGame', value: 'black-white', domain: 'localhost', path: '/' },
-			{ name: 'primaryLanguage', value: 'de', domain: 'localhost', path: '/' },
-			{ name: 'secondaryLanguage', value: 'fr', domain: 'localhost', path: '/' }
-		]);
-
-	// Bulbasaur
-	await page.goto('/pokemon/1', { waitUntil: 'networkidle' });
+	// // Bulbasaur
+	await page.goto('/pokemon/1?game=black-2-white-2&primaryLanguage=de&secondaryLanguage=fr', { waitUntil: 'networkidle' });
 	
-	// Ensure languages are being respected
-	page.getByRole('heading', { name: 'Bisasam - Bulbizarre' });
+	// // Ensure languages are being respected
+	// page.getByRole('heading', { name: 'Bisasam - Bulbizarre' });
 
-	// Ensure sprite is version specific
+	// // Ensure sprite is version specific
 	const primarySpriteBulbasaur = page.locator('#primarySprite');
 	const bulbasaurSpriteURL = await primarySpriteBulbasaur.getAttribute('src');
 	expect(bulbasaurSpriteURL).toBe('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/1.gif');
 
-	// Ensure variety
+	// // Ensure variety
 	await page.goto('/pokemon/25?variety=pikachu-gmax', { waitUntil: 'networkidle' });
 	page.getByRole('heading', { name: 'Gigadynamax-Pikachu - Pikachu Gigamax' });
 	

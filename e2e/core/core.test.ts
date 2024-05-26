@@ -5,10 +5,9 @@ test('a search can be performed and shows results', async ({ page }) => {
 	await page.locator('#searchForm > input').fill('5');
 	await page.getByRole('button', { name: 'Search' }).click();
 	await expect(page).toHaveURL('/search?term=5');
-	await page.getByRole('button', { name: 'Show more results...' }).click();
-	await page.getByRole('link', { name: 'Dodrio sprite #85 Dodrio' }).click();
-	await page.getByRole('heading', { name: 'Dodrio' }).click();
-	await expect(page).toHaveURL('/pokemon/85');
+	await page.getByRole('link', { name: 'Psyduck sprite #54 Psyduck' }).click();
+	await page.getByRole('heading', { name: 'Psyduck' }).click();
+	await expect(page).toHaveURL('/pokemon/54');
 });
 
 test('Pokemon page can be rendered without any cookies', async ({ page }) => {
