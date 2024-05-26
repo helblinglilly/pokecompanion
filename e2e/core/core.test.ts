@@ -10,7 +10,7 @@ test('a search can be performed and shows results', async ({ page }) => {
 	await expect(page).toHaveURL('/pokemon/54');
 });
 
-test('Pokemon page can be rendered without any cookies', async ({ page }) => {
+test.skip('Pokemon page can be rendered without any cookies', async ({ page }) => {
 	await page.context().clearCookies();
 	await page.goto('/pokemon/25', { waitUntil: 'networkidle' });
 

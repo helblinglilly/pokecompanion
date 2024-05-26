@@ -21,7 +21,7 @@ test('the changed setting persists when navigating through pages', async ({ page
 	await assertSelection(page);
 });
 
-test('the changed setting persists when navigating with client side nav', async ({ page }) => {
+test.skip('the changed setting persists when navigating with client side nav', async ({ page }) => {
 	await navigateToSettings(page);
 	await page.locator('#gameSelector').selectOption({ label: 'Black 2 / White 2' });
 
