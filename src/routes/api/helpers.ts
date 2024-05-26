@@ -108,10 +108,12 @@ export const parseUserPreferences = (url: URL, cookies: Cookies): IUserPreferenc
 	const gameEntry = getGameGroupFromName(url.searchParams.get('game') as UserPreferencePokemonVersion ?? cookies.get('game') as UserPreferencePokemonVersion);
 	const primaryLanguage = url.searchParams.get('primaryLanguage') ?? cookies.get('primaryLanguage') ?? 'en';
 	const secondaryLanguage = url.searchParams.get('secondaryLanguage') ?? cookies.get('secondaryLanguage');
+	const animateSprites = url.searchParams.get('animateSprites') === 'true' || cookies.get('animateSprites') === 'true';
 
 	return {
 		selectedGame: gameEntry,
 		primaryLanguage,
-		secondaryLanguage
+		secondaryLanguage,
+		animateSprites
 	}
 }

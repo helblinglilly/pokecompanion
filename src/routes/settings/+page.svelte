@@ -141,7 +141,7 @@
 							disabled={language.code === $secondaryLanguage}
 						>
 							{#if language.nativeName}
-								{language.englishName} - {language.nativeName}
+								{`${language.englishName} - ${language.nativeName}`}
 							{:else}
 								{language.englishName}
 							{/if}
@@ -172,7 +172,7 @@
 							disabled={language.code === $primaryLanguage}
 						>
 							{#if language.nativeName}
-								{language.englishName} - {language.nativeName}
+								{`${language.englishName} - ${language.nativeName}`}
 							{:else}
 								{language.englishName}
 							{/if}

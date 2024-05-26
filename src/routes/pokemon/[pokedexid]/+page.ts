@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import type { IPokemonResponse } from '../../api/pokemon/types';
 import { get } from 'svelte/store';
-import { selectedGame, primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
+import { selectedGame, primaryLanguage, secondaryLanguage, animateSprites, versionSpecificSprites } from '$lib/stores/domain';
 import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
 
 export const load = async ({ params, fetch, url }) => {
@@ -10,9 +10,13 @@ export const load = async ({ params, fetch, url }) => {
 	requestUrl.searchParams.append('primaryLanguage', url.searchParams.get('primaryLanguage') ?? get(primaryLanguage));
 	requestUrl.searchParams.append('secondaryLanguage', url.searchParams.get('secondaryLanguage') ?? get(secondaryLanguage) ?? '');
 	requestUrl.searchParams.append('variety', url.searchParams.get('variety') ?? '');
+	requestUrl.searchParams.append('shiny', url.searchParams.get('shiny') ?? '');
+	requestUrl.searchParams.append('gender', url.searchParams.get('gender') ?? '');
+	requestUrl.searchParams.append('animateSprites', url.searchParams.get('animateSprites') ?? `${get(animateSprites)}`);
 	const game = getGameGroupFromName(url.searchParams.get('game') as PokeapiVersionGroups ?? get(selectedGame)?.pokeapi)
+	const showGameSpecificSprites = url.searchParams.get('versionSpecificSprites') ?? get(versionSpecificSprites);
 
-	if (game){
+	if (game && showGameSpecificSprites){
 		requestUrl.searchParams.append('game', game.pokeapi)
 	}
 

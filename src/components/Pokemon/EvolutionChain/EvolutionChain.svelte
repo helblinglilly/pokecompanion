@@ -8,6 +8,7 @@
 	import { getGameGroupFromName } from '$lib/data/games';
 	import type { IEvolution } from '$/lib/pokemon-id/evolution';
 	import formatEvolutions from '$/lib/pokemon-id/evolution';
+	import { pokemonDisplayStore } from '$/lib/stores/pokemonPage';
 
 	export let evolutionChainUrl: string;
 
@@ -84,7 +85,7 @@
 			<div class="columns mobile">
 				<div class="column" style="display: grid; justify-content: center;">
 					<a
-						href={evolution.sourceURL}
+						href={evolution.sourceURL + $pokemonDisplayStore.transferableQueryParams}
 						on:click={() => {
 							Logger.addPageAction('UIInteraction', 'EvolutionPokemon', {
 								action: 'Navigation'
@@ -129,7 +130,7 @@
 									Logger.addPageAction('UIInteraction', 'EvolutionUseItemNavigation');
 								}}
 							>
-								<p>Use</p>
+								<p class="min-w-fit">Use</p>
 								<Image
 									src={requirement.info}
 									height="30"
@@ -172,7 +173,7 @@
 						{/if}
 
 						{#if requirement.type === 'friendship'}
-							<p>Friendship</p>
+							<p class="text-nowrap">Friend&shy;ship</p>
 						{/if}
 
 						{#if requirement.type === 'party_have'}
@@ -284,7 +285,7 @@
 				</div>
 				<div class="column" style="display: grid; justify-content: center;">
 					<a
-						href={evolution.targetURL}
+						href={evolution.targetURL + $pokemonDisplayStore.transferableQueryParams}
 						on:click={() => {
 							Logger.addPageAction('UIInteraction', 'EvolutionPokemon', {
 								action: 'Navigation'

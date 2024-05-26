@@ -1,9 +1,12 @@
 <script lang="ts">
 	import Modal from '$/components/UI/Modal.svelte';
-	import type { ISpriteImage } from '$lib/pokemon-id/sprites';
 	import { onMount } from 'svelte';
 	import Image from '$/components/UI/Image.svelte';
 
+	interface ISpriteImage {
+		url: string;
+		alt: string;
+	}
 	export let primarySprite: ISpriteImage;
 	export let secondarySprite: ISpriteImage;
 
@@ -96,9 +99,16 @@
 	}
 
 	#modalImageWrapper {
-		width: 300px;
 		height: 300px;
 		display: grid;
-		align-content: center;
+		align-items: center;
+		justify-items: center;
+		margin-top: 1rem;
+	}
+
+	#modalImage {
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
 	}
 </style>

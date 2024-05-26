@@ -1,16 +1,17 @@
 import { lastPokedexEntry } from '$lib/stores/domain';
-import { type FlavorTextEntry } from '$lib/types/IPokemon';
-import type { RequestHandler } from '../$types';
+import { type FlavorTextEntry} from '$lib/types/IPokemon';
 import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
 import { fixAbilities, getPokemonTypesInGame, getTypeRelations } from '$lib/data/generationAdjuster';
 import { formatEncounters } from '$lib/data/encounterFilter';
 import { formatMovesetToVersionEntries } from '$lib/data/movesetFilter';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { parseUserPreferences } from '../../helpers';
-import type { IPokemonResponse } from './../types';
+import type { IPokemonRequestPreferences, IPokemonResponse, ISpritesConsumable } from '../types';
 import { Logger } from '$lib/log';
 import { fetchPokemon, fetchPokemonEncounters, fetchPokemonForm, fetchPokemonSpecies } from '../cachedFetch';
 import { getGame } from '$lib/data/games';
+import type { RequestHandler } from '@sveltejs/kit';
+import { getPokemonSprite } from './sprite/internal';
 
 const filterPokedexEntries = (
 	allEntries: FlavorTextEntry[],
@@ -39,27 +40,48 @@ const filterPokedexEntries = (
 	// To do: Move the selected game entry to the top
 };
 
+const fetchSprites = async (id: number, preferences: IPokemonRequestPreferences, platform: Readonly<App.Platform> | undefined): Promise<ISpritesConsumable & { hasShiny: boolean; hasFemale: boolean;}> => {
+	const [frontRes, backRes] = await Promise.allSettled([
+		getPokemonSprite(id, platform, preferences.selectedGame, preferences.variety, preferences.shiny, preferences.isFemale, false, preferences.animateSprites),
+		getPokemonSprite(id, platform, preferences.selectedGame, preferences.variety, preferences.shiny, preferences.isFemale, true, preferences.animateSprites)
+	]);
+
+	const values = {
+		primary: {
+			url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
+			alt: 'Front',
+		},
+		secondary: {
+			url: '',
+			alt: ''
+		},
+		hasShiny: false,
+		hasFemale: false,
+	}
+
+	if (frontRes.status === 'fulfilled'){
+		values.primary.url = frontRes.value.url;
+		values.primary.alt = frontRes.value.alt;
+		values.hasShiny = frontRes.value.hasShiny
+		values.hasFemale = frontRes.value.hasFemale;
+	}
+
+	if (backRes.status === 'fulfilled'){
+		values.secondary.url = backRes.value.url,
+		values.secondary.alt = backRes.value.alt
+	}
+
+	return values;
+}
+
 export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {	
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore Fails to understand that pokedex param exists
-	const rawId = params.pokedex;
-	if (!rawId){
+	const id = Number(params.pokedex);
+	if (!id){
 		return new Response(JSON.stringify({
 			error: 'Missing pokemon in search params',
 			searchParam: 'pokemon=:id'
-		}), {
-			status: 404,
-			headers: {
-				'content-type': 'application/json'
-			}
-		})
-	}
-	
-	const id = parseInt(rawId, 10);
-	if (isNaN(id)) {
-		return new Response(JSON.stringify({
-			error: 'Provided pokemon value is not a number',
-			requested: id
 		}), {
 			status: 404,
 			headers: {
@@ -83,24 +105,26 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 			}
 		})
 	}
-	
-	let [pokemon, species] = await Promise.all([
-		fetchPokemon(id, platform),
-		fetchPokemonSpecies(id, platform)
-	])
-	const { primaryLanguage, secondaryLanguage, selectedGame, variety} = {
+
+	const requestPreferences: IPokemonRequestPreferences = {
 		...parseUserPreferences(url, cookies),
-		variety: url.searchParams.get('variety')
+		variety: url.searchParams.get('variety'),
+		shiny: url.searchParams.get('shiny') === 'true',
+		isFemale: url.searchParams.get('gender') === 'female',
 	}
+	const { primaryLanguage, secondaryLanguage, selectedGame, variety } = requestPreferences;
+	
+	// Only some values may get rassigned
+	// eslint-disable-next-line prefer-const 
+	let [pokemon, species, sprites] = await Promise.all([
+		fetchPokemon(id, platform),
+		fetchPokemonSpecies(id, platform),
+		fetchSprites(id, requestPreferences, platform)
+	])
 
 	const formEntry = pokemon.forms.find((entry) => entry.name === variety);
 	if (formEntry) {
 		const formData = await fetchPokemonForm(formEntry.url, platform);
-		pokemon = {
-			...pokemon,
-			sprites: formData.sprites
-		};
-
 		species = {
 			...species,
 			names: formData.names
@@ -125,19 +149,13 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 
 			if (varietyForm) {
 				const varietyFormPokemon = await fetchPokemonForm(varietyForm?.url, platform);
-				const hasNewSprites = Object.keys(varietyFormPokemon.sprites).some((key) => {
-					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-					// @ts-ignore Literally iterating over the keys
-					return varietyFormPokemon.sprites[key] !== null;
-				});
 
 				varietyPokemon = {
 					...varietyPokemon,
 					...varietyFormPokemon,
-					sprites: hasNewSprites ? varietyFormPokemon.sprites : varietyPokemon.sprites
 				};
 
-				if (varietyFormPokemon.names.length) {
+				if (varietyFormPokemon.names.length && varietyFormPokemon.names.some((varietyName) => varietyName.language.name === primaryLanguage || varietyName.language.name === secondaryLanguage)) {
 					species.names = varietyFormPokemon.names;
 				} else {
 					species.names = species.names.map((name) => {
@@ -211,6 +229,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 			)
 		},
 		encounters: formatEncounters(encounters),
+		sprites
 	}
 	return new Response(JSON.stringify(response), {
 		headers: {

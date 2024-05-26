@@ -5,6 +5,7 @@ export const navigateToSettings = async (page: Page) => {
 	await page.goto('/');
 	await page.getByRole('button', { name: 'Settings' }).click();
 	await expect(page).toHaveURL('/settings');
+	await page.waitForLoadState('networkidle');
 };
 
 test('primary language has a default value "English"', async ({ page }) => {
@@ -19,18 +20,24 @@ test('secondary language is not set by default', async ({ page }) => {
 	await assertCookie(page, 'secondaryLanguage', 'none');
 });
 
-test('can change primary language', async ({ page }) => {
+test('can change languages', async ({ page }) => {
 	await navigateToSettings(page);
-	await page.locator('#primaryLanguageSelector').selectOption({ label: 'German - Deutsch' });
+	await page.getByLabel('Primary Language').selectOption('de');
 	await assertCookie(page, 'primaryLanguage', 'de');
 	await expect(page.locator('#primaryLanguageSelector > option.selected')).toHaveText(
 		'German - Deutsch'
 	);
+
+	await page.getByLabel('Secondary Language').selectOption('fr');
+	await assertCookie(page, 'secondaryLanguage', 'fr');
+	await expect(page.locator('#secondaryLanguageSelector > option.selected')).toHaveText(
+		'French - Français'
+	);
 });
 
-test.skip('changing the language will remove the option in the other', async ({ page }) => {
+test('changing the language will remove the option in the other', async ({ page }) => {
 	await navigateToSettings(page);
-	await page.locator('#primaryLanguageSelector').selectOption({ label: 'German - Deutsch' });
+	await page.locator('#primaryLanguageSelector').selectOption({ value: 'de' });
 
 	await expect(page.locator('#secondaryLanguageSelector > option.disabled')).toHaveText(
 		'German - Deutsch'

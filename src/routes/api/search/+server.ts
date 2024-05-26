@@ -5,8 +5,9 @@ import Moves from '$lib/data/moves.json';
 import { termNormaliser } from '$lib/utils/string';
 import type { IStaticPokemon } from '$lib/data/games';
 import { Logger } from '$lib/log';
+import { parseUserPreferences } from '../helpers.js';
 
-export async function GET({ request, platform }) {
+export async function GET({ request, platform, cookies }) {
 	const url = new URL(request.url);
 
 	const searchTerm = url.searchParams.get('term');
@@ -16,10 +17,11 @@ export async function GET({ request, platform }) {
 
 	const normalisedTerm = decodeURIComponent(searchTerm.replace(/\+/g, ' '));
 
-	request.url
+	const userPreferences = parseUserPreferences(url, cookies);
+
 	const languages = [
-		url.searchParams.get('primaryLanguage') ?? 'en',
-		url.searchParams.get('secondaryLanguage') ?? '',
+		userPreferences.primaryLanguage ?? 'en',
+		userPreferences.secondaryLanguage ?? ''
 	];
 
 	const [pokemonResults, abilityResults, itemResults, moveResults] = await Promise.all([

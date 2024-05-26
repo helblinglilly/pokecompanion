@@ -1,14 +1,7 @@
-import type { ISprites } from '$lib/types/IPokemon';
+import type { ISprites } from "$/lib/types/IPokemon";
+import type { ISpriteData } from "./types";
 
-export interface ISpriteData {
-	default: string;
-	shiny?: string | null;
-	shinyFemale?: string | null;
-	female?: string | null;
-	grey?: string | null;
-}
-
-export const findBaseSprites = (
+export function extractBaseSprites(
 	sprites: ISprites,
 	versionSpecificSprites: boolean,
 	selectedGame: string | undefined,
@@ -20,7 +13,7 @@ export const findBaseSprites = (
 		hasFemaleSprite: boolean;
 		hasShinySprite: boolean;
 	};
-} => {
+} {
 	const baseSprites = {
 		primary: {
 			default: sprites.front_default,
@@ -290,53 +283,4 @@ export const findBaseSprites = (
 	}
 
 	return baseSprites;
-};
-
-export interface ISpriteImage {
-	url: string;
-	alt: string;
-}
-
-export const findPrimarySprite = (
-	passedSprites: { primary: ISpriteData; secondary: ISpriteData },
-	isDisplayingFemale: boolean,
-	isDisplayingShiny: boolean
-): ISpriteImage => {
-	if (isDisplayingFemale && passedSprites.primary.female) {
-		if (isDisplayingShiny && passedSprites.primary.shinyFemale) {
-			return {
-				url: passedSprites.primary.shinyFemale,
-				alt: 'Shiny Female Front'
-			};
-		} else {
-			return { url: passedSprites.primary.female, alt: 'Female Front' };
-		}
-	} else {
-		if (isDisplayingShiny && passedSprites.primary.shiny) {
-			return { url: passedSprites.primary.shiny, alt: 'Shiny Front' };
-		}
-		return { url: passedSprites.primary.default, alt: 'Front' };
-	}
-};
-
-export const findSecondarySprite = (
-	passedSprites: { primary: ISpriteData; secondary: ISpriteData },
-	isDisplayingFemale: boolean,
-	isDisplayingShiny: boolean
-): ISpriteImage => {
-	if (isDisplayingFemale && passedSprites.secondary.female) {
-		if (isDisplayingShiny && passedSprites.secondary.shinyFemale) {
-			return {
-				url: passedSprites.secondary.shinyFemale,
-				alt: 'Shiny Female Back'
-			};
-		} else {
-			return { url: passedSprites.secondary.female, alt: 'Female Back' };
-		}
-	} else {
-		if (isDisplayingShiny && passedSprites.secondary.shiny) {
-			return { url: passedSprites.secondary.shiny, alt: 'Shiny Back' };
-		}
-		return { url: passedSprites.secondary.default, alt: 'Back' };
-	}
 };

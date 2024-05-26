@@ -15,7 +15,7 @@ export const Generations: IGeneration[] = [
 		short: 'Gen 1',
 		pokeApiName: 'generation-i',
 		nationalDexEnd: 151,
-		number: 1
+		number: 1,
 	},
 	{
 		name: 'Generation 2',
