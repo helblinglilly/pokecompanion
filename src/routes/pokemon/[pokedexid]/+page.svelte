@@ -65,6 +65,12 @@
 		goto(newUrl.toString(), { replaceState: true, noScroll: true });
 	};
 
+	const deleteUrlQueryParam = (param: string) => {
+		const newUrl = new URL($page.url);
+		newUrl.searchParams.delete(param);
+		goto(newUrl.toString(), { replaceState: true, noScroll: true });
+	};
+
 	$: {
 		if (
 			$pokemonDisplayStore.showFemaleSpriteIfExists !==
@@ -82,7 +88,11 @@
 			$pokemonDisplayStore.showShinySpriteIfExists !==
 			($page.url.searchParams.get('shiny') === 'true')
 		) {
-			changeUrlQueryParam('shiny', $pokemonDisplayStore.showShinySpriteIfExists ? 'true' : 'false');
+			if ($pokemonDisplayStore.showShinySpriteIfExists) {
+				changeUrlQueryParam('shiny', 'true');
+			} else {
+				deleteUrlQueryParam('shiny');
+			}
 		}
 	}
 
