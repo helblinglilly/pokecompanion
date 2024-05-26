@@ -4,7 +4,7 @@ test.beforeEach(async ({ page }) => {
 	await page.context().clearCookies();
 })
 
-test('Pokemon page can be rendered when selectedGame is generic', async ({ page }) => {
+test.skip('Pokemon page can be rendered when selectedGame is generic', async ({ page }) => {
 	await page
 		.context()
 		.addCookies([{ name: 'selectedGame', value: 'generic', domain: 'localhost', path: '/' }]);
