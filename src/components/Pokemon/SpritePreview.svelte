@@ -6,6 +6,7 @@
 	interface ISpriteImage {
 		url: string;
 		alt: string;
+		isBack?: boolean;
 	}
 	export let primarySprite: ISpriteImage;
 	export let secondarySprite: ISpriteImage;
@@ -52,7 +53,7 @@
 		/>
 	</div>
 
-	{#if secondarySprite.url}
+	{#if secondarySprite.url && secondarySprite.isBack}
 		<div
 			class="column spriteBoxWrapper"
 			on:click={() => toggleModal(secondarySprite)}

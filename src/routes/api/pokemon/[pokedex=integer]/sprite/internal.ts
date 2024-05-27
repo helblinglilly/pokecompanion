@@ -8,43 +8,35 @@ import { getSpriteAndInfo, getSpriteForGameAnimation } from "./helper";
 
 const baseUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon`;
 
-export async function getPokemonSprite(id: number, platform: Readonly<App.Platform> | undefined, game: IGameGroups | undefined, variety: string | null, shiny: boolean, female: boolean, back: boolean, animate: boolean) {
-    let matchesForm = false;
-
-
-	if (game?.pokeapi === PokeapiVersionGroups.SCARLET_VIOLET && !back && !female && !variety){
-		const backupUrl = animate && id >= 906 ? `https://sprites.pokecompanion.com/pokemon/scarlet-violet/${id}${shiny ? '-shiny' : ''}.gif` : `https://sprites.pokecompanion.com/pokemon/scarlet-violet/${id}.png`
+const getSelfHostedSpritesURL = async (id: number, variety: string | null, animate: boolean, shiny: boolean) => {
+	const pokemonName = `${id}${variety ? '-' + variety : ''}`;
+	const url = animate && id >= 906 ? 
+		`https://sprites.pokecompanion.com/pokemon/scarlet-violet/${pokemonName}${shiny ? '-shiny' : ''}.gif` : 
+		`https://sprites.pokecompanion.com/pokemon/scarlet-violet/${pokemonName}.png`
 		
-		// Check that URL exists
-		const isValid = await fetch(backupUrl).then((res) => {
-			return res.ok;
-		}).catch((err) => {
-			Logger.error(
-				Logger.ErrorClasses.OptionalOperationFailed,
-				Logger.buildError(err),
-				{
-					context: 'Validating a Scarlet/Violet specific sprite hosted on sprites.pokecompanion.com',
-					id,
-					animate
-				}
-			)
-		});
 
-		if (!isValid){
-			Logger.addPageAction('MissingSprite', 'Scarlet/Violet should have had a backup path but missed', {
+	// Check that URL exists
+	const isValid = await fetch(url).then((res) => {
+		return res.ok;
+	}).catch((err) => {
+		Logger.error(
+			Logger.ErrorClasses.OptionalOperationFailed,
+			Logger.buildError(err),
+			{
+				context: 'Validating a Scarlet/Violet specific sprite hosted on sprites.pokecompanion.com',
 				id,
 				animate
-			})
-		}
-
-		if (isValid){
-			return {
-				url: backupUrl,
-				alt: 'Front'
 			}
-		}
+		)
+	});
+
+	if (isValid){
+		return url;
 	}
-	
+}
+
+export async function getPokemonSprite(id: number, platform: Readonly<App.Platform> | undefined, game: IGameGroups | undefined, variety: string | null, shiny: boolean, female: boolean, back: boolean, animate: boolean) {
+    let matchesForm = false;	
 
     const ultimateFallback = {
         url: baseUrl + `/${id}.png`,
@@ -56,6 +48,30 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
         matchesForm,
         isPerfectMatch: false
     }
+
+	if (game?.pokeapi === PokeapiVersionGroups.SCARLET_VIOLET && !female){
+		let specificURL = await getSelfHostedSpritesURL(id, null, animate, shiny);
+		if (variety){
+			const specificVarietyURL = await getSelfHostedSpritesURL(id, variety, animate, shiny);
+			if (specificVarietyURL){
+				specificURL = specificVarietyURL
+			}
+		}
+
+		if (!specificURL){
+			Logger.addPageAction('MissingSprite', 'Scarlet/Violet should have had a backup path but missed', {
+				id,
+				animate
+			})
+		}
+
+		if (specificURL){
+			return {
+				url: specificURL,
+				alt: 'Front'
+			}
+		}
+	}
 
     const plainPokemon = await getPokemonFromVariety(id, variety, platform).catch((err) => {
         console.log(err);
