@@ -49,7 +49,7 @@
 			src={primarySprite.url}
 			alt={primarySprite.alt}
 			id="primarySprite"
-			style="width: 128px; max-height: 178px;"
+			style="max-width: 128px;"
 		/>
 	</div>
 
