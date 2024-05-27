@@ -67,6 +67,11 @@
 				>GNU General Public License v3.0.</a
 			>
 		</p>
+
+		<p>
+			Massive thank you to <a href="https://www.reddit.com/user/adamsb0303/">u/adamsb0303</a> for making
+			animated Scarlet/Violet Pokemon sprites freely accessible.
+		</p>
 	</section>
 </div>
 

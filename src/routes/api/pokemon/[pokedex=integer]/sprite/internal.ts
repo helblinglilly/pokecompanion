@@ -1,4 +1,5 @@
-import type { IGameGroups } from "$/lib/data/games";
+import { PokeapiVersionGroups, type IGameGroups } from "$/lib/data/games";
+import { Logger } from "$/lib/log";
 import type { IPokemon, IPokemonSpecies, ISprites } from "$/lib/types/IPokemon";
 import { capitaliseEachWord } from "$/lib/utils/string";
 import type { Platform } from "$/routes/api/types";
@@ -9,6 +10,41 @@ const baseUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprite
 
 export async function getPokemonSprite(id: number, platform: Readonly<App.Platform> | undefined, game: IGameGroups | undefined, variety: string | null, shiny: boolean, female: boolean, back: boolean, animate: boolean) {
     let matchesForm = false;
+
+
+	if (game?.pokeapi === PokeapiVersionGroups.SCARLET_VIOLET && !back && !female && !variety){
+		const backupUrl = animate && id >= 906 ? `https://sprites.pokecompanion.com/pokemon/scarlet-violet/${id}${shiny ? '-shiny' : ''}.gif` : `https://sprites.pokecompanion.com/pokemon/scarlet-violet/${id}.png`
+		
+		// Check that URL exists
+		const isValid = await fetch(backupUrl).then((res) => {
+			return res.ok;
+		}).catch((err) => {
+			Logger.error(
+				Logger.ErrorClasses.OptionalOperationFailed,
+				Logger.buildError(err),
+				{
+					context: 'Validating a Scarlet/Violet specific sprite hosted on sprites.pokecompanion.com',
+					id,
+					animate
+				}
+			)
+		});
+
+		if (!isValid){
+			Logger.addPageAction('MissingSprite', 'Scarlet/Violet should have had a backup path but missed', {
+				id,
+				animate
+			})
+		}
+
+		if (isValid){
+			return {
+				url: backupUrl,
+				alt: 'Front'
+			}
+		}
+	}
+	
 
     const ultimateFallback = {
         url: baseUrl + `/${id}.png`,
