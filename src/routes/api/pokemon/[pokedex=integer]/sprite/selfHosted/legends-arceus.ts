@@ -25,8 +25,6 @@ export class SelfHostedLegendsArceus extends SelfHostedSprite {
                 alt: 'Front'
             }
         }
-
-        console.log('returning undefined', baseURL);
         return undefined
     }
 

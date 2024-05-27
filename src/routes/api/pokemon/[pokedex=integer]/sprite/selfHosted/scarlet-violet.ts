@@ -26,7 +26,6 @@ export class SelfHostedScarletViolet extends SelfHostedSprite {
         }
 
         const baseURL = await this.getSelfHostedSpritesURL(false);
-        console.log(baseURL);
         if (await this.validatePotentialURL(baseURL)){
             return {
                 url: baseURL,
