@@ -155,7 +155,9 @@ export function getSpriteForGameAnimation(pokemon: IPokemon, selectedGame: IGame
             pokeapiSpriteName = PokeapiVersionGroups.BLACK_WHITE;
         } else if (selectedGame.pokeapi === PokeapiVersionGroups.GOLD_SILVER){
             pokeapiSpriteName = PokeapiVersionNames.GOLD;
-        }       
+        } else if (selectedGame.pokeapi === PokeapiVersionGroups.SUN_MOON){
+			pokeapiSpriteName = PokeapiVersionGroups.ULTRA_SUN_ULTRA_MOON
+		}
 
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore TODO: Can't be asked to type this properly
