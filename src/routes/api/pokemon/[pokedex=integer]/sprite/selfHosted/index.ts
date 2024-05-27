@@ -1,6 +1,7 @@
 import type { IGameGroups } from "$/lib/data/games";
 import { Logger } from "$/lib/log";
 import { capitaliseEachWord } from "$/lib/utils/string";
+import type { ISpriteAPIResponse } from "../types";
 
 export abstract class SelfHostedSprite {
     id: number;
@@ -52,7 +53,7 @@ export abstract class SelfHostedSprite {
         });
     }
 
-    abstract GetSprite(): Promise<{ url: string; alt: string; } | undefined>;
+    abstract GetSprite(): Promise<Partial<ISpriteAPIResponse> | undefined>;
 
     static baseUrl = 'https://sprites.pokecompanion.com/pokemon';
 

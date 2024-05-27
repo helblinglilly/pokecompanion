@@ -1,4 +1,5 @@
 import { SelfHostedSprite } from ".";
+import type { ISpriteAPIResponse } from "../types";
 
 export class SelfHostedScarletViolet extends SelfHostedSprite {
 
@@ -11,16 +12,20 @@ export class SelfHostedScarletViolet extends SelfHostedSprite {
         return url;
     }
 
-    async GetSprite(): Promise<{ url: string; alt: string; } | undefined> {
+    async GetSprite(): Promise<Partial<ISpriteAPIResponse> | undefined> {
         if (this.female){
             return undefined;
         }
+
+        const hasShiny = this.id >= 906;
+
         if (this.variety){
             const specificVarietyURL = await this.getSelfHostedSpritesURL(true);
             if (await this.validatePotentialURL(specificVarietyURL)){
                 return {
                     url: specificVarietyURL,
-                    alt: 'Front'
+                    alt: 'Front',
+                    hasShiny
                 }
             }
         }
@@ -29,7 +34,8 @@ export class SelfHostedScarletViolet extends SelfHostedSprite {
         if (await this.validatePotentialURL(baseURL)){
             return {
                 url: baseURL,
-                alt: 'Front'
+                alt: 'Front',
+                hasShiny
             }
         }
         return undefined

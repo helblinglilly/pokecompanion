@@ -7,10 +7,11 @@ import { getSpriteAndInfo, getSpriteForGameAnimation } from "./helper";
 import type { SelfHostedSprite } from "./selfHosted";
 import { SelfHostedLegendsArceus } from "./selfHosted/legends-arceus";
 import { SelfHostedScarletViolet } from "./selfHosted/scarlet-violet";
+import type { ISpriteAPIResponse } from "./types";
 
 const baseUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon`;
 
-export async function getPokemonSprite(id: number, platform: Readonly<App.Platform> | undefined, game: IGameGroups | undefined, variety: string | null, shiny: boolean, female: boolean, back: boolean, animate: boolean) {
+export async function getPokemonSprite(id: number, platform: Readonly<App.Platform> | undefined, game: IGameGroups | undefined, variety: string | null, shiny: boolean, female: boolean, back: boolean, animate: boolean): Promise<ISpriteAPIResponse> {
     let matchesForm = false;	
 
     const ultimateFallback = {
@@ -34,7 +35,10 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
 	if (selfHostedStrategy){
 		const selfHostedData = await selfHostedStrategy.GetSprite();
 		if (selfHostedData){
-			return selfHostedData;
+			return {
+				...ultimateFallback,
+				...selfHostedData
+			};
 		}
 	}
 
