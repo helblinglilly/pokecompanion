@@ -1,6 +1,8 @@
 import fs from "fs"
 import path from 'path';
 
+// https://www.spriters-resource.com/nintendo_switch/pokemonscarletviolet/sheet/187087/
+// https://drive.google.com/drive/folders/1hj-Wbkm6Qq3HPyqVu35BhID1zUQF93j4
 const inputDirectory = 'scripts/manual-sprites/sv-input';
 const outputDir = 'scripts/manual-sprites/sv-output';
 
