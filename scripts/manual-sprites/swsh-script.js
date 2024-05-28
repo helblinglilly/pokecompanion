@@ -60,12 +60,10 @@ fs.readdir(inputDirectory, (err, files) => {
                 let newFilename = `${filename}.gif`
 
 
-                if (pokedex <= 890){
+                if (pokedex <= 890 && newFilename.includes()){
                     fs.copyFile(path.join(inputDirectory, file), path.join(outputDir, newFilename), (err) => {
                         if (err) {
                             console.error(err);
-                        } else {
-                            // console.log(`${file} copied to ${newFilename}`);
                         }
                     });
                 }
