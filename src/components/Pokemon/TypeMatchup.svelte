@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Image from '$/components/UI/Image.svelte';
+	import { selectedGame } from '$/lib/stores/domain';
 	import type { ITypeRelations } from '$lib/data/generationAdjuster';
+	import Type from '../Type.svelte';
 	export let relations: ITypeRelations;
 </script>
 
@@ -9,7 +11,8 @@
 		<h3 class="h3">Resists</h3>
 		{#each relations.resists as resists}
 			<div class="type">
-				<Image src={resists.icon} alt={resists.name} />
+				<Type type={resists.name} />
+
 				{#if resists.multiplier === 0}
 					<b>x {resists.multiplier}</b>
 				{:else}
@@ -22,7 +25,8 @@
 		<h3 class="h3">Weak to</h3>
 		{#each relations.weakAgainst as weakAgainst}
 			<div class="type">
-				<Image src={weakAgainst.icon} alt={weakAgainst.name} />
+				<Type type={weakAgainst.name} />
+
 				{#if weakAgainst.multiplier === 4}
 					<b>x {weakAgainst.multiplier}</b>
 				{:else}

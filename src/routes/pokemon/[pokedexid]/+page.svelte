@@ -30,6 +30,7 @@
 	import { isPokemonInGameGroup } from '$lib/data/games';
 	import EncounterCard from '$/components/Pokemon/Encounters/EncounterCard.svelte';
 	import MovesetCard from '$/components/Pokemon/Moveset/MovesetCard.svelte';
+	import Type from '$/components/Type.svelte';
 
 	export let data;
 
@@ -159,9 +160,11 @@
 	<div class="column" style="padding-bottom: 1rem;">
 		<div class="card">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
-				<div style="display: inline-flex; height: 20px; width: fit-content;">
+				<div
+					style="display: inline-flex; height: 20px; width: fit-content; gap: 0.2rem; max-width: 50%;"
+				>
 					{#each data.pokemon.types as type}
-						<Image src={type.icon} alt={type.name} style="margin-right: 4px; width: 50px;" />
+						<Type type={type.name} />
 					{/each}
 				</div>
 				<Pokedex pokedexEntries={data.species.flavor_text_entries} />

@@ -237,6 +237,17 @@ export const GameGroups: IGameGroups[] = [
 		dlcGames: [],
 	},
 	{
+		pokeapi: PokeapiVersionGroups.EMERALD,
+		shortName: 'Emerald',
+		generation: Generations[2],
+		games: [{
+			pokeapi: PokeapiVersionNames.EMERALD,
+			shortName: 'Emerald'
+		}],
+		region: Regions.HOENN,
+		dlcGames: [],
+	},
+	{
 		pokeapi: PokeapiVersionGroups.FIRERED_LEAFGREEN,
 		shortName: 'Fire Red / Leaf Green',
 		generation: Generations[2],

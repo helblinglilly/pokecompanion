@@ -6,7 +6,6 @@ export const getPokemonTypesInGame = (pokemon: IPokemon, generation?: IGeneratio
 	const vanillaTypes = pokemon.types.map((typeEntry) => {
 		return {
 			name: typeEntry.type.name,
-			icon: `/icons/types/${typeEntry.type.name}.webp`,
 			url: typeEntry.type.url
 		};
 	});
@@ -29,7 +28,6 @@ export const getPokemonTypesInGame = (pokemon: IPokemon, generation?: IGeneratio
 				return pastType.types.map((type) => {
 					return {
 						name: type.type.name,
-						icon: `/icons/types/${type.type.name}.webp`,
 						url: type.type.url
 					};
 				});
@@ -38,7 +36,6 @@ export const getPokemonTypesInGame = (pokemon: IPokemon, generation?: IGeneratio
 		.flat()
 		.filter((a) => a !== undefined) as {
 		name: string;
-		icon: string;
 		url: string;
 	}[];
 
@@ -48,7 +45,6 @@ export const getPokemonTypesInGame = (pokemon: IPokemon, generation?: IGeneratio
 export const addImageToType = (type: IType) => {
 	return {
 		name: type.name,
-		icon: `/icons/types/${type.name}.webp`,
 		url: type.url
 	};
 };
@@ -76,7 +72,6 @@ interface ITypeDetails {
 	name: string;
 	url: string;
 	multiplier: number;
-	icon: string;
 }
 
 export const getTypeRelations = async (
@@ -95,13 +90,11 @@ export const getTypeRelations = async (
 	const resists = types.flatMap((type) => [
 		...type.damage_relations.half_damage_from.map(({ name }) => ({
 			name: name,
-			icon: `/icons/types/${name}.webp`,
 			url: '',
 			multiplier: 0.5
 		})),
 		...type.damage_relations.no_damage_from.map(({ name }) => ({
 			name: name,
-			icon: `/icons/types/${name}.webp`,
 			url: '',
 			multiplier: 0
 		}))
@@ -110,7 +103,6 @@ export const getTypeRelations = async (
 	const weakAgainst = types.flatMap((type) =>
 		type.damage_relations.double_damage_from.map(({ name }) => ({
 			name: name,
-			icon: `/icons/types/${name}.webp`,
 			url: '',
 			multiplier: 2.0
 		}))
