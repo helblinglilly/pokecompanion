@@ -7,6 +7,7 @@ import { getSpriteAndInfo, getSpriteForGameAnimation } from "./helper";
 import type { SelfHostedSprite } from "./selfHosted";
 import { SelfHostedLegendsArceus } from "./selfHosted/legends-arceus";
 import { SelfHostedScarletViolet } from "./selfHosted/scarlet-violet";
+import { SelfHostedSwordShield } from "./selfHosted/sword-shield";
 import type { ISpriteAPIResponse } from "./types";
 
 const baseUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon`;
@@ -30,6 +31,8 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
 		selfHostedStrategy = new SelfHostedScarletViolet(id, platform, game, variety, shiny, female, back, animate);
 	} else if (game?.pokeapi === PokeapiVersionGroups.LEGENDS_ARCEUS){
 		selfHostedStrategy = new SelfHostedLegendsArceus(id, platform, game, variety, shiny, female, back, animate);
+	} else if (game?.pokeapi === PokeapiVersionGroups.SWORD_SHIELD){
+		selfHostedStrategy = new SelfHostedSwordShield(id, platform, game, variety, shiny, female, back, animate);
 	}
 
 	if (selfHostedStrategy){

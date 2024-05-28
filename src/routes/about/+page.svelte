@@ -69,8 +69,14 @@
 		</p>
 
 		<p>
+			Massive thank you to <a href="https://www.pkparaiso.com/espada_escudo/sprites_pokemon.php"
+				>pkparaiso</a
+			> for making the animated Sword/Shield Pokemon sprites freely accessible.
+		</p>
+
+		<p>
 			Massive thank you to <a href="https://www.reddit.com/user/adamsb0303/">u/adamsb0303</a> for making
-			animated Scarlet/Violet Pokemon sprites freely accessible.
+			the animated Scarlet/Violet Pokemon sprites freely accessible.
 		</p>
 	</section>
 </div>
