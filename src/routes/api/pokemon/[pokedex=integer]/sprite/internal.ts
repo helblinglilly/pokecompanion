@@ -73,19 +73,24 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
 
     const gameAnimationSpecificSprites = getSpriteForGameAnimation(plainPokemon.data, game, animate);
 
-    const spriteInfo = getSpriteAndInfo(
+    let spriteInfo = getSpriteAndInfo(
 		gameAnimationSpecificSprites,
 		shiny, 
 		female, 
 		back
 	);
 
-    if (!spriteInfo){
-        return {
+    if (!spriteInfo?.url && game){
+		const retry = getSpriteForGameAnimation(plainPokemon.data, undefined, false);
+		spriteInfo = getSpriteAndInfo(retry, shiny, female, back);
+    }
+	
+	if (!spriteInfo){
+		return {
             ...ultimateFallback,
             url: undefined
         }
-    }
+	}
 
     const isPerfectMatch = (!shiny || shiny && spriteInfo.hasShiny) && 
 		(!female || female && spriteInfo.hasFemale) && 

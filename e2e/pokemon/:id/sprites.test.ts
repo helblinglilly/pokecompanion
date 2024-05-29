@@ -382,9 +382,9 @@ test.describe('?game=variety-group', () => {
         expect(headers).toHaveProperty("x-alt-text", "Front");
     })
 
-    test('Falls back to generic sprites insteaad of 404ing if no such game sprite exists', async ({ page }) => {
+    test('Uses custom hosted sprites for games where entries do not exist yet', async ({ page }) => {
         const response = await page.goto("/api/pokemon/25/sprite?game=scarlet-violet");
-        await expect(page.locator('pre')).toContainText('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png');
+        await expect(page.locator('pre')).toContainText('https://sprites.pokecompanion.com/pokemon/scarlet-violet/25.png');
         
         const headers = response?.headers();
         expect(headers).toHaveProperty("content-type", "text/plain");
@@ -396,6 +396,21 @@ test.describe('?game=variety-group', () => {
         expect(headers).toHaveProperty("x-alt-text", "Front");
     })
 
+    test('Falls back to generic sprite if selected game has no valid sprite', async ({ page }) => {
+        const response = await page.goto("/api/pokemon/427/sprite?game=red-blue");
+
+        await expect(page.locator('pre')).toContainText('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/427.png');
+        
+        const headers = response?.headers();
+        expect(headers).toHaveProperty("content-type", "text/plain");
+        expect(headers).toHaveProperty("cache-control", "public, max-age=86400, s-maxage=86400");
+        
+        expect(headers).toHaveProperty("x-has-shiny", "true")
+        expect(headers).toHaveProperty("x-is-back", "false")
+        expect(headers).toHaveProperty("x-matches-form", "true");
+        expect(headers).toHaveProperty("x-matches-variety", "true");
+        expect(headers).toHaveProperty("x-alt-text", "Front");
+    })
     test('Returns the HG/SS Sprites if requested', async({ page }) => {
         const response = await page.goto("/api/pokemon/25/sprite?game=heartgold-soulsilver");
 
