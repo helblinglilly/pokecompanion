@@ -162,7 +162,7 @@ export const cookieHandlers = {
 	versionSpecificTypeSprites: () => {
 		let existingValue = getCookie('versionSpecificTypeSprites') as string | undefined;
 		if (existingValue === undefined || null) {
-			existingValue = 'true'
+			existingValue = 'false'
 			setCookie('versionSpecificTypeSprites', existingValue);
 		}
 
