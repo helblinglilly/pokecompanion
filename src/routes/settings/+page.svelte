@@ -7,7 +7,8 @@
 		primaryLanguage,
 		secondaryLanguage,
 		selectedGame,
-		versionSpecificSprites
+		versionSpecificPokemonSprites,
+		versionSpecificTypeSprites
 	} from '$lib/stores/domain';
 	import type { Languages } from '$lib/utils/language';
 
@@ -99,18 +100,53 @@
 					/>
 					<label for="animateSpritesInput">Animate sprites where possible</label>
 				</div>
+
 				<div class="input-group">
 					<input
 						on:change={() => {
-							versionSpecificSprites.set(!$versionSpecificSprites);
+							if ($versionSpecificPokemonSprites && $versionSpecificTypeSprites) {
+								versionSpecificPokemonSprites.set(false);
+								versionSpecificTypeSprites.set(false);
+							} else {
+								versionSpecificPokemonSprites.set(true);
+								versionSpecificTypeSprites.set(true);
+							}
 						}}
-						checked={$versionSpecificSprites}
+						checked={$versionSpecificPokemonSprites && $versionSpecificTypeSprites}
 						type="checkbox"
-						id="gameSpecificSpritesInput"
+						id="gameSpecificSprites"
 						name="gameSpecificSprites"
 						style="margin-right: 10px;"
 					/>
-					<label for="gameSpecificSpritesInput">Show game specific sprites when possible</label>
+					<label for="gameSpecificSprites">Show game specific sprites when possible</label>
+				</div>
+
+				<div class="input-group ml-6">
+					<input
+						on:change={() => {
+							versionSpecificPokemonSprites.set(!$versionSpecificPokemonSprites);
+						}}
+						checked={$versionSpecificPokemonSprites}
+						type="checkbox"
+						id="gameSpecificSpritesInput"
+						name="gameSpecificPokemonSprites"
+						style="margin-right: 10px;"
+					/>
+					<label for="gameSpecificSpritesInput">Pokemon</label>
+				</div>
+
+				<div class="input-group ml-6">
+					<input
+						on:change={() => {
+							versionSpecificTypeSprites.set(!$versionSpecificTypeSprites);
+						}}
+						checked={$versionSpecificTypeSprites}
+						type="checkbox"
+						id="gameSpecificTypeSpritesInput"
+						name="gameSpecificTypeSprites"
+						style="margin-right: 10px;"
+					/>
+					<label for="gameSpecificTypeSpritesInput">Icons</label>
 				</div>
 			</div>
 		</div>

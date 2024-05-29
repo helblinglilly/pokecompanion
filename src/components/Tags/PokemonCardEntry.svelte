@@ -7,7 +7,7 @@
 		secondaryLanguage,
 		selectedGame,
 		theme,
-		versionSpecificSprites
+		versionSpecificPokemonSprites
 	} from '$lib/stores/domain';
 	import type { ITagPokemon } from '$lib/types/ITags';
 	import { getPokemonEntry } from '$lib/data/games';
@@ -53,7 +53,7 @@
 
 		console.log($animateSprites);
 
-		if ($versionSpecificSprites === true && $selectedGame) {
+		if ($versionSpecificPokemonSprites === true && $selectedGame) {
 			queryParamsCopy.set('game', $selectedGame.pokeapi);
 
 			if ($animateSprites) {

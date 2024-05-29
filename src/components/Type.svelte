@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { selectedGame, versionSpecificSprites } from '$/lib/stores/domain';
+	import { selectedGame, versionSpecificTypeSprites } from '$/lib/stores/domain';
 	import Image from './UI/Image.svelte';
 
 	export let type: string;
@@ -11,7 +11,7 @@
 
 <Image
 	src={`${baseURL}${
-		$selectedGame?.pokeapi && $versionSpecificSprites ? '/' + $selectedGame.pokeapi : ''
+		$selectedGame?.pokeapi && $versionSpecificTypeSprites ? '/' + $selectedGame.pokeapi : ''
 	}/${type}.png`}
 	fallback={`${baseURL}/${type}.png`}
 	alt={type}
