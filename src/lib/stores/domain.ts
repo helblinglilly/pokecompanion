@@ -146,10 +146,12 @@ export const cookieHandlers = {
 	},
 	versionSpecificPokemonSprites: () => {
 		let existingValue = getCookie('versionSpecificPokemonSprites') as string | undefined;
-		if (existingValue === undefined || null) {
+		if (existingValue === undefined || existingValue === null) {
 			existingValue = 'true'
 			setCookie('versionSpecificPokemonSprites', existingValue);
 		}
+
+		console.log(getCookie('versionSpecificPokemonSprites'))
 
 		versionSpecificPokemonSprites.set(existingValue === 'true' ? true : false);
 
@@ -157,18 +159,19 @@ export const cookieHandlers = {
 			window?.newrelic?.setCustomAttribute("versionSpecificPokemonSprites", value);
 			Sentry.setTag('versionSpecificPokemonSprites', value);
 			setCookie('versionSpecificPokemonSprites', value.toString());
+			console.log(getCookie('versionSpecificPokemonSprites'))
 		});
 	},
 	versionSpecificTypeSprites: () => {
 		let existingValue = getCookie('versionSpecificTypeSprites') as string | undefined;
-		if (existingValue === undefined || null) {
+		if (existingValue === undefined || existingValue === null) {
 			existingValue = 'false'
 			setCookie('versionSpecificTypeSprites', existingValue);
 		}
 
-		versionSpecificPokemonSprites.set(existingValue === 'true' ? true : false);
+		versionSpecificTypeSprites.set(existingValue === 'true' ? true : false);
 
-		versionSpecificPokemonSprites.subscribe((value) => {
+		versionSpecificTypeSprites.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute("versionSpecificTypeSprites", value);
 			Sentry.setTag('versionSpecificTypeSprites', value);
 			setCookie('versionSpecificTypeSprites', value.toString());

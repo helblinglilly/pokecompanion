@@ -51,8 +51,6 @@
 		queryParamsCopy.set('shiny', `${shiny}`);
 		queryParamsCopy.set('gender', isFemale ? 'female' : '');
 
-		console.log($animateSprites);
-
 		if ($versionSpecificPokemonSprites === true && $selectedGame) {
 			queryParamsCopy.set('game', $selectedGame.pokeapi);
 
