@@ -112,8 +112,8 @@ export enum PokeapiVersionNames {
 	WHITE_2 = 'white-2',
 	X = 'x',
 	Y = 'y',
-	OMEGA_RUBY = 'omega-ruby',
-	ALPHA_SAPPHIRE = 'alpha-sapphire',
+	OMEGA_RUBY = 'omegaruby',
+	ALPHA_SAPPHIRE = 'alphasapphire',
 	SUN = 'sun',
 	MOON = 'moon',
 	ULTRA_SUN = 'ultra-sun',
@@ -232,6 +232,17 @@ export const GameGroups: IGameGroups[] = [
 		}, {
 			pokeapi: PokeapiVersionNames.SAPPHIRE,
 			shortName: 'Sapphire'
+		}],
+		region: Regions.HOENN,
+		dlcGames: [],
+	},
+	{
+		pokeapi: PokeapiVersionGroups.EMERALD,
+		shortName: 'Emerald',
+		generation: Generations[2],
+		games: [{
+			pokeapi: PokeapiVersionNames.EMERALD,
+			shortName: 'Emerald'
 		}],
 		region: Regions.HOENN,
 		dlcGames: [],

@@ -21,3 +21,6 @@ static/socialpreview**
 
 .zed
 scripts/deleteAllMoves.js
+
+scripts/manual-sprites/*-input
+scripts/manual-sprites/*-output

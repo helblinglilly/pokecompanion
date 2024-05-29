@@ -7,14 +7,17 @@
 	export let classNames: string | undefined = undefined;
 	export let id: string | undefined = `image-${src}-${alt}`;
 	export let loading: 'eager' | 'lazy' = 'lazy';
+	export let fallback: string = '';
 
 	if (!src) {
 		src = '/placeholder.png';
 	}
+
+	let hasFallenBack = fallback === '' ? true : false;
 </script>
 
 <img
-	src={src ?? '/placeholder.png'}
+	src={src ? src : fallback !== '' ? fallback : '/placeholder.png'}
 	{alt}
 	{height}
 	{width}
@@ -24,8 +27,14 @@
 	{loading}
 	on:error={(e) => {
 		if (e.target) {
-			//@ts-ignore
-			e.target.src = '/placeholder.png';
+			if (!hasFallenBack) {
+				//@ts-ignore
+				e.target.src = fallback;
+				hasFallenBack = true;
+			} else {
+				//@ts-ignore
+				e.target.src = '/placeholder.png';
+			}
 		}
 	}}
 />

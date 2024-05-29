@@ -75,6 +75,7 @@ export interface ISpritesConsumable {
 	secondary: {
 		url: string;
 		alt: string;
+		isBack: boolean;
 	}
 	hasFemale: boolean;
 	hasShiny: boolean;

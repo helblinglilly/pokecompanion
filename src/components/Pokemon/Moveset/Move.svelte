@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Type from '$/components/Type.svelte';
 	import Image from '$/components/UI/Image.svelte';
 	import adjustMoveForGame from '$/lib/gameAdjustors/move';
 	import type { IMove } from '$/lib/types/IMoves';
@@ -44,30 +45,13 @@
 					<tr>
 						<td class="types">
 							{#await pokeapiPromise}
-								<Image
-									src={`/icons/types/${move.type.name}.webp`}
-									alt={move.type.name}
-									height={'20px'}
-									style="margin-bottom: 0.2rem;"
-								/>
-								<Image
-									src={`/icons/types/damage/${move.damage_class.name}.png`}
-									alt={move.damage_class.name}
-									width={'50px'}
-									height={'20px'}
-								/>
+								<Type type={move.type.name} style="margin-bottom: 0.2rem;" />
+								<Type type={move.damage_class.name} style="width: 50px;" />
 							{:then pokeapi}
-								<Image
-									src={`/icons/types/${pokeapi?.type.name ?? move.type.name}.webp`}
-									alt={pokeapi?.type.name ?? move.type.name}
-									height={'20px'}
-									style="margin-bottom: 0.2rem;"
-								/>
-								<Image
-									src={`/icons/types/damage/${pokeapi?.damage_class.name}.png`}
-									alt={pokeapi?.damage_class.name ?? move.damage_class.name}
-									width={'50px'}
-									height={'20px'}
+								<Type type={pokeapi?.type.name ?? move.type.name} style="margin-bottom: 0.2rem;" />
+								<Type
+									type={pokeapi?.damage_class.name ?? move.damage_class.name}
+									style="width: 50px;"
 								/>
 							{:catch error}
 								<p>{error.message}</p>

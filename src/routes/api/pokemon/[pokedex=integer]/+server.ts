@@ -53,7 +53,8 @@ const fetchSprites = async (id: number, preferences: IPokemonRequestPreferences,
 		},
 		secondary: {
 			url: '',
-			alt: ''
+			alt: '',
+			isBack: false,
 		},
 		hasShiny: false,
 		hasFemale: false,
@@ -62,13 +63,14 @@ const fetchSprites = async (id: number, preferences: IPokemonRequestPreferences,
 	if (frontRes.status === 'fulfilled'){
 		values.primary.url = frontRes.value.url;
 		values.primary.alt = frontRes.value.alt;
-		values.hasShiny = frontRes.value.hasShiny
-		values.hasFemale = frontRes.value.hasFemale;
+		values.hasShiny = frontRes.value.hasShiny ? true : false,
+		values.hasFemale = frontRes.value.hasFemale ? true : false;
 	}
 
 	if (backRes.status === 'fulfilled'){
 		values.secondary.url = backRes.value.url,
 		values.secondary.alt = backRes.value.alt
+		values.secondary.isBack = backRes.value.isBack ? true : false
 	}
 
 	return values;

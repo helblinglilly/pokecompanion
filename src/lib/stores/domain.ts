@@ -13,7 +13,8 @@ export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<IGameGroups | undefined>();
 export const primaryLanguage = writable<keyof Languages>('en');
 export const secondaryLanguage = writable<keyof Languages | undefined>();
-export const versionSpecificSprites = writable<boolean>(true);
+export const versionSpecificPokemonSprites = writable<boolean>(true);
+export const versionSpecificTypeSprites = writable<boolean>(false);
 export const animateSprites = writable<boolean>(true);
 export const rememberToken = writable<string>(uuid());
 export const homepageMessaging = writable<string>('');
@@ -143,19 +144,34 @@ export const cookieHandlers = {
 			}
 		});
 	},
-	versionSpecificSprites: () => {
-		let existingValue = getCookie('versionSpecificSprites') as string | undefined;
+	versionSpecificPokemonSprites: () => {
+		let existingValue = getCookie('versionSpecificPokemonSprites') as string | undefined;
 		if (existingValue === undefined || null) {
 			existingValue = 'true'
-			setCookie('versionSpecificSprites', existingValue);
+			setCookie('versionSpecificPokemonSprites', existingValue);
 		}
 
-		versionSpecificSprites.set(existingValue === 'true' ? true : false);
+		versionSpecificPokemonSprites.set(existingValue === 'true' ? true : false);
 
-		versionSpecificSprites.subscribe((value) => {
-			window?.newrelic?.setCustomAttribute("versionSpecificSprites", value);
-			Sentry.setTag('versionSpecificSprites', value);
-			setCookie('versionSpecificSprites', value.toString());
+		versionSpecificPokemonSprites.subscribe((value) => {
+			window?.newrelic?.setCustomAttribute("versionSpecificPokemonSprites", value);
+			Sentry.setTag('versionSpecificPokemonSprites', value);
+			setCookie('versionSpecificPokemonSprites', value.toString());
+		});
+	},
+	versionSpecificTypeSprites: () => {
+		let existingValue = getCookie('versionSpecificTypeSprites') as string | undefined;
+		if (existingValue === undefined || null) {
+			existingValue = 'false'
+			setCookie('versionSpecificTypeSprites', existingValue);
+		}
+
+		versionSpecificPokemonSprites.set(existingValue === 'true' ? true : false);
+
+		versionSpecificPokemonSprites.subscribe((value) => {
+			window?.newrelic?.setCustomAttribute("versionSpecificTypeSprites", value);
+			Sentry.setTag('versionSpecificTypeSprites', value);
+			setCookie('versionSpecificTypeSprites', value.toString());
 		});
 	},
 	animateSprites: () => {

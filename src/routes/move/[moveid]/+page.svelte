@@ -11,6 +11,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import type { IMove } from '$lib/types/IMoves.js';
 	import { getNameEntries, joinNameEntries } from '$lib/utils/language';
+	import Type from '$/components/Type.svelte';
 
 	export let data;
 	let filterTerm = '';
@@ -60,11 +61,7 @@
 <div style="width: 100%; display: inline-flex; justify-content: center;">
 	<div class="card centeredDesktopContent">
 		<div style="display: inline-flex; width: 100%;">
-			<Image
-				src={`/icons/types/${data.move.type.name}.webp`}
-				alt={data.move.type.name}
-				style="margin-right: 4px; width: 50px; height: 24px;"
-			/>
+			<Type type={data.move.type.name} style="margin-right: 4px; height: 24px;" />
 
 			<div style="display: inline-flex; justify-content: space-between; width: 100%;">
 				<p>

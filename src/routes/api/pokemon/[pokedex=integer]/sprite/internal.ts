@@ -1,14 +1,19 @@
-import type { IGameGroups } from "$/lib/data/games";
+import { PokeapiVersionGroups, type IGameGroups } from "$/lib/data/games";
 import type { IPokemon, IPokemonSpecies, ISprites } from "$/lib/types/IPokemon";
 import { capitaliseEachWord } from "$/lib/utils/string";
 import type { Platform } from "$/routes/api/types";
 import { fetchCacheFirst } from "../../cachedFetch";
 import { getSpriteAndInfo, getSpriteForGameAnimation } from "./helper";
+import type { SelfHostedSprite } from "./selfHosted";
+import { SelfHostedLegendsArceus } from "./selfHosted/legends-arceus";
+import { SelfHostedScarletViolet } from "./selfHosted/scarlet-violet";
+import { SelfHostedSwordShield } from "./selfHosted/sword-shield";
+import type { ISpriteAPIResponse } from "./types";
 
 const baseUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon`;
 
-export async function getPokemonSprite(id: number, platform: Readonly<App.Platform> | undefined, game: IGameGroups | undefined, variety: string | null, shiny: boolean, female: boolean, back: boolean, animate: boolean) {
-    let matchesForm = false;
+export async function getPokemonSprite(id: number, platform: Readonly<App.Platform> | undefined, game: IGameGroups | undefined, variety: string | null, shiny: boolean, female: boolean, back: boolean, animate: boolean): Promise<ISpriteAPIResponse> {
+    let matchesForm = false;	
 
     const ultimateFallback = {
         url: baseUrl + `/${id}.png`,
@@ -20,6 +25,25 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
         matchesForm,
         isPerfectMatch: false
     }
+
+	let selfHostedStrategy: SelfHostedSprite | undefined;
+	if (game?.pokeapi === PokeapiVersionGroups.SCARLET_VIOLET){
+		selfHostedStrategy = new SelfHostedScarletViolet(id, platform, game, variety, shiny, female, back, animate);
+	} else if (game?.pokeapi === PokeapiVersionGroups.LEGENDS_ARCEUS){
+		selfHostedStrategy = new SelfHostedLegendsArceus(id, platform, game, variety, shiny, female, back, animate);
+	} else if (game?.pokeapi === PokeapiVersionGroups.SWORD_SHIELD){
+		selfHostedStrategy = new SelfHostedSwordShield(id, platform, game, variety, shiny, female, back, animate);
+	}
+
+	if (selfHostedStrategy){
+		const selfHostedData = await selfHostedStrategy.GetSprite();
+		if (selfHostedData){
+			return {
+				...ultimateFallback,
+				...selfHostedData
+			};
+		}
+	}
 
     const plainPokemon = await getPokemonFromVariety(id, variety, platform).catch((err) => {
         console.log(err);
@@ -49,19 +73,24 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
 
     const gameAnimationSpecificSprites = getSpriteForGameAnimation(plainPokemon.data, game, animate);
 
-    const spriteInfo = getSpriteAndInfo(
+    let spriteInfo = getSpriteAndInfo(
 		gameAnimationSpecificSprites,
 		shiny, 
 		female, 
 		back
 	);
 
-    if (!spriteInfo){
-        return {
+    if (!spriteInfo?.url && game){
+		const retry = getSpriteForGameAnimation(plainPokemon.data, undefined, false);
+		spriteInfo = getSpriteAndInfo(retry, shiny, female, back);
+    }
+	
+	if (!spriteInfo){
+		return {
             ...ultimateFallback,
             url: undefined
         }
-    }
+	}
 
     const isPerfectMatch = (!shiny || shiny && spriteInfo.hasShiny) && 
 		(!female || female && spriteInfo.hasFemale) && 

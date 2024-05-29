@@ -4,6 +4,7 @@
 	import { getMove, type IMove } from '$lib/types/IMoves';
 	import { getNameEntry } from '$lib/utils/language';
 	import { onMount } from 'svelte';
+	import Type from '../Type.svelte';
 
 	export let id: number;
 	let move: IMove | undefined;
@@ -28,17 +29,13 @@
 					<tbody>
 						<tr>
 							<td class="types">
-								<Image
-									src={`/icons/types/${move.type.name}.webp`}
-									alt={move.type.name}
-									height={'20px'}
+								<Type
+									type={move.type.name}
 									style="margin-bottom: 0.2rem; margin-left: auto; margin-right: auto;"
 								/>
-								<Image
-									src={`/icons/types/damage/${move.damage_class.name}.png`}
-									alt={move.damage_class.name}
-									width={'50px'}
-									height={'20px'}
+
+								<Type
+									type={move.damage_class.name}
 									style="margin-left: auto; margin-right: auto;"
 								/>
 							</td>

@@ -8,7 +8,7 @@
 		rememberToken,
 		secondaryLanguage,
 		selectedGame,
-		versionSpecificSprites
+		versionSpecificPokemonSprites
 	} from '$lib/stores/domain';
 	import { getCookie } from '$lib/utils/cookies';
 	import type { Languages } from '$lib/utils/language';
@@ -63,7 +63,7 @@
 						selectedGame: $selectedGame?.pokeapi ?? 'No game set',
 						primaryLanguage: $primaryLanguage,
 						secondaryLanguage: $secondaryLanguage,
-						versionSpecificSprites: $versionSpecificSprites,
+						versionSpecificPokemonSprites: $versionSpecificPokemonSprites,
 						animateSprites: $animateSprites
 					}
 				}

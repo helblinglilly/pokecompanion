@@ -6,6 +6,7 @@
 	interface ISpriteImage {
 		url: string;
 		alt: string;
+		isBack?: boolean;
 	}
 	export let primarySprite: ISpriteImage;
 	export let secondarySprite: ISpriteImage;
@@ -48,11 +49,11 @@
 			src={primarySprite.url}
 			alt={primarySprite.alt}
 			id="primarySprite"
-			style="width: 128px; max-height: 178px;"
+			style="max-width: 128px;"
 		/>
 	</div>
 
-	{#if secondarySprite.url}
+	{#if secondarySprite.url && secondarySprite.isBack}
 		<div
 			class="column spriteBoxWrapper"
 			on:click={() => toggleModal(secondarySprite)}
