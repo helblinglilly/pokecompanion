@@ -15,3 +15,6 @@ Disallow: /item/*
 
 User-agent: *
 Disallow: /ability/*
+
+User-agent: *
+Disallow: /pokemon*?
