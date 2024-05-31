@@ -61,8 +61,7 @@
 <div style="width: 100%; display: inline-flex; justify-content: center;">
 	<div class="card centeredDesktopContent">
 		<div style="display: inline-flex; width: 100%;">
-			<Type type={data.move.type.name} style="margin-right: 4px; height: 24px;" />
-
+			<Type type={data.move.type.name} className="mr-3" style="max-height: 20px;" />
 			<div style="display: inline-flex; justify-content: space-between; width: 100%;">
 				<p>
 					{joinNameEntries(names, '-')}

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Type from '$/components/Type.svelte';
-	import Image from '$/components/UI/Image.svelte';
 	import adjustMoveForGame from '$/lib/gameAdjustors/move';
 	import type { IMove } from '$/lib/types/IMoves';
 	import type { IPokemonMinimalMove } from '$/routes/api/pokemon/types';
