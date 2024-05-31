@@ -151,15 +151,12 @@ export const cookieHandlers = {
 			setCookie('versionSpecificPokemonSprites', existingValue);
 		}
 
-		console.log(getCookie('versionSpecificPokemonSprites'))
-
 		versionSpecificPokemonSprites.set(existingValue === 'true' ? true : false);
 
 		versionSpecificPokemonSprites.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute("versionSpecificPokemonSprites", value);
 			Sentry.setTag('versionSpecificPokemonSprites', value);
 			setCookie('versionSpecificPokemonSprites', value.toString());
-			console.log(getCookie('versionSpecificPokemonSprites'))
 		});
 	},
 	versionSpecificTypeSprites: () => {
