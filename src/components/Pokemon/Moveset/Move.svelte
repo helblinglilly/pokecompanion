@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Type from '$/components/Type.svelte';
-	import Image from '$/components/UI/Image.svelte';
 	import adjustMoveForGame from '$/lib/gameAdjustors/move';
 	import type { IMove } from '$/lib/types/IMoves';
 	import type { IPokemonMinimalMove } from '$/routes/api/pokemon/types';
@@ -40,37 +39,34 @@
 				});
 			}}
 		>
-			<table>
-				<tbody>
-					<tr>
-						<td class="types">
-							{#await pokeapiPromise}
-								<Type type={move.type.name} style="margin-bottom: 0.2rem;" />
-								<Type type={move.damage_class.name} style="width: 50px;" />
-							{:then pokeapi}
-								<Type type={pokeapi?.type.name ?? move.type.name} style="margin-bottom: 0.2rem;" />
-								<Type
-									type={pokeapi?.damage_class.name ?? move.damage_class.name}
-									style="width: 50px;"
-								/>
-							{:catch error}
-								<p>{error.message}</p>
-							{/await}
-						</td>
-						<td class="name">
-							<p>{primaryName}</p>
-							{#if secondaryName && primaryName !== secondaryName}
-								<p>{secondaryName}</p>
-							{/if}
-						</td>
-						{#if move.level}
-							<td class="requirements">
-								Lv. {move.level}
-							</td>
-						{/if}
-					</tr>
-				</tbody>
-			</table>
+			<div class="inline-flex justify-between w-full">
+				<div class="flex flex-col items-center justify-center gap-2 pr-3">
+					{#await pokeapiPromise}
+						<Type type={move.type.name} />
+						<Type type={move.damage_class.name} />
+					{:then pokeapi}
+						<Type type={pokeapi?.type.name ?? move.type.name} />
+						<Type type={pokeapi?.damage_class.name ?? move.damage_class.name} />
+					{:catch error}
+						<p>{error.message}</p>
+					{/await}
+				</div>
+
+				<div class="grid w-full justify-start">
+					<p class="text-left">{primaryName}</p>
+					{#if secondaryName && primaryName !== secondaryName}
+						<p class="text-left">{secondaryName}</p>
+					{/if}
+				</div>
+
+				<div class="level">
+					{#if move.level}
+						<p class="w-max">
+							Lv. {move.level}
+						</p>
+					{/if}
+				</div>
+			</div>
 		</a>
 	{:else}
 		<p>Loading...</p>
@@ -80,23 +76,6 @@
 <style>
 	a {
 		text-decoration: none;
-	}
-	table {
-		width: 100%;
-	}
-	td {
-		justify-content: start;
-	}
-
-	.types {
-		width: 55px;
-	}
-	.name > p {
-		text-align: start;
-	}
-	.requirements {
-		text-align: end;
-		padding-right: 1rem;
 	}
 
 	button {
