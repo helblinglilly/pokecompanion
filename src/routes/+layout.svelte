@@ -95,6 +95,7 @@
 </script>
 
 <svelte:head>
+	<link rel="stylesheet" href="/global.css" />
 	<link rel="canonical" href={`https://pokecompanion.com${currentPage}`} />
 </svelte:head>
 

@@ -38,6 +38,8 @@
 	previewImage="https://socialpreviews.pokecompanion.helbling.uk/pokemonPage.png"
 />
 
+<h1 class="h1">All Pokémon</h1>
+
 <div class="columns">
 	<div class="column" style="display: flex; align-content: center;">
 		<div

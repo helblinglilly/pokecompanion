@@ -45,10 +45,10 @@
 			</a>
 		</div>
 	</div>
-	<div class="column" style="display: flex; align-items: center; max-width: fit-content;">
-		<h1 class="mobile-only h2" id="pokemonId">
+	<div class="column flex" style="align-items: center; max-width: fit-content;">
+		<h2 class="mobile-only h2" id="pokemonId">
 			#{currentId}
-		</h1>
+		</h2>
 
 		<div class="desktop-only">
 			<div style="display: inline-block; gap: 1rem;">
@@ -127,7 +127,7 @@
 <div class="mobile-only">
 	<div class="columns" style="justify-content: space-between;">
 		<div class="column">
-			<h1 class="h2" style="text-align: center;">{title}</h1>
+			<h2 class="h2" style="text-align: center;">{title}</h2>
 
 			{#if forms.length > 1}
 				<div style="display: inline-flex; width: 100%; justify-content: space-around;">
