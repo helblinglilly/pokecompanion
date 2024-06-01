@@ -29,7 +29,7 @@
 					{completeData.levelupMoves.length} moves</button
 				>
 
-				<span class={`${!showLevelMovesOnMobile ? 'hidden' : ''} md:grid`}>
+				<span class={`${!showLevelMovesOnMobile ? 'hidden' : 'grid'} md:grid`}>
 					{#each completeData.levelupMoves.sort((a, b) => {
 						return (a.level || -1) > (b.level || -1) ? 1 : -1;
 					}) as levelMove}
@@ -53,7 +53,7 @@
 					}}>{showTmMovesOnMobile ? 'Hide' : 'Show'} {completeData.tmMoves.length} moves</button
 				>
 
-				<span class={`${!showTmMovesOnMobile ? 'hidden' : ''} md:grid`}>
+				<span class={`${!showTmMovesOnMobile ? 'hidden' : 'grid'} md:grid`}>
 					{#each completeData.tmMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as tmMove}
@@ -79,7 +79,7 @@
 					{completeData.breedMoves.length} moves</button
 				>
 
-				<span class={`${!showBreedMovesOnMobile ? 'hidden' : ''} md:grid`}>
+				<span class={`${!showBreedMovesOnMobile ? 'hidden' : 'grid'} md:grid`}>
 					{#each completeData.breedMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as breedMove}
@@ -105,7 +105,7 @@
 					{completeData.tutorMoves.length} moves</button
 				>
 
-				<span class={`${!showTutoredMovesOnMobile ? 'hidden' : ''} md:grid`}>
+				<span class={`${!showTutoredMovesOnMobile ? 'hidden' : 'grid'} md:grid`}>
 					{#each completeData.tutorMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as tutorMove}

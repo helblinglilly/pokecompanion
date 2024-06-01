@@ -19,6 +19,7 @@
 	<select
 		name="gameSelector"
 		id="gameSelector"
+		class="pl-4"
 		on:change={(event) => {
 			const newValue = convertType(event);
 			if (newValue) {
