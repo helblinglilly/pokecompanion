@@ -4,7 +4,7 @@
 	export let relations: ITypeRelations;
 </script>
 
-<div class="columns mobile">
+<div class="columns">
 	<div class="column">
 		<h3 class="h3">Resists</h3>
 		{#each relations.resists as resists}
