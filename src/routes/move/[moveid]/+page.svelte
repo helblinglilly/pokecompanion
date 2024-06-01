@@ -3,7 +3,6 @@
 	import CreateNewTag from '$/components/Tags/CreateNewTag.svelte';
 	import SelectedTags from '$/components/Tags/SelectedTags.svelte';
 	import EditTag from '$/components/Tags/EditTag.svelte';
-	import Image from '$/components/UI/Image.svelte';
 	import PokemonGroup from '$/components/UI/PokemonGroup.svelte';
 	import type { IGameGroups } from '$lib/data/games';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
@@ -84,15 +83,13 @@
 				</thead>
 				<tbody>
 					<tr style="text-align: center;">
-						<td
-							><Image
-								src={`/icons/types/damage/${data.move.damage_class.name}.png`}
-								alt={''}
-								width="50px"
-								height="20px"
-								style="margin-left: auto; margin-right: auto;"
-							/></td
-						>
+						<td>
+							<Type
+								type={data.move.damage_class.name}
+								className="ml-auto mr-auto"
+								style="max-height: 20px;"
+							/>
+						</td>
 						<td>{data.move.power ?? '-'}</td>
 						<td>{data.move.accuracy ?? '-'}</td>
 					</tr>
