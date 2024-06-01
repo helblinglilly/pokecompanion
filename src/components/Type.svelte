@@ -17,7 +17,7 @@
 		}/${type}.png`}
 		fallback={`${baseURL}/${type}.png`}
 		alt={type}
-		style={`${style} width: 100%; height: auto; object-fit: contain; min-height: 20px;`}
+		style={`${style} width: 100%; height: auto; object-fit: contain; min-height: 20px; max-width: 100px;`}
 		classNames={className ?? undefined}
 	/>
 </div>
