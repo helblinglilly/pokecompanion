@@ -166,6 +166,7 @@
 					}}
 					name="language"
 					id="primaryLanguageSelector"
+					class="pl-4"
 				>
 					{#each languages as language}
 						<option
@@ -194,6 +195,7 @@
 					bind:value={$secondaryLanguage}
 					name="secondaryLanguage"
 					id="secondaryLanguageSelector"
+					class="pl-4"
 				>
 					<option value={'none'} class={$secondaryLanguage === 'none' ? 'selected' : undefined}
 						>None</option
