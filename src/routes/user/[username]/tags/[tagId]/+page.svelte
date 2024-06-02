@@ -34,7 +34,7 @@
 							getPokemonEntry(a.id).names,
 							$primaryLanguage,
 							$secondaryLanguage,
-							a.variety?.name ?? ''
+							a.variety ?? ''
 						) ?? ''
 					);
 
