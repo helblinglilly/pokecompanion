@@ -6,6 +6,13 @@ export interface ITag {
 	contents: ITagContents;
 	isPrivate: boolean;
 	showGenderAndShiny: boolean;
+	sortKey: 'added' | 'id' | 'alphabetical' | 'custom';
+	sortOrder: 'asc' | 'desc' | 'custom';
+}
+
+export interface ITagEntryGenerics {
+	id: number;
+	added: string;
 }
 
 export interface ITagContents {
@@ -13,23 +20,15 @@ export interface ITagContents {
 	move?: ITagMove[];
 }
 
-export interface ITagPokemon extends ITagPokemonNew {
-	added?: string;
-}
+export type ITagPokemon = ITagPokemonNew & ITagEntryGenerics;
 
 export interface ITagPokemonNew {
-	id: number;
 	gender?: 'female' | 'male' | undefined;
 	shiny: true | false | undefined;
 	variety?: string;
 }
 
-export interface ITagMove extends ITagMoveNew {
-	added?: string;
-}
-export interface ITagMoveNew {
-	id: number;
-}
+export type ITagMove = ITagEntryGenerics;
 
 export interface ITagRequestBody {
 	name: string;
@@ -39,13 +38,7 @@ export interface ITagRequestBody {
 }
 
 export interface ITagUpdateBody {
-	updatedTags: {
-		id: string;
-		name: string;
-		contents: ITagContents;
-		isPrivate: boolean;
-		showGenderAndShiny: boolean;
-	}[];
+	updatedTags: ITag[];
 }
 
 export type TagRecord = ITag & RecordModel;

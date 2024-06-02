@@ -9,7 +9,7 @@
 	import PokemonListEntry from '$/components/Tags/PokemonListEntry.svelte';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
-	import type { ITag, ITagMove, ITagPokemon, TagRecord } from '$lib/types/ITags.js';
+	import type { ITag, ITagEntryGenerics, ITagMove, ITagPokemon } from '$lib/types/ITags.js';
 	import { onMount } from 'svelte';
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import { getMoveEntry, getPokemonEntry } from '$lib/data/games.js';
@@ -72,6 +72,23 @@
 	let showDeleteOverlay = false;
 	let inModifyView = false;
 	let isLiked = false;
+
+	// Sorting lives on the tag itself, not the tag's contents
+	const sortByDateDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+		return new Date(a.added).valueOf() < new Date(b.added).valueOf() ? 1 : -1;
+	};
+
+	const sortByDateAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+		return new Date(a.added).valueOf() > new Date(b.added).valueOf() ? 1 : -1;
+	};
+
+	const sortByIdDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+		return a.id < b.id ? 1 : -1;
+	};
+
+	const sortByIdAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+		return a.id > b.id ? 1 : -1;
+	};
 
 	let displayMode: string = $page.url.searchParams.get('view') ?? 'list';
 
@@ -274,7 +291,7 @@
 
 <div id="pokemonTagWrapper" style={tags.tag.contents.pokemon?.length === 0 ? 'display: none' : ''}>
 	<div class="tagWrapper">
-		{#each filteredPokemon.sort((a, b) => (a.id > b.id ? 1 : -1)) as pokemonTag}
+		{#each filteredPokemon.sort(sortByIdAsc) as pokemonTag}
 			{#if displayMode === 'card'}
 				<PokemonCardEntry
 					pokemon={pokemonTag}
@@ -310,7 +327,7 @@
 	style={tags.tag.contents.move?.length === 0 ? 'display: none' : ''}
 >
 	<div class="tagWrapper">
-		{#each filteredMove.sort((a, b) => (a.id > b.id ? 1 : -1)) as moveTag}
+		{#each filteredMove.sort(sortByIdAsc) as moveTag}
 			{#if displayMode === 'card'}
 				<MoveCardEntry
 					id={moveTag.id}
