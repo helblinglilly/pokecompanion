@@ -13,10 +13,7 @@
 </script>
 
 <a href={`/pokemon/${pokemonEntry.redirect}`} class="no-style" id={pokemonEntry.id.toString()}>
-	<div
-		class="card clickable"
-		style="display: flex; align-items: center; padding: 1rem; margin-top: 1rem;"
-	>
+	<div class="card clickable flex p-4 mt-4 items-center">
 		<div class="spriteWrapper">
 			<Image
 				src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}

@@ -15,7 +15,7 @@
 	<Image
 		src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-question.png"
 		alt="Question mark Incognito"
-		style="margin-left: auto; margin-right: auto;"
+		classNames="ml-auto mr-auto"
 	/>
 
 	<h1 class="h1">404</h1>

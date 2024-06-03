@@ -152,10 +152,9 @@
 		</div>
 
 		<div class="columns mobile">
-			<div class="column" style="width: 100%; padding-left: 0;">
+			<div class="column w-full pl-0">
 				<button
-					class="button secondary"
-					style="width: 100%"
+					class="button secondary w-full"
 					on:click={(e) => {
 						if (mode === 'signup') {
 							e.preventDefault();
@@ -166,10 +165,9 @@
 					{`${mode === 'login' && isSubmitting ? 'Loading...' : 'Log in'}`}
 				</button>
 			</div>
-			<div class="column" style="width: 100%; padding-right: 0;">
+			<div class="column w-full pr-0">
 				<button
-					class="button secondary"
-					style="width: 100%"
+					class="button secondary w-full"
 					on:click={(e) => {
 						if (mode === 'login') {
 							e.preventDefault();

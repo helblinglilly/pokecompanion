@@ -16,20 +16,19 @@
 </script>
 
 <div id="navigator" class="columns mobile">
-	<div class="column" style="max-width: fit-content; display: contents;">
+	<div class="column max-w-fit contents">
 		<div style="min-width: 90px; min-height: 70px;">
 			<a
 				href={`${route}/${currentId - 1}${$pokemonDisplayStore.transferableQueryParams}`}
-				class={`card ${currentId - 1 <= 0 ? 'hidden' : ''}`}
-				style="width: fit-content; padding: 10px; height: auto;"
+				class={`card ${currentId - 1 <= 0 ? 'hidden' : ''} w-fit h-auto p-2.5`}
 				on:click={() => {
 					Logger.addPageAction('UIInteraction', 'PokemonNavigation', {
 						action: 'Navigation'
 					});
 				}}
 			>
-				<div style="display: inline-flex;">
-					<p style="margin: auto;">#{currentId - 1}</p>
+				<div class="inline-flex">
+					<p class="m-auto">#{currentId - 1}</p>
 					{#if iconUrl}
 						<Image
 							src={`${iconUrl}/${currentId - 1}.png`}
@@ -45,18 +44,14 @@
 			</a>
 		</div>
 	</div>
-	<div class="column flex" style="align-items: center; max-width: fit-content;">
+	<div class="column flex items-center max-w-fit">
 		<h2 class="mobile-only h2" id="pokemonId">
 			#{currentId}
 		</h2>
 
 		<div class="desktop-only">
-			<div style="display: inline-block; gap: 1rem;">
-				<h1
-					class="h2"
-					id="pokemonName"
-					style="min-width: fit-content; margin-top: auto; margin-bottom: auto; padding-bottom: 0; text-align: center;"
-				>
+			<div class="inline-block gap-4">
+				<h1 class="h2 m-in-w-fit mt-auto mb-auto pb-0 text-center" id="pokemonName">
 					{title}
 				</h1>
 
@@ -84,7 +79,7 @@
 						}}
 					>
 						{#each forms as form}
-							<option value={form.name} selected={form.name === $pokemonDisplayStore.variety?.name}
+							<option value={form.name} selected={form.name === $pokemonDisplayStore.variety}
 								>{capitaliseFirstLetter(form.name.split('-').splice(1).join(' '))}</option
 							>
 						{/each}
@@ -94,20 +89,19 @@
 		</div>
 	</div>
 
-	<div class="column" style="justify-content: end; display: contents; max-width: fit-content;">
+	<div class="column justify-end contents max-w-fit">
 		<div style="min-width: 90px; min-height: 70px;">
 			<a
 				href={`${route}/${currentId + 1}${$pokemonDisplayStore.transferableQueryParams}`}
-				class={`card ${currentId + 1 > maxId ? 'hidden' : ''}`}
-				style="width: fit-content; padding: 10px; height: auto;"
+				class={`card ${currentId + 1 > maxId ? 'hidden' : ''} w-fit p-2.5 h-auto`}
 				on:click={() => {
 					Logger.addPageAction('UIInteraction', 'PokemonNavigation', {
 						action: 'Navigation'
 					});
 				}}
 			>
-				<div style="display: inline-flex;">
-					<p style="margin: auto;">#{currentId + 1}</p>
+				<div class="inline-flex">
+					<p class="m-auto">#{currentId + 1}</p>
 					{#if iconUrl}
 						<Image
 							src={`${iconUrl}/${currentId + 1}.png`}
@@ -125,12 +119,12 @@
 </div>
 
 <div class="mobile-only">
-	<div class="columns" style="justify-content: space-between;">
+	<div class="columns justify-between">
 		<div class="column">
-			<h2 class="h2" style="text-align: center;">{title}</h2>
+			<h2 class="h2 text-center">{title}</h2>
 
 			{#if forms.length > 1}
-				<div style="display: inline-flex; width: 100%; justify-content: space-around;">
+				<div class="inline-flex w-full justify-around">
 					<select
 						id="formSelector-mobile"
 						name="variety"
@@ -150,7 +144,7 @@
 						}}
 					>
 						{#each forms as form}
-							<option value={form.name} selected={form.name === $pokemonDisplayStore.variety?.name}
+							<option value={form.name} selected={form.name === $pokemonDisplayStore.variety}
 								>{capitaliseFirstLetter(form.name.split('-').splice(1).join(' '))}</option
 							>
 						{/each}
