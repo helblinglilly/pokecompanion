@@ -125,7 +125,8 @@
 					initialContent={{
 						move: [
 							{
-								id: data.move.id
+								id: data.move.id,
+								added: new Date().toISOString()
 							}
 						]
 					}}

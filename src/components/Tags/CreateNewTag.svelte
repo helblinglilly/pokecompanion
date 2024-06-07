@@ -3,12 +3,12 @@
 	import Modal from '$/components/UI/Modal.svelte';
 	import { Logger } from '$lib/log';
 	import { createTag } from '$lib/stores/tags';
-	import type { ITagMove, ITagMoveNew, ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
+	import type { ITagMove, ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
 
 	export let userId: string;
 	export let initialContent: {
 		pokemon?: ITagPokemonNew[];
-		move?: ITagMoveNew[];
+		move?: ITagMove[];
 	};
 	export let onSuccess = ({
 		user,

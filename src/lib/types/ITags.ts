@@ -23,6 +23,7 @@ export interface ITagContents {
 export type ITagPokemon = ITagPokemonNew & ITagEntryGenerics;
 
 export interface ITagPokemonNew {
+	id: number;
 	gender?: 'female' | 'male' | undefined;
 	shiny: true | false | undefined;
 	variety?: string;

@@ -8,7 +8,6 @@
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Navigator from '$/components/Navigator.svelte';
 	import EvolutionChain from '$/components/Pokemon/EvolutionChain/';
-	import Image from '$/components/UI/Image.svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import Pokedex from '$/components/Pokedex.svelte';
@@ -160,12 +159,13 @@
 	<div class="column" style="padding-bottom: 1rem;">
 		<div class="card">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
-				<div
-					style="display: inline-flex; height: 20px; width: fit-content; gap: 0.2rem; max-width: 50%;"
-				>
+				<div class="inline-flex w-fit gap-1" style="height: 20px; width: 50%;">
 					{#each data.pokemon.types as type}
 						<Type type={type.name} />
 					{/each}
+					{#if data.pokemon.types.length === 1}
+						<div style="width: 50%;" />
+					{/if}
 				</div>
 				<Pokedex pokedexEntries={data.species.flavor_text_entries} />
 			</div>
