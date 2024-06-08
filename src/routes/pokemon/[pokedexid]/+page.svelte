@@ -159,12 +159,14 @@
 	<div class="column" style="padding-bottom: 1rem;">
 		<div class="card">
 			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
-				<div class="inline-flex w-fit gap-1" style="height: 20px; width: 50%;">
+				<div class="inline-flex gap-1 justify-start" style="width: 50%;">
 					{#each data.pokemon.types as type}
-						<Type type={type.name} />
+						<div>
+							<Type type={type.name} style="height: 1.5rem;" />
+						</div>
 					{/each}
 					{#if data.pokemon.types.length === 1}
-						<div style="width: 50%;" />
+						<div style="width: 100%;" />
 					{/if}
 				</div>
 				<Pokedex pokedexEntries={data.species.flavor_text_entries} />
