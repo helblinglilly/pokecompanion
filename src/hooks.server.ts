@@ -28,21 +28,26 @@ const { onHandle, onError } = init(
 	// }
 );
 export const handleError = onError(async (e) => {
-	await Logger.error(
-		Logger.ErrorClasses.Unknown,
-		Logger.buildError(e.error),
-		{
-			context: 'Unknown error caught in hooks.server',
-			event: e.event.url,
-			statusMessage: e.status,
-			message: e.message,
-			stackTrace: e.error
-		}
-	)
+	try {
+		console.log('server-side error', e);
+		await Logger.error(
+			Logger.ErrorClasses.Unknown,
+			Logger.buildError(e.error),
+			{
+				context: 'Unknown error caught in hooks.server',
+				event: e.event.url,
+				statusMessage: e.status,
+				message: e.message,
+				stackTrace: e.error
+			}
+		)
+	} catch(err){
+		console.log('Reporting a server-side error failed with', err);
+		console.log('for error', e);
+	}
 });
 
 export const handle = onHandle(async ({ event, resolve }) => {
-	// Your Handle Code
 	// Must initialise PB so that it's available in other server actions
 	const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 
