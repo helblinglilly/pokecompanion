@@ -26,25 +26,6 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
         isPerfectMatch: false
     }
 
-	let selfHostedStrategy: SelfHostedSprite | undefined;
-	if (game?.pokeapi === PokeapiVersionGroups.SCARLET_VIOLET){
-		selfHostedStrategy = new SelfHostedScarletViolet(id, platform, game, variety, shiny, female, back, animate);
-	} else if (game?.pokeapi === PokeapiVersionGroups.LEGENDS_ARCEUS){
-		selfHostedStrategy = new SelfHostedLegendsArceus(id, platform, game, variety, shiny, female, back, animate);
-	} else if (game?.pokeapi === PokeapiVersionGroups.SWORD_SHIELD){
-		selfHostedStrategy = new SelfHostedSwordShield(id, platform, game, variety, shiny, female, back, animate);
-	}
-
-	if (selfHostedStrategy){
-		const selfHostedData = await selfHostedStrategy.GetSprite();
-		if (selfHostedData){
-			return {
-				...ultimateFallback,
-				...selfHostedData
-			};
-		}
-	}
-
     const plainPokemon = await getPokemonFromVariety(id, variety, platform).catch((err) => {
         console.log(err);
         return {
@@ -79,6 +60,23 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
 		female, 
 		back
 	);
+
+	let selfHostedStrategy: SelfHostedSprite | undefined;
+	if (game?.pokeapi === PokeapiVersionGroups.SCARLET_VIOLET){
+		selfHostedStrategy = new SelfHostedScarletViolet(id, platform, game, variety, shiny, female, back, animate);
+	} else if (game?.pokeapi === PokeapiVersionGroups.LEGENDS_ARCEUS){
+		selfHostedStrategy = new SelfHostedLegendsArceus(id, platform, game, variety, shiny, female, back, animate);
+	} else if (game?.pokeapi === PokeapiVersionGroups.SWORD_SHIELD){
+		selfHostedStrategy = new SelfHostedSwordShield(id, platform, game, variety, shiny, female, back, animate);
+	}
+
+	if (selfHostedStrategy){
+		const selfHostedData = await selfHostedStrategy.GetSprite();
+		if (selfHostedData){
+			spriteInfo.url = selfHostedData.url;
+			spriteInfo.isBack = false;
+		}
+	}
 
     if (!spriteInfo?.url && game){
 		const retry = getSpriteForGameAnimation(plainPokemon.data, undefined, false);
