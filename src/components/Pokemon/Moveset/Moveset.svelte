@@ -41,7 +41,7 @@
 
 		{#if completeData.tmMoves.length > 0}
 			<div class="item">
-				<h4 class="h4">TM / HM</h4>
+				<h4 class="h4">TM/TR/HM</h4>
 				<button
 					class="button w-full secondary md:hidden mb-4"
 					on:click={() => {
