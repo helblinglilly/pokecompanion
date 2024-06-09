@@ -53,6 +53,8 @@ const serverSideNRLog = async (body: IRequestBody) => {
 		return;
 	}
 
+	body.appName = NEW_RELIC_ACCOUNT_ID == '538581304' ? 'pokecompanion' : 'pokecompanion (nonprod)'
+
 	const compressedPayload = pako.gzip(JSON.stringify(body))
 	return await fetch(`https://insights-collector.eu01.nr-data.net/v1/accounts/${NEW_RELIC_ACCOUNT_ID}/events`, {
 		method: 'POST',
