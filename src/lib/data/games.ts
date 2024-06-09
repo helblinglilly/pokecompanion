@@ -90,6 +90,7 @@ export enum Regions {
 }
 
 export enum PokeapiVersionNames {
+	HOME = 'home',
 	RED = 'red',
 	BLUE = 'blue',
 	YELLOW = 'yellow',
@@ -134,6 +135,7 @@ export enum PokeapiVersionNames {
 	INDIGO_DISK = 'the-indigo-disk',
 }
 export enum PokeapiVersionGroups {
+	HOME = PokeapiVersionNames.HOME,
 	RED_BLUE = PokeapiVersionNames.RED + '-' + PokeapiVersionNames.BLUE,
 	YELLOW = PokeapiVersionNames.YELLOW,
 	GOLD_SILVER = PokeapiVersionNames.GOLD + '-' + PokeapiVersionNames.SILVER,
@@ -172,6 +174,17 @@ export interface IGameGroups {
 }
 
 export const GameGroups: IGameGroups[] = [
+	{
+		pokeapi: PokeapiVersionGroups.HOME,
+		shortName: 'Home',
+		generation: Generations[Generations.length - 1],
+		games: [{
+			pokeapi: PokeapiVersionNames.HOME,
+			shortName: 'Home'
+		}],
+		region: Regions.KANTO,
+		dlcGames: [],
+	},
 	{
 		pokeapi: PokeapiVersionGroups.RED_BLUE,
 		shortName: 'Red / Blue',
