@@ -9,15 +9,15 @@
 		NREUM.loader_config = {
 			accountID: '4391691',
 			trustKey: '4391691',
-			agentID: '538581304',
+			agentID: window.location.hostname.includes('pokecompanion.com') ? '538581304' : '538581605',
 			licenseKey: 'NRJS-814f95c36967f82d131',
-			applicationID: '538581304'
+			applicationID: window.location.hostname.includes('pokecompanion.com') ? '538581304' : '538581605'
 		};
 		NREUM.info = {
 			beacon: 'bam.eu01.nr-data.net',
 			errorBeacon: 'bam.eu01.nr-data.net',
 			licenseKey: 'NRJS-814f95c36967f82d131',
-			applicationID: '538581304',
+			applicationID: window.location.hostname.includes('pokecompanion.com') ? '538581304' : '538581605',
 			sa: 1
 		}; /*! For license information please see nr-loader-spa-1.253.0.min.js.LICENSE.txt */
 		(() => {
