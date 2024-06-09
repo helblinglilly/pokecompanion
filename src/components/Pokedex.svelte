@@ -9,8 +9,6 @@
 	export let height: number;
 	export let weight: number;
 	export let cry: string | null;
-
-	const audio = new Audio(cry ?? undefined);
 </script>
 
 {#if pokedexEntries.length > 0}
@@ -41,7 +39,8 @@
 			<button
 				class="button primary"
 				on:click={() => {
-					audio.play();
+					const audioTrack = new Audio(cry ?? undefined);
+					audioTrack.play();
 				}}>Cry</button
 			>
 		{/if}
