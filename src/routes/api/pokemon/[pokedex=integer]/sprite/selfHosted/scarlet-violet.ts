@@ -13,11 +13,11 @@ export class SelfHostedScarletViolet extends SelfHostedSprite {
     }
 
     async GetSprite(): Promise<Partial<ISpriteAPIResponse> | undefined> {
-        if (this.female){
+        const hasShiny = this.id >= 906;
+
+        if (this.female || (!hasShiny && this.shiny)){
             return undefined;
         }
-
-        const hasShiny = this.id >= 906;
 
         if (this.variety){
             const specificVarietyURL = await this.getSelfHostedSpritesURL(true);
