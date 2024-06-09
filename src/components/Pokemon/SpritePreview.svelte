@@ -107,10 +107,4 @@
 		justify-items: center;
 		margin-top: 1rem;
 	}
-
-	#modalImage {
-		max-width: 100%;
-		max-height: 100%;
-		object-fit: contain;
-	}
 </style>
