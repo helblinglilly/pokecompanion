@@ -17,12 +17,13 @@
 </script>
 
 <button
-	class="toggle pokemonGrouping w-full"
+	style="width: 100%;"
+	class="toggle pokemonGrouping"
 	on:click={() => {
 		toggleVisibility(title + '-list');
 	}}
 >
-	<div class="flex justify-between p-8">
+	<div style="display: flex; justify-content: space-between; padding: 2rem;">
 		<h2 class="h2">{title}</h2>
 		{#if secondaryTitle}
 			<h2 class="h2">{secondaryTitle}</h2>

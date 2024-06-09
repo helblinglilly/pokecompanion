@@ -85,8 +85,7 @@
 	<div id="modalImageWrapper">
 		<Image
 			src={modalContent.url}
-			style="height: inherit;"
-			classNames="mx-auto"
+			style="margin-left: auto; margin-right: auto; height: inherit;"
 			alt={modalContent.alt}
 			id="modalImage"
 		/>

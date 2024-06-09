@@ -92,10 +92,12 @@
 	{/if}
 
 	{#each data as ability, i}
-		<div class="column flex content-center justify-center">
+		<div class="column" style="display: flex; align-content: center; justify-content: center;">
 			<button
-				class="button secondary inline-flex w-full min-w-max justify-center"
-				style={selectedAbility === i ? 'background-color: var(--selected);' : ''}
+				class="button secondary"
+				style={`display: inline-flex; width: 100%; min-width: max-content; justify-content: center;${
+					selectedAbility === i ? 'background-color: var(--selected);' : ''
+				}`}
 				on:click={() => {
 					if (selectedAbility === i) {
 						selectedAbility = -1;
@@ -116,7 +118,7 @@
 						style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
 					/>
 				{/if}
-				<p class="my-auto text-center">
+				<p style="margin-top: auto; margin-bottom: auto; text-align: center;">
 					{ability.names[0] ?? ability.names[1] ?? 'No data'}
 				</p>
 			</button>
@@ -128,10 +130,10 @@
 	<div style={selectedAbility === i ? 'display: grid;' : 'display: none;'}>
 		<p>{ability.effect1}</p>
 		{#if ability.effect2}
-			<p class="mt-4">{ability.effect2}</p>
+			<p style="margin-top: 1rem;">{ability.effect2}</p>
 		{/if}
 		{#if selectedAbility !== -1}
-			<a href={`/ability/${ability.id}`} class="inline-flex"
+			<a href={`/ability/${ability.id}`} style="display: inline-flex;"
 				>See more <Icon
 					name="link"
 					style="margin-top: auto; margin-bottom: auto; margin-left: 0.5rem;"

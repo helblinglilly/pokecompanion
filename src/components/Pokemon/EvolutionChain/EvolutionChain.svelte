@@ -79,11 +79,11 @@
 
 {#if evolutions !== undefined}
 	{#if evolutions.length === 0}
-		<p class="text-center">This Pokémon has no evolutions</p>
+		<p style="text-align: center;">This Pokémon has no evolutions</p>
 	{:else if evolutions}
 		{#each evolutions as evolution}
 			<div class="columns mobile">
-				<div class="column grid justify-center">
+				<div class="column" style="display: grid; justify-content: center;">
 					<a
 						href={evolution.sourceURL + $pokemonDisplayStore.transferableQueryParams}
 						on:click={() => {
@@ -95,7 +95,10 @@
 						<Image src={evolution.sourceSprite} alt={evolution.sourceSprite} classNames="sprite" />
 					</a>
 				</div>
-				<div class="column grid justify-center text-center items-center">
+				<div
+					class="column"
+					style="display: grid; justify-content: center; text-align: center; align-items: center;"
+				>
 					{#if evolution.trigger !== 'use-item'}
 						{#if evolution.trigger === 'strong-style-move'}
 							<p>Use specific in strong style</p>
@@ -122,7 +125,7 @@
 						{#if requirement.type === 'use-item'}
 							<a
 								href={requirement.supplementary}
-								class="w-full inline-flex justify-center"
+								style="width: 100%; display: inline-flex; justify-content: center;"
 								on:click={() => {
 									Logger.addPageAction('UIInteraction', 'EvolutionUseItemNavigation');
 								}}
@@ -140,7 +143,7 @@
 						{#if requirement.type === 'hold-item'}
 							<a
 								href={requirement.supplementary}
-								class="w-full inline-flex justify-center"
+								style="width: 100%; display: inline-flex; justify-content: center;"
 								on:click={() => {
 									Logger.addPageAction('UIInteraction', 'EvolutionHoldItem', {
 										action: 'Navigation'
@@ -280,7 +283,7 @@
 						{/if}
 					{/each}
 				</div>
-				<div class="column grid justify-center">
+				<div class="column" style="display: grid; justify-content: center;">
 					<a
 						href={evolution.targetURL + $pokemonDisplayStore.transferableQueryParams}
 						on:click={() => {
