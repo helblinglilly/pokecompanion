@@ -159,13 +159,28 @@ export function getSpriteForGameAnimation(pokemon: IPokemon, selectedGame: IGame
 			pokeapiSpriteName = PokeapiVersionGroups.ULTRA_SUN_ULTRA_MOON
 		}
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore TODO: Can't be asked to type this properly
+		if (selectedGame.pokeapi === PokeapiVersionGroups.HOME){
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        	// @ts-ignore TODO: Can't be asked to type this properly
+			specificGameSprites = pokemon.sprites?.other?.home ?? undefined;
+		} else {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        	// @ts-ignore TODO: Can't be asked to type this properly
+			const generationSpecific = pokemon.sprites.versions ? pokemon.sprites.versions[selectedGame.generation.pokeApiName] : undefined
 
-		const generationSpecific = pokemon.sprites.versions ? pokemon.sprites.versions[selectedGame.generation.pokeApiName] : undefined
-		if (generationSpecific){
-			if (generationSpecific[pokeapiSpriteName]){
-				specificGameSprites = generationSpecific[pokeapiSpriteName]
+			if (selectedGame.generation.number === 6 && showAnimated){
+				const possiblyAnimated = pokemon.sprites?.other?.showdown ?? undefined;
+				if (possiblyAnimated){
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        			// @ts-ignore TODO: Can't be asked to type this properly
+					specificGameSprites = possiblyAnimated;
+				}
+			} else {
+				if (generationSpecific){
+					if (generationSpecific[pokeapiSpriteName]){
+						specificGameSprites = generationSpecific[pokeapiSpriteName]
+					}
+				}
 			}
 		}
 
