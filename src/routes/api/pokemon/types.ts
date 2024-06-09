@@ -9,6 +9,10 @@ export interface IPokemonResponse {
 	id: number;
 	pokemon: {
 		abilities: Ability[];
+		cries: {
+			latest: string | null;
+			legacy: string | null;
+		}
 		types: IType[];
 		typeRelations: ITypeRelations;
 		varietyForms: {
@@ -18,6 +22,8 @@ export interface IPokemonResponse {
 		base_experience: number;
 		forms: Form[];
 		stats: Stat[];
+		height: number;
+		weight: number;
 	};
 	species: {
 		names: {

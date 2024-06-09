@@ -169,7 +169,12 @@
 						<div style="width: 100%;" />
 					{/if}
 				</div>
-				<Pokedex pokedexEntries={data.species.flavor_text_entries} />
+				<Pokedex
+					pokedexEntries={data.species.flavor_text_entries}
+					height={data.pokemon.height}
+					weight={data.pokemon.weight}
+					cry={data.pokemon.cries.latest ?? data.pokemon.cries.legacy}
+				/>
 			</div>
 
 			<SpritePreview
