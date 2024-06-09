@@ -30,9 +30,17 @@ const filterPokedexEntries = (
 			return entry.language.name === primaryLang || entry.language.name === secondaryLang;
 		})
 		.map((entry) => {
+			let newGame = getGame(entry.version.name)?.shortName ?? entry.version.name;
+			
+			if (newGame === 'omega-ruby'){
+				newGame = "Omega Ruby"
+			} else if (newGame === 'alpha-sapphire'){
+				newGame = "Alpha Sapphire";
+			}
+
 			return {
 				language: entry.language.name,
-				game: getGame(entry.version.name)?.shortName ?? entry.version.name,
+				game: newGame,
 				// eslint-disable-next-line no-control-regex
 				textEntry: entry.flavor_text.replace(/\n|\u000c/g, ' ')
 			};
