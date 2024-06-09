@@ -61,14 +61,14 @@ const fetchSprites = async (id: number, preferences: IPokemonRequestPreferences,
 	}
 
 	if (frontRes.status === 'fulfilled'){
-		values.primary.url = frontRes.value.url;
+		values.primary.url = frontRes.value.url ?? '';
 		values.primary.alt = frontRes.value.alt;
 		values.hasShiny = frontRes.value.hasShiny ? true : false,
 		values.hasFemale = frontRes.value.hasFemale ? true : false;
 	}
 
 	if (backRes.status === 'fulfilled'){
-		values.secondary.url = backRes.value.url,
+		values.secondary.url = backRes.value.url ?? '',
 		values.secondary.alt = backRes.value.alt
 		values.secondary.isBack = backRes.value.isBack ? true : false
 	}
@@ -118,11 +118,16 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 	
 	// Only some values may get rassigned
 	// eslint-disable-next-line prefer-const 
-	let [pokemon, species, sprites] = await Promise.all([
+	let [pokemon, species] = await Promise.all([
 		fetchPokemon(id, platform),
 		fetchPokemonSpecies(id, platform),
-		fetchSprites(id, requestPreferences, platform)
 	])
+
+	if (!species.has_gender_differences && requestPreferences.isFemale){
+		requestPreferences.isFemale = false
+	}
+
+	const sprites = await fetchSprites(id, requestPreferences, platform)
 
 	const formEntry = pokemon.forms.find((entry) => entry.name === variety);
 	if (formEntry) {
