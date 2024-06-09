@@ -32,7 +32,10 @@
 <Modal bind:showModal>
 	<h2 class="h2" slot="header">Pokédex Entries</h2>
 
-	<div class="inline-flex justify-between w-full mt-4 mb-4">
+	<div
+		class="inline-flex justify-between w-full pt-4 pb-4"
+		style="border-bottom: 2px solid var(--text);"
+	>
 		<p class="mt-auto mb-auto"><strong>Height:</strong> {height / 10}m</p>
 		{#if cry}
 			<button
@@ -44,8 +47,6 @@
 		{/if}
 		<p class="mt-auto mb-auto"><strong>Weight:</strong> {weight / 10}kg</p>
 	</div>
-
-	<hr style="border-bottom: 1px solid var(--text);" />
 
 	{#each pokedexEntries as pokedexEntry}
 		<!-- Add a language flag icon? -->
