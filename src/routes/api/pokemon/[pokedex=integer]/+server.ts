@@ -84,7 +84,38 @@ const fetchSprites = async (id: number, preferences: IPokemonRequestPreferences,
 	return values;
 }
 
+const easterEggs = (id: number, variety: string | null): Partial<IPokemonResponse> => {
+	if (id !== 377){
+		return {}
+	}
 
+	let returnValue: Partial<IPokemonResponse> = {
+		pokemon: {
+			varietyForms: [{name: 'regirock-normal'}, { name: 'regirock-cnty-regirock-with-a-handbag'}],
+			types: [{ name: 'fairy'}],
+		}
+	} as Partial<IPokemonResponse>;
+
+	if (variety === 'regirock-cnty-regirock-with-a-handbag'){
+		returnValue = {
+			...returnValue,
+			sprites: {
+				hasShiny: false,
+				hasFemale: false,
+				primary: {
+					url: 'https://i.kym-cdn.com/entries/icons/original/000/049/483/cregcover.jpg',
+					alt: 'Front'
+				},
+				secondary: {
+					url: 'https://i.kym-cdn.com/entries/icons/original/000/049/483/cregcover.jpg',
+					alt: 'Front',
+					isBack: false,
+				}
+			}
+		}
+	}
+	return returnValue;
+}
 
 export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {	
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -214,6 +245,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 
 	const encounters = await fetchPokemonEncounters(id, platform);
 
+	const easterEggData = easterEggs(id, variety);
 	const response: IPokemonResponse = {
 		id,
 		pokemon: {
@@ -234,7 +266,8 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 					(entry, index, arr) =>
 						entry.name.includes('-') && arr.findIndex((e) => e.name === entry.name) === index
 				),
-			moves: formatMovesetToVersionEntries(pokemon.moves)
+			moves: formatMovesetToVersionEntries(pokemon.moves),
+			...easterEggData?.pokemon
 		},
 		species: {
 			...species,
@@ -246,7 +279,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 			)
 		},
 		encounters: formatEncounters(encounters),
-		sprites
+		sprites: easterEggData?.sprites ?? sprites
 	}
 	return new Response(JSON.stringify(response), {
 		headers: {
