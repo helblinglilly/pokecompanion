@@ -72,23 +72,46 @@
 	let showDeleteOverlay = false;
 	let inModifyView = false;
 	let isLiked = false;
+	let sortOrder = data.tag.sortOrder;
+	let sortKey = data.tag.sortKey;
 
-	// Sorting lives on the tag itself, not the tag's contents
-	const sortByDateDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
-		return new Date(a.added).valueOf() < new Date(b.added).valueOf() ? 1 : -1;
-	};
+	let sortFunction = getSortFunction(sortKey, sortOrder);
 
-	const sortByDateAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
-		return new Date(a.added).valueOf() > new Date(b.added).valueOf() ? 1 : -1;
-	};
+	function getSortFunction(key: string, direction: string) {
+		const sortByDateDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+			return new Date(a.added).valueOf() < new Date(b.added).valueOf() ? 1 : -1;
+		};
 
-	const sortByIdDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
-		return a.id < b.id ? 1 : -1;
-	};
+		const sortByDateAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+			return new Date(a.added).valueOf() > new Date(b.added).valueOf() ? 1 : -1;
+		};
 
-	const sortByIdAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
-		return a.id > b.id ? 1 : -1;
-	};
+		const sortByIdDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+			return a.id < b.id ? 1 : -1;
+		};
+
+		const sortByIdAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+			return a.id > b.id ? 1 : -1;
+		};
+
+		sortOrder = direction.toLowerCase() as 'asc' | 'desc' | 'custom';
+		sortKey = key.toLowerCase() as 'id' | 'added' | 'alphabetical' | 'custom';
+
+		console.log(key, direction);
+		if (sortKey === 'id') {
+			if (sortOrder === 'asc') {
+				return sortByIdAsc;
+			} else {
+				return sortByIdDesc;
+			}
+		} else if (sortKey === 'added') {
+			if (sortOrder === 'asc') {
+				return sortByDateAsc;
+			} else {
+				return sortByDateDesc;
+			}
+		}
+	}
 
 	let displayMode: string = $page.url.searchParams.get('view') ?? 'list';
 
@@ -261,7 +284,9 @@
 		>
 	</div>
 
-	<p>View:</p>
+	<div class="min-w-fit">
+		<p>View:</p>
+	</div>
 	<button
 		class={`button ${displayMode === 'list' ? 'selected' : ''}`}
 		on:click={() => {
@@ -274,6 +299,25 @@
 			displayMode = 'card';
 		}}><Icon name="card" style="" /></button
 	>
+
+	<select
+		class="pl-4 pr-4 secondary"
+		on:change={(e) => {
+			sortFunction = getSortFunction(e.target.value, sortOrder);
+		}}
+	>
+		<option>Added</option>
+		<option>ID</option>
+	</select>
+
+	<button
+		class="button primary min-w-fit"
+		on:click={() => {
+			sortFunction = getSortFunction(sortKey, sortOrder === 'asc' ? 'desc' : 'asc');
+		}}
+	>
+		{sortOrder === 'asc' ? 'A-Z' : 'Z-A'}
+	</button>
 </div>
 
 <div id="tagSearchWrapper">
@@ -291,7 +335,7 @@
 
 <div id="pokemonTagWrapper" style={tags.tag.contents.pokemon?.length === 0 ? 'display: none' : ''}>
 	<div class="tagWrapper">
-		{#each filteredPokemon.sort(sortByIdAsc) as pokemonTag}
+		{#each filteredPokemon.sort(sortFunction) as pokemonTag}
 			{#if displayMode === 'card'}
 				<PokemonCardEntry
 					pokemon={pokemonTag}
@@ -327,7 +371,7 @@
 	style={tags.tag.contents.move?.length === 0 ? 'display: none' : ''}
 >
 	<div class="tagWrapper">
-		{#each filteredMove.sort(sortByIdAsc) as moveTag}
+		{#each filteredMove.sort(sortFunction) as moveTag}
 			{#if displayMode === 'card'}
 				<MoveCardEntry
 					id={moveTag.id}
