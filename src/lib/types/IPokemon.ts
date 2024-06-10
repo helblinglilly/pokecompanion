@@ -25,6 +25,10 @@ export interface IPokemon {
 	stats: Stat[];
 	types: ITypeEntry[];
 	weight: number;
+	cries: {
+		legacy: string;
+		latest: string;
+	}
 }
 
 export interface Ability {

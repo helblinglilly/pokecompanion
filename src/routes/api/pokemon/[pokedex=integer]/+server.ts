@@ -84,6 +84,8 @@ const fetchSprites = async (id: number, preferences: IPokemonRequestPreferences,
 	return values;
 }
 
+
+
 export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {	
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore Fails to understand that pokedex param exists
