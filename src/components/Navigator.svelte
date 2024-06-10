@@ -84,7 +84,7 @@
 						}}
 					>
 						{#each forms as form}
-							<option value={form.name} selected={form.name === $pokemonDisplayStore.variety?.name}
+							<option value={form.name} selected={form.name === $pokemonDisplayStore.variety}
 								>{capitaliseFirstLetter(form.name.split('-').splice(1).join(' '))}</option
 							>
 						{/each}
@@ -150,7 +150,7 @@
 						}}
 					>
 						{#each forms as form}
-							<option value={form.name} selected={form.name === $pokemonDisplayStore.variety?.name}
+							<option value={form.name} selected={form.name === $pokemonDisplayStore.variety}
 								>{capitaliseFirstLetter(form.name.split('-').splice(1).join(' '))}</option
 							>
 						{/each}
