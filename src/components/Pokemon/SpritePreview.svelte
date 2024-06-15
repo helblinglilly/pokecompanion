@@ -14,7 +14,7 @@
 	let showModal = false;
 	let modalContent: ISpriteImage = {
 		url: '',
-		alt: ''
+		alt: 'placeholder'
 	};
 
 	let hasMounted = false;
@@ -87,7 +87,7 @@
 			src={modalContent.url}
 			style="margin-left: auto; margin-right: auto; height: inherit;"
 			alt={modalContent.alt}
-			id="modalImage"
+			id={`modalImage${modalContent.isBack ? '-back' : ''}`}
 		/>
 	</div>
 </Modal>
