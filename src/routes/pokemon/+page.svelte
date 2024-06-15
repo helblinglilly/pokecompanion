@@ -5,8 +5,9 @@
 	import { goto } from '$app/navigation';
 	import { Generations, Regions } from '$lib/data/games';
 	import PokemonPreview from '$/components/Pokemon/PokemonPreview.svelte';
-	import { pokemonPageSize } from '$lib/stores/domain';
+	import { lastPokedexEntry, pokemonPageSize, primaryLanguage } from '$lib/stores/domain';
 	import SocialPreview from '$/components/SocialPreview.svelte';
+	import AdjustedPokemonNames from './pokemonNames';
 
 	const numberOfPages = Math.ceil(PokemonNames.length / pokemonPageSize);
 
@@ -84,7 +85,7 @@
 						name="jumpTo"
 						type="number"
 						placeholder="Jump to ID"
-						max={PokemonNames.length}
+						max={lastPokedexEntry}
 						style="height: 100%;"
 					/>
 					<button class="button" type="submit" id="jumpToButton" style="height: 100%;">Go</button>
@@ -139,7 +140,7 @@
 	</div>
 </div>
 
-{#each PokemonNames.slice(fromPokemon, fromPokemon + pokemonPageSize) as pokemon}
+{#each AdjustedPokemonNames.slice(fromPokemon, fromPokemon + pokemonPageSize) as pokemon}
 	<PokemonPreview {pokemon} />
 {/each}
 

@@ -12,7 +12,11 @@
 	$: pokemonEntry = getPokemonEntry(pokemon.id);
 </script>
 
-<a href={`/pokemon/${pokemonEntry.redirect}`} class="no-style" id={pokemonEntry.id.toString()}>
+<a
+	href={`/pokemon/${pokemonEntry.redirect}`}
+	class="no-style"
+	id={pokemonEntry.redirect ? pokemonEntry.redirect : pokemonEntry.id.toString()}
+>
 	<div
 		class="card clickable"
 		style="display: flex; align-items: center; padding: 1rem; margin-top: 1rem;"
