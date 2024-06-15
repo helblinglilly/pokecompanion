@@ -29,5 +29,15 @@
 
 	.column > .card {
 		min-width: 33.3333334%;
+		height: 80%;
 	}
+
+	.otdWrapper > div {
+		max-width: 100%;
+	}
+}
+
+.otdWrapper > div {
+	margin: 0;
+	padding: 0;
 }

@@ -1,8 +1,12 @@
 <script lang="ts">
 	import Greeting from '$/components/Homepage/Greeting.svelte';
+	import PokemonOtd from '$/components/Homepage/PokemonOTD.svelte';
 	import SelfMarketing from '$/components/Homepage/SelfMarketing.svelte';
 	import SocialPreview from '$/components/SocialPreview.svelte';
+	import MoveCardEntry from '$/components/Tags/MoveCardEntry.svelte';
+	import MoveListEntry from '$/components/Tags/MoveListEntry.svelte';
 	import PokemonCardEntry from '$/components/Tags/PokemonCardEntry.svelte';
+	import Moves from '$/lib/data/moves.json';
 	import { Logger } from '$lib/log';
 	import { lastPokedexEntry } from '$lib/stores/domain';
 	import { daysPassedInYear, randomDailyNumber } from '$lib/utils/number';
@@ -16,6 +20,8 @@
 		// Zacian is the first Pokemon to have been shiny locked - no shiny exists
 		shiny: Math.random() < 0.01 && pokemonOtdId < 888
 	};
+
+	const moveOtdIndex = randomDailyNumber(Moves.length)[daysPassedInYear()];
 
 	onMount(async () => {
 		Logger.addPageAction('PokemonOTD', pokemonOtdId.toString(), {
@@ -35,17 +41,18 @@
 <SelfMarketing />
 <!-- {/if} -->
 
-<div class="columns">
-	<div class="column" id="pokemonOTDWrapper">
+<div class="columns pb-8 w-full">
+	<div class="column otdWrapper">
 		<h2 class="h2">Pokémon of the day</h2>
-		<PokemonCardEntry
-			pokemon={featuredPokemon}
-			showRemoveButton={false}
-			showGenderAndShiny={false}
-			style="max-width: 100%; margin: 0;"
+		<PokemonOtd
+			pokemon={{ ...featuredPokemon, added: new Date().toISOString() }}
+			style="margin: 0; padding: 0;"
 		/>
 	</div>
-	<div class="column" />
+	<div class="column otdWrapper">
+		<h2 class="h2 m-0">Move of the day</h2>
+		<MoveListEntry id={Moves[moveOtdIndex].id} showRemoveButton={false} />
+	</div>
 	<div class="column" />
 </div>
 

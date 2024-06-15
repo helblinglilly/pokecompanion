@@ -11,6 +11,7 @@
 
 	export let showRemoveButton: boolean;
 	export let onRemoveClick: () => void = () => null;
+	export let style = '';
 
 	onMount(async () => {
 		move = await getMove(id, $selectedGame);
@@ -21,7 +22,7 @@
 		move && $secondaryLanguage ? getNameEntry(move.names, $secondaryLanguage) : undefined;
 </script>
 
-<div class="card clickable" id={`move-${id}`}>
+<div class="card clickable" id={`move-${id}`} {style}>
 	<a href={`/move/${id}`}>
 		{#if move}
 			<div class="spriteWrapper">
