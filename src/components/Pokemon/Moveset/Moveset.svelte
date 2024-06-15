@@ -11,7 +11,7 @@
 	$: showTutoredMovesOnMobile = false;
 </script>
 
-<div class="container">
+<div class="container pt-2">
 	{#if completeData}
 		{#if completeData.levelupMoves.length > 0}
 			<div class="item">
@@ -29,7 +29,7 @@
 					{completeData.levelupMoves.length} moves</button
 				>
 
-				<span class={`${!showLevelMovesOnMobile ? 'hidden' : 'grid'} md:grid`}>
+				<span class={`grid ${!showLevelMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
 					{#each completeData.levelupMoves.sort((a, b) => {
 						return (a.level || -1) > (b.level || -1) ? 1 : -1;
 					}) as levelMove}
@@ -53,7 +53,7 @@
 					}}>{showTmMovesOnMobile ? 'Hide' : 'Show'} {completeData.tmMoves.length} moves</button
 				>
 
-				<span class={`${!showTmMovesOnMobile ? 'hidden' : 'grid'} md:grid`}>
+				<span class={`grid ${!showTmMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
 					{#each completeData.tmMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as tmMove}
@@ -79,7 +79,7 @@
 					{completeData.breedMoves.length} moves</button
 				>
 
-				<span class={`${!showBreedMovesOnMobile ? 'hidden' : 'grid'} md:grid`}>
+				<span class={`grid ${!showBreedMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
 					{#each completeData.breedMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as breedMove}
@@ -105,7 +105,7 @@
 					{completeData.tutorMoves.length} moves</button
 				>
 
-				<span class={`${!showTutoredMovesOnMobile ? 'hidden' : 'grid'} md:grid`}>
+				<span class={`grid ${!showTutoredMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
 					{#each completeData.tutorMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as tutorMove}
@@ -124,6 +124,10 @@
 			display: grid;
 			grid-gap: 2rem;
 			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		}
+
+		.mobile-hidden {
+			display: none !important;
 		}
 	}
 	@media screen and (min-width: 768px) {
