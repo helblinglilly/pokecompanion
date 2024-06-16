@@ -1,8 +1,19 @@
 <script lang="ts">
 	import { searchTerm } from '$lib/stores/searchbar';
+	import { onMount } from 'svelte';
 
-	const placeholders = ['All sorts', 'Pokémon', 'Pokédex ID', 'Items', 'Moves', 'Abilities'];
-	let id = Math.floor(Math.random() * (placeholders.length - 1 - 1 + 1)) + 1;
+	const placeholders = ['Pokémon names', 'Pokédex ID', 'Items', 'Moves', 'Abilities'];
+	let id = Math.floor(Math.random() * placeholders.length);
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			id = Math.floor(Math.random() * placeholders.length);
+		}, 3000);
+
+		return () => {
+			clearInterval(interval);
+		};
+	});
 </script>
 
 <search>
