@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { GameGroups } from '$/lib/data/games';
 	export let title = 'Pokécompanion';
-	export let description =
-		'Explore the world of the Pokémon video games without the information overload. Set your game and never get lost in the flood of information again!';
+	export let description = `Explore the world from Kanto to ${
+		GameGroups[GameGroups.length - 1].region
+	} efficiently with Pokécompanion. Browsing and organising Pokémon, Moves, Abilities and more in a Rapidash!`;
 	export let previewImage = 'https://socialpreviews.pokecompanion.helbling.uk/generic.png';
 	import { page } from '$app/stores';
 </script>

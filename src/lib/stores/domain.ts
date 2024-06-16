@@ -41,7 +41,7 @@ export const cookieHandlers = {
 			existingValue = isInSearchParam;
 		} else {
 			if (!existingValue) {
-				existingValue = 'generic';
+				existingValue = PokeapiVersionGroups.SCARLET_VIOLET;
 				setCookie('selectedGame', existingValue);
 			}
 		}

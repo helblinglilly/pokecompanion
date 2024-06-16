@@ -9,6 +9,7 @@
 		{#if url}
 			<a
 				href={url}
+				class="underline"
 				on:click={() => {
 					Logger.addPageAction('UIInteraction', 'Breadcrumbs', {
 						action: 'Navigation'

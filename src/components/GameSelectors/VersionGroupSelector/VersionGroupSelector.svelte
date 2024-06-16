@@ -19,7 +19,7 @@
 	<select
 		name="gameSelector"
 		id="gameSelector"
-		class="pl-4"
+		style="margin-top: 1rem; margin-bottom: 1rem; margin-right: 1rem; padding-left: 1rem; height: 50px; width: 100%;"
 		on:change={(event) => {
 			const newValue = convertType(event);
 			if (newValue) {
@@ -31,7 +31,7 @@
 			<option
 				value={'generic'}
 				class={!currentlySelected || currentlySelected === 'generic' ? 'selected' : undefined}
-				selected={!currentlySelected || currentlySelected === 'generic'}>-</option
+				selected={!currentlySelected || currentlySelected === 'generic'}>Generic</option
 			>
 		{/if}
 

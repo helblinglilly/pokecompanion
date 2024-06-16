@@ -74,7 +74,7 @@
 	<div class="columns">
 		<div class="column">
 			<div class="card">
-				<label for="gameSelector"><h3 class="h3">Select Game</h3></label>
+				<label for="gameSelector"><h3 class="h3">Selected Game</h3></label>
 				<VersionGroupSelector
 					versionGroups={GameGroups}
 					onChange={(newValue) => selectedGame.set(getGameGroupFromName(newValue))}

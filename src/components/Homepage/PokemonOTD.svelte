@@ -1,4 +1,13 @@
 <script lang="ts">
+	/**
+	 * Styling:
+	 * Tailwind will take a while to load and apply, especially on slower network
+	 * conntections
+	 *
+	 * Styling elements that affect the layout have been done inline to avoid
+	 * layout shift as the site/assets load in
+	 *
+	 */
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import Image from '$/components/UI/Image.svelte';
 	import {
@@ -8,93 +17,67 @@
 		selectedGame,
 		versionSpecificPokemonSprites
 	} from '$lib/stores/domain';
-	import type { ITagPokemon } from '$lib/types/ITags';
-	import { getPokemonEntry } from '$lib/data/games';
-	import { pokemonVarietyNameToDisplay } from '$lib/utils/string';
+	import { getPokemonEntry, type IGameGroups } from '$lib/data/games';
+	import { onMount } from 'svelte';
 
-	export let pokemon: ITagPokemon;
-	export let style: string = '';
+	export let pokemon: number;
+	let sprite: string | undefined;
 
-	const namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
-
-	const queryParams = new URLSearchParams();
-
-	const fallbackSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
-
-	async function getSpriteURL(shiny: boolean, isFemale: boolean) {
+	async function getSpriteURL(shiny: boolean, game: IGameGroups | undefined) {
 		const queryParamsCopy = new URLSearchParams(queryParams.toString());
 		queryParamsCopy.set('shiny', `${shiny}`);
-		queryParamsCopy.set('gender', isFemale ? 'female' : '');
 
-		if ($versionSpecificPokemonSprites === true && $selectedGame) {
-			queryParamsCopy.set('game', $selectedGame.pokeapi);
+		if ($versionSpecificPokemonSprites === true && game) {
+			queryParamsCopy.set('game', game.pokeapi);
 
 			if ($animateSprites) {
 				queryParamsCopy.set('animate', $animateSprites ? 'true' : 'false');
 			}
 		}
 
-		const res = await fetch(`/api/pokemon/${pokemon.id}/sprite?${queryParamsCopy.toString()}`);
+		const res = await fetch(`/api/pokemon/${pokemon}/sprite?${queryParamsCopy.toString()}`);
 		if (res.ok) {
 			return await res.text();
 		}
 		return fallbackSpriteUrl;
 	}
+
+	onMount(async () => {
+		const shiny = Math.random() < 0.01 && pokemon < 888;
+		sprite = await getSpriteURL(shiny, $selectedGame);
+	});
+
+	const queryParams = new URLSearchParams();
+
+	const fallbackSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon}.png`;
 </script>
 
-<div class="card" id={`${pokemon.id}`}>
-	<a href={`/pokemon/${pokemon.id}?${queryParams.toString()}`} class="clickable">
-		<div class="spriteWrapper">
-			{#await getSpriteURL(false, false)}
-				<Image src={'/placeholder.png'} alt={`sprite`} loading="lazy" height="96px" width="96px" />
+<div class="card relative no-underline" id={`${pokemon}`} style="max-height: 12rem; padding: 0;">
+	<a
+		href={`/pokemon/${pokemon}?${queryParams.toString()}`}
+		class="block no-underline clickable p-4 rounded-lg"
+		style="height: 100%; width: 100%;"
+	>
+		<div
+			class="content-center"
+			style="height: 96px; width: 96px; margin-left: auto; margin-right: auto;"
+		>
+			{#await getSpriteURL(false, $selectedGame)}
+				<Image src={'/placeholder.png'} alt={`sprite`} loading="eager" height="96px" width="96px" />
 			{:then spriteURL}
 				<Image
 					classNames="ml-auto mr-auto"
 					src={spriteURL}
 					alt={`sprite`}
 					loading="lazy"
-					height="96px"
+					height="48px"
 					width="auto"
 				/>
 			{/await}
 		</div>
-		<p>#{pokemon.id}</p>
-		<p>
-			{getMultiLanguageName(
-				getPokemonEntry(pokemon.id).names,
-				$primaryLanguage,
-				$secondaryLanguage,
-				namePrefix
-			)}
+		<p class="text-center relative">#{pokemon}</p>
+		<p class="text-center relative">
+			{getMultiLanguageName(getPokemonEntry(pokemon).names, $primaryLanguage, $secondaryLanguage)}
 		</p>
 	</a>
 </div>
-
-<style>
-	a {
-		text-decoration-line: unset;
-		border-radius: 10px;
-		display: block;
-		height: 100%;
-		width: 100%;
-		padding: 2rem;
-	}
-
-	a > p {
-		text-align: center;
-		position: relative;
-	}
-
-	.card {
-		position: relative;
-		text-decoration: none;
-	}
-
-	.spriteWrapper {
-		height: 96px;
-		width: 96px;
-		margin-left: auto;
-		margin-right: auto;
-		align-content: center;
-	}
-</style>

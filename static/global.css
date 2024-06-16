@@ -199,10 +199,10 @@ select {
 	background-color: var(--primary);
 	width: 100%;
 	height: 50px;
-	margin-top: 1em;
-	margin-bottom: 1em;
-	padding-left: 1em;
-	margin-right: 1em;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	margin-right: 1rem;
+	padding-left: 1rem;
 	border-radius: 10px;
 	/* Remove the default arrow */
 	appearance: none;

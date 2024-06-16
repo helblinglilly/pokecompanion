@@ -203,9 +203,9 @@
 </div>
 
 <footer id="pageFooter">
-	<p>Powered by <a href="https://pokeapi.co">PokéAPI</a></p>
+	<p>Powered by <a href="https://pokeapi.co" class="underline">PokéAPI</a></p>
 	<p>
-		Built at <a href="https://github.com/helblinglilly/pokecompanion"
+		Built at <a href="https://github.com/helblinglilly/pokecompanion" class="underline"
 			>github.com/helblinglilly/pokecompanion</a
 		>
 	</p>

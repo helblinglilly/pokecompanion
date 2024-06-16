@@ -1,14 +1,34 @@
 <script lang="ts">
-	export let mode: 'new' | 'returning';
+	import { GameGroups } from '$/lib/data/games';
+	import { currentUser } from '$/lib/stores/user';
+
+	let trainerName = $currentUser?.username || 'Trainer';
 </script>
 
-<h1 class="h1">
-	{#if mode === 'new'}
-		Hi! Welcome to Pokécompanion
-	{/if}
-</h1>
+<div class="columns">
+	<div class="column">
+		<div style="display: inline-flex;">
+			<img
+				src="favicon.png"
+				alt="Pokecompanion Icon"
+				width="75px"
+				height="75px"
+				style="margin-top: auto; margin-bottom: auto;"
+			/>
+			<h1 class="h2" style="margin-top: auto; margin-bottom: auto; padding-bottom: 0.25rem;">
+				Welcome, {trainerName}!
+			</h1>
+		</div>
+	</div>
 
-{#if mode === 'new'}
-	<p>Explore the world of the Pokémon video games without the information overload.</p>
-	<p>Set your game and never get lost in the flood of information again!</p>
-{/if}
+	<div class="column">
+		<div class="mt-auto mb-auto h-full">
+			<p class="h-full">
+				Explore the world from Kanto to {GameGroups[GameGroups.length - 1].region} efficiently with Pokécompanion.
+				<br />
+				Browsing and organising Pokémon, Moves, Abilities and more in a
+				<a href="/pokemon/78" class="underline">Rapidash</a>!
+			</p>
+		</div>
+	</div>
+</div>
