@@ -97,9 +97,12 @@
 			</table>
 		</div>
 		<hr />
-		<p>{primaryFlavourText ?? secondaryFlavourText}</p>
 
-		<hr />
+		{#if primaryFlavourText || secondaryFlavourText}
+			<p>{primaryFlavourText ?? secondaryFlavourText}</p>
+
+			<hr />
+		{/if}
 
 		{#if primaryEffectEntry}
 			<p>{primaryEffectEntry}</p>
