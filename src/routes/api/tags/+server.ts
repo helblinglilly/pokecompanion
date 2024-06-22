@@ -44,6 +44,10 @@ export async function POST({ request, cookies, platform }) {
 	*/
 	const isToxic = await isStringToxic(body.name);
 	if (isToxic) {
+		Logger.info('Caught Toxic tag name', {
+			context: 'Create new tag',
+			name: body.name
+		} )
 		return new Response('Failed to create new tag', {
 			status: 500
 		});
@@ -55,7 +59,9 @@ export async function POST({ request, cookies, platform }) {
 			name: body.name,
 			contents: body.initialContent ? body.initialContent : {},
 			isPrivate: body.isPrivate,
-			showGenderAndShiny: body.showGenderAndShiny
+			showGenderAndShiny: body.showGenderAndShiny,
+			sortKey: 'id',
+			sortOrder: 'asc'
 		});
 		platform?.context.waitUntil(
 			Logger.addPageAction('TagCreated', 'Created a new tag', {
