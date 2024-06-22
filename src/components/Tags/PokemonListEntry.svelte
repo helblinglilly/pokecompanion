@@ -19,7 +19,7 @@
 	export let onRemoveClick: () => void;
 	export let showGenderAndShiny: boolean;
 
-	const namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
+	$: namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
 
 	const queryParams = new URLSearchParams();
 	$: {
@@ -70,7 +70,13 @@
 		<div>
 			<div class="spriteWrapper">
 				{#await getSpriteURL(showGenderAndShiny ? pokemon.shiny === true : false, showGenderAndShiny ? pokemon.gender === 'female' : false)}
-					<Image src={`/fallback.png`} alt={`sprite`} loading="lazy" height="96px" width="96px" />
+					<Image
+						src={`/placeholder.png`}
+						alt={`sprite`}
+						loading="lazy"
+						height="96px"
+						width="96px"
+					/>
 				{:then spriteURL}
 					<Image
 						classNames="ml-auto mr-auto"
