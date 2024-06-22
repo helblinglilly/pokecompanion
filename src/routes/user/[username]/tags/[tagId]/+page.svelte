@@ -303,7 +303,7 @@
 	<select
 		class="pl-4 pr-4 secondary"
 		on:change={(e) => {
-			sortFunction = getSortFunction(e.target.value, sortOrder);
+			sortFunction = getSortFunction(e.target?.value, sortOrder);
 		}}
 	>
 		<option>Added</option>

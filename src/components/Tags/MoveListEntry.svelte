@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Image from '$/components/UI/Image.svelte';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { getMove, type IMove } from '$lib/types/IMoves';
 	import { getNameEntry } from '$lib/utils/language';
@@ -45,7 +44,7 @@
 				</table>
 			</div>
 
-			<span>
+			<span class="ml-4">
 				<p>{primaryName}</p>
 				{#if secondaryName && primaryName !== secondaryName}
 					<p>{secondaryName}</p>
