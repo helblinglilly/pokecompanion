@@ -132,7 +132,7 @@
 			{/if}
 
 			{#if showRemoveButton}
-				<button class="removeButton" on:click={onRemoveClick}>-</button>
+				<button class="removeButton mr-4" on:click={onRemoveClick}>-</button>
 			{/if}
 		</div>
 	{/if}
