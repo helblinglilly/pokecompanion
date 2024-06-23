@@ -60,8 +60,8 @@ export async function POST({ request, cookies, platform }) {
 			contents: body.initialContent ? body.initialContent : {},
 			isPrivate: body.isPrivate,
 			showGenderAndShiny: body.showGenderAndShiny,
-			sortKey: 'id',
-			sortOrder: 'asc'
+			sortKey: 'added',
+			sortOrder: 'desc'
 		});
 		platform?.context.waitUntil(
 			Logger.addPageAction('TagCreated', 'Created a new tag', {
