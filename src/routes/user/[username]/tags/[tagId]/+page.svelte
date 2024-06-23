@@ -97,7 +97,6 @@
 		sortOrder = direction.toLowerCase() as 'asc' | 'desc' | 'custom';
 		sortKey = key.toLowerCase() as 'id' | 'added' | 'alphabetical' | 'custom';
 
-		console.log(key, direction);
 		if (sortKey === 'id') {
 			if (sortOrder === 'asc') {
 				return sortByIdAsc;
@@ -333,10 +332,13 @@
 	<p>This tag has no items in it</p>
 {/if}
 
-<div id="pokemonTagWrapper" style={tags.tag.contents.pokemon?.length === 0 ? 'display: none' : ''}>
-	<div class="tagWrapper">
-		{#each filteredPokemon.sort(sortFunction) as pokemonTag}
-			{#if displayMode === 'card'}
+<div id="pokemonTagWrapper" class={tags.tag.contents.pokemon?.length === 0 ? 'hidden' : ''}>
+	{#if displayMode === 'card'}
+		<div
+			class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6
+				2xl:grid-cols-7 justify-items-center cardWrapper"
+		>
+			{#each filteredPokemon.sort(sortFunction) as pokemonTag}
 				<PokemonCardEntry
 					pokemon={pokemonTag}
 					showRemoveButton={inModifyView}
@@ -345,7 +347,11 @@
 						removeFromTag({ pokemon: pokemonTag });
 					}}
 				/>
-			{:else}
+			{/each}
+		</div>
+	{:else}
+		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+			{#each filteredPokemon.sort(sortFunction) as pokemonTag}
 				<PokemonListEntry
 					pokemon={pokemonTag}
 					showRemoveButton={inModifyView}
@@ -354,12 +360,12 @@
 						removeFromTag({ pokemon: pokemonTag });
 					}}
 				/>
-			{/if}
-		{/each}
-	</div>
+			{/each}
+		</div>
+	{/if}
 
 	{#if tags.tag.contents.pokemon && tags.tag.contents.pokemon.length > 0}
-		<div style="display: grid; justify-content: center;">
+		<div style="display: grid; justify-content: center; margin-top: 1rem;">
 			<p style="min-width: fit-content;">{tags.tag.contents.pokemon.length} Pokémon</p>
 		</div>
 	{/if}
@@ -452,13 +458,6 @@
 </Modal>
 
 <style>
-	.tagWrapper {
-		display: flex;
-		flex-wrap: wrap;
-		padding: 0;
-		justify-content: space-around;
-	}
-
 	#tagHeader {
 		display: inline-flex;
 		padding-bottom: 1rem;
@@ -486,6 +485,12 @@
 	@media (max-width: 768px) {
 		#tagSearchWrapper > input {
 			width: 100%;
+		}
+	}
+
+	@media (max-width: 382px) {
+		.cardWrapper {
+			grid-template-columns: repeat(1, minmax(0, 1fr));
 		}
 	}
 </style>

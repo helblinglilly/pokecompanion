@@ -65,7 +65,7 @@
 	}
 </script>
 
-<div class="card clickable" id={`${pokemon.id}`}>
+<div class="card clickable m-0 w-full" id={`${pokemon.id}`}>
 	<a href={`/pokemon/${pokemon.id}?${queryParams.toString()}`} class="clickable">
 		<div>
 			<div class="spriteWrapper">
@@ -167,7 +167,6 @@
 	.card {
 		position: relative;
 		padding: 0.25rem;
-		margin: 1rem;
 	}
 
 	.removeButton {
@@ -189,11 +188,5 @@
 		width: 96px;
 		padding: 1rem;
 		align-content: center;
-	}
-
-	@media screen and (min-width: 768px) {
-		.card {
-			max-width: 45%;
-		}
 	}
 </style>
