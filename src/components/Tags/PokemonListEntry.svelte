@@ -79,12 +79,11 @@
 					/>
 				{:then spriteURL}
 					<Image
-						classNames="ml-auto mr-auto"
+						classNames="ml-auto mr-auto h-full max-w-min"
 						src={spriteURL}
 						alt={`sprite`}
 						loading="lazy"
-						height="96px"
-						width="auto"
+						height="64px"
 					/>
 				{/await}
 			</div>

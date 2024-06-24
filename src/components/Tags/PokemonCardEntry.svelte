@@ -74,12 +74,13 @@
 				<Image src={'/placeholder.png'} alt={`sprite`} loading="lazy" height="96px" width="96px" />
 			{:then spriteURL}
 				<Image
-					classNames="ml-auto mr-auto"
+					classNames="ml-auto mr-auto max-w-full w-auto"
 					src={spriteURL}
 					alt={`sprite`}
 					loading="lazy"
 					height="96px"
 					width="auto"
+					style="height: inherit;"
 				/>
 			{/await}
 		</div>
