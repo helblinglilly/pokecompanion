@@ -8,6 +8,8 @@ export interface ITag {
 	showGenderAndShiny: boolean;
 	sortKey: 'added' | 'id' | 'alphabetical' | 'custom';
 	sortOrder: 'asc' | 'desc' | 'custom';
+	description: string;
+	owner: string;
 }
 
 export interface ITagEntryGenerics {

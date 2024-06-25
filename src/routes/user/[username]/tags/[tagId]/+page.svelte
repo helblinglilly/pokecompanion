@@ -1,51 +1,32 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import Breadcrumbs from '$/components/UI/Breadcrumbs.svelte';
-	import Icon from '$/components/UI/Icon.svelte';
-	import InlineTextButton from '$/components/InlineTextButton.svelte';
-	import Modal from '$/components/UI/Modal.svelte';
-	import PokemonCardEntry from '$/components/Tags/PokemonCardEntry.svelte';
-	import PokemonListEntry from '$/components/Tags/PokemonListEntry.svelte';
-	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
-	import type { ITag, ITagEntryGenerics, ITagMove, ITagPokemon } from '$lib/types/ITags.js';
-	import { onMount } from 'svelte';
+	import type { ITagEntryGenerics, TagRecord } from '$lib/types/ITags.js';
+	import { getContext, setContext } from 'svelte';
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import { getMoveEntry, getPokemonEntry } from '$lib/data/games.js';
+	import { getMoveEntry } from '$lib/data/games.js';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { termNormaliser } from '$lib/utils/string.js';
 	import SocialPreview from '$/components/SocialPreview.svelte';
-	import MoveCardEntry from '$/components/Tags/MoveCardEntry.svelte';
-	import MoveListEntry from '$/components/Tags/MoveListEntry.svelte';
-	import { Logger } from '$lib/log.js';
+	import { getSortFunction } from './helper.js';
+	import TagHeader from './TagHeader.svelte';
+	import TagEditor from './TagEditor.svelte';
+	import { writable, type Writable } from 'svelte/store';
+	import type { IPublicUser } from '$/lib/pb/publicUsers.js';
+	import TagPokemon from './TagPokemon.svelte';
 
 	export let data;
-	$: tags = data;
+	setContext('tag', writable(data.tag));
+
+	const currentTag = getContext('tag') as Writable<TagRecord>;
+
+	export const tagOwner = writable<IPublicUser>(data.user);
 
 	let filterTerm = '';
-	$: filteredPokemon =
-		filterTerm && tags.tag.contents.pokemon
-			? tags.tag.contents.pokemon.filter((a) => {
-					const normalised = termNormaliser(filterTerm);
-					const matchesId = `${a.id}`.includes(filterTerm);
-					const names = termNormaliser(
-						getMultiLanguageName(
-							getPokemonEntry(a.id).names,
-							$primaryLanguage,
-							$secondaryLanguage,
-							a.variety ?? ''
-						) ?? ''
-					);
-
-					const matchesName = names.includes(normalised);
-					return matchesId || matchesName;
-			  })
-			: tags.tag.contents.pokemon ?? [];
 
 	$: filteredMove =
-		filterTerm && tags.tag.contents.move
-			? tags.tag.contents.move.filter((move) => {
+		filterTerm && $currentTag.contents.move
+			? $currentTag.contents.move.filter((move) => {
 					const normalised = termNormaliser(filterTerm);
 					const matchesId = `${move.id}`.includes(normalised);
 					const names = termNormaliser(
@@ -59,151 +40,26 @@
 					const matchesName = names.includes(normalised);
 					return matchesId || matchesName;
 			  })
-			: tags.tag.contents.move ?? [];
+			: $currentTag.contents.move ?? [];
 
-	$: amountOfItems = Object.keys(tags.tag.contents).reduce((accum, current) => {
-		// @ts-ignore cba - we're going over Object.keys
-		return accum + tags.tag.contents[current].length;
-	}, 0);
-
-	let hasChanges = false;
-
-	let showRenameOverlay = false;
-	let showDeleteOverlay = false;
 	let inModifyView = false;
-	let isLiked = false;
 	let sortOrder = data.tag.sortOrder;
 	let sortKey = data.tag.sortKey;
 
-	let sortFunction = getSortFunction(sortKey, sortOrder);
+	let sortFunction = (a: ITagEntryGenerics, b: ITagEntryGenerics) => 1;
 
-	function getSortFunction(key: string, direction: string) {
-		const sortByDateDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
-			return new Date(a.added).valueOf() < new Date(b.added).valueOf() ? 1 : -1;
-		};
-
-		const sortByDateAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
-			return new Date(a.added).valueOf() > new Date(b.added).valueOf() ? 1 : -1;
-		};
-
-		const sortByIdDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
-			return a.id < b.id ? 1 : -1;
-		};
-
-		const sortByIdAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
-			return a.id > b.id ? 1 : -1;
-		};
-
-		sortOrder = direction.toLowerCase() as 'asc' | 'desc' | 'custom';
-		sortKey = key.toLowerCase() as 'id' | 'added' | 'alphabetical' | 'custom';
-
-		if (sortKey === 'id') {
-			if (sortOrder === 'asc') {
-				return sortByIdAsc;
-			} else {
-				return sortByIdDesc;
-			}
-		} else if (sortKey === 'added') {
-			if (sortOrder === 'asc') {
-				return sortByDateAsc;
-			} else {
-				return sortByDateDesc;
-			}
-		}
+	$: if (sortKey || sortOrder) {
+		let vals = getSortFunction(sortKey, sortOrder);
+		sortKey = vals.sortKey;
+		sortOrder = vals.sortOrder;
+		sortFunction = vals.sortFunction;
 	}
-
-	let displayMode: string = $page.url.searchParams.get('view') ?? 'list';
-
-	let isMounted = false;
-	onMount(() => {
-		isMounted = true;
-	});
-
-	$: {
-		if (displayMode && isMounted) {
-			const newUrl = new URL($page.url);
-			newUrl.searchParams.set('view', displayMode);
-			goto(newUrl.toString(), { replaceState: true });
-		}
-	}
-
-	const saveUpdatedTag = async () => {
-		if (hasChanges) {
-			try {
-				const response = await fetch('/api/tag', {
-					method: 'PATCH',
-					body: JSON.stringify({
-						id: tags.tag.id,
-						name: tags.tag.name,
-						contents: tags.tag.contents,
-						isPrivate: tags.tag.isPrivate,
-						showGenderAndShiny: tags.tag.showGenderAndShiny ?? false
-					})
-				});
-				if (response.status !== 200) {
-					throw new Error(`Non-200 status code ${response.status}`);
-				}
-
-				const newBody = (await response.json()) as ITag;
-				tags.tag = {
-					...tags.tag,
-					...newBody
-				};
-			} catch (err) {
-				addNotification({ message: 'Failed to save tag', level: 'failure' });
-				await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
-					context: 'Failed to save tag',
-					tag: data.tag.id,
-					user: $currentUser?.id
-				});
-			}
-		}
-	};
-
-	// Needs splitting out
-	const removeFromTag = ({ pokemon, move }: { pokemon?: ITagPokemon; move?: ITagMove }) => {
-		if (pokemon) {
-			tags.tag.contents.pokemon = tags.tag.contents.pokemon?.filter((tagMon) => {
-				return !(JSON.stringify(tagMon) === JSON.stringify(pokemon));
-			});
-		}
-
-		if (move) {
-			tags.tag.contents.move = tags.tag.contents.move?.filter((tagMove) => {
-				return !(JSON.stringify(tagMove) === JSON.stringify(move));
-			});
-		}
-		hasChanges = true;
-	};
-
-	const deleteTag = async () => {
-		try {
-			await fetch('/api/tags', {
-				method: 'DELETE',
-				body: JSON.stringify({
-					id: tags.tag.id
-				})
-			});
-			addNotification({ message: `Deleted "${tags.tag.name}"`, level: 'success' });
-			goto(`/user/${$currentUser?.username}`);
-		} catch (err) {
-			await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
-				context: 'Failed to delete tag',
-				user: $currentUser?.id,
-				tag: tags.tag.id
-			});
-			addNotification({
-				message: `Failure to delete tag "${tags.tag.name}""`,
-				level: 'failure'
-			});
-		}
-	};
 </script>
 
 <SocialPreview
-	title={`"${tags.tag.name}" tag`}
-	description={`${tags.user.username} created this tag with ${
-		tags.tag.contents.pokemon ? tags.tag.contents.pokemon.length : 0
+	title={`"${$currentTag.name}" tag`}
+	description={`${$tagOwner.username} created this tag with ${
+		$currentTag.contents.pokemon ? $currentTag.contents.pokemon.length : 0
 	} Pokémon`}
 />
 
@@ -214,13 +70,28 @@
 			url: `/user/${data.user.username}`
 		},
 		{
-			display: data.tag.name
+			display: $currentTag.name
 		}
 	]}
 />
 
-<div id="tagHeader">
-	{#if $currentUser?.username === tags.user.username}
+<div class="grid gap-4 pb-4">
+	<TagHeader tag={$currentTag} bind:inModifyView />
+
+	{#if $currentUser?.username === $tagOwner.username && inModifyView}
+		<hr />
+		<p>Created: {new Date($currentTag.created).toLocaleString()}</p>
+		<p>Updated: {new Date($currentTag.updated).toLocaleString()}</p>
+		<div class="grid md:inline-flex md:justify-between gap-2">
+			<TagEditor />
+		</div>
+		<hr />
+	{/if}
+</div>
+
+<TagPokemon {filterTerm} />
+<!-- <div id="tagHeader">
+	{#if $currentUser?.username === $tagOwner.username}
 		<button
 			class="button"
 			style="max-height: 3rem;"
@@ -228,7 +99,11 @@
 				if (inModifyView) {
 					try {
 						await saveUpdatedTag();
-					} catch (_) {
+					} catch (err) {
+						Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
+							context: `Tag ${$currentTag.id}`,
+							message: 'Failed to save changes'
+						});
 						addNotification({ message: 'Failed to save changes', level: 'failure' });
 						return;
 					}
@@ -236,12 +111,12 @@
 				inModifyView = !inModifyView;
 			}}
 		>
-			<Icon name={`${inModifyView ? 'floppy' : 'pencil'}`} style="" />
+			<Icon name={`${inModifyView ? 'floppy' : 'pencil'}`} />
 		</button>
 	{/if}
 
-	<h1 class="h1" style="padding: 0;">{tags.tag.name}</h1>
-	{#if tags.tag.isPrivate}
+	<h1 class="h1" style="padding: 0;">{$currentTag.name}</h1>
+	{#if $currentTag.isPrivate}
 		<Icon name="lock" style="margin-top: auto; margin-bottom: auto;" />
 	{/if}
 </div>
@@ -252,16 +127,16 @@
 		<button
 			class="button"
 			on:click={() => {
-				tags.tag.showGenderAndShiny = !tags.tag.showGenderAndShiny;
+				$currentTag.showGenderAndShiny = !$currentTag.showGenderAndShiny;
 				hasChanges = true;
-			}}>{`${tags.tag.showGenderAndShiny ? 'Hide' : 'Show'}`} Variety indicators</button
+			}}>{`${$currentTag.showGenderAndShiny ? 'Hide' : 'Show'}`} Variety indicators</button
 		>
 		<button
 			class="button"
 			on:click={() => {
-				tags.tag.isPrivate = !tags.tag.isPrivate;
+				$currentTag.isPrivate = !$currentTag.isPrivate;
 				hasChanges = true;
-			}}>Make {tags.tag.isPrivate ? 'Public' : 'Private'}</button
+			}}>Make {$currentTag.isPrivate ? 'Public' : 'Private'}</button
 		>
 		<button
 			class="button error"
@@ -271,6 +146,8 @@
 		>
 	</div>
 {/if}
+
+
 
 <div id="viewOptionsWrapper">
 	<div style="display: none;">
@@ -302,6 +179,7 @@
 	<select
 		class="pl-4 pr-4 secondary"
 		on:change={(e) => {
+			// @ts-ignore
 			sortFunction = getSortFunction(e.target?.value, sortOrder);
 		}}
 	>
@@ -312,7 +190,7 @@
 	<button
 		class="button primary min-w-fit"
 		on:click={() => {
-			sortFunction = getSortFunction(sortKey, sortOrder === 'asc' ? 'desc' : 'asc');
+			sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
 		}}
 	>
 		{sortOrder === 'asc' ? 'A-Z' : 'Z-A'}
@@ -330,9 +208,9 @@
 
 {#if amountOfItems === 0}
 	<p>This tag has no items in it</p>
-{/if}
-
-<div id="pokemonTagWrapper" class={tags.tag.contents.pokemon?.length === 0 ? 'hidden' : ''}>
+{/if} -->
+<!-- 
+<div id="pokemonTagWrapper" class={$currentTag.contents.pokemon?.length === 0 ? 'hidden' : ''}>
 	{#if displayMode === 'card'}
 		<div
 			class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6
@@ -342,9 +220,9 @@
 				<PokemonCardEntry
 					pokemon={pokemonTag}
 					showRemoveButton={inModifyView}
-					showGenderAndShiny={tags.tag.showGenderAndShiny}
+					showGenderAndShiny={$currentTag.showGenderAndShiny}
 					onRemoveClick={() => {
-						removeFromTag({ pokemon: pokemonTag });
+						// removeFromTag({ pokemon: pokemonTag });
 					}}
 				/>
 			{/each}
@@ -355,18 +233,18 @@
 				<PokemonListEntry
 					pokemon={pokemonTag}
 					showRemoveButton={inModifyView}
-					showGenderAndShiny={tags.tag.showGenderAndShiny}
+					showGenderAndShiny={$currentTag.showGenderAndShiny}
 					onRemoveClick={() => {
-						removeFromTag({ pokemon: pokemonTag });
+						// removeFromTag({ pokemon: pokemonTag });
 					}}
 				/>
 			{/each}
 		</div>
 	{/if}
 
-	{#if tags.tag.contents.pokemon && tags.tag.contents.pokemon.length > 0}
+	{#if $currentTag.contents.pokemon && $currentTag.contents.pokemon.length > 0}
 		<div style="display: grid; justify-content: center; margin-top: 1rem;">
-			<p style="min-width: fit-content;">{tags.tag.contents.pokemon.length} Pokémon</p>
+			<p style="min-width: fit-content;">{$currentTag.contents.pokemon.length} Pokémon</p>
 		</div>
 	{/if}
 </div>
@@ -374,7 +252,7 @@
 <div
 	id="moveTagWrapper"
 	class="tagGroup"
-	style={tags.tag.contents.move?.length === 0 ? 'display: none' : ''}
+	style={$currentTag.contents.move?.length === 0 ? 'display: none' : ''}
 >
 	<div class="tagWrapper">
 		{#each filteredMove.sort(sortFunction) as moveTag}
@@ -383,7 +261,7 @@
 					id={moveTag.id}
 					showRemoveButton={inModifyView}
 					onRemoveClick={() => {
-						removeFromTag({ move: moveTag });
+						// removeFromTag({ move: moveTag });
 					}}
 				/>
 			{:else}
@@ -391,42 +269,21 @@
 					id={moveTag.id}
 					showRemoveButton={inModifyView}
 					onRemoveClick={() => {
-						removeFromTag({ move: moveTag });
+						// removeFromTag({ move: moveTag });
 					}}
 				/>
 			{/if}
 		{/each}
 	</div>
 
-	{#if tags.tag.contents.move && tags.tag.contents.move.length > 0}
+	{#if $currentTag.contents.move && $currentTag.contents.move.length > 0}
 		<div style="display: grid; justify-content: center;">
 			<p style="min-width: fit-content;">
-				{tags.tag.contents.move.length} Move{tags.tag.contents.move.length === 1 ? '' : 's'}
+				{$currentTag.contents.move.length} Move{$currentTag.contents.move.length === 1 ? '' : 's'}
 			</p>
 		</div>
 	{/if}
 </div>
-
-<Modal bind:showModal={showRenameOverlay}>
-	<h2 class="h2" slot="header">Rename Tag</h2>
-
-	<InlineTextButton
-		buttonConfig={{
-			text: 'Rename',
-			onClick: (newVal) => {
-				if (newVal && tags.tag.name !== newVal) {
-					tags.tag.name = newVal;
-					hasChanges = true;
-				}
-				showRenameOverlay = false;
-			}
-		}}
-		variation="small"
-		containerStyling="padding: 1rem;"
-		inputConfig={{ placeholder: 'New name' }}
-		valueBinding={tags.tag.name}
-	/>
-</Modal>
 
 <Modal bind:showModal={showDeleteOverlay}>
 	<h2 class="h2" slot="header">Delete Tag</h2>
@@ -440,7 +297,7 @@
 			class="button error"
 			on:click={async () => {
 				showDeleteOverlay = false;
-				await deleteTag();
+				// await deleteTag();
 			}}
 		>
 			Yes, delete
@@ -455,42 +312,4 @@
 			No, cancel
 		</button>
 	</div>
-</Modal>
-
-<style>
-	#tagHeader {
-		display: inline-flex;
-		padding-bottom: 1rem;
-		gap: 0.5rem;
-		width: 100%;
-	}
-
-	#modifyWrapper > button {
-		margin-bottom: 1rem;
-	}
-
-	#viewOptionsWrapper {
-		display: inline-flex;
-		gap: 0.5rem;
-		align-items: center;
-	}
-
-	#tagSearchWrapper {
-		margin-top: 1rem;
-		margin-bottom: 1rem;
-		display: flex;
-		justify-content: center;
-	}
-
-	@media (max-width: 768px) {
-		#tagSearchWrapper > input {
-			width: 100%;
-		}
-	}
-
-	@media (max-width: 382px) {
-		.cardWrapper {
-			grid-template-columns: repeat(1, minmax(0, 1fr));
-		}
-	}
-</style>
+</Modal> -->

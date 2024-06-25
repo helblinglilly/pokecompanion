@@ -1,6 +1,7 @@
 import { validateAuth } from '../helpers.js';
 import type { ITag, ITagContents } from '$lib/types/ITags.js';
 import { Logger } from '$lib/log.js';
+import isStringToxic from '$/lib/server/toxic.js';
 
 export async function POST({ request, cookies, platform }) {
 	const authedPb = await validateAuth(request, cookies);
@@ -161,6 +162,7 @@ export async function PATCH({ request, cookies, platform }) {
 				name: string;
 				isPrivate: boolean;
 				showGenderAndShiny: boolean;
+				description: string;
 		  }
 		| undefined;
 
@@ -193,11 +195,18 @@ export async function PATCH({ request, cookies, platform }) {
 		!body.contents ||
 		!body.name ||
 		body.isPrivate === undefined ||
-		body.showGenderAndShiny === undefined
+		body.showGenderAndShiny === undefined ||
+		!body.description
 	) {
 		return new Response(JSON.stringify({ error: 'Invalid body', request: body }), {
 			status: 400
 		});
+	}
+
+	if (await isStringToxic(body.name) || await isStringToxic(body.description)){
+		return new Response(JSON.stringify({ error: 'Invalid body', request: body }), {
+			status: 400
+		});	
 	}
 
 	try {
@@ -208,7 +217,8 @@ export async function PATCH({ request, cookies, platform }) {
 			},
 			name: body.name,
 			isPrivate: body.isPrivate,
-			showGenderAndShiny: body.showGenderAndShiny
+			showGenderAndShiny: body.showGenderAndShiny,
+			description: body.description,
 		});
 	} catch (err) {
 		platform?.context.waitUntil(

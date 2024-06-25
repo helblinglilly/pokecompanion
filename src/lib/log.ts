@@ -22,7 +22,10 @@ export class Logger {
 		return err instanceof Error ? err : new Error(String(err))
 	}
 
-	static async error(errorClass: ErrorClasses, error: Error, info?: Info){	
+	static async error(errorClass: ErrorClasses, error: Error, info?: Info){
+		if (PUBLIC_ENVIRONMENT === 'local'){
+			console.error(errorClass, error, info)
+		}
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
 				try {
@@ -72,6 +75,9 @@ export class Logger {
 	};
 	
 	static async info(message: string, info?: Info){	
+		if (PUBLIC_ENVIRONMENT === 'local'){
+			console.info(message, info)
+		}
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
 				try {
@@ -115,6 +121,9 @@ export class Logger {
 	};
 	
 	static async warn(message: string, info?: Info){		
+		if (PUBLIC_ENVIRONMENT === 'local'){
+			console.warn(message, info)
+		}
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
 				try {
@@ -158,6 +167,9 @@ export class Logger {
 	};
 	
 	static async addPageAction(name: string, message: string, info?: Info){		
+		if (PUBLIC_ENVIRONMENT === 'local'){
+			console.log('PageAction', name, message, info)
+		}
 		if (typeof window !== 'undefined'){
 			if (window?.newrelic){
 				try {
