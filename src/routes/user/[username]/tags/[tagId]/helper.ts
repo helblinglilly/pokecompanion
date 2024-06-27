@@ -47,7 +47,8 @@ export function patchTag(tag: TagRecord){
     return fetch('/api/tag/', {
         method: 'PATCH',
         body: JSON.stringify({
-            ...tag
+            ...tag,
+            description: tag.description.length > 1 ? tag.description : 'No Description'
         }),
         redirect: 'follow' 
     }).then(async (res) => {

@@ -89,7 +89,7 @@
 	{/if}
 </div>
 
-<TagPokemon {filterTerm} />
+<TagPokemon {filterTerm} {inModifyView} />
 <!-- <div id="tagHeader">
 	{#if $currentUser?.username === $tagOwner.username}
 		<button

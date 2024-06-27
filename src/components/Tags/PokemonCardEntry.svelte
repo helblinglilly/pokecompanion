@@ -95,48 +95,46 @@
 		</p>
 	</a>
 
-	{#if showGenderAndShiny}
-		<div class="indicators">
-			{#if pokemon.gender === 'female'}
-				<Icon
-					name="venus"
-					style={`margin-top: auto; margin-bottom: auto; padding-left: 10px; fill: ${
-						$theme === 'dark' ? '#f6abd9' : '#ee5db7'
-					};`}
-				/>
-			{:else if pokemon.gender === 'male'}
-				<Icon
-					name="mars"
-					style={`margin-top: auto; margin-bottom: auto; padding-left: 10px; fill: ${
-						$theme === 'dark' ? '#99b3ff' : '#3366ff'
-					};`}
-				/>
-			{/if}
+	<div class="indicators">
+		{#if showGenderAndShiny && pokemon.gender === 'female'}
+			<Icon
+				name="venus"
+				style={`margin-top: auto; margin-bottom: auto; padding-left: 10px; fill: ${
+					$theme === 'dark' ? '#f6abd9' : '#ee5db7'
+				};`}
+			/>
+		{:else if showGenderAndShiny && pokemon.gender === 'male'}
+			<Icon
+				name="mars"
+				style={`margin-top: auto; margin-bottom: auto; padding-left: 10px; fill: ${
+					$theme === 'dark' ? '#99b3ff' : '#3366ff'
+				};`}
+			/>
+		{/if}
 
-			{#if pokemon.shiny}
-				{#if $theme === 'light'}
-					<Icon
-						name="spark"
-						style="margin-top: 0.2rem;"
-						lineStroke="var(--text)"
-						pathStroke="var(--text)"
-					/>
-				{:else}
-					<Icon
-						style="margin-top: 0.2rem;"
-						name="spark-full"
-						pathFill="var(--text)"
-						lineStroke="var(--text)"
-						pathStroke="var(--text)"
-					/>
-				{/if}
+		{#if showGenderAndShiny && pokemon.shiny}
+			{#if $theme === 'light'}
+				<Icon
+					name="spark"
+					style="margin-top: 0.2rem;"
+					lineStroke="var(--text)"
+					pathStroke="var(--text)"
+				/>
+			{:else}
+				<Icon
+					style="margin-top: 0.2rem;"
+					name="spark-full"
+					pathFill="var(--text)"
+					lineStroke="var(--text)"
+					pathStroke="var(--text)"
+				/>
 			{/if}
+		{/if}
 
-			{#if showRemoveButton}
-				<button class="removeButton mr-4" on:click={onRemoveClick}>-</button>
-			{/if}
-		</div>
-	{/if}
+		{#if showRemoveButton}
+			<button class="removeButton mr-4" on:click={onRemoveClick}>-</button>
+		{/if}
+	</div>
 </div>
 
 <style>
@@ -155,12 +153,12 @@
 
 	.card {
 		position: relative;
-		margin: 1rem;
 		text-decoration: none;
 		padding: 0;
 		max-width: 20%;
 		height: auto;
 		min-width: 150px;
+		justify-self: center;
 	}
 
 	.removeButton {

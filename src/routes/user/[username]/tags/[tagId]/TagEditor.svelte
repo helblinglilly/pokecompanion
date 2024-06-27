@@ -27,20 +27,34 @@
 <button
 	class="button primary"
 	on:click={() => {
-		patchTag({ ...$tag, showGenderAndShiny: !$tag.showGenderAndShiny }).then((newTag) => {
+		const optimisticTag = { ...$tag, showGenderAndShiny: !$tag.showGenderAndShiny };
+		const originalTag = { ...$tag };
+
+		tag.set(optimisticTag);
+
+		patchTag(optimisticTag).then((newTag) => {
 			if (newTag) {
 				tag.set(newTag);
+			} else {
+				tag.set(originalTag);
 			}
 		});
-	}}>{$tag.showGenderAndShiny ? 'Hide' : 'Show'} Gender/Shiny icons</button
+	}}>{$tag.showGenderAndShiny ? 'Hide' : 'Show'} Gender/Shiny</button
 >
 
 <button
 	class="button primary"
 	on:click={() => {
-		patchTag({ ...$tag, isPrivate: !$tag.isPrivate }).then((newTag) => {
+		const optimisticTag = { ...$tag, isPrivate: !$tag.isPrivate };
+		const originalTag = { ...$tag };
+
+		tag.set(optimisticTag);
+
+		patchTag(optimisticTag).then((newTag) => {
 			if (newTag) {
 				tag.set(newTag);
+			} else {
+				tag.set(originalTag);
 			}
 		});
 	}}>Make {$tag.isPrivate ? 'Public' : 'Private'}</button
@@ -62,9 +76,15 @@
 				}
 				showRenameOverlay = false;
 
-				patchTag({ ...$tag, name: newVal }).then((newTag) => {
+				const optimisticTag = { ...$tag, name: newVal };
+				const originalTag = { ...$tag };
+				tag.set(optimisticTag);
+
+				patchTag(optimisticTag).then((newTag) => {
 					if (newTag) {
 						tag.set(newTag);
+					} else {
+						tag.set(originalTag);
 					}
 				});
 			}
@@ -88,9 +108,15 @@
 				}
 				showDescriptionOverlay = false;
 
-				patchTag({ ...$tag, description: newVal }).then((newTag) => {
+				const optimisticTag = { ...$tag, description: newVal };
+				const originalTag = { ...$tag };
+				tag.set(optimisticTag);
+
+				patchTag(optimisticTag).then((newTag) => {
 					if (newTag) {
 						tag.set(newTag);
+					} else {
+						tag.set(originalTag);
 					}
 				});
 			}
