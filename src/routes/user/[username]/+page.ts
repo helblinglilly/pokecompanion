@@ -13,7 +13,8 @@ export const load = async ({ params }) => {
 	const [user, freshTags] = await Promise.all([
 		getUserByUsername(params.username),
 		pb.collection('tags').getFullList({
-			filter: `owner.username ~ "${params.username}"`
+			filter: `owner.username ~ "${params.username}"`,
+			sort: `-updated`
 		})
 	]).catch(async (err) => {
 		await Logger.error(
