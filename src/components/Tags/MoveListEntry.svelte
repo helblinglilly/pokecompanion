@@ -71,7 +71,7 @@
 	.card {
 		position: relative;
 		padding: 0.25rem;
-		margin: 1rem;
+		width: 100%;
 	}
 
 	.spriteWrapper {
@@ -115,11 +115,5 @@
 		color: var(--light);
 		background-color: var(--error);
 		z-index: 5;
-	}
-
-	@media screen and (min-width: 768px) {
-		.card {
-			max-width: 45%;
-		}
 	}
 </style>

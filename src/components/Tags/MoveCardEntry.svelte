@@ -80,6 +80,7 @@
 		max-width: 20%;
 		height: auto;
 		min-width: 150px;
+		justify-self: center;
 	}
 
 	.spriteWrapper {
@@ -123,5 +124,9 @@
 		.card {
 			max-width: 45%;
 		}
+	}
+
+	p {
+		word-wrap: normal;
 	}
 </style>

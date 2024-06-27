@@ -196,4 +196,8 @@
 		margin-right: auto;
 		align-content: center;
 	}
+
+	p {
+		word-wrap: normal;
+	}
 </style>
