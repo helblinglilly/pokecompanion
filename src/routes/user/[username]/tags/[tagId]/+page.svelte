@@ -16,6 +16,7 @@
 	setContext('tag', writable(data.tag));
 
 	const currentTag = getContext('tag') as Writable<TagRecord>;
+	$: items = ($currentTag.contents.pokemon?.length ?? 0) + ($currentTag.contents.move?.length ?? 0);
 
 	export const tagOwner = writable<IPublicUser>(data.user);
 
@@ -68,13 +69,28 @@
 	{/if}
 </div>
 
+{#if items >= 20}
+	<div class="mb-4 w-full justify-center grid">
+		<input
+			class="pl-8 w-full md:w-64"
+			style="width: 100%; height: 3rem;"
+			type="text"
+			placeholder="Find in tag"
+			bind:value={filterTerm}
+		/>
+	</div>
+{/if}
+
 <div class="grid gap-4">
 	<TagPokemon {filterTerm} {inModifyView} />
 
 	<TagMove {filterTerm} {inModifyView} />
 </div>
-<!--
 
+<div class="w-full text-center mt-12">
+	<i>{items} entries</i>
+</div>
+<!--
 <div id="viewOptionsWrapper">
 	<div class="min-w-fit">
 		<p>View:</p>
@@ -111,14 +127,5 @@
 	>
 		{sortOrder === 'asc' ? 'A-Z' : 'Z-A'}
 	</button>
-</div>
-
-<div id="tagSearchWrapper">
-	<input
-		style="height: 3rem; padding-left: 2rem;"
-		type="text"
-		placeholder="Find in tags"
-		bind:value={filterTerm}
-	/>
 </div>
 -->
