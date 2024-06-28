@@ -71,3 +71,9 @@
 		<option value="desc">Descending</option>
 	</select>
 </div>
+
+<style>
+	select {
+		background-color: var(--accent);
+	}
+</style>

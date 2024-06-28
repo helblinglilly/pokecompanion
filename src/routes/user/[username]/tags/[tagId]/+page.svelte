@@ -94,9 +94,3 @@
 		<p>Updated: {new Date($currentTag.updated).toLocaleString()}</p>
 	{/if}
 </div>
-
-<style>
-	select {
-		background-color: var(--accent);
-	}
-</style>
