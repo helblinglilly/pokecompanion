@@ -11,9 +11,7 @@
 	import type { IPublicUser } from '$/lib/pb/publicUsers.js';
 	import TagPokemon from './TagPokemon.svelte';
 	import TagMove from './TagMove.svelte';
-	import { page } from '$app/stores';
-	import Icon from '$/components/UI/Icon.svelte';
-	import { goto } from '$app/navigation';
+	import TagViewOptions from './TagViewOptions.svelte';
 
 	export let data;
 	setContext('tag', writable(data.tag));
@@ -36,12 +34,6 @@
 		sortKey = vals.sortKey;
 		sortOrder = vals.sortOrder;
 		sortFunction = vals.sortFunction;
-	}
-
-	function replaceQueryParam(name: string, value: string) {
-		const newSearchParams = new URLSearchParams($page.url.searchParams);
-		newSearchParams.set(name, value);
-		goto(`?${newSearchParams}`, { replaceState: true, noScroll: true });
 	}
 </script>
 
@@ -71,62 +63,7 @@
 		{#if $currentUser?.username === $tagOwner.username && inModifyView}
 			<TagEditor />
 		{:else if !inModifyView}
-			<button
-				class="button primary"
-				on:click={() => {
-					const newViewState = $page.url.searchParams.get('view') === 'list' ? 'card' : 'list';
-					replaceQueryParam('view', newViewState);
-				}}
-			>
-				{#if $page.url.searchParams.get('view') === 'list'}
-					<div class="inline-flex align-middle gap-2">
-						<Icon name="card" style="margin-top: auto; margin-bottom: auto;" />
-						<p>View as Card</p>
-					</div>
-				{:else}
-					<div class="inline-flex align-middle gap-2">
-						<Icon name="list" style="margin-top: auto; margin-bottom: auto;" />
-						<p>View as List</p>
-					</div>
-				{/if}
-			</button>
-
-			<div class="inline-flex">
-				<label for="sortBy" class="absolute self-center pl-4">Sort by:</label>
-				<select
-					name="sortBy"
-					class="text-center w-full md:w-64 h-14"
-					value={$currentTag.sortKey}
-					on:change={(e) => {
-						// @ts-ignore Can't cast type in Svelte
-						if (e.target?.value) {
-							// @ts-ignore Can't cast type in Svelte
-							replaceQueryParam('sortBy', e.target.value ?? '');
-						}
-					}}
-				>
-					<option value="id">ID</option>
-					<option value="added">Date added</option>
-				</select>
-			</div>
-
-			<div class="inline-flex">
-				<select
-					name="sortOrder"
-					class="text-center w-full md:w-64 h-14"
-					value={$currentTag.sortOrder}
-					on:change={(e) => {
-						// @ts-ignore Can't cast type in Svelte
-						if (e.target?.value) {
-							// @ts-ignore Can't cast type in Svelte
-							replaceQueryParam('sortOrder', e.target.value ?? '');
-						}
-					}}
-				>
-					<option value="asc">Ascending</option>
-					<option value="desc">Descending</option>
-				</select>
-			</div>
+			<TagViewOptions />
 		{/if}
 	</div>
 </div>
@@ -157,46 +94,6 @@
 		<p>Updated: {new Date($currentTag.updated).toLocaleString()}</p>
 	{/if}
 </div>
-
-<!--
-<div id="viewOptionsWrapper">
-	<div class="min-w-fit">
-		<p>View:</p>
-	</div>
-	<button
-		class={`button ${displayMode === 'list' ? 'selected' : ''}`}
-		on:click={() => {
-			displayMode = 'list';
-		}}><Icon name="list" style="" /></button
-	>
-	<button
-		class={`button ${displayMode === 'card' ? 'selected' : ''}`}
-		on:click={() => {
-			displayMode = 'card';
-		}}><Icon name="card" style="" /></button
-	>
-
-	<select
-		class="pl-4 pr-4 secondary"
-		on:change={(e) => {
-			// @ts-ignore
-			sortFunction = getSortFunction(e.target?.value, sortOrder);
-		}}
-	>
-		<option>Added</option>
-		<option>ID</option>
-	</select>
-
-	<button
-		class="button primary min-w-fit"
-		on:click={() => {
-			sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-		}}
-	>
-		{sortOrder === 'asc' ? 'A-Z' : 'Z-A'}
-	</button>
-</div>
--->
 
 <style>
 	select {
