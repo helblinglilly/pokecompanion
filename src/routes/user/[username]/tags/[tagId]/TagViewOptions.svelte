@@ -18,19 +18,19 @@
 <button
 	class="button primary h-14"
 	on:click={() => {
-		const newViewState = $page.url.searchParams.get('view') === 'list' ? 'card' : 'list';
+		const newViewState = $page.url.searchParams.get('view') === 'card' ? 'list' : 'card';
 		replaceQueryParam('view', newViewState);
 	}}
 >
-	{#if $page.url.searchParams.get('view') === 'list'}
-		<div class="inline-flex align-middle gap-2">
-			<Icon name="card" style="margin-top: auto; margin-bottom: auto;" />
-			<p>View as Card</p>
-		</div>
-	{:else}
+	{#if $page.url.searchParams.get('view') === 'card'}
 		<div class="inline-flex align-middle gap-2">
 			<Icon name="list" style="margin-top: auto; margin-bottom: auto;" />
 			<p>View as List</p>
+		</div>
+	{:else}
+		<div class="inline-flex align-middle gap-2">
+			<Icon name="card" style="margin-top: auto; margin-bottom: auto;" />
+			<p>View as Card</p>
 		</div>
 	{/if}
 </button>

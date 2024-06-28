@@ -40,11 +40,13 @@
 			  ) ?? [];
 </script>
 
-{#if moveCollection?.length > 0 && $page.url.searchParams.get('view') === 'list'}
+{#if moveCollection?.length > 0 && $page.url.searchParams.get('view') === 'card'}
 	<h2 class="h2 pb-0">Moves</h2>
-	<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+	<div
+		class="grid gap-y-8 justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl-grid-cols-6"
+	>
 		{#each moveCollection as move}
-			<MoveListEntry
+			<MoveCardEntry
 				id={move.id}
 				showRemoveButton={inModifyView}
 				onRemoveClick={() => {
@@ -72,11 +74,9 @@
 	</div>
 {:else if moveCollection?.length > 0}
 	<h2 class="h2 pb-0">Moves</h2>
-	<div
-		class="grid gap-y-8 justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl-grid-cols-6"
-	>
+	<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 		{#each moveCollection as move}
-			<MoveCardEntry
+			<MoveListEntry
 				id={move.id}
 				showRemoveButton={inModifyView}
 				onRemoveClick={() => {

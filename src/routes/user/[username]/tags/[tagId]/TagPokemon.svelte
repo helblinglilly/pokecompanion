@@ -43,11 +43,13 @@
 
 {#if !pokemonCollection || pokemonCollection.length === 0}
 	<p>No Pokemon</p>
-{:else if $page.url.searchParams.get('view') === 'list'}
+{:else if $page.url.searchParams.get('view') === 'card'}
 	<h2 class="h2">Pokémon</h2>
-	<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+	<div
+		class="grid gap-y-8 justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl-grid-cols-6"
+	>
 		{#each pokemonCollection as pokemon}
-			<PokemonListEntry
+			<PokemonCardEntry
 				{pokemon}
 				showRemoveButton={inModifyView}
 				showGenderAndShiny={$tag.showGenderAndShiny}
@@ -76,11 +78,9 @@
 	</div>
 {:else}
 	<h2 class="h2">Pokémon</h2>
-	<div
-		class="grid gap-y-8 justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl-grid-cols-6"
-	>
+	<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 		{#each pokemonCollection as pokemon}
-			<PokemonCardEntry
+			<PokemonListEntry
 				{pokemon}
 				showRemoveButton={inModifyView}
 				showGenderAndShiny={$tag.showGenderAndShiny}
