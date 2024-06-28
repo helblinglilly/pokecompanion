@@ -45,7 +45,7 @@
 
 	<section>
 		<div class="columns" style="width: 100%; gap: 1rem;">
-			<div class="column" style="padding: 0;">
+			<div class="column p-0">
 				<h2 class="h2">Which game are you playing?</h2>
 				<div class="card" style="max-height: 12rem;">
 					<div>
