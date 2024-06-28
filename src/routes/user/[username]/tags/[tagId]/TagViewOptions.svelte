@@ -75,5 +75,6 @@
 <style>
 	select {
 		background-color: var(--accent);
+		margin: 0;
 	}
 </style>
