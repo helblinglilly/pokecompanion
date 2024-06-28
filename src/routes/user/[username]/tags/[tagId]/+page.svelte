@@ -59,7 +59,7 @@
 <div class="grid gap-4 pb-4">
 	<TagHeader tag={$currentTag} bind:inModifyView />
 
-	<div class="w-full md:w-fit grid md:inline-flex gap-2">
+	<div class="w-full md:w-fit grid md:inline-flex gap-2 items-center">
 		{#if $currentUser?.username === $tagOwner.username && inModifyView}
 			<TagEditor />
 		{:else if !inModifyView}

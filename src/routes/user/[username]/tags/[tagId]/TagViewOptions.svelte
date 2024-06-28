@@ -16,7 +16,7 @@
 </script>
 
 <button
-	class="button primary"
+	class="button primary h-14"
 	on:click={() => {
 		const newViewState = $page.url.searchParams.get('view') === 'list' ? 'card' : 'list';
 		replaceQueryParam('view', newViewState);
