@@ -8,7 +8,7 @@
 	import { page } from '$app/stores';
 	import { getContext } from 'svelte';
 	import { type Writable } from 'svelte/store';
-	import { patchTag } from './helper';
+	import { getSortFunction, patchTag } from './helper';
 	import { isEqual } from 'lodash-es';
 	import PokemonListEntry from '$/components/Tags/PokemonListEntry.svelte';
 	export let filterTerm: string;
@@ -17,21 +17,28 @@
 
 	let tag = getContext('tag') as Writable<TagRecord>;
 
-	$: pokemonCollection = $tag.contents.pokemon?.filter((mon) => {
-		const normalised = termNormaliser(filterTerm);
-		const matchesId = `${mon.id}`.includes(filterTerm);
-		const names = termNormaliser(
-			getMultiLanguageName(
-				getPokemonEntry(mon.id).names,
-				$primaryLanguage,
-				$secondaryLanguage,
-				mon.variety ?? ''
-			) ?? ''
-		);
+	$: pokemonCollection = $tag.contents.pokemon
+		?.filter((mon) => {
+			const normalised = termNormaliser(filterTerm);
+			const matchesId = `${mon.id}`.includes(filterTerm);
+			const names = termNormaliser(
+				getMultiLanguageName(
+					getPokemonEntry(mon.id).names,
+					$primaryLanguage,
+					$secondaryLanguage,
+					mon.variety ?? ''
+				) ?? ''
+			);
 
-		const matchesName = names.includes(normalised);
-		return matchesId || matchesName;
-	});
+			const matchesName = names.includes(normalised);
+			return matchesId || matchesName;
+		})
+		.sort(
+			getSortFunction(
+				$page.url.searchParams.get('sortBy') || $tag.sortKey,
+				$page.url.searchParams.get('sortOrder') || $tag.sortOrder
+			).sortFunction
+		);
 </script>
 
 {#if !pokemonCollection || pokemonCollection.length === 0}

@@ -2,7 +2,7 @@ import { Logger } from "$/lib/log";
 import { addNotification } from "$/lib/stores/notifications";
 import { type TagRecord, type ITagEntryGenerics } from "$/lib/types/ITags";
 
-export function getSortFunction(key: string, direction: string) {
+export function getSortFunction(key: 'id' | 'added' | string, direction: 'asc' | 'desc' | 'custom' | string) {
     const sortByDateDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
         return new Date(a.added).valueOf() < new Date(b.added).valueOf() ? 1 : -1;
     };

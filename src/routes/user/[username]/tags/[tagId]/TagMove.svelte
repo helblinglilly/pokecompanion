@@ -6,7 +6,7 @@
 	import { page } from '$app/stores';
 	import { getContext } from 'svelte';
 	import { type Writable } from 'svelte/store';
-	import { patchTag } from './helper';
+	import { getSortFunction, patchTag } from './helper';
 	import { getMoveEntry } from '$/lib/data/games';
 	import MoveListEntry from '$/components/Tags/MoveListEntry.svelte';
 	import MoveCardEntry from '$/components/Tags/MoveCardEntry.svelte';
@@ -32,7 +32,12 @@
 					const matchesName = names.includes(normalised);
 					return matchesId || matchesName;
 			  })
-			: $tag.contents.move ?? [];
+			: $tag.contents.move?.sort(
+					getSortFunction(
+						$page.url.searchParams.get('sortBy') || $tag.sortKey,
+						$page.url.searchParams.get('sortOrder') || $tag.sortOrder
+					).sortFunction
+			  ) ?? [];
 </script>
 
 {#if moveCollection?.length > 0 && $page.url.searchParams.get('view') === 'list'}

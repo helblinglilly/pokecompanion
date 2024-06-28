@@ -14,8 +14,6 @@
 	let tag = getContext('tag') as Writable<TagRecord>;
 </script>
 
-<hr />
-
 <button class="button primary" on:click={() => (showRenameOverlay = !showRenameOverlay)}
 	>Rename</button
 >
