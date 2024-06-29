@@ -39,7 +39,7 @@
 	<label for="sortBy" class="absolute self-center pl-4">Sort by:</label>
 	<select
 		name="sortBy"
-		class="text-center w-full md:w-64 h-14"
+		class="pl-20"
 		value={$tag.sortKey}
 		on:change={(e) => {
 			// @ts-ignore Can't cast type in Svelte
@@ -57,7 +57,7 @@
 <div class="inline-flex">
 	<select
 		name="sortOrder"
-		class="text-center w-full md:w-64 h-14"
+		class="pl-4"
 		value={$tag.sortOrder}
 		on:change={(e) => {
 			// @ts-ignore Can't cast type in Svelte
@@ -76,5 +76,10 @@
 	select {
 		background-color: var(--accent);
 		margin: 0;
+		display: block;
+		white-space: pre; /* Prevents text wrapping inside the option elements */
+		width: 100%;
+		min-width: 12rem;
+		height: 3.5rem;
 	}
 </style>

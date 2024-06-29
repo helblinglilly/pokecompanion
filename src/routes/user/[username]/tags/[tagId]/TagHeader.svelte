@@ -9,11 +9,9 @@
 
 <div>
 	<div class="inline-flex gap-2 w-full justify-between">
-		<div>
+		<div class="inline-flex justify-center gap-2">
 			{#if tag.isPrivate}
-				<span class="h-full grid">
-					<Icon name="lock" style="margin-top: auto; margin-bottom: auto;" />
-				</span>
+				<Icon name="lock" style="margin-top: auto; margin-bottom: auto;" />
 			{/if}
 			<h1 class="h1 pb-0">{tag.name}</h1>
 		</div>
