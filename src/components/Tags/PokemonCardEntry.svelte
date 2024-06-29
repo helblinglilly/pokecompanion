@@ -20,7 +20,7 @@
 	export let onRemoveClick: () => void = () => null;
 	export let style: string = '';
 
-	const namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
+	$: namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
 
 	const queryParams = new URLSearchParams();
 
