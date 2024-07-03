@@ -8,26 +8,14 @@
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import type { PageData } from './$types';
 	import SearchBar from '$/components/Search/SearchBar.svelte';
-	import { setCookie } from '$lib/utils/cookies';
 	import Tracking from '$/components/Tracking.svelte';
 	import ScrollToTop from '$/components/UI/ScrollToTop.svelte';
-
-	let isMobileMenuExpanded = false;
+	import Navbar from '$/components/UI/Navbar/Navbar.svelte';
 
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
 
 	$: currentUser.set(data.user as SignedInUser);
-
-	const toggleMobileNavExtended = () => {
-		const navButtons = document.querySelectorAll('.navbar__button');
-		navButtons.forEach((button, i) => {
-			if (i === 0) {
-				isMobileMenuExpanded = button.classList.contains('hidden--mobile');
-			}
-			button.classList.toggle('hidden--mobile');
-		});
-	};
 
 	const initTheme = () => {
 		const changeTheme = (newTheme: 'dark' | 'light') => {
@@ -36,8 +24,10 @@
 
 			if (newTheme === 'dark' && !body.classList.contains('dark-theme')) {
 				body.classList.add('dark-theme');
+				document.documentElement.classList.add('dark');
 			} else if (newTheme === 'light' && body.classList.contains('dark-theme')) {
 				body.classList.remove('dark-theme');
+				document.documentElement.classList.remove('dark');
 			}
 
 			window.sessionStorage.setItem('theme', newTheme);
@@ -104,70 +94,7 @@
 
 <ScrollToTop />
 
-<nav id="navbar" class="h-12">
-	<a href="/" id="navbar__branding__link">
-		<button data-testid="navbarBrandingTitle">
-			<img src="/favicon.png" alt="icon" height="auto" style="width: 30px;" />
-			Pokécompanion
-		</button>
-	</a>
-
-	<div class="navbar__links">
-		<div style="display: grid;">
-			<button id="navbar__hamburger" on:click={toggleMobileNavExtended}>
-				<img
-					src={`${isMobileMenuExpanded ? '/bag_open.png' : '/bag_closed.png'}`}
-					alt={`${isMobileMenuExpanded ? 'Open bag' : 'Closed bag'}`}
-				/>
-			</button>
-		</div>
-
-		<a href="/pokemon" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>
-			<button>Pokémon</button>
-		</a>
-
-		<a href="/settings" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>
-			<button>Settings</button>
-		</a>
-
-		<a href="/about" class="navbar__button hidden--mobile" on:click={toggleMobileNavExtended}>
-			<button>About</button>
-		</a>
-
-		<a
-			href={`${$currentUser ? `/user/${$currentUser.username}` : '/auth/signin'}`}
-			class="navbar__button hidden--mobile"
-			on:click={() => {
-				toggleMobileNavExtended();
-				setCookie('auth-redirect', `${$page.url.pathname}${$page.url.search}`);
-			}}
-		>
-			<button>{$currentUser ? `Me - ${$currentUser.username}` : 'Sign In'}</button>
-		</a>
-
-		{#if $currentUser}
-			<a
-				href="/auth/logout"
-				class="navbar__button hidden--mobile"
-				on:click={toggleMobileNavExtended}
-			>
-				<button>Sign out</button>
-			</a>
-		{/if}
-
-		<button
-			class="navbar__button hidden--mobile"
-			on:click={toggleMobileNavExtended}
-			on:click={() => {
-				if ($theme === 'light') {
-					theme.set('dark');
-				} else {
-					theme.set('light');
-				}
-			}}>Theme</button
-		>
-	</div>
-</nav>
+<Navbar />
 
 {#if $notifications.length > 0}
 	<div class="notifications">
