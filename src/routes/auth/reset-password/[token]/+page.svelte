@@ -54,7 +54,7 @@
 			<p>{passwordError}&nbsp;</p>
 
 			<button
-				class="button secondary"
+				class="button primary"
 				disabled={newPassword !== confirmNewPassword || !newPassword}
 				on:click={onUpdateClick}
 			>

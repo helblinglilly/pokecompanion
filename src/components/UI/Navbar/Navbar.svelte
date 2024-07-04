@@ -6,12 +6,12 @@
 
 <nav class="flex w-full h-12 bg-navbar">
 	<a href="/" class="h-full mr-2 w-full md:w-fit">
-		<button class="pr-2 w-full">
+		<div class="pr-2 w-full inline-flex h-full">
 			<div class="h-full">
 				<img src="/favicon.png" alt="Site Icon" class="h-full p-2" />
 			</div>
 			<p class="grid h-full align-center items-center">Pokécompanion</p>
-		</button>
+		</div>
 	</a>
 
 	<div class="hidden md:inline-flex">
@@ -36,7 +36,12 @@
 			}, 100);
 		}}
 	>
-		<button class="w-full grid p-2 justify-end">
+		<button
+			class="w-full grid p-2 justify-end"
+			on:mousedown={() => {
+				isMobileMenuExpanded = !isMobileMenuExpanded;
+			}}
+		>
 			<img
 				src={`${isMobileMenuExpanded ? '/bag_open.png' : '/bag_closed.png'}`}
 				alt={`${isMobileMenuExpanded ? 'Menus opened' : 'Menus closed'}`}
@@ -59,6 +64,7 @@
 		height: 100%;
 	}
 
+	a:hover,
 	button:hover {
 		background-color: var(--branding-secondary);
 	}

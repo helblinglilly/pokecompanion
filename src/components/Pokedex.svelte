@@ -13,6 +13,7 @@
 
 {#if pokedexEntries.length > 0}
 	<button
+		class="text-textColour"
 		on:click={() => {
 			if (!showModal) {
 				Logger.addPageAction('UIInteraction', 'Pokedex', {

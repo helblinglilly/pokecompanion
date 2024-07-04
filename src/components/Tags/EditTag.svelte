@@ -20,7 +20,7 @@
 </script>
 
 <button
-	class="tag"
+	class="tag text-textColour"
 	on:click={() => {
 		showAddToOverlay = true;
 	}}>Edit</button

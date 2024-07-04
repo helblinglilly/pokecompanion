@@ -3,36 +3,26 @@
 	import { currentUser } from '$/lib/stores/user';
 </script>
 
-<a href="/pokemon" class="h-full">
-	<button class="w-48 h-12 md:w-fit md:px-4">
-		<p class="grid h-full align-center items-center">Pokémon</p>
-	</button>
+<a href="/pokemon" class="w-48 h-12 md:w-fit md:px-4">
+	<p class="grid h-full text-center items-center">Pokémon</p>
 </a>
 
-<a href="/settings" class="h-full">
-	<button class="w-48 h-12 md:w-fit md:px-4">
-		<p class="grid h-full align-center items-center">Settings</p>
-	</button>
+<a href="/settings" class="w-48 h-12 md:w-fit md:px-4">
+	<p class="grid h-full text-center items-center">Settings</p>
 </a>
 
-<a href="/about" class="h-full">
-	<button class="w-48 h-12 md:w-fit md:px-4">
-		<p class="grid h-full align-center items-center">About</p>
-	</button>
+<a href="/about" class="w-48 h-12 md:w-fit md:px-4">
+	<p class="grid h-full text-center items-center">About</p>
 </a>
 
 {#if $currentUser}
-	<a href={`/user/${$currentUser.username}`} class="h-full">
-		<button class="w-48 h-12 md:w-fit md:px-4">
-			<p class="grid h-full align-center items-center">Me - {$currentUser.username}</p>
-		</button>
+	<a href={`/user/${$currentUser.username}`} class="w-48 h-12 md:w-fit md:px-4">
+		<p class="grid h-full text-center items-center">Me - {$currentUser.username}</p>
 	</a>
 {/if}
 
-<a href={$currentUser ? '/auth/logout' : '/auth/signin'} class="h-full">
-	<button class="w-48 h-12 md:w-fit md:px-4">
-		<p class="grid h-full align-center items-center">Sign {$currentUser ? 'Out' : 'In'}</p>
-	</button>
+<a href={$currentUser ? '/auth/logout' : '/auth/signin'} class="w-48 h-12 md:w-fit md:px-4">
+	<p class="grid h-full text-center items-center">Sign {$currentUser ? 'Out' : 'In'}</p>
 </a>
 
 <button
@@ -52,10 +42,11 @@
 		width: 100%;
 	}
 
-	button {
+	a {
 		display: inline-flex;
 	}
 
+	a:hover,
 	button:hover {
 		background-color: var(--dark);
 	}

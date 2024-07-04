@@ -23,7 +23,7 @@
 	{width}
 	{style}
 	{id}
-	class={classNames}
+	class={`${classNames} text-textColour`}
 	{loading}
 	on:error={(e) => {
 		if (e.target) {
