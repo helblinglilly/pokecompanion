@@ -111,7 +111,7 @@ p.button.selected {
 button:disabled {
 	font-style: italic;
 	cursor: not-allowed;
-	background-color: var(--primary);
+	background-color: var(--secondary);
 	/* background-color: #e2dddd; */
 	color: var(--accent);
 }
@@ -195,7 +195,7 @@ div.column {
 }
 
 select {
-	color: var(--text);
+	color: var(--text) !important;
 	background-color: var(--primary);
 	width: 100%;
 	height: 50px;

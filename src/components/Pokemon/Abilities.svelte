@@ -133,7 +133,7 @@
 			<p style="margin-top: 1rem;">{ability.effect2}</p>
 		{/if}
 		{#if selectedAbility !== -1}
-			<a href={`/ability/${ability.id}`} style="display: inline-flex;"
+			<a href={`/ability/${ability.id}`} class="inline-flex text-textColour"
 				>See more <Icon
 					name="link"
 					style="margin-top: auto; margin-bottom: auto; margin-left: 0.5rem;"

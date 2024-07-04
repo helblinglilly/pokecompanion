@@ -179,7 +179,7 @@
 				>
 			</div>
 		</div>
-		<a href="/auth/reset-password">I forgot my password</a>
+		<a href="/auth/reset-password" class="text-textColour">I forgot my password</a>
 	</div>
 </form>
 

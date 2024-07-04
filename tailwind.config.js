@@ -18,8 +18,8 @@ export default {
 				dark: 'var(--accent)'
 			},
 			textColour: {
-				DEFAULT: 'var(--dark)',
-				dark: 'var(--light)'
+				DEFAULT: 'var(--text)',
+				dark: 'var(--text)'
 			},
 			textInverse: {
 				DEFAULT: 'var(--light)',
