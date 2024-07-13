@@ -19,6 +19,7 @@
 	} from '$lib/stores/domain';
 	import { getPokemonEntry, type IGameGroups } from '$lib/data/games';
 	import { onMount } from 'svelte';
+	import Card from '$/ui/atoms/card/Card.svelte';
 
 	export let pokemon: number;
 	let sprite: string | undefined;
@@ -52,7 +53,7 @@
 	const fallbackSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon}.png`;
 </script>
 
-<div class="card relative no-underline" id={`${pokemon}`} style="max-height: 12rem; padding: 0;">
+<Card isClickable classes="relative no-underline p-0" style="max-height: 12rem;">
 	<a
 		href={`/pokemon/${pokemon}?${queryParams.toString()}`}
 		class="block no-underline clickable p-4 rounded-lg"
@@ -80,4 +81,4 @@
 			{getMultiLanguageName(getPokemonEntry(pokemon).names, $primaryLanguage, $secondaryLanguage)}
 		</p>
 	</a>
-</div>
+</Card>

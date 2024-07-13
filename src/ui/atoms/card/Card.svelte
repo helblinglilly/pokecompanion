@@ -2,12 +2,15 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let isClickable: boolean = false;
+	export let style: string = '';
+	export let classes: string = '';
 
 	const dispatch = createEventDispatcher();
 </script>
 
 <div
-	class={['card', isClickable ? 'clickable' : null].filter((a) => a).join(' ')}
+	class={['card', isClickable ? 'clickable' : null, classes].filter((a) => a).join(' ')}
+	{style}
 	role={isClickable ? 'button' : 'cell'}
 	on:click={() => {
 		dispatch('click');
