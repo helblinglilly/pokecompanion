@@ -1,19 +1,19 @@
 :root {
-    --red-accent: #F54848;
-    --red-accent-muted: #d74141;
+    --red-accent-light: #F54848;
+    --red-accent-muted-light: #d74141;
     
-    --grey-primary: #ece9e9;
-    --grey-muted: #bdbdbd; 
+    --grey-primary-light: #ece9e9;
+    --grey-muted-light: #bdbdbd; 
     
-    --text: #333333;
-    --text-inverse: #edebeb;
+    --text-light: #333333;
+    --text-inverse-light: #edebeb;
 
-    --site-background: rgb(225, 221, 221);
+    --site-background-light: rgb(225, 221, 221);
 
-    --card-background: rgb(232, 232, 232);
-    --card-hover: #d1bdbd;
+    --card-background-light: rgb(232, 232, 232);
+    --card-hover-light: #d1bdbd;
 
-    --select-background: rgb(218, 218, 218);
+    --select-background-light: rgb(218, 218, 218);
 }
 
 .dark-theme {
@@ -33,3 +33,22 @@
 
     --select-background: rgb(49, 49, 49);
 }
+
+:root {
+    --red-accent: var(--red-accent-light);
+    --red-accent-muted: var(var(--red-accent-muted-light));
+
+    --grey-primary: var(--grey-primary-light);
+    --grey-muted: var(--grey-muted-light);
+
+    --text: var(--text-light);
+    --text-inverse: var(--text-inverse-light);
+
+    --site-background: var(--site-background-light);
+
+    --card-background: var(--card-background-light);
+    --card-hover: var(--card-hover-light);
+
+    --select-background: var(--select-background-light);
+}
+
