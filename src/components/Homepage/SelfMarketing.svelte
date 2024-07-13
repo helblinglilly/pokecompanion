@@ -1,10 +1,14 @@
+<script>
+	import Card from '$/ui/atoms/card/Card.svelte';
+</script>
+
 <div>
 	<div style="padding: 10px;">
 		<h2 class="h3">What makes Pokécompanion different?</h2>
 	</div>
 	<div class="columns gap-4">
 		<div class="column">
-			<div class="card">
+			<Card>
 				<h2 class="h3">View your favourite Pokémon</h2>
 				<p>
 					Take a look at <a href="/pokemon/194?variety=wooper-paldea" class="underline"
@@ -12,11 +16,11 @@
 					>, isn't he just great?
 				</p>
 				<p>Learn about a Pokémon's types, evolution chain, Pokédex entries, moveset and more!</p>
-			</div>
+			</Card>
 		</div>
 
 		<div class="column">
-			<div class="card">
+			<Card>
 				<h2 class="h3">Bi-lingual</h2>
 				<p>
 					Did you play Pokémon in a different language, or have a friend that did? You can change
@@ -28,11 +32,11 @@
 						class="underline">within the Search!</a
 					>
 				</p>
-			</div>
+			</Card>
 		</div>
 
 		<div class="column">
-			<div class="card">
+			<Card>
 				<h2 class="h3">Organise!</h2>
 				<p>
 					Tag your Pokémon, items, moves, and organise to your hearts content. Finishing a <a
@@ -44,7 +48,7 @@
 					<a href="/user/users62794/tags/macq7c95innrbx8?view=card" class="underline">plushies</a>?
 					No problem!
 				</p>
-			</div>
+			</Card>
 		</div>
 	</div>
 </div>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.css';
+	import '$/styles/global.css';
 
 	import { onMount } from 'svelte';
 	import { cookieHandlers, theme } from '$lib/stores/domain';
@@ -10,7 +11,7 @@
 	import SearchBar from '$/components/Search/SearchBar.svelte';
 	import Tracking from '$/components/Tracking.svelte';
 	import ScrollToTop from '$/components/UI/ScrollToTop.svelte';
-	import Navbar from '$/components/UI/Navbar/Navbar.svelte';
+	import Navbar from '$/ui/organisms/Navbar';
 
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
@@ -85,7 +86,6 @@
 </script>
 
 <svelte:head>
-	<link rel="stylesheet" href="/global.css" />
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 	</style>

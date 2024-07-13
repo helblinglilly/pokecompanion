@@ -1,6 +1,8 @@
 <script lang="ts">
 	import VersionGroupSelector from '$/components/GameSelectors/VersionGroupSelector';
 	import SocialPreview from '$/components/SocialPreview.svelte';
+	import Card from '$/ui/atoms/card/Card.svelte';
+	import Select from '$/ui/atoms/select/Select.svelte';
 	import { GameGroups, getGameGroupFromName } from '$lib/data/games';
 	import {
 		animateSprites,
@@ -15,38 +17,38 @@
 	const languages = [
 		{
 			code: 'en',
-			englishName: 'English'
+			name: 'English',
+			flag: '🇬🇧'
 		},
 		{
 			code: 'de',
-			englishName: 'German',
-			nativeName: 'Deutsch'
+			name: 'German - Deutsch',
+			flag: '🇩🇪'
 		},
 		{
 			code: 'ja-Hrkt',
-			englishName: 'Japanese',
-			nativeName: '日本語'
+			name: 'Japanese - 日本語',
+			flag: '🇯🇵'
 		},
 		{
 			code: 'zh-Hant',
-			englishName: 'Chinese',
-			nativeName: '中国人'
+			name: 'Chinese - 中国人',
+			flag: '🇨🇳'
 		},
 		{
 			code: 'fr',
-			englishName: 'French',
-			nativeName: 'Français'
+			name: 'French - Français',
+			flag: '🇫🇷'
 		},
 		{
 			code: 'it',
-			englishName: 'Italian',
-			nativeName: 'Italiano'
+			name: 'Italian - Italiano',
+			flag: '🇮🇹'
 		},
 		{
-			// Spanish data is not correct
 			code: 'es',
-			englishName: 'Spanish',
-			nativeName: 'Español'
+			name: 'Spanish - Español',
+			flag: '🇪🇸'
 		}
 	];
 
@@ -73,7 +75,7 @@
 
 	<div class="columns">
 		<div class="column">
-			<div class="card">
+			<Card>
 				<label for="gameSelector"><h3 class="h3">Selected Game</h3></label>
 				<VersionGroupSelector
 					versionGroups={GameGroups}
@@ -81,11 +83,11 @@
 					showGenericOption={true}
 					currentlySelected={$selectedGame?.pokeapi}
 				/>
-			</div>
+			</Card>
 		</div>
 
 		<div class="column">
-			<div class="card">
+			<Card>
 				<h3 class="h3">Sprites</h3>
 				<div class="input-group">
 					<input
@@ -148,76 +150,39 @@
 					/>
 					<label for="gameSpecificTypeSpritesInput">Icons</label>
 				</div>
-			</div>
+			</Card>
 		</div>
 	</div>
 
 	<h2 class="h2">Language</h2>
 	<div class="columns">
 		<div class="column">
-			<div class="card">
+			<Card>
 				<label for="primaryLanguageSelector"><h3 class="h3">Primary Language</h3></label>
-				<select
+
+				<Select
+					options={languages.map((lang) => ({
+						label: lang.flag + ' ' + lang.name,
+						value: lang.code,
+						disabled: $secondaryLanguage === lang.code
+					}))}
 					bind:value={$primaryLanguage}
-					on:change={(event) => {
-						if (event.currentTarget.value) {
-							typesafeSetPrimaryLanguage(event.currentTarget.value);
-						}
-					}}
-					name="language"
-					id="primaryLanguageSelector"
-					class="pl-4"
-				>
-					{#each languages as language}
-						<option
-							value={language.code}
-							class={getMinimalClassName([
-								$primaryLanguage === language.code ? 'selected' : undefined,
-								language.code === $secondaryLanguage ? 'disabled' : undefined
-							])}
-							disabled={language.code === $secondaryLanguage}
-						>
-							{#if language.nativeName}
-								{`${language.englishName} - ${language.nativeName}`}
-							{:else}
-								{language.englishName}
-							{/if}
-						</option>
-					{/each}
-				</select>
-			</div>
+				/>
+			</Card>
 		</div>
 
 		<div class="column">
-			<div class="card">
-				<label for="secondaryLanguageSelector"><h3>Secondary Language</h3></label>
-				<select
+			<Card>
+				<label for="secondaryLanguageSelector"><h3 class="h3">Secondary Language</h3></label>
+				<Select
+					options={languages.map((lang) => ({
+						label: lang.flag + ' ' + lang.name,
+						value: lang.code,
+						disabled: $primaryLanguage === lang.code
+					}))}
 					bind:value={$secondaryLanguage}
-					name="secondaryLanguage"
-					id="secondaryLanguageSelector"
-					class="pl-4"
-				>
-					<option value={'none'} class={$secondaryLanguage === 'none' ? 'selected' : undefined}
-						>None</option
-					>
-					{#each languages as language}
-						<option
-							value={language.code}
-							class={getMinimalClassName([
-								$secondaryLanguage === language.code ? 'selected' : undefined,
-								language.code === $primaryLanguage ? 'disabled' : undefined
-							])}
-							disabled={language.code === $primaryLanguage}
-						>
-							{#if language.nativeName}
-								{`${language.englishName} - ${language.nativeName}`}
-							{:else}
-								{language.englishName}
-							{/if}
-						</option>
-					{/each}
-				</select>
-			</div>
+				/>
+			</Card>
 		</div>
 	</div>
 </main>

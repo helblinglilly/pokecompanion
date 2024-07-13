@@ -14,6 +14,7 @@
 	import { getNameEntry } from '$lib/utils/language';
 	import { onMount } from 'svelte';
 	import Type from '../Type.svelte';
+	import Card from '$/ui/atoms/card/Card.svelte';
 
 	export let id: number;
 	let move: IMove | undefined;
@@ -27,7 +28,7 @@
 		move && $secondaryLanguage ? getNameEntry(move.names, $secondaryLanguage) : undefined;
 </script>
 
-<div class="card relative no-underline" id={`move-${id}`} style="max-height: 12rem; padding: 0;">
+<Card isClickable classes="relative no-underline p-0" style="max-height: 12rem;">
 	<a
 		href={`/move/${id}`}
 		class="no-underline clickable p-4 rounded-lg inline-flex gap-4"
@@ -49,4 +50,4 @@
 			<p>Loading...</p>
 		{/if}
 	</a>
-</div>
+</Card>

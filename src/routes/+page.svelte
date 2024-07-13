@@ -7,6 +7,8 @@
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import { GameGroups, getGameGroupFromName } from '$/lib/data/games';
 	import Moves from '$/lib/data/moves.json';
+	import Card from '$/ui/atoms/card/Card.svelte';
+	import Select from '$/ui/atoms/select';
 	import { Logger } from '$lib/log';
 	import { lastPokedexEntry, selectedGame } from '$lib/stores/domain';
 	import { daysPassedInYear, randomDailyNumber } from '$lib/utils/number';
@@ -40,6 +42,7 @@
 	</section>
 
 	<hr
+		class="desktop-only"
 		style="border-color: var(--text); height: 0.2rem; margin-top: 0.2rem; margin-bottom: 0.2rem;"
 	/>
 
@@ -47,7 +50,7 @@
 		<div class="columns" style="width: 100%; gap: 1rem;">
 			<div class="column p-0">
 				<h2 class="h2">Which game are you playing?</h2>
-				<div class="card" style="max-height: 12rem;">
+				<Card style="max-height: 12rem;">
 					<div>
 						<p>You can change this later in settings</p>
 
@@ -58,7 +61,7 @@
 							currentlySelected={$selectedGame?.pokeapi}
 						/>
 					</div>
-				</div>
+				</Card>
 			</div>
 
 			<div class="column p-0">

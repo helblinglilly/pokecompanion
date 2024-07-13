@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	export let options: { label: string; value: string }[] = [];
-	export let defaultValue: string = '';
+	export let options: { label: string; value: string; disabled?: boolean }[] = [];
+	export let value: string = '';
 	export let style: string = '';
+	export let defaultValue: string = '';
 
 	const dispatch = createEventDispatcher();
 
@@ -12,6 +13,7 @@
 
 		if (eventTarget?.value) {
 			dispatch('change', eventTarget.value);
+			dispatch('input', eventTarget.value);
 		}
 	}
 </script>
@@ -19,12 +21,17 @@
 <select
 	class="select"
 	{style}
+	bind:value
 	on:change={(e) => {
 		triggerOnChange(e);
 	}}
 >
 	{#each options as option}
-		<option value={option.value} selected={option.value === defaultValue}>
+		<option
+			value={option.value}
+			selected={option.value === defaultValue}
+			disabled={option.disabled}
+		>
 			{option.label}
 		</option>
 	{/each}

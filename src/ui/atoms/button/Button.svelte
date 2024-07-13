@@ -5,13 +5,16 @@
 	export let isDisabled: boolean = false;
 	export let title: string = '';
 	export let label: string = '';
+	export let classes: string = '';
+	export let style: string = '';
 
 	const dispatch = createEventDispatcher();
 </script>
 
 <button
 	type="button"
-	class={`button ${variant}`}
+	class={`button ${variant} ${classes}`}
+	{style}
 	disabled={isDisabled}
 	aria-label={title}
 	{title}
@@ -40,7 +43,7 @@
 	}
 
 	.button.accent {
-		color: var(--text-inverse);
+		color: var(--text-inverse-light);
 		background-color: var(--red-accent);
 	}
 
