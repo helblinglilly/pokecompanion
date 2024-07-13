@@ -7,7 +7,17 @@ const config: StorybookConfig = {
 		'@storybook/addon-links',
 		'@storybook/addon-essentials',
 		'@chromatic-com/storybook',
-		'@storybook/addon-interactions'
+		'@storybook/addon-interactions',
+		'@storybook/addon-themes',
+		'@storybook/addon-essentials',
+		{
+			name: '@storybook/addon-styling',
+			options: {
+				postCss: {
+					implementation: require('postcss')
+				}
+			}
+		}
 	],
 	framework: {
 		name: '@storybook/sveltekit',

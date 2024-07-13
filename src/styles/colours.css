@@ -1,0 +1,35 @@
+:root {
+    --red-accent: #F54848;
+    --red-accent-muted: #d74141;
+    
+    --grey-primary: #ece9e9;
+    --grey-muted: #bdbdbd; 
+    
+    --text: #333333;
+    --text-inverse: #edebeb;
+
+    --site-background: rgb(225, 221, 221);
+
+    --card-background: rgb(232, 232, 232);
+    --card-hover: #d1bdbd;
+
+    --select-background: rgb(218, 218, 218);
+}
+
+.dark-theme {
+    --red-accent: #CE3939;
+    --red-accent-muted: #9b3434;
+
+    --grey-primary: #888888;
+    --grey-muted: #aaa9a9; 
+
+    --text: #E7E2E2;
+    --text-inverse: #000000;
+
+    --site-background: rgb(43, 43, 43);
+
+    --card-background: rgb(26, 26, 26);
+    --card-hover: #534f4f;
+
+    --select-background: rgb(49, 49, 49);
+}
