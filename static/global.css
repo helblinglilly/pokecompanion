@@ -250,20 +250,6 @@ img.icon {
 	height: 50px;
 }
 
-#backToTop {
-	position: fixed;
-	bottom: 20px;
-	right: 20px;
-	background-color: var(--highlight);
-	color: var(--light);
-	padding: 10px 15px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	z-index: 1000;
-	font-size: 16px;
-}
-
 div.column.centered {
 	display: flex;
 	justify-content: center;
