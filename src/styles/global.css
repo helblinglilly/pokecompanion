@@ -1,3 +1,24 @@
 @import url('./fonts.css');
 @import url('./colours.css');
 @import url('./tailwind.css');
+@import url('./layout.css');
+@import url('./helpers.css');
+
+body {
+	background-color: var(--site-background);
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+th,
+i,
+b,
+button,
+td,
+a {
+	color: var(--text);
+}
