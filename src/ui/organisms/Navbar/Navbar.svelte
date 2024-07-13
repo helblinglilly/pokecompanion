@@ -9,9 +9,13 @@
 
 <nav class="flex w-full h-12">
 	<a href="/" class="h-full mr-2 w-full md:w-fit">
-		<div class="pr-2 w-full inline-flex h-full">
-			<div class="h-full">
-				<img src={Favicon} alt="Site Icon" class="h-full p-2 min-w-fit" />
+		<div class="w-full inline-flex h-full">
+			<div class="h-full grid align-center">
+				<img
+					src={Favicon}
+					alt="Site Icon"
+					style="height: 3.5rem; max-width: fit-content; padding-top: 0.8rem; padding-bottom: 1rem; padding-left: 0.8rem; padding-right: 0.4rem;"
+				/>
 			</div>
 			<p class="grid h-full align-center items-center">Pokécompanion</p>
 		</div>
