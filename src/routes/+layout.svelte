@@ -91,7 +91,9 @@
 
 	$: currentPage = $page.url.pathname + $page.url.search + $page.url.hash;
 
-	$: shouldDisplaySearch = !$page.url.pathname.includes('/auth/');
+	$: shouldDisplaySearch = !['/auth/', '/about', '/privacy'].some((noSearchBar) => {
+		return $page.url.pathname.includes(noSearchBar);
+	});
 </script>
 
 <svelte:head>
