@@ -65,9 +65,12 @@
 </nav>
 
 <style>
+	nav {
+		min-height: 5vh;
+	}
 	nav,
 	#mobileNavbarLinks {
-		background-color: #3d3938;
+		background-color: var(--navbar-background);
 	}
 
 	p {
@@ -81,6 +84,6 @@
 
 	a:hover,
 	button:hover {
-		background-color: #3d3938;
+		background-color: var(--navbar-background);
 	}
 </style>

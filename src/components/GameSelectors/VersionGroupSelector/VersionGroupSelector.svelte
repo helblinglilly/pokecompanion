@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { PokeapiVersionGroups, type IGameGroups } from '$lib/data/games';
+	import { selectedGame } from '$/lib/stores/domain';
+	import Select from '$/ui/atoms/select/Select.svelte';
+	import { getGameGroupFromName, PokeapiVersionGroups, type IGameGroups } from '$lib/data/games';
 
 	export let versionGroups: IGameGroups[];
 	export let currentlySelected: PokeapiVersionGroups | 'generic' | undefined;
@@ -15,7 +17,16 @@
 	};
 </script>
 
-{#if isVisibleOnEmptyOptions || (!isVisibleOnEmptyOptions && versionGroups.length > 0)}
+{currentlySelected}
+<Select
+	options={versionGroups.map((version) => ({ label: version.shortName, value: version.pokeapi }))}
+	value={currentlySelected}
+	on:change={({ detail }) => {
+		selectedGame.set(getGameGroupFromName(detail));
+	}}
+/>
+
+<!-- {#if isVisibleOnEmptyOptions || (!isVisibleOnEmptyOptions && versionGroups.length > 0)}
 	<select
 		name="gameSelector"
 		id="gameSelector"
@@ -43,4 +54,4 @@
 			>
 		{/each}
 	</select>
-{/if}
+{/if} -->

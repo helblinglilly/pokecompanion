@@ -26,7 +26,7 @@
 </a>
 
 <button
-	class="w-32 h-12 md:w-fit md:px-4 md:ml-auto"
+	class="w-32 h-12 md:w-fit md:px-4 md:ml-auto min-h-full"
 	on:click={() => {
 		if ($theme === 'light') {
 			theme.set('dark');
@@ -44,11 +44,12 @@
 
 	a {
 		display: inline-flex;
-		background-color: #3d3938;
+		background-color: var(--navbar-background);
+		min-height: 100%;
 	}
 
 	a:hover,
 	button:hover {
-		background-color: #3d3938;
+		background-color: var(--navbar-background);
 	}
 </style>

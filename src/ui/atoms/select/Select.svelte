@@ -51,5 +51,7 @@
 
 		background-color: var(--select-background);
 		color: var(--text);
+
+		cursor: pointer;
 	}
 </style>

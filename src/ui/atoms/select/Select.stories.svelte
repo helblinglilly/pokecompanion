@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import Card from '../card';
+	import { writable } from 'svelte/store';
 	import Select from './Select.svelte';
 
 	export const meta = {
@@ -9,23 +9,18 @@
 </script>
 
 <script lang="ts">
-	import { Story, Template } from '@storybook/addon-svelte-csf';
+	import { Story } from '@storybook/addon-svelte-csf';
+
+	const selected = writable('option-2');
 </script>
 
-<Template let:args>
-	<Card>
-		<Select {...args} on:change={({ detail }) => console.log(detail)} />
-	</Card>
-</Template>
-
-<Story
-	name="Default"
-	args={{
-		options: [
+<Story name="Default">
+	<Select
+		options={[
 			{ label: 'Option 1', value: 'option-1' },
 			{ label: 'Option 2', value: 'option-2' },
 			{ label: 'Option 3', value: 'option-3' }
-		],
-		defaultValue: 'option-2'
-	}}
-/>
+		]}
+		bind:value={$selected}
+	/>
+</Story>

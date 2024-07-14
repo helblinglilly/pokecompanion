@@ -1,5 +1,4 @@
 <script lang="ts">
-	import VersionGroupSelector from '$/components/GameSelectors/VersionGroupSelector';
 	import Greeting from '$/components/Homepage/Greeting.svelte';
 	import MoveOtd from '$/components/Homepage/MoveOTD.svelte';
 	import PokemonOtd from '$/components/Homepage/PokemonOTD.svelte';
@@ -49,18 +48,32 @@
 	<section>
 		<div class="columns" style="width: 100%; gap: 1rem;">
 			<div class="column p-0">
-				<h2 class="h2">Which game are you playing?</h2>
-				<Card style="max-height: 12rem;">
-					<div>
-						<p>You can change this later in settings</p>
+				<h2 class="h2">What are you playing?</h2>
+				<Card classes="h-full p-8" style="max-height: 12rem;">
+					<p>You can change this later in settings</p>
+					<Select
+						options={[{ label: 'Generic', value: 'generic' }]
+							.concat(
+								GameGroups.map((gameGroup) => ({
+									label: gameGroup.shortName,
+									value: gameGroup.pokeapi
+								}))
+							)
+							.filter((a) => {
+								if ($selectedGame) {
+									return a.value !== 'generic';
+								}
+								return true;
+							})}
+						value={$selectedGame ? $selectedGame.pokeapi : 'generic'}
+						on:change={({ detail }) => {
+							selectedGame.set(getGameGroupFromName(detail));
+						}}
+					/>
 
-						<VersionGroupSelector
-							versionGroups={GameGroups}
-							onChange={(newValue) => selectedGame.set(getGameGroupFromName(newValue))}
-							showGenericOption={false}
-							currentlySelected={$selectedGame?.pokeapi}
-						/>
-					</div>
+					{#if $selectedGame && $selectedGame?.pokeapi !== 'home'}
+						<p>{$selectedGame.region} Region</p>
+					{/if}
 				</Card>
 			</div>
 

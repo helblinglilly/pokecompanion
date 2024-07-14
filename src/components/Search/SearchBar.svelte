@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$/ui/atoms/button/Button.svelte';
 	import { searchTerm } from '$lib/stores/searchbar';
 	import { onMount } from 'svelte';
 
@@ -25,7 +26,8 @@
 			name="term"
 			bind:value={$searchTerm}
 		/>
-		<button class="button" type="submit">Search</button>
+		<Button classes="p-2 rounded-l-none md:rounded-lg" type="submit" variant="accent">Search</Button
+		>
 	</form>
 </search>
 
@@ -41,12 +43,6 @@
 		width: 50%;
 	}
 
-	button {
-		min-width: fit-content;
-		text-align: center;
-		padding: 1rem;
-	}
-
 	input[type='text'] {
 		height: 100%;
 		padding: 10px;
@@ -59,10 +55,10 @@
 			width: 100%;
 		}
 
-		button {
+		/* button {
 			border-top-left-radius: 0;
 			border-bottom-left-radius: 0;
-		}
+		} */
 
 		input[type='text'] {
 			border-top-right-radius: 0;

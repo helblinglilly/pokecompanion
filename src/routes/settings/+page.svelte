@@ -1,5 +1,4 @@
 <script lang="ts">
-	import VersionGroupSelector from '$/components/GameSelectors/VersionGroupSelector';
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Select from '$/ui/atoms/select/Select.svelte';
@@ -12,7 +11,6 @@
 		versionSpecificPokemonSprites,
 		versionSpecificTypeSprites
 	} from '$lib/stores/domain';
-	import type { Languages } from '$lib/utils/language';
 
 	const languages = [
 		{
@@ -51,14 +49,6 @@
 			flag: '🇪🇸'
 		}
 	];
-
-	const getMinimalClassName = (criteria: Array<string | undefined>) => {
-		return criteria.filter((result) => result !== undefined).join(' ');
-	};
-
-	const typesafeSetPrimaryLanguage = (newVal: string) => {
-		primaryLanguage.set(newVal as unknown as keyof Languages);
-	};
 </script>
 
 <svelte:head>
@@ -75,20 +65,40 @@
 
 	<div class="columns">
 		<div class="column">
-			<Card>
+			<Card classes="h-full pl-8">
 				<label for="gameSelector"><h3 class="h3">Selected Game</h3></label>
-				<VersionGroupSelector
-					versionGroups={GameGroups}
-					onChange={(newValue) => selectedGame.set(getGameGroupFromName(newValue))}
-					showGenericOption={true}
-					currentlySelected={$selectedGame?.pokeapi}
+
+				<Select
+					options={[{ label: 'Generic', value: 'generic' }].concat(
+						GameGroups.map((gameGroup) => ({
+							label: gameGroup.shortName,
+							value: gameGroup.pokeapi
+						}))
+					)}
+					value={$selectedGame ? $selectedGame.pokeapi : 'generic'}
+					on:change={({ detail }) => {
+						selectedGame.set(getGameGroupFromName(detail));
+					}}
 				/>
+				{#if !$selectedGame}
+					<p>This will show default sprites.</p>
+					<p>You will need to select a game whenever game-specific information is available.</p>
+				{:else if $selectedGame.pokeapi === 'home'}
+					<p>This option is the same as "Generic" but Pokémon Home sprites will be displayed.</p>
+				{:else}
+					<p>{$selectedGame.region} Region</p>
+					<p>
+						{$selectedGame.generation.name}, including Pokémon up to #{$selectedGame.generation
+							.nationalDexEnd} in the National Pokédex
+					</p>
+				{/if}
 			</Card>
 		</div>
 
 		<div class="column">
-			<Card>
-				<h3 class="h3">Sprites</h3>
+			<Card classes="h-full pl-8">
+				<label for="animateSprites"> <h3 class="h3 mb-4">Sprites</h3></label>
+
 				<div class="input-group">
 					<input
 						on:change={() => {
@@ -98,7 +108,6 @@
 						type="checkbox"
 						id="animateSpritesInput"
 						name="animateSprites"
-						style="margin-right: 10px;"
 					/>
 					<label for="animateSpritesInput">Animate sprites where possible</label>
 				</div>
@@ -118,12 +127,11 @@
 						type="checkbox"
 						id="gameSpecificSprites"
 						name="gameSpecificSprites"
-						style="margin-right: 10px;"
 					/>
 					<label for="gameSpecificSprites">Show game specific sprites when possible</label>
 				</div>
 
-				<div class="input-group ml-6">
+				<div class="input-group ml-8">
 					<input
 						on:change={() => {
 							versionSpecificPokemonSprites.set(!$versionSpecificPokemonSprites);
@@ -132,12 +140,11 @@
 						type="checkbox"
 						id="gameSpecificSpritesInput"
 						name="gameSpecificPokemonSprites"
-						style="margin-right: 10px;"
 					/>
 					<label for="gameSpecificSpritesInput">Pokemon</label>
 				</div>
 
-				<div class="input-group ml-6">
+				<div class="input-group ml-8">
 					<input
 						on:change={() => {
 							versionSpecificTypeSprites.set(!$versionSpecificTypeSprites);
@@ -146,7 +153,6 @@
 						type="checkbox"
 						id="gameSpecificTypeSpritesInput"
 						name="gameSpecificTypeSprites"
-						style="margin-right: 10px;"
 					/>
 					<label for="gameSpecificTypeSpritesInput">Icons</label>
 				</div>
@@ -155,9 +161,10 @@
 	</div>
 
 	<h2 class="h2">Language</h2>
+	<p />
 	<div class="columns">
 		<div class="column">
-			<Card>
+			<Card classes="h-full pl-8">
 				<label for="primaryLanguageSelector"><h3 class="h3">Primary Language</h3></label>
 
 				<Select
@@ -168,20 +175,28 @@
 					}))}
 					bind:value={$primaryLanguage}
 				/>
+				<p>This will change the language of any data, not the site.</p>
 			</Card>
 		</div>
 
 		<div class="column">
-			<Card>
+			<Card classes="h-full pl-8">
 				<label for="secondaryLanguageSelector"><h3 class="h3">Secondary Language</h3></label>
 				<Select
-					options={languages.map((lang) => ({
-						label: lang.flag + ' ' + lang.name,
-						value: lang.code,
-						disabled: $primaryLanguage === lang.code
-					}))}
+					options={[{ label: '🏳️ None', value: 'none' }].concat(
+						languages.map((lang) => ({
+							label: lang.flag + ' ' + lang.name,
+							value: lang.code,
+							disabled: $primaryLanguage === lang.code
+						}))
+					)}
 					bind:value={$secondaryLanguage}
 				/>
+				{#if $secondaryLanguage === 'none'}
+					<p>You can add another language if you wish</p>
+				{:else}
+					<p>You can search in either language. To disable, select "None".</p>
+				{/if}
 			</Card>
 		</div>
 	</div>
