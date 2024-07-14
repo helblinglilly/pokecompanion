@@ -81,8 +81,6 @@
 		fixImages();
 	});
 
-	$: currentPage = $page.url.pathname + $page.url.search + $page.url.hash;
-
 	$: shouldDisplaySearch = !['/auth/', '/about', '/privacy'].some((noSearchBar) => {
 		return $page.url.pathname.includes(noSearchBar);
 	});
