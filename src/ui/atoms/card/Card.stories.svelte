@@ -5,21 +5,27 @@
 		title: 'Atoms/Card',
 		component: Card
 	};
+
+	const sampleText =
+		'I am a paragraph that sits within this card and is looking... well I mean you can see for yourself!';
 </script>
 
 <script>
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 </script>
 
-<Template let:args>
-	<!--👇 'on:click' allows to forward event to addon-actions  -->
-	<Card {...args}>
-		<div style="border: 1px solid red;">
-			<p>I am some sample content inside a div with a border!</p>
-		</div>
+<Story name="Default">
+	<Card>
+		<p>
+			{sampleText}
+		</p>
 	</Card>
-</Template>
+</Story>
 
-<Story name="Default" />
-
-<Story name="Clickable" args={{ isClickable: true }} />
+<Story name="Clickable">
+	<Card isClickable>
+		<p>
+			{sampleText}
+		</p>
+	</Card>
+</Story>

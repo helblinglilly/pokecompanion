@@ -11,9 +11,11 @@
     --site-background-light: rgb(225, 221, 221);
 
     --card-background-light: rgb(232, 232, 232);
-    --card-hover-light: #d1bdbd;
+    --card-hover-light: #b7b7b7;
 
     --select-background-light: rgb(218, 218, 218);
+
+    --navbar-background: #3d3938;
 }
 
 .dark-theme {

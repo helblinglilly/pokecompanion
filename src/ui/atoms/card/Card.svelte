@@ -9,7 +9,7 @@
 </script>
 
 <div
-	class={['card', isClickable ? 'clickable' : null, classes].filter((a) => a).join(' ')}
+	class={['card', isClickable ? 'clickable' : null, 'p-4', classes].filter((a) => a).join(' ')}
 	{style}
 	role={isClickable ? 'button' : 'cell'}
 	on:click={() => {
@@ -24,7 +24,6 @@
 		background-color: var(--card-background);
 		color: var(--text);
 		border-radius: 0.5rem;
-		padding: 1rem;
 	}
 
 	.card.clickable:hover {

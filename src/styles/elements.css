@@ -1,0 +1,60 @@
+
+input[type='email'],
+input[type='password'],
+input[type='text'] {
+	border-radius: 5px;
+	padding: 5px;
+	color: var(--text);
+}
+
+input[type='email'].tight,
+input[type='password'].tight,
+input[type='text'].tight {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+input[type="checkbox"] {
+	appearance: none;
+
+	margin-right: 10px;
+
+	background-color: var(--select-background);
+
+	outline: none;
+	
+	width: 18px;
+	height: 18px;
+
+	border-radius: 3px;
+
+	padding: 12px;
+
+	display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+input[type="checkbox"]:checked:before {
+	content: '✔';
+	color: var(--text);
+
+
+	display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+
+	height: 100%;
+
+}
+
+input[type="checkbox"]:hover {
+	cursor: pointer;
+}
+
+label:hover {
+	cursor: pointer;
+}

@@ -7,7 +7,7 @@
 	previewImage="https://socialpreviews.pokecompanion.helbling.uk/about.png"
 />
 
-<div>
+<div class="gap-4 grid">
 	<span>
 		<img
 			src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-question.png"
@@ -16,10 +16,8 @@
 		<h1 class="h1">About Pokécompanion</h1>
 	</span>
 
-	<hr />
-
 	<section>
-		<h2>Why Pokécompanion?</h2>
+		<h2 class="h2">Why Pokécompanion?</h2>
 		<p>
 			The world of Pokémon is gigantic. With a massive community, all sorts of spin-off games,
 			movies, animes, creepypastas and so much more, there is huge amount of information present on
@@ -115,13 +113,5 @@
 
 	section > p:not(:last-child) {
 		margin-bottom: 1rem;
-	}
-
-	section:not(:first-child) {
-		margin-top: 2rem;
-	}
-
-	hr {
-		border-top-width: 0.2rem;
 	}
 </style>

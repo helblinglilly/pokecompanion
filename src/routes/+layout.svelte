@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../app.css';
+	// import '../app.css';
 	import '$/styles/global.css';
 
 	import { onMount } from 'svelte';
@@ -12,6 +12,7 @@
 	import Tracking from '$/components/Tracking.svelte';
 	import ScrollToTop from '$/components/UI/ScrollToTop.svelte';
 	import Navbar from '$/ui/organisms/Navbar';
+	import Footer from '$/ui/atoms/footer/Footer.svelte';
 
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
@@ -97,49 +98,42 @@
 
 <ScrollToTop />
 
-<Navbar />
+<div style="min-height: 90vh;">
+	<Navbar />
 
-{#if $notifications.length > 0}
-	<div class="notifications">
-		{#each $notifications as notification}
-			<button
-				class={`notification ${notification.level}`}
-				on:click={() => {
-					removeNotification(notification);
-				}}
-			>
-				{notification.message}
-			</button>
-		{/each}
-	</div>
-{/if}
-
-<div id="pageWrapper">
-	{#if shouldDisplaySearch}
-		<SearchBar />
-		{#if breadcrumbs.length > 0 && $page.status === 200}
-			<div style="display: inline-flex; margin-bottom: 2rem;">
-				{#each breadcrumbs as crumb}
-					{#if breadcrumbs.indexOf(crumb) < breadcrumbs.length - 1}
-						<a href={crumb.url}>{crumb.display}</a>
-						<p style="margin-left: 5px; margin-right: 5px;">/</p>
-					{:else}
-						<p>{crumb.display}</p>
-					{/if}
+	<div id="pageWrapper">
+		{#if $notifications.length > 0}
+			<div class="notifications">
+				{#each $notifications as notification}
+					<button
+						class={`notification ${notification.level}`}
+						on:click={() => {
+							removeNotification(notification);
+						}}
+					>
+						{notification.message}
+					</button>
 				{/each}
 			</div>
 		{/if}
-	{/if}
-	<slot />
+
+		{#if shouldDisplaySearch}
+			<SearchBar />
+			{#if breadcrumbs.length > 0 && $page.status === 200}
+				<div style="display: inline-flex; margin-bottom: 2rem;">
+					{#each breadcrumbs as crumb}
+						{#if breadcrumbs.indexOf(crumb) < breadcrumbs.length - 1}
+							<a href={crumb.url}>{crumb.display}</a>
+							<p style="margin-left: 5px; margin-right: 5px;">/</p>
+						{:else}
+							<p>{crumb.display}</p>
+						{/if}
+					{/each}
+				</div>
+			{/if}
+		{/if}
+		<slot />
+	</div>
 </div>
 
-<footer id="pageFooter">
-	<p>Powered by <a href="https://pokeapi.co" class="underline">PokéAPI</a></p>
-	<p>
-		Built at <a href="https://github.com/helblinglilly/pokecompanion" class="underline"
-			>github.com/helblinglilly/pokecompanion</a
-		>
-	</p>
-	<p>Pokémon and Pokémon character names are trademarks of Nintendo.</p>
-	<p>This site is not associated with Nintendo, Gamefreak, The Pokémon Company or PokéAPI</p>
-</footer>
+<Footer />

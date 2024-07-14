@@ -30,7 +30,6 @@ import * as Sentry from '@sentry/browser';
 
 export type UserPreferencePokemonVersion = PokeapiVersionGroups | 'generic' | undefined;
 
-// TODO - Test this
 export const cookieHandlers = {
 	selectedGame: () => {
 		const isInSearchParam = get(page).url.searchParams.get('game') as UserPreferencePokemonVersion;

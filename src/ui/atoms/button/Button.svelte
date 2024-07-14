@@ -7,13 +7,14 @@
 	export let label: string = '';
 	export let classes: string = '';
 	export let style: string = '';
+	export let type: 'submit' | 'reset' | 'button' = 'button';
 
 	const dispatch = createEventDispatcher();
 </script>
 
 <button
-	type="button"
-	class={`button ${variant} ${classes}`}
+	{type}
+	class={`button ${variant} rounded-lg p-4 ${classes}`}
 	{style}
 	disabled={isDisabled}
 	aria-label={title}
@@ -28,10 +29,9 @@
 
 <style>
 	.button {
-		padding: 1rem;
 		border: none;
-		border-radius: 0.5rem;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+		word-wrap: break-word;
 	}
 
 	.button:hover {
