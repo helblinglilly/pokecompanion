@@ -8,7 +8,7 @@
 	</div>
 	<div class="columns gap-4">
 		<div class="column">
-			<Card classes="h-full">
+			<Card classes="h-full px-8">
 				<h2 class="h3">View your favourite Pokémon</h2>
 				<p>
 					Take a look at <a href="/pokemon/194?variety=wooper-paldea" class="underline"
@@ -20,7 +20,7 @@
 		</div>
 
 		<div class="column">
-			<Card classes="h-full">
+			<Card classes="h-full px-8">
 				<h2 class="h3">Bi-lingual</h2>
 				<p>
 					Did you play Pokémon in a different language, or have a friend that did? You can change
@@ -36,7 +36,7 @@
 		</div>
 
 		<div class="column">
-			<Card classes="h-full">
+			<Card classes="h-full px-8">
 				<h2 class="h3">Organise!</h2>
 				<p>
 					Tag your Pokémon, items, moves, and organise to your hearts content. Finishing a <a
