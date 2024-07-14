@@ -53,7 +53,7 @@
 	const fallbackSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon}.png`;
 </script>
 
-<Card isClickable classes="relative no-underline p-0 h-full" style="max-height: 12rem;">
+<Card isClickable classes="relative no-underline p-0 h-full max-h-52">
 	<a
 		href={`/pokemon/${pokemon}?${queryParams.toString()}`}
 		class="block no-underline clickable p-4 rounded-lg"

@@ -28,7 +28,7 @@
 		move && $secondaryLanguage ? getNameEntry(move.names, $secondaryLanguage) : undefined;
 </script>
 
-<Card isClickable classes="relative no-underline p-0 h-full" style="max-height: 12rem;">
+<Card isClickable classes="relative no-underline p-0 h-full max-h-52">
 	<a
 		href={`/move/${id}`}
 		class="no-underline clickable p-4 rounded-lg inline-flex gap-4"

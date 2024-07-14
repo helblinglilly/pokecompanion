@@ -48,8 +48,8 @@
 	<section>
 		<div class="columns" style="width: 100%; gap: 1rem;">
 			<div class="column p-0">
-				<h2 class="h2">What are you playing?</h2>
-				<Card classes="h-full p-8" style="max-height: 12rem;">
+				<h2 class="h2">What you playing?</h2>
+				<Card classes="h-full p-8 max-h-60 md:max-h-52">
 					<p>You can change this later in settings</p>
 					<Select
 						options={[{ label: 'Generic', value: 'generic' }]
@@ -72,7 +72,7 @@
 					/>
 
 					{#if $selectedGame && $selectedGame?.pokeapi !== 'home'}
-						<p>{$selectedGame.region} Region</p>
+						<p class="mb-4">{$selectedGame.region} Region</p>
 					{/if}
 				</Card>
 			</div>

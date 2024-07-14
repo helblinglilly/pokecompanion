@@ -65,7 +65,7 @@
 
 	<div class="columns">
 		<div class="column">
-			<Card classes="h-full pl-8">
+			<Card classes="h-full pl-8 pr-8">
 				<label for="gameSelector"><h3 class="h3">Selected Game</h3></label>
 
 				<Select
@@ -96,7 +96,7 @@
 		</div>
 
 		<div class="column">
-			<Card classes="h-full pl-8">
+			<Card classes="h-full pl-8 pr-8">
 				<label for="animateSprites"> <h3 class="h3 mb-4">Sprites</h3></label>
 
 				<div class="input-group">
@@ -164,7 +164,7 @@
 	<p />
 	<div class="columns">
 		<div class="column">
-			<Card classes="h-full pl-8">
+			<Card classes="h-full pl-8 pr-8">
 				<label for="primaryLanguageSelector"><h3 class="h3">Primary Language</h3></label>
 
 				<Select
@@ -180,7 +180,7 @@
 		</div>
 
 		<div class="column">
-			<Card classes="h-full pl-8">
+			<Card classes="h-full pl-8 pr-8">
 				<label for="secondaryLanguageSelector"><h3 class="h3">Secondary Language</h3></label>
 				<Select
 					options={[{ label: '🏳️ None', value: 'none' }].concat(
