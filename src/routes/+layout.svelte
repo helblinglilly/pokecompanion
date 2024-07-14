@@ -81,7 +81,7 @@
 		fixImages();
 	});
 
-	$: shouldDisplaySearch = !['/auth/', '/about'].some((noSearchBar) => {
+	$: shouldDisplaySearch = !['/auth/', '/about', '/privacy'].some((noSearchBar) => {
 		return $page.url.pathname.includes(noSearchBar);
 	});
 </script>
