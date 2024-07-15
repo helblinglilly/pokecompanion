@@ -3,11 +3,11 @@
 	import { currentUser } from '$/lib/stores/user';
 </script>
 
-<a href="/pokemon" class="w-32 h-12 md:w-fit md:px-4">
+<a href="/pokemon" class="w-32 h-12 md:w-fit md:px-4 no-underline">
 	<p class="grid h-full text-center items-center">Pokémon</p>
 </a>
 
-<a href="/settings" class="w-32 h-12 md:w-fit md:px-4">
+<a href="/settings" class="w-32 h-12 md:w-fit md:px-4 no-underline">
 	<p class="grid h-full text-center items-center">Settings</p>
 </a>
 
@@ -16,12 +16,15 @@
 </a> -->
 
 {#if $currentUser}
-	<a href={`/user/${$currentUser.username}`} class="w-32 h-12 md:w-fit md:px-4">
+	<a href={`/user/${$currentUser.username}`} class="w-32 h-12 md:w-fit md:px-4 no-underline">
 		<p class="grid h-full text-center items-center">Me - {$currentUser.username}</p>
 	</a>
 {/if}
 
-<a href={$currentUser ? '/auth/logout' : '/auth/signin'} class="w-32 h-12 md:w-fit md:px-4">
+<a
+	href={$currentUser ? '/auth/logout' : '/auth/signin'}
+	class="w-32 h-12 md:w-fit md:px-4 no-underline"
+>
 	<p class="grid h-full text-center items-center">Sign {$currentUser ? 'Out' : 'In'}</p>
 </a>
 
