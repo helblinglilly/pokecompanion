@@ -1,6 +1,6 @@
 <footer>
-	<div class="columns gap-2">
-		<div class="column grid justify-center md:block md:text-left">
+	<div class="columns md:gap-2">
+		<div class="column grid justify-center md:block md:text-left" style="padding: 0;">
 			<div class="w-full text-center">
 				<a href="/about">About</a>
 			</div>
@@ -8,14 +8,21 @@
 				<a href="/privacy/policy">Privacy Policy</a>
 			</div>
 		</div>
-		<div class="column grid text-center gap-2">
-			<p>Powered by <a href="https://pokeapi.co" class="underline">PokéAPI</a></p>
-			<p>
-				Built at <a href="https://github.com/helblinglilly/pokecompanion" class="underline"
+		<div class="column grid text-center" style="padding: 0;">
+			<div class="inline-flex text-center justify-center">
+				<p>Powered by</p>
+				&nbsp;
+				<a href="https://pokeapi.co" class="underline">PokéAPI</a>
+			</div>
+
+			<div class="inline-grid lg:inline-flex text-center justify-center">
+				<p class="hidden lg:block" style="text-wrap: nowrap;">Built at</p>
+				<p class="hidden lg:block">&nbsp</p>
+				<a href="https://github.com/helblinglilly/pokecompanion" class="underline"
 					>github.com/helblinglilly/pokecompanion</a
 				>
-			</p>
-			<a href="https://ko-fi.com/X8X710K2JH" target="_blank" class="grid justify-center"
+			</div>
+			<a href="https://ko-fi.com/X8X710K2JH" target="_blank" class="grid justify-center p-2"
 				><img
 					style="border:0px;height:24px;"
 					src="/kofi_button_red.png"
@@ -24,7 +31,7 @@
 			>
 		</div>
 
-		<div class="column">
+		<div id="disclaimer" class="column">
 			<p>Pokémon and Pokémon character names are trademarks of Nintendo.</p>
 			<p>This site is not associated with Nintendo, Gamefreak, The Pokémon Company or PokéAPI</p>
 		</div>
@@ -35,16 +42,22 @@
 	footer {
 		display: grid;
 		/* text-align: center; */
-		padding: 0.5rem;
 		background-color: #3d3938d2;
 		position: relative;
 		bottom: 0;
-		min-height: 10vh;
+		min-height: 12vh;
+		padding: 1vh;
 	}
 
 	p,
 	a {
 		color: #bfbcbc;
 		font-size: smaller;
+	}
+
+	@media screen and (max-width: 768px) {
+		#disclaimer {
+			padding-top: 2rem;
+		}
 	}
 </style>
