@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$/ui/atoms/button/Button.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import { goto } from '$app/navigation';
 	import { Logger } from '$lib/log';
@@ -155,9 +156,8 @@
 
 			<div class="columns mobile">
 				<div class="column" style="width: 100%; padding-left: 0;">
-					<button
-						class="button secondary"
-						style="width: 100%"
+					<Button
+						classes="w-full"
 						on:click={(e) => {
 							if (mode === 'signup') {
 								e.preventDefault();
@@ -166,19 +166,21 @@
 						}}
 					>
 						{`${mode === 'login' && isSubmitting ? 'Loading...' : 'Log in'}`}
-					</button>
+					</Button>
 				</div>
 				<div class="column" style="width: 100%; padding-right: 0;">
-					<button
-						class="button secondary"
-						style="width: 100%"
+					<Button
+						classes="w-full"
+						variant="accent"
 						on:click={(e) => {
 							if (mode === 'login') {
 								e.preventDefault();
 								mode = 'signup';
 							}
-						}}>{`${mode === 'signup' && isSubmitting ? 'Loading...' : 'Sign up'}`}</button
+						}}
 					>
+						{`${mode === 'signup' && isSubmitting ? 'Loading...' : 'Sign up'}`}
+					</Button>
 				</div>
 			</div>
 			<a href="/auth/reset-password" class="text-textColour">I forgot my password</a>
@@ -189,6 +191,11 @@
 <style>
 	input {
 		width: 100%;
+		max-width: 400px;
+	}
+
+	.inputGroup {
+		width: inherit;
 	}
 
 	@media (max-width: 768px) {
@@ -205,7 +212,6 @@
 		.inputGroup {
 			margin-left: auto;
 			margin-right: auto;
-			width: 30vw;
 		}
 
 		form.card {
