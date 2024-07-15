@@ -6,16 +6,13 @@
     --github-bg: #2d3339;
 }
 
-span, p, button, .signin-button {
+.signin-button {
     font-family: 'Roboto', arial, sans-serif;
     font-size: 14px;
     font-weight: 500;
 }
 
 .signin-button:hover {
-    /* background-color: #303030; */
-		/* opacity: 8%; */
-
-        -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-		box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
 }
