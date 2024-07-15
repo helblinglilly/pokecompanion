@@ -38,7 +38,7 @@
 
 :root {
     --red-accent: var(--red-accent-light);
-    --red-accent-muted: var(var(--red-accent-muted-light));
+    --red-accent-muted: var(--red-accent-muted-light);
 
     --grey-primary: var(--grey-primary-light);
     --grey-muted: var(--grey-muted-light);
