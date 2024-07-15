@@ -11,9 +11,9 @@
 	<p class="grid h-full text-center items-center">Settings</p>
 </a>
 
-<a href="/about" class="w-32 h-12 md:w-fit md:px-4">
+<!-- <a href="/about" class="w-32 h-12 md:w-fit md:px-4">
 	<p class="grid h-full text-center items-center">About</p>
-</a>
+</a> -->
 
 {#if $currentUser}
 	<a href={`/user/${$currentUser.username}`} class="w-32 h-12 md:w-fit md:px-4">
