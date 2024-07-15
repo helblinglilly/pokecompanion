@@ -96,7 +96,7 @@
 
 <ScrollToTop />
 
-<div style="min-height: 90vh;">
+<div style="min-height: 88vh;">
 	<Navbar />
 
 	<div id="pageWrapper">

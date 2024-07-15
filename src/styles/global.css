@@ -20,6 +20,12 @@ i,
 b,
 button,
 td,
+li,
+label,
 a {
 	color: var(--text);
+}
+
+a {
+	text-decoration: underline;
 }
