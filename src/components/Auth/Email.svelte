@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Card from '$/ui/atoms/card/Card.svelte';
 	import { goto } from '$app/navigation';
 	import { Logger } from '$lib/log';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
@@ -102,85 +103,87 @@
 	};
 </script>
 
-<form class="card" method="POST" on:submit={handleFormSubmit}>
-	<div id="wrapper">
-		<div class="columns inputGroup">
-			<label for="email">Email</label>
-			<input
-				type="email"
-				id="email"
-				bind:value={email}
-				on:change={() => {
-					if (!email) {
-						emailError = '';
-					}
-				}}
-			/>
-			<p>{emailError}&nbsp;</p>
-		</div>
-		<div class="columns inputGroup" style="margin-top: 12px;">
-			<label for="password">Password</label>
-			<input type="password" id="password" bind:value={password} />
-			<p>{passwordError}&nbsp;</p>
-		</div>
-
-		<div
-			class="columns inputGroup"
-			style={`margin-top: 12px; ${mode === 'login' ? 'display: none;' : ''}`}
-		>
-			<label for="passwordConfirm">Confirm Password</label>
-			<input type="password" id="passwordConfirm" bind:value={passwordConfirm} />
-			<p>{passwordConfirmError}&nbsp;</p>
-		</div>
-
-		<div
-			class="columns inputGroup"
-			style={`margin-top: 12px;${mode === 'login' ? 'display: none;' : ''}`}
-		>
-			<label for="username">Username <i>(Optional)</i></label>
-			<input
-				type="text"
-				id="username"
-				bind:value={username}
-				on:change={() => {
-					if (!username) {
-						usernameError = '';
-					}
-				}}
-			/>
-			<p>{usernameError}&nbsp;</p>
-		</div>
-
-		<div class="columns mobile">
-			<div class="column" style="width: 100%; padding-left: 0;">
-				<button
-					class="button secondary"
-					style="width: 100%"
-					on:click={(e) => {
-						if (mode === 'signup') {
-							e.preventDefault();
-							mode = 'login';
+<form method="POST" on:submit={handleFormSubmit}>
+	<Card>
+		<div id="wrapper">
+			<div class="columns inputGroup">
+				<label for="email">Email</label>
+				<input
+					type="email"
+					id="email"
+					bind:value={email}
+					on:change={() => {
+						if (!email) {
+							emailError = '';
 						}
 					}}
-				>
-					{`${mode === 'login' && isSubmitting ? 'Loading...' : 'Log in'}`}
-				</button>
+				/>
+				<p>{emailError}&nbsp;</p>
 			</div>
-			<div class="column" style="width: 100%; padding-right: 0;">
-				<button
-					class="button secondary"
-					style="width: 100%"
-					on:click={(e) => {
-						if (mode === 'login') {
-							e.preventDefault();
-							mode = 'signup';
+			<div class="columns inputGroup" style="margin-top: 12px;">
+				<label for="password">Password</label>
+				<input type="password" id="password" bind:value={password} />
+				<p>{passwordError}&nbsp;</p>
+			</div>
+
+			<div
+				class="columns inputGroup"
+				style={`margin-top: 12px; ${mode === 'login' ? 'display: none;' : ''}`}
+			>
+				<label for="passwordConfirm">Confirm Password</label>
+				<input type="password" id="passwordConfirm" bind:value={passwordConfirm} />
+				<p>{passwordConfirmError}&nbsp;</p>
+			</div>
+
+			<div
+				class="columns inputGroup"
+				style={`margin-top: 12px;${mode === 'login' ? 'display: none;' : ''}`}
+			>
+				<label for="username">Username <i>(Optional)</i></label>
+				<input
+					type="text"
+					id="username"
+					bind:value={username}
+					on:change={() => {
+						if (!username) {
+							usernameError = '';
 						}
-					}}>{`${mode === 'signup' && isSubmitting ? 'Loading...' : 'Sign up'}`}</button
-				>
+					}}
+				/>
+				<p>{usernameError}&nbsp;</p>
 			</div>
+
+			<div class="columns mobile">
+				<div class="column" style="width: 100%; padding-left: 0;">
+					<button
+						class="button secondary"
+						style="width: 100%"
+						on:click={(e) => {
+							if (mode === 'signup') {
+								e.preventDefault();
+								mode = 'login';
+							}
+						}}
+					>
+						{`${mode === 'login' && isSubmitting ? 'Loading...' : 'Log in'}`}
+					</button>
+				</div>
+				<div class="column" style="width: 100%; padding-right: 0;">
+					<button
+						class="button secondary"
+						style="width: 100%"
+						on:click={(e) => {
+							if (mode === 'login') {
+								e.preventDefault();
+								mode = 'signup';
+							}
+						}}>{`${mode === 'signup' && isSubmitting ? 'Loading...' : 'Sign up'}`}</button
+					>
+				</div>
+			</div>
+			<a href="/auth/reset-password" class="text-textColour">I forgot my password</a>
 		</div>
-		<a href="/auth/reset-password" class="text-textColour">I forgot my password</a>
-	</div>
+	</Card>
 </form>
 
 <style>
