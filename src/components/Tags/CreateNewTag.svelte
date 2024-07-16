@@ -1,6 +1,7 @@
 <script lang="ts">
 	import InlineTextButton from '$/components/InlineTextButton.svelte';
-	import Modal from '$/components/UI/Modal.svelte';
+	import Modal from '$/ui/molecules/Modal/Modal.svelte';
+	import Button from '$/ui/atoms/button/Button.svelte';
 	import { Logger } from '$lib/log';
 	import { createTag } from '$lib/stores/tags';
 	import type { ITagMove, ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
@@ -33,14 +34,15 @@
 	let isPrivate: boolean;
 </script>
 
-<button
-	class="tag text-textColour"
+<Button
+	classes="h-2 text-sm"
+	variant="accent"
 	on:click={() => {
 		showAddNewOverlay = true;
 	}}
 >
 	New Tag
-</button>
+</Button>
 
 <Modal bind:showModal={showAddNewOverlay}>
 	<h2 class="h2" slot="header">Create new tag</h2>

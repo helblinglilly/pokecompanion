@@ -25,20 +25,20 @@
 	}`}
 />
 
-<div class="grid gap-4">
-	<div class="columns">
+<div class="grid gap-8">
+	<div class="columns gap-8">
 		<div class="column">
 			<Card>
-				<div style="display: grid; justify-content: center; height: fit-content;">
-					<div style="display: flex; justify-content: center;">
+				<div class="grid justify-center h-fit mb-4">
+					<div class="flex justify-center">
 						<Avatar user={data.user} />
 					</div>
-					<div style="margin-top: 1rem;">
+					<div class="mt-4">
 						{#if $currentUser && $currentUser.username === data.user.username}
 							<ChangeUsername />
 						{:else}
-							<h4 class="h4" style="text-align: center;">{data.user.username}</h4>
-							<div style="display: inline-flex; justify-content: space-around; width: 100%;">
+							<h4 class="h4 text-center">{data.user.username}</h4>
+							<div class="inline-flex justify-around w-full">
 								<ReportUser username={data.user.username} style="padding: 5px;" />
 								<!-- <button class="button secondary" style="padding: 5px;">Block</button> -->
 							</div>
@@ -51,9 +51,10 @@
 		<div class="column">
 			<Card>
 				<div
+					class="pb-2"
 					style="display: inline-flex; gap: 2rem; justify-content: space-between; width: 100%; text-align: center;"
 				>
-					<h2 class="h2" style="padding-bottom: 0;">Tag lists</h2>
+					<h2 class="h2">{data.user.username}'s tags</h2>
 					{#if $currentUser}
 						<CreateNewTag
 							userId={$currentUser.id}
@@ -69,7 +70,7 @@
 					{#each data.tags as tag}
 						<a href={`/user/${data.user.username}/tags/${tag.id}`}>
 							<section
-								style="background-color: var(--secondary); padding: 1rem; border-radius: 0.5rem;"
+								style="background-color: var(--grey-primary); padding: 1rem; border-radius: 0.5rem;"
 							>
 								<div style="display: inline-flex; width: 100%; justify-content: space-between;">
 									<div style="display: inline-flex;">
@@ -100,7 +101,7 @@
 
 	{#if $currentUser && $currentUser.username === data.user.username}
 		<Card>
-			<div class="columns">
+			<div class="columns mx-4 mb-4">
 				<div class="column">
 					<div style="padding-top: 1rem; padding-bottom: 1rem;">
 						<h3 class="h3">Reset password</h3>
