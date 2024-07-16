@@ -12,6 +12,8 @@
 	import { tagStore } from '$lib/stores/tags';
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import { Logger } from '$lib/log';
+	import Button from '$/ui/atoms/button/Button.svelte';
+	import Card from '$/ui/atoms/card/Card.svelte';
 
 	export let data;
 </script>
@@ -23,10 +25,10 @@
 	}`}
 />
 
-<div id="userWrapper">
-	<div class="card">
-		<div class="columns">
-			<div class="column" id="sidebar">
+<div class="grid gap-4">
+	<div class="columns">
+		<div class="column">
+			<Card>
 				<div style="display: grid; justify-content: center; height: fit-content;">
 					<div style="display: flex; justify-content: center;">
 						<Avatar user={data.user} />
@@ -43,9 +45,11 @@
 						{/if}
 					</div>
 				</div>
-			</div>
+			</Card>
+		</div>
 
-			<div class="column">
+		<div class="column">
+			<Card>
 				<div
 					style="display: inline-flex; gap: 2rem; justify-content: space-between; width: 100%; text-align: center;"
 				>
@@ -90,17 +94,18 @@
 						</a>
 					{/each}
 				</div>
-			</div>
+			</Card>
 		</div>
 	</div>
+
 	{#if $currentUser && $currentUser.username === data.user.username}
-		<div class="card" style="justify-content: center;">
+		<Card>
 			<div class="columns">
 				<div class="column">
 					<div style="padding-top: 1rem; padding-bottom: 1rem;">
 						<h3 class="h3">Reset password</h3>
-						<button
-							class="button secondary"
+						<Button
+							variant="primary"
 							on:click={async () => {
 								if (!$currentUser) {
 									return;
@@ -120,18 +125,16 @@
 										context: 'Failed to request password reset'
 									});
 								}
-							}}>Request reset</button
+							}}
 						>
+							Request Reset
+						</Button>
 					</div>
-
-					<hr />
 
 					<div style="padding-top: 1rem; padding-bottom: 1rem;">
 						<h3 class="h3">Email verification</h3>
 						<EmailVerification />
 					</div>
-
-					<hr />
 
 					<div style="padding-top: 1.5rem;">
 						<h2 class="h2">Danger Zone</h2>
@@ -139,7 +142,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</Card>
 	{/if}
 </div>
 

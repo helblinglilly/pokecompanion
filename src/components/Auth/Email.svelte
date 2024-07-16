@@ -168,7 +168,7 @@
 						{`${mode === 'login' && isSubmitting ? 'Loading...' : 'Log in'}`}
 					</Button>
 				</div>
-				<div class="column" style="width: 100%; padding-right: 0;">
+				<div class="column mx-4 mb-2" style="width: 100%; padding-right: 0;">
 					<Button
 						classes="w-full"
 						variant="accent"
