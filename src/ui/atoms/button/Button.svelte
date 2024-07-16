@@ -32,6 +32,8 @@
 		border: none;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 		word-wrap: break-word;
+		align-items: center;
+		display: flex;
 	}
 
 	.button:hover {
