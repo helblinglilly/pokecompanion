@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import Modal from '$/components/UI/Modal.svelte';
 	import { Logger } from '$lib/log';
 	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import { deleteCookie } from '$lib/utils/cookies';
+	import Button from '$/ui/atoms/button/Button.svelte';
+	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 
 	let showModal = false;
 	export let user: SignedInUser;
@@ -31,19 +32,17 @@
 	};
 </script>
 
-<button class="button error" on:click={() => (showModal = true)}> Delete my account </button>
+<Button classes="error" on:click={() => (showModal = true)}>Delete my account</Button>
 
 <Modal bind:showModal>
 	<h2 class="h2" slot="header">Confirm deletion?</h2>
 
-	<div style="margin-top: 1rem;">
-		<p>Are you sure you want to delete your user account?</p>
+	<div class="h-full mt-4">
+		<p class="p-4">Are you sure you want to delete your user account?</p>
 
-		<div
-			style="display: inline-flex; width: 100%; justify-content: space-between; padding: 0.5rem;"
-		>
-			<button class="button error" on:click={onDeleteClick}>Yes, delete</button>
-			<button class="button" on:click={() => (showModal = false)}>No, go back!</button>
+		<div class="inline-flex h-full justify-between p-4 w-full pt-8">
+			<Button classes="error" on:click={onDeleteClick}>Yes, delete</Button>
+			<Button variant="secondary" on:click={() => (showModal = false)}>No, go back!</Button>
 		</div>
 	</div>
 </Modal>

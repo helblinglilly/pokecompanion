@@ -16,6 +16,8 @@
     --select-background-light: rgb(218, 218, 218);
 
     --navbar-background: #3d3938;
+
+    --error-light: rgb(241, 54, 54);
 }
 
 .dark-theme {
@@ -34,6 +36,8 @@
     --card-hover: #534f4f;
 
     --select-background: rgb(49, 49, 49);
+
+    --error: rgb(198, 26, 26);
 }
 
 :root {
@@ -52,5 +56,6 @@
     --card-hover: var(--card-hover-light);
 
     --select-background: var(--select-background-light);
+    --error: var(--error-light);
 }
 

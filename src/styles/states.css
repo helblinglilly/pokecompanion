@@ -1,0 +1,13 @@
+button.error,
+button.button.default.error {
+    background-color: var(--error);
+    font-weight: 500;
+    color: var(--text-inverse);
+}
+
+button.error:hover,
+button.button.default.error:hover {
+    background-color: var(--error);
+    color: var(--text-inverse);
+    opacity: 0.9;
+}
