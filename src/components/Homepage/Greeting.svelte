@@ -5,7 +5,7 @@
 	let trainerName = $currentUser?.username || 'Trainer';
 </script>
 
-<div class="columns">
+<div class="columns gap-4">
 	<div class="column">
 		<div style="display: inline-flex;">
 			<img

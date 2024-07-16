@@ -37,7 +37,7 @@
 
 <p class="text-center">Or manually sign up below</p>
 <div class="columns justify-center" style="flex-direction: row;">
-	<div class="column" style="max-width: 400px;">
+	<div class="column mt-4" style="max-width: 400px;">
 		<Email />
 	</div>
 </div>
