@@ -34,6 +34,7 @@
 		word-wrap: break-word;
 		align-items: center;
 		display: flex;
+		justify-content: center;
 	}
 
 	.button:hover {
@@ -54,7 +55,7 @@
 	}
 
 	.button.accent:disabled {
-		background-color: var(--red-accent-muted);
+		background-color: var(--red-accent-darker);
 	}
 
 	.button.primary {

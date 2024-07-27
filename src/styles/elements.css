@@ -4,7 +4,7 @@ input[type='password'],
 input[type='text'] {
 	border-radius: 5px;
 	padding: 5px;
-	color: var(--text);
+	color: #2b2a2a;
 }
 
 input[type='email'].tight,
