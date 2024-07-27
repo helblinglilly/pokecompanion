@@ -6,12 +6,12 @@
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$/components/UI/Icon.svelte';
 	import EmailVerification from '$/components/Auth/EmailVerification.svelte';
-	import CreateNewTag from '$/components/Tags/CreateNewTag.svelte';
+	import CreateNewTag from '$/ui/molecules/CreateNewTag/CreateNewTag.svelte';
+	import CreateNewTeam from '$/ui/molecules/CreateNewTeam/CreateNewTeam.svelte';
 	import { tagStore } from '$lib/stores/tags';
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import ResetPassword from './ResetPassword.svelte';
-	import Button from '$/ui/atoms/button/Button.svelte';
 
 	export let data;
 </script>
@@ -64,50 +64,88 @@
 		</div>
 
 		<div class="column">
-			<Card classes="">
-				<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
-					<h2 class="h2 content-center">{data.user.username}'s tags</h2>
-					{#if $currentUser}
-						<CreateNewTag
-							userId={$currentUser.id}
-							initialContent={{}}
-							onSuccess={() => {
-								// @ts-ignore Just missing creation/updated timestamps
-								data.tags = $tagStore;
-							}}
-						/>
-					{/if}
+			<div class="columns gap-8">
+				<div class="column">
+					<Card>
+						<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
+							<h2 class="h2 content-center">{data.user.username}'s teams</h2>
+
+							{#if $currentUser}
+								<CreateNewTeam />
+							{/if}
+						</div>
+
+						<div class="grid gap-4 pt-2 m-">
+							{#each data.teams as team}
+								<a href={`/user/${data.user.username}/teams/${team.id}`}>
+									<section
+										style="background-color: var(--grey-primary); padding: 1rem; border-radius: 0.5rem;"
+									>
+										<div style="display: inline-flex; width: 100%; justify-content: space-between;">
+											<div style="display: inline-flex;">
+												{#if team.isPrivate}
+													<Icon
+														style="margin-top: auto; margin-bottom: auto; padding-left: 0.25rem; padding-right: 0.25rem;"
+														name="lock"
+													/>
+												{/if}
+												<h4 class="h4">{team.name}</h4>
+											</div>
+										</div>
+									</section>
+								</a>
+							{/each}
+						</div>
+					</Card>
 				</div>
-				<div class="grid gap-4 pt-2 m-4">
-					{#each data.tags as tag}
-						<a href={`/user/${data.user.username}/tags/${tag.id}`}>
-							<section
-								style="background-color: var(--grey-primary); padding: 1rem; border-radius: 0.5rem;"
-							>
-								<div style="display: inline-flex; width: 100%; justify-content: space-between;">
-									<div style="display: inline-flex;">
-										{#if tag.isPrivate}
-											<Icon
-												style="margin-top: auto; margin-bottom: auto; padding-left: 0.25rem; padding-right: 0.25rem;"
-												name="lock"
-											/>
-										{/if}
-										<h4 class="h4">{tag.name}</h4>
-									</div>
-									<p style="padding-left: 1rem; min-width: fit-content;">
-										<i
-											>({Object.keys(tag.contents).reduce((accumulator, current) => {
-												// @ts-ignore can't tell compiler that current is a key of
-												return accumulator + tag.contents[current].length;
-											}, 0)} entries)</i
-										>
-									</p>
-								</div>
-							</section>
-						</a>
-					{/each}
+
+				<div class="column">
+					<Card classes="">
+						<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
+							<h2 class="h2 content-center">{data.user.username}'s tags</h2>
+							{#if $currentUser}
+								<CreateNewTag
+									userId={$currentUser.id}
+									initialContent={{}}
+									onSuccess={() => {
+										// @ts-ignore Just missing creation/updated timestamps
+										data.tags = $tagStore;
+									}}
+								/>
+							{/if}
+						</div>
+						<div class="grid gap-4 pt-2 m-4">
+							{#each data.tags as tag}
+								<a href={`/user/${data.user.username}/tags/${tag.id}`}>
+									<section
+										style="background-color: var(--grey-primary); padding: 1rem; border-radius: 0.5rem;"
+									>
+										<div style="display: inline-flex; width: 100%; justify-content: space-between;">
+											<div style="display: inline-flex;">
+												{#if tag.isPrivate}
+													<Icon
+														style="margin-top: auto; margin-bottom: auto; padding-left: 0.25rem; padding-right: 0.25rem;"
+														name="lock"
+													/>
+												{/if}
+												<h4 class="h4">{tag.name}</h4>
+											</div>
+											<p style="padding-left: 1rem; min-width: fit-content;">
+												<i
+													>({Object.keys(tag.contents).reduce((accumulator, current) => {
+														// @ts-ignore can't tell compiler that current is a key of
+														return accumulator + tag.contents[current].length;
+													}, 0)} entries)</i
+												>
+											</p>
+										</div>
+									</section>
+								</a>
+							{/each}
+						</div>
+					</Card>
 				</div>
-			</Card>
+			</div>
 		</div>
 	</div>
 

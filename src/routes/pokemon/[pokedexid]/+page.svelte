@@ -18,7 +18,7 @@
 	import Icon from '$/components/UI/Icon.svelte';
 	import { page } from '$app/stores';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
-	import CreateNewTag from '$/components/Tags/CreateNewTag.svelte';
+	import CreateNewTag from '$/ui/molecules/CreateNewTag/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tags';
 	import EditTag from '$/components/Tags/EditTag.svelte';
 	import TypeMatchup from '$/components/Pokemon/TypeMatchup.svelte';

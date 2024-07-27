@@ -112,16 +112,4 @@
 		padding-top: 1rem;
 		justify-content: center;
 	}
-
-	.tag {
-		display: inline-flex;
-		gap: 0.25rem;
-		font-size: smaller;
-		background-color: var(--secondary);
-		padding: 0.5rem;
-		width: max-content;
-		border-radius: 3rem;
-		margin: 0.25rem;
-		text-decoration: none;
-	}
 </style>

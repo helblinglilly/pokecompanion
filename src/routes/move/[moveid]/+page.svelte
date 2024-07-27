@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SocialPreview from '$/components/SocialPreview.svelte';
-	import CreateNewTag from '$/components/Tags/CreateNewTag.svelte';
+	import CreateNewTag from '$/ui/molecules/CreateNewTag/CreateNewTag.svelte';
 	import SelectedTags from '$/components/Tags/SelectedTags.svelte';
 	import EditTag from '$/components/Tags/EditTag.svelte';
 	import PokemonGroup from '$/components/UI/PokemonGroup.svelte';
