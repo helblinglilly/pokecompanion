@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import type { IAuthProvider } from '../signin/+page';
-	import { addMinutesToDate } from '$lib/utils/date';
+	import { addDaysToDate, addMinutesToDate } from '$lib/utils/date';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
 	import { Logger } from '$lib/log';
@@ -76,7 +76,7 @@
 
 			currentUser.set($pb.authStore.model as SignedInUser);
 			setCookie('pb_auth', JSON.stringify(pbAuthObj), {
-				expires: new Date(cookieValues.Expires),
+				expires: addDaysToDate(new Date(cookieValues.Expires), 7),
 				path: '/'
 			});
 
