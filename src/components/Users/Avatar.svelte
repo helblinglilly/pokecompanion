@@ -11,7 +11,7 @@
 
 <style>
 	.avatarBackground {
-		background-color: var(--light_link_hover);
+		background-color: var(--site-background-dark);
 		display: inline-block;
 		border-radius: 2rem;
 		margin-right: 1rem;

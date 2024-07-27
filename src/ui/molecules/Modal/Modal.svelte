@@ -2,6 +2,8 @@
 	export let showModal: boolean;
 
 	let dialog: HTMLDialogElement;
+	export let style: string = '';
+	export let classes: string = '';
 
 	$: if (dialog && showModal) dialog.showModal();
 	$: if (dialog && !showModal) dialog.close();
@@ -12,6 +14,8 @@
 	bind:this={dialog}
 	on:close={() => (showModal = false)}
 	on:click|self={() => dialog.close()}
+	{style}
+	class={classes}
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation class="dialogWrapper">
@@ -55,7 +59,7 @@
 	}
 
 	dialog::backdrop {
-		background: rgba(0, 0, 0, 0.7);
+		background: rgba(0, 0, 0, 0.8);
 	}
 
 	.header {
@@ -69,6 +73,7 @@
 		height: 100%;
 		display: grid;
 		align-content: center;
+		margin-left: 0.5rem;
 	}
 
 	.contentWrapper {

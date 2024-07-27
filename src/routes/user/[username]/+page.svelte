@@ -6,14 +6,12 @@
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$/components/UI/Icon.svelte';
 	import EmailVerification from '$/components/Auth/EmailVerification.svelte';
-	import { pb } from '$lib/stores/domain';
-	import { addNotification } from '$lib/stores/notifications';
 	import CreateNewTag from '$/components/Tags/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tags';
 	import SocialPreview from '$/components/SocialPreview.svelte';
-	import { Logger } from '$lib/log';
-	import Button from '$/ui/atoms/button/Button.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
+	import ResetPassword from './ResetPassword.svelte';
+	import Button from '$/ui/atoms/button/Button.svelte';
 
 	export let data;
 </script>
@@ -27,7 +25,7 @@
 
 <div class="grid gap-8">
 	<div class="columns gap-8">
-		<div class="column">
+		<div class="column md:max-w-[30%]">
 			<Card>
 				<div class="grid justify-center h-fit mb-4">
 					<div class="flex justify-center">
@@ -35,26 +33,40 @@
 					</div>
 					<div class="mt-4">
 						{#if $currentUser && $currentUser.username === data.user.username}
-							<ChangeUsername />
+							<ChangeUsername existingUsername={data.user.username} />
 						{:else}
-							<h4 class="h4 text-center">{data.user.username}</h4>
-							<div class="inline-flex justify-around w-full">
+							<Card isNested classes="w-full inline-flex gap-4 justify-center">
+								<h4 class="h4 text-center">{data.user.username}</h4>
+							</Card>
+							<div class="inline-flex justify-around w-full mt-4">
 								<ReportUser username={data.user.username} style="padding: 5px;" />
-								<!-- <button class="button secondary" style="padding: 5px;">Block</button> -->
 							</div>
 						{/if}
 					</div>
+				</div>
+
+				<div class="hidden md:grid gap-4 justify-center mb-4">
+					{#if $currentUser && $currentUser.username === data.user.username}
+						<div>
+							<h3 class="h3">Email verification</h3>
+							<EmailVerification />
+						</div>
+
+						<div class="grid gap-4">
+							<h2 class="h2">Danger Zone</h2>
+							<ResetPassword />
+
+							<DeleteUser user={$currentUser} />
+						</div>
+					{/if}
 				</div>
 			</Card>
 		</div>
 
 		<div class="column">
-			<Card>
-				<div
-					class="pb-2"
-					style="display: inline-flex; gap: 2rem; justify-content: space-between; width: 100%; text-align: center;"
-				>
-					<h2 class="h2">{data.user.username}'s tags</h2>
+			<Card classes="">
+				<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
+					<h2 class="h2 content-center">{data.user.username}'s tags</h2>
 					{#if $currentUser}
 						<CreateNewTag
 							userId={$currentUser.id}
@@ -66,7 +78,7 @@
 						/>
 					{/if}
 				</div>
-				<div id="taglist">
+				<div class="grid gap-4 pt-2 m-4">
 					{#each data.tags as tag}
 						<a href={`/user/${data.user.username}/tags/${tag.id}`}>
 							<section
@@ -99,77 +111,24 @@
 		</div>
 	</div>
 
-	{#if $currentUser && $currentUser.username === data.user.username}
-		<Card>
-			<div class="columns mx-4 mb-4">
-				<div class="column">
-					<div style="padding-top: 1rem; padding-bottom: 1rem;">
-						<h3 class="h3">Reset password</h3>
-						<Button
-							variant="primary"
-							on:click={async () => {
-								if (!$currentUser) {
-									return;
-								}
-								try {
-									await $pb.collection('users').requestPasswordReset($currentUser.email);
-									addNotification({
-										message: 'You have requested a password reset',
-										level: 'info'
-									});
-								} catch (err) {
-									addNotification({
-										message: 'Failed to request password reset. Please try again',
-										level: 'failure'
-									});
-									await Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(err), {
-										context: 'Failed to request password reset'
-									});
-								}
-							}}
-						>
-							Request Reset
-						</Button>
-					</div>
-
-					<div style="padding-top: 1rem; padding-bottom: 1rem;">
+	<div class="columns md:hidden">
+		<div class="column last:mb-4">
+			{#if $currentUser && $currentUser.username === data.user.username}
+				<Card classes="grid gap-4">
+					<div>
 						<h3 class="h3">Email verification</h3>
 						<EmailVerification />
 					</div>
 
-					<div style="padding-top: 1.5rem;">
+					<div class="grid gap-4">
 						<h2 class="h2">Danger Zone</h2>
+
+						<ResetPassword />
+
 						<DeleteUser user={$currentUser} />
 					</div>
-				</div>
-			</div>
-		</Card>
-	{/if}
+				</Card>
+			{/if}
+		</div>
+	</div>
 </div>
-
-<style>
-	#sidebar {
-		display: grid;
-		justify-content: center;
-	}
-
-	#taglist {
-		display: grid;
-		gap: 1rem;
-		padding-top: 0.5rem;
-	}
-
-	#userWrapper > :not(:first-child) {
-		margin-top: 2rem;
-	}
-
-	@media screen and (min-width: 768px) {
-		#sidebar {
-			max-width: 35%;
-		}
-
-		#taglist {
-			max-width: 600px;
-		}
-	}
-</style>

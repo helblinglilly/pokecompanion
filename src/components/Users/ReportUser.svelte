@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Modal from '$/components/UI/Modal.svelte';
+	import Button from '$/ui/atoms/button/Button.svelte';
+	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import { Logger } from '$lib/log';
 	import { getIdByUsername } from '$lib/pb/publicUsers';
 	import { pb } from '$lib/stores/domain';
@@ -42,40 +43,27 @@
 </script>
 
 {#if $currentUser}
-	<button class="button secondary" {style} on:click={() => (showModal = true)}> Report </button>
+	<Button classes="w-full" variant="secondary" on:click={() => (showModal = true)}>Report</Button>
 {/if}
-<Modal bind:showModal>
+
+<Modal bind:showModal classes="md:h-[20rem]">
 	<h2 class="h2" slot="header">Report {username}</h2>
-	<p><i>Optional</i></p>
 
-	<form
-		on:submit={async () => {
-			await reportUserClick();
-			submitButtonText = 'Submit';
-			reportText = '';
-			showModal = false;
-		}}
-	>
-		<input
-			type="text"
-			bind:value={reportText}
-			id="reportTextInput"
-			placeholder="What is wrong with this user?"
-		/>
-		<button class="button" style="display: block; width: 100%; margin-top: 1rem;"
-			>{submitButtonText}</button
+	<div class="grid gap-4 p-8 md:min-w-[40rem]">
+		<div>
+			<p>Optional - Add details</p>
+		</div>
+		<form
+			class="grid gap-4"
+			on:submit={async () => {
+				await reportUserClick();
+				submitButtonText = 'Submit';
+				reportText = '';
+				showModal = false;
+			}}
 		>
-	</form>
+			<input type="text" bind:value={reportText} placeholder="What's wrong?" />
+			<Button variant="accent" classes="w-full">{submitButtonText}</Button>
+		</form>
+	</div>
 </Modal>
-
-<style>
-	#reportTextInput {
-		width: 300px;
-	}
-
-	input[type='text'] {
-		background-color: var(--secondary);
-		color: var(--text);
-		border: 1px solid var(--accent);
-	}
-</style>

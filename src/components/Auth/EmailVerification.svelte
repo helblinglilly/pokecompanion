@@ -1,4 +1,5 @@
 <script>
+	import Button from '$/ui/atoms/button/Button.svelte';
 	import { Logger } from '$lib/log';
 	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
@@ -9,8 +10,9 @@
 	<p>Not signed in</p>
 {:else if !$currentUser.verified}
 	<p>{$currentUser.email} is not verified</p>
-	<button
-		class="button secondary"
+	<Button
+		variant="secondary"
+		classes="w-full"
 		on:click={async () => {
 			try {
 				if (!$currentUser) {
@@ -24,8 +26,10 @@
 					error: Logger.buildError(err)
 				});
 			}
-		}}>Request verification email</button
+		}}
 	>
+		Request verification email
+	</Button>
 {:else}
 	<p>{$currentUser.email} is verified</p>
 {/if}

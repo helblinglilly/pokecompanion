@@ -65,7 +65,14 @@ export const actions: Actions = {
 		};
 
 		try {
-			await locals.pb.collection('users').authWithPassword(data.email, data.password);
+			await locals.pb.collection('users').authWithPassword(data.email, data.password).catch((err) => {
+				console.log (err);
+				if (err.status === 400){
+					return {
+						status: 400
+					}
+				}
+			});
 			platform?.context.waitUntil(
 				Logger.addPageAction('User', 'SignInEmail', {
 					user: cookies.get('remember-token'),

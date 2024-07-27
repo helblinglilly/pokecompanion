@@ -65,7 +65,11 @@
 
 			isSubmitting = false;
 
-			if (response.status !== 200) {
+			console.log('status is', response.status);
+			if (mode === 'login' && response.status === 400) {
+				addNotification({ message: 'Invalid credentials', level: 'failure' });
+				return;
+			} else if (response.status !== 200) {
 				throw response.status;
 			}
 
@@ -97,9 +101,9 @@
 
 			addNotification({ message: 'Oh oh, that was our fault. Please try again', level: 'failure' });
 
-			await Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(err), {
-				context: passwordError ? 'Login failed' : 'Sign up failed'
-			});
+			// await Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(err), {
+			// 	context: passwordError ? 'Login failed' : 'Sign up failed'
+			// });
 		}
 	};
 </script>
@@ -158,6 +162,7 @@
 				<div class="column" style="width: 100%; padding-left: 0;">
 					<Button
 						classes="w-full"
+						type="submit"
 						on:click={(e) => {
 							if (mode === 'signup') {
 								e.preventDefault();
@@ -172,6 +177,7 @@
 					<Button
 						classes="w-full"
 						variant="accent"
+						type="submit"
 						on:click={(e) => {
 							if (mode === 'login') {
 								e.preventDefault();

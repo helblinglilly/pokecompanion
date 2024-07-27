@@ -4,12 +4,15 @@
 	export let isClickable: boolean = false;
 	export let style: string = '';
 	export let classes: string = '';
+	export let isNested: boolean = false;
 
 	const dispatch = createEventDispatcher();
 </script>
 
 <div
-	class={['card', isClickable ? 'clickable' : null, 'p-4', classes].filter((a) => a).join(' ')}
+	class={['card', isClickable ? 'clickable' : null, 'p-4', isNested ? 'nested' : '', classes]
+		.filter((a) => a)
+		.join(' ')}
 	{style}
 	role={isClickable ? 'button' : 'cell'}
 	on:click={() => {
@@ -29,5 +32,10 @@
 	.card.clickable:hover {
 		background-color: var(--card-hover);
 		cursor: pointer;
+	}
+
+	.card.nested {
+		background-color: var(--card-hover);
+		color: var(--text-inverse);
 	}
 </style>
