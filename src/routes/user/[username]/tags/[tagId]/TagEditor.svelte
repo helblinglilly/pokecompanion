@@ -1,29 +1,30 @@
 <script lang="ts">
-	import InlineTextButton from '$/components/InlineTextButton.svelte';
-	import Modal from '$/components/UI/Modal.svelte';
+	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import type { TagRecord } from '$/lib/types/ITags';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { deleteTag, patchTag } from './helper';
 	import { goto } from '$app/navigation';
 	import { currentUser } from '$/lib/stores/user';
+	import Button from '$/ui/atoms/button';
 
 	let showRenameOverlay = false;
 	let showDescriptionOverlay = false;
 	let showDeleteOverlay = false;
 	let tag = getContext('tag') as Writable<TagRecord>;
+
+	let newName = $tag.name;
+	let newDescription = $tag.description;
 </script>
 
-<button class="button primary" on:click={() => (showRenameOverlay = !showRenameOverlay)}
-	>Rename</button
->
+<Button variant="primary" on:click={() => (showRenameOverlay = !showRenameOverlay)}>Rename</Button>
 
-<button class="button primary" on:click={() => (showDescriptionOverlay = !showDescriptionOverlay)}
-	>Edit Description</button
->
+<Button variant="primary" on:click={() => (showDescriptionOverlay = !showDescriptionOverlay)}>
+	Edit Description
+</Button>
 
-<button
-	class="button primary"
+<Button
+	variant="primary"
 	on:click={() => {
 		const optimisticTag = { ...$tag, showGenderAndShiny: !$tag.showGenderAndShiny };
 		const originalTag = { ...$tag };
@@ -37,11 +38,13 @@
 				tag.set(originalTag);
 			}
 		});
-	}}>{$tag.showGenderAndShiny ? 'Hide' : 'Show'} Gender/Shiny</button
+	}}
 >
+	{$tag.showGenderAndShiny ? 'Hide' : 'Show'} Gender/Shiny
+</Button>
 
-<button
-	class="button primary"
+<Button
+	variant="primary"
 	on:click={() => {
 		const optimisticTag = { ...$tag, isPrivate: !$tag.isPrivate };
 		const originalTag = { ...$tag };
@@ -55,26 +58,28 @@
 				tag.set(originalTag);
 			}
 		});
-	}}>Make {$tag.isPrivate ? 'Public' : 'Private'}</button
+	}}
+>
+	Make {$tag.isPrivate ? 'Public' : 'Private'}
+</Button>
+
+<Button classes="error" on:click={() => (showDeleteOverlay = !showDeleteOverlay)}>Delete Tag</Button
 >
 
-<button class="button error" on:click={() => (showDeleteOverlay = !showDeleteOverlay)}
-	>Delete Tag</button
->
-
-<Modal bind:showModal={showRenameOverlay}>
+<Modal bind:showModal={showRenameOverlay} classes="md:w-[30rem]">
 	<h2 class="h2" slot="header">Rename Tag</h2>
 
-	<InlineTextButton
-		buttonConfig={{
-			text: 'Rename',
-			onClick: (newVal) => {
-				if (!newVal) {
+	<div class="grid gap-4 md:px-8 md:pt-8">
+		<input type="text" placeholder="New name" bind:value={newName} />
+
+		<Button
+			on:click={() => {
+				if (!newName) {
 					return;
 				}
 				showRenameOverlay = false;
 
-				const optimisticTag = { ...$tag, name: newVal };
+				const optimisticTag = { ...$tag, name: newName };
 				const originalTag = { ...$tag };
 				tag.set(optimisticTag);
 
@@ -85,28 +90,25 @@
 						tag.set(originalTag);
 					}
 				});
-			}
-		}}
-		variation="small"
-		containerStyling="padding: 1rem;"
-		inputConfig={{ placeholder: 'New name' }}
-		valueBinding={$tag.name}
-	/>
+			}}>Rename</Button
+		>
+	</div>
 </Modal>
 
-<Modal bind:showModal={showDescriptionOverlay}>
+<Modal bind:showModal={showDescriptionOverlay} classes="md:w-[30rem]">
 	<h2 class="h2" slot="header">Edit Description</h2>
 
-	<InlineTextButton
-		buttonConfig={{
-			text: 'Save',
-			onClick: (newVal) => {
-				if (!newVal) {
+	<div class="grid gap-4 md:px-8 md:pt-8">
+		<textarea placeholder={$tag.description} bind:value={newDescription} />
+
+		<Button
+			on:click={() => {
+				if (!newDescription) {
 					return;
 				}
 				showDescriptionOverlay = false;
 
-				const optimisticTag = { ...$tag, description: newVal };
+				const optimisticTag = { ...$tag, description: newDescription };
 				const originalTag = { ...$tag };
 				tag.set(optimisticTag);
 
@@ -117,35 +119,29 @@
 						tag.set(originalTag);
 					}
 				});
-			}
-		}}
-		variation="small"
-		containerStyling="padding: 1rem;"
-		inputConfig={{
-			placeholder: $tag.description.length > 1 ? $tag.description : 'Description...'
-		}}
-		valueBinding={$tag.description}
-	/>
+			}}>Save</Button
+		>
+	</div>
 </Modal>
 
-<Modal bind:showModal={showDeleteOverlay}>
+<Modal bind:showModal={showDeleteOverlay} classes="md:w-[30rem]">
 	<h2 class="h2" slot="header">Delete Tag</h2>
 
-	<div style="margin-top: 1rem;">
+	<div class="mt-4 grid gap-4 text-center">
 		<p>Are you sure you want to to delete "{$tag.name}"?</p>
 
 		<div
 			style="display: inline-flex; width: 100%; justify-content: space-between; padding: 0.5rem;"
 		>
-			<button
-				class="button error"
+			<Button
+				classes="error"
 				on:click={() => {
 					deleteTag($tag).then(() => {
 						goto(`/user/${$currentUser?.username}`);
 					});
-				}}>Yes, delete</button
+				}}>Yes, delete</Button
 			>
-			<button class="button" on:click={() => (showDeleteOverlay = false)}>No, go back!</button>
+			<Button on:click={() => (showDeleteOverlay = false)}>No, go back!</Button>
 		</div>
 	</div>
 </Modal>

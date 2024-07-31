@@ -478,6 +478,11 @@ export const GameGroups: IGameGroups[] = [
 	},
 ]
 
+/**
+ * Returns a VersionGroup based off a single games' Pokeapi name
+ * @param pokeapiname 
+ * @returns 
+ */
 export function getGame(pokeapiname: PokeapiVersionNames | undefined): IGame | undefined{
 	if (!pokeapiname){
 		return;
@@ -518,8 +523,22 @@ export const isPokemonInGameGroup = (nationalDexId: number, gameGroup: IGameGrou
 	return nationalDexId < gameGroup.generation.nationalDexEnd;
 }
 
+export const getGameFromName = (pokeapiname: PokeapiVersionNames | undefined): { shortName: string, pokeapi: PokeapiVersionNames | 'generic'} => {
+	const generic: { shortName: string; pokeapi: PokeapiVersionNames | 'generic'} = { shortName: 'Generic', pokeapi: 'generic'};
+	if (!pokeapiname){
+		return generic;
+	}
 
+	const matching = GameGroups.find((game) => {
+		return game.games.some((game) => game.pokeapi === pokeapiname)
+	});
 
+	if (!matching){
+		return generic;
+	}
+
+	return matching.games.find((game) => game.pokeapi === pokeapiname) || generic;
+}
 
 /**
  * Will return the number of the Generation that a given Pokemon is in

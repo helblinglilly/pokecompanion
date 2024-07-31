@@ -5,7 +5,7 @@ import { TeamInitialContent } from '$/lib/types/ITeams.js';
 import { validateAuth } from '../helpers.js';
 
 export async function POST({ request, cookies, platform }) {
-
+    
     const authedPb = await validateAuth(request, cookies);
     if (!authedPb){
         return new Response('Not authorised', { status: 401 });

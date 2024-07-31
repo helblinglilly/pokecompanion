@@ -7,7 +7,8 @@ export interface ITeam {
     owner: string;
     description: string;
     isPrivate: boolean;
-    game: PokeapiVersionNames
+    game: PokeapiVersionNames;
+    isActiveForGame: boolean;
 }
 
 export interface ITeamData {
@@ -28,6 +29,30 @@ export interface ITeamPokemon {
 }
 
 export const TeamInitialContent: ITeamData = {
-    party: [],
+    party: [
+        {
+            id: -1,
+            moves: []
+        },
+        {
+            id: -1,
+            moves: []
+        },
+        {
+            id: -1,
+            moves: []
+        },
+        {
+            id: -1,
+            moves: []
+        },
+        {
+            id: -1,
+            moves: []
+        },{
+            id: -1,
+            moves: []
+        },
+    ],
     bench: []
 }

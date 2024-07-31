@@ -5,6 +5,8 @@
 	export let value: string = '';
 	export let style: string = '';
 	export let defaultValue: string = '';
+	export let isNested: boolean = false;
+	export let name: string = '';
 
 	const dispatch = createEventDispatcher();
 
@@ -19,7 +21,8 @@
 </script>
 
 <select
-	class="select"
+	{name}
+	class={`select${isNested ? ' nested' : ''}`}
 	{style}
 	bind:value
 	on:change={(e) => {
@@ -45,13 +48,20 @@
 		padding-left: 1rem;
 		height: 50px;
 		width: 100%;
-		border-radius: 0.25rem;
+		border-radius: 0.5rem;
 		max-width: 24rem;
 		appearance: none;
-
-		background-color: var(--select-background);
+		background-color: var(--grey-primary);
 		color: var(--text);
 
 		cursor: pointer;
+	}
+
+	.select.nested {
+		background-color: var(--select-background);
+	}
+
+	.select:hover {
+		background-color: var(--grey-muted);
 	}
 </style>

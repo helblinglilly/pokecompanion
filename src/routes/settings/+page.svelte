@@ -69,6 +69,7 @@
 				<label for="gameSelector"><h3 class="h3">Selected Game</h3></label>
 
 				<Select
+					isNested
 					options={[{ label: 'Generic', value: 'generic' }].concat(
 						GameGroups.map((gameGroup) => ({
 							label: gameGroup.shortName,
@@ -168,6 +169,7 @@
 				<label for="primaryLanguageSelector"><h3 class="h3">Primary Language</h3></label>
 
 				<Select
+					isNested
 					options={languages.map((lang) => ({
 						label: lang.flag + ' ' + lang.name,
 						value: lang.code,
@@ -183,6 +185,7 @@
 			<Card classes="h-full pl-8 pr-8">
 				<label for="secondaryLanguageSelector"><h3 class="h3">Secondary Language</h3></label>
 				<Select
+					isNested
 					options={[{ label: '🏳️ None', value: 'none' }].concat(
 						languages.map((lang) => ({
 							label: lang.flag + ' ' + lang.name,

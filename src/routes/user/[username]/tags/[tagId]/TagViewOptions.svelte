@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Icon from '$/components/UI/Icon.svelte';
 	import { type TagRecord } from '$/lib/types/ITags';
+	import Button from '$/ui/atoms/button/Button.svelte';
+	import Select from '$/ui/atoms/select/Select.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { getContext } from 'svelte';
@@ -15,32 +17,37 @@
 	}
 </script>
 
-<button
-	class="button primary h-14"
+<Button
 	on:click={() => {
 		const newViewState = $page.url.searchParams.get('view') === 'card' ? 'list' : 'card';
 		replaceQueryParam('view', newViewState);
 	}}
+	classes="inline-flex align-middle gap-2 w-56 md:pr-8"
 >
 	{#if $page.url.searchParams.get('view') === 'card'}
-		<div class="inline-flex align-middle gap-2">
-			<Icon name="list" style="margin-top: auto; margin-bottom: auto;" />
-			<p>View as List</p>
-		</div>
+		<Icon name="list" style="margin-top: auto; margin-bottom: auto;" />
+		<p>View as List</p>
 	{:else}
-		<div class="inline-flex align-middle gap-2">
-			<Icon name="card" style="margin-top: auto; margin-bottom: auto;" />
-			<p>View as Card</p>
-		</div>
+		<Icon name="card" style="margin-top: auto; margin-bottom: auto;" />
+		<p>View as Card</p>
 	{/if}
-</button>
+</Button>
 
-<div class="inline-flex">
-	<label for="sortBy" class="absolute self-center pl-4">Sort by:</label>
-	<select
-		name="sortBy"
-		class="pl-20"
+<p class="w-full md:w-fit md:pl-4">Sorting:</p>
+<div class="inline-flex align-middle w-56">
+	<Select
+		style="margin: 0; padding-left: 4rem; padding-right: 4rem; text-align: center;"
 		value={$tag.sortKey}
+		options={[
+			{
+				value: 'id',
+				label: 'ID'
+			},
+			{
+				value: 'added',
+				label: 'Date Added'
+			}
+		]}
 		on:change={(e) => {
 			// @ts-ignore Can't cast type in Svelte
 			if (e.target?.value) {
@@ -48,17 +55,24 @@
 				replaceQueryParam('sortBy', e.target.value ?? '');
 			}
 		}}
-	>
-		<option value="id">ID</option>
-		<option value="added">Date added</option>
-	</select>
+	/>
 </div>
 
-<div class="inline-flex">
-	<select
+<div class="inline-flex w-56">
+	<Select
 		name="sortOrder"
-		class="pl-4"
 		value={$tag.sortOrder}
+		style="margin: 0; padding-left: 4rem; padding-right: 4rem; text-align: center;"
+		options={[
+			{
+				label: 'Ascending',
+				value: 'asc'
+			},
+			{
+				label: 'Descending',
+				value: 'desc'
+			}
+		]}
 		on:change={(e) => {
 			// @ts-ignore Can't cast type in Svelte
 			if (e.target?.value) {
@@ -66,10 +80,7 @@
 				replaceQueryParam('sortOrder', e.target.value ?? '');
 			}
 		}}
-	>
-		<option value="asc">Ascending</option>
-		<option value="desc">Descending</option>
-	</select>
+	/>
 </div>
 
 <style>

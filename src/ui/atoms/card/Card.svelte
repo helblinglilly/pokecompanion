@@ -10,7 +10,13 @@
 </script>
 
 <div
-	class={['card', isClickable ? 'clickable' : null, 'p-4', isNested ? 'nested' : '', classes]
+	class={[
+		'card',
+		isClickable ? 'clickable' : null,
+		'p-4',
+		isNested ? 'nested dark:bg-red-300' : '',
+		classes
+	]
 		.filter((a) => a)
 		.join(' ')}
 	{style}
@@ -23,6 +29,21 @@
 </div>
 
 <style>
+	.card.nested {
+		background-color: var(--grey-primary);
+		color: var(--text-light);
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	}
+
+	:global(.dark-theme) .card.nested {
+		background-color: var(--grey-primary-dark);
+		color: var(--text-light);
+	}
+
+	.card.nested:hover {
+		background-color: var(--grey-muted);
+	}
+
 	.card {
 		background-color: var(--card-background);
 		color: var(--text);
@@ -32,10 +53,5 @@
 	.card.clickable:hover {
 		background-color: var(--card-hover);
 		cursor: pointer;
-	}
-
-	.card.nested {
-		background-color: var(--card-hover);
-		color: var(--text-inverse);
 	}
 </style>
