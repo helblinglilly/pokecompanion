@@ -4,10 +4,10 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { Generations, Regions } from '$lib/data/games';
-	import PokemonPreview from '$/components/Pokemon/PokemonPreview.svelte';
 	import { lastPokedexEntry, pokemonPageSize, primaryLanguage } from '$lib/stores/domain';
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import AdjustedPokemonNames from './pokemonNames';
+	import PokemonListEntry from '$/ui/molecules/pokemon/list';
 
 	const numberOfPages = Math.ceil(PokemonNames.length / pokemonPageSize);
 
@@ -140,9 +140,19 @@
 	</div>
 </div>
 
-{#each AdjustedPokemonNames.slice(fromPokemon, fromPokemon + pokemonPageSize) as pokemon}
-	<PokemonPreview {pokemon} />
-{/each}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+	{#each AdjustedPokemonNames.slice(fromPokemon, fromPokemon + pokemonPageSize) as pokemon}
+		<!-- <PokemonPreview {pokemon} /> -->
+		<PokemonListEntry
+			pokemon={{
+				id: pokemon.id,
+				gender: undefined,
+				shiny: false,
+				added: ''
+			}}
+		/>
+	{/each}
+</div>
 
 <div class="columns">
 	<div class="column" style="display: flex; align-content: center;">

@@ -2,26 +2,33 @@
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { getMove, type IMove } from '$lib/types/IMoves';
 	import { getNameEntry } from '$lib/utils/language';
-	import { onMount } from 'svelte';
-	import Type from '../Type.svelte';
+	import Type from '../../../atoms/type/Type.svelte';
+	import Card from '$/ui/atoms/card/Card.svelte';
 
 	export let id: number;
 	let move: IMove | undefined;
 
 	export let showRemoveButton: boolean;
 	export let onRemoveClick: () => void = () => null;
-	export let style = '';
 
-	onMount(async () => {
-		move = await getMove(id, $selectedGame);
-	});
+	$: {
+		(async () => {
+			move = await getMove(id, $selectedGame);
+		})();
+	}
 
+	// Reactive statements to update names whenever move or languages change
 	$: primaryName = move ? getNameEntry(move.names, $primaryLanguage) : undefined;
 	$: secondaryName =
 		move && $secondaryLanguage ? getNameEntry(move.names, $secondaryLanguage) : undefined;
 </script>
 
-<div class="card clickable" id={`move-${id}`} {style}>
+<Card
+	id={`move-${id}`}
+	isClickable
+	style={`position: relative; padding: 0.5;`}
+	classes="m-0 w-full"
+>
 	<a href={`/move/${id}`}>
 		{#if move}
 			<div class="spriteWrapper">
@@ -58,7 +65,7 @@
 	{#if showRemoveButton}
 		<button class="removeButton" on:click={onRemoveClick}>-</button>
 	{/if}
-</div>
+</Card>
 
 <style>
 	a {
@@ -66,12 +73,6 @@
 		width: 100%;
 		height: 100%;
 		display: flex;
-	}
-
-	.card {
-		position: relative;
-		padding: 0.25rem;
-		width: 100%;
 	}
 
 	.spriteWrapper {

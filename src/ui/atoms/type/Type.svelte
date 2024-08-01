@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { selectedGame, versionSpecificTypeSprites } from '$/lib/stores/domain';
-	import Image from './UI/Image.svelte';
+	import Image from '$/ui/atoms/image';
 
 	export let type: string;
 	export let style: string = '';

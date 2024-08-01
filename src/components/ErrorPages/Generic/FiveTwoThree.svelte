@@ -1,5 +1,5 @@
 <script>
-	import Image from '$/components/UI/Image.svelte';
+	import Image from '$/ui/atoms/image/Image.svelte';
 </script>
 
 <div>

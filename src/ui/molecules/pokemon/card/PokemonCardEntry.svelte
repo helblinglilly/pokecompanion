@@ -1,18 +1,12 @@
 <script lang="ts">
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import Image from '$/components/UI/Image.svelte';
-	import {
-		animateSprites,
-		primaryLanguage,
-		secondaryLanguage,
-		selectedGame,
-		theme,
-		versionSpecificPokemonSprites
-	} from '$lib/stores/domain';
+	import { primaryLanguage, secondaryLanguage, theme } from '$lib/stores/domain';
 	import type { ITagPokemon } from '$lib/types/ITags';
 	import { getPokemonEntry } from '$lib/data/games';
 	import Icon from '$/components/UI/Icon.svelte';
 	import { pokemonVarietyNameToDisplay } from '$lib/utils/string';
+	import Card from '$/ui/atoms/card/Card.svelte';
+	import Sprite from '$/ui/atoms/pokemon/sprite/Sprite.svelte';
 
 	export let pokemon: ITagPokemon;
 	export let showRemoveButton: boolean;
@@ -43,46 +37,16 @@
 			}
 		}
 	}
-
-	const fallbackSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
-
-	async function getSpriteURL(shiny: boolean, isFemale: boolean) {
-		const queryParamsCopy = new URLSearchParams(queryParams.toString());
-		queryParamsCopy.set('shiny', `${shiny}`);
-		queryParamsCopy.set('gender', isFemale ? 'female' : '');
-
-		if ($versionSpecificPokemonSprites === true && $selectedGame) {
-			queryParamsCopy.set('game', $selectedGame.pokeapi);
-
-			if ($animateSprites) {
-				queryParamsCopy.set('animate', $animateSprites ? 'true' : 'false');
-			}
-		}
-
-		const res = await fetch(`/api/pokemon/${pokemon.id}/sprite?${queryParamsCopy.toString()}`);
-		if (res.ok) {
-			return await res.text();
-		}
-		return fallbackSpriteUrl;
-	}
 </script>
 
-<div class="card" id={`${pokemon.id}`} {style}>
-	<a href={`/pokemon/${pokemon.id}?${queryParams.toString()}`} class="clickable">
+<Card
+	id={pokemon.id.toString()}
+	isClickable
+	style={`${style} position: relative; min-height: 150px; height: auto; padding: 0;`}
+>
+	<a href={`/pokemon/${pokemon.id}?${queryParams.toString()}`} class="clickable w-full h-full">
 		<div class="spriteWrapper">
-			{#await getSpriteURL(showGenderAndShiny ? pokemon.shiny === true : false, showGenderAndShiny ? pokemon.gender === 'female' : false)}
-				<Image src={'/placeholder.png'} alt={`sprite`} loading="lazy" height="96px" width="96px" />
-			{:then spriteURL}
-				<Image
-					classNames="ml-auto mr-auto max-w-full w-auto"
-					src={spriteURL}
-					alt={`sprite`}
-					loading="lazy"
-					height="96px"
-					width="auto"
-					style="height: inherit;"
-				/>
-			{/await}
+			<Sprite {...pokemon} female={pokemon.gender === 'female'} />
 		</div>
 		<p>#{pokemon.id}</p>
 		<p>
@@ -135,7 +99,7 @@
 			<button class="removeButton mr-4" on:click={onRemoveClick}>-</button>
 		{/if}
 	</div>
-</div>
+</Card>
 
 <style>
 	a {
@@ -149,16 +113,6 @@
 	a > p {
 		text-align: center;
 		position: relative;
-	}
-
-	.card {
-		position: relative;
-		text-decoration: none;
-		padding: 0;
-		max-width: 20%;
-		height: auto;
-		min-width: 150px;
-		justify-self: center;
 	}
 
 	.removeButton {

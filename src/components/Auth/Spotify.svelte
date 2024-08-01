@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Image from '$/components/UI/Image.svelte';
+	import Image from '$/ui/atoms/image/Image.svelte';
 	import { setCookie } from '$lib/utils/cookies';
 	import type { IAuthProvider } from '../../routes/auth/signin/+page';
 

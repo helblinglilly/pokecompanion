@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { selectedGame, versionSpecificPokemonSprites } from '$/lib/stores/domain';
-	import Image from '$/components/UI/Image.svelte';
+	import Image from '$/ui/atoms/image/Image.svelte';
 
 	export let id: number;
 	export let shiny: boolean = false;
@@ -9,7 +9,7 @@
 
 	const fallbackSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
-	async function getSpriteURL() {
+	async function getSpriteURL(id: number, shiny: boolean, female: boolean, variety: string) {
 		const res = await fetch(
 			`/api/pokemon/${id}/sprite?gender=${female ? 'female' : 'male'}&shiny=${
 				shiny ? 'true' : 'false'
@@ -25,7 +25,7 @@
 </script>
 
 <div class="spriteWrapper">
-	{#await getSpriteURL()}
+	{#await getSpriteURL(id, shiny, female, variety)}
 		<Image src={'/placeholder.png'} alt={`sprite`} loading="lazy" height="96px" width="96px" />
 	{:then spriteURL}
 		<Image

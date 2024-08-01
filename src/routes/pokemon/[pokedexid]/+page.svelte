@@ -29,7 +29,7 @@
 	import { isPokemonInGameGroup } from '$lib/data/games';
 	import EncounterCard from '$/components/Pokemon/Encounters/EncounterCard.svelte';
 	import MovesetCard from '$/components/Pokemon/Moveset/MovesetCard.svelte';
-	import Type from '$/components/Type.svelte';
+	import Type from '$/ui/atoms/type/Type.svelte';
 
 	export let data;
 

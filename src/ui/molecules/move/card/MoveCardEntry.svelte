@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Image from '$/components/UI/Image.svelte';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { getMove, type IMove } from '$lib/types/IMoves';
 	import { getNameEntry } from '$lib/utils/language';
 	import { onMount } from 'svelte';
-	import Type from '../Type.svelte';
+	import Card from '$/ui/atoms/card';
+	import Type from '$/ui/atoms/type';
 
 	export let id: number;
 	let move: IMove | undefined;
@@ -22,7 +22,11 @@
 		move && $secondaryLanguage ? getNameEntry(move.names, $secondaryLanguage) : undefined;
 </script>
 
-<div class="card clickable" id={`move-${id}`} {style}>
+<Card
+	isClickable
+	id={`move-${id}`}
+	style={`${style} position: relative; min-height: 150px; height: auto; padding: 0;`}
+>
 	<a href={`/move/${id}`}>
 		{#if move}
 			<div class="spriteWrapper">
@@ -56,7 +60,7 @@
 	{#if showRemoveButton}
 		<button class="removeButton" on:click={onRemoveClick}>-</button>
 	{/if}
-</div>
+</Card>
 
 <style>
 	a {

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import { getLanguageEntry, getMultiLanguageName, type Languages } from '$lib/utils/language';
-	import Image from '$/components/UI/Image.svelte';
+	import Image from '$/ui/atoms/image/Image.svelte';
 	import { getPokemonEntry } from '$lib/data/games';
 
 	export let pokemon: {

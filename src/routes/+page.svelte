@@ -52,6 +52,7 @@
 				<Card classes="h-full p-8 max-h-60 md:max-h-52">
 					<p>You can change this later in settings</p>
 					<Select
+						isNested
 						options={[{ label: 'Generic', value: 'generic' }]
 							.concat(
 								GameGroups.map((gameGroup) => ({

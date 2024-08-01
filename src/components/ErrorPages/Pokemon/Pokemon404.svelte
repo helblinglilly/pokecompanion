@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import Image from '$/components/UI/Image.svelte';
+	import Image from '$/ui/atoms/image/Image.svelte';
 	import { Logger } from '$lib/log';
 	import { onMount } from 'svelte';
 

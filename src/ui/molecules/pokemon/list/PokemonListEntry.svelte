@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Image from '$/components/UI/Image.svelte';
+	import Image from '$/ui/atoms/image/Image.svelte';
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import {
 		animateSprites,
@@ -13,11 +13,12 @@
 	import { getPokemonEntry } from '$lib/data/games';
 	import Icon from '$/components/UI/Icon.svelte';
 	import { pokemonVarietyNameToDisplay } from '$lib/utils/string';
+	import Card from '$/ui/atoms/card';
 
 	export let pokemon: ITagPokemon;
-	export let showRemoveButton: boolean;
-	export let onRemoveClick: () => void;
-	export let showGenderAndShiny: boolean;
+	export let showRemoveButton: boolean = false;
+	export let onRemoveClick = () => {};
+	export let showGenderAndShiny: boolean = false;
 
 	$: namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
 
@@ -65,7 +66,12 @@
 	}
 </script>
 
-<div class="card clickable m-0 w-full" id={`${pokemon.id}`}>
+<Card
+	classes="m-0 w-full"
+	isClickable
+	id={pokemon.id.toString()}
+	style="position: relative; padding: 0.5rem;"
+>
 	<a href={`/pokemon/${pokemon.id}?${queryParams.toString()}`} class="clickable">
 		<div>
 			<div class="spriteWrapper">
@@ -139,7 +145,7 @@
 	{#if showRemoveButton}
 		<button class="removeButton" on:click={onRemoveClick}>-</button>
 	{/if}
-</div>
+</Card>
 
 <style>
 	a {
@@ -161,11 +167,6 @@
 	a > div:last-child {
 		justify-content: end;
 		margin-right: 1rem;
-	}
-
-	.card {
-		position: relative;
-		padding: 0.25rem;
 	}
 
 	.removeButton {

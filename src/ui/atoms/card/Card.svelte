@@ -5,11 +5,13 @@
 	export let style: string = '';
 	export let classes: string = '';
 	export let isNested: boolean = false;
+	export let id: string | undefined = undefined;
 
 	const dispatch = createEventDispatcher();
 </script>
 
 <div
+	{id}
 	class={[
 		'card',
 		isClickable ? 'clickable' : null,

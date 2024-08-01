@@ -10,7 +10,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import type { IMove } from '$lib/types/IMoves.js';
 	import { getNameEntries, joinNameEntries } from '$lib/utils/language';
-	import Type from '$/components/Type.svelte';
+	import Type from '$/ui/atoms/type/Type.svelte';
 
 	export let data;
 	let filterTerm = '';

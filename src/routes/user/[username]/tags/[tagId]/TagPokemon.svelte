@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PokemonCardEntry from '$/components/Tags/PokemonCardEntry.svelte';
+	import PokemonCardEntry from '$/ui/molecules/pokemon/card';
 	import { getPokemonEntry } from '$/lib/data/games';
 	import { primaryLanguage, secondaryLanguage } from '$/lib/stores/domain';
 	import type { TagRecord } from '$/lib/types/ITags';
@@ -10,7 +10,7 @@
 	import { type Writable } from 'svelte/store';
 	import { getSortFunction, patchTag } from './helper';
 	import { isEqual } from 'lodash-es';
-	import PokemonListEntry from '$/components/Tags/PokemonListEntry.svelte';
+	import PokemonListEntry from '$/ui/molecules/pokemon/list';
 	export let filterTerm: string;
 
 	export let inModifyView: boolean;
@@ -46,7 +46,7 @@
 {:else if $page.url.searchParams.get('view') === 'card'}
 	<h2 class="h2">Pokémon</h2>
 	<div
-		class="grid gap-y-8 justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl-grid-cols-6"
+		class="grid gap-8 justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl-grid-cols-6"
 	>
 		{#each pokemonCollection as pokemon}
 			<PokemonCardEntry
