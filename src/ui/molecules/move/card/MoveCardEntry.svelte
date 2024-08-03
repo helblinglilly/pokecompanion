@@ -76,17 +76,6 @@
 		position: relative;
 	}
 
-	.card {
-		position: relative;
-		margin: 1rem;
-		text-decoration: none;
-		padding: 0;
-		max-width: 20%;
-		height: auto;
-		min-width: 150px;
-		justify-self: center;
-	}
-
 	.spriteWrapper {
 		height: 96px;
 		width: 96px;

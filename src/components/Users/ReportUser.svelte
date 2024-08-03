@@ -10,7 +10,6 @@
 	let showModal = false;
 	let reportText = '';
 	let submitButtonText = 'Submit';
-	export let style: string = '';
 	export let username: string;
 
 	const reportUserClick = async () => {

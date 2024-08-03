@@ -1,9 +1,8 @@
+
+import { getGame, getGameGroupFromGame, isPokemonInGameGroup, PokeapiVersionNames } from '$/lib/data/games.js';
 import { Logger } from '$lib/log';
-import { parseUserPreferences, respondWithJson } from '../helpers.js';
-import { getAbilityResults } from './abilities.js';
-import { getItemResults } from './items.js';
-import { getMoveResults } from './moves.js';
-import { getPokemonResults } from './pokemon.js';
+import { parseUserPreferences, respondWithJson } from '../../helpers.js';
+import { getPokemonResults } from '../pokemon.js';
 
 export async function GET({ request, platform, cookies }) {
 	const url = new URL(request.url);
@@ -22,12 +21,7 @@ export async function GET({ request, platform, cookies }) {
 		userPreferences.secondaryLanguage ?? ''
 	];
 
-	const [pokemonResults, abilityResults, itemResults, moveResults] = await Promise.all([
-		getPokemonResults(normalisedTerm, languages),
-		getAbilityResults(normalisedTerm, languages),
-		getItemResults(normalisedTerm, languages),
-		getMoveResults(normalisedTerm, languages)
-	]).catch((err) => {
+	let pokemonResults = await getPokemonResults(normalisedTerm, languages).catch((err) => {
 		platform?.context.waitUntil(
 			Logger.error(
 				Logger.ErrorClasses.SearchResults,
@@ -39,16 +33,28 @@ export async function GET({ request, platform, cookies }) {
 				}
 			)
 		)
-		return [[], [], [], []];
+		return [];
 	});
+	
+	const game = url.searchParams.get('game') as PokeapiVersionNames | 'generic';
+
+	if (game !== 'generic'){
+		const parsedGame = getGame(game);
+
+		pokemonResults = pokemonResults.map((result) => {
+			return {
+				...result,
+				inGame: isPokemonInGameGroup(result.id, getGameGroupFromGame(parsedGame))
+			}
+		})
+	}
 
 	return respondWithJson({
 		data: {
-			abilities: abilityResults,
 			pokemon: pokemonResults,
-			items: itemResults,
-			moves: moveResults
 		},
 		searchTerm: searchTerm
 	});
 }
+
+

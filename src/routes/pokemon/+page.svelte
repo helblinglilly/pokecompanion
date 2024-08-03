@@ -4,10 +4,11 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { Generations, Regions } from '$lib/data/games';
-	import { lastPokedexEntry, pokemonPageSize, primaryLanguage } from '$lib/stores/domain';
+	import { lastPokedexEntry, pokemonPageSize } from '$lib/stores/domain';
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import AdjustedPokemonNames from './pokemonNames';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
+	import PageNavigator from './PagaeNavigator.svelte';
 
 	const numberOfPages = Math.ceil(PokemonNames.length / pokemonPageSize);
 
@@ -39,59 +40,44 @@
 	previewImage="https://socialpreviews.pokecompanion.helbling.uk/pokemonPage.png"
 />
 
-<h1 class="h1">All Pokémon</h1>
-
-<div class="columns">
-	<div class="column" style="display: flex; align-content: center;">
-		<div
-			style="padding: 0; display: inline-flex; justify-content: center; gap: 0.5rem; width: 100%;  height: fit-content;"
-		>
-			<div style="min-width: 6rem;">
-				{#if pageNumber() > 1}
-					<a href="/pokemon?page=1"><button class="button">{'<<'}</button></a>
-					<a href={`/pokemon?page=${pageNumber() - 1}`}><button class="button">{'<'}</button></a>
-				{/if}
-			</div>
-			<p style="align-self: center; min-width: 6rem; text-align: center;">
-				Page {pageNumber()}/{numberOfPages}
-			</p>
-
-			<div style="min-width: 6rem;">
-				{#if pageNumber() < numberOfPages}
-					<a href={`/pokemon?page=${pageNumber() + 1}`}><button class="button">{'>'}</button></a>
-					<a href={`/pokemon?page=${numberOfPages}`}><button class="button">{'>>'}</button></a>
-				{/if}
-			</div>
-		</div>
+<div class="columns w-full gap-4 mb-4">
+	<div class="column">
+		<h1 class="h1">All Pokémon</h1>
 	</div>
 
+	<div class="column inline-flex gap-4 content-center">
+		<PageNavigator />
+	</div>
+
+	<div class="column justify-center content-center">
+		<form class="flex justify-center" action="/pokemon/">
+			<button
+				class="button"
+				id="hintButton"
+				type="button"
+				on:click={(e) => {
+					if (e.type === 'click') {
+						showHints = !showHints;
+					}
+				}}
+				>?
+			</button>
+			<input
+				id="jumpToText"
+				name="jumpTo"
+				type="number"
+				placeholder="Jump to ID"
+				max={lastPokedexEntry}
+				style="height: 100%;"
+			/>
+			<button class="button" type="submit" id="jumpToButton" style="height: 100%;">Go</button>
+		</form>
+	</div>
+</div>
+
+<div class="columns">
 	<div class="column">
-		<div class="columns" style="display: flex; align-content: center; justify-content: center;">
-			<form style="display: inline-flex" action="/pokemon/">
-				<div style="display: flex;">
-					<button
-						class="button"
-						id="hintButton"
-						type="button"
-						on:click={(e) => {
-							if (e.type === 'click') {
-								showHints = !showHints;
-							}
-						}}
-						>?
-					</button>
-					<input
-						id="jumpToText"
-						name="jumpTo"
-						type="number"
-						placeholder="Jump to ID"
-						max={lastPokedexEntry}
-						style="height: 100%;"
-					/>
-					<button class="button" type="submit" id="jumpToButton" style="height: 100%;">Go</button>
-				</div>
-			</form>
-		</div>
+		<div class="columns" style="display: flex; align-content: center; justify-content: center;" />
 
 		<div class="columns" style={`display: ${showHints ? 'grid' : 'none'};`}>
 			<div class="hintEntry">
@@ -154,28 +140,9 @@
 	{/each}
 </div>
 
-<div class="columns">
-	<div class="column" style="display: flex; align-content: center;">
-		<div
-			style="padding: 0; display: inline-flex; justify-content: center; gap: 0.5rem; width: 100%;  height: fit-content;"
-		>
-			<div style="min-width: 6rem;">
-				{#if pageNumber() > 1}
-					<a href="/pokemon?page=1"><button class="button">{'<<'}</button></a>
-					<a href={`/pokemon?page=${pageNumber() - 1}`}><button class="button">{'<'}</button></a>
-				{/if}
-			</div>
-			<p style="align-self: center; min-width: 6rem; text-align: center;">
-				Page {pageNumber()}/{numberOfPages}
-			</p>
-
-			<div style="min-width: 6rem;">
-				{#if pageNumber() < numberOfPages}
-					<a href={`/pokemon?page=${pageNumber() + 1}`}><button class="button">{'>'}</button></a>
-					<a href={`/pokemon?page=${numberOfPages}`}><button class="button">{'>>'}</button></a>
-				{/if}
-			</div>
-		</div>
+<div class="columns mt-4">
+	<div class="column flex content-center justify-center gap-4">
+		<PageNavigator />
 	</div>
 </div>
 

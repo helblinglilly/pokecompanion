@@ -9,78 +9,80 @@
 </script>
 
 {#if id === -1}
-	{#if inEditMode}
-		<button
-			class="partySprite"
-			on:click={() => {
-				if (inEditMode) {
-					onEditClick('add');
-				}
-			}}
-		>
-			<p>Add</p>
-		</button>
-	{:else}
-		<button
-			class="partySprite hover:cursor-default"
-			on:click={() => {
-				if (inEditMode) {
-					onEditClick('add');
-				}
-			}}
-		/>
-	{/if}
+	<button
+		class={`partySprite empty${inEditMode ? ' editMode' : ''}`}
+		on:click={() => {
+			if (inEditMode) {
+				onEditClick('add');
+			}
+		}}
+	>
+		{#if inEditMode}
+			<div>
+				<p>Add</p>
+			</div>
+		{:else}
+			<div />
+		{/if}
+	</button>
 {:else if inEditMode}
-	<div style="height: 4rem;">
+	<div style="height: 5rem;">
 		<button
-			class="partySprite"
+			class="partySprite swap editMode"
 			on:click={() => {
 				if (inEditMode) {
 					onEditClick('swap');
 				}
 			}}
 		>
-			<div>
-				<p>Swap</p>
-			</div>
-			<Sprite {id} {variety} />
+			<p>Swap</p>
+
+			<Sprite {id} {variety} style="margin: 1rem;" />
 		</button>
 	</div>
 {:else}
-	<a href={link} class="partySprite">
-		<Sprite {id} {variety} />
+	<a href={link} class="partySprite swap">
+		<Sprite {id} {variety} style="margin: 1rem;" />
 	</a>
 {/if}
 
 <style>
-	.partySprite {
-		background-color: var(--card-background-light);
-		height: 4rem;
-		width: 4rem;
-		border-radius: 100%;
-	}
-
-	a.partySprite:hover {
-		background-color: var(--card-hover-light);
-		cursor: pointer;
-	}
-
+	.partySprite,
 	.partySprite > div {
-		position: absolute;
-		width: 4rem;
-		height: 4rem;
-		z-index: 100;
-		background-color: rgb(1, 1, 1, 0.5);
+		background-color: var(--card-background-light);
+		height: 5rem;
+		width: 5rem;
 		border-radius: 100%;
+		display: grid;
+		/* align-content: center; */
+	}
+
+	.partySprite.swap.editMode > p {
+		position: absolute;
+		z-index: 100;
+		height: 5rem;
+		width: 5rem;
+		color: var(--text-inverse-light);
+		align-content: center;
+		background-color: rgba(1, 1, 1, 0.5);
+		border-radius: 100%;
+	}
+
+	.partySprite.empty:not(.editMode):hover {
+		cursor: default;
+	}
+
+	.partySprite.empty.editMode {
+		background-color: var(--card-hover-light);
+	}
+
+	.partySprite.empty.editMode > div {
+		background-color: rgba(1, 1, 1, 0.2);
 		display: grid;
 		align-content: center;
 	}
 
-	.partySprite > div > p {
-		color: var(--text-dark);
-	}
-
-	.partySprite > p {
-		color: var(--text-light);
+	.partySprite.editMode:hover {
+		background-color: var(--card-hover-dark);
 	}
 </style>

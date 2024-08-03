@@ -1,7 +1,6 @@
 import type { PokeapiVersionNames } from '$/lib/data/games.js';
 import { Logger } from '$/lib/log.js';
 import isStringToxic from '$/lib/server/toxic.js';
-import { TeamInitialContent } from '$/lib/types/ITeams.js';
 import { validateAuth } from '../helpers.js';
 
 export async function POST({ request, cookies, platform }) {
@@ -58,6 +57,38 @@ export async function POST({ request, cookies, platform }) {
         })
     }
 
+    let isActiveForGame = false;
+
+    try {
+        const existingForGame = await authedPb.collection('teams').getFirstListItem(
+            `owner.id="${authedPb.authStore.model?.id}" && game="${body.game}" && isActiveForGame=true`
+        )
+
+        if (!existingForGame){
+            isActiveForGame = true;
+        }
+    } catch(err){
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore Pocketbase error returned here
+        if (err?.status === 404){
+            isActiveForGame = true;
+        }
+
+        platform?.context.waitUntil(
+            Logger.error(
+                Logger.ErrorClasses.TeamOperation,
+                Logger.buildError(err),
+                {
+                    context: 'Creating a new team',
+                    errorMessage: 'Failed to get existing teams for this game',
+                    user: cookies.get('remember-token'),
+                    name: body.name
+                }
+            )
+        )
+    }
+
+    console.log('Will set as active', isActiveForGame);
     try {
         await authedPb.collection('teams').create({
             owner: authedPb.authStore.model?.id,
@@ -65,7 +96,7 @@ export async function POST({ request, cookies, platform }) {
             description: body.description,
             game: body.game,
             isPrivate: body.isPrivate,
-            contents: TeamInitialContent
+            isActiveForGame
         })
     } catch(err){
         platform?.context.waitUntil(
@@ -88,3 +119,4 @@ export async function POST({ request, cookies, platform }) {
 
     return new Response('created');
 }
+

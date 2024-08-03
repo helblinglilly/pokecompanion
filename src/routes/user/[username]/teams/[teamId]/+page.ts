@@ -1,18 +1,20 @@
-import type { ITeam } from '$/lib/types/ITeams.js';
+import type { IRecordTeam, ITeam, ITeamPokemon } from '$/lib/types/ITeams';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import { Logger } from '$lib/log.js';
 import { getUserByUsername } from '$lib/pb/publicUsers';
 import { error } from '@sveltejs/kit';
 import Pocketbase from 'pocketbase';
-import type { RecordModel } from 'pocketbase';
+import type { ListResult, RecordModel } from 'pocketbase';
 
-type IRecordTeam = ITeam & RecordModel;
 
 export const load = async ({ params }) => {
 	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
 	const [user, teamData] = await Promise.all([
 		getUserByUsername(params.username),
-		pb.collection('teams').getFirstListItem(`id="${params.teamId}"`) as Promise<IRecordTeam>
+		pb.collection('teams').getList(1, 1, {
+			filter: `id="${params.teamId}"`,
+			expand: "party,party.nickname",
+		}) as Promise<ListResult<IRecordTeam & RecordModel>>,
 	]).catch(async (err) => {
 		await Logger.error(
 			Logger.ErrorClasses.TagOperation,
@@ -25,9 +27,49 @@ export const load = async ({ params }) => {
 		return [];
 	});
 
-	if (!user || !teamData) {
+	if (!user || !teamData || teamData.totalItems === 0) {
 		error(404, 'This team does not exist');
 	}
 
-	return { user, teamData };
+	const team = teamData.items[0];
+
+	const allPokemonIds = team.party.concat(team.bench);
+
+	const pokemon: Array<ITeamPokemon & RecordModel> = await pb.collection('team_pokemon').getFullList({
+		filter: allPokemonIds.map((pokemonId: string) => `id="${pokemonId}"`).join(' || ')
+	});
+
+	const party: ITeamPokemon[] = pokemon.filter((pokemon) => {
+		return team.party.includes(pokemon.id)
+	})
+
+	const bench: ITeamPokemon[] = pokemon.filter((pokemon) => {
+		return team.bench.includes(pokemon.id);
+	})
+
+	while(party.length < 6){
+		party.push({
+			national_dex: -1,
+			nickname: undefined,
+			variety: undefined,
+			gender: 'unknown',
+			shiny: false,
+			move1: -1,
+			move2: -1,
+			move3: -1,
+			move4: -1,
+			ability: 0,
+			team: undefined,
+			owner: 0,
+			position: 0
+		})
+	}
+
+	const fullTeam: ITeam = {
+		...team,
+		party,
+		bench
+	}
+
+	return { user, team: fullTeam};
 };

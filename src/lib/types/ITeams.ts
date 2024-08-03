@@ -1,9 +1,8 @@
 import type { PokeapiVersionNames } from "../data/games";
 
-export interface ITeam {
+interface IBaseTeam {
     id: string;
     name: string;
-    contents: ITeamData;
     owner: string;
     description: string;
     isPrivate: boolean;
@@ -11,48 +10,30 @@ export interface ITeam {
     isActiveForGame: boolean;
 }
 
-export interface ITeamData {
+
+export interface IRecordTeam extends IBaseTeam{
+    party: string[];
+    bench: string[];
+}
+
+export interface ITeam extends IBaseTeam {
     party: ITeamPokemon[];
     bench: ITeamPokemon[];
 }
 
+
 export interface ITeamPokemon {
-    id: number;
-    variety?: string;
-
-    ability?: number;
-    moves: {
-        id: number;
-    }[];
-
-    heldItem?: number;
-}
-
-export const TeamInitialContent: ITeamData = {
-    party: [
-        {
-            id: -1,
-            moves: []
-        },
-        {
-            id: -1,
-            moves: []
-        },
-        {
-            id: -1,
-            moves: []
-        },
-        {
-            id: -1,
-            moves: []
-        },
-        {
-            id: -1,
-            moves: []
-        },{
-            id: -1,
-            moves: []
-        },
-    ],
-    bench: []
+    national_dex: number;
+    nickname: string | undefined;
+    variety: string | undefined;
+    gender: 'male' | 'female' | 'unknown';
+    shiny: boolean;
+    ability: number;
+    move1: number;
+    move2: number;
+    move3: number;
+    move4: number;
+    team: ITeam | undefined;
+    owner: number;
+    position: number;
 }

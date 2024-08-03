@@ -517,6 +517,7 @@ export function getGameGroupFromGame(game: IGame | undefined) {
 	return GameGroups.find((groupGame) => groupGame.games.includes(game));
 }
 
+// TODO This function should really look at the Pokedex for each game. But pokedex' don't exist yet
 export const isPokemonInGameGroup = (nationalDexId: number, gameGroup: IGameGroups | undefined) => {
 	if (!gameGroup) return true;
 	
