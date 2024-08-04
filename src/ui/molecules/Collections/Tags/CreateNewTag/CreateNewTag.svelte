@@ -4,11 +4,12 @@
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import { Logger } from '$lib/log';
 	import { createTag } from '$lib/stores/tags';
-	import type { ITagMove, ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
+	import type { ITagMove, ITagPokemon } from '$lib/types/ITags';
+	import type { IRecordPokemon } from '$/lib/types/IPokemon';
 
 	export let userId: string;
 	export let initialContent: {
-		pokemon?: ITagPokemonNew[];
+		pokemon?: IRecordPokemon[];
 		move?: ITagMove[];
 	};
 	export let onSuccess = ({

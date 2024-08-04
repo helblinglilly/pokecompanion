@@ -1,4 +1,5 @@
 import type { RecordModel } from 'pocketbase';
+import type { IRecordPokemon } from './IPokemon';
 
 export interface ITag {
 	id: string;
@@ -22,14 +23,7 @@ export interface ITagContents {
 	move?: ITagMove[];
 }
 
-export type ITagPokemon = ITagPokemonNew & ITagEntryGenerics;
-
-export interface ITagPokemonNew {
-	id: number;
-	gender?: 'female' | 'male' | undefined;
-	shiny: true | false | undefined;
-	variety?: string;
-}
+export type ITagPokemon = IRecordPokemon & ITagEntryGenerics;
 
 export type ITagMove = ITagEntryGenerics;
 

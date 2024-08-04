@@ -9,6 +9,7 @@
 	import AdjustedPokemonNames from './pokemonNames';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
 	import PageNavigator from './PagaeNavigator.svelte';
+	import PokemonLink from '$/ui/molecules/pokemon/link/PokemonLink.svelte';
 
 	const numberOfPages = Math.ceil(PokemonNames.length / pokemonPageSize);
 
@@ -128,15 +129,15 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
 	{#each AdjustedPokemonNames.slice(fromPokemon, fromPokemon + pokemonPageSize) as pokemon}
-		<!-- <PokemonPreview {pokemon} /> -->
-		<PokemonListEntry
-			pokemon={{
-				id: pokemon.id,
-				gender: undefined,
-				shiny: false,
-				added: ''
-			}}
-		/>
+		<PokemonLink pokemon={{ id: pokemon.id, gender: undefined, shiny: false }}>
+			<PokemonListEntry
+				pokemon={{
+					id: pokemon.id,
+					gender: undefined,
+					shiny: false
+				}}
+			/>
+		</PokemonLink>
 	{/each}
 </div>
 

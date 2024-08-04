@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import { primaryLanguage, secondaryLanguage, theme } from '$lib/stores/domain';
-	import type { ITagPokemon } from '$lib/types/ITags';
 	import { getPokemonEntry } from '$lib/data/games';
 	import Icon from '$/components/UI/Icon.svelte';
 	import { pokemonVarietyNameToDisplay } from '$lib/utils/string';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Sprite from '$/ui/atoms/pokemon/sprite/Sprite.svelte';
+	import type { IRecordPokemon } from '$/lib/types/IPokemon';
+	import { createEventDispatcher } from 'svelte';
 
-	export let pokemon: ITagPokemon;
-	export let showRemoveButton: boolean;
+	export let pokemon: IRecordPokemon;
 	export let showGenderAndShiny: boolean;
-	export let onRemoveClick: () => void = () => null;
-	export let style: string = '';
+
+	const dispatch = createEventDispatcher();
 
 	$: namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
 
@@ -42,22 +42,24 @@
 <Card
 	id={pokemon.id.toString()}
 	isClickable
-	style={`${style} position: relative; min-height: 150px; height: auto; padding: 0;`}
+	classes="relative h-auto p-8 text-center"
+	style={`min-height: 150px;`}
+	on:click={() => {
+		dispatch('click', pokemon);
+	}}
 >
-	<a href={`/pokemon/${pokemon.id}?${queryParams.toString()}`} class="clickable w-full h-full">
-		<div class="spriteWrapper">
-			<Sprite {...pokemon} female={pokemon.gender === 'female'} />
-		</div>
-		<p>#{pokemon.id}</p>
-		<p>
-			{getMultiLanguageName(
-				getPokemonEntry(pokemon.id).names,
-				$primaryLanguage,
-				$secondaryLanguage,
-				namePrefix
-			)}
-		</p>
-	</a>
+	<div class="spriteWrapper">
+		<Sprite {...pokemon} female={pokemon.gender === 'female'} />
+	</div>
+	<p>#{pokemon.id}</p>
+	<p>
+		{getMultiLanguageName(
+			getPokemonEntry(pokemon.id).names,
+			$primaryLanguage,
+			$secondaryLanguage,
+			namePrefix
+		)}
+	</p>
 
 	<div class="indicators">
 		{#if showGenderAndShiny && pokemon.gender === 'female'}
@@ -95,26 +97,11 @@
 			{/if}
 		{/if}
 
-		{#if showRemoveButton}
-			<button class="removeButton mr-4" on:click={onRemoveClick}>-</button>
-		{/if}
+		<slot name="remove" />
 	</div>
 </Card>
 
 <style>
-	a {
-		text-decoration-line: unset;
-		border-radius: 10px;
-		display: block;
-		height: 100%;
-		padding: 2rem;
-	}
-
-	a > p {
-		text-align: center;
-		position: relative;
-	}
-
 	.removeButton {
 		position: absolute;
 		top: 0;

@@ -1,16 +1,15 @@
 <script lang="ts">
 	import {
+		getGameFromName,
 		getGameGroupFromGame,
-		getPokemonEntry,
+		type IGame,
 		type IStaticPokemon,
 		type PokeapiVersionNames
 	} from '$/lib/data/games';
-	import { primaryLanguage, secondaryLanguage } from '$/lib/stores/domain';
-	import { getMultiLanguageName } from '$/lib/utils/language';
+
 	import Button from '$/ui/atoms/button';
-	import Card from '$/ui/atoms/card/Card.svelte';
-	import Sprite from '$/ui/atoms/pokemon/sprite';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
+	import PokemonListEntry from '$/ui/molecules/pokemon/list';
 
 	export let teamId: string;
 	export let game: PokeapiVersionNames;
@@ -47,6 +46,8 @@
 			pokemonResults = body.data.pokemon;
 		}, 750);
 	};
+
+	const gameGroup = getGameGroupFromGame(getGameFromName(game) as unknown as IGame | undefined);
 </script>
 
 <Button
@@ -58,7 +59,6 @@
 >
 	Add Pokémon
 </Button>
-
 <Modal bind:showModal={showOverlay} classes="md:w-[40rem] h-full">
 	<h2 class="h2" slot="header">Add Pokémon to team</h2>
 
@@ -85,28 +85,13 @@
 			<p>No results</p>
 		{/if}
 		{#each pokemonResults.filter((a) => a.inGame) as result}
-			<Card
-				classes="inline-flex space-between gap-4"
-				isClickable
-				style="height: 8rem;"
-				on:click={() => {
-					console.log('selected', result.id);
+			<PokemonListEntry
+				pokemon={{
+					id: result.id,
+					shiny: false
 				}}
-			>
-				<Sprite
-					id={result.id}
-					gameOverride={getGameGroupFromGame({ pokeapi: game, shortName: '' })}
-					style="height: auto; width: 96px;"
-				/>
-				<p style="margin-top: auto; margin-bottom: auto;">
-					#{result.id}
-					{getMultiLanguageName(
-						getPokemonEntry(result.id).names,
-						$primaryLanguage,
-						$secondaryLanguage
-					)}
-				</p>
-			</Card>
+				gameOverride={gameGroup}
+			/>
 		{/each}
 	</div>
 </Modal>
