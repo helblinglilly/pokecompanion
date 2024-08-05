@@ -32,6 +32,10 @@
 		<div class="contentWrapper">
 			<slot />
 		</div>
+
+		<div class="footerWrapper">
+			<slot name="footer" />
+		</div>
 	</div>
 </dialog>
 
@@ -64,7 +68,7 @@
 
 	.header {
 		padding-left: 0.5rem;
-		height: 4rem;
+		min-height: 4rem;
 		justify-items: center;
 		border-bottom: 1px solid var(--text);
 	}
@@ -73,7 +77,8 @@
 		height: 100%;
 		display: grid;
 		align-content: center;
-		margin-left: 0.5rem;
+		padding-left: 0.5rem;
+		padding-top: 1rem;
 	}
 
 	.contentWrapper {
@@ -81,10 +86,24 @@
 		height: 100%;
 	}
 
+	.footerWrapper:empty {
+		display: none;
+	}
+
+	.footerWrapper:not(:empty) {
+		position: fixed;
+		bottom: 1.2rem;
+		z-index: 2;
+	}
+
 	@media screen and (max-width: 768px) {
 		dialog {
 			height: 100%;
 			width: 100%;
+		}
+
+		.footerWrapper:not(:empty) {
+			width: calc(100% - (19px * 2));
 		}
 	}
 
@@ -93,6 +112,11 @@
 			border-radius: 0.5rem;
 			min-width: 16rem;
 			min-height: 16rem;
+		}
+
+		.footerWrapper:not(:empty) {
+			width: 100%;
+			max-width: 40rem;
 		}
 	}
 
@@ -118,5 +142,9 @@
 		to {
 			opacity: 1;
 		}
+	}
+
+	dialog {
+		overflow: scroll;
 	}
 </style>

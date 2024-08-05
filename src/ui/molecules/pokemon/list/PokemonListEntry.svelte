@@ -17,15 +17,20 @@
 	const dispatch = createEventDispatcher();
 
 	$: namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
+
+	export let cardActiveState = false;
 </script>
 
 <Card
 	classes="m-0 w-full inline-flex justify-between"
 	isClickable
 	id={pokemon.id.toString()}
-	style="position: relative; padding: 0.5rem;"
+	style={`position: relative; padding: 0.5rem; ${
+		cardActiveState ? 'background-color: var(--card-hover);' : ''
+	}`}
 	on:click={() => {
 		dispatch('click', pokemon);
+		cardActiveState = true;
 	}}
 >
 	<div class="inline-flex">

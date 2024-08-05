@@ -21,8 +21,7 @@ export interface ITeam extends IBaseTeam {
     bench: ITeamPokemon[];
 }
 
-
-export interface ITeamPokemon {
+export interface IBasePokemon {
     national_dex: number;
     nickname: string | undefined;
     variety: string | undefined;
@@ -33,7 +32,10 @@ export interface ITeamPokemon {
     move2: number;
     move3: number;
     move4: number;
-    team: ITeam | undefined;
-    owner: number;
+}
+
+export interface ITeamPokemon extends IBasePokemon {
+    team: string;
+    owner: string;
     position: number;
 }
