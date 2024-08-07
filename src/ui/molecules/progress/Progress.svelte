@@ -6,10 +6,6 @@
 	const dispatch = createEventDispatcher();
 
 	export let steps = writable<IProgress[]>([]);
-
-	steps.subscribe((newSteps) => {
-		console.log(newSteps);
-	});
 </script>
 
 <div class="progress-container">

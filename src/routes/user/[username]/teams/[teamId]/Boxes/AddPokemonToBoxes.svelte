@@ -10,12 +10,12 @@
 	import Button from '$/ui/atoms/button';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import { derived, writable } from 'svelte/store';
-	import Progress from '../../../../../../ui/molecules/progress/Progress.svelte';
+	import Progress from '$/ui/molecules/progress';
 	import SelectPokemon from './SelectPokemon.svelte';
 	import { type IBasePokemon } from '$/lib/types/ITeams';
 	import { type IProgress } from '$/ui/molecules/progress/types';
 	import PickMoves from './PickMoves.svelte';
-	import { getMultiLanguageName, getNameEntries } from '$/lib/utils/language';
+	import { getMultiLanguageName } from '$/lib/utils/language';
 	import { primaryLanguage, secondaryLanguage } from '$/lib/stores/domain';
 
 	export let teamId: string;
@@ -163,7 +163,7 @@
 		{#if $activeStep === 0}
 			<SelectPokemon {pokemon} game={gameGroup} />
 		{:else if $activeStep === 1}
-			<PickMoves {pokemon} />
+			<PickMoves {pokemon} game={gameGroup} />
 		{:else if $activeStep === 2}
 			<p>Extras</p>
 		{:else}

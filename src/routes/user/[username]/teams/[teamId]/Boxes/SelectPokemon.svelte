@@ -28,7 +28,7 @@
 				return;
 			}
 
-			const res = await fetch(`/api/search/pokemon?game=${game}&term=${searchTerm}`);
+			const res = await fetch(`/api/search/pokemon?game=${game?.pokeapi}&term=${searchTerm}`);
 			const body = (await res.json()) as Promise<any>;
 
 			// @ts-ignore

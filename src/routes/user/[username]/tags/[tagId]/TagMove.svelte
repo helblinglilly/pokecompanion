@@ -76,30 +76,37 @@
 	<h2 class="h2 pb-0">Moves</h2>
 	<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 		{#each moveCollection as move}
-			<MoveListEntry
-				id={move.id}
-				showRemoveButton={inModifyView}
-				onRemoveClick={() => {
-					const optimisticTag = {
-						...$tag,
-						contents: {
-							...$tag.contents,
-							move: $tag.contents.move?.filter((tagMove) => tagMove.id !== move.id)
-						}
-					};
-					const originalTag = { ...$tag };
+			<a href={`/move/${move.id}`}>
+				<MoveListEntry id={move.id}>
+					<div slot="remove">
+						{#if inModifyView}
+							<button
+								class="removeButton"
+								on:click={() => {
+									const optimisticTag = {
+										...$tag,
+										contents: {
+											...$tag.contents,
+											move: $tag.contents.move?.filter((tagMove) => tagMove.id !== move.id)
+										}
+									};
+									const originalTag = { ...$tag };
 
-					tag.set(optimisticTag);
+									tag.set(optimisticTag);
 
-					patchTag(optimisticTag).then((newTag) => {
-						if (newTag) {
-							tag.set(newTag);
-						} else {
-							tag.set(originalTag);
-						}
-					});
-				}}
-			/>
+									patchTag(optimisticTag).then((newTag) => {
+										if (newTag) {
+											tag.set(newTag);
+										} else {
+											tag.set(originalTag);
+										}
+									});
+								}}>-</button
+							>
+						{/if}
+					</div>
+				</MoveListEntry>
+			</a>
 		{/each}
 	</div>
 {/if}

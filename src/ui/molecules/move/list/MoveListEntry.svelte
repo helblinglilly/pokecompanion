@@ -4,16 +4,21 @@
 	import { getNameEntry } from '$lib/utils/language';
 	import Type from '../../../atoms/type/Type.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
+	import { createEventDispatcher } from 'svelte';
+	import { getGameGroupFromName, type PokeapiVersionGroups } from '$/lib/data/games';
 
 	export let id: number;
+	export let cardActiveState = false;
+	export let style: string = '';
+	export let isNested: boolean = false;
+	export let game: PokeapiVersionGroups | undefined = $selectedGame?.pokeapi;
 	let move: IMove | undefined;
 
-	export let showRemoveButton: boolean;
-	export let onRemoveClick: () => void = () => null;
+	const dispatch = createEventDispatcher();
 
 	$: {
 		(async () => {
-			move = await getMove(id, $selectedGame);
+			move = await getMove(id, getGameGroupFromName(game));
 		})();
 	}
 
@@ -26,66 +31,59 @@
 <Card
 	id={`move-${id}`}
 	isClickable
-	style={`position: relative; padding: 0.5;`}
-	classes="m-0 w-full"
+	{isNested}
+	style={`position: relative; ${
+		cardActiveState ? 'background-color: var(--card-hover);' : ''
+	} ${style}`}
+	classes="m-0 w-full w-full h-full flex p-8"
+	on:click={() => {
+		dispatch('click', move);
+		// cardActiveState = true;
+	}}
 >
-	<a href={`/move/${id}`}>
-		{#if move}
-			<div class="spriteWrapper">
-				<table>
-					<tbody>
-						<tr>
-							<td class="types">
-								<Type
-									type={move.type.name}
-									style="margin-bottom: 0.2rem; margin-left: auto; margin-right: auto;"
-								/>
+	{#if move}
+		<div>
+			<table>
+				<tbody>
+					<tr>
+						<td class="types">
+							<Type
+								type={move.type.name}
+								style="margin-bottom: 0.2rem; margin-left: auto; margin-right: auto;"
+								{game}
+							/>
 
-								<Type
-									type={move.damage_class.name}
-									style="margin-left: auto; margin-right: auto;"
-								/>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+							<Type
+								type={move.damage_class.name}
+								style="margin-left: auto; margin-right: auto;"
+								{game}
+							/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
-			<span class="ml-4">
-				<p>{primaryName}</p>
-				{#if secondaryName && primaryName !== secondaryName}
-					<p>{secondaryName}</p>
-				{/if}
-			</span>
-		{:else}
-			<p>Loading...</p>
-		{/if}
-	</a>
-
-	{#if showRemoveButton}
-		<button class="removeButton" on:click={onRemoveClick}>-</button>
+		<span class="ml-4">
+			<p>{primaryName}</p>
+			{#if secondaryName && primaryName !== secondaryName}
+				<p>{secondaryName}</p>
+			{/if}
+		</span>
+	{:else}
+		<p>Loading...</p>
 	{/if}
+
+	<slot name="remove" />
 </Card>
 
 <style>
-	a {
-		text-decoration: none;
-		width: 100%;
-		height: 100%;
-		display: flex;
-	}
-
 	.spriteWrapper {
 		height: 96px;
 		width: 96px;
 		padding: 1rem;
 		margin-top: auto;
 		margin-bottom: auto;
-	}
-
-	a:hover {
-		cursor: pointer;
-		background-color: var(--primary);
 	}
 	table {
 		width: 100%;

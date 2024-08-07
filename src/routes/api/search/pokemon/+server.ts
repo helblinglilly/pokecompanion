@@ -1,4 +1,3 @@
-
 import { getGame, getGameGroupFromGame, isPokemonInGameGroup, PokeapiVersionNames } from '$/lib/data/games.js';
 import { Logger } from '$lib/log';
 import { parseUserPreferences, respondWithJson } from '../../helpers.js';

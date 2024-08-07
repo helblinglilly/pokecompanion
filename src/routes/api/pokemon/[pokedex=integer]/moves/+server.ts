@@ -1,71 +1,62 @@
-import { Logger } from "$/lib/log";
-import { pokemonVarietyNameToDisplay, capitaliseFirstLetter } from "$/lib/utils/string";
-import type { RequestHandler } from "msw";
-import { fetchPokemon, fetchPokemonSpecies, fetchPokemonForm } from "../../cachedFetch";
-import { parseUserPreferences } from "$/routes/api/helpers";
-import type { IPokemonRequestPreferences } from "../../types";
-import { formatMovesetToVersionEntries } from "$/lib/data/movesetFilter";
+import { lastPokedexEntry } from '$lib/stores/domain';
+import { formatMovesetToVersionEntries } from '$lib/data/movesetFilter';
+import { Logger } from '$lib/log';
+import type { RequestHandler } from '@sveltejs/kit';
+import { parseUserPreferences } from '$/routes/api/helpers';
+import { fetchPokemon, fetchPokemonSpecies } from '../../cachedFetch';
+import type { IPokemonRequestPreferences } from '../../types';
 
-export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {
+export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {	
+	const id = Number(params.pokedex);
+	if (!id){
+		return new Response(JSON.stringify({
+			error: 'Missing pokemon in search params',
+			searchParam: 'pokemon=:id'
+		}), {
+			status: 404,
+			headers: {
+				'content-type': 'application/json'
+			}
+		})
+	}
 
-    const requestPreferences: IPokemonRequestPreferences = {
+	if (id < 1 || id > lastPokedexEntry){
+		return new Response(JSON.stringify({
+			error: 'Pokemon is outside of known range',
+			knownPokemon: {
+				from: 1,
+				to: lastPokedexEntry
+			},
+			requested: id
+		}), {
+			status: 404,
+			headers: {
+				'content-type': 'application/json'
+			}
+		})
+	}
+
+	const requestPreferences: IPokemonRequestPreferences = {
 		...parseUserPreferences(url, cookies),
 		variety: url.searchParams.get('variety'),
 		shiny: url.searchParams.get('shiny') === 'true',
 		isFemale: url.searchParams.get('gender') === 'female',
 	}
 	const { primaryLanguage, secondaryLanguage, selectedGame, variety } = requestPreferences;
-    
-    // eslint-disable-next-line prefer-const
-    let [pokemon, species] = await Promise.all([
-		fetchPokemon(params.pokedex, platform),
-		fetchPokemonSpecies(params.pokedex, platform),
+	
+	// Only some values may get rassigned
+	// eslint-disable-next-line prefer-const 
+	let [pokemon, species] = await Promise.all([
+		fetchPokemon(id, platform),
+		fetchPokemonSpecies(id, platform),
 	])
 
-
-
-    const varietyEntry = species.varieties.find((entry) => entry.pokemon.name === variety);
+	const varietyEntry = species.varieties.find((entry) => entry.pokemon.name === variety);
 	if (varietyEntry) {
 		try {
 			const parts = varietyEntry.pokemon.url.split('/');
 			const id = Number(parts[parts.length - 2]);
-			let varietyPokemon = await fetchPokemon(id, platform);
-
-			const nameParts = varietyPokemon.name.split('-');
-
-			if (!nameParts) {
-				throw new Error(`Tried to process an invalid variety of a Pokemon`);
-			}
-
-			const varietyForm = varietyPokemon.forms.find((a) => a.name === varietyPokemon.name);
-			const varietyName = pokemonVarietyNameToDisplay(varietyPokemon.name);
-
-			if (varietyForm) {
-				const varietyFormPokemon = await fetchPokemonForm(varietyForm?.url, platform);
-
-				varietyPokemon = {
-					...varietyPokemon,
-					...varietyFormPokemon,
-				};
-
-				if (varietyFormPokemon.names.length && varietyFormPokemon.names.some((varietyName) => varietyName.language.name === primaryLanguage || varietyName.language.name === secondaryLanguage)) {
-					species.names = varietyFormPokemon.names;
-				} else {
-					species.names = species.names.map((name) => {
-						return {
-							language: name.language,
-							name: varietyName + ' ' + capitaliseFirstLetter(nameParts[0])
-						};
-					});
-				}
-			} else {
-				species.names = species.names.map((name) => {
-					return {
-						language: name.language,
-						name: varietyName + ' ' + capitaliseFirstLetter(nameParts[0])
-					};
-				});
-			}
+			const varietyPokemon = await fetchPokemon(id, platform);
 
 			pokemon = {
 				...pokemon,
@@ -78,20 +69,20 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 					new Error(`Something went wrong when trying to process Pokemon forms`),
 					{
 						context: 'Failed to parse Pokemon forms',
-						pokemon: params.pokedex,
+						pokemon: id,
 						variety: varietyEntry.pokemon.name
 					}
 				)
 			)
 		}
 	}
+	const moves = formatMovesetToVersionEntries(pokemon.moves)
 
-    return new Response(JSON.stringify(
-        formatMovesetToVersionEntries(pokemon.moves)
-    ), {
+	const response = selectedGame ? moves[selectedGame.pokeapi] : moves;
+	return new Response(JSON.stringify(response), {
 		headers: {
             'Content-Type': 'application/json',
             'Cache-Control': 'public, max-age=86400',
         },
-	}); 
-}
+	});
+};
