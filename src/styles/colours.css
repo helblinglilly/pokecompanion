@@ -1,48 +1,47 @@
 :root {
     --red-accent-light: #F54848;
+    --red-accent-dark: #CE3939;
+
     --red-accent-muted-light: #d74141;
+    --red-accent-muted-dark: #9b3434 ;
+
+    --red-accent-muted-darker-light: #902a2a;
+    --red-accent-darker-dark: #652525;
     
     --grey-primary-light: #ece9e9;
+    --grey-primary-dark: #888888;
+
     --grey-muted-light: #bdbdbd; 
+    --grey-muted-dark: #aaa9a9; 
     
     --text-light: #333333;
+    --text-dark: #E7E2E2;
+
     --text-inverse-light: #edebeb;
+    --text-inverse-dark: #000000;
 
     --site-background-light: rgb(225, 221, 221);
+    --site-background-dark: rgb(43, 43, 43);
 
     --card-background-light: rgb(232, 232, 232);
+    --card-background-dark: rgb(26, 26, 26);
     --card-hover-light: #b7b7b7;
+    --card-hover-dark: #534f4f;
+
 
     --select-background-light: rgb(218, 218, 218);
+    --select-background-dark: rgb(49, 49, 49);
 
     --navbar-background: #3d3938;
 
     --error-light: rgb(241, 54, 54);
-}
-
-.dark-theme {
-    --red-accent: #CE3939;
-    --red-accent-muted: #9b3434;
-
-    --grey-primary: #888888;
-    --grey-muted: #aaa9a9; 
-
-    --text: #E7E2E2;
-    --text-inverse: #000000;
-
-    --site-background: rgb(43, 43, 43);
-
-    --card-background: rgb(26, 26, 26);
-    --card-hover: #534f4f;
-
-    --select-background: rgb(49, 49, 49);
-
-    --error: rgb(198, 26, 26);
+    --error-dark: rgb(198, 26, 26);
 }
 
 :root {
     --red-accent: var(--red-accent-light);
     --red-accent-muted: var(--red-accent-muted-light);
+    --red-accent-darker: var(--red-accent-muted-darker-light);
 
     --grey-primary: var(--grey-primary-light);
     --grey-muted: var(--grey-muted-light);
@@ -59,3 +58,30 @@
     --error: var(--error-light);
 }
 
+
+.dark-theme {
+    --red-accent: var(--red-accent-dark);
+
+    --red-accent-muted: var(--red-accent-muted-dark);
+    
+    --red-accent-darker: var(--red-accent-darker-dark);
+
+    --grey-primary: var(--grey-primary-dark);
+    
+    --grey-muted: var(--grey-muted-dark);
+
+    --text: var(--text-dark);
+    
+    --text-inverse: var(--text-inverse-dark);
+
+    --site-background: var(--site-background-dark);
+    
+
+    --card-background: var(--card-background-dark);
+    
+    --card-hover: var(--card-hover-dark);
+
+    --select-background: var(--select-background-dark);
+
+    --error: var(--error-dark);
+}

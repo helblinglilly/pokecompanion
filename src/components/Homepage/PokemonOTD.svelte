@@ -9,7 +9,7 @@
 	 *
 	 */
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import Image from '$/components/UI/Image.svelte';
+	import Image from '$/ui/atoms/image/Image.svelte';
 	import {
 		animateSprites,
 		primaryLanguage,

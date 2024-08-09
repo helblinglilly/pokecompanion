@@ -175,7 +175,7 @@ export const cookieHandlers = {
 	},
 	animateSprites: () => {
 		let existingValue = getCookie('animateSprites') as string | undefined;
-		if (existingValue === undefined || null) {
+		if (existingValue === undefined) {
 			existingValue = 'true';
 			setCookie('animateSprites', existingValue);
 		}

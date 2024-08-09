@@ -19,7 +19,7 @@ const isStringToxic = async (term: string) => {
 		requestedAttributes: { TOXICITY: {} }
 	};
 
-	let toxicityScore = 1;
+	let toxicityScore = -1;
 
 	try {
 		const response = await fetch(`${endpoint}?key=${PERSPECTIVES_API_KEY}`, {

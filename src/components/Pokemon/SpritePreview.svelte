@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Modal from '$/components/UI/Modal.svelte';
 	import { onMount } from 'svelte';
-	import Image from '$/components/UI/Image.svelte';
+	import Image from '$/ui/atoms/image/Image.svelte';
 
 	interface ISpriteImage {
 		url: string;

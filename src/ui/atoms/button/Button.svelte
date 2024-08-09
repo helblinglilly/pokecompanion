@@ -32,6 +32,9 @@
 		border: none;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 		word-wrap: break-word;
+		align-items: center;
+		display: flex;
+		justify-content: center;
 	}
 
 	.button:hover {
@@ -52,7 +55,7 @@
 	}
 
 	.button.accent:disabled {
-		background-color: var(--red-accent-muted);
+		background-color: var(--red-accent-darker);
 	}
 
 	.button.primary {
@@ -86,6 +89,7 @@
 		box-shadow: none;
 		border: 1px solid var(--text);
 		color: var(--text);
+		margin: -1px;
 	}
 
 	.button.secondary:hover {

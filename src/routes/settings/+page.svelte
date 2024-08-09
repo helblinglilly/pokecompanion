@@ -64,11 +64,12 @@
 	<h1 class="h1" style="margin-bottom: 20px;">Settings</h1>
 
 	<div class="columns">
-		<div class="column">
+		<div class="column mb-4 md:mr-4">
 			<Card classes="h-full pl-8 pr-8">
 				<label for="gameSelector"><h3 class="h3">Selected Game</h3></label>
 
 				<Select
+					isNested
 					options={[{ label: 'Generic', value: 'generic' }].concat(
 						GameGroups.map((gameGroup) => ({
 							label: gameGroup.shortName,
@@ -95,7 +96,7 @@
 			</Card>
 		</div>
 
-		<div class="column">
+		<div class="column mb-4 md:ml-4">
 			<Card classes="h-full pl-8 pr-8">
 				<label for="animateSprites"> <h3 class="h3 mb-4">Sprites</h3></label>
 
@@ -160,14 +161,15 @@
 		</div>
 	</div>
 
-	<h2 class="h2">Language</h2>
+	<h2 class="h2 pb-4">Language</h2>
 	<p />
 	<div class="columns">
-		<div class="column">
+		<div class="column pb-4 md:mr-4">
 			<Card classes="h-full pl-8 pr-8">
 				<label for="primaryLanguageSelector"><h3 class="h3">Primary Language</h3></label>
 
 				<Select
+					isNested
 					options={languages.map((lang) => ({
 						label: lang.flag + ' ' + lang.name,
 						value: lang.code,
@@ -179,10 +181,11 @@
 			</Card>
 		</div>
 
-		<div class="column">
+		<div class="column pb-4 md:ml-4">
 			<Card classes="h-full pl-8 pr-8">
 				<label for="secondaryLanguageSelector"><h3 class="h3">Secondary Language</h3></label>
 				<Select
+					isNested
 					options={[{ label: '🏳️ None', value: 'none' }].concat(
 						languages.map((lang) => ({
 							label: lang.flag + ' ' + lang.name,

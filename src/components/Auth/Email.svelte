@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Button from '$/ui/atoms/button/Button.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import { goto } from '$app/navigation';
 	import { Logger } from '$lib/log';
@@ -65,7 +64,11 @@
 
 			isSubmitting = false;
 
-			if (response.status !== 200) {
+			console.log('status is', response.status);
+			if (mode === 'login' && response.status === 400) {
+				addNotification({ message: 'Invalid credentials', level: 'failure' });
+				return;
+			} else if (response.status !== 200) {
 				throw response.status;
 			}
 
@@ -97,9 +100,9 @@
 
 			addNotification({ message: 'Oh oh, that was our fault. Please try again', level: 'failure' });
 
-			await Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(err), {
-				context: passwordError ? 'Login failed' : 'Sign up failed'
-			});
+			// await Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(err), {
+			// 	context: passwordError ? 'Login failed' : 'Sign up failed'
+			// });
 		}
 	};
 </script>
@@ -156,8 +159,9 @@
 
 			<div class="columns mobile">
 				<div class="column" style="width: 100%; padding-left: 0;">
-					<Button
-						classes="w-full"
+					<button
+						class="button secondary"
+						style="width: 100%"
 						on:click={(e) => {
 							if (mode === 'signup') {
 								e.preventDefault();
@@ -166,26 +170,24 @@
 						}}
 					>
 						{`${mode === 'login' && isSubmitting ? 'Loading...' : 'Log in'}`}
-					</Button>
+					</button>
 				</div>
 				<div class="column" style="width: 100%; padding-right: 0;">
-					<Button
-						classes="w-full"
-						variant="accent"
+					<button
+						class="button secondary"
+						style="width: 100%"
 						on:click={(e) => {
 							if (mode === 'login') {
 								e.preventDefault();
 								mode = 'signup';
 							}
-						}}
+						}}>{`${mode === 'signup' && isSubmitting ? 'Loading...' : 'Sign up'}`}</button
 					>
-						{`${mode === 'signup' && isSubmitting ? 'Loading...' : 'Sign up'}`}
-					</Button>
 				</div>
+				<a href="/auth/reset-password" class="text-textColour">I forgot my password</a>
 			</div>
-			<a href="/auth/reset-password" class="text-textColour">I forgot my password</a>
-		</div>
-	</Card>
+		</div></Card
+	>
 </form>
 
 <style>

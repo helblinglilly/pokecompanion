@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PokemonCardEntry from '$/components/Tags/PokemonCardEntry.svelte';
+	import PokemonCardEntry from '$/ui/molecules/pokemon/card';
 	import { getPokemonEntry } from '$/lib/data/games';
 	import { primaryLanguage, secondaryLanguage } from '$/lib/stores/domain';
 	import type { TagRecord } from '$/lib/types/ITags';
@@ -10,7 +10,8 @@
 	import { type Writable } from 'svelte/store';
 	import { getSortFunction, patchTag } from './helper';
 	import { isEqual } from 'lodash-es';
-	import PokemonListEntry from '$/components/Tags/PokemonListEntry.svelte';
+	import PokemonListEntry from '$/ui/molecules/pokemon/list';
+	import PokemonLink from '$/ui/molecules/pokemon/link/PokemonLink.svelte';
 	export let filterTerm: string;
 
 	export let inModifyView: boolean;
@@ -46,65 +47,87 @@
 {:else if $page.url.searchParams.get('view') === 'card'}
 	<h2 class="h2">Pokémon</h2>
 	<div
-		class="grid gap-y-8 justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl-grid-cols-6"
+		class="grid gap-8 justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl-grid-cols-6"
 	>
 		{#each pokemonCollection as pokemon}
-			<PokemonCardEntry
-				{pokemon}
-				showRemoveButton={inModifyView}
-				showGenderAndShiny={$tag.showGenderAndShiny}
-				onRemoveClick={() => {
-					const optimisticTag = {
-						...$tag,
-						contents: {
-							...$tag.contents,
-							pokemon: $tag.contents.pokemon?.filter((tagMon) => !isEqual(tagMon, pokemon))
-						}
-					};
-					const originalTag = { ...$tag };
+			<PokemonLink {pokemon}>
+				<PokemonCardEntry {pokemon} showGenderAndShiny={$tag.showGenderAndShiny}>
+					<button
+						slot="remove"
+						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
+						on:click={() => {
+							const optimisticTag = {
+								...$tag,
+								contents: {
+									...$tag.contents,
+									pokemon: $tag.contents.pokemon?.filter((tagMon) => !isEqual(tagMon, pokemon))
+								}
+							};
+							const originalTag = { ...$tag };
 
-					tag.set(optimisticTag);
+							tag.set(optimisticTag);
 
-					patchTag(optimisticTag).then((newTag) => {
-						if (newTag) {
-							tag.set(newTag);
-						} else {
-							tag.set(originalTag);
-						}
-					});
-				}}
-			/>
+							patchTag(optimisticTag).then((newTag) => {
+								if (newTag) {
+									tag.set(newTag);
+								} else {
+									tag.set(originalTag);
+								}
+							});
+						}}>-</button
+					>
+				</PokemonCardEntry>
+			</PokemonLink>
 		{/each}
 	</div>
 {:else}
 	<h2 class="h2">Pokémon</h2>
 	<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 		{#each pokemonCollection as pokemon}
-			<PokemonListEntry
-				{pokemon}
-				showRemoveButton={inModifyView}
-				showGenderAndShiny={$tag.showGenderAndShiny}
-				onRemoveClick={() => {
-					const optimisticTag = {
-						...$tag,
-						contents: {
-							...$tag.contents,
-							pokemon: $tag.contents.pokemon?.filter((tagMon) => !isEqual(tagMon, pokemon))
-						}
-					};
-					const originalTag = { ...$tag };
+			<PokemonLink {pokemon}>
+				<PokemonListEntry {pokemon} showGenderAndShiny={$tag.showGenderAndShiny}>
+					<button
+						slot="remove"
+						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
+						on:click={() => {
+							const optimisticTag = {
+								...$tag,
+								contents: {
+									...$tag.contents,
+									pokemon: $tag.contents.pokemon?.filter((tagMon) => !isEqual(tagMon, pokemon))
+								}
+							};
+							const originalTag = { ...$tag };
 
-					tag.set(optimisticTag);
+							tag.set(optimisticTag);
 
-					patchTag(optimisticTag).then((newTag) => {
-						if (newTag) {
-							tag.set(newTag);
-						} else {
-							tag.set(originalTag);
-						}
-					});
-				}}
-			/>
+							patchTag(optimisticTag).then((newTag) => {
+								if (newTag) {
+									tag.set(newTag);
+								} else {
+									tag.set(originalTag);
+								}
+							});
+						}}>-</button
+					>
+				</PokemonListEntry>
+			</PokemonLink>
 		{/each}
 	</div>
 {/if}
+
+<style>
+	.removeButton {
+		position: absolute;
+		top: 0;
+		right: 0;
+		text-align: center;
+		height: 2rem;
+		width: 2rem;
+		border-radius: 10%;
+		font-weight: bold;
+		color: var(--light);
+		background-color: var(--error);
+		z-index: 5;
+	}
+</style>

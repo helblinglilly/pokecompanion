@@ -4,7 +4,7 @@
 	import { Logger } from '$lib/log';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
 	import { capitaliseFirstLetter } from '$lib/utils/string';
-	import Image from './UI/Image.svelte';
+	import Image from '../ui/atoms/image/Image.svelte';
 
 	export let title: string;
 	export let currentId: number;

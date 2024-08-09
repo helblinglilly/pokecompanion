@@ -5,7 +5,7 @@
 	import { getContext, setContext } from 'svelte';
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import { getSortFunction } from './helper.js';
-	import TagHeader from './TagHeader.svelte';
+	import Header from '$/ui/molecules/Collections/Header/Header.svelte';
 	import TagEditor from './TagEditor.svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import type { IPublicUser } from '$/lib/pb/publicUsers.js';
@@ -56,10 +56,10 @@
 	]}
 />
 
-<div class="grid gap-4 pb-4">
-	<TagHeader tag={$currentTag} bind:inModifyView />
+<div class="grid gap-4 pb-4 text-center md:text-left">
+	<Header entry={$currentTag} bind:inModifyView />
 
-	<div class="w-full md:w-fit grid md:inline-flex gap-2 items-center">
+	<div class="w-full justify-center md:w-fit grid md:inline-flex gap-2 items-center">
 		{#if $currentUser?.username === $tagOwner.username && inModifyView}
 			<TagEditor />
 		{:else if !inModifyView}

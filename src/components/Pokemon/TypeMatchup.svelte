@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ITypeRelations } from '$lib/data/generationAdjuster';
-	import Type from '../Type.svelte';
+	import Type from '../../ui/atoms/type/Type.svelte';
 	export let relations: ITypeRelations;
 </script>
 

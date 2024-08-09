@@ -6,6 +6,7 @@ enum ErrorClasses {
 	RuntimeError = 'Runtime error',
 	SearchResults = 'SearchResultsError',
 	TagOperation = 'TagOperationError',
+	TeamOperation = 'TeamOperationError',
 	UserOperation = 'UserOperationError',
 	Unknown = 'Unknown'
 }

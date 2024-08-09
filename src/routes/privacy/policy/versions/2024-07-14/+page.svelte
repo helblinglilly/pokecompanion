@@ -140,7 +140,7 @@
 		</p>
 	</section>
 
-	<section id="dataRights">
+	<section>
 		<h2 class="h2">How can I exercise my rights?</h2>
 
 		<p>

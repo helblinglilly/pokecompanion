@@ -3,10 +3,10 @@
 </script>
 
 <div>
-	<div style="padding: 10px;">
-		<h2 class="h3">What makes Pokécompanion different?</h2>
+	<div>
+		<h2 class="h3 my-4">What makes Pokécompanion different?</h2>
 	</div>
-	<div class="columns gap-4">
+	<div class="columns gap-8 pb-4">
 		<div class="column">
 			<Card classes="h-full px-8">
 				<h2 class="h3">View your favourite Pokémon</h2>

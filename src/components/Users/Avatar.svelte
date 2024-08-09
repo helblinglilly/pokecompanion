@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Image from '$/components/UI/Image.svelte';
+	import Image from '$/ui/atoms/image/Image.svelte';
 	import type { IPublicUser } from '$lib/pb/publicUsers';
 
 	export let user: IPublicUser;
@@ -11,7 +11,7 @@
 
 <style>
 	.avatarBackground {
-		background-color: var(--light_link_hover);
+		background-color: var(--site-background-dark);
 		display: inline-block;
 		border-radius: 2rem;
 		margin-right: 1rem;

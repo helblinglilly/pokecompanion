@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SocialPreview from '$/components/SocialPreview.svelte';
-	import CreateNewTag from '$/components/Tags/CreateNewTag.svelte';
+	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag/CreateNewTag.svelte';
 	import SelectedTags from '$/components/Tags/SelectedTags.svelte';
 	import EditTag from '$/components/Tags/EditTag.svelte';
 	import PokemonGroup from '$/components/UI/PokemonGroup.svelte';
@@ -10,7 +10,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import type { IMove } from '$lib/types/IMoves.js';
 	import { getNameEntries, joinNameEntries } from '$lib/utils/language';
-	import Type from '$/components/Type.svelte';
+	import Type from '$/ui/atoms/type/Type.svelte';
 
 	export let data;
 	let filterTerm = '';

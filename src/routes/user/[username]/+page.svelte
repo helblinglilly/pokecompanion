@@ -6,12 +6,12 @@
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$/components/UI/Icon.svelte';
 	import EmailVerification from '$/components/Auth/EmailVerification.svelte';
-	import { pb } from '$lib/stores/domain';
-	import { addNotification } from '$lib/stores/notifications';
-	import CreateNewTag from '$/components/Tags/CreateNewTag.svelte';
+	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag/CreateNewTag.svelte';
+	import CreateNewTeam from '$/ui/molecules/Collections/Teams/CreateNewTeam/CreateNewTeam.svelte';
 	import { tagStore } from '$lib/stores/tags';
 	import SocialPreview from '$/components/SocialPreview.svelte';
-	import { Logger } from '$lib/log';
+	import Card from '$/ui/atoms/card/Card.svelte';
+	import ResetPassword from './ResetPassword.svelte';
 
 	export let data;
 </script>
@@ -23,149 +23,142 @@
 	}`}
 />
 
-<div id="userWrapper">
-	<div class="card">
-		<div class="columns">
-			<div class="column" id="sidebar">
-				<div style="display: grid; justify-content: center; height: fit-content;">
-					<div style="display: flex; justify-content: center;">
+<div class="grid gap-8">
+	<div class="columns gap-8">
+		<div class="column md:max-w-[20rem]">
+			<Card>
+				<div class="grid justify-center h-fit mb-4">
+					<div class="flex justify-center">
 						<Avatar user={data.user} />
 					</div>
-					<div style="margin-top: 1rem;">
+					<div class="mt-4">
 						{#if $currentUser && $currentUser.username === data.user.username}
-							<ChangeUsername />
+							<ChangeUsername existingUsername={data.user.username} />
 						{:else}
-							<h4 class="h4" style="text-align: center;">{data.user.username}</h4>
-							<div style="display: inline-flex; justify-content: space-around; width: 100%;">
+							<Card isNested classes="w-full inline-flex gap-4 justify-center">
+								<h4 class="h4 text-center">{data.user.username}</h4>
+							</Card>
+							<div class="inline-flex justify-around w-full mt-4">
 								<ReportUser username={data.user.username} style="padding: 5px;" />
-								<!-- <button class="button secondary" style="padding: 5px;">Block</button> -->
 							</div>
 						{/if}
 					</div>
 				</div>
-			</div>
 
-			<div class="column">
-				<div
-					style="display: inline-flex; gap: 2rem; justify-content: space-between; width: 100%; text-align: center;"
-				>
-					<h2 class="h2" style="padding-bottom: 0;">Tag lists</h2>
-					{#if $currentUser}
-						<CreateNewTag
-							userId={$currentUser.id}
-							initialContent={{}}
-							onSuccess={() => {
-								// @ts-ignore Just missing creation/updated timestamps
-								data.tags = $tagStore;
-							}}
-						/>
+				<div class="hidden md:grid gap-4 justify-center mb-4">
+					{#if $currentUser && $currentUser.username === data.user.username}
+						<div>
+							<h3 class="h3">Email verification</h3>
+							<EmailVerification />
+						</div>
+
+						<div class="grid gap-4">
+							<h2 class="h2">Danger Zone</h2>
+							<ResetPassword />
+
+							<DeleteUser user={$currentUser} />
+						</div>
 					{/if}
 				</div>
-				<div id="taglist">
-					{#each data.tags as tag}
-						<a href={`/user/${data.user.username}/tags/${tag.id}`}>
-							<section
-								style="background-color: var(--secondary); padding: 1rem; border-radius: 0.5rem;"
-							>
-								<div style="display: inline-flex; width: 100%; justify-content: space-between;">
-									<div style="display: inline-flex;">
-										{#if tag.isPrivate}
-											<Icon
-												style="margin-top: auto; margin-bottom: auto; padding-left: 0.25rem; padding-right: 0.25rem;"
-												name="lock"
-											/>
-										{/if}
-										<h4 class="h4">{tag.name}</h4>
-									</div>
-									<p style="padding-left: 1rem; min-width: fit-content;">
-										<i
-											>({Object.keys(tag.contents).reduce((accumulator, current) => {
-												// @ts-ignore can't tell compiler that current is a key of
-												return accumulator + tag.contents[current].length;
-											}, 0)} entries)</i
-										>
-									</p>
-								</div>
-							</section>
-						</a>
-					{/each}
+			</Card>
+		</div>
+
+		<div class="column">
+			<div class="columns gap-8">
+				<div class="column">
+					<Card>
+						<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
+							<h2 class="h2 content-center">{data.user.username}'s teams</h2>
+							{#if $currentUser}
+								<CreateNewTeam />
+							{/if}
+						</div>
+
+						<div class="grid gap-4 pt-2 m-4">
+							{#each data.teams as team}
+								<a href={`/user/${data.user.username}/teams/${team.id}`}>
+									<Card isNested classes="inline-flex w-full">
+										<div class="inline-flex">
+											{#if team.isPrivate}
+												<Icon
+													style="margin-top: auto; margin-bottom: auto; padding-left: 0.25rem; padding-right: 0.25rem;"
+													name="lock"
+												/>
+											{/if}
+
+											<h4 class="h4">{team.name}</h4>
+										</div>
+									</Card>
+								</a>
+							{/each}
+						</div>
+					</Card>
+				</div>
+
+				<div class="column">
+					<Card>
+						<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
+							<h2 class="h2 content-center">{data.user.username}'s tags</h2>
+							{#if $currentUser}
+								<CreateNewTag
+									userId={$currentUser.id}
+									initialContent={{}}
+									onSuccess={() => {
+										// @ts-ignore Just missing creation/updated timestamps
+										data.tags = $tagStore;
+									}}
+								/>
+							{/if}
+						</div>
+						<div class="grid gap-4 pt-2 m-4">
+							{#each data.tags as tag}
+								<a href={`/user/${data.user.username}/tags/${tag.id}`}>
+									<Card isNested classes="inline-flex w-full justify-between">
+										<div class="inline-flex">
+											{#if tag.isPrivate}
+												<Icon
+													style="margin-top: auto; margin-bottom: auto; padding-left: 0.25rem; padding-right: 0.25rem;"
+													name="lock"
+												/>
+											{/if}
+											<h4 class="h4">{tag.name}</h4>
+										</div>
+										<p style="padding-left: 1rem; min-width: fit-content;">
+											<i
+												>({Object.keys(tag.contents).reduce((accumulator, current) => {
+													// @ts-ignore can't tell compiler that current is a key of
+													return accumulator + tag.contents[current].length;
+												}, 0)} entries)</i
+											>
+										</p>
+									</Card>
+								</a>
+							{/each}
+						</div>
+					</Card>
 				</div>
 			</div>
 		</div>
 	</div>
-	{#if $currentUser && $currentUser.username === data.user.username}
-		<div class="card" style="justify-content: center;">
-			<div class="columns">
-				<div class="column">
-					<div style="padding-top: 1rem; padding-bottom: 1rem;">
-						<h3 class="h3">Reset password</h3>
-						<button
-							class="button secondary"
-							on:click={async () => {
-								if (!$currentUser) {
-									return;
-								}
-								try {
-									await $pb.collection('users').requestPasswordReset($currentUser.email);
-									addNotification({
-										message: 'You have requested a password reset',
-										level: 'info'
-									});
-								} catch (err) {
-									addNotification({
-										message: 'Failed to request password reset. Please try again',
-										level: 'failure'
-									});
-									await Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(err), {
-										context: 'Failed to request password reset'
-									});
-								}
-							}}>Request reset</button
-						>
-					</div>
 
-					<hr />
-
-					<div style="padding-top: 1rem; padding-bottom: 1rem;">
+	<div class="columns md:hidden">
+		<div class="column last:mb-4">
+			{#if $currentUser && $currentUser.username === data.user.username}
+				<Card classes="grid gap-4">
+					<div>
 						<h3 class="h3">Email verification</h3>
 						<EmailVerification />
 					</div>
 
-					<hr />
-
-					<div style="padding-top: 1.5rem;">
+					<div class="grid gap-4">
 						<h2 class="h2">Danger Zone</h2>
+
+						<ResetPassword />
+
 						<DeleteUser user={$currentUser} />
 					</div>
-				</div>
-			</div>
+				</Card>
+			{/if}
 		</div>
-	{/if}
+	</div>
 </div>
-
-<style>
-	#sidebar {
-		display: grid;
-		justify-content: center;
-	}
-
-	#taglist {
-		display: grid;
-		gap: 1rem;
-		padding-top: 0.5rem;
-	}
-
-	#userWrapper > :not(:first-child) {
-		margin-top: 2rem;
-	}
-
-	@media screen and (min-width: 768px) {
-		#sidebar {
-			max-width: 35%;
-		}
-
-		#taglist {
-			max-width: 600px;
-		}
-	}
-</style>

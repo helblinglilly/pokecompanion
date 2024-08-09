@@ -2,7 +2,7 @@ import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { toSvg } from 'jdenticon';
 import { isUsernameValid } from '$lib/server/user';
-import { addMinutesToDate } from '$lib/utils/date';
+import { addDaysToDate, addMinutesToDate } from '$lib/utils/date';
 import { parseCookieString } from '$lib/utils/cookies';
 import { Logger } from '$lib/log';
 
@@ -65,7 +65,14 @@ export const actions: Actions = {
 		};
 
 		try {
-			await locals.pb.collection('users').authWithPassword(data.email, data.password);
+			await locals.pb.collection('users').authWithPassword(data.email, data.password).catch((err) => {
+				console.log (err);
+				if (err.status === 400){
+					return {
+						status: 400
+					}
+				}
+			});
 			platform?.context.waitUntil(
 				Logger.addPageAction('User', 'SignInEmail', {
 					user: cookies.get('remember-token'),
@@ -79,7 +86,7 @@ export const actions: Actions = {
 				which  means we have to provide each attribute on its own.
 			*/
 			const cookie = locals.pb.authStore.exportToCookie({
-				expires: addMinutesToDate(new Date(), 30)
+				expires: addDaysToDate(new Date(), 7)
 			});
 			const cookieValues = parseCookieString(cookie);
 			const pbAuthObj = JSON.parse(cookieValues.pb_auth);

@@ -1,5 +1,12 @@
 import type { PokeapiVersionGroups, PokeapiVersionNames } from "$lib/data/games";
 
+export interface IRecordPokemon {
+	id: number;
+	gender?: 'female' | 'male' | undefined;
+	shiny: true | false | undefined;
+	variety?: string;
+}
+
 export interface IPokemon {
 	abilities: Ability[];
 	base_experience: number;

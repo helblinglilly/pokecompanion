@@ -13,7 +13,7 @@
 	import { getMove, type IMove } from '$lib/types/IMoves';
 	import { getNameEntry } from '$lib/utils/language';
 	import { onMount } from 'svelte';
-	import Type from '../Type.svelte';
+	import Type from '../../ui/atoms/type/Type.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 
 	export let id: number;

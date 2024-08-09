@@ -1,13 +1,15 @@
 <script lang="ts">
 	import InlineTextButton from '$/components/InlineTextButton.svelte';
-	import Modal from '$/components/UI/Modal.svelte';
+	import Modal from '$/ui/molecules/Modal/Modal.svelte';
+	import Button from '$/ui/atoms/button/Button.svelte';
 	import { Logger } from '$lib/log';
 	import { createTag } from '$lib/stores/tags';
-	import type { ITagMove, ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
+	import type { ITagMove, ITagPokemon } from '$lib/types/ITags';
+	import type { IRecordPokemon } from '$/lib/types/IPokemon';
 
 	export let userId: string;
 	export let initialContent: {
-		pokemon?: ITagPokemonNew[];
+		pokemon?: IRecordPokemon[];
 		move?: ITagMove[];
 	};
 	export let onSuccess = ({
@@ -33,14 +35,15 @@
 	let isPrivate: boolean;
 </script>
 
-<button
-	class="tag text-textColour"
+<Button
+	classes="h-2 text-sm min-h-[4rem] md:min-h-fit"
+	variant="accent"
 	on:click={() => {
 		showAddNewOverlay = true;
 	}}
 >
 	New Tag
-</button>
+</Button>
 
 <Modal bind:showModal={showAddNewOverlay}>
 	<h2 class="h2" slot="header">Create new tag</h2>
@@ -109,17 +112,5 @@
 		width: 100%;
 		padding-top: 1rem;
 		justify-content: center;
-	}
-
-	.tag {
-		display: inline-flex;
-		gap: 0.25rem;
-		font-size: smaller;
-		background-color: var(--secondary);
-		padding: 0.5rem;
-		width: max-content;
-		border-radius: 3rem;
-		margin: 0.25rem;
-		text-decoration: none;
 	}
 </style>
