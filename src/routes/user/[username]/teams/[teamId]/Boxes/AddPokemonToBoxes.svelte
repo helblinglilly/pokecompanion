@@ -17,6 +17,7 @@
 	import PickMoves from './PickMoves.svelte';
 	import { getMultiLanguageName } from '$/lib/utils/language';
 	import { primaryLanguage, secondaryLanguage } from '$/lib/stores/domain';
+	import Summary from './Summary.svelte';
 
 	export let teamId: string;
 	export let game: PokeapiVersionNames;
@@ -49,11 +50,11 @@
 			disabled: true,
 			active: false
 		},
-		{
-			label: 'Extras',
-			disabled: true,
-			active: false
-		},
+		// {
+		// 	label: 'Extras',
+		// 	disabled: true,
+		// 	active: false
+		// },
 		{
 			label: 'Summary',
 			disabled: true,
@@ -101,7 +102,6 @@
 		<div class="w-full py-4">
 			<Progress
 				on:progressOption={({ detail }) => {
-					console.log(detail);
 					steps.set(
 						$steps.map((step, i) => ({
 							...step,
@@ -123,6 +123,18 @@
 						on:click={() => {
 							showOverlay = false;
 						}}>Close</Button
+					>
+				{:else}
+					<Button
+						variant="secondary"
+						on:click={() => {
+							steps.set(
+								$steps.map((step, i) => ({
+									...step,
+									active: $activeStep - 1 === i
+								}))
+							);
+						}}>Back</Button
 					>
 				{/if}
 			</div>
@@ -150,8 +162,15 @@
 				{:else}
 					<Button
 						variant="accent"
-						on:click={() => {
-							console.log('submitting');
+						on:click={async () => {
+							const res = await fetch(`/api/teams/${teamId}/pokemon`, {
+								method: 'POST',
+								body: JSON.stringify({
+									pokemon: {
+										...$pokemon
+									}
+								})
+							});
 						}}>Add Pokémon</Button
 					>
 				{/if}
@@ -164,10 +183,10 @@
 			<SelectPokemon {pokemon} game={gameGroup} />
 		{:else if $activeStep === 1}
 			<PickMoves {pokemon} game={gameGroup} />
-		{:else if $activeStep === 2}
-			<p>Extras</p>
+			<!-- {:else if $activeStep === 2}
+			<p>Extras</p> -->
 		{:else}
-			<p>Summary</p>
+			<Summary {pokemon} game={gameGroup} />
 		{/if}
 	</div>
 </Modal>

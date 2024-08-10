@@ -5,7 +5,7 @@ import type { Cookies } from '@sveltejs/kit';
 import Pocketbase from 'pocketbase';
 import type { IUserPreferences } from './types';
 import { Logger } from '$lib/log';
-import { getGameGroupFromName, PokeapiVersionNames } from '$lib/data/games';
+import { getGameGroupFromName } from '$lib/data/games';
 import type { UserPreferencePokemonVersion } from '$lib/stores/domain';
 
 export const getSearchParam = (url: string, name: string) => {

@@ -12,7 +12,8 @@
 	import TeamEditor from './TeamEditor.svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import type { ITeam } from '$/lib/types/ITeams';
-	import Sprite from '$/ui/atoms/pokemon/party/sprite/Sprite.svelte';
+	import PartySprite from '$/ui/atoms/pokemon/party/sprite/Sprite.svelte';
+	import Sprite from '$/ui/atoms/pokemon/sprite/Sprite.svelte';
 
 	export let data;
 
@@ -97,7 +98,7 @@
 		style="background-color: var(--red-accent); padding-top: 2rem; padding-bottom: 2rem;"
 	>
 		{#each $team.party.sort((a, b) => (a.position < b.position ? 1 : -1)) as pokemon}
-			<Sprite
+			<PartySprite
 				id={pokemon.national_dex}
 				link={`/pokemon/${pokemon.national_dex}`}
 				inEditMode={inModifyView}
@@ -118,8 +119,19 @@
 		{#if $team.bench.length === 0}
 			<p>You have no Pokemon in your boxes</p>
 		{/if}
-		{#each $team.bench as pokemon}
-			<p>{pokemon.nickname} {pokemon.national_dex}</p>
-		{/each}
+
+		<div class="flex gap-8">
+			{#each $team.bench as pokemon}
+				<button
+					class="h-20 w-20 rounded-full"
+					style="background-color: var(--card-background-light);"
+					on:click={() => {
+						console.log('open modal with more details');
+					}}
+				>
+					<Sprite {...pokemon} id={pokemon.national_dex} style="padding: 1rem;" />
+				</button>
+			{/each}
+		</div>
 	</Card>
 </div>

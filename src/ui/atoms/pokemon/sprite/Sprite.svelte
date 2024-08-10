@@ -40,9 +40,9 @@
 			src={spriteURL}
 			alt={`sprite`}
 			loading="lazy"
-			height="96px"
-			width="auto"
-			style="height: inherit;"
+			height="auto"
+			width="96px"
+			style="width: inherit;"
 		/>
 	{:catch}
 		<p>Something went wrong</p>
