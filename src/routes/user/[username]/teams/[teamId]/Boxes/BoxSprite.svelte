@@ -4,40 +4,23 @@
 
 	export let id: number;
 	export let variety: string | undefined = undefined;
-	export let inEditMode: boolean = false;
+	export let inModifyView: boolean = false;
 	export let onViewClick: () => void;
 	export let onEditClick: (initiator: string) => void;
 	export let game: IGameGroups | undefined;
 </script>
 
-{#if id === -1}
-	<button
-		class={`partySprite empty${inEditMode ? ' editMode' : ''}`}
-		on:click={() => {
-			if (inEditMode) {
-				onEditClick('add');
-			}
-		}}
-	>
-		{#if inEditMode}
-			<div>
-				<p>Add</p>
-			</div>
-		{:else}
-			<div />
-		{/if}
-	</button>
-{:else if inEditMode}
+{#if inModifyView}
 	<div style="height: 5rem;">
 		<button
 			class="partySprite swap editMode"
 			on:click={() => {
-				if (inEditMode) {
+				if (inModifyView) {
 					onEditClick('swap');
 				}
 			}}
 		>
-			<p>Swap</p>
+			<p>Edit</p>
 
 			<Sprite
 				{id}
@@ -73,7 +56,6 @@
 		width: 5rem;
 		border-radius: 100%;
 		display: grid;
-		/* align-content: center; */
 	}
 
 	.partySprite.swap.editMode > p {

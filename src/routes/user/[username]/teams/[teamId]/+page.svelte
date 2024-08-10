@@ -1,26 +1,39 @@
 <script lang="ts">
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import Breadcrumbs from '$/components/UI/Breadcrumbs.svelte';
-	import { getGameFromName } from '$/lib/data/games';
+	import {
+		getGameFromName,
+		getGameGroupFromGame,
+		getPokemonEntry,
+		type IGame
+	} from '$/lib/data/games';
 	import { addNotification } from '$/lib/stores/notifications.js';
 	import { currentUser } from '$/lib/stores/user';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Header from '$/ui/molecules/Collections/Header/Header.svelte';
 	import { getContext, setContext } from 'svelte';
-	import AddPokemonToBoxes from './Boxes/AddPokemonToBoxes.svelte';
+	import PokemonEditor from './PokemonEditor.svelte';
 	import TeamEditor from './TeamEditor.svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import type { ITeam } from '$/lib/types/ITeams';
 	import PartySprite from '$/ui/atoms/pokemon/party/sprite/Sprite.svelte';
-	import Sprite from '$/ui/atoms/pokemon/sprite/Sprite.svelte';
+	import { primaryLanguage } from '$/lib/stores/domain';
+	import { getLanguageEntry } from '$/lib/utils/language';
+	import BoxPokemon from './Boxes/BoxPokemon.svelte';
 
 	export let data;
 
 	let inModifyView = false;
 
+	let isNewPokemonOverlayOpen = writable(false);
+
 	setContext('teamView', writable(data.team));
 	const team = getContext('teamView') as Writable<ITeam>;
+
+	const gameGroup = getGameGroupFromGame(
+		getGameFromName(data.team.game) as unknown as IGame | undefined
+	);
 </script>
 
 <SocialPreview
@@ -100,10 +113,13 @@
 		{#each $team.party.sort((a, b) => (a.position < b.position ? 1 : -1)) as pokemon}
 			<PartySprite
 				id={pokemon.national_dex}
-				link={`/pokemon/${pokemon.national_dex}`}
 				inEditMode={inModifyView}
-				onEditClick={(initiator) => {
-					console.log(initiator);
+				game={gameGroup}
+				onViewClick={() => {
+					console.log('read only more pokemon info');
+				}}
+				onEditClick={() => {
+					console.log('edit pokemon');
 				}}
 			/>
 		{/each}
@@ -111,27 +127,72 @@
 
 	<h2 class="h2">In boxes</h2>
 
-	<Card classes="mb-4">
+	<Card classes="mb-4 max-h-fit" isActive>
 		<div class="mb-4">
-			<AddPokemonToBoxes teamId={$team.id} game={data.team.game} />
+			<Button
+				classes="h-2 text-sm min-h-[4rem] md:min-h-fit"
+				variant="accent"
+				on:click={() => {
+					isNewPokemonOverlayOpen.set(true);
+				}}
+			>
+				Add Pokémon
+			</Button>
 		</div>
 
 		{#if $team.bench.length === 0}
 			<p>You have no Pokemon in your boxes</p>
 		{/if}
 
-		<div class="flex gap-8">
+		<div class="flex flex-wrap gap-8 mx-4">
 			{#each $team.bench as pokemon}
-				<button
-					class="h-20 w-20 rounded-full"
-					style="background-color: var(--card-background-light);"
-					on:click={() => {
-						console.log('open modal with more details');
-					}}
-				>
-					<Sprite {...pokemon} id={pokemon.national_dex} style="padding: 1rem;" />
-				</button>
+				<BoxPokemon {pokemon} {inModifyView} />
 			{/each}
 		</div>
 	</Card>
 </div>
+
+<PokemonEditor
+	showOverlay={isNewPokemonOverlayOpen}
+	initialPokemon={{
+		national_dex: -1,
+		nickname: undefined,
+		variety: undefined,
+		gender: 'unknown',
+		shiny: false,
+		ability: 0,
+		move1: 0,
+		move2: 0,
+		move3: 0,
+		move4: 0
+	}}
+	onSaveClick={async (pokemon) => {
+		const res = await fetch(`/api/teams/${$team.id}/pokemon`, {
+			method: 'POST',
+			body: JSON.stringify({
+				pokemon: {
+					...pokemon
+				}
+			})
+		});
+		if (!res.ok) {
+			addNotification({
+				level: 'failure',
+				message: `Failed to add ${
+					pokemon.nickname ??
+					getLanguageEntry(getPokemonEntry(pokemon.national_dex).names, $primaryLanguage)
+				} - Please try again`
+			});
+		} else {
+			$team.bench = [
+				...$team.bench,
+				{
+					...pokemon,
+					team: $team.id,
+					owner: $team.owner,
+					position: 0
+				}
+			];
+		}
+	}}
+/>

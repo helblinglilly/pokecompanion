@@ -9,6 +9,7 @@
 	export let variety: string = '';
 	export let style: string = '';
 	export let gameOverride: IGameGroups | undefined = undefined;
+	export let imageClasses: string = '';
 
 	const fallbackSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
@@ -36,7 +37,7 @@
 		<Image src={'/placeholder.png'} alt={`sprite`} loading="lazy" height="96px" width="96px" />
 	{:then spriteURL}
 		<Image
-			classNames="ml-auto mr-auto max-w-full w-auto"
+			classNames={`${imageClasses} ml-auto mr-auto max-w-full w-auto`}
 			src={spriteURL}
 			alt={`sprite`}
 			loading="lazy"
