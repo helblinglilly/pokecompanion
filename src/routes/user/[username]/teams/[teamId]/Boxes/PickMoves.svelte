@@ -78,15 +78,13 @@
 </script>
 
 <div class="grid gap-4 mt-2">
-	<div class="grid grid-cols-2 gap-4">
+	<div class="grid md:grid-cols-2 gap-4">
 		{#if $pokemon.move1}
 			<MoveListEntry
 				id={$pokemon.move1}
 				game={game?.pokeapi}
 				style={`padding: 1rem; ${
-					currentlySelecting === 1
-						? 'background-color: var(--grey-muted);'
-						: 'background-color: var(--grey-primary);'
+					currentlySelecting === 1 ? 'background-color: var(--card-hover);' : ''
 				}`}
 				on:click={() => {
 					if (currentlySelecting === 1) {
@@ -98,9 +96,8 @@
 			/>
 		{:else}
 			<Card
-				isNested={currentlySelecting !== 1}
+				isActive={currentlySelecting === 1}
 				isClickable={currentlySelecting !== 1}
-				style={currentlySelecting === 1 ? `background-color: var(--grey-muted)` : ''}
 				on:click={() => {
 					if (currentlySelecting === 1) {
 						return;
@@ -116,9 +113,7 @@
 				id={$pokemon.move2}
 				game={game?.pokeapi}
 				style={`padding: 1rem; ${
-					currentlySelecting === 2
-						? 'background-color: var(--grey-muted);'
-						: 'background-color: var(--grey-primary);'
+					currentlySelecting === 2 ? 'background-color: var(--card-hover);' : ''
 				}`}
 				on:click={() => {
 					if (currentlySelecting === 2) {
@@ -130,13 +125,8 @@
 			/>
 		{:else}
 			<Card
-				isNested={currentlySelecting !== 2}
+				isActive={currentlySelecting === 2}
 				isClickable={currentlySelecting !== 2}
-				style={`padding: 1rem; ${
-					currentlySelecting === 2
-						? 'background-color: var(--grey-muted);'
-						: 'background-color: var(--grey-primary);'
-				}`}
 				on:click={() => {
 					if (currentlySelecting === 2) {
 						return;
@@ -152,9 +142,7 @@
 				game={game?.pokeapi}
 				id={$pokemon.move3}
 				style={`padding: 1rem; ${
-					currentlySelecting === 3
-						? 'background-color: var(--grey-muted);'
-						: 'background-color: var(--grey-primary);'
+					currentlySelecting === 3 ? 'background-color: var(--card-hover);' : ''
 				}`}
 				on:click={() => {
 					if (currentlySelecting === 3) {
@@ -166,13 +154,8 @@
 			/>
 		{:else}
 			<Card
-				isNested={currentlySelecting !== 3}
+				isActive={currentlySelecting === 3}
 				isClickable={currentlySelecting !== 3}
-				style={`padding: 1rem; ${
-					currentlySelecting === 4
-						? 'background-color: var(--grey-muted);'
-						: 'background-color: var(--grey-primary);'
-				}`}
 				on:click={() => {
 					if (currentlySelecting === 3) {
 						return;
@@ -188,9 +171,7 @@
 				game={game?.pokeapi}
 				id={$pokemon.move4}
 				style={`padding: 1rem; ${
-					currentlySelecting === 4
-						? 'background-color: var(--grey-muted);'
-						: 'background-color: var(--grey-primary);'
+					currentlySelecting === 4 ? 'background-color: var(--card-hover);' : ''
 				}`}
 				on:click={() => {
 					if (currentlySelecting === 4) {
@@ -202,9 +183,8 @@
 			/>
 		{:else}
 			<Card
-				isNested={currentlySelecting !== 4}
+				isActive={currentlySelecting === 4}
 				isClickable={currentlySelecting !== 4}
-				style={currentlySelecting === 4 ? `background-color: var(--grey-muted)` : ''}
 				on:click={() => {
 					if (currentlySelecting === 4) {
 						return;
@@ -221,7 +201,7 @@
 	{#if $filteredResults.levelupMoves.length > 0}
 		<h3 class="h3">Level up</h3>
 	{/if}
-	<div class="grid grid-cols-2 gap-4">
+	<div class="grid md:grid-cols-2 gap-4">
 		{#each $filteredResults.levelupMoves as move}
 			<MoveListEntry
 				game={game?.pokeapi}
@@ -238,7 +218,7 @@
 	{#if $filteredResults.tmMoves.length > 0}
 		<h3 class="h3">TM/TR/HM</h3>
 	{/if}
-	<div class="grid grid-cols-2 gap-4">
+	<div class="grid md:grid-cols-2 gap-4">
 		{#each $filteredResults.tmMoves as move}
 			<MoveListEntry
 				game={game?.pokeapi}
@@ -255,7 +235,7 @@
 	{#if $filteredResults.breedMoves.length > 0}
 		<h3 class="h3">Breeding</h3>
 	{/if}
-	<div class="grid grid-cols-2 gap-4">
+	<div class="grid md:grid-cols-2 gap-4">
 		{#each $filteredResults.breedMoves as move}
 			<MoveListEntry
 				game={game?.pokeapi}
@@ -272,7 +252,7 @@
 	{#if $filteredResults.tutorMoves.length > 0}
 		<h3 class="h3">Tutor</h3>
 	{/if}
-	<div class="grid grid-cols-2 gap-4">
+	<div class="grid md:grid-cols-2 gap-4">
 		{#each $filteredResults.tutorMoves as move}
 			<MoveListEntry
 				game={game?.pokeapi}

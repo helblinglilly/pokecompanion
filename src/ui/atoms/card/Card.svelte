@@ -6,6 +6,7 @@
 	export let classes: string = '';
 	export let isNested: boolean = false;
 	export let id: string | undefined = undefined;
+	export let isActive = false;
 
 	const dispatch = createEventDispatcher();
 </script>
@@ -17,6 +18,7 @@
 		isClickable ? 'clickable' : null,
 		'p-4',
 		isNested ? 'nested dark:bg-red-300' : '',
+		isActive ? 'active' : '',
 		classes
 	]
 		.filter((a) => a)
@@ -55,5 +57,13 @@
 	.card.clickable:hover {
 		background-color: var(--card-hover);
 		cursor: pointer;
+	}
+
+	.card.active {
+		background-color: var(--card-hover);
+	}
+
+	.card.nested.active:hover {
+		background-color: var(--grey-muted);
 	}
 </style>

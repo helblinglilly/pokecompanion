@@ -56,8 +56,13 @@
 </div>
 
 <div class="mt-4 min-h-[60vh]">
-	{#if pokemonResults.length === 0}
+	{#if pokemonResults.length === 0 && $pokemon.national_dex === -1}
 		<p>No results</p>
+	{:else if pokemonResults.length === 0 && $pokemon.national_dex !== -1}
+		<PokemonListEntry
+			pokemon={{ id: $pokemon.national_dex, shiny: false }}
+			cardActiveState={true}
+		/>
 	{/if}
 	{#each pokemonResults.filter((a) => a.inGame) as result}
 		<div class="mb-2">
