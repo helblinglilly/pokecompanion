@@ -35,6 +35,7 @@ export interface IBasePokemon {
 }
 
 export interface ITeamPokemon extends IBasePokemon {
+    id: string;
     team: string;
     owner: string;
     position: number;

@@ -49,15 +49,6 @@
 {/if}
 
 <style>
-	.partySprite,
-	.partySprite > div {
-		background-color: var(--card-background-light);
-		height: 5rem;
-		width: 5rem;
-		border-radius: 100%;
-		display: grid;
-	}
-
 	.partySprite.swap.editMode > p {
 		position: absolute;
 		z-index: 100;
@@ -75,12 +66,6 @@
 
 	.partySprite.empty.editMode {
 		background-color: var(--card-hover-light);
-	}
-
-	.partySprite.empty.editMode > div {
-		background-color: rgba(1, 1, 1, 0.2);
-		display: grid;
-		align-content: center;
 	}
 
 	.partySprite.editMode:hover {

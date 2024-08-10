@@ -18,7 +18,7 @@
 </script>
 
 <button
-	class="h-20 w-20 rounded-full grid align-center"
+	class="h-20 w-20 rounded-full grid align-center justify-start"
 	style="background-color: var(--card-background-light);"
 	on:click={() => {
 		if (inModifyView) {

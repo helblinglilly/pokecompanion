@@ -5,24 +5,13 @@
 	import Sprite from '$/ui/atoms/pokemon/sprite';
 	import type { Writable } from 'svelte/store';
 	import { getPokemonEntry } from '$/lib/data/games';
-	import { getMultiLanguageName, getNameEntry } from '$/lib/utils/language';
+	import { getMultiLanguageName } from '$/lib/utils/language';
 	import { primaryLanguage, secondaryLanguage } from '$/lib/stores/domain';
-	import { getMove } from '$/lib/types/IMoves';
+	import { getMoveName } from '$/ui/atoms/move/helpers';
+	import PokemonMoves from '../PokemonMoves.svelte';
 
 	export let pokemon: Writable<IBasePokemon>;
 	export let game: IGameGroups | undefined;
-
-	async function getMoveName(id: number) {
-		if (id < 0) {
-			return '-';
-		}
-		const move = await getMove(id, game);
-		return (
-			getNameEntry(move.names, $primaryLanguage) ??
-			getNameEntry(move.names, $secondaryLanguage) ??
-			'No data'
-		);
-	}
 </script>
 
 <h2 class="h2">Confirm Pokémon</h2>
@@ -40,44 +29,16 @@
 
 	<Card classes="w-full">
 		<h2 class="h2">
-			{$pokemon.nickname ??
-				getMultiLanguageName(
-					getPokemonEntry($pokemon.national_dex).names,
-					$primaryLanguage,
-					$secondaryLanguage
-				)}
+			{$pokemon.nickname && $pokemon.nickname.length > 0
+				? $pokemon.nickname
+				: getMultiLanguageName(
+						getPokemonEntry($pokemon.national_dex).names,
+						$primaryLanguage,
+						$secondaryLanguage
+				  )}
 		</h2>
 
 		<h3 class="h3">Moves</h3>
-		<div class="grid md:grid-cols-2">
-			<p>
-				{#await getMoveName($pokemon.move1)}
-					Loading...
-				{:then name}
-					{name}
-				{/await}
-			</p>
-			<p>
-				{#await getMoveName($pokemon.move2)}
-					Loading...
-				{:then name}
-					{name}
-				{/await}
-			</p>
-			<p>
-				{#await getMoveName($pokemon.move3)}
-					Loading...
-				{:then name}
-					{name}
-				{/await}
-			</p>
-			<p>
-				{#await getMoveName($pokemon.move4)}
-					Loading...
-				{:then name}
-					{name}
-				{/await}
-			</p>
-		</div>
+		<PokemonMoves pokemon={$pokemon} {game} />
 	</Card>
 </div>

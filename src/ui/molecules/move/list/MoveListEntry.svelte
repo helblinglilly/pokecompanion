@@ -22,7 +22,6 @@
 		})();
 	}
 
-	// Reactive statements to update names whenever move or languages change
 	$: primaryName = move ? getNameEntry(move.names, $primaryLanguage) : undefined;
 	$: secondaryName =
 		move && $secondaryLanguage ? getNameEntry(move.names, $secondaryLanguage) : undefined;
@@ -38,7 +37,6 @@
 	classes="m-0 w-full w-full h-full flex p-8"
 	on:click={() => {
 		dispatch('click', move);
-		// cardActiveState = true;
 	}}
 >
 	{#if move}
@@ -78,13 +76,6 @@
 </Card>
 
 <style>
-	.spriteWrapper {
-		height: 96px;
-		width: 96px;
-		padding: 1rem;
-		margin-top: auto;
-		margin-bottom: auto;
-	}
 	table {
 		width: 100%;
 		height: 100%;
@@ -100,19 +91,5 @@
 
 	.types {
 		width: 55px;
-	}
-
-	.removeButton {
-		position: absolute;
-		top: 0;
-		right: 0;
-		text-align: center;
-		height: 2rem;
-		width: 2rem;
-		border-radius: 10%;
-		font-weight: bold;
-		color: var(--light);
-		background-color: var(--error);
-		z-index: 5;
 	}
 </style>

@@ -128,7 +128,7 @@
 	<h2 class="h2" slot="header">Delete Tag</h2>
 
 	<div class="mt-4 grid gap-4 text-center">
-		<p>Are you sure you want to to delete "{$tag.name}"?</p>
+		<p>Are you sure you want to delete "{$tag.name}"?</p>
 
 		<div
 			style="display: inline-flex; width: 100%; justify-content: space-between; padding: 0.5rem;"

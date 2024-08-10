@@ -51,7 +51,7 @@ export async function POST({ request, cookies, platform, params}) {
             move2: body.pokemon.move2,
             move3: body.pokemon.move3,
             move4: body.pokemon.move4,
-            position: 0,
+            position: 6,
             owner: authedPb.authStore.model?.id,
             team: params.id
         })

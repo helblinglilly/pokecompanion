@@ -110,8 +110,9 @@
 		classes="w-full justify-around grid grid-cols-2 md:grid-cols-6 grid-flow-row gap-8 md:gap-4 justify-items-center"
 		style="background-color: var(--red-accent); padding-top: 2rem; padding-bottom: 2rem;"
 	>
-		{#each $team.party.sort((a, b) => (a.position < b.position ? 1 : -1)) as pokemon}
+		{#each $team.party.sort((a, b) => (a.position < b.position ? -1 : 1)) as pokemon, partySlot}
 			<PartySprite
+				{partySlot}
 				id={pokemon.national_dex}
 				inEditMode={inModifyView}
 				game={gameGroup}
@@ -119,7 +120,7 @@
 					console.log('read only more pokemon info');
 				}}
 				onEditClick={() => {
-					console.log('edit pokemon');
+					// console.log('select different pokemon into slot');
 				}}
 			/>
 		{/each}
@@ -190,7 +191,8 @@
 					...pokemon,
 					team: $team.id,
 					owner: $team.owner,
-					position: 0
+					position: 6,
+					id: ''
 				}
 			];
 		}

@@ -41,11 +41,11 @@ export const load = async ({ params }) => {
 
 	const party: ITeamPokemon[] = pokemon.filter((pokemon) => {
 		return team.party.includes(pokemon.id)
-	})
+	}).sort((a, b) => a.position < b.position ? -1 : 1)
 
 	const bench: ITeamPokemon[] = pokemon.filter((pokemon) => {
 		return team.bench.includes(pokemon.id);
-	})
+	}).sort((a, b) => new Date(a.updated) < new Date(b.updated) ? 1 : -1)
 
 	while(party.length < 6){
 		party.push({
@@ -59,11 +59,14 @@ export const load = async ({ params }) => {
 			move3: -1,
 			move4: -1,
 			ability: 0,
-			team: undefined,
-			owner: 0,
-			position: 0
+			team: '',
+			owner: '',
+			id: '',
+			position: 6
 		})
 	}
+
+	console.log(party);
 
 	const fullTeam: ITeam = {
 		...team,

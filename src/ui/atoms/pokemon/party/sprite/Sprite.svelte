@@ -1,13 +1,18 @@
 <script lang="ts">
 	import type { IGameGroups } from '$/lib/data/games';
+	import PartySelector from '$/routes/user/[username]/teams/[teamId]/PartySelector.svelte';
 	import Sprite from '$/ui/atoms/pokemon/sprite/Sprite.svelte';
+	import { writable } from 'svelte/store';
 
 	export let id: number;
+	export let partySlot: number;
 	export let variety: string | undefined = undefined;
 	export let inEditMode: boolean = false;
 	export let onViewClick: () => void;
 	export let onEditClick: (initiator: string) => void;
 	export let game: IGameGroups | undefined;
+
+	let isPartySwapVisible = writable(false);
 </script>
 
 {#if id === -1}
@@ -15,7 +20,7 @@
 		class={`partySprite empty${inEditMode ? ' editMode' : ''}`}
 		on:click={() => {
 			if (inEditMode) {
-				onEditClick('add');
+				isPartySwapVisible.set(true);
 			}
 		}}
 	>
@@ -64,6 +69,8 @@
 		/>
 	</button>
 {/if}
+
+<PartySelector isVisible={isPartySwapVisible} {partySlot} />
 
 <style>
 	.partySprite,

@@ -1,5 +1,7 @@
 import { Logger } from "$/lib/log";
-import type { ITeam } from "$/lib/types/ITeams";
+import type { IRecordPokemon } from "$/lib/types/IPokemon";
+import type { IRecordTeam, ITeam, ITeamPokemon } from "$/lib/types/ITeams";
+import type { RecordModel } from "pocketbase";
 import { validateAuth } from "../../helpers";
 
 export async function PATCH({ request, cookies, platform, params}) {
@@ -9,7 +11,7 @@ export async function PATCH({ request, cookies, platform, params}) {
         return new Response('Not authorised', { status: 401 });
     }
 
-    let body: { isPrivate?: boolean, description?: string };
+    let body: { isPrivate?: boolean, description?: string, party: ITeamPokemon[] };
 
     try {
         body = await request.json();
@@ -68,8 +70,34 @@ export async function DELETE({ request, cookies, platform, params}) {
     }
 
     try {
+        // Get existing team entries
+        const existing = await authedPb.collection('teams').getOne(params.id) as IRecordTeam & RecordModel
+
+        // Clear out relations from teams
+        await authedPb.collection('teams').update(params.id, {
+            party: [],
+            bench: []
+        })
+
+        // Delete from team_pokemon
+        for(let i = 0; i < existing.party.length; i++){
+            await authedPb.collection('team_pokemon').delete(existing.party[i]);
+        }
+        for(let i = 0; i < existing.bench.length; i++){
+            await authedPb.collection('team_pokemon').delete(existing.bench[i]);
+        }
+
+        // Delete the now emtpy team
         await authedPb.collection('teams').delete(params.id);
-    } catch(err){
+    }
+        catch(err){
+        Logger.error(
+            Logger.ErrorClasses.TeamOperation,
+            Logger.buildError(err),
+            {
+                context: `Team ${params.id}`
+            }
+        )
         return new Response('Internal Error', {
             status: 500
         })

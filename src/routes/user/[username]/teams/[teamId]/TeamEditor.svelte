@@ -94,6 +94,8 @@
 
 	<div class="mt-4 grid gap-4 text-center">
 		<p>Are you sure you want to to delete "{$team.name}"?</p>
+		<p>All Pokémon in this team will also be deleted</p>
+		<p>This action is <b>irreversible</b></p>
 
 		<div
 			style="display: inline-flex; width: 100%; justify-content: space-between; padding: 0.5rem;"
