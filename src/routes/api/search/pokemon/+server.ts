@@ -53,7 +53,7 @@ export async function GET({ request, platform, cookies }) {
 			pokemon: pokemonResults,
 		},
 		searchTerm: searchTerm
-	});
+	}, 200, true);
 }
 
 

@@ -50,5 +50,5 @@ export async function GET({ request, platform, cookies }) {
 			moves: moveResults
 		},
 		searchTerm: searchTerm
-	});
+	}, 200, true);
 }

@@ -93,12 +93,13 @@ export const validateAuth = async (request: Request, cookies: Cookies) => {
 };
 
 
-export const respondWithJson = (payload: object | Array<unknown>, status?: number) => {
+export const respondWithJson = (payload: object | Array<unknown>, status?: number, shouldCache?: boolean) => {
 	const responseCode = status ?? payload ? 200 : 204;
 
 	return new Response(JSON.stringify(payload), {
 		headers: {
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
+			'Cache-Control': (!status || status >= 200 && status < 400) && shouldCache ? 'public, max-age=21600' : 'no-store'
 		},
 		status: responseCode
 	});
