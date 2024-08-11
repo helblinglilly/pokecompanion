@@ -22,9 +22,7 @@
 	export let showOverlay: Writable<boolean>;
 
 	const team = getContext('teamView') as Writable<ITeam>;
-
-	export let initialPokemon: IBasePokemon;
-	let pokemon = writable(initialPokemon);
+	export let pokemon: Writable<IBasePokemon>;
 
 	export let onSaveClick: (pokemon: IBasePokemon) => Promise<void>;
 
@@ -146,6 +144,24 @@
 						on:click={async () => {
 							await onSaveClick($pokemon);
 							showOverlay.set(false);
+							pokemon.set({
+								national_dex: -1,
+								nickname: undefined,
+								variety: undefined,
+								gender: 'unknown',
+								shiny: false,
+								ability: 0,
+								move1: 0,
+								move2: 0,
+								move3: 0,
+								move4: 0
+							});
+							steps.set(
+								$steps.map((step, i) => ({
+									...step,
+									active: i === 0
+								}))
+							);
 						}}>Save Pokémon</Button
 					>
 				{/if}

@@ -16,7 +16,7 @@
 	import PokemonEditor from './PokemonEditor.svelte';
 	import TeamEditor from './TeamEditor.svelte';
 	import { writable, type Writable } from 'svelte/store';
-	import type { ITeam } from '$/lib/types/ITeams';
+	import type { IBasePokemon, ITeam } from '$/lib/types/ITeams';
 	import PartySprite from '$/ui/atoms/pokemon/party/sprite/Sprite.svelte';
 	import { primaryLanguage } from '$/lib/stores/domain';
 	import { getLanguageEntry } from '$/lib/utils/language';
@@ -27,6 +27,18 @@
 	let inModifyView = false;
 
 	let isNewPokemonOverlayOpen = writable(false);
+	const newPokemon: Writable<IBasePokemon> = writable({
+		national_dex: -1,
+		nickname: undefined,
+		variety: undefined,
+		gender: 'unknown',
+		shiny: false,
+		ability: 0,
+		move1: 0,
+		move2: 0,
+		move3: 0,
+		move4: 0
+	});
 
 	setContext('teamView', writable(data.team));
 	const team = getContext('teamView') as Writable<ITeam>;
@@ -147,7 +159,7 @@
 
 		<div class="flex flex-wrap gap-8 mx-4">
 			{#each $team.bench as pokemon}
-				<BoxPokemon {pokemon} {inModifyView} />
+				<BoxPokemon pokemon={writable(pokemon)} {inModifyView} />
 			{/each}
 		</div>
 	</Card>
@@ -155,24 +167,13 @@
 
 <PokemonEditor
 	showOverlay={isNewPokemonOverlayOpen}
-	initialPokemon={{
-		national_dex: -1,
-		nickname: undefined,
-		variety: undefined,
-		gender: 'unknown',
-		shiny: false,
-		ability: 0,
-		move1: 0,
-		move2: 0,
-		move3: 0,
-		move4: 0
-	}}
-	onSaveClick={async (pokemon) => {
+	pokemon={newPokemon}
+	onSaveClick={async () => {
 		const res = await fetch(`/api/teams/${$team.id}/pokemon`, {
 			method: 'POST',
 			body: JSON.stringify({
 				pokemon: {
-					...pokemon
+					...$newPokemon
 				}
 			})
 		});
@@ -180,15 +181,15 @@
 			addNotification({
 				level: 'failure',
 				message: `Failed to add ${
-					pokemon.nickname ??
-					getLanguageEntry(getPokemonEntry(pokemon.national_dex).names, $primaryLanguage)
+					$newPokemon.nickname ??
+					getLanguageEntry(getPokemonEntry($newPokemon.national_dex).names, $primaryLanguage)
 				} - Please try again`
 			});
 		} else {
 			$team.bench = [
 				...$team.bench,
 				{
-					...pokemon,
+					...$newPokemon,
 					team: $team.id,
 					owner: $team.owner,
 					position: 6,

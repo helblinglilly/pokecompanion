@@ -14,7 +14,7 @@
 		getGameFromName($team.game) as unknown as IGame | undefined
 	);
 
-	export let pokemon: IBasePokemon;
+	export let pokemon: Writable<IBasePokemon>;
 </script>
 
 <button
@@ -27,7 +27,7 @@
 	}}
 >
 	<BoxSprite
-		id={pokemon.national_dex}
+		id={$pokemon.national_dex}
 		{inModifyView}
 		game={gameGroup}
 		onViewClick={() => {
@@ -41,8 +41,8 @@
 
 <PokemonEditor
 	showOverlay={isEditorOpen}
-	initialPokemon={pokemon}
-	onSaveClick={async (pokemon) => {
+	{pokemon}
+	onSaveClick={async () => {
 		console.log('done editing an existing pokemon');
 	}}
 />
