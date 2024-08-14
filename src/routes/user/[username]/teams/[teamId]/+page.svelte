@@ -158,7 +158,7 @@
 		{/if}
 
 		<div class="flex flex-wrap gap-8 mx-4">
-			{#each $team.bench as pokemon}
+			{#each $team.bench.sort( (a, b) => (new Date(a.updated) < new Date(b.updated) ? -1 : 1) ) as pokemon}
 				<BoxPokemon pokemon={writable(pokemon)} {inModifyView} />
 			{/each}
 		</div>

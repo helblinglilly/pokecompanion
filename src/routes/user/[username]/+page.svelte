@@ -39,7 +39,7 @@
 								<h4 class="h4 text-center">{data.user.username}</h4>
 							</Card>
 							<div class="inline-flex justify-around w-full mt-4">
-								<ReportUser username={data.user.username} style="padding: 5px;" />
+								<ReportUser username={data.user.username} />
 							</div>
 						{/if}
 					</div>
@@ -64,8 +64,8 @@
 		</div>
 
 		<div class="column">
-			<div class="columns gap-8">
-				<div class="column">
+			<div class="grid lg:flex gap-8">
+				<div class="">
 					<Card>
 						<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
 							<h2 class="h2 content-center">{data.user.username}'s teams</h2>
@@ -95,7 +95,7 @@
 					</Card>
 				</div>
 
-				<div class="column">
+				<div class="">
 					<Card>
 						<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
 							<h2 class="h2 content-center">{data.user.username}'s tags</h2>

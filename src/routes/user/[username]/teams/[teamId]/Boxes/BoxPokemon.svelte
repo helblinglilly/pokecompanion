@@ -41,6 +41,7 @@
 
 <PokemonEditor
 	showOverlay={isEditorOpen}
+	doesPokemonExist
 	{pokemon}
 	onSaveClick={async () => {
 		console.log('done editing an existing pokemon');

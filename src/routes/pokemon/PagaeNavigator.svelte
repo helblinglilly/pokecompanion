@@ -23,7 +23,8 @@
 	<a href={`/pokemon?page=${pageNumber() - 1}`} class="no-underline"><Button>{'<'}</Button></a>
 </div>
 <div class="grid">
-	<p class="content-center text-center">Page {pageNumber()}/{numberOfPages}</p>
+	<p class="break-words">Page</p>
+	<p class="break-words">{pageNumber()}/{numberOfPages}</p>
 </div>
 
 <div>

@@ -41,16 +41,14 @@
 	previewImage="https://socialpreviews.pokecompanion.helbling.uk/pokemonPage.png"
 />
 
-<div class="columns w-full gap-4 mb-4">
-	<div class="column">
-		<h1 class="h1">All Pokémon</h1>
-	</div>
+<div class="inline-grid md:inline-flex w-full gap-4 mb-4 md:justify-between">
+	<h1 class="h1">All Pokémon</h1>
 
-	<div class="column inline-flex gap-4 content-center">
+	<div class="inline-flex gap-4 content-cente justify-center md:justify-end">
 		<PageNavigator />
 	</div>
 
-	<div class="column justify-center content-center">
+	<!-- <div class=" justify-center content-center">
 		<form class="flex justify-center" action="/pokemon/">
 			<button
 				class="button"
@@ -73,7 +71,7 @@
 			/>
 			<button class="button" type="submit" id="jumpToButton" style="height: 100%;">Go</button>
 		</form>
-	</div>
+	</div> -->
 </div>
 
 <div class="columns">

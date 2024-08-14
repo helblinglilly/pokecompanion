@@ -11,24 +11,28 @@
 	import { derived, writable, type Writable } from 'svelte/store';
 	import Progress from '$/ui/molecules/progress';
 	import SelectPokemon from './Boxes/SelectPokemon.svelte';
-	import { type IBasePokemon, type ITeam } from '$/lib/types/ITeams';
+	import { type IBasePokemon, type ITeam, type ITeamPokemon } from '$/lib/types/ITeams';
 	import { type IProgress } from '$/ui/molecules/progress/types';
 	import PickMoves from './Boxes/PickMoves.svelte';
 	import { getMultiLanguageName } from '$/lib/utils/language';
 	import { primaryLanguage, secondaryLanguage } from '$/lib/stores/domain';
 	import Summary from './Boxes/Summary.svelte';
-	import { getContext } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 
 	export let showOverlay: Writable<boolean>;
 
 	const team = getContext('teamView') as Writable<ITeam>;
-	export let pokemon: Writable<IBasePokemon>;
+	export let pokemon: Writable<IBasePokemon | ITeamPokemon>;
 
 	export let onSaveClick: (pokemon: IBasePokemon) => Promise<void>;
 
 	const gameGroup = getGameGroupFromGame(
 		getGameFromName($team.game) as unknown as IGame | undefined
 	);
+
+	export let doesPokemonExist = false;
+
+	let isDeletionConfirmationActive = false;
 
 	const steps = writable<IProgress[]>([
 		{
@@ -117,6 +121,55 @@
 					>
 				{/if}
 			</div>
+
+			{#if doesPokemonExist}
+				<Button
+					classes="error"
+					on:click={() => {
+						isDeletionConfirmationActive = true;
+					}}>Release</Button
+				>
+
+				<Modal bind:showModal={isDeletionConfirmationActive} classes="md:w-[40rem] h-full">
+					<h2 class="h2" slot="header">
+						Delete {$pokemon.national_dex !== -1
+							? $pokemon.nickname && $pokemon.nickname.length > 0
+								? $pokemon.nickname
+								: getMultiLanguageName(
+										getPokemonEntry($pokemon.national_dex).names,
+										$primaryLanguage,
+										$secondaryLanguage
+								  )
+							: 'Pokémon'}
+					</h2>
+
+					<div class="grid justify-center mt-16">
+						<p>Are you sure you want to release this Pokémon to the wild?</p>
+
+						<div class="flex justify-between mt-4">
+							<Button
+								on:click={() => {
+									isDeletionConfirmationActive = false;
+								}}
+							>
+								No, go back!
+							</Button>
+							<Button
+								classes="error"
+								on:click={async () => {
+									console.log('want to delete pokemon');
+									// const res = await fetch(`/api/teams/${$team.id}/pokemon`, {
+									// 	method: 'DELETE',
+									// 	body: JSON.stringify({
+									// 		pokemonId: $pokemon.
+									// 	})
+									// });
+								}}>Yes, set free</Button
+							>
+						</div>
+					</div>
+				</Modal>
+			{/if}
 
 			<div class="px-4">
 				{#if $activeStep !== $steps.length - 1}

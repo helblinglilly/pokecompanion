@@ -59,16 +59,16 @@
 		background-color: rgba(1, 1, 1, 0.5);
 		border-radius: 100%;
 	}
-
-	.partySprite.empty:not(.editMode):hover {
-		cursor: default;
-	}
-
-	.partySprite.empty.editMode {
-		background-color: var(--card-hover-light);
-	}
-
 	.partySprite.editMode:hover {
 		background-color: var(--card-hover-dark);
+	}
+
+	button {
+		height: 5rem;
+		width: 5rem;
+		display: grid;
+	}
+	button:hover {
+		border-radius: 100%;
 	}
 </style>
