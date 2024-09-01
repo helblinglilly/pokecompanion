@@ -5,7 +5,6 @@
 	import { Logger } from '$lib/log';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
 	import { capitaliseFirstLetter } from '$lib/utils/string';
-	import { get } from 'svelte/store';
 	import NavigationButton from './NavigationButton.svelte';
 
 	export let title: string;
@@ -18,7 +17,7 @@
 		<NavigationButton pokedexId={currentId - 1} />
 	</div>
 
-	<div class="column grid md:inline-flex items-center max-w-fit px-2">
+	<div class="column grid md:inline-flex items-center max-w-fit gap-4">
 		<h1 class="h2 min-w-fit mt-auto mb-auto pb-0 text-center">
 			<span class="md:hidden">
 				#{currentId}
@@ -35,7 +34,7 @@
 					label: capitaliseFirstLetter(form.name.split('-').splice(1).join(' ')),
 					value: form.name
 				}))}
-				style="max-width: fit-content; padding: 1rem; margin: 0;"
+				style="max-width: fit-content; padding-left: 1rem; padding-right: 1rem; margin: 0; text-align: center;"
 				on:change={({ detail }) => {
 					Logger.addPageAction('UIInteraction', 'Variety', {
 						action: 'Navigation'

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Modal from '$/components/UI/Modal.svelte';
 	import { onMount } from 'svelte';
+	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Image from '$/ui/atoms/image/Image.svelte';
 
 	interface ISpriteImage {

@@ -118,8 +118,6 @@ const easterEggs = (id: number, variety: string | null): Partial<IPokemonRespons
 }
 
 export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {	
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore Fails to understand that pokedex param exists
 	const id = Number(params.pokedex);
 	if (!id){
 		return new Response(JSON.stringify({
@@ -250,7 +248,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		id,
 		pokemon: {
 			...pokemon,
-			abilities: fixAbilities(id, pokemon.past_abilities, pokemon.abilities, selectedGame),
+			abilities: fixAbilities(pokemon.past_abilities, pokemon.abilities, selectedGame),
 			types,
 			typeRelations: await getTypeRelations(selectedGame?.generation, types[0], types[1]),
 			varietyForms: species.varieties
@@ -281,6 +279,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		encounters: formatEncounters(encounters),
 		sprites: easterEggData?.sprites ?? sprites
 	}
+
 	return new Response(JSON.stringify(response), {
 		headers: {
             'Content-Type': 'application/json',

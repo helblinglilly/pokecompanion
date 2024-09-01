@@ -2,7 +2,7 @@ import { getTagsByUser, type ITags } from '$lib/pb/tags';
 import { writable } from 'svelte/store';
 import { currentUser } from './user';
 import { addNotification } from './notifications';
-import type { ITagMove, ITagMoveNew, ITagPokemon, ITagPokemonNew } from '$lib/types/ITags';
+import type { ITagMove, ITagPokemon } from '$lib/types/ITags';
 import type { IDisplayPokemon } from './pokemonPage';
 import { Logger } from '$lib/log';
 
@@ -15,7 +15,8 @@ export const tagStore = writable<ITags[]>([]);
 
 export async function refetchTags(userId: string) {
 	try {
-		tagStore.set(await getTagsByUser(userId));
+		const tags = await getTagsByUser(userId);
+		tagStore.set(tags);
 	} catch (err) {
 		addNotification({ message: 'Failed to get tags for user', level: 'failure' });
 		await Logger.error(
@@ -78,7 +79,7 @@ export async function createTag(
 	}
 }
 
-export async function addPokemonToTag(pokemon: ITagPokemonNew, tagId: string) {
+export async function addPokemonToTag(pokemon: ITagPokemon, tagId: string) {
 	try {
 		const res = await fetch(`/api/tag`, {
 			method: 'POST',
@@ -95,9 +96,11 @@ export async function addPokemonToTag(pokemon: ITagPokemonNew, tagId: string) {
 			})
 		});
 		switch (res.status) {
-			case 200 || 201:
+			case 200:
+			case 201:
 				return;
-			case 403 || 401:
+			case 403:
+			case 401:
 				addNotification({
 					message: `Could not add tag due to authentication. Please sign in and try again`,
 					level: 'failure'
@@ -120,7 +123,7 @@ export async function addPokemonToTag(pokemon: ITagPokemonNew, tagId: string) {
 	}
 }
 
-export async function addMoveToTag(move: ITagMoveNew, tagId: string) {
+export async function addMoveToTag(move: ITagMove, tagId: string) {
 	try {
 		const res = await fetch(`/api/tag`, {
 			method: 'POST',
@@ -137,9 +140,11 @@ export async function addMoveToTag(move: ITagMoveNew, tagId: string) {
 			})
 		});
 		switch (res.status) {
-			case 200 || 201:
+			case 200:
+			case 201:
 				return;
-			case 403 || 401:
+			case 403:
+			case 401:
 				addNotification({
 					message: `Could not add tag due to authentication. Please sign in and try again`,
 					level: 'failure'
@@ -162,7 +167,7 @@ export async function addMoveToTag(move: ITagMoveNew, tagId: string) {
 	}
 }
 
-export async function removePokemonFromTag(pokemon: ITagPokemonNew, tagId: string) {
+export async function removePokemonFromTag(pokemon: ITagPokemon, tagId: string) {
 	try {
 		const res = await fetch('/api/tag', {
 			method: 'DELETE',
@@ -175,9 +180,11 @@ export async function removePokemonFromTag(pokemon: ITagPokemonNew, tagId: strin
 			})
 		});
 		switch (res.status) {
-			case 200 || 201:
+			case 200:
+			case 201:
 				return;
-			case 403 || 401:
+			case 403:
+			case 401:
 				addNotification({
 					message: `Could not remove tag due to authentication. Please sign in and try again`,
 					level: 'failure'
@@ -200,7 +207,7 @@ export async function removePokemonFromTag(pokemon: ITagPokemonNew, tagId: strin
 	}
 }
 
-export async function removeMoveFromTag(move: ITagMoveNew, tagId: string) {
+export async function removeMoveFromTag(move: ITagMove, tagId: string) {
 	try {
 		const res = await fetch('/api/tag', {
 			method: 'DELETE',
@@ -212,9 +219,11 @@ export async function removeMoveFromTag(move: ITagMoveNew, tagId: string) {
 			})
 		});
 		switch (res.status) {
-			case 200 || 201:
+			case 200:
+			case 201:
 				return;
-			case 403 || 401:
+			case 403:
+			case 401:
 				addNotification({
 					message: `Could not remove tag due to authentication. Please sign in and try again`,
 					level: 'failure'
@@ -243,7 +252,7 @@ export function doesTagContainPokemon(pokemon: IDisplayPokemon, tag: ITags) {
 			a.id === pokemon.id &&
 			(!pokemon.hasShinySprite || !a.shiny || a.shiny === pokemon.showShinySpriteIfExists) &&
 			(!pokemon.gender || !a.gender || a.gender === pokemon.gender) &&
-			(pokemon.variety === a.variety)
+			((pokemon.variety?.includes('-default') && !a.variety) || pokemon.variety === a.variety)
 		);
 	});
 }

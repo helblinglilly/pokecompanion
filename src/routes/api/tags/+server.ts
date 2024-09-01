@@ -3,6 +3,43 @@ import { validateAuth } from '../helpers.js';
 import type { ITagRequestBody, ITagUpdateBody } from '$lib/types/ITags.js';
 import { Logger } from '$lib/log.js';
 
+/**
+ * Returns the Tags for the current user. Similar to 
+ * @param param0 
+ */
+export async function GET({ request, cookies, platform }) {
+	const authedPb = await validateAuth(request, cookies);
+	if (!authedPb) {
+		return new Response(JSON.stringify([]), { status: 401 });
+	}
+
+	try {
+		const tags = await authedPb.collection('tags').getFullList({
+			sort: '-created',
+			filter: `owner.id ~ "${authedPb.authStore.model?.id}"`
+		});
+
+		return new Response(JSON.stringify(tags), {
+			status: 200,
+		})
+	} catch (err) {
+		platform?.context.waitUntil(
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{
+					context: 'Failed to get Tags by user',
+					user: cookies.get('remember-token'),
+				}
+			)
+		)
+
+		return new Response('Internal error', {
+			status: 500
+		})
+	}
+}
+
 export async function POST({ request, cookies, platform }) {
 	const authedPb = await validateAuth(request, cookies);
 	if (!authedPb) {

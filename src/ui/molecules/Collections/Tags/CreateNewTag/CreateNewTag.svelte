@@ -96,6 +96,7 @@
 			<input
 				type="checkbox"
 				id="isPrivate"
+				class="nested"
 				on:change={(e) => {
 					isPrivate = e.currentTarget.checked;
 				}}

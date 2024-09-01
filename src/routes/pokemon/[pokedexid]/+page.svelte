@@ -30,6 +30,7 @@
 	import EncounterCard from '$/components/Pokemon/Encounters/EncounterCard.svelte';
 	import MovesetCard from '$/components/Pokemon/Moveset/MovesetCard.svelte';
 	import Type from '$/ui/atoms/type/Type.svelte';
+	import Card from '$/ui/atoms/card/Card.svelte';
 
 	export let data;
 
@@ -49,6 +50,8 @@
 				variety: varietyName ?? data.pokemon.name + '-default',
 				transferableQueryParams: '' // Gets auto-updated within the store anyway
 			});
+
+			tagStore.set(data.tags);
 		}
 	}
 
@@ -139,7 +142,6 @@
 				undefined
 		  )}'s evolutions, abilities, moves and more!'`}
 />
-
 <Breadcrumbs
 	breadcrumbs={[
 		{ display: 'Pokémon', url: `/pokemon?jumpTo=${data.id}` },
@@ -147,26 +149,27 @@
 	]}
 />
 
-<Navigator
-	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
-	currentId={data.id}
-	forms={data.pokemon.varietyForms}
-/>
+<div class="grid gap-4">
+	<Navigator
+		title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
+		currentId={data.id}
+		forms={data.pokemon.varietyForms}
+	/>
 
-<div class="columns">
-	<div class="column" style="padding-bottom: 1rem;">
-		<div class="card">
-			<div style="height: 20px; display: inline-flex; width: 100%; justify-content: space-between;">
-				<div class="inline-flex gap-1 justify-start" style="width: 50%;">
+	<div class="columns-1 md:columns-2 gap-4">
+		<Card>
+			<div class="inline-flex w-full justify-between h-5">
+				<div class="inline-flex gap-1 justify-start w-6/12">
 					{#each data.pokemon.types as type}
 						<div>
-							<Type type={type.name} style="height: 1.5rem;" />
+							<Type type={type.name} className="h-6" />
 						</div>
 					{/each}
 					{#if data.pokemon.types.length === 1}
-						<div style="width: 100%;" />
+						<div class="w-full" />
 					{/if}
 				</div>
+
 				<Pokedex
 					pokedexEntries={data.species.flavor_text_entries}
 					height={data.pokemon.height}
@@ -181,11 +184,13 @@
 			/>
 
 			{#if $currentUser}
-				<div style="display: flex; justify-content: center; width: 100%; flex-flow: wrap;">
-					<SelectedTags userId={$currentUser.id} pokemon={$pokemonDisplayStore} />
+				<div class="flex justify-center items-center w-full gap-2" style="flex-flow: wrap;">
+					<SelectedTags pokemon={$pokemonDisplayStore} />
+
 					{#if $tagStore.length > 0}
 						<EditTag userId={$currentUser.id} pokemon={$pokemonDisplayStore} />
 					{/if}
+
 					<CreateNewTag
 						userId={$currentUser.id}
 						initialContent={{
@@ -259,11 +264,12 @@
 					{/if}
 				</button>
 			{/if}
-		</div>
-	</div>
-	<div class="column">
-		<div class="card" id="evolutions">
-			<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} />
+		</Card>
+
+		<div class="pt-16">
+			<Card classes="">
+				<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} />
+			</Card>
 		</div>
 	</div>
 </div>

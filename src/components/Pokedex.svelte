@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { Logger } from '$lib/log';
 	import Image from '../ui/atoms/image/Image.svelte';
-	import Modal from './UI/Modal.svelte';
+	import Modal from '$/ui/molecules/Modal/Modal.svelte';
+	import Button from '$/ui/atoms/button/Button.svelte';
 
 	let showModal = false;
 
@@ -9,11 +10,33 @@
 	export let height: number;
 	export let weight: number;
 	export let cry: string | null;
+
+	const mergedPokedexEntries = pokedexEntries
+		.reduce((acc: { textEntry: string; games: string[]; language: string }[], currentEntry) => {
+			const existingEntry = acc.find(
+				(entry) =>
+					entry.textEntry === currentEntry.textEntry && entry.language === currentEntry.language
+			);
+
+			if (existingEntry && !existingEntry.games.includes(currentEntry.game)) {
+				existingEntry.games.push(currentEntry.game);
+			} else {
+				acc.push({
+					...currentEntry,
+					games: [currentEntry.game]
+				});
+			}
+
+			return acc;
+		}, [])
+		.sort((a, b) => {
+			// Ensure consistency in language order
+			return a.language < b.language ? 1 : -1;
+		});
 </script>
 
 {#if pokedexEntries.length > 0}
 	<button
-		class="text-textColour"
 		on:click={() => {
 			if (!showModal) {
 				Logger.addPageAction('UIInteraction', 'Pokedex', {
@@ -24,34 +47,35 @@
 		}}
 	>
 		Pokédex
-		<Image src={'/icons/pokedex.png'} alt={'Pokédex'} style="height: 20px;" />
+		<Image src={'/icons/pokedex.png'} alt={'Pokédex'} classNames="h-5" />
 	</button>
 {/if}
 
-<Modal bind:showModal>
-	<h2 class="h2" slot="header">Pokédex Entries</h2>
+<Modal bind:showModal classes="md:max-w-[50%]">
+	<div slot="header" class="grid gap-4">
+		<h2 class="h2">Pokédex Entries</h2>
 
-	<div
-		class="inline-flex justify-between w-full pt-4 pb-4"
-		style="border-bottom: 2px solid var(--text);"
-	>
-		<p class="mt-auto mb-auto"><strong>Height:</strong> {height / 10}m</p>
-		{#if cry}
-			<button
-				class="button primary"
-				on:click={() => {
-					const audioTrack = new Audio(cry ?? undefined);
-					audioTrack.play();
-				}}>Cry</button
-			>
-		{/if}
-		<p class="mt-auto mb-auto"><strong>Weight:</strong> {weight / 10}kg</p>
+		<hr style="border-color: var(--text); margin-left: -1rem;" />
+
+		<div class="inline-flex justify-between w-full pb-4">
+			<p class="mt-auto mb-auto"><strong>Height:</strong> {height / 10}m</p>
+			{#if cry}
+				<Button
+					on:click={() => {
+						const audioTrack = new Audio(cry ?? undefined);
+						audioTrack.play();
+					}}
+				>
+					Cry
+				</Button>
+			{/if}
+			<p class="mt-auto mb-auto mr-4"><strong>Weight:</strong> {weight / 10}kg</p>
+		</div>
 	</div>
 
-	{#each pokedexEntries as pokedexEntry}
-		<!-- Add a language flag icon? -->
-		<div style="margin-top: 20px;">
-			<h3 class="h3">{pokedexEntry.game}</h3>
+	{#each mergedPokedexEntries as pokedexEntry}
+		<div class="pb-4">
+			<h3 class="h3">{pokedexEntry.games.join(', ')}</h3>
 			<p>{pokedexEntry.textEntry}</p>
 		</div>
 	{/each}

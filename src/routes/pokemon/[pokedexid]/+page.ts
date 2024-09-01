@@ -3,6 +3,8 @@ import type { IPokemonResponse } from '../../api/pokemon/types';
 import { get } from 'svelte/store';
 import { selectedGame, primaryLanguage, secondaryLanguage, animateSprites, versionSpecificPokemonSprites } from '$lib/stores/domain';
 import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
+import { Logger } from '$/lib/log';
+import type {  RecordTag } from '$/routes/api/tags/types';
 
 export const load = async ({ params, fetch, url }) => {
 	const requestUrl = new URL(`${url.origin}/api/pokemon/${params.pokedexid}`);
@@ -34,7 +36,23 @@ export const load = async ({ params, fetch, url }) => {
 
 	try {
 		const pokemonData = await res.json() as IPokemonResponse;
-		return pokemonData;
+
+		let tags: RecordTag[] = [];
+		try {
+			const res = await fetch('/api/tags');
+			tags = await res.json() as RecordTag[];
+		} catch(err){
+			Logger.error(
+				Logger.ErrorClasses.TagOperation,
+				Logger.buildError(err),
+				{ context: 'Failed to fetch tags for user' }
+			)
+		}
+
+		return {
+			...pokemonData,
+			tags
+		}
 	} catch {
 		error(500, `Failed to parse JSON response from internal API - ${res.status}`)
 	}

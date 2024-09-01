@@ -49,7 +49,6 @@ const setCookie = (
 };
 
 const deleteCookie = (name: string) => {
-	console.log(`DELETING COOKIE ${name}`);
 	setCookie(name, '', {
 		'max-age': -1
 	});

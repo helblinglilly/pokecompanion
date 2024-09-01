@@ -1,5 +1,7 @@
 <script lang="ts">
-	import Modal from '$/components/UI/Modal.svelte';
+	import Modal from '$/ui/molecules/Modal/Modal.svelte';
+	import type { ITagMove } from '$/lib/types/ITags';
+	import Button from '$/ui/atoms/button/Button.svelte';
 	import { type IDisplayPokemon } from '$lib/stores/pokemonPage';
 	import {
 		addMoveToTag,
@@ -11,32 +13,42 @@
 		removePokemonFromTag,
 		tagStore
 	} from '$lib/stores/tags';
-	import type { ITagMoveNew } from '$lib/types/ITags';
 
 	let showAddToOverlay = false;
 	export let userId: string;
 	export let pokemon: IDisplayPokemon | undefined = undefined;
-	export let move: ITagMoveNew | undefined = undefined;
+	export let move: ITagMove | undefined = undefined;
 </script>
 
-<button
+<!-- <button
 	class="tag text-textColour"
 	on:click={() => {
 		showAddToOverlay = true;
 	}}>Edit</button
+> -->
+
+<Button
+	classes="tag"
+	style="font-size: smaller; padding: 0.5rem;"
+	on:click={() => {
+		showAddToOverlay = true;
+	}}
 >
+	Edit
+</Button>
 
 <Modal bind:showModal={showAddToOverlay}>
 	<h2 class="h2" slot="header">Add and remove tags</h2>
 
-	<div style="display: grid; gap: 1rem;">
+	<div class="grid gap-4">
 		<p>Select the tags which this item should be attached to</p>
 
-		<div style="display: grid;">
+		<div class="grid gap-2">
 			{#each $tagStore as tag}
-				<div>
+				<div class="inline-flex">
 					<input
 						type="checkbox"
+						class="nested"
 						id={tag.name}
 						checked={pokemon
 							? doesTagContainPokemon(pokemon, tag)
@@ -51,7 +63,8 @@
 											id: pokemon.id,
 											gender: pokemon.gender,
 											shiny: pokemon.hasShinySprite && pokemon.showShinySpriteIfExists,
-											variety: pokemon.variety
+											variety: pokemon.variety,
+											added: new Date().toISOString()
 										},
 										tag.id
 									);
@@ -67,7 +80,8 @@
 											id: pokemon.id,
 											gender: pokemon.gender,
 											shiny: pokemon.hasShinySprite && pokemon.showShinySpriteIfExists,
-											variety: pokemon.variety
+											variety: pokemon.variety,
+											added: new Date().toISOString()
 										},
 										tag.id
 									);
@@ -83,26 +97,14 @@
 			{/each}
 		</div>
 
-		<button
-			class="button"
-			style="width: 100%;"
+		<Button
+			classes="w-full"
+			variant="secondary"
 			on:click={() => {
 				showAddToOverlay = false;
-			}}>Close</button
+			}}
 		>
+			Close
+		</Button>
 	</div>
 </Modal>
-
-<style>
-	.tag {
-		display: inline-flex;
-		gap: 0.25rem;
-		font-size: smaller;
-		background-color: var(--secondary);
-		padding: 0.5rem;
-		width: max-content;
-		border-radius: 3rem;
-		margin: 0.25rem;
-		text-decoration: none;
-	}
-</style>
