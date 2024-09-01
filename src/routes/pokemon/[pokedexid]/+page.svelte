@@ -157,7 +157,7 @@
 	/>
 
 	<div class="columns-1 md:columns-2 gap-4">
-		<Card>
+		<Card style="position: relative;">
 			<div class="inline-flex w-full justify-between h-5">
 				<div class="inline-flex gap-1 justify-start w-6/12">
 					{#each data.pokemon.types as type}
@@ -266,10 +266,10 @@
 			{/if}
 		</Card>
 
-		<div class="pt-16">
-			<Card classes="">
+		<div class="">
+			<div class="card">
 				<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} />
-			</Card>
+			</div>
 		</div>
 	</div>
 </div>
@@ -324,5 +324,30 @@
 	.card {
 		padding-top: 1rem;
 		position: relative;
+	}
+
+	.triangle {
+		position: absolute;
+		bottom: 0;
+		width: 0;
+		height: 0;
+		z-index: 0;
+	}
+	.triangle:hover {
+		background-color: inherit;
+	}
+
+	.triangle.right {
+		right: 0;
+		border-bottom-right-radius: 10px;
+		border-left: 4rem solid transparent;
+		border-bottom: 4rem solid;
+	}
+
+	.triangle.left {
+		left: 0;
+		border-bottom-left-radius: 10px;
+		border-right: 4rem solid transparent;
+		border-bottom: 4rem solid;
 	}
 </style>

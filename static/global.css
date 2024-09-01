@@ -160,35 +160,10 @@ div.column {
 	width: 100%;
 }
 
-.card > .triangle {
-	position: absolute;
-	bottom: 0;
-	width: 0;
-	height: 0;
-	z-index: 0;
-}
-
 .card > .card {
 	background-color: var(--primary);
 }
 
-.triangle:hover {
-	background-color: inherit;
-}
-
-.card > .triangle.right {
-	right: 0;
-	border-bottom-right-radius: 10px;
-	border-left: 4rem solid transparent;
-	border-bottom: 4rem solid;
-}
-
-.card > .triangle.left {
-	left: 0;
-	border-bottom-left-radius: 10px;
-	border-right: 4rem solid transparent;
-	border-bottom: 4rem solid;
-}
 
 .hidden {
 	display: none;

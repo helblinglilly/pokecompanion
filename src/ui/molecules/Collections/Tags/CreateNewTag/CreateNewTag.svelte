@@ -36,7 +36,7 @@
 </script>
 
 <Button
-	classes="h-2 text-sm min-h-[4rem] md:min-h-fit"
+	classes="h-2 text-sm md:min-h-fit"
 	variant="accent"
 	on:click={() => {
 		showAddNewOverlay = true;
