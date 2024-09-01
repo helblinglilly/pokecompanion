@@ -65,7 +65,7 @@
 
 		<div class="column">
 			<div class="grid lg:flex gap-8">
-				<div class="">
+				<div class="w-full">
 					<Card>
 						<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
 							<h2 class="h2 content-center">{data.user.username}'s teams</h2>
@@ -95,7 +95,7 @@
 					</Card>
 				</div>
 
-				<div class="">
+				<div class="w-full">
 					<Card>
 						<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
 							<h2 class="h2 content-center">{data.user.username}'s tags</h2>

@@ -6,7 +6,7 @@
 		selectedGame
 	} from '$lib/stores/domain';
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import Navigator from '$/components/Navigator.svelte';
+	import Navigator from '$/routes/pokemon/[pokedexid]/Navigator.svelte';
 	import EvolutionChain from '$/components/Pokemon/EvolutionChain/';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
@@ -46,7 +46,7 @@
 				gender: data.sprites.hasFemale ? (showFemaleSpriteIfExists ? 'female' : 'male') : undefined,
 				showShinySpriteIfExists,
 				hasShinySprite: data.sprites.hasShiny,
-				variety: varietyName ?? undefined,
+				variety: varietyName ?? data.pokemon.name + '-default',
 				transferableQueryParams: '' // Gets auto-updated within the store anyway
 			});
 		}
@@ -150,8 +150,6 @@
 <Navigator
 	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
 	currentId={data.id}
-	maxId={lastPokedexEntry}
-	route="/pokemon"
 	forms={data.pokemon.varietyForms}
 />
 

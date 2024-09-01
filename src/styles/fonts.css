@@ -16,19 +16,19 @@ html {
     font-variation-settings: "slnt" 0;
 }
 
-.h1 {
+.h1, .h1 *{
     font-weight: 600;
     font-size: xx-large;
     padding-bottom: 0.25rem;
 }
 
-.h2 {
+.h2, .h2 * {
     font-weight: 500;
     font-size: x-large;
     padding-bottom: 0.25rem;
 }
 
-.h3 {
+.h3, .h3 * {
     font-weight: 500;
     font-size: large;
     padding-bottom: 0.1rem;

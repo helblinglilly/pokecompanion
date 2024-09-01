@@ -13,6 +13,7 @@ export interface IPokemonResponse {
 			latest: string | null;
 			legacy: string | null;
 		}
+		name: string;
 		types: IType[];
 		typeRelations: ITypeRelations;
 		varietyForms: {
