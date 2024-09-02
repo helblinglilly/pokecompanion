@@ -20,16 +20,9 @@
 	export let move: ITagMove | undefined = undefined;
 </script>
 
-<!-- <button
-	class="tag text-textColour"
-	on:click={() => {
-		showAddToOverlay = true;
-	}}>Edit</button
-> -->
-
 <Button
-	classes="tag"
-	style="font-size: smaller; padding: 0.5rem;"
+	classes="tag h-2 md:min-h-fit relative z-20"
+	style="font-size: smaller;"
 	on:click={() => {
 		showAddToOverlay = true;
 	}}
@@ -99,7 +92,7 @@
 
 		<Button
 			classes="w-full"
-			variant="secondary"
+			variant="primary"
 			on:click={() => {
 				showAddToOverlay = false;
 			}}

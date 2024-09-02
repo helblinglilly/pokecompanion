@@ -36,7 +36,7 @@
 </script>
 
 <Button
-	classes="h-2 text-sm md:min-h-fit"
+	classes="h-2 text-sm md:min-h-fit relative z-20"
 	variant="accent"
 	on:click={() => {
 		showAddNewOverlay = true;
@@ -48,51 +48,48 @@
 <Modal bind:showModal={showAddNewOverlay}>
 	<h2 class="h2" slot="header">Create new tag</h2>
 
-	{#if Object.keys(initialContent).length > 0}
-		<p style="padding-top: 1rem;">The current item will be added to it after it's created</p>
-	{/if}
-	<form>
-		<div id="newTagName">
-			<InlineTextButton
-				bind:valueBinding={newListName}
-				variation="small"
-				buttonConfig={{
-					text: 'Create',
-					onClick: async () => {
-						if (initialContent.pokemon) {
-							mappedPokemon = initialContent.pokemon.map((mon) => {
-								return {
-									...mon,
-									added: new Date().toISOString()
-								};
-							});
-						}
-						if (initialContent.move) {
-							mappedMoves = initialContent.move.map((move) => {
-								return {
-									...move,
-									added: new Date().toISOString()
-								};
-							});
-						}
-						await createTag(userId, newListName, isPrivate, {
-							pokemon: mappedPokemon,
-							move: mappedMoves
-						});
-						showAddNewOverlay = false;
-						newListName = '';
-						onSuccess({
-							user: userId,
-							name: newListName,
-							isPrivate
+	<form class="grid gap-4 w-full">
+		{#if Object.keys(initialContent).length > 0}
+			<p class="text-center pt-4">The current item will be added to it after it's created</p>
+		{/if}
+
+		<div class="inline-flex gap-2 justify-center">
+			<input type="text" class="w-6/12" placeholder="Tag name" bind:value={newListName} />
+			<Button
+				variant="accent"
+				on:click={async () => {
+					if (initialContent.pokemon) {
+						mappedPokemon = initialContent.pokemon.map((mon) => {
+							return {
+								...mon,
+								added: new Date().toISOString()
+							};
 						});
 					}
-				}}
-				inputConfig={{ placeholder: 'Tag name' }}
-				containerStyling="width: 70%;"
-			/>
+					if (initialContent.move) {
+						mappedMoves = initialContent.move.map((move) => {
+							return {
+								...move,
+								added: new Date().toISOString()
+							};
+						});
+					}
+					await createTag(userId, newListName, isPrivate, {
+						pokemon: mappedPokemon,
+						move: mappedMoves
+					});
+					showAddNewOverlay = false;
+					newListName = '';
+					onSuccess({
+						user: userId,
+						name: newListName,
+						isPrivate
+					});
+				}}>Create</Button
+			>
 		</div>
-		<div>
+
+		<div class="inline-flex gap-2 justify-center">
 			<input
 				type="checkbox"
 				id="isPrivate"
@@ -101,17 +98,17 @@
 					isPrivate = e.currentTarget.checked;
 				}}
 			/>
-			<label style="padding-left: 0.5rem;" for="isPrivate">Private tag</label>
+			<label for="isPrivate">Private tag</label>
 		</div>
 	</form>
 </Modal>
 
 <style>
-	form > div {
+	/* form > div {
 		display: inline-flex;
 		height: 100%;
 		width: 100%;
 		padding-top: 1rem;
 		justify-content: center;
-	}
+	} */
 </style>

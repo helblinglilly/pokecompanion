@@ -156,8 +156,8 @@
 		forms={data.pokemon.varietyForms}
 	/>
 
-	<div class="columns-1 md:columns-2 gap-4">
-		<Card style="position: relative;">
+	<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+		<Card classes="relative max-h-max">
 			<div class="inline-flex w-full justify-between h-5">
 				<div class="inline-flex gap-1 justify-start w-6/12">
 					{#each data.pokemon.types as type}
@@ -184,9 +184,13 @@
 			/>
 
 			{#if $currentUser}
-				<div class="flex justify-center items-center w-full gap-2" style="flex-flow: wrap;">
+				<div
+					class="flex justify-center items-center w-full gap-2 relative z-20"
+					style="flex-flow: wrap;"
+				>
 					<SelectedTags pokemon={$pokemonDisplayStore} />
-
+				</div>
+				<div class="flex justify-center items-center w-full gap-2 pt-2">
 					{#if $tagStore.length > 0}
 						<EditTag userId={$currentUser.id} pokemon={$pokemonDisplayStore} />
 					{/if}
@@ -266,25 +270,17 @@
 			{/if}
 		</Card>
 
-		<div class="">
-			<div class="card">
-				<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} />
-			</div>
-		</div>
-	</div>
-</div>
+		<Card>
+			<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} />
+		</Card>
 
-<div class="columns">
-	<div class="column">
-		<div class="card">
+		<Card>
 			<TypeMatchup relations={data.pokemon.typeRelations} />
-		</div>
-	</div>
+		</Card>
 
-	<div class="column">
-		<div class="card">
+		<Card>
 			<BaseStats data={data.pokemon.stats} />
-		</div>
+		</Card>
 	</div>
 </div>
 

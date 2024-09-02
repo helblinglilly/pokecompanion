@@ -33,7 +33,8 @@
 	};
 </script>
 
-<div class="columns mobile" style="min-height: 178px;">
+<!-- <div class="columns mobile" style="min-height: 178px;"> -->
+<div class="columns mobile py-2">
 	<div
 		class="column spriteBoxWrapper"
 		on:click={() => toggleModal(primarySprite)}

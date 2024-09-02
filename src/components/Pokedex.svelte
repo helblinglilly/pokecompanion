@@ -11,28 +11,28 @@
 	export let weight: number;
 	export let cry: string | null;
 
-	const mergedPokedexEntries = pokedexEntries
-		.reduce((acc: { textEntry: string; games: string[]; language: string }[], currentEntry) => {
-			const existingEntry = acc.find(
-				(entry) =>
-					entry.textEntry === currentEntry.textEntry && entry.language === currentEntry.language
-			);
+	const mergedPokedexEntries = pokedexEntries;
+	// .reduce((acc: { textEntry: string; games: string[]; language: string }[], currentEntry) => {
+	// 	const existingEntry = acc.find(
+	// 		(entry) =>
+	// 			entry.textEntry === currentEntry.textEntry && entry.language === currentEntry.language
+	// 	);
 
-			if (existingEntry && !existingEntry.games.includes(currentEntry.game)) {
-				existingEntry.games.push(currentEntry.game);
-			} else {
-				acc.push({
-					...currentEntry,
-					games: [currentEntry.game]
-				});
-			}
+	// 	if (existingEntry && !existingEntry.games.includes(currentEntry.game)) {
+	// 		existingEntry.games.push(currentEntry.game);
+	// 	} else {
+	// 		acc.push({
+	// 			...currentEntry,
+	// 			games: [currentEntry.game]
+	// 		});
+	// 	}
 
-			return acc;
-		}, [])
-		.sort((a, b) => {
-			// Ensure consistency in language order
-			return a.language < b.language ? 1 : -1;
-		});
+	// 	return acc;
+	// }, [])
+	// .sort((a, b) => {
+	// 	// Ensure consistency in language order
+	// 	return a.language < b.language ? 1 : -1;
+	// });
 </script>
 
 {#if pokedexEntries.length > 0}
@@ -75,7 +75,7 @@
 
 	{#each mergedPokedexEntries as pokedexEntry}
 		<div class="pb-4">
-			<h3 class="h3">{pokedexEntry.games.join(', ')}</h3>
+			<h3 class="h3">{pokedexEntry.game}</h3>
 			<p>{pokedexEntry.textEntry}</p>
 		</div>
 	{/each}
