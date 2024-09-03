@@ -1,33 +1,32 @@
 <script lang="ts">
+	import Button from '$/ui/atoms/button/Button.svelte';
 	import { navigating } from '$app/stores';
+	import { createEventDispatcher } from 'svelte';
 
 	let isExpanded = false;
 
-	export let onClick: () => void = () => undefined;
-	export let buttonStyles = '';
-	export let buttonClasses = '';
-	export let contentStyles = '';
+	const dispatch = createEventDispatcher();
 
 	navigating.subscribe(() => {
 		isExpanded = false;
 	});
 </script>
 
-<button
-	class={`button ${isExpanded ? 'isExpanded' : ''} ${buttonClasses}`}
-	style={buttonStyles}
+<Button
+	variant="primary"
+	isNested
+	classes="w-full contents"
+	style="height: 3rem;"
 	on:click={() => {
 		isExpanded = !isExpanded;
-		onClick();
+		dispatch('click');
 	}}
 >
-	<slot name="title" style="width: 100%;" />
-</button>
+	<slot name="title" />
+</Button>
 
 {#if isExpanded}
-	<div style={contentStyles}>
-		<slot name="content" />
-	</div>
+	<slot name="content" />
 {/if}
 
 <style>

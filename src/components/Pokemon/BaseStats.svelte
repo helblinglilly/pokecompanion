@@ -172,7 +172,7 @@
 		position: absolute;
 		height: 100%;
 		width: 2px;
-		background-color: red;
+		background-color: var(--text);
 		left: 31.8181818182%;
 	}
 
@@ -187,5 +187,18 @@
 		.short {
 			display: inherit;
 		}
+	}
+
+	progress {
+		width: 100%;
+		border-radius: 10px;
+		background-color: var(--grey-muted);
+		color: var(--red-accent);
+	}
+	progress::-moz-progress-bar {
+		background: var(--red-accent);
+	}
+	progress::-webkit-progress-value {
+		background: var(--red-accent);
 	}
 </style>

@@ -2,6 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let variant: 'accent' | 'primary' | 'secondary' | 'default' = 'default';
+	export let isNested: boolean = false;
 	export let isDisabled: boolean = false;
 	export let title: string = '';
 	export let label: string = '';
@@ -14,11 +15,12 @@
 
 <button
 	{type}
-	class={`button ${variant} rounded-lg p-4 ${classes}`}
+	class={`button ${variant} rounded-lg p-4 ${isNested ? 'nested' : ''} ${classes}`}
 	{style}
 	disabled={isDisabled}
 	aria-label={title}
 	{title}
+	{...$$restProps}
 	on:click={() => {
 		dispatch('click');
 	}}
@@ -60,6 +62,14 @@
 
 	.button.primary {
 		background-color: var(--grey-primary);
+	}
+
+	.button.primary.nested {
+		background-color: var(--select-background);
+	}
+
+	.button.primary.nested:hover {
+		background-color: var(--card-hover);
 	}
 
 	.button.primary:hover {

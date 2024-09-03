@@ -11,13 +11,11 @@
 </script>
 
 <ExpandableButton
-	buttonClasses="secondary"
-	buttonStyles="width: 100%; display: contents;"
-	onClick={() => {
+	on:click={() => {
 		Logger.addPageAction('UIInteraction', 'Encounter');
 	}}
 >
-	<p slot="title" class="button secondary ml-auto mr-auto mt-3">
+	<p slot="title" class="button secondary ml-auto mr-auto">
 		{capitaliseEachWord(locationKey.replaceAll('-', ' '))}
 	</p>
 
@@ -49,9 +47,9 @@
 						</td>
 						{#if hasRequirement}
 							<td>
-								{#each locationInfo.conditions as condition}
-									{capitaliseEachWord(condition.replaceAll('-', ' '))}
-								{/each}
+								{locationInfo.conditions
+									.map((a) => capitaliseEachWord(a.replaceAll('-', ' ')))
+									.join(', ')}
 							</td>
 						{/if}
 					</tr>

@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { getGame, type PokeapiVersionNames } from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
+	import { createEventDispatcher } from 'svelte';
 
 	export let versions: PokeapiVersionNames[];
 	export let currentlySelected: PokeapiVersionNames | 'generic' | undefined;
-	export let onChange: (_a: PokeapiVersionNames | 'generic') => any;
 	export let isVisibleOnEmptyOptions: boolean = false;
 
 	$: games = versions.map((version) => getGame(version)).filter((a) => a);
+
+	const dispatch = createEventDispatcher();
 
 	const convertType = (
 		event: Event & {
@@ -26,7 +28,7 @@
 		on:change={(event) => {
 			const newValue = convertType(event);
 			if (newValue) {
-				onChange(newValue);
+				dispatch('change', newValue);
 			}
 		}}
 	>

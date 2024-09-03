@@ -163,6 +163,7 @@ export enum PokeapiVersionGroups {
 export interface IGame {
 	shortName: string;
 	pokeapi: PokeapiVersionNames;
+	globalSortOrder: number;
 }
 export interface IGameGroups { 
 	pokeapi: PokeapiVersionGroups,
@@ -180,7 +181,8 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[Generations.length - 1],
 		games: [{
 			pokeapi: PokeapiVersionNames.HOME,
-			shortName: 'Home'
+			shortName: 'Home',
+			globalSortOrder: -1
 		}],
 		region: Regions.KANTO,
 		dlcGames: [],
@@ -191,10 +193,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[0],
 		games: [{
 			pokeapi: PokeapiVersionNames.RED,
-			shortName: 'Red'
+			shortName: 'Red',
+			globalSortOrder: 0
 		}, {
 			pokeapi: PokeapiVersionNames.BLUE,
-			shortName: 'Blue'
+			shortName: 'Blue',
+			globalSortOrder: 1
 		}],
 		region: Regions.KANTO,
 		dlcGames: [],
@@ -205,7 +209,8 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[0],
 		games: [{
 			pokeapi: PokeapiVersionNames.YELLOW,
-			shortName: 'Yellow'
+			shortName: 'Yellow',
+			globalSortOrder: 2
 		}],
 		region: Regions.KANTO,
 		dlcGames: [],
@@ -216,10 +221,13 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[1],
 		games: [{
 			pokeapi: PokeapiVersionNames.GOLD,
-			shortName: 'Gold'
+			shortName: 'Gold',
+			globalSortOrder: 3
 		}, {
 			pokeapi: PokeapiVersionNames.SILVER,
 			shortName: 'Silver'
+			,
+			globalSortOrder: 4
 		}],
 		region: Regions.JOHTO,
 		dlcGames: [],
@@ -230,7 +238,8 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[1],
 		games: [{
 			pokeapi: PokeapiVersionNames.CRYSTAL,
-			shortName: 'Crystal'
+			shortName: 'Crystal',
+			globalSortOrder: 5
 		}],
 		region: Regions.JOHTO,
 		dlcGames: [],
@@ -241,10 +250,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[2],
 		games: [{
 			pokeapi: PokeapiVersionNames.RUBY,
-			shortName: 'Ruby'
+			shortName: 'Ruby',
+			globalSortOrder: 6
 		}, {
 			pokeapi: PokeapiVersionNames.SAPPHIRE,
-			shortName: 'Sapphire'
+			shortName: 'Sapphire',
+			globalSortOrder: 7
 		}],
 		region: Regions.HOENN,
 		dlcGames: [],
@@ -255,7 +266,8 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[2],
 		games: [{
 			pokeapi: PokeapiVersionNames.EMERALD,
-			shortName: 'Emerald'
+			shortName: 'Emerald',
+			globalSortOrder: 8
 		}],
 		region: Regions.HOENN,
 		dlcGames: [],
@@ -266,10 +278,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[2],
 		games: [{
 			pokeapi: PokeapiVersionNames.FIRERED,
-			shortName: 'Fire Red'
+			shortName: 'Fire Red',
+			globalSortOrder: 9
 		}, {
 			pokeapi: PokeapiVersionNames.LEAFGREEN,
-			shortName: 'Leaf Green'
+			shortName: 'Leaf Green',
+			globalSortOrder: 10
 		}],
 		region: Regions.KANTO,
 		dlcGames: [],
@@ -280,10 +294,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[3],
 		games: [{
 			pokeapi: PokeapiVersionNames.DIAMOND,
-			shortName: 'Diamond'
+			shortName: 'Diamond',
+			globalSortOrder: 11,
 		}, {
 			pokeapi: PokeapiVersionNames.PEARL,
-			shortName: 'Pearl'
+			shortName: 'Pearl',
+			globalSortOrder: 12
 		}],
 		region: Regions.SINNOH,
 		dlcGames: [],
@@ -294,7 +310,8 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[3],
 		games: [{
 			pokeapi: PokeapiVersionNames.PLATINUM,
-			shortName: 'Platinum'
+			shortName: 'Platinum',
+			globalSortOrder: 13
 		}],
 		region: Regions.SINNOH,
 		dlcGames: [],
@@ -305,10 +322,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[3],
 		games: [{
 			pokeapi: PokeapiVersionNames.HEART_GOLD,
-			shortName: 'Heart Gold'
+			shortName: 'Heart Gold',
+			globalSortOrder: 14
 		}, {
 			pokeapi: PokeapiVersionNames.SOUL_SILVER,
-			shortName: 'Soul Silver'
+			shortName: 'Soul Silver',
+			globalSortOrder: 15
 		}],
 		region: Regions.JOHTOKANTO,
 		dlcGames: [],
@@ -319,10 +338,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[4],
 		games: [{
 			pokeapi: PokeapiVersionNames.BLACK,
-			shortName: 'Black'
+			shortName: 'Black',
+			globalSortOrder: 15
 		}, {
 			pokeapi: PokeapiVersionNames.WHITE,
-			shortName: 'White'
+			shortName: 'White',
+			globalSortOrder: 16
 		}],
 		region: Regions.UNOVA,
 		dlcGames: [],
@@ -333,10 +354,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[4],
 		games: [{
 			pokeapi: PokeapiVersionNames.BLACK_2,
-			shortName: 'Black 2'
+			shortName: 'Black 2',
+			globalSortOrder: 17
 		}, {
 			pokeapi: PokeapiVersionNames.WHITE_2,
-			shortName: 'White 2'
+			shortName: 'White 2',
+			globalSortOrder: 18
 		}],
 		region: Regions.UNOVA,
 		dlcGames: [],
@@ -347,10 +370,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[5],
 		games: [{
 			pokeapi: PokeapiVersionNames.X,
-			shortName: 'X'
+			shortName: 'X',
+			globalSortOrder: 19
 		}, {
 			pokeapi: PokeapiVersionNames.Y,
-			shortName: 'Y'
+			shortName: 'Y',
+			globalSortOrder: 20
 		}],
 		region: Regions.KALOS,
 		dlcGames: [],
@@ -361,10 +386,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[5],
 		games: [{
 			pokeapi: PokeapiVersionNames.OMEGA_RUBY,
-			shortName: 'Omega Ruby'
+			shortName: 'Omega Ruby',
+			globalSortOrder: 21
 		}, {
 			pokeapi: PokeapiVersionNames.ALPHA_SAPPHIRE,
-			shortName: 'Alpha Sapphire'
+			shortName: 'Alpha Sapphire',
+			globalSortOrder: 22
 		}],
 		region: Regions.HOENN,
 		dlcGames: [],
@@ -375,10 +402,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[6],
 		games: [{
 			pokeapi: PokeapiVersionNames.SUN,
-			shortName: 'Sun'
+			shortName: 'Sun',
+			globalSortOrder: 23
 		}, {
 			pokeapi: PokeapiVersionNames.MOON,
-			shortName: 'Moon'
+			shortName: 'Moon',
+			globalSortOrder: 24
 		}],
 		region: Regions.ALOLA,
 		dlcGames: [],
@@ -389,10 +418,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[6],
 		games: [{
 			pokeapi: PokeapiVersionNames.ULTRA_SUN,
-			shortName: 'Ultra Sun'
+			shortName: 'Ultra Sun',
+			globalSortOrder: 25
 		}, {
 			pokeapi: PokeapiVersionNames.ULTRA_MOON,
-			shortName: 'Ultra Moon'
+			shortName: 'Ultra Moon',
+			globalSortOrder: 26
 		}],
 		region: Regions.ALOLA,
 		dlcGames: [],
@@ -403,10 +434,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[6],
 		games: [{
 			pokeapi: PokeapiVersionNames.PIKACHU,
-			shortName: "Let's Go Pikachu"
+			shortName: "Let's Go Pikachu",
+			globalSortOrder: 27
 		}, {
 			pokeapi: PokeapiVersionNames.EEVEE,
-			shortName: "Let's Go Eevee"
+			shortName: "Let's Go Eevee",
+			globalSortOrder: 28
 		}],
 		region: Regions.KANTO,
 		dlcGames: [],
@@ -417,18 +450,22 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[7],
 		games: [{
 			pokeapi: PokeapiVersionNames.SWORD,
-			shortName: 'Sword'
+			shortName: 'Sword',
+			globalSortOrder: 29
 		}, {
 			pokeapi: PokeapiVersionNames.SHIELD,
-			shortName: 'Shield'
+			shortName: 'Shield',
+			globalSortOrder: 30
 		}],
 		region: Regions.GALAR,
 		dlcGames: [{
 			pokeapi: PokeapiVersionNames.ISLE_OF_ARMOR,
-			shortName: 'The Isle of Armor'
+			shortName: 'The Isle of Armor',
+			globalSortOrder: 31
 		}, {
 			pokeapi: PokeapiVersionNames.ISLE_OF_TUNDRA,
-			shortName: 'The Isle of Tundra'
+			shortName: 'The Isle of Tundra',
+			globalSortOrder: 32
 		}],
 	},
 	{
@@ -437,10 +474,12 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[7],
 		games: [{
 			pokeapi: PokeapiVersionNames.BRILLIANT_DIAMOND,
-			shortName: 'Brilliant Diamond'
+			shortName: 'Brilliant Diamond',
+			globalSortOrder: 33
 		}, {
 			pokeapi: PokeapiVersionNames.SHINING_PEARL,
-			shortName: 'Shining Pearl'
+			shortName: 'Shining Pearl',
+			globalSortOrder: 34
 		}],
 		region: Regions.SINNOH,
 		dlcGames: [],
@@ -451,7 +490,8 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[7],
 		games: [{
 			pokeapi: PokeapiVersionNames.LEGENDS_ARCEUS,
-			shortName: 'Legends Arceus'
+			shortName: 'Legends Arceus',
+			globalSortOrder: 35
 		}],
 		region: Regions.HISUI,
 		dlcGames: [],
@@ -462,18 +502,22 @@ export const GameGroups: IGameGroups[] = [
 		generation: Generations[8],
 		games: [{
 			pokeapi: PokeapiVersionNames.SCARLET,
-			shortName: 'Scarlet'
+			shortName: 'Scarlet',
+			globalSortOrder: 36
 		}, {
 			pokeapi: PokeapiVersionNames.VIOLET,
-			shortName: 'Violet'
+			shortName: 'Violet',
+			globalSortOrder: 37
 		}],
 		region: Regions.PALDEA,
 		dlcGames: [{
 			pokeapi: PokeapiVersionNames.TEAL_MASK,
 			shortName: 'Teal Mask',
+			globalSortOrder: 39
 		}, {
 			pokeapi: PokeapiVersionNames.INDIGO_DISK,
 			shortName: 'Indigo Disk',
+			globalSortOrder: 40
 		}],
 	},
 ]
@@ -524,7 +568,7 @@ export const isPokemonInGameGroup = (nationalDexId: number, gameGroup: IGameGrou
 	return nationalDexId < gameGroup.generation.nationalDexEnd;
 }
 
-export const getGameFromName = (pokeapiname: PokeapiVersionNames | undefined): { shortName: string, pokeapi: PokeapiVersionNames | 'generic'} => {
+export const getGameFromName = (pokeapiname: PokeapiVersionNames | undefined): { shortName: string, pokeapi: PokeapiVersionNames | 'generic', globalSortOrder: number;} => {
 	const generic: { shortName: string; pokeapi: PokeapiVersionNames | 'generic'} = { shortName: 'Generic', pokeapi: 'generic'};
 	if (!pokeapiname){
 		return generic;
