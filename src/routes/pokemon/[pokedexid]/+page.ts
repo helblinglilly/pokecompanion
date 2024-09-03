@@ -4,7 +4,7 @@ import { get } from 'svelte/store';
 import { selectedGame, primaryLanguage, secondaryLanguage, animateSprites, versionSpecificPokemonSprites } from '$lib/stores/domain';
 import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
 import { Logger } from '$/lib/log';
-import type {  RecordTag } from '$/routes/api/tags/types';
+import type {  RecordTag } from '$/routes/api/tag/types';
 
 export const load = async ({ params, fetch, url }) => {
 	const requestUrl = new URL(`${url.origin}/api/pokemon/${params.pokedexid}`);

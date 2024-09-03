@@ -8,6 +8,9 @@
 	export let moveId: number | undefined = undefined;
 
 	$: currentTags = $tagStore.filter((tag) => {
+		if (tag.isHiddenAcrossSite) {
+			return false;
+		}
 		if (pokemon) {
 			return doesTagContainPokemon(pokemon, tag);
 		} else if (moveId) {

@@ -1,7 +1,7 @@
 import Pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import { Logger } from '$lib/log';
-import type { RecordTag } from '$/routes/api/tags/types';
+import type { RecordTag } from '$/routes/api/tag/types';
 
 export type ITags = RecordTag;
 

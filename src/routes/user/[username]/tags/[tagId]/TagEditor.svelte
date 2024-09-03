@@ -63,6 +63,26 @@
 	Make {$tag.isPrivate ? 'Public' : 'Private'}
 </Button>
 
+<Button
+	variant="primary"
+	on:click={() => {
+		const optimisticTag = { ...$tag, isHiddenAcrossSite: !$tag.isHiddenAcrossSite };
+		const originalTag = { ...$tag };
+
+		tag.set(optimisticTag);
+
+		patchTag(optimisticTag).then((newTag) => {
+			if (newTag) {
+				tag.set(newTag);
+			} else {
+				tag.set(originalTag);
+			}
+		});
+	}}
+>
+	{$tag.isHiddenAcrossSite ? 'Show' : 'Hide'} on site
+</Button>
+
 <Button classes="error" on:click={() => (showDeleteOverlay = !showDeleteOverlay)}>Delete Tag</Button
 >
 
