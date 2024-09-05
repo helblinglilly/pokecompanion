@@ -126,7 +126,8 @@
 		border-radius: 10%;
 		z-index: 1;
 		display: inline-flex;
-		margin: 0.5rem;
+		margin: 0;
+		padding: 0.5rem;
 		gap: 0.5rem;
 	}
 

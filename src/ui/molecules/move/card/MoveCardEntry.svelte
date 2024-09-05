@@ -113,12 +113,6 @@
 		z-index: 1;
 	}
 
-	@media screen and (min-width: 768px) {
-		.card {
-			max-width: 45%;
-		}
-	}
-
 	p {
 		word-wrap: normal;
 	}

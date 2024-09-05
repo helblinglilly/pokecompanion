@@ -101,10 +101,7 @@
 							<h2 class="h2 content-center">{data.user.username}'s tags</h2>
 							{#if $currentUser}
 								<CreateNewTag
-									userId={$currentUser.id}
-									initialContent={{}}
-									onSuccess={() => {
-										// @ts-ignore Just missing creation/updated timestamps
+									on:success={({ detail }) => {
 										data.tags = $tagStore;
 									}}
 								/>

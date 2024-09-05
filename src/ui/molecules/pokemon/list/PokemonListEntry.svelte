@@ -95,7 +95,6 @@
 			{/if}
 		{/if}
 	</div>
-
 	<slot name="remove" />
 </Card>
 

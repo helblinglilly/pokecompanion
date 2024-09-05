@@ -1,17 +1,17 @@
 <script lang="ts">
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
-	import type { TagRecord } from '$/lib/types/ITags';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { deleteTag, patchTag } from './helper';
 	import { goto } from '$app/navigation';
 	import { currentUser } from '$/lib/stores/user';
 	import Button from '$/ui/atoms/button';
+	import type { RecordTag } from '$/routes/api/tag/types';
 
 	let showRenameOverlay = false;
 	let showDescriptionOverlay = false;
 	let showDeleteOverlay = false;
-	let tag = getContext('tag') as Writable<TagRecord>;
+	let tag = getContext('tag') as Writable<RecordTag>;
 
 	let newName = $tag.name;
 	let newDescription = $tag.description;
@@ -71,13 +71,17 @@
 
 		tag.set(optimisticTag);
 
-		patchTag(optimisticTag).then((newTag) => {
-			if (newTag) {
-				tag.set(newTag);
-			} else {
-				tag.set(originalTag);
-			}
-		});
+		patchTag(optimisticTag)
+			.then((newTag) => {
+				if (newTag) {
+					tag.set(newTag);
+				} else {
+					tag.set(originalTag);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}}
 >
 	{$tag.isHiddenAcrossSite ? 'Show' : 'Hide'} on site
@@ -156,7 +160,7 @@
 			<Button
 				classes="error"
 				on:click={() => {
-					deleteTag($tag).then(() => {
+					deleteTag($tag.id).then(() => {
 						goto(`/user/${$currentUser?.username}`);
 					});
 				}}>Yes, delete</Button

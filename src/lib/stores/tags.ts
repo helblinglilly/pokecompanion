@@ -1,17 +1,13 @@
-import { getTagsByUser, type ITags } from '$lib/pb/tags';
+import { getTagsByUser } from '$lib/pb/tags';
 import { writable } from 'svelte/store';
 import { currentUser } from './user';
 import { addNotification } from './notifications';
-import type { ITagMove, ITagPokemon } from '$lib/types/ITags';
 import type { IDisplayPokemon } from './pokemonPage';
 import { Logger } from '$lib/log';
+import type { ITagMove, RecordTag } from '$/routes/api/tag/types';
+import type { IRecordPokemon } from '../types/IPokemon';
 
-export const tagStore = writable<ITags[]>([]);
-
-/* There are currently functions in here to add/remove each possible content of
- * a tag. Before adding the next type of content, these should really be
- * abstracted and refactored.
- */
+export const tagStore = writable<RecordTag[]>([]);
 
 export async function refetchTags(userId: string) {
 	try {
@@ -30,70 +26,11 @@ export async function refetchTags(userId: string) {
 	}
 }
 
-export async function createTag(
-	userId: string,
-	name: string,
-	isPrivate: boolean,
-	initialContent?: {
-		pokemon?: ITagPokemon[];
-		move?: ITagMove[];
-	}
-) {
+export async function addPokemonToTag(pokemon: IRecordPokemon, tagId: string) {
 	try {
-		const actualInitialContent = {
-			pokemon: initialContent?.pokemon ?? [],
-			move: initialContent?.move ?? []
-		};
-		const payload = {
-			name,
-			isPrivate,
-			initialContent: actualInitialContent,
-			showGenderAndShiny: true
-		};
-
-		const response = await fetch('/api/tags', {
+		const res = await fetch(`/api/tag/${tagId}/pokemon`, {
 			method: 'POST',
-			body: JSON.stringify(payload)
-		});
-
-		if (!response.ok) {
-			throw new Error(`${response.status}, ${JSON.stringify(payload)}`);
-		}
-		addNotification({
-			message: `Created new ${isPrivate ? 'private' : ''} tag "${name}"`,
-			level: 'success'
-		});
-
-		await refetchTags(userId);
-	} catch (err) {
-		addNotification({ message: 'Failed to create tag', level: 'failure' });
-
-		await Logger.error(
-			Logger.ErrorClasses.TagOperation,
-			Logger.buildError(err),
-			{
-				name,
-				user: userId
-			}
-		)
-	}
-}
-
-export async function addPokemonToTag(pokemon: ITagPokemon, tagId: string) {
-	try {
-		const res = await fetch(`/api/tag`, {
-			method: 'POST',
-			body: JSON.stringify({
-				id: tagId,
-				contents: {
-					pokemon: [
-						{
-							...pokemon,
-							added: new Date().toISOString()
-						}
-					]
-				}
-			})
+			body: JSON.stringify(pokemon)
 		});
 		switch (res.status) {
 			case 200:
@@ -125,20 +62,11 @@ export async function addPokemonToTag(pokemon: ITagPokemon, tagId: string) {
 
 export async function addMoveToTag(move: ITagMove, tagId: string) {
 	try {
-		const res = await fetch(`/api/tag`, {
+		const res = await fetch(`/api/tag/${tagId}/move`, {
 			method: 'POST',
-			body: JSON.stringify({
-				id: tagId,
-				contents: {
-					move: [
-						{
-							...move,
-							added: new Date().toISOString()
-						}
-					]
-				}
-			})
+			body: JSON.stringify(move)
 		});
+
 		switch (res.status) {
 			case 200:
 			case 201:
@@ -167,17 +95,11 @@ export async function addMoveToTag(move: ITagMove, tagId: string) {
 	}
 }
 
-export async function removePokemonFromTag(pokemon: ITagPokemon, tagId: string) {
+export async function removePokemonFromTag(pokemon: IRecordPokemon, tagId: string) {
 	try {
-		const res = await fetch('/api/tag', {
+		const res = await fetch(`/api/tag/${tagId}/move`, {
 			method: 'DELETE',
-			body: JSON.stringify({
-				id: tagId,
-				contents: {
-					// make sure to be specific on variety/gender/shiny as well on backend
-					pokemon: [{ id: pokemon.id }]
-				}
-			})
+			body: JSON.stringify(pokemon)
 		});
 		switch (res.status) {
 			case 200:
@@ -207,17 +129,16 @@ export async function removePokemonFromTag(pokemon: ITagPokemon, tagId: string) 
 	}
 }
 
-export async function removeMoveFromTag(move: ITagMove, tagId: string) {
+export async function removeMoveFromTag(move: ITagMove | undefined, tagId: string) {
+	if (!move){
+		return false;
+	}
 	try {
-		const res = await fetch('/api/tag', {
+		const res = await fetch(`/api/tag/${tagId}/move`, {
 			method: 'DELETE',
-			body: JSON.stringify({
-				id: tagId,
-				contents: {
-					move: [{ id: move.id }]
-				}
-			})
+			body: JSON.stringify(move)
 		});
+
 		switch (res.status) {
 			case 200:
 			case 201:
@@ -246,7 +167,11 @@ export async function removeMoveFromTag(move: ITagMove, tagId: string) {
 	}
 }
 
-export function doesTagContainPokemon(pokemon: IDisplayPokemon, tag: ITags) {
+export function doesTagContainPokemon(pokemon: IDisplayPokemon | undefined, tag: RecordTag) {
+	if (!pokemon){
+		return false;
+	}
+
 	return tag.contents.pokemon?.some((a) => {
 		return (
 			a.id === pokemon.id &&
@@ -257,14 +182,16 @@ export function doesTagContainPokemon(pokemon: IDisplayPokemon, tag: ITags) {
 	});
 }
 
-export function doesTagContainMove(moveId: number, tag: ITags) {
+export function doesTagContainMove(move: ITagMove | undefined, tag: RecordTag) {
+	if (!move){
+		return false;
+	}
 	return tag.contents.move?.some((a) => {
-		return a.id === moveId;
+		return a.id === move.id;
 	});
 }
 
 currentUser.subscribe(async (user) => {
-	tagStore.set([]);
 	if (user) {
 		await refetchTags(user.id);
 	}

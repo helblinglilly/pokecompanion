@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { primaryLanguage, secondaryLanguage } from '$/lib/stores/domain';
-	import type { TagRecord } from '$/lib/types/ITags';
 	import { getMultiLanguageName } from '$/lib/utils/language';
 	import { termNormaliser } from '$/lib/utils/string';
 	import { page } from '$app/stores';
@@ -10,34 +9,35 @@
 	import { getMoveEntry } from '$/lib/data/games';
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
 	import MoveCardEntry from '$/ui/molecules/move/card/MoveCardEntry.svelte';
+	import type { RecordTag } from '$/routes/api/tag/types';
+	import { isEqual } from 'lodash-es';
 	export let filterTerm: string;
 
 	export let inModifyView: boolean;
 
-	let tag = getContext('tag') as Writable<TagRecord>;
+	let tag = getContext('tag') as Writable<RecordTag>;
 
 	$: moveCollection =
-		$tag.contents.move
-			?.filter((move) => {
-				if (!filterTerm) {
-					return true;
-				}
-				const normalised = termNormaliser(filterTerm);
-				const matchesId = `${move.id}`.includes(normalised);
-				const names = termNormaliser(
-					getMultiLanguageName(getMoveEntry(move.id).names, $primaryLanguage, $secondaryLanguage) ??
-						''
-				);
+		$tag.contents.move?.filter((move) => {
+			if (!filterTerm) {
+				return true;
+			}
+			const normalised = termNormaliser(filterTerm);
+			const matchesId = `${move.id}`.includes(normalised);
+			const names = termNormaliser(
+				getMultiLanguageName(getMoveEntry(move.id).names, $primaryLanguage, $secondaryLanguage) ??
+					''
+			);
 
-				const matchesName = names.includes(normalised);
-				return matchesId || matchesName;
-			})
-			.sort(
-				getSortFunction(
-					$page.url.searchParams.get('sortBy') || $tag.sortKey,
-					$page.url.searchParams.get('sortOrder') || $tag.sortOrder
-				).sortFunction
-			) ?? [];
+			const matchesName = names.includes(normalised);
+			return matchesId || matchesName;
+		}) ?? [];
+	// .sort(
+	// 	getSortFunction(
+	// 		$page.url.searchParams.get('sortBy') || $tag.sortKey,
+	// 		$page.url.searchParams.get('sortOrder') || $tag.sortOrder
+	// 	).sortFunction
+	// ) ?? [];
 </script>
 
 {#if moveCollection.length > 0 && $page.url.searchParams.get('view') === 'card'}
@@ -78,33 +78,35 @@
 		{#each moveCollection as move}
 			<a href={`/move/${move.id}`}>
 				<MoveListEntry id={move.id}>
-					<div slot="remove">
-						{#if inModifyView}
-							<button
-								class="removeButton"
-								on:click={() => {
-									const optimisticTag = {
-										...$tag,
-										contents: {
-											...$tag.contents,
-											move: $tag.contents.move?.filter((tagMove) => tagMove.id !== move.id)
-										}
-									};
-									const originalTag = { ...$tag };
+					<button
+						slot="remove"
+						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
+						on:click={(e) => {
+							const optimisticTag = {
+								...$tag,
+								contents: {
+									...$tag.contents,
+									move: $tag.contents.move?.filter((tagMove) => !isEqual(tagMove, move))
+								}
+							};
+							const originalTag = { ...$tag };
 
+							tag.set(optimisticTag);
+
+							fetch(`/api/tag/${$tag.id}/move`, {
+								method: 'DELETE',
+								body: JSON.stringify({
+									id: move.id
+								})
+							}).then((res) => {
+								if (res.ok) {
 									tag.set(optimisticTag);
-
-									patchTag(optimisticTag).then((newTag) => {
-										if (newTag) {
-											tag.set(newTag);
-										} else {
-											tag.set(originalTag);
-										}
-									});
-								}}>-</button
-							>
-						{/if}
-					</div>
+								} else {
+									tag.set(originalTag);
+								}
+							});
+						}}>-</button
+					>
 				</MoveListEntry>
 			</a>
 		{/each}

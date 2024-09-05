@@ -3,9 +3,7 @@ import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import { Logger } from '$lib/log';
 import type { RecordTag } from '$/routes/api/tag/types';
 
-export type ITags = RecordTag;
-
-export const getTagsByUser = async (id: string): Promise<ITags[]> => {
+export const getTagsByUser = async (id: string): Promise<RecordTag[]> => {
 	if (!id) {
 		return [];
 	}
@@ -15,7 +13,7 @@ export const getTagsByUser = async (id: string): Promise<ITags[]> => {
 		const tags = await pb.collection('tags').getFullList({
 			sort: '-created',
 			filter: `owner.id ~ "${id}"`
-		}) as ITags[]
+		}) as RecordTag[]
 
 		return tags;
 	} catch (err) {

@@ -1,103 +1,111 @@
 <script lang="ts">
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
-	import type { ITagMove } from '$/lib/types/ITags';
 	import Button from '$/ui/atoms/button/Button.svelte';
-	import { type IDisplayPokemon } from '$lib/stores/pokemonPage';
 	import {
-		addMoveToTag,
-		addPokemonToTag,
 		doesTagContainMove,
 		doesTagContainPokemon,
 		refetchTags,
-		removeMoveFromTag,
-		removePokemonFromTag,
 		tagStore
-	} from '$lib/stores/tags';
+	} from '$/lib/stores/tags';
+	import type { ITagMove } from '$/routes/api/tag/types';
+	import type { IDisplayPokemon } from '$/lib/stores/pokemonPage';
+	import type { IRecordPokemon } from '$/lib/types/IPokemon';
+	import { currentUser } from '$/lib/stores/user';
+	import { addNotification } from '$/lib/stores/notifications';
 
 	let showAddToOverlay = false;
-	export let userId: string;
 	export let pokemon: IDisplayPokemon | undefined = undefined;
 	export let move: ITagMove | undefined = undefined;
+
+	$: pokemonBody = (): IRecordPokemon | undefined => {
+		if (!pokemon) {
+			return;
+		}
+		return {
+			id: pokemon.id,
+			gender: pokemon.gender,
+			shiny: pokemon.hasShinySprite && pokemon.showShinySpriteIfExists,
+			variety: pokemon.variety
+		};
+	};
+
+	async function modifyEntryOnTag(tagId: string, action: 'add' | 'remove') {
+		let body: string = '';
+		let route: string = '';
+
+		if (pokemon) {
+			body = JSON.stringify(pokemonBody());
+			route = `/api/tag/${tagId}/pokemon`;
+		}
+
+		if (move) {
+			body = JSON.stringify(move);
+			route = `/api/tag/${tagId}/move`;
+		}
+
+		const res = await fetch(route, {
+			method: action === 'add' ? 'POST' : 'DELETE',
+			body
+		});
+		return res.ok;
+	}
 </script>
 
-<Button
-	classes="tag h-2 md:min-h-fit relative z-20"
-	style="font-size: smaller;"
-	on:click={() => {
-		showAddToOverlay = true;
-	}}
->
-	Edit
-</Button>
+{#if $currentUser}
+	<Button
+		classes="tag h-2 md:min-h-fit relative z-20"
+		style="font-size: smaller;"
+		on:click={() => {
+			showAddToOverlay = true;
+		}}
+	>
+		Edit
+	</Button>
 
-<Modal bind:showModal={showAddToOverlay}>
-	<h2 class="h2" slot="header">Add and remove tags</h2>
+	<Modal bind:showModal={showAddToOverlay}>
+		<h2 class="h2" slot="header">Add and remove tags</h2>
 
-	<div class="grid gap-4">
-		<p>Select the tags which this item should be attached to</p>
+		<div class="grid gap-4">
+			<p>Select the tags which this item should be attached to</p>
+			<div class="grid gap-2">
+				{#each $tagStore as tag}
+					<div class="inline-flex">
+						<input
+							type="checkbox"
+							class="nested"
+							id={tag.name}
+							checked={doesTagContainPokemon(pokemon, tag) || doesTagContainMove(move, tag)}
+							on:change={async (e) => {
+								const success = await modifyEntryOnTag(
+									tag.id,
+									e.currentTarget.checked ? 'add' : 'remove'
+								);
 
-		<div class="grid gap-2">
-			{#each $tagStore as tag}
-				<div class="inline-flex">
-					<input
-						type="checkbox"
-						class="nested"
-						id={tag.name}
-						checked={pokemon
-							? doesTagContainPokemon(pokemon, tag)
-							: move
-							? doesTagContainMove(move.id, tag)
-							: false}
-						on:change={async (e) => {
-							if (e.currentTarget.checked) {
-								if (pokemon) {
-									await addPokemonToTag(
-										{
-											id: pokemon.id,
-											gender: pokemon.gender,
-											shiny: pokemon.hasShinySprite && pokemon.showShinySpriteIfExists,
-											variety: pokemon.variety,
-											added: new Date().toISOString()
-										},
-										tag.id
-									);
-								} else if (move) {
-									await addMoveToTag(move, tag.id);
+								if (success) {
+									await refetchTags($currentUser?.id);
+								} else {
+									addNotification({
+										message: `Failed to modify tag "${tag.name}""`,
+										level: 'failure'
+									});
+									showAddToOverlay = false;
 								}
+							}}
+						/>
+						<label for={tag.name}>{tag.name}</label>
+					</div>
+				{/each}
+			</div>
 
-								await refetchTags(userId);
-							} else {
-								if (pokemon) {
-									await removePokemonFromTag(
-										{
-											id: pokemon.id,
-											gender: pokemon.gender,
-											shiny: pokemon.hasShinySprite && pokemon.showShinySpriteIfExists,
-											variety: pokemon.variety,
-											added: new Date().toISOString()
-										},
-										tag.id
-									);
-								} else if (move) {
-									await removeMoveFromTag(move, tag.id);
-								}
-								await refetchTags(userId);
-							}
-						}}
-					/>
-					<label for={tag.name}>{tag.name}</label>
-				</div>
-			{/each}
+			<Button
+				classes="w-full"
+				variant="primary"
+				on:click={() => {
+					showAddToOverlay = false;
+				}}
+			>
+				Close
+			</Button>
 		</div>
-
-		<Button
-			classes="w-full"
-			variant="primary"
-			on:click={() => {
-				showAddToOverlay = false;
-			}}
-		>
-			Close
-		</Button>
-	</div>
-</Modal>
+	</Modal>
+{/if}

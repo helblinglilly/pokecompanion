@@ -193,22 +193,17 @@
 					</div>
 					<div class="flex justify-center items-center w-full gap-2 pt-2">
 						{#if $tagStore.length > 0}
-							<EditTag userId={$currentUser.id} pokemon={$pokemonDisplayStore} />
+							<EditTag pokemon={$pokemonDisplayStore} />
 						{/if}
 
 						<CreateNewTag
-							userId={$currentUser.id}
-							initialContent={{
-								pokemon: [
-									{
-										id: data.id,
-										gender: $pokemonDisplayStore.gender,
-										shiny:
-											$pokemonDisplayStore.hasShinySprite &&
-											$pokemonDisplayStore.showShinySpriteIfExists,
-										variety: $pokemonDisplayStore.variety
-									}
-								]
+							pokemon={{
+								id: data.id,
+								gender: $pokemonDisplayStore.gender,
+								shiny:
+									$pokemonDisplayStore.hasShinySprite &&
+									$pokemonDisplayStore.showShinySpriteIfExists,
+								variety: $pokemonDisplayStore.variety
 							}}
 						/>
 					</div>

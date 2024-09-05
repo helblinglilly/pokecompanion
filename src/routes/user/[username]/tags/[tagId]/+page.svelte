@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Breadcrumbs from '$/components/UI/Breadcrumbs.svelte';
 	import { currentUser } from '$lib/stores/user';
-	import type { ITagEntryGenerics, TagRecord } from '$lib/types/ITags.js';
 	import { getContext, setContext } from 'svelte';
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import { getSortFunction } from './helper.js';
@@ -12,11 +11,12 @@
 	import TagPokemon from './TagPokemon.svelte';
 	import TagMove from './TagMove.svelte';
 	import TagViewOptions from './TagViewOptions.svelte';
+	import type { RecordTag } from '$/routes/api/tag/types.js';
 
 	export let data;
 	setContext('tag', writable(data.tag));
 
-	const currentTag = getContext('tag') as Writable<TagRecord>;
+	const currentTag = getContext('tag') as Writable<RecordTag>;
 	$: items = ($currentTag.contents.pokemon?.length ?? 0) + ($currentTag.contents.move?.length ?? 0);
 
 	export const tagOwner = writable<IPublicUser>(data.user);
@@ -27,7 +27,7 @@
 	let sortOrder = data.tag.sortOrder;
 	let sortKey = data.tag.sortKey;
 
-	let sortFunction = (a: ITagEntryGenerics, b: ITagEntryGenerics) => 1;
+	let sortFunction = (a: RecordTag, b: RecordTag): 1 | -1 => 1;
 
 	$: if (sortKey || sortOrder) {
 		let vals = getSortFunction(sortKey, sortOrder);

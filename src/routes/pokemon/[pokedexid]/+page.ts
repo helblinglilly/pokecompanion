@@ -39,7 +39,7 @@ export const load = async ({ params, fetch, url }) => {
 
 		let tags: RecordTag[] = [];
 		try {
-			const res = await fetch('/api/tags');
+			const res = await fetch('/api/tag');
 			tags = await res.json() as RecordTag[];
 		} catch(err){
 			Logger.error(

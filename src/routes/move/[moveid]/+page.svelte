@@ -119,19 +119,13 @@
 			<hr />
 
 			<div style="display: flex; justify-content: center; width: 100%; flex-flow: wrap;">
-				<SelectedTags userId={$currentUser.id} moveId={data.move.id} />
+				<SelectedTags move={data.move} />
 				{#if $tagStore.length > 0}
-					<EditTag userId={$currentUser.id} move={{ id: data.move.id }} />
+					<EditTag move={{ id: data.move.id }} />
 				{/if}
 				<CreateNewTag
-					userId={$currentUser.id}
-					initialContent={{
-						move: [
-							{
-								id: data.move.id,
-								added: new Date().toISOString()
-							}
-						]
+					move={{
+						id: data.move.id
 					}}
 				/>
 			</div>

@@ -17,6 +17,7 @@ export interface ITagDatabase extends ITagInitial {
     id: string;
     sortKey: 'id' | 'added' | 'alphabetical' | 'custom';
     sortOrder: 'asc' | 'desc' | 'custom';
+    owner: string;
 }
 
 export interface ITagContents {
@@ -26,7 +27,6 @@ export interface ITagContents {
 
 export interface ITagEntryGenerics {
 	id: number;
-	added: string;
 }
 
 
@@ -34,4 +34,7 @@ export type ITagPokemon = IRecordPokemon & ITagEntryGenerics;
 
 export type ITagMove = ITagEntryGenerics;
 
-export type RecordTag = ITagDatabase & RecordModel;
+export type RecordTag = ITagDatabase & RecordModel & {
+    added: string;
+    updated: string;
+};

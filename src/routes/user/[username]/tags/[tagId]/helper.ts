@@ -1,21 +1,23 @@
 import { Logger } from "$/lib/log";
 import { addNotification } from "$/lib/stores/notifications";
-import { type TagRecord, type ITagEntryGenerics } from "$/lib/types/ITags";
+import type { RecordTag, ITagMeta, ITagDatabase } from "$/routes/api/tag/types";
 
-export function getSortFunction(key: 'id' | 'added' | string, direction: 'asc' | 'desc' | 'custom' | string) {
-    const sortByDateDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+export type TagSortProperties = Pick<RecordTag, 'sortKey' | 'sortOrder' | 'added' | 'id'>
+
+export function getSortFunction(key: ITagDatabase['sortKey'], direction: ITagDatabase['sortOrder']) {
+    const sortByDateDesc = (a: TagSortProperties, b: TagSortProperties): -1 | 1 => {
         return new Date(a.added).valueOf() < new Date(b.added).valueOf() ? 1 : -1;
     };
 
-    const sortByDateAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+    const sortByDateAsc = (a: TagSortProperties, b: TagSortProperties): -1 | 1 => {
         return new Date(a.added).valueOf() > new Date(b.added).valueOf() ? 1 : -1;
     };
 
-    const sortByIdDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+    const sortByIdDesc = (a: TagSortProperties, b: TagSortProperties): -1 | 1 => {
         return a.id < b.id ? 1 : -1;
     };
 
-    const sortByIdAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics) => {
+    const sortByIdAsc = (a: TagSortProperties, b: TagSortProperties): -1 | 1 => {
         return a.id > b.id ? 1 : -1;
     };
 
@@ -43,19 +45,16 @@ export function getSortFunction(key: 'id' | 'added' | string, direction: 'asc' |
     };
 }
 
-export function patchTag(tag: TagRecord){
-    return fetch('/api/tag/', {
+export function patchTag(tag: ITagMeta & {id: string}): Promise<RecordTag | void>{
+    return fetch(`/api/tag/${tag.id}`, {
         method: 'PATCH',
-        body: JSON.stringify({
-            ...tag,
-            description: tag.description.length > 1 ? tag.description : 'No Description'
-        }),
+        body: JSON.stringify(tag),
         redirect: 'follow' 
     }).then(async (res) => {
         if (res.status !== 200) {
             throw new Error(`Non-200 status code ${res.status}`);
         }
-        return (await res.json()) as TagRecord;
+        return (await res.json()) as RecordTag;
     }).catch((err) => {
         addNotification({
             message: 'Failed to update tag. Please try again',
@@ -68,27 +67,17 @@ export function patchTag(tag: TagRecord){
     })
 }
 
-export function deleteTag(tag: TagRecord){
-    return fetch('/api/tags', {
-            method: 'DELETE',
-            body: JSON.stringify({
-                id: tag.id
-            })
+export function deleteTag(tagId: string){
+    return fetch(`/api/tags/${tagId}`, {
+            method: 'DELETE'
         }).then((res) => {
             if (!res.ok){
                 throw new Error(`Non-200 status code ${res.status}`);
             }
-            addNotification({ message: `Deleted "${tag.name}"`, level: 'success' });
-            return tag.owner;
         }).catch((err) => {
             addNotification({
                 message: 'Failed to delete tag. Please try again',
                 level: 'failure'
             });
-            Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
-                context: 'Failed to delete tag',
-                user: tag.owner,
-                tag: tag.id
-            }); 
         })
 }

@@ -1,9 +1,10 @@
 <script lang="ts">
 	import Icon from '$/components/UI/Icon.svelte';
 	import { currentUser } from '$/lib/stores/user';
+	import type { RecordTag } from '$/routes/api/tag/types';
 	import Button from '$/ui/atoms/button/Button.svelte';
 
-	export let entry: { isPrivate: boolean; name: string; description: string; owner: string };
+	export let entry: Pick<RecordTag, 'isPrivate' | 'name' | 'owner' | 'description'>;
 	export let inModifyView: boolean;
 </script>
 

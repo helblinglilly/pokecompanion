@@ -1,11 +1,10 @@
 import { Logger } from "$/lib/log";
 import { lastPokedexEntry } from "$/lib/stores/domain";
-import type { IRecordPokemon } from "$/lib/types/IPokemon";
 import { validateAuth } from "$/routes/api/helpers";
-import type { RecordTag } from "../../types";
+import type { ITagMove, RecordTag } from "../../types";
 
 /**
- * Remove a Pokemon from a tag
+ * Remove a Move from a tag
  */
 export async function DELETE({ request, cookies, platform, params }){
 	const authedPb = await validateAuth(request, cookies);
@@ -14,7 +13,7 @@ export async function DELETE({ request, cookies, platform, params }){
 		return new Response('Not authorised', { status: 401 });
 	}
 
-	let body: IRecordPokemon | undefined;
+	let body: ITagMove | undefined;
 	try {
 		body = await request.json();
 	} catch (err) {
@@ -23,7 +22,7 @@ export async function DELETE({ request, cookies, platform, params }){
 				Logger.ErrorClasses.TagOperation,
 				Logger.buildError(err),
 				{
-					context: 'Deleting a Pokemon from a tag',
+					context: 'Deleting a Move from a tag',
 					errorMessage: 'Failed to parse JSON from request body',
 					user: cookies.get('remember-token')
 				}
@@ -42,18 +41,12 @@ export async function DELETE({ request, cookies, platform, params }){
 	}
 
 	const tag = (await authedPb.collection('tags').getOne(params.tagId)) as RecordTag;
-    
-    function isIRecordPokemonKey(key: string): key is keyof IRecordPokemon {
-        return key in ({} as IRecordPokemon);
-    }
 
 	try {
 		await authedPb.collection('tags').update(params.tagId, {
 			contents: {
                 ...tag.contents,
-                pokemon: tag.contents.pokemon?.filter((pokemon) => {
-					return Object.keys(body).every((key) => isIRecordPokemonKey(key) && pokemon[key] === body[key]);
-				})
+                move: tag.contents.move?.filter((a) => a.id !== body.id)
             }
 		});
 	} catch (err) {
@@ -62,8 +55,8 @@ export async function DELETE({ request, cookies, platform, params }){
 				Logger.ErrorClasses.TagOperation,
 				Logger.buildError(err),
 				{
-					context: 'Deleting a Pokemon from a Tag',
-					errorMessage: 'DB Operation: Failed to update tag with a Pokemon removed from its contents',
+					context: 'Deleting a Move from a Tag',
+					errorMessage: 'DB Operation: Failed to update tag with a Move removed from its contents',
 					user: cookies.get('remember-token'),
 					tag: params.tagId
 				}
@@ -79,7 +72,7 @@ export async function DELETE({ request, cookies, platform, params }){
 }
 
 /**
- * Add a new Pokemon to a tag
+ * Add a new Move to a tag
  */
 export async function POST({ request, cookies, platform, params }){
 	const authedPb = await validateAuth(request, cookies);
@@ -88,7 +81,7 @@ export async function POST({ request, cookies, platform, params }){
 		return new Response('Not authorised', { status: 401 });
 	}
 
-	let body: IRecordPokemon | undefined;
+	let body: ITagMove | undefined;
 	try {
 		body = await request.json();
 	} catch (err) {
@@ -97,7 +90,7 @@ export async function POST({ request, cookies, platform, params }){
 				Logger.ErrorClasses.TagOperation,
 				Logger.buildError(err),
 				{
-					context: 'Deleting a Pokemon from a tag',
+					context: 'Deleting a Move from a tag',
 					errorMessage: 'Failed to parse JSON from request body',
 					user: cookies.get('remember-token')
 				}
@@ -125,7 +118,10 @@ export async function POST({ request, cookies, platform, params }){
 		await authedPb.collection('tags').update(params.tagId, {
 			contents: {
                 ...tag.contents,
-                pokemon: [...tag.contents.pokemon ?? [], body]
+                move: {
+                    ...tag.contents.move,
+                    ...body
+                }
             }
 		});
 	} catch (err) {
@@ -134,8 +130,8 @@ export async function POST({ request, cookies, platform, params }){
 				Logger.ErrorClasses.TagOperation,
 				Logger.buildError(err),
 				{
-					context: 'Deleting a Pokemon from a Tag',
-					errorMessage: 'DB Operation: Failed to update tag with a Pokemon removed from its contents',
+					context: 'Deleting a Move from a Tag',
+					errorMessage: 'DB Operation: Failed to update tag with a Move removed from its contents',
 					user: cookies.get('remember-token'),
 					tag: params.tagId
 				}

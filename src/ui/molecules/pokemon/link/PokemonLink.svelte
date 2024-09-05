@@ -2,6 +2,7 @@
 	import type { IRecordPokemon } from '$/lib/types/IPokemon';
 
 	export let pokemon: IRecordPokemon;
+	export let isLinkHidden: boolean = false;
 
 	const queryParams = new URLSearchParams();
 	$: {
@@ -25,7 +26,10 @@
 	}
 </script>
 
-<a href={`/pokemon/${pokemon.id}?${queryParams.toString()}`} class="clickable">
+<a
+	href={isLinkHidden ? undefined : `/pokemon/${pokemon.id}?${queryParams.toString()}`}
+	class="clickable"
+>
 	<slot />
 </a>
 
