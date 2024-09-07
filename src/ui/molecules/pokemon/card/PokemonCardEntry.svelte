@@ -43,22 +43,6 @@
 	{/if}
 
 	<div class="indicators">
-		{#if showGenderAndShiny && pokemon.gender === 'female'}
-			<Icon
-				name="venus"
-				style={`margin-top: auto; margin-bottom: auto; padding-left: 10px; fill: ${
-					$theme === 'dark' ? '#f6abd9' : '#ee5db7'
-				};`}
-			/>
-		{:else if showGenderAndShiny && pokemon.gender === 'male'}
-			<Icon
-				name="mars"
-				style={`margin-top: auto; margin-bottom: auto; padding-left: 10px; fill: ${
-					$theme === 'dark' ? '#99b3ff' : '#3366ff'
-				};`}
-			/>
-		{/if}
-
 		{#if showGenderAndShiny && pokemon.shiny}
 			{#if $theme === 'light'}
 				<Icon
@@ -78,6 +62,20 @@
 			{/if}
 		{/if}
 
+		{#if showGenderAndShiny && pokemon.gender === 'female'}
+			<Icon
+				name="venus"
+				style={`margin-top: 0.5rem; fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'};`}
+			/>
+		{:else if showGenderAndShiny && pokemon.gender === 'male'}
+			<Icon
+				name="mars"
+				style={`margin-top: 0.5rem; margin-bottom: auto; fill: ${
+					$theme === 'dark' ? '#99b3ff' : '#3366ff'
+				};`}
+			/>
+		{/if}
+
 		<slot name="remove" />
 	</div>
 </Card>
@@ -95,7 +93,7 @@
 		display: inline-flex;
 		margin: 0;
 		padding: 0.5rem;
-		gap: 0.5rem;
+		padding-left: 1rem;
 	}
 
 	.spriteWrapper {

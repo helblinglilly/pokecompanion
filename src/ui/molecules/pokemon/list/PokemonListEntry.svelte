@@ -59,39 +59,39 @@
 		</p>
 	</div>
 
-	<div class="mr-4 content-center">
+	<div class="mr-4 content-center inline-flex">
 		{#if showGenderAndShiny}
-			{#if pokemon.gender === 'female'}
-				<Icon
-					name="venus"
-					style={`fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'}; margin: auto;`}
-				/>
-			{:else if pokemon.gender === 'male'}
-				<Icon
-					name="mars"
-					style={`fill: ${
-						$theme === 'dark' ? '#99b3ff' : '#3366ff'
-					}; margin: auto; margin-right: 0.5rem;`}
-				/>
-			{/if}
-
 			{#if pokemon.shiny}
 				{#if $theme === 'light'}
 					<Icon
 						name="spark"
-						style="margin-top: 1.25rem"
+						style="margin-top: 2rem"
 						lineStroke="var(--text)"
 						pathStroke="var(--text)"
 					/>
 				{:else}
 					<Icon
 						name="spark-full"
-						style="margin-top: 1.25rem"
+						style="margin-top: 2rem"
 						pathFill="var(--text)"
 						lineStroke="var(--text)"
 						pathStroke="var(--text)"
 					/>
 				{/if}
+			{/if}
+
+			{#if pokemon.gender === 'female'}
+				<Icon
+					name="venus"
+					style={`fill: ${$theme === 'dark' ? '#f6abd9' : '#ee5db7'}; margin-top: 2.3rem;`}
+				/>
+			{:else if pokemon.gender === 'male'}
+				<Icon
+					name="mars"
+					style={`fill: ${$theme === 'dark' ? '#99b3ff' : '#3366ff'}; margin: auto;`}
+				/>
+			{:else}
+				<div style="width: 1rem;" />
 			{/if}
 		{/if}
 	</div>
