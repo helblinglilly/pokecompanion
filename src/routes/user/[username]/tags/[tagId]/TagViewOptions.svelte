@@ -40,20 +40,16 @@
 		value={$tag.sortKey}
 		options={[
 			{
-				value: 'id',
-				label: 'ID'
-			},
-			{
 				value: 'added',
 				label: 'Date Added'
+			},
+			{
+				value: 'id',
+				label: 'ID'
 			}
 		]}
-		on:change={(e) => {
-			// @ts-ignore Can't cast type in Svelte
-			if (e.target?.value) {
-				// @ts-ignore Can't cast type in Svelte
-				replaceQueryParam('sortBy', e.target.value ?? '');
-			}
+		on:change={({ detail }) => {
+			replaceQueryParam('sortBy', detail);
 		}}
 	/>
 </div>
@@ -73,24 +69,8 @@
 				value: 'desc'
 			}
 		]}
-		on:change={(e) => {
-			// @ts-ignore Can't cast type in Svelte
-			if (e.target?.value) {
-				// @ts-ignore Can't cast type in Svelte
-				replaceQueryParam('sortOrder', e.target.value ?? '');
-			}
+		on:change={({ detail }) => {
+			replaceQueryParam('sortOrder', detail);
 		}}
 	/>
 </div>
-
-<style>
-	select {
-		background-color: var(--accent);
-		margin: 0;
-		display: block;
-		white-space: pre; /* Prevents text wrapping inside the option elements */
-		width: 100%;
-		min-width: 12rem;
-		height: 3.5rem;
-	}
-</style>

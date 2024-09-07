@@ -150,10 +150,7 @@ export async function GET({ request, cookies, platform, params }) {
 	}
 
 	try {
-		const tags = await pb.collection('tags').getFullList({
-			sort: '-created',
-			filter: `id ~ "${params.tagId}"`
-		}) as ITagDatabase[];
+		const tags = await pb.collection('tags').getOne(params.tagId) as ITagDatabase
 
 		return new Response(JSON.stringify(tags), {
 			status: 200,

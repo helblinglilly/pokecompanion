@@ -17,7 +17,7 @@ export const capitaliseEachWord = (input: string) => {
  * @param name
  */
 export const pokemonVarietyNameToDisplay = (name: string) => {
-	if (!name || !name.includes('-')) {
+	if (!name || !name.includes('-') || name.endsWith('-default')) {
 		return '';
 	}
 

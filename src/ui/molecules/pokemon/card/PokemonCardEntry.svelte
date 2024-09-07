@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getMultiLanguageName } from '$lib/utils/language';
+	import { getLanguageEntry, getMultiLanguageName } from '$lib/utils/language';
 	import { primaryLanguage, secondaryLanguage, theme } from '$lib/stores/domain';
 	import { getPokemonEntry } from '$lib/data/games';
 	import Icon from '$/components/UI/Icon.svelte';
@@ -11,37 +11,20 @@
 
 	export let pokemon: IRecordPokemon;
 	export let showGenderAndShiny: boolean;
+	export let isClickable: boolean = true;
 
 	const dispatch = createEventDispatcher();
 
 	$: namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
-
-	const queryParams = new URLSearchParams();
-
-	$: {
-		if (pokemon) {
-			if (pokemon.gender) {
-				queryParams.set('gender', pokemon.gender);
-			} else {
-				queryParams.delete('gender');
-			}
-			if (pokemon.shiny) {
-				queryParams.set('shiny', 'true');
-			} else {
-				queryParams.delete('shiny');
-			}
-			if (pokemon.variety) {
-				queryParams.set('variety', pokemon.variety);
-			} else {
-				queryParams.delete('variety');
-			}
-		}
-	}
+	$: primaryName = getLanguageEntry(getPokemonEntry(pokemon.id).names, $primaryLanguage);
+	$: secondaryName = $secondaryLanguage
+		? getLanguageEntry(getPokemonEntry(pokemon.id).names, $secondaryLanguage)
+		: undefined;
 </script>
 
 <Card
 	id={pokemon.id.toString()}
-	isClickable
+	{isClickable}
 	classes="relative h-auto p-8 text-center"
 	style={`min-height: 150px;`}
 	on:click={() => {
@@ -51,15 +34,13 @@
 	<div class="spriteWrapper">
 		<Sprite {...pokemon} female={pokemon.gender === 'female'} />
 	</div>
-	<p>#{pokemon.id}</p>
-	<p>
-		{getMultiLanguageName(
-			getPokemonEntry(pokemon.id).names,
-			$primaryLanguage,
-			$secondaryLanguage,
-			namePrefix
-		)}
-	</p>
+	<p>#{pokemon.id}{namePrefix ? ' ' + namePrefix : ''}</p>
+	{#if primaryName}
+		<p>{primaryName}</p>
+	{/if}
+	{#if secondaryName}
+		<p>{secondaryName}</p>
+	{/if}
 
 	<div class="indicators">
 		{#if showGenderAndShiny && pokemon.gender === 'female'}
@@ -102,20 +83,6 @@
 </Card>
 
 <style>
-	.removeButton {
-		position: absolute;
-		top: 0;
-		right: 0;
-		text-align: center;
-		height: 2rem;
-		width: 2rem;
-		border-radius: 10%;
-		font-weight: bold;
-		color: var(--light);
-		background-color: var(--error);
-		z-index: 1;
-	}
-
 	.indicators {
 		position: absolute;
 		top: 0;

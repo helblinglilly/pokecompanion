@@ -37,10 +37,6 @@
 </div>
 
 <style>
-	.column {
-		text-align: center;
-	}
-
 	p,
 	b {
 		width: 3rem;

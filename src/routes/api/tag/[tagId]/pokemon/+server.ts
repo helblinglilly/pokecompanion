@@ -125,7 +125,7 @@ export async function POST({ request, cookies, platform, params }){
 		await authedPb.collection('tags').update(params.tagId, {
 			contents: {
                 ...tag.contents,
-                pokemon: [...tag.contents.pokemon ?? [], body]
+                pokemon: [...tag.contents.pokemon ?? [], {...body, added: new Date().toISOString()}]
             }
 		});
 	} catch (err) {

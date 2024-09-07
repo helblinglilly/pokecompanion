@@ -27,6 +27,7 @@ export interface ITagContents {
 
 export interface ITagEntryGenerics {
 	id: number;
+    added: string;
 }
 
 

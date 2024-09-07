@@ -1,28 +1,24 @@
 import { Logger } from "$/lib/log";
 import { addNotification } from "$/lib/stores/notifications";
-import type { RecordTag, ITagMeta, ITagDatabase } from "$/routes/api/tag/types";
-
-export type TagSortProperties = Pick<RecordTag, 'sortKey' | 'sortOrder' | 'added' | 'id'>
+import type { RecordTag, ITagMeta, ITagDatabase, ITagEntryGenerics } from "$/routes/api/tag/types";
 
 export function getSortFunction(key: ITagDatabase['sortKey'], direction: ITagDatabase['sortOrder']) {
-    const sortByDateDesc = (a: TagSortProperties, b: TagSortProperties): -1 | 1 => {
+    const sortByDateDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics): -1 | 1 => {
         return new Date(a.added).valueOf() < new Date(b.added).valueOf() ? 1 : -1;
     };
 
-    const sortByDateAsc = (a: TagSortProperties, b: TagSortProperties): -1 | 1 => {
+    const sortByDateAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics): -1 | 1 => {
         return new Date(a.added).valueOf() > new Date(b.added).valueOf() ? 1 : -1;
     };
 
-    const sortByIdDesc = (a: TagSortProperties, b: TagSortProperties): -1 | 1 => {
+    const sortByIdDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics): -1 | 1 => {
         return a.id < b.id ? 1 : -1;
     };
 
-    const sortByIdAsc = (a: TagSortProperties, b: TagSortProperties): -1 | 1 => {
+    const sortByIdAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics): -1 | 1 => {
         return a.id > b.id ? 1 : -1;
     };
 
-    // sortOrder = direction.toLowerCase() as 'asc' | 'desc' | 'custom';
-    // sortKey = key.toLowerCase() as 'id' | 'added' | 'alphabetical' | 'custom';
     let sortFunction = sortByIdAsc;
     if (key === 'id') {
         if (direction === 'asc') {

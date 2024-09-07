@@ -3,7 +3,6 @@
 	import { currentUser } from '$lib/stores/user';
 	import { getContext, setContext } from 'svelte';
 	import SocialPreview from '$/components/SocialPreview.svelte';
-	import { getSortFunction } from './helper.js';
 	import Header from '$/ui/molecules/Collections/Header/Header.svelte';
 	import TagEditor from './TagEditor.svelte';
 	import { writable, type Writable } from 'svelte/store';
@@ -24,17 +23,6 @@
 	let filterTerm = '';
 
 	let inModifyView = false;
-	let sortOrder = data.tag.sortOrder;
-	let sortKey = data.tag.sortKey;
-
-	let sortFunction = (a: RecordTag, b: RecordTag): 1 | -1 => 1;
-
-	$: if (sortKey || sortOrder) {
-		let vals = getSortFunction(sortKey, sortOrder);
-		sortKey = vals.sortKey;
-		sortOrder = vals.sortOrder;
-		sortFunction = vals.sortFunction;
-	}
 </script>
 
 <SocialPreview

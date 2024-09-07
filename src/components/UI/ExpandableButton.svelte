@@ -28,12 +28,3 @@
 {#if isExpanded}
 	<slot name="content" />
 {/if}
-
-<style>
-	button {
-		display: inline-flex;
-		align-content: center;
-		min-width: max-content;
-		margin-top: 1rem;
-	}
-</style>

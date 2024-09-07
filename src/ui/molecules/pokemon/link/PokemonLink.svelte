@@ -17,7 +17,7 @@
 			} else {
 				queryParams.delete('shiny');
 			}
-			if (pokemon.variety) {
+			if (pokemon.variety && !pokemon.variety.endsWith('-default')) {
 				queryParams.set('variety', pokemon.variety);
 			} else {
 				queryParams.delete('variety');
@@ -27,7 +27,11 @@
 </script>
 
 <a
-	href={isLinkHidden ? undefined : `/pokemon/${pokemon.id}?${queryParams.toString()}`}
+	href={isLinkHidden
+		? undefined
+		: `/pokemon/${pokemon.id}${
+				queryParams.toString().length > 0 ? `?${queryParams.toString()}` : ''
+		  }`}
 	class="clickable"
 >
 	<slot />

@@ -7,7 +7,7 @@
 	import { page } from '$app/stores';
 	import { getContext } from 'svelte';
 	import { type Writable } from 'svelte/store';
-	import { getSortFunction, patchTag, type TagSortProperties } from './helper';
+	import { getSortFunction, patchTag } from './helper';
 	import { isEqual } from 'lodash-es';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
 	import PokemonLink from '$/ui/molecules/pokemon/link/PokemonLink.svelte';
@@ -18,29 +18,29 @@
 
 	let tag = getContext('tag') as Writable<RecordTag>;
 
-	$: pokemonCollection = $tag.contents.pokemon?.filter((mon) => {
-		const normalised = termNormaliser(filterTerm);
-		const matchesId = `${mon.id}`.includes(filterTerm);
-		const names = termNormaliser(
-			getMultiLanguageName(
-				getPokemonEntry(mon.id).names,
-				$primaryLanguage,
-				$secondaryLanguage,
-				mon.variety ?? ''
-			) ?? ''
-		);
+	$: pokemonCollection = $tag.contents.pokemon
+		?.filter((mon) => {
+			const normalised = termNormaliser(filterTerm);
+			const matchesId = `${mon.id}`.includes(filterTerm);
+			const names = termNormaliser(
+				getMultiLanguageName(
+					getPokemonEntry(mon.id).names,
+					$primaryLanguage,
+					$secondaryLanguage,
+					mon.variety ?? ''
+				) ?? ''
+			);
 
-		const matchesName = names.includes(normalised);
-		return matchesId || matchesName;
-	});
-	// .sort(
-	// 	getSortFunction(
-	// 		($page.url.searchParams.get('sortBy') ||
-	// 			$tag.sortKey) as unknown as TagSortProperties['sortKey'],
-	// 		($page.url.searchParams.get('sortOrder') ||
-	// 			$tag.sortOrder) as unknown as TagSortProperties['sortOrder']
-	// 	).sortFunction
-	// );
+			const matchesName = names.includes(normalised);
+			return matchesId || matchesName;
+		})
+		.sort(
+			getSortFunction(
+				($page.url.searchParams.get('sortBy') || $tag.sortKey) as unknown as RecordTag['sortKey'],
+				($page.url.searchParams.get('sortOrder') ||
+					$tag.sortOrder) as unknown as RecordTag['sortOrder']
+			).sortFunction
+		);
 </script>
 
 {#if !pokemonCollection || pokemonCollection.length === 0}
@@ -52,7 +52,11 @@
 	>
 		{#each pokemonCollection as pokemon}
 			<PokemonLink {pokemon} isLinkHidden={inModifyView}>
-				<PokemonCardEntry {pokemon} showGenderAndShiny={$tag.showGenderAndShiny}>
+				<PokemonCardEntry
+					{pokemon}
+					showGenderAndShiny={$tag.showGenderAndShiny}
+					isClickable={!inModifyView}
+				>
 					<button
 						slot="remove"
 						class={`removeButton ${inModifyView ? '' : 'hidden'}`}

@@ -118,10 +118,7 @@ export async function POST({ request, cookies, platform, params }){
 		await authedPb.collection('tags').update(params.tagId, {
 			contents: {
                 ...tag.contents,
-                move: {
-                    ...tag.contents.move,
-                    ...body
-                }
+				move: [...tag.contents.move ?? [], {...body, added: new Date().toISOString()}]
             }
 		});
 	} catch (err) {

@@ -12,6 +12,7 @@
 	export let style: string = '';
 	export let isNested: boolean = false;
 	export let game: PokeapiVersionGroups | undefined = $selectedGame?.pokeapi;
+	export let isClickable: boolean = true;
 	let move: IMove | undefined;
 
 	const dispatch = createEventDispatcher();
@@ -29,7 +30,7 @@
 
 <Card
 	id={`move-${id}`}
-	isClickable
+	{isClickable}
 	{isNested}
 	style={`position: relative; ${
 		cardActiveState ? 'background-color: var(--card-hover);' : ''
