@@ -10,19 +10,25 @@ export interface ITagMeta {
 }
 
 export interface ITagInitial extends ITagMeta {
-    contents: ITagContents;
+    contents: ITagContentsInitial;
 }
 
-export interface ITagDatabase extends ITagInitial {
+export interface ITagDatabase extends ITagMeta {
     id: string;
     sortKey: 'id' | 'added' | 'alphabetical' | 'custom';
     sortOrder: 'asc' | 'desc' | 'custom';
     owner: string;
+    contents: ITagContents;
 }
 
 export interface ITagContents {
 	pokemon?: ITagPokemon[];
 	move?: ITagMove[];
+}
+
+export interface ITagContentsInitial {
+    pokemon?: ITagPokemonInitial[];
+    move?: ITagMoveInitial[];
 }
 
 export interface ITagEntryGenerics {
@@ -32,8 +38,10 @@ export interface ITagEntryGenerics {
 
 
 export type ITagPokemon = IRecordPokemon & ITagEntryGenerics;
+export type ITagPokemonInitial = Omit<ITagPokemon, 'added'>;
 
 export type ITagMove = ITagEntryGenerics;
+export type ITagMoveInitial = Omit<ITagMove, 'added'>
 
 export type RecordTag = ITagDatabase & RecordModel & {
     added: string;

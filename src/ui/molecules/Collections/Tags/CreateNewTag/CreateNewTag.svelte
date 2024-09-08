@@ -2,13 +2,13 @@
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import { Logger } from '$lib/log';
-	import type { ITagInitial, ITagMove, ITagPokemon } from '$/routes/api/tag/types';
+	import type { ITagInitial, ITagMove, ITagPokemonInitial } from '$/routes/api/tag/types';
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { refetchTags } from '$/lib/stores/tags';
 	import { createEventDispatcher } from 'svelte';
 
-	export let pokemon: ITagPokemon | undefined = undefined;
+	export let pokemon: ITagPokemonInitial | undefined = undefined;
 	export let move: ITagMove | undefined = undefined;
 
 	const dispatch = createEventDispatcher();
