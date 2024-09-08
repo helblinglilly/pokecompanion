@@ -215,10 +215,6 @@
 			margin-left: auto;
 			margin-right: auto;
 		}
-
-		form.card {
-			max-width: 50%;
-		}
 	}
 
 	#wrapper {

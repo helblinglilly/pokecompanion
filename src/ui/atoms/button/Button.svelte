@@ -4,7 +4,7 @@
 	export let variant: 'accent' | 'primary' | 'secondary' | 'default' = 'default';
 	export let isNested: boolean = false;
 	export let isDisabled: boolean = false;
-	export let title: string = '';
+	export let active: boolean = false;
 	export let label: string = '';
 	export let classes: string = '';
 	export let style: string = '';
@@ -15,11 +15,11 @@
 
 <button
 	{type}
-	class={`button ${variant} rounded-lg p-4 ${isNested ? 'nested' : ''} ${classes}`}
+	class={`button ${variant} rounded-lg p-4 ${isNested ? 'nested' : ''} ${
+		active ? 'active' : ''
+	} ${classes}`}
 	{style}
 	disabled={isDisabled}
-	aria-label={title}
-	{title}
 	{...$$restProps}
 	on:click={() => {
 		dispatch('click');
@@ -52,7 +52,8 @@
 		background-color: var(--red-accent);
 	}
 
-	.button.accent:hover {
+	.button.accent:hover,
+	.button.accent:active .button.accent.active {
 		background-color: var(--red-accent-muted);
 	}
 
@@ -68,11 +69,15 @@
 		background-color: var(--select-background);
 	}
 
-	.button.primary.nested:hover {
+	.button.primary.nested:hover,
+	.button.primary.nested:active,
+	.button.primary.nested.active {
 		background-color: var(--card-hover);
 	}
 
-	.button.primary:hover {
+	.button.primary:hover,
+	.button.primary:active,
+	.button.primary.active {
 		background-color: var(--grey-muted);
 	}
 

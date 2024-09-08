@@ -1,144 +1,93 @@
 <script lang="ts">
 	import Icon from '$/components/UI/Icon.svelte';
+	import { capitaliseEachWord } from '$/lib/utils/string';
+	import type { AbilityResponse } from '$/routes/api/ability/[id=integer]/types';
+	import Button from '$/ui/atoms/button/Button.svelte';
 	import { Logger } from '$lib/log';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
-	import type { Ability, ApiAbility } from '$lib/types/IPokemon';
-	import { dropFalsey, uniques } from '$lib/utils/array';
+	import type { Ability } from '$lib/types/IPokemon';
 	import { getNameEntry } from '$lib/utils/language';
-	import { debounce } from 'lodash-es';
-	import { onMount } from 'svelte';
+	import ExpandableButton from '../UI/ExpandableButton.svelte';
 
 	export let abilities: Ability[];
-	let isMounted = false;
 
-	let data: {
-		id: number;
-		names: (string | undefined)[];
-		slot: number;
-		is_hidden: boolean;
-		effect1: string;
-		effect2: string | undefined;
-	}[] = [];
-	let selectedAbility = -1;
+	async function getAbilityData() {
+		const responses = await Promise.all(
+			abilities.map((ability) => fetch(`/api/ability/${ability.ability.url.split('/')[6]}`))
+		);
+		const bodies = (await Promise.all(responses.map((res) => res.json()))) as AbilityResponse[];
 
-	const fetchData = debounce(async () => {
-		const allRequests = await Promise.all(
-			abilities.map((ability) => {
-				return fetch(ability.ability.url);
-			})
-		).catch(async (err) => {
-			await Logger.warn('Failed to fetch abilities', {
-				context: 'When initialising a Pokemons Ability, one or more request failed',
-				error: Logger.buildError(err)
-			});
-			return [];
-		});
-
-		const apiAbilities = (await Promise.all(allRequests.map((res) => res.json())).catch(
-			async (err) => {
-				await Logger.warn('Failed to process abilities', {
-					context: 'When initialising a Pokemons Ability, parsing one or more ability has failed',
-					error: Logger.buildError(err)
-				});
-				return [];
-			}
-		)) as unknown as ApiAbility[];
-
-		data = abilities.map((ability) => {
-			const apiAbility = apiAbilities.find((a) => a.name === ability.ability.name);
-
-			const lang1 = getNameEntry(apiAbility?.names || [], $primaryLanguage);
-			const lang2 = getNameEntry(apiAbility?.names || [], $secondaryLanguage ?? 'none');
-
-			const effect1 =
-				apiAbility?.effect_entries.find((entry) => entry.language.name === $primaryLanguage)
-					?.short_effect ??
-				apiAbility?.flavor_text_entries.find((entry) => entry.language.name === $primaryLanguage)
-					?.flavor_text ??
-				'';
-
-			const effect2 =
-				apiAbility?.effect_entries.find((entry) => entry.language.name === $secondaryLanguage)
-					?.short_effect ??
-				apiAbility?.flavor_text_entries.find((entry) => entry.language.name === $secondaryLanguage)
-					?.flavor_text ??
-				'';
-
-			return {
-				id: apiAbility?.id || 0,
-				names: dropFalsey(uniques([lang1, lang2])),
-				slot: ability.slot,
-				is_hidden: ability.is_hidden,
-				effect1,
-				effect2
-			};
-		});
-	}, 1000);
-
-	onMount(async () => {
-		await fetchData();
-		isMounted = true;
-	});
-
-	$: if (isMounted && abilities) {
-		data = [];
-		fetchData();
+		return bodies
+			.map((ability) => ({
+				name: getNameEntry(ability.names, $primaryLanguage),
+				is_hidden: abilities.find((monAbility) => monAbility.ability.name === ability.name)
+					?.is_hidden,
+				effect_entries: ability.effect_entries
+					.filter((entry) => [$primaryLanguage, $secondaryLanguage].includes(entry.language.name))
+					.map((entry) => entry.short_effect) ?? ['Missing data'],
+				id: ability.id
+			}))
+			.sort((a, b) =>
+				(abilities.find((ability) => ability.ability.name === a.name)?.slot ?? -1) >
+				(abilities.find((ability) => ability.ability.name === b.name)?.slot ?? -1)
+					? 1
+					: -1
+			);
 	}
 </script>
 
-<div class="columns">
-	{#if data.length === 0}
-		<p>Loading...</p>
-	{/if}
-
-	{#each data as ability, i}
-		<div class="column" style="display: flex; align-content: center; justify-content: center;">
-			<button
-				class="button secondary"
-				style={`display: inline-flex; width: 100%; min-width: max-content; justify-content: center;${
-					selectedAbility === i ? 'background-color: var(--selected);' : ''
-				}`}
-				on:click={() => {
-					if (selectedAbility === i) {
-						selectedAbility = -1;
-						Logger.addPageAction('UIInteraction', 'Ability', {
-							action: 'Collapse'
-						});
-					} else {
-						selectedAbility = i;
-						Logger.addPageAction('UIInteraction', 'Ability', {
-							action: 'Expand'
-						});
-					}
-				}}
-			>
-				{#if ability.is_hidden}
+<div class={`grid gap-4 md:grid-cols-${abilities.length}`}>
+	{#await getAbilityData()}
+		{#each abilities as staticAbility}
+			<Button classes="w-full text-center min-w-max" variant="primary" isNested>
+				{#if staticAbility.is_hidden}
 					<Icon
 						name="hidden"
 						style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
 					/>
 				{/if}
-				<p style="margin-top: auto; margin-bottom: auto; text-align: center;">
-					{ability.names[0] ?? ability.names[1] ?? 'No data'}
-				</p>
-			</button>
-		</div>
-	{/each}
-</div>
 
-{#each data as ability, i}
-	<div style={selectedAbility === i ? 'display: grid;' : 'display: none;'}>
-		<p>{ability.effect1}</p>
-		{#if ability.effect2}
-			<p style="margin-top: 1rem;">{ability.effect2}</p>
-		{/if}
-		{#if selectedAbility !== -1}
-			<a href={`/ability/${ability.id}`} class="inline-flex text-textColour"
-				>See more <Icon
-					name="link"
-					style="margin-top: auto; margin-bottom: auto; margin-left: 0.5rem;"
-				/></a
-			>
-		{/if}
-	</div>
-{/each}
+				{capitaliseEachWord(staticAbility.ability.name).replaceAll('-', ' ')}
+			</Button>
+		{/each}
+	{:then data}
+		{#each data as ability}
+			<ExpandableButton>
+				<div slot="title" class="inline-flex">
+					{#if ability.is_hidden}
+						<Icon
+							name="hidden"
+							style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
+						/>
+					{/if}
+
+					{ability.name}
+				</div>
+				<div slot="content">
+					{#each ability.effect_entries as effect}
+						<p>{effect}</p>
+					{/each}
+					<a href={`/ability/${ability.id}`} class="inline-flex"
+						>Learn more <Icon
+							name="link"
+							style="margin-top: auto; margin-bottom: auto; margin-left: 0.5rem;"
+						/></a
+					>
+				</div>
+			</ExpandableButton>
+		{/each}
+	{:catch}
+		{#each abilities as staticAbility}
+			<Button classes="w-full text-center min-w-max" isDisabled variant="primary" isNested>
+				{#if staticAbility.is_hidden}
+					<Icon
+						name="hidden"
+						style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
+					/>
+				{/if}
+
+				{capitaliseEachWord(staticAbility.ability.name).replaceAll('-', ' ')}
+			</Button>
+		{/each}
+	{/await}
+</div>

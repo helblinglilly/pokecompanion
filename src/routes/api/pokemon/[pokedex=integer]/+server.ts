@@ -242,11 +242,14 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 	const types = getPokemonTypesInGame(pokemon, selectedGame?.generation);
 
 	const easterEggData = easterEggs(id, variety);
+
+	const abilities = fixAbilities(pokemon.past_abilities, pokemon.abilities, selectedGame);
+
 	const response: IPokemonResponse = {
 		id,
 		pokemon: {
 			...pokemon,
-			abilities: fixAbilities(pokemon.past_abilities, pokemon.abilities, selectedGame),
+			abilities,
 			types,
 			typeRelations: await getTypeRelations(selectedGame?.generation, types[0], types[1]),
 			varietyForms: species.varieties

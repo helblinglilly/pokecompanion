@@ -122,10 +122,6 @@
 	const englishPokedexEntries = data.species.flavor_text_entries.filter(
 		(entry) => entry.language === 'en'
 	);
-
-	async function getPrimarySprite(id: number) {
-		return await fetch(`/api/pokemon/${id}/sprite`);
-	}
 </script>
 
 <SocialPreview
@@ -157,128 +153,125 @@
 	/>
 
 	<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-		<div>
-			<Card classes="relative min-h-[250px] h-fit">
-				<div class="inline-flex w-full justify-between h-5">
-					<div class="inline-flex gap-1 justify-start w-6/12">
-						{#each data.pokemon.types as type}
-							<div>
-								<Type type={type.name} className="h-6" />
-							</div>
-						{/each}
-						{#if data.pokemon.types.length === 1}
-							<div class="w-full" />
-						{/if}
-					</div>
-
-					<Pokedex
-						pokedexEntries={data.species.flavor_text_entries}
-						height={data.pokemon.height}
-						weight={data.pokemon.weight}
-						cry={data.pokemon.cries.latest ?? data.pokemon.cries.legacy}
-					/>
+		<Card classes="relative min-h-[250px] h-fit">
+			<div class="inline-flex w-full justify-between h-5">
+				<div class="inline-flex gap-1 justify-start w-6/12">
+					{#each data.pokemon.types as type}
+						<div>
+							<Type type={type.name} className="h-6" />
+						</div>
+					{/each}
+					{#if data.pokemon.types.length === 1}
+						<div class="w-full" />
+					{/if}
 				</div>
 
-				<SpritePreview
-					primarySprite={data.sprites.primary}
-					secondarySprite={data.sprites.secondary}
+				<Pokedex
+					pokedexEntries={data.species.flavor_text_entries}
+					height={data.pokemon.height}
+					weight={data.pokemon.weight}
+					cry={data.pokemon.cries.latest ?? data.pokemon.cries.legacy}
 				/>
+			</div>
 
-				{#if $currentUser}
-					<div
-						class="flex justify-center items-center w-full gap-2 relative z-20"
-						style="flex-flow: wrap;"
-					>
-						<SelectedTags pokemon={$pokemonDisplayStore} />
-					</div>
-					<div class="flex justify-center items-center w-full gap-2 pt-2">
-						{#if $tagStore.length > 0}
-							<EditTag pokemon={$pokemonDisplayStore} />
-						{/if}
+			<SpritePreview
+				primarySprite={data.sprites.primary}
+				secondarySprite={data.sprites.secondary}
+			/>
 
-						<CreateNewTag
-							pokemon={{
-								id: data.id,
-								gender: $pokemonDisplayStore.gender,
-								shiny:
-									$pokemonDisplayStore.hasShinySprite &&
-									$pokemonDisplayStore.showShinySpriteIfExists,
-								variety: $pokemonDisplayStore.variety
-							}}
+			{#if $currentUser}
+				<div
+					class="flex justify-center items-center w-full gap-2 relative z-20"
+					style="flex-flow: wrap;"
+				>
+					<SelectedTags pokemon={$pokemonDisplayStore} />
+				</div>
+				<div class="flex justify-center items-center w-full gap-2 pt-2">
+					{#if $tagStore.length > 0}
+						<EditTag pokemon={$pokemonDisplayStore} />
+					{/if}
+
+					<CreateNewTag
+						pokemon={{
+							id: data.id,
+							gender: $pokemonDisplayStore.gender,
+							shiny:
+								$pokemonDisplayStore.hasShinySprite && $pokemonDisplayStore.showShinySpriteIfExists,
+							variety: $pokemonDisplayStore.variety
+						}}
+					/>
+				</div>
+			{/if}
+
+			{#if !isPokemonInGameGroup(data.id, $selectedGame)}
+				<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
+			{/if}
+
+			{#if $pokemonDisplayStore.hasShinySprite}
+				<button
+					data-testid="shinyToggle"
+					class="triangle right"
+					style={`border-bottom-color: ${
+						$pokemonDisplayStore.showShinySpriteIfExists ? '#f0e45f' : '#f0e45f'
+					}`}
+					on:click={() => {
+						Logger.addPageAction('UIInteraction', 'SpriteShiny', {
+							action: 'Sprite Change'
+						});
+						$pokemonDisplayStore.showShinySpriteIfExists =
+							!$pokemonDisplayStore.showShinySpriteIfExists;
+					}}
+				>
+					{#if $pokemonDisplayStore.showShinySpriteIfExists}
+						<Icon name="spark-full" style="margin-top: 1.8rem; margin-left: -2rem;" />
+					{:else}
+						<Icon name="spark" style="margin-top: 1.8rem; margin-left: -2rem;" />
+					{/if}
+				</button>
+			{/if}
+
+			{#if $pokemonDisplayStore.hasFemaleSprite}
+				<button
+					data-testid="genderToggle"
+					class="triangle left"
+					style={`border-bottom-color: ${
+						$pokemonDisplayStore.hasFemaleSprite && $pokemonDisplayStore.showFemaleSpriteIfExists
+							? '#f6abd9'
+							: '#7fbbf0'
+					};`}
+					on:click={() => {
+						Logger.addPageAction('UIInteraction', 'SpriteGender', {
+							action: 'Sprite Change'
+						});
+
+						$pokemonDisplayStore.showFemaleSpriteIfExists =
+							!$pokemonDisplayStore.showFemaleSpriteIfExists;
+					}}
+				>
+					{#if $pokemonDisplayStore.showFemaleSpriteIfExists}
+						<Icon
+							name="venus"
+							style="margin-top: 2.1rem; margin-left: 0.6rem; fill: var(--dark);"
 						/>
-					</div>
-				{/if}
-
-				{#if !isPokemonInGameGroup(data.id, $selectedGame)}
-					<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
-				{/if}
-
-				{#if $pokemonDisplayStore.hasShinySprite}
-					<button
-						data-testid="shinyToggle"
-						class="triangle right"
-						style={`border-bottom-color: ${
-							$pokemonDisplayStore.showShinySpriteIfExists ? '#f0e45f' : '#f0e45f'
-						}`}
-						on:click={() => {
-							Logger.addPageAction('UIInteraction', 'SpriteShiny', {
-								action: 'Sprite Change'
-							});
-							$pokemonDisplayStore.showShinySpriteIfExists =
-								!$pokemonDisplayStore.showShinySpriteIfExists;
-						}}
-					>
-						{#if $pokemonDisplayStore.showShinySpriteIfExists}
-							<Icon name="spark-full" style="margin-top: 1.8rem; margin-left: -2rem;" />
-						{:else}
-							<Icon name="spark" style="margin-top: 1.8rem; margin-left: -2rem;" />
-						{/if}
-					</button>
-				{/if}
-
-				{#if $pokemonDisplayStore.hasFemaleSprite}
-					<button
-						data-testid="genderToggle"
-						class="triangle left"
-						style={`border-bottom-color: ${
-							$pokemonDisplayStore.hasFemaleSprite && $pokemonDisplayStore.showFemaleSpriteIfExists
-								? '#f6abd9'
-								: '#7fbbf0'
-						};`}
-						on:click={() => {
-							Logger.addPageAction('UIInteraction', 'SpriteGender', {
-								action: 'Sprite Change'
-							});
-
-							$pokemonDisplayStore.showFemaleSpriteIfExists =
-								!$pokemonDisplayStore.showFemaleSpriteIfExists;
-						}}
-					>
-						{#if $pokemonDisplayStore.showFemaleSpriteIfExists}
-							<Icon
-								name="venus"
-								style="margin-top: 2.1rem; margin-left: 0.6rem; fill: var(--dark);"
-							/>
-						{:else}
-							<Icon
-								name="mars"
-								style="margin-top: 2.1rem; margin-left: 0.5rem; fill: var(--dark);"
-							/>
-						{/if}
-					</button>
-				{/if}
-			</Card>
-		</div>
+					{:else}
+						<Icon name="mars" style="margin-top: 2.1rem; margin-left: 0.5rem; fill: var(--dark);" />
+					{/if}
+				</button>
+			{/if}
+		</Card>
 
 		<Card>
+			<h3 class="h3 mb-4">Evolutions</h3>
 			<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} />
 		</Card>
 
 		<Card>
+			<h3 class="h3 mb-4">Type matchup</h3>
 			<TypeMatchup relations={data.pokemon.typeRelations} />
 		</Card>
 
 		<Card>
+			<h3 class="h3 mb-4">Base stats</h3>
 			<BaseStats data={data.pokemon.stats} />
 		</Card>
 
@@ -286,18 +279,16 @@
 			<h3 class="h3">Encounters</h3>
 			<Encounters encounterData={data.encounters} />
 		</Card>
-	</div>
-</div>
 
-<div class="columns">
-	<div class="column">
-		<div class="card">
-			<a href={`${$page.url.pathname + $page.url.search + '#abilities'}`} class="no-style">
-				<h3 class="h3" id="abilities">Abilities</h3>
-			</a>
+		<Card>
+			<h3 class="h3 mb-4">Abilities</h3>
 			<Abilities abilities={data.pokemon.abilities} />
-		</div>
+		</Card>
 	</div>
+
+	<Card>
+		<h3 class="h3">Moveset</h3>
+	</Card>
 </div>
 
 <div class="columns">
