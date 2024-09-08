@@ -13,7 +13,7 @@ export interface IPokemon {
 	forms: Form[];
 	game_indices: Index[];
 	height: number;
-	held_items: any[];
+	held_items: unknown[];
 	id: number;
 	is_default: boolean;
 	location_area_encounters: string;
@@ -179,14 +179,14 @@ interface Other {
 
 interface DreamWorld {
 	front_default: null | string;
-	front_female: null | any;
+	front_female: null | unknown;
 }
 
 interface Home {
 	front_default: null | string;
-	front_female: null | any;
+	front_female: null | unknown;
 	front_shiny: null | string;
-	front_shiny_female: null | any;
+	front_shiny_female: null | unknown;
 }
 
 interface OfficialArtwork {
@@ -294,35 +294,35 @@ interface GenerationIv {
 
 interface DiamondPearl {
 	back_default: string;
-	back_female: any;
+	back_female: unknown;
 	back_shiny: string;
-	back_shiny_female: any;
+	back_shiny_female: unknown;
 	front_default: string;
-	front_female: any;
+	front_female: unknown;
 	front_shiny: string;
-	front_shiny_female: any;
+	front_shiny_female: unknown;
 }
 
 interface HeartgoldSoulsilver {
 	back_default: string;
-	back_female: any;
+	back_female: unknown;
 	back_shiny: string;
-	back_shiny_female: any;
+	back_shiny_female: unknown;
 	front_default: string;
-	front_female: any;
+	front_female: unknown;
 	front_shiny: string;
-	front_shiny_female: any;
+	front_shiny_female: unknown;
 }
 
 interface Platinum {
 	back_default: string;
-	back_female: any;
+	back_female: unknown;
 	back_shiny: string;
-	back_shiny_female: any;
+	back_shiny_female: unknown;
 	front_default: string;
-	front_female: any;
+	front_female: unknown;
 	front_shiny: string;
-	front_shiny_female: any;
+	front_shiny_female: unknown;
 }
 
 interface GenerationV {
@@ -332,24 +332,24 @@ interface GenerationV {
 interface BlackWhite {
 	animated: Animated;
 	back_default: string;
-	back_female: any;
+	back_female: unknown;
 	back_shiny: string;
-	back_shiny_female: any;
+	back_shiny_female: unknown;
 	front_default: string;
-	front_female: any;
+	front_female: unknown;
 	front_shiny: string;
-	front_shiny_female: any;
+	front_shiny_female: unknown;
 }
 
 interface Animated {
 	back_default: string;
-	back_female: any;
+	back_female: unknown;
 	back_shiny: string;
-	back_shiny_female: any;
+	back_shiny_female: unknown;
 	front_default: string;
-	front_female: any;
+	front_female: unknown;
 	front_shiny: string;
-	front_shiny_female: any;
+	front_shiny_female: unknown;
 }
 
 interface GenerationVi {
@@ -359,16 +359,16 @@ interface GenerationVi {
 
 interface OmegarubyAlphasapphire {
 	front_default: string;
-	front_female: any;
+	front_female: unknown;
 	front_shiny: string;
-	front_shiny_female: any;
+	front_shiny_female: unknown;
 }
 
 interface XY {
 	front_default: string;
-	front_female: any;
+	front_female: unknown;
 	front_shiny: string;
-	front_shiny_female: any;
+	front_shiny_female: unknown;
 }
 
 interface GenerationVii {
@@ -378,14 +378,14 @@ interface GenerationVii {
 
 interface Icons {
 	front_default: string;
-	front_female: any;
+	front_female: unknown;
 }
 
 interface UltraSunUltraMoon {
 	front_default: string;
-	front_female: any;
+	front_female: unknown;
 	front_shiny: string;
-	front_shiny_female: any;
+	front_shiny_female: unknown;
 }
 
 interface GenerationViii {
@@ -394,7 +394,7 @@ interface GenerationViii {
 
 interface Icons2 {
 	front_default: string;
-	front_female: any;
+	front_female: unknown;
 }
 
 export interface Stat {
@@ -424,9 +424,9 @@ export interface IPokemonSpecies {
 	color: Color;
 	egg_groups: EggGroup[];
 	evolution_chain: EvolutionChain;
-	evolves_from_species: any;
+	evolves_from_species: unknown;
 	flavor_text_entries: FlavorTextEntry[];
-	form_descriptions: any[];
+	form_descriptions: unknown[];
 	forms_switchable: boolean;
 	gender_rate: number;
 	genera: Genera[];
