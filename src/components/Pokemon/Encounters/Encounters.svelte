@@ -8,13 +8,11 @@
 
 	export let encounterData: IEncounters;
 
-	let allGames = (Object.keys(encounterData) as PokeapiVersionNames[]).sort((a, b) => {
+	$: allGames = (Object.keys(encounterData) as PokeapiVersionNames[]).sort((a, b) => {
 		return getGameFromName(a).globalSortOrder > getGameFromName(b).globalSortOrder ? 1 : -1;
 	});
 
-	let currentGame: PokeapiVersionNames = $selectedGame
-		? $selectedGame.games[0].pokeapi
-		: allGames[0];
+	$: currentGame = $selectedGame ? $selectedGame.games[0].pokeapi : allGames[0];
 
 	const defaultLimit = 4;
 
@@ -25,7 +23,7 @@
 	let currentDisplayLimit = defaultLimit;
 </script>
 
-{#if $selectedGame && !$selectedGame.games.some((a) => a.pokeapi === currentGame)}
+{#if $selectedGame && !$selectedGame.games.some((a) => allGames.includes(a.pokeapi))}
 	<p>Missing data for {$selectedGame.shortName}</p>
 {/if}
 
