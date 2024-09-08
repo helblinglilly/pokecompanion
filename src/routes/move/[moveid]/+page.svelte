@@ -146,6 +146,7 @@
 			{/if}
 		</div>
 
+		<!-- Replace this with a manual implementation like on search results -->
 		<PokemonGroup
 			pokemonResults={data.move.learned_by_pokemon.map((val) => {
 				return { id: Number(val.url.split('/')[6]) };

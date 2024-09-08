@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import AbilityResults from '$/components/Search/AbilityResults.svelte';
-	import ItemResults from '$/components/Search/ItemResults.svelte';
-	import MoveResults from '$/components/Search/MoveResults.svelte';
 	import SocialPreview from '$/components/SocialPreview.svelte';
-	import PokemonGroup from '$/components/UI/PokemonGroup.svelte';
 	import { Logger } from '$lib/log.js';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
 	import { searchTerm } from '$lib/stores/searchbar.js';
-	import type { Languages } from '$lib/utils/language.js';
+	import { getMultiLanguageName, type Languages } from '$lib/utils/language.js';
 	import { onMount } from 'svelte';
+	import PokemonListEntry from '$/ui/molecules/pokemon/list';
+	import Button from '$/ui/atoms/button/Button.svelte';
+	import PokemonLink from '$/ui/molecules/pokemon/link/PokemonLink.svelte';
+	import ItemListEntry from '$/ui/molecules/item/list/ItemListEntry.svelte';
+	import Card from '$/ui/atoms/card/Card.svelte';
 
 	export let data;
 	let { errorMessage, results } = data;
@@ -42,10 +43,16 @@
 	if (secondaryLanguageOverride) {
 		secondaryLanguage.set(secondaryLanguageOverride as keyof Languages);
 	}
+
+	let defaultResults = 10;
+	let pokemonResults = defaultResults;
+	let itemResults = defaultResults;
+	let moveResults = defaultResults;
+	let abilityResults = defaultResults;
 </script>
 
 <svelte:head>
-	<meta name="robots" content="noindex">
+	<meta name="robots" content="noindex" />
 </svelte:head>
 
 <SocialPreview
@@ -61,47 +68,118 @@
 {/if}
 
 {#if results}
-	<div id="searchResults">
+	<div id="searchResults" class="grid md:grid-cols-2 gap-4 pb-4">
 		{#if results.pokemon.length > 0}
-			<div>
+			<section class="grid gap-4 w-full h-fit" aria-label="Pokemon results">
 				<h2 class="h2" id="pokemon">Pokémon</h2>
-				<PokemonGroup
-					pokemonResults={results.pokemon}
-					showMoreText="Show more results..."
-					filterTerm=""
-				/>
-			</div>
+				{#each results.pokemon as pokemon, i}
+					{#if i < pokemonResults}
+						<PokemonLink pokemon={{ id: pokemon.id, shiny: false }}>
+							<PokemonListEntry
+								pokemon={{
+									id: pokemon.id,
+									shiny: false
+								}}
+							/>
+						</PokemonLink>
+					{/if}
+				{/each}
+
+				{#if results.pokemon.length > pokemonResults}
+					<Button
+						on:click={() => {
+							pokemonResults += defaultResults;
+						}}
+					>
+						Show {defaultResults} more Pokemon results ({pokemonResults}/{results.pokemon.length})
+					</Button>
+				{/if}
+			</section>
 		{/if}
 
 		{#if results.items.length > 0}
-			<div>
+			<section class="grid gap-4 w-full h-fit" aria-label="Item results">
 				<h2 class="h2" id="items">Items</h2>
-				<ItemResults itemResults={results.items} />
-			</div>
+				{#each results.items as item, i}
+					{#if i < itemResults}
+						<a href={`/item/${item.id}`} class="no-underline">
+							<ItemListEntry {item} />
+						</a>
+					{/if}
+				{/each}
+
+				{#if results.items.length > itemResults}
+					<Button
+						on:click={() => {
+							itemResults += defaultResults;
+						}}
+					>
+						Show {defaultResults} more Item results ({itemResults}/{results.items.length})
+					</Button>
+				{/if}
+			</section>
 		{/if}
 
 		{#if results.abilities.length > 0}
-			<div>
-				<h2 class="h2" id="abilities">Abilities</h2>
-				<AbilityResults abilityResults={results.abilities} />
-			</div>
+			<section class="grid gap-4 w-full h-fit" aria-label="Ability results">
+				<h2 class="h2" id="ability">Abilities</h2>
+				{#each results.abilities as ability, i}
+					{#if i < abilityResults}
+						<a href={`/ability/${ability.id}`} class="no-underline">
+							<Card
+								isClickable
+								classes="m-0 w-full inline-flex justify-between"
+								style={`position: relative; padding: 0.5rem; min-height: 7rem;`}
+							>
+								<p class="mt-auto mb-auto pl-4">
+									{getMultiLanguageName(ability.names, $primaryLanguage, $secondaryLanguage)}
+								</p>
+							</Card>
+						</a>
+					{/if}
+				{/each}
+
+				{#if results.abilities.length > abilityResults}
+					<Button
+						on:click={() => {
+							abilityResults += defaultResults;
+						}}
+					>
+						Show {defaultResults} more Ability results ({abilityResults}/{results.abilities.length})
+					</Button>
+				{/if}
+			</section>
 		{/if}
 
 		{#if results.moves.length > 0}
-			<div>
-				<h2 class="h2" id="moves">Moves</h2>
-				<MoveResults moveResults={results.moves} />
-			</div>
+			<section class="grid gap-4 w-full h-fit" aria-label="Move results">
+				<h2 class="h2" id="ability">Moves</h2>
+				{#each results.moves as move, i}
+					{#if i < moveResults}
+						<a href={`/move/${move.id}`} class="no-underline">
+							<Card
+								isClickable
+								classes="m-0 w-full inline-flex justify-between"
+								style={`position: relative; padding: 0.5rem; min-height: 7rem;`}
+							>
+								<p class="mt-auto mb-auto pl-4">
+									{getMultiLanguageName(move.names, $primaryLanguage, $secondaryLanguage)}
+								</p>
+							</Card>
+						</a>
+					{/if}
+				{/each}
+
+				{#if results.moves.length > moveResults}
+					<Button
+						on:click={() => {
+							moveResults += defaultResults;
+						}}
+					>
+						Show {defaultResults} more Move results ({moveResults}/{results.moves.length})
+					</Button>
+				{/if}
+			</section>
 		{/if}
 	</div>
 {/if}
-
-<style>
-	#searchResults > :first-child {
-		padding-top: 2rem;
-	}
-
-	#searchResults > :not(:first-child) {
-		padding-top: 4rem;
-	}
-</style>

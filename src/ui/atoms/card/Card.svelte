@@ -7,12 +7,14 @@
 	export let isNested: boolean = false;
 	export let id: string | undefined = undefined;
 	export let isActive = false;
+	export let ariaLabel: string = '';
 
 	const dispatch = createEventDispatcher();
 </script>
 
 <div
 	{id}
+	aria-label={ariaLabel}
 	class={[
 		'card',
 		isClickable ? 'clickable' : null,

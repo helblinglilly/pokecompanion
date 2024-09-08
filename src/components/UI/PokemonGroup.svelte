@@ -1,6 +1,7 @@
 <script lang="ts">
-	import PokemonPreview from '$/components/Pokemon/PokemonPreview.svelte';
-	import { getPokemonEntry, type IStaticPokemon } from '$lib/data/games';
+	import PokemonLink from '$/ui/molecules/pokemon/link/PokemonLink.svelte';
+	import PokemonListEntry from '$/ui/molecules/pokemon/list';
+	import { getPokemonEntry } from '$lib/data/games';
 	import { maxSearchResults, primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import { getLanguageEntry } from '$lib/utils/language';
 	import { termNormaliser } from '$lib/utils/string';
@@ -28,10 +29,17 @@
 		: pokemonResults;
 </script>
 
-<div class="pokemonGrouping">
+<div class="grid gap-4">
 	{#each filteredResults as pokemon, index}
 		{#if index < maxResults}
-			<PokemonPreview pokemon={{ id: pokemon.id }} />
+			<PokemonLink pokemon={{ id: pokemon.id, shiny: false }}>
+				<PokemonListEntry
+					pokemon={{
+						id: pokemon.id,
+						shiny: false
+					}}
+				/>
+			</PokemonLink>
 		{/if}
 	{/each}
 </div>
@@ -47,9 +55,3 @@
 		>
 	</div>
 {/if}
-
-<style>
-	.pokemonGrouping:not(:first-child) {
-		margin-top: 1rem;
-	}
-</style>

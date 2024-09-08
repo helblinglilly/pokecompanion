@@ -22,6 +22,12 @@
 </script>
 
 <Card
+	ariaLabel={getMultiLanguageName(
+		getPokemonEntry(pokemon.id).names,
+		$primaryLanguage,
+		$secondaryLanguage,
+		namePrefix
+	)}
 	classes="m-0 w-full inline-flex justify-between"
 	isClickable
 	id={pokemon.id.toString()}
