@@ -157,16 +157,16 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 	
 	// Only some values may get rassigned
 	// eslint-disable-next-line prefer-const 
-	let [pokemon, species] = await Promise.all([
+	let [pokemon, species, encounters, sprites] = await Promise.all([
 		fetchPokemon(id, platform),
 		fetchPokemonSpecies(id, platform),
+		fetchPokemonEncounters(id, platform),
+		fetchSprites(id, requestPreferences, platform)
 	])
 
 	if (!species.has_gender_differences && requestPreferences.isFemale){
 		requestPreferences.isFemale = false
 	}
-
-	const sprites = await fetchSprites(id, requestPreferences, platform)
 
 	const formEntry = pokemon.forms.find((entry) => entry.name === variety);
 	if (formEntry) {
@@ -240,8 +240,6 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 	}
 
 	const types = getPokemonTypesInGame(pokemon, selectedGame?.generation);
-
-	const encounters = await fetchPokemonEncounters(id, platform);
 
 	const easterEggData = easterEggs(id, variety);
 	const response: IPokemonResponse = {
