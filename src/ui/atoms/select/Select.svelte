@@ -2,11 +2,11 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let options: { label: string; value: string; disabled?: boolean }[] = [];
-	export let value: string = '';
-	export let style: string = '';
-	export let defaultValue: string = '';
-	export let isNested: boolean = false;
-	export let name: string = '';
+	export let value = '';
+	export let style = '';
+	export let defaultValue = '';
+	export let isNested = false;
+	export let name = '';
 
 	const dispatch = createEventDispatcher();
 

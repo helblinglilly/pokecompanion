@@ -6,6 +6,8 @@
 	import { Logger } from '$lib/log';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { getNameEntry } from '$lib/utils/language';
+	import Button from '$/ui/atoms/button/Button.svelte';
+	import Card from '$/ui/atoms/card/Card.svelte';
 
 	export let move: IPokemonMinimalMove;
 
@@ -29,16 +31,16 @@
 		move && $secondaryLanguage ? getNameEntry(move.names, $secondaryLanguage) : undefined;
 </script>
 
-<button class="button secondary">
-	{#if move}
-		<a
-			href={`/move/${move.id}`}
-			on:click={() => {
-				Logger.addPageAction('UIInteraction', 'Move', {
-					action: 'Navigation'
-				});
-			}}
-		>
+{#if move}
+	<a
+		href={`/move/${move.id}`}
+		on:click={() => {
+			Logger.addPageAction('UIInteraction', 'Move', {
+				action: 'Navigation'
+			});
+		}}
+	>
+		<Button isNested classes="w-full">
 			<div class="inline-flex justify-between w-full">
 				<div class="flex flex-col items-center justify-center gap-2 pr-3">
 					{#await pokeapiPromise}
@@ -67,24 +69,14 @@
 					{/if}
 				</div>
 			</div>
-		</a>
-	{:else}
-		<p>Loading...</p>
-	{/if}
-</button>
+		</Button>
+	</a>
+{:else}
+	<p>Loading...</p>
+{/if}
 
 <style>
 	a {
 		text-decoration: none;
-	}
-
-	button {
-		width: 100%;
-		border-radius: 0.5rem;
-		padding-left: 1rem;
-		padding-right: 0.5rem;
-		padding-top: 0.5rem;
-		padding-bottom: 0.5rem;
-		margin-bottom: 1rem;
 	}
 </style>

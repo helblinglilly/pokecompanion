@@ -288,27 +288,11 @@
 
 	<Card>
 		<h3 class="h3">Moveset</h3>
+		<MovesetCard movesetData={data.pokemon.moves} />
 	</Card>
 </div>
 
-<div class="columns">
-	<div class="column">
-		<div class="card">
-			<div style="display: inline-flex; width: 100%; justify-content: space-between;">
-				<h3 class="h3">Moveset</h3>
-			</div>
-
-			<MovesetCard movesetData={data.pokemon.moves} />
-		</div>
-	</div>
-</div>
-
 <style>
-	.card {
-		padding-top: 1rem;
-		position: relative;
-	}
-
 	.triangle {
 		position: absolute;
 		bottom: 0;

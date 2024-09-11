@@ -10,7 +10,7 @@
 	const iconUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
 </script>
 
-<div style="min-width: 90px; min-height: 70px;">
+<div style="min-width: fit-content; min-height: 70px;">
 	{#if pokedexId > 0 && pokedexId < lastPokedexEntry}
 		<a
 			href={`/pokemon/${pokedexId}${
@@ -25,7 +25,7 @@
 			}}
 		>
 			<Card classes="w-fit h-auto inline-flex" style="margin: 0; padding: 10px;" isClickable>
-				<p style="margin: auto;">#{pokedexId}</p>
+				<p class="m-auto hidden sm:block">#{pokedexId}</p>
 				{#if iconUrl}
 					<Image
 						src={`${iconUrl}/${pokedexId}.png`}

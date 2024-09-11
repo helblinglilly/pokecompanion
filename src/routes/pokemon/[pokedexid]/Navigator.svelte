@@ -12,52 +12,50 @@
 	export let forms: { name: string }[];
 </script>
 
-<div class="columns mobile justify-between">
-	<div class="column max-w-fit contents">
-		<NavigationButton pokedexId={currentId - 1} />
-	</div>
+<div class="grid gap-2">
+	<div class="flex justify-between" style="margin-bottom: 0; padding-bottom: 0;">
+		<div class="max-w-fit contents">
+			<NavigationButton pokedexId={currentId - 1} />
+		</div>
 
-	<div class="column grid md:inline-flex items-center max-w-fit gap-4">
-		<h1 class="h2 min-w-fit mt-auto mb-auto pb-0 text-center">
-			<span class="md:hidden">
+		<div class="grid items-center max-w-fit gap-4">
+			<h1 class={`h2 grid ${forms.length > 1 ? 'mt-4' : 'my-auto'} pb-0 text-center`}>
 				#{currentId}
-			</span>
-
-			<span class="hidden md:inline-flex">
 				{title}
-			</span>
-		</h1>
-		{#if forms.length > 1}
-			<Select
-				value={$pokemonDisplayStore.variety}
-				options={forms.map((form) => ({
-					label: capitaliseFirstLetter(form.name.split('-').splice(1).join(' ')),
-					value: form.name
-				}))}
-				style="max-width: fit-content; padding-left: 1rem; padding-right: 1rem; margin: 0; text-align: center;"
-				on:change={({ detail }) => {
-					Logger.addPageAction('UIInteraction', 'Variety', {
-						action: 'Navigation'
-					});
+			</h1>
 
-					const newUrl = new URL($page.url);
+			{#if forms.length > 1}
+				<Select
+					value={$pokemonDisplayStore.variety}
+					options={forms.map((form) => ({
+						label: capitaliseFirstLetter(form.name.split('-').splice(1).join(' ')),
+						value: form.name
+					}))}
+					style="width: 100%; padding-left: 1rem; padding-right: 1rem; margin: 0; text-align: center;"
+					on:change={({ detail }) => {
+						Logger.addPageAction('UIInteraction', 'Variety', {
+							action: 'Navigation'
+						});
 
-					if (detail.endsWith('-default')) {
-						newUrl.searchParams.delete('variety');
-						goto(newUrl.toString());
-					} else {
-						newUrl.searchParams.set('variety', detail);
-						goto(newUrl.toString());
-					}
-				}}
-			/>
-		{/if}
-	</div>
+						const newUrl = new URL($page.url);
 
-	<div
-		class="column justify-end contents max-w-fit"
-		style="justify-content: end; display: contents; max-width: fit-content;"
-	>
-		<NavigationButton pokedexId={currentId + 1} />
+						if (detail.endsWith('-default')) {
+							newUrl.searchParams.delete('variety');
+							goto(newUrl.toString());
+						} else {
+							newUrl.searchParams.set('variety', detail);
+							goto(newUrl.toString());
+						}
+					}}
+				/>
+			{/if}
+		</div>
+
+		<div
+			class="justify-end contents max-w-fit"
+			style="justify-content: end; display: contents; max-width: fit-content;"
+		>
+			<NavigationButton pokedexId={currentId + 1} />
+		</div>
 	</div>
 </div>

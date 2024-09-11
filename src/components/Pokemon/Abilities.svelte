@@ -36,7 +36,7 @@
 	}
 </script>
 
-<div class={`grid gap-4 md:grid-cols-${abilities.length}`}>
+<div class={`grid gap-4`}>
 	{#await getAbilityData()}
 		{#each abilities as staticAbility}
 			<Button classes="w-full text-center min-w-max" variant="primary" isNested>

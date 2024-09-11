@@ -53,7 +53,8 @@
 	}
 
 	.button.accent:hover,
-	.button.accent:active .button.accent.active {
+	.button.accent:active,
+	.button.accent.active {
 		background-color: var(--red-accent-muted);
 	}
 
@@ -114,5 +115,13 @@
 	.button.secondary:disabled {
 		background-color: var(--grey-primary);
 		color: var(--text-inverse);
+	}
+
+	:global(.dark-theme) .button.default.nested {
+		background-color: var(--text-light);
+	}
+
+	.button.default.nested:hover {
+		background-color: var(--card-hover);
 	}
 </style>

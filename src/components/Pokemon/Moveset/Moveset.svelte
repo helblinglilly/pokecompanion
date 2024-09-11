@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$/ui/atoms/button/Button.svelte';
 	import { Logger } from '$lib/log';
 	import type { IPokemonMinimalMoveGroups } from '../../../routes/api/pokemon/types';
 	import Move from './Move.svelte';
@@ -14,72 +15,85 @@
 <div class="container pt-2">
 	{#if completeData}
 		{#if completeData.levelupMoves.length > 0}
-			<div class="item">
+			<section class="item">
 				<h4 class="h4">Level up</h4>
-				<button
-					class="button w-full secondary md:hidden mb-4"
-					on:click={() => {
-						showLevelMovesOnMobile = !showLevelMovesOnMobile;
-						Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
-							action: showLevelMovesOnMobile ? 'Hide' : 'Show',
-							context: 'LevelMoves'
-						});
-					}}
-					>{showLevelMovesOnMobile ? 'Hide' : 'Show'}
-					{completeData.levelupMoves.length} moves</button
-				>
+				<div class="md:hidden">
+					<Button
+						variant="primary"
+						style="height: 3rem; margin-bottom: 1rem;"
+						classes="w-full "
+						on:click={() => {
+							showLevelMovesOnMobile = !showLevelMovesOnMobile;
+							Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
+								action: showLevelMovesOnMobile ? 'Hide' : 'Show',
+								context: 'LevelMoves'
+							});
+						}}
+						>{showLevelMovesOnMobile ? 'Hide' : 'Show'}
+						{completeData.levelupMoves.length} moves</Button
+					>
+				</div>
 
-				<span class={`grid ${!showLevelMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
+				<div class={`grid gap-4 ${!showLevelMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
 					{#each completeData.levelupMoves.sort((a, b) => {
 						return (a.level || -1) > (b.level || -1) ? 1 : -1;
 					}) as levelMove}
 						<Move move={levelMove} />
 					{/each}
-				</span>
-			</div>
+				</div>
+			</section>
 		{/if}
 
 		{#if completeData.tmMoves.length > 0}
 			<div class="item">
 				<h4 class="h4">TM/TR/HM</h4>
-				<button
-					class="button w-full secondary md:hidden mb-4"
-					on:click={() => {
-						showTmMovesOnMobile = !showTmMovesOnMobile;
-						Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
-							action: showTmMovesOnMobile ? 'Hide' : 'Show',
-							context: 'TMMoves'
-						});
-					}}>{showTmMovesOnMobile ? 'Hide' : 'Show'} {completeData.tmMoves.length} moves</button
-				>
+				<div class="md:hidden">
+					<Button
+						variant="primary"
+						style="height: 3rem; margin-bottom: 1rem;"
+						classes="w-full"
+						on:click={() => {
+							showTmMovesOnMobile = !showTmMovesOnMobile;
+							Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
+								action: showTmMovesOnMobile ? 'Hide' : 'Show',
+								context: 'TMMoves'
+							});
+						}}>{showTmMovesOnMobile ? 'Hide' : 'Show'} {completeData.tmMoves.length} moves</Button
+					>
+				</div>
 
-				<span class={`grid ${!showTmMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
+				<div class={`grid gap-4 ${!showTmMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
 					{#each completeData.tmMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as tmMove}
 						<Move move={tmMove} />
 					{/each}
-				</span>
+				</div>
 			</div>
 		{/if}
 
 		{#if completeData.breedMoves.length > 0}
 			<div class="item">
 				<h4 class="h4">Breeding</h4>
-				<button
-					class="button w-full secondary md:hidden mb-4"
-					on:click={() => {
-						showBreedMovesOnMobile = !showBreedMovesOnMobile;
-						Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
-							action: showBreedMovesOnMobile ? 'Hide' : 'Show',
-							context: 'BreedMoves'
-						});
-					}}
-					>{showBreedMovesOnMobile ? 'Hide' : 'Show'}
-					{completeData.breedMoves.length} moves</button
-				>
 
-				<span class={`grid ${!showBreedMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
+				<div class="md:hidden">
+					<Button
+						variant="primary"
+						style="height: 3rem; margin-bottom: 1rem;"
+						classes="w-full"
+						on:click={() => {
+							showBreedMovesOnMobile = !showBreedMovesOnMobile;
+							Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
+								action: showBreedMovesOnMobile ? 'Hide' : 'Show',
+								context: 'BreedMoves'
+							});
+						}}
+						>{showBreedMovesOnMobile ? 'Hide' : 'Show'}
+						{completeData.breedMoves.length} moves</Button
+					>
+				</div>
+
+				<span class={`grid gap-4 ${!showBreedMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
 					{#each completeData.breedMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as breedMove}
@@ -92,20 +106,25 @@
 		{#if completeData.tutorMoves.length > 0}
 			<div class="item">
 				<h4 class="h4">Tutored</h4>
-				<button
-					class="button w-full secondary md:hidden mb-4"
-					on:click={() => {
-						showTutoredMovesOnMobile = !showTutoredMovesOnMobile;
-						Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
-							action: showTutoredMovesOnMobile ? 'Hide' : 'Show',
-							context: 'TutorMoves'
-						});
-					}}
-					>{showTutoredMovesOnMobile ? 'Hide' : 'Show'}
-					{completeData.tutorMoves.length} moves</button
-				>
 
-				<span class={`grid ${!showTutoredMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
+				<div class="md:hidden">
+					<Button
+						variant="primary"
+						style="height: 3rem; margin-bottom: 1rem;"
+						classes="w-full"
+						on:click={() => {
+							showTutoredMovesOnMobile = !showTutoredMovesOnMobile;
+							Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
+								action: showTutoredMovesOnMobile ? 'Hide' : 'Show',
+								context: 'TutorMoves'
+							});
+						}}
+						>{showTutoredMovesOnMobile ? 'Hide' : 'Show'}
+						{completeData.tutorMoves.length} moves</Button
+					>
+				</div>
+
+				<span class={`grid gap-4 ${!showTutoredMovesOnMobile ? 'mobile-hidden' : 'grid'}`}>
 					{#each completeData.tutorMoves.sort((a, b) => {
 						return a.id > b.id ? 1 : -1;
 					}) as tutorMove}
