@@ -568,8 +568,8 @@ export const isPokemonInGameGroup = (nationalDexId: number, gameGroup: IGameGrou
 	return nationalDexId < gameGroup.generation.nationalDexEnd;
 }
 
-export const getGameFromName = (pokeapiname: PokeapiVersionNames | undefined): { shortName: string, pokeapi: PokeapiVersionNames | 'generic', globalSortOrder: number;} => {
-	const generic: { shortName: string; pokeapi: PokeapiVersionNames | 'generic'} = { shortName: 'Generic', pokeapi: 'generic'};
+export const getGameFromName = (pokeapiname: PokeapiVersionNames | undefined): { shortName: string; pokeapi: PokeapiVersionNames | 'generic', globalSortOrder: number } => {
+	const generic: { shortName: string; pokeapi: PokeapiVersionNames | 'generic', globalSortOrder: number } = { shortName: 'Generic', pokeapi: 'generic', globalSortOrder: -1};
 	if (!pokeapiname){
 		return generic;
 	}
