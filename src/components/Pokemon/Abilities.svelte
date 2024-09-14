@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon from '$/components/UI/Icon.svelte';
+	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { capitaliseEachWord } from '$/lib/utils/string';
 	import type { AbilityResponse } from '$/routes/api/ability/[id=integer]/types';
 	import Button from '$/ui/atoms/button/Button.svelte';

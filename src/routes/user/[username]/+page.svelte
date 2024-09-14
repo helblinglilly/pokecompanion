@@ -4,7 +4,7 @@
 	import DeleteUser from '$/components/Users/DeleteUser.svelte';
 	import ReportUser from '$/components/Users/ReportUser.svelte';
 	import { currentUser } from '$lib/stores/user';
-	import Icon from '$/components/UI/Icon.svelte';
+	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import EmailVerification from '$/components/Auth/EmailVerification.svelte';
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag/CreateNewTag.svelte';
 	import CreateNewTeam from '$/ui/molecules/Collections/Teams/CreateNewTeam/CreateNewTeam.svelte';

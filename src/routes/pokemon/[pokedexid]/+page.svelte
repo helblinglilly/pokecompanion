@@ -15,7 +15,7 @@
 	import SelectedTags from '$/components/Tags/SelectedTags.svelte';
 	import Breadcrumbs from '$/components/UI/Breadcrumbs.svelte';
 	import SpritePreview from '$/components/Pokemon/SpritePreview.svelte';
-	import Icon from '$/components/UI/Icon.svelte';
+	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { page } from '$app/stores';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag/CreateNewTag.svelte';

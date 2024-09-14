@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon from '$/components/UI/Icon.svelte';
+	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { currentUser } from '$/lib/stores/user';
 	import type { RecordTag } from '$/routes/api/tag/types';
 	import Button from '$/ui/atoms/button/Button.svelte';

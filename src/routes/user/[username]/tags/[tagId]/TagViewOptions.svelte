@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon from '$/components/UI/Icon.svelte';
+	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { type TagRecord } from '$/lib/types/ITags';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Select from '$/ui/atoms/select/Select.svelte';

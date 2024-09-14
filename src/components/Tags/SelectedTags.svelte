@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { currentUser } from '$lib/stores/user';
-	import Icon from '$/components/UI/Icon.svelte';
+	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { doesTagContainMove, doesTagContainPokemon, tagStore } from '$lib/stores/tags';
 	import { type IDisplayPokemon } from '$lib/stores/pokemonPage';
 	import type { ITagMove } from '$/routes/api/tag/types';

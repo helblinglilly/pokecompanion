@@ -3,7 +3,7 @@
 	import { getMultiLanguageName } from '$lib/utils/language';
 	import { primaryLanguage, secondaryLanguage, selectedGame, theme } from '$lib/stores/domain';
 	import { getPokemonEntry, type IGameGroups } from '$lib/data/games';
-	import Icon from '$/components/UI/Icon.svelte';
+	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { pokemonVarietyNameToDisplay } from '$lib/utils/string';
 	import Card from '$/ui/atoms/card';
 	import { getSpriteURL } from '$/ui/atoms/pokemon/sprite/helper';
