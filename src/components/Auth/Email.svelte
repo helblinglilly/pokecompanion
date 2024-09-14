@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import { goto } from '$app/navigation';
-	import { Logger } from '$lib/log';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';

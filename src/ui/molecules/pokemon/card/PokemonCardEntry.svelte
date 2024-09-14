@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getLanguageEntry, getMultiLanguageName } from '$lib/utils/language';
+	import { getLanguageEntry } from '$lib/utils/language';
 	import { primaryLanguage, secondaryLanguage, theme } from '$lib/stores/domain';
 	import { getPokemonEntry } from '$lib/data/games';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';

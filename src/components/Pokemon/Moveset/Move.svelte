@@ -7,7 +7,6 @@
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { getNameEntry } from '$lib/utils/language';
 	import Button from '$/ui/atoms/button/Button.svelte';
-	import Card from '$/ui/atoms/card/Card.svelte';
 
 	export let move: IPokemonMinimalMove;
 

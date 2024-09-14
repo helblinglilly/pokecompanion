@@ -1,7 +1,7 @@
 <script lang="ts">
+	import type { IAuthProvider } from '$/routes/auth/signin/+page';
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import { setCookie } from '$lib/utils/cookies';
-	import type { IAuthProvider } from '../../routes/auth/signin/+page';
 
 	export let data: IAuthProvider;
 </script>

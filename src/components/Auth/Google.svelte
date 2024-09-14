@@ -1,6 +1,6 @@
 <script lang="ts">
+	import type { IAuthProvider } from '$/routes/auth/signin/+page';
 	import { setCookie } from '$lib/utils/cookies';
-	import type { IAuthProvider } from '../../routes/auth/signin/+page';
 
 	export let data: IAuthProvider;
 </script>

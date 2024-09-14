@@ -1,11 +1,11 @@
 <script>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import FiveHundred from './Generic/FiveHundred.svelte';
-	import FourOhFour from './Generic/FourOhFour.svelte';
-	import FiveTwoThree from './Generic/FiveTwoThree.svelte';
-	import Pokemon404 from './Pokemon/Pokemon404.svelte';
 	import { Logger } from '$lib/log';
+	import FiveTwoThree from '$/components/ErrorPages/Generic/FiveTwoThree.svelte';
+	import FourOhFour from '$/components/ErrorPages/Generic/FourOhFour.svelte';
+	import Pokemon404 from '$/components/ErrorPages/Pokemon/Pokemon404.svelte';
+	import FiveHundred from '$/components/ErrorPages/Generic/FiveHundred.svelte';
 
 	onMount(async () => {
 		if (![404, 523].includes($page.status)) {

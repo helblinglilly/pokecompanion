@@ -3,11 +3,10 @@
 	import { capitaliseEachWord } from '$/lib/utils/string';
 	import type { AbilityResponse } from '$/routes/api/ability/[id=integer]/types';
 	import Button from '$/ui/atoms/button/Button.svelte';
-	import { Logger } from '$lib/log';
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import type { Ability } from '$lib/types/IPokemon';
 	import { getNameEntry } from '$lib/utils/language';
-	import ExpandableButton from '../UI/ExpandableButton.svelte';
+	import ExpandableButton from '$/components/UI/ExpandableButton.svelte';
 
 	export let abilities: Ability[];
 

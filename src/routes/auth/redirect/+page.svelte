@@ -2,11 +2,11 @@
 	import { deleteCookie, getCookie, parseCookieString, setCookie } from '$lib/utils/cookies';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import type { IAuthProvider } from '../signin/+page';
 	import { addDaysToDate, addMinutesToDate } from '$lib/utils/date';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
 	import { Logger } from '$lib/log';
+	import type { IAuthProvider } from '../signin/+page';
 
 	let status = 'Authenticating...';
 	let errorDetails = '';

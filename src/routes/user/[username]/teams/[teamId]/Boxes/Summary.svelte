@@ -7,7 +7,6 @@
 	import { getPokemonEntry } from '$/lib/data/games';
 	import { getMultiLanguageName } from '$/lib/utils/language';
 	import { primaryLanguage, secondaryLanguage } from '$/lib/stores/domain';
-	import { getMoveName } from '$/ui/atoms/move/helpers';
 	import PokemonMoves from '../PokemonMoves.svelte';
 
 	export let pokemon: Writable<IBasePokemon>;

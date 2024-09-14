@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Logger } from '$lib/log';
-	import Image from '../ui/atoms/image/Image.svelte';
+	import Image from '$/ui/atoms/image/Image.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Button from '$/ui/atoms/button/Button.svelte';
 

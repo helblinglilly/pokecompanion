@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import { Logger } from '$lib/log';
-	import type { IPokemonMinimalMoveGroups } from '../../../routes/api/pokemon/types';
-	import Move from './Move.svelte';
+	import Move from '$/components/Pokemon/Moveset/Move.svelte';
+	import type { IPokemonMinimalMoveGroups } from '$/routes/api/pokemon/types';
 
 	export let completeData: IPokemonMinimalMoveGroups | undefined;
 
