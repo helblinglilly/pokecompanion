@@ -12,6 +12,7 @@
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import ResetPassword from './ResetPassword.svelte';
+	import { featureFlags } from '$/lib/stores/domain';
 
 	export let data;
 </script>
@@ -65,35 +66,37 @@
 
 		<div class="column">
 			<div class="grid lg:flex gap-8">
-				<div class="w-full">
-					<Card>
-						<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
-							<h2 class="h2 content-center">{data.user.username}'s teams</h2>
-							{#if $currentUser}
-								<CreateNewTeam />
-							{/if}
-						</div>
+				{#if $featureFlags.useTeams}
+					<div class="w-full">
+						<Card>
+							<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
+								<h2 class="h2 content-center">{data.user.username}'s teams</h2>
+								{#if $currentUser}
+									<CreateNewTeam />
+								{/if}
+							</div>
 
-						<div class="grid gap-4 pt-2 m-4">
-							{#each data.teams as team}
-								<a href={`/user/${data.user.username}/teams/${team.id}`}>
-									<Card isNested classes="inline-flex w-full">
-										<div class="inline-flex">
-											{#if team.isPrivate}
-												<Icon
-													style="margin-top: auto; margin-bottom: auto; padding-left: 0.25rem; padding-right: 0.25rem;"
-													name="lock"
-												/>
-											{/if}
+							<div class="grid gap-4 pt-2 m-4">
+								{#each data.teams as team}
+									<a href={`/user/${data.user.username}/teams/${team.id}`}>
+										<Card isNested classes="inline-flex w-full">
+											<div class="inline-flex">
+												{#if team.isPrivate}
+													<Icon
+														style="margin-top: auto; margin-bottom: auto; padding-left: 0.25rem; padding-right: 0.25rem;"
+														name="lock"
+													/>
+												{/if}
 
-											<h4 class="h4">{team.name}</h4>
-										</div>
-									</Card>
-								</a>
-							{/each}
-						</div>
-					</Card>
-				</div>
+												<h4 class="h4">{team.name}</h4>
+											</div>
+										</Card>
+									</a>
+								{/each}
+							</div>
+						</Card>
+					</div>
+				{/if}
 
 				<div class="w-full">
 					<Card>

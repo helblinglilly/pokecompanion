@@ -8,6 +8,7 @@ import { currentUser, type SignedInUser } from './user';
 import { getGameGroupFromName, PokeapiVersionGroups, type IGameGroups } from '$lib/data/games';
 import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';
+import * as Sentry from '@sentry/browser';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<IGameGroups | undefined>();
@@ -26,7 +27,12 @@ export const lastPokedexEntry =
 export const maxSearchResults = 15;
 export const pokemonPageSize = 50;
 export const pb = writable(new Pocketbase(PUBLIC_POCKETBASE_URL));
-import * as Sentry from '@sentry/browser';
+
+export const defaultFeatureFlags: FeatureFlags = {
+	useTeams: false
+}
+export const featureFlags = writable<FeatureFlags>(defaultFeatureFlags)
+
 
 export enum SettingNames { 
 	SelectedGame = 'selectedGame',
@@ -35,6 +41,10 @@ export enum SettingNames {
 	VersionSpecificPokemonSprites = 'versionSpecificPokemonSprites',
 	VersionSpecificTypeSprites = 'versionSpecificTypeSprites',
 	AnimateSprites = 'animateSprites',
+}
+
+export type FeatureFlags = {
+	useTeams: boolean;
 }
 
 export type UserPreferencePokemonVersion = PokeapiVersionGroups | 'generic' | undefined;
@@ -242,6 +252,19 @@ export const cookieHandlers = {
 			if (!existing || value !== existing) {
 				setCookie('homepage-messaging', value);
 			}
+		});
+	},
+	featureFlags: () => {
+		let existingValue = getCookie('features') as string | undefined;
+
+		if (!existingValue){
+			existingValue = JSON.stringify(defaultFeatureFlags);
+		}
+		setCookie('features', existingValue)
+		featureFlags.set(JSON.parse(existingValue));
+
+		featureFlags.subscribe((value) => {
+			setCookie('features', JSON.stringify(value));
 		});
 	}
 };
