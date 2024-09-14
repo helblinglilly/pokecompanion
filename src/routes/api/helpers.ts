@@ -6,7 +6,7 @@ import Pocketbase from 'pocketbase';
 import type { IUserPreferences } from './types';
 import { Logger } from '$lib/log';
 import { getGameGroupFromName } from '$lib/data/games';
-import type { UserPreferencePokemonVersion } from '$lib/stores/domain';
+import { SettingNames, type UserPreferencePokemonVersion } from '$lib/stores/domain';
 
 export const getSearchParam = (url: string, name: string) => {
 	const searchParts = url.split('?')[1];
@@ -107,9 +107,9 @@ export const respondWithJson = (payload: object | Array<unknown>, status?: numbe
 
 export const parseUserPreferences = (url: URL, cookies: Cookies): IUserPreferences => {
 	const gameEntry = getGameGroupFromName(url.searchParams.get('game') as UserPreferencePokemonVersion ?? cookies.get('game') as UserPreferencePokemonVersion);
-	const primaryLanguage = url.searchParams.get('primaryLanguage') ?? cookies.get('primaryLanguage') ?? 'en';
-	const secondaryLanguage = url.searchParams.get('secondaryLanguage') ?? cookies.get('secondaryLanguage');
-	const animateSprites = url.searchParams.get('animateSprites') === 'true' || cookies.get('animateSprites') === 'true';
+	const primaryLanguage = url.searchParams.get(SettingNames.PrimaryLanguage) ?? cookies.get(SettingNames.PrimaryLanguage) ?? 'en';
+	const secondaryLanguage = url.searchParams.get(SettingNames.SecondaryLanguage) ?? cookies.get(SettingNames.SecondaryLanguage);
+	const animateSprites = url.searchParams.get(SettingNames.AnimateSprites) === 'true' || cookies.get(SettingNames.AnimateSprites) === 'true';
 
 	return {
 		selectedGame: gameEntry,

@@ -6,13 +6,18 @@
 	export let type: string;
 	export let style: string = '';
 	export let className: string = '';
-	export let game: PokeapiVersionGroups | undefined = $selectedGame?.pokeapi;
+	export let game: PokeapiVersionGroups | undefined = undefined;
 
 	const baseURL = `https://sprites.pokecompanion.com/types`;
+
+	$: specificGame = game ?? $selectedGame?.pokeapi;
+	$: src = `${baseURL}${
+		specificGame && $versionSpecificTypeSprites ? '/' + specificGame : ''
+	}/${type}.png`;
 </script>
 
 <Image
-	src={`${baseURL}${game && $versionSpecificTypeSprites ? '/' + game : ''}/${type}.png`}
+	{src}
 	fallback={`${baseURL}/${type}.png`}
 	alt={type}
 	style={`${style} object-fit: contain; max-width: 5rem;`}

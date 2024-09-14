@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import { Logger } from '$lib/log.js';
-	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain.js';
+	import { primaryLanguage, secondaryLanguage, SettingNames } from '$lib/stores/domain.js';
 	import { searchTerm } from '$lib/stores/searchbar.js';
 	import { getMultiLanguageName, type Languages } from '$lib/utils/language.js';
 	import { onMount } from 'svelte';
@@ -33,8 +33,8 @@
 		});
 	});
 
-	const primaryLanguageOverride = $page.url.searchParams.get('primaryLanguage');
-	const secondaryLanguageOverride = $page.url.searchParams.get('secondaryLanguage');
+	const primaryLanguageOverride = $page.url.searchParams.get(SettingNames.PrimaryLanguage);
+	const secondaryLanguageOverride = $page.url.searchParams.get(SettingNames.SecondaryLanguage);
 
 	if (primaryLanguageOverride) {
 		primaryLanguage.set(primaryLanguageOverride as keyof Languages);

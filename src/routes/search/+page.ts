@@ -1,3 +1,4 @@
+import { SettingNames } from '$/lib/stores/domain.js';
 import { Logger } from '$lib/log.js';
 
 export interface IResults {
@@ -9,8 +10,8 @@ export interface IResults {
 
 export const load = async ({ fetch, url }) => {
 	const searchTerm = url.searchParams.get('term');
-	const primLangOverride = url.searchParams.get('primaryLanguage');
-	const secLangOverride = url.searchParams.get('secondaryLanguage');
+	const primLangOverride = url.searchParams.get(SettingNames.PrimaryLanguage);
+	const secLangOverride = url.searchParams.get(SettingNames.SecondaryLanguage);
 
 	const results: IResults = {
 		pokemon: [],

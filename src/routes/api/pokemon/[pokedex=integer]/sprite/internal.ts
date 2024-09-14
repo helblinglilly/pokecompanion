@@ -48,6 +48,10 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
 				matchesForm = true;
 			}
 		}
+
+		if (plainPokemon.data.id > 10000){
+			matchesForm = true;
+		}
 	} else {
 		matchesForm = true;
 	}

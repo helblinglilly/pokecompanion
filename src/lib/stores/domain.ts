@@ -28,20 +28,29 @@ export const pokemonPageSize = 50;
 export const pb = writable(new Pocketbase(PUBLIC_POCKETBASE_URL));
 import * as Sentry from '@sentry/browser';
 
+export enum SettingNames { 
+	SelectedGame = 'selectedGame',
+	PrimaryLanguage = 'primaryLanguage',
+	SecondaryLanguage= 'secondaryLanguage',
+	VersionSpecificPokemonSprites = 'versionSpecificPokemonSprites',
+	VersionSpecificTypeSprites = 'versionSpecificTypeSprites',
+	AnimateSprites = 'animateSprites',
+}
+
 export type UserPreferencePokemonVersion = PokeapiVersionGroups | 'generic' | undefined;
 
 export const cookieHandlers = {
 	selectedGame: () => {
 		const isInSearchParam = get(page).url.searchParams.get('game') as UserPreferencePokemonVersion;
 
-		let existingValue = getCookie('selectedGame') as UserPreferencePokemonVersion;
+		let existingValue = getCookie(SettingNames.SelectedGame) as UserPreferencePokemonVersion;
 
 		if (isInSearchParam) {
 			existingValue = isInSearchParam;
 		} else {
 			if (!existingValue) {
 				existingValue = PokeapiVersionGroups.SCARLET_VIOLET;
-				setCookie('selectedGame', existingValue);
+				setCookie(SettingNames.SelectedGame, existingValue);
 			}
 		}
 
@@ -49,8 +58,8 @@ export const cookieHandlers = {
 		selectedGame.set(foundGame);
 
 		selectedGame.subscribe((value) => {
-			Sentry.setTag('selectedGame', value?.pokeapi);
-			window?.newrelic?.setCustomAttribute("selectedGame", value?.pokeapi);
+			Sentry.setTag(SettingNames.SelectedGame, value?.pokeapi);
+			window?.newrelic?.setCustomAttribute(SettingNames.SelectedGame, value?.pokeapi);
 
 			const isInSearchParam = get(page).url.searchParams.get('game');
 
@@ -59,11 +68,11 @@ export const cookieHandlers = {
 			}
 
 			if (!value) {
-				setCookie('selectedGame', 'generic');
+				setCookie(SettingNames.SelectedGame, 'generic');
 				return;
 			}
 
-			const existingCookie = getCookie('selectedGame') as PokeapiVersionGroups | 'generic' | undefined;
+			const existingCookie = getCookie(SettingNames.SelectedGame) as PokeapiVersionGroups | 'generic' | undefined;
 			let existingValue = undefined;
 
 			if (existingCookie){
@@ -71,64 +80,64 @@ export const cookieHandlers = {
 			}
 
 			if (!existingValue || value.pokeapi !== existingValue.pokeapi) {
-				setCookie('selectedGame', value.pokeapi);
+				setCookie(SettingNames.SelectedGame, value.pokeapi);
 			}
 		});
 	},
 	primaryLanguage: () => {
-		const isInSearchParam = get(page).url.searchParams.get('primaryLanguage');
-		let existingValue = getCookie('primaryLanguage') as keyof Languages;
+		const isInSearchParam = get(page).url.searchParams.get(SettingNames.PrimaryLanguage);
+		let existingValue = getCookie(SettingNames.PrimaryLanguage) as keyof Languages;
 
 		if (isInSearchParam) {
 			existingValue = isInSearchParam as keyof Languages;
 		} else {
 			if (!existingValue) {
 				existingValue = 'en';
-				setCookie('primaryLanguage', existingValue);
+				setCookie(SettingNames.PrimaryLanguage, existingValue);
 			}
 		}
 
 		primaryLanguage.set(existingValue);
 
 		primaryLanguage.subscribe((value) => {
-			Sentry.setTag('primaryLanguage', value);
-			window?.newrelic?.setCustomAttribute("primaryLanguage", value);
-			const isInSearchParam = get(page).url.searchParams.get('primaryLanguage');
+			Sentry.setTag(SettingNames.PrimaryLanguage, value);
+			window?.newrelic?.setCustomAttribute(SettingNames.PrimaryLanguage, value);
+			const isInSearchParam = get(page).url.searchParams.get(SettingNames.PrimaryLanguage);
 
 			if (!value || isInSearchParam) {
 				return;
 			}
-			const existing = getCookie('primaryLanguage');
+			const existing = getCookie(SettingNames.PrimaryLanguage);
 			if (!existing || value !== existing) {
-				setCookie('primaryLanguage', value);
+				setCookie(SettingNames.PrimaryLanguage, value);
 			}
 
 			// Invalidate the secondary language if it's somehow set to the same
-			if (value === getCookie('secondaryLanguage')) {
-				setCookie('secondaryLanguage', 'none');
+			if (value === getCookie(SettingNames.SecondaryLanguage)) {
+				setCookie(SettingNames.SecondaryLanguage, 'none');
 			}
 		});
 	},
 	secondaryLanguage: () => {
-		const isInSearchParam = get(page).url.searchParams.get('secondaryLanguage');
-		let existingValue = getCookie('secondaryLanguage') as keyof Languages | undefined;
+		const isInSearchParam = get(page).url.searchParams.get(SettingNames.SecondaryLanguage);
+		let existingValue = getCookie(SettingNames.SecondaryLanguage) as keyof Languages | undefined;
 
 		if (isInSearchParam) {
 			existingValue = isInSearchParam as keyof Languages;
 		} else {
 			if (!existingValue) {
 				existingValue = 'none';
-				setCookie('secondaryLanguage', existingValue);
+				setCookie(SettingNames.SecondaryLanguage, existingValue);
 			}
 		}
 
 		secondaryLanguage.set(existingValue);
 
 		secondaryLanguage.subscribe((value) => {
-			Sentry.setTag('secondaryLanguage', value);
-			window?.newrelic?.setCustomAttribute("secondaryLanguage", value);
+			Sentry.setTag(SettingNames.SecondaryLanguage, value);
+			window?.newrelic?.setCustomAttribute(SettingNames.SecondaryLanguage, value);
 
-			const isInSearchParam = get(page).url.searchParams.get('secondaryLanguage');
+			const isInSearchParam = get(page).url.searchParams.get(SettingNames.SecondaryLanguage);
 
 			if (!value || isInSearchParam) {
 				return;
@@ -137,55 +146,55 @@ export const cookieHandlers = {
 			if (!value) {
 				value = 'none';
 			}
-			const existing = getCookie('secondaryLanguage');
+			const existing = getCookie(SettingNames.SecondaryLanguage);
 			if (!existing || value !== existing) {
-				setCookie('secondaryLanguage', value);
+				setCookie(SettingNames.SecondaryLanguage, value);
 			}
 		});
 	},
 	versionSpecificPokemonSprites: () => {
-		let existingValue = getCookie('versionSpecificPokemonSprites') as string | undefined;
+		let existingValue = getCookie(SettingNames.VersionSpecificPokemonSprites) as string | undefined;
 		if (existingValue === undefined || existingValue === null) {
 			existingValue = 'true'
-			setCookie('versionSpecificPokemonSprites', existingValue);
+			setCookie(SettingNames.VersionSpecificPokemonSprites, existingValue);
 		}
 
 		versionSpecificPokemonSprites.set(existingValue === 'true' ? true : false);
 
 		versionSpecificPokemonSprites.subscribe((value) => {
-			window?.newrelic?.setCustomAttribute("versionSpecificPokemonSprites", value);
-			Sentry.setTag('versionSpecificPokemonSprites', value);
-			setCookie('versionSpecificPokemonSprites', value.toString());
+			window?.newrelic?.setCustomAttribute(SettingNames.VersionSpecificPokemonSprites, value);
+			Sentry.setTag(SettingNames.VersionSpecificPokemonSprites, value);
+			setCookie(SettingNames.VersionSpecificPokemonSprites, value.toString());
 		});
 	},
 	versionSpecificTypeSprites: () => {
-		let existingValue = getCookie('versionSpecificTypeSprites') as string | undefined;
+		let existingValue = getCookie(SettingNames.VersionSpecificTypeSprites) as string | undefined;
 		if (existingValue === undefined || existingValue === null) {
 			existingValue = 'true'
-			setCookie('versionSpecificTypeSprites', existingValue);
+			setCookie(SettingNames.VersionSpecificTypeSprites, existingValue);
 		}
 
 		versionSpecificTypeSprites.set(existingValue === 'true' ? true : false);
 
 		versionSpecificTypeSprites.subscribe((value) => {
-			window?.newrelic?.setCustomAttribute("versionSpecificTypeSprites", value);
-			Sentry.setTag('versionSpecificTypeSprites', value);
-			setCookie('versionSpecificTypeSprites', value.toString());
+			window?.newrelic?.setCustomAttribute(SettingNames.VersionSpecificTypeSprites, value);
+			Sentry.setTag(SettingNames.VersionSpecificTypeSprites, value);
+			setCookie(SettingNames.VersionSpecificTypeSprites, value.toString());
 		});
 	},
 	animateSprites: () => {
-		let existingValue = getCookie('animateSprites') as string | undefined;
+		let existingValue = getCookie(SettingNames.AnimateSprites) as string | undefined;
 		if (existingValue === undefined) {
 			existingValue = 'true';
-			setCookie('animateSprites', existingValue);
+			setCookie(SettingNames.AnimateSprites, existingValue);
 		}
 
 		animateSprites.set(existingValue === 'true' ? true : false);
 
 		animateSprites.subscribe((value) => {
-			Sentry.setTag('animateSprites', value);
-			window?.newrelic?.setCustomAttribute("animateSprites", value);
-			setCookie('animateSprites', value.toString());
+			Sentry.setTag(SettingNames.AnimateSprites, value);
+			window?.newrelic?.setCustomAttribute(SettingNames.AnimateSprites, value);
+			setCookie(SettingNames.AnimateSprites, value.toString());
 		});
 	},
 	auth: () => {

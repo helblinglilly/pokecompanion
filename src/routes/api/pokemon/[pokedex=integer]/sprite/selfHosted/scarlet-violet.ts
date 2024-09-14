@@ -27,6 +27,8 @@ export class SelfHostedScarletViolet extends SelfHostedSprite {
                     alt: 'Front',
                     hasShiny
                 }
+            } else {
+                return undefined;
             }
         }
 

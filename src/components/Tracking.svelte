@@ -8,6 +8,7 @@
 		rememberToken,
 		secondaryLanguage,
 		selectedGame,
+		SettingNames,
 		versionSpecificPokemonSprites
 	} from '$lib/stores/domain';
 	import { getCookie } from '$lib/utils/cookies';
@@ -19,14 +20,14 @@
 	let navsAsNewUser = 0;
 	navigating.subscribe(async (nav) => {
 		if (nav) {
-			if ($primaryLanguage !== getCookie('primaryLanguage')) {
-				primaryLanguage.set(getCookie('primaryLanguage') as keyof Languages);
+			if ($primaryLanguage !== getCookie(SettingNames.PrimaryLanguage)) {
+				primaryLanguage.set(getCookie(SettingNames.PrimaryLanguage) as keyof Languages);
 			}
-			if ($secondaryLanguage !== getCookie('secondaryLanguage')) {
-				secondaryLanguage.set(getCookie('secondaryLanguage') as keyof Languages);
+			if ($secondaryLanguage !== getCookie(SettingNames.SecondaryLanguage)) {
+				secondaryLanguage.set(getCookie(SettingNames.SecondaryLanguage) as keyof Languages);
 			}
-			if ($selectedGame !== getCookie('selectedGame')) {
-				const cookieValue = getCookie('selectedGame') as
+			if ($selectedGame !== getCookie(SettingNames.SelectedGame)) {
+				const cookieValue = getCookie(SettingNames.SelectedGame) as
 					| PokeapiVersionGroups
 					| 'generic'
 					| undefined;

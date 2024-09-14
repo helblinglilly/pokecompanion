@@ -117,37 +117,3 @@
 		<PageNavigator />
 	</div>
 </div>
-
-<style>
-	#hintButton {
-		border-top-right-radius: 0;
-		border-bottom-right-radius: 0;
-	}
-	#jumpToText {
-		/* padding-left: 2rem; */
-		border-top-right-radius: 0;
-		border-bottom-right-radius: 0;
-		width: 150px;
-		text-align: center;
-	}
-	#jumpToButton {
-		border-bottom-left-radius: 0;
-		border-top-left-radius: 0;
-		min-width: fit-content;
-	}
-
-	.hintEntry {
-		display: inline-flex;
-		justify-content: space-between;
-	}
-
-	input[type='number']::-webkit-inner-spin-button,
-	input[type='number']::-webkit-outer-spin-button {
-		-webkit-appearance: none;
-		appearance: none;
-	}
-	input[type='number'] {
-		appearance: textfield;
-		-moz-appearance: textfield;
-	}
-</style>
