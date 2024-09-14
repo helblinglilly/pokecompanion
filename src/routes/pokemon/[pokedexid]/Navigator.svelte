@@ -19,12 +19,12 @@
 <div class="grid gap-2">
 	{#if innerWidth < 450}
 		<div class="w-full grid gap-2">
-			<h1 class="h2 text-center">{title}</h1>
 			<div class="inline-flex w-full justify-between gap-4">
 				<NavigationButton pokedexId={currentId - 1} />
 				<h2 class="h2 my-auto">#{currentId}</h2>
 				<NavigationButton pokedexId={currentId + 1} />
 			</div>
+			<h1 class="h2 text-center">{title}</h1>
 		</div>
 	{:else}
 		<div class="w-full inline-flex justify-between gap-2">
