@@ -39,7 +39,11 @@
 			<Select
 				value={$pokemonDisplayStore.variety}
 				options={forms.map((form) => ({
-					label: capitaliseFirstLetter(form.name.split('-').splice(1).join(' ')),
+					label: form.name
+						.split('-')
+						.splice(1)
+						.map((a) => capitaliseFirstLetter(a))
+						.join(' '),
 					value: form.name
 				}))}
 				style="width: 100%; padding-left: 1rem; padding-right: 1rem; margin: 0; text-align: center;"

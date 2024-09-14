@@ -4,7 +4,7 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { Generations, Regions } from '$lib/data/games';
-	import { lastPokedexEntry, pokemonPageSize } from '$lib/stores/domain';
+	import { pokemonPageSize } from '$lib/stores/domain';
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import AdjustedPokemonNames from './pokemonNames';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
@@ -47,31 +47,6 @@
 	<div class="inline-flex gap-4 content-cente justify-center md:justify-end">
 		<PageNavigator />
 	</div>
-
-	<!-- <div class=" justify-center content-center">
-		<form class="flex justify-center" action="/pokemon/">
-			<button
-				class="button"
-				id="hintButton"
-				type="button"
-				on:click={(e) => {
-					if (e.type === 'click') {
-						showHints = !showHints;
-					}
-				}}
-				>?
-			</button>
-			<input
-				id="jumpToText"
-				name="jumpTo"
-				type="number"
-				placeholder="Jump to ID"
-				max={lastPokedexEntry}
-				style="height: 100%;"
-			/>
-			<button class="button" type="submit" id="jumpToButton" style="height: 100%;">Go</button>
-		</form>
-	</div> -->
 </div>
 
 <div class="columns">
@@ -126,15 +101,13 @@
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
-	{#each AdjustedPokemonNames.slice(fromPokemon, fromPokemon + pokemonPageSize) as pokemon}
-		<PokemonLink pokemon={{ id: pokemon.id, gender: undefined, shiny: false }}>
-			<PokemonListEntry
-				pokemon={{
-					id: pokemon.id,
-					gender: undefined,
-					shiny: false
-				}}
-			/>
+	{#each AdjustedPokemonNames.slice(fromPokemon, fromPokemon + pokemonPageSize).map((a) => {
+		const id = Number(a.redirect ? a.redirect.split('?')[0] : a.id);
+		const variety = a.redirect ? a.redirect.split('variety=')[1] : undefined;
+		return { id, variety, gender: undefined, shiny: false };
+	}) as pokemon}
+		<PokemonLink {pokemon}>
+			<PokemonListEntry {pokemon} />
 		</PokemonLink>
 	{/each}
 </div>

@@ -22,8 +22,9 @@ export const pokemonVarietyNameToDisplay = (name: string) => {
 	}
 
 	const parts = name.split('-');
-	if (parts.length >= 2 && parts[1]) {
-		return capitaliseFirstLetter(parts[1]);
+	if (parts.length >= 2) {
+		const varietyParts = parts.slice(1).map((a) => capitaliseFirstLetter(a));
+		return capitaliseFirstLetter(varietyParts.join(' '));
 	}
 	return '';
 };

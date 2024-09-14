@@ -5,6 +5,7 @@
 	export let isLinkHidden: boolean = false;
 
 	const queryParams = new URLSearchParams();
+
 	$: {
 		if (pokemon) {
 			if (pokemon.gender) {
@@ -17,6 +18,7 @@
 			} else {
 				queryParams.delete('shiny');
 			}
+
 			if (pokemon.variety && !pokemon.variety.endsWith('-default')) {
 				queryParams.set('variety', pokemon.variety);
 			} else {

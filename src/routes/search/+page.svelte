@@ -74,10 +74,11 @@
 				<h2 class="h2" id="pokemon">Pokémon</h2>
 				{#each results.pokemon as pokemon, i}
 					{#if i < pokemonResults}
-						<PokemonLink pokemon={{ id: pokemon.id, shiny: false }}>
+						<PokemonLink pokemon={{ id: pokemon.id, shiny: false, variety: pokemon.variety }}>
 							<PokemonListEntry
 								pokemon={{
 									id: pokemon.id,
+									variety: pokemon.variety,
 									shiny: false
 								}}
 							/>

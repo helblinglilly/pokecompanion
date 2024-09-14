@@ -48,18 +48,19 @@ export const getPokemonResults = (searchTerm: string, languages: string[]): Prom
 				)
 			}
 			return a.id > b.id ? 1 : -1;
-		}).sort((a, b) => {
-			const aId = a.redirect ? Number(a.redirect.split('?')[0]) : a.id;
-			const bId = b.redirect ? Number(b.redirect.split('?')[0]) : b.id;
-
-			if (aId === bId){
-				if (a.redirect && b.redirect){
-					return a.id < b.id ? 1 : -1;
-				} 
-				return -1;
+		})
+		.map((a) => {
+			const id = Number(a.redirect ? a.redirect.split('?')[0] : a.id);
+			const variety = a.redirect ? a.redirect.split('variety=')[1] : undefined;
+			return {
+				...a,
+				id,
+				variety
 			}
-			return 1;
-		});
+		})
+		.sort((a, b) => {
+			return a.id < b.id ? -1 : 1
+		})
 		resolve(results);
 	});
 };
