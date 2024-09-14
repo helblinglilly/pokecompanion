@@ -15,7 +15,7 @@
 
 	let showAddToOverlay = false;
 	export let pokemon: IDisplayPokemon | undefined = undefined;
-	export let move: ITagMove | undefined = undefined;
+	export let move: Omit<ITagMove, 'added'> | undefined = undefined;
 
 	$: pokemonBody = (): IRecordPokemon | undefined => {
 		if (!pokemon) {

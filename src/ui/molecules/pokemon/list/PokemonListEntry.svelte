@@ -16,7 +16,6 @@
 
 	const dispatch = createEventDispatcher();
 
-	console.log(pokemon.variety);
 	$: namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
 
 	export let cardActiveState = false;

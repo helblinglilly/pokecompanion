@@ -182,7 +182,7 @@ export function doesTagContainPokemon(pokemon: IDisplayPokemon | undefined, tag:
 	});
 }
 
-export function doesTagContainMove(move: ITagMove | undefined, tag: RecordTag) {
+export function doesTagContainMove(move: Omit<ITagMove, "added"> | undefined, tag: RecordTag) {
 	if (!move){
 		return false;
 	}

@@ -6,7 +6,7 @@
 	import type { ITagMove } from '$/routes/api/tag/types';
 
 	export let pokemon: IDisplayPokemon | undefined = undefined;
-	export let move: ITagMove | undefined = undefined;
+	export let move: Omit<ITagMove, 'added'> | undefined = undefined;
 
 	$: currentTags = $tagStore.filter((tag) => {
 		if (tag.isHiddenAcrossSite) {

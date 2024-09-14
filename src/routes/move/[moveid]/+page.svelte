@@ -11,6 +11,7 @@
 	import type { IMove } from '$lib/types/IMoves.js';
 	import { getNameEntries, joinNameEntries } from '$lib/utils/language';
 	import Type from '$/ui/atoms/type/Type.svelte';
+	import Card from '$/ui/atoms/card/Card.svelte';
 
 	export let data;
 	let filterTerm = '';
@@ -57,11 +58,11 @@
 	description={primaryEffectEntry ?? secondaryEffectEntry}
 />
 
-<div style="width: 100%; display: inline-flex; justify-content: center;">
-	<div class="card centeredDesktopContent">
-		<div style="display: inline-flex; width: 100%;">
+<div class="w-full inline-flex justify-center">
+	<Card classes="w-full md:max-w-[75%]">
+		<div class="inline-flex w-full">
 			<Type type={data.move.type.name} className="mr-3" style="max-height: 20px;" />
-			<div style="display: inline-flex; justify-content: space-between; width: 100%;">
+			<div class="inline-flex justify-between w-full">
 				<p>
 					{joinNameEntries(names, '-')}
 				</p>
@@ -82,7 +83,7 @@
 					<th>Accuracy</th>
 				</thead>
 				<tbody>
-					<tr style="text-align: center;">
+					<tr class="text-center">
 						<td>
 							<Type
 								type={data.move.damage_class.name}
@@ -118,31 +119,42 @@
 		{#if $currentUser}
 			<hr />
 
-			<div style="display: flex; justify-content: center; width: 100%; flex-flow: wrap;">
-				<SelectedTags move={data.move} />
-				{#if $tagStore.length > 0}
-					<EditTag move={{ id: data.move.id }} />
-				{/if}
-				<CreateNewTag
-					move={{
-						id: data.move.id
-					}}
-				/>
+			<div class="grid gap-2">
+				<div class="flex justify-center w-full gap-2">
+					<SelectedTags move={data.move} />
+				</div>
+
+				<div class="w-full flex justify-center gap-2">
+					{#if $tagStore.length > 0}
+						<div class="my-auto">
+							<EditTag move={{ id: data.move.id }} />
+						</div>
+					{/if}
+
+					<div class="my-auto">
+						<CreateNewTag
+							move={{
+								id: data.move.id
+							}}
+						/>
+					</div>
+				</div>
 			</div>
 		{/if}
-	</div>
+	</Card>
 </div>
 
 <div style="padding-top: 2rem;">
-	<div class="centeredDesktopContent">
-		<div class="columns">
-			<div class="column">
-				<h2 class="h2">Pokémon that can learn {names.primary ?? names.secondary}</h2>
-			</div>
+	<div class="md:max-w-[75%] mx-auto grid gap-4">
+		<div class="inline-flex flex-col md:flex-row w-full gap-4 justify-between">
+			<h2 class="h2 w-fit">Pokémon that can learn {names.primary ?? names.secondary}</h2>
 			{#if data.move.learned_by_pokemon.length > 10}
-				<div class="column">
-					<input type="text" placeholder="Filter" bind:value={filterTerm} />
-				</div>
+				<input
+					type="text"
+					placeholder="Filter"
+					class="w-full md:w-fit h-12"
+					bind:value={filterTerm}
+				/>
 			{/if}
 		</div>
 
@@ -165,18 +177,5 @@
 
 	table {
 		width: 100%;
-	}
-
-	input {
-		height: 3rem;
-		padding-left: 2rem;
-		width: 100%;
-	}
-	@media screen and (min-width: 768px) {
-		.centeredDesktopContent {
-			max-width: 800px;
-			margin-left: auto;
-			margin-right: auto;
-		}
 	}
 </style>

@@ -9,7 +9,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let pokemon: ITagPokemonInitial | undefined = undefined;
-	export let move: ITagMove | undefined = undefined;
+	export let move: Omit<ITagMove, 'added'> | undefined = undefined;
 
 	const dispatch = createEventDispatcher();
 
