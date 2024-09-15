@@ -64,7 +64,7 @@ export function patchTag(tag: ITagMeta & {id: string}): Promise<RecordTag | void
 }
 
 export function deleteTag(tagId: string){
-    return fetch(`/api/tags/${tagId}`, {
+    return fetch(`/api/tag/${tagId}`, {
             method: 'DELETE'
         }).then((res) => {
             if (!res.ok){
