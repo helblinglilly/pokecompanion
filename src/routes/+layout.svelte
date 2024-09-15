@@ -1,11 +1,10 @@
 <script lang="ts">
-	// import '../app.css';
 	import '$/styles/global.css';
 
 	import { onMount } from 'svelte';
 	import { cookieHandlers, theme } from '$lib/stores/domain';
 	import { page } from '$app/stores';
-	import { notifications, removeNotification } from '$lib/stores/notifications';
+	import { addNotification, notifications, removeNotification } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import type { PageData } from './$types';
 	import SearchBar from '$/components/Search/SearchBar.svelte';
@@ -13,6 +12,7 @@
 	import ScrollToTop from '$/components/UI/ScrollToTop.svelte';
 	import Navbar from '$/ui/organisms/Navbar';
 	import Footer from '$/ui/atoms/footer/Footer.svelte';
+	import Notification from '$/ui/molecules/notification/Notification.svelte';
 
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
@@ -99,22 +99,15 @@
 <div style="min-height: 88vh;">
 	<Navbar />
 
-	<div id="pageWrapper">
-		{#if $notifications.length > 0}
-			<div class="notifications">
-				{#each $notifications as notification}
-					<button
-						class={`notification ${notification.level}`}
-						on:click={() => {
-							removeNotification(notification);
-						}}
-					>
-						{notification.message}
-					</button>
-				{/each}
-			</div>
-		{/if}
+	{#if $notifications.length > 0}
+		<div class="px-4 grid gap-4 absolute z-10 w-full md:px-24">
+			{#each $notifications as notification}
+				<Notification {notification} />
+			{/each}
+		</div>
+	{/if}
 
+	<div id="pageWrapper">
 		{#if shouldDisplaySearch}
 			<SearchBar />
 			{#if breadcrumbs.length > 0 && $page.status === 200}

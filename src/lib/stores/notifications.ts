@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-interface INotification {
+export interface INotification {
 	message: string;
 	level: 'success' | 'failure' | 'info';
 }

@@ -36,6 +36,12 @@
 
     --error-light: rgb(241, 54, 54);
     --error-dark: rgb(198, 26, 26);
+
+    --success-light: rgb(40, 159, 74);
+    --success-dark: rgb(34, 131, 62);
+
+    --info-light: rgb(35, 99, 188);
+    --info-dark: rgb(25, 99, 188);
 }
 
 :root {
@@ -55,7 +61,10 @@
     --card-hover: var(--card-hover-light);
 
     --select-background: var(--select-background-light);
+
     --error: var(--error-light);
+    --success: var(--success-light);
+    --info: var(--info-light);
 }
 
 
@@ -84,4 +93,7 @@
     --select-background: var(--select-background-dark);
 
     --error: var(--error-dark);
+    --success: var(--success-dark);
+    --info: var(--info-dark);
+
 }
