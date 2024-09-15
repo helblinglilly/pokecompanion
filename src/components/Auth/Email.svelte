@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$/ui/atoms/button/Button.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import { goto } from '$app/navigation';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
@@ -156,11 +157,10 @@
 				<p>{usernameError}&nbsp;</p>
 			</div>
 
-			<div class="columns mobile">
+			<div class="inline-flex justify-between gap-4">
 				<div class="column" style="width: 100%; padding-left: 0;">
-					<button
-						class="button secondary"
-						style="width: 100%"
+					<Button
+						classes="w-full"
 						on:click={(e) => {
 							if (mode === 'signup') {
 								e.preventDefault();
@@ -169,22 +169,21 @@
 						}}
 					>
 						{`${mode === 'login' && isSubmitting ? 'Loading...' : 'Log in'}`}
-					</button>
+					</Button>
 				</div>
 				<div class="column" style="width: 100%; padding-right: 0;">
-					<button
-						class="button secondary"
-						style="width: 100%"
+					<Button
+						classes="w-full"
 						on:click={(e) => {
 							if (mode === 'login') {
 								e.preventDefault();
 								mode = 'signup';
 							}
-						}}>{`${mode === 'signup' && isSubmitting ? 'Loading...' : 'Sign up'}`}</button
+						}}>{`${mode === 'signup' && isSubmitting ? 'Loading...' : 'Sign up'}`}</Button
 					>
 				</div>
-				<a href="/auth/reset-password" class="text-textColour">I forgot my password</a>
 			</div>
+			<a href="/auth/reset-password" class="text-textColour pt-2">I forgot my password</a>
 		</div></Card
 	>
 </form>
