@@ -21,9 +21,7 @@
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tags';
 	import EditTag from '$/lib/components/Tags/EditTag.svelte';
-	import TypeMatchup from '$/lib/components/Pokemon/TypeMatchup.svelte';
-	import Abilities from '$/lib/components/Pokemon/Abilities.svelte';
-	import BaseStats from '$/lib/components/Pokemon/BaseStats.svelte';
+	import Abilities from '$/routes/pokemon/[pokedexid]/Abilities.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import { Logger } from '$lib/log';
 	import { isPokemonInGameGroup } from '$lib/data/games';
@@ -31,6 +29,8 @@
 	import MovesetCard from '$/lib/components/Pokemon/Moveset/MovesetCard.svelte';
 	import Type from '$/ui/atoms/type/Type.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
+	import TypeMatchup from './TypeMatchup.svelte';
+	import BaseStats from './BaseStats.svelte';
 
 	export let data;
 

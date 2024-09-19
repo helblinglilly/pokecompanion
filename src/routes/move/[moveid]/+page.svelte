@@ -3,7 +3,7 @@
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag/CreateNewTag.svelte';
 	import SelectedTags from '$/lib/components/Tags/SelectedTags.svelte';
 	import EditTag from '$/lib/components/Tags/EditTag.svelte';
-	import PokemonGroup from '$/lib/components/UI/PokemonGroup.svelte';
+	import PokemonGroup from '$/routes/move/[moveid]/PokemonGroup.svelte';
 	import type { IGameGroups } from '$lib/data/games';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { tagStore } from '$lib/stores/tags.js';
