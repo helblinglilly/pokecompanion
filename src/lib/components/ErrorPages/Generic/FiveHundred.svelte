@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import Feedback from '$/components/Feedback.svelte';
+	import Feedback from '$/lib/components/ErrorPages/Feedback.svelte';
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import { Logger } from '$lib/log';
 	import { onMount } from 'svelte';

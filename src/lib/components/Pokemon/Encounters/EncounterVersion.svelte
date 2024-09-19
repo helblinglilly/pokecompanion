@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ExpandableButton from '$/components/UI/ExpandableButton.svelte';
+	import ExpandableButton from '$lib/components/UI/ExpandableButton.svelte';
 	import type { IEncounterLocation } from '$/lib/data/encounterFilter';
 	import { Logger } from '$/lib/log';
 	import { capitaliseEachWord } from '$/lib/utils/string';

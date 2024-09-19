@@ -2,10 +2,10 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { Logger } from '$lib/log';
-	import FiveTwoThree from '$/components/ErrorPages/Generic/FiveTwoThree.svelte';
-	import FourOhFour from '$/components/ErrorPages/Generic/FourOhFour.svelte';
-	import Pokemon404 from '$/components/ErrorPages/Pokemon/Pokemon404.svelte';
-	import FiveHundred from '$/components/ErrorPages/Generic/FiveHundred.svelte';
+	import FiveHundred from '$lib/components/ErrorPages/Generic/FiveHundred.svelte';
+	import FiveTwoThree from '$lib/components/ErrorPages/Generic/FiveTwoThree.svelte';
+	import FourOhFour from '$lib/components/ErrorPages/Generic/FourOhFour.svelte';
+	import Pokemon404 from '$/lib/components/ErrorPages/Pokemon404.svelte';
 
 	onMount(async () => {
 		if (![404, 523].includes($page.status)) {

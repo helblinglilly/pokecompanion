@@ -1,9 +1,9 @@
 <script lang="ts">
-	import SocialPreview from '$/components/SocialPreview.svelte';
+	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag/CreateNewTag.svelte';
-	import SelectedTags from '$/components/Tags/SelectedTags.svelte';
-	import EditTag from '$/components/Tags/EditTag.svelte';
-	import PokemonGroup from '$/components/UI/PokemonGroup.svelte';
+	import SelectedTags from '$/lib/components/Tags/SelectedTags.svelte';
+	import EditTag from '$/lib/components/Tags/EditTag.svelte';
+	import PokemonGroup from '$/lib/components/UI/PokemonGroup.svelte';
 	import type { IGameGroups } from '$lib/data/games';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { tagStore } from '$lib/stores/tags.js';

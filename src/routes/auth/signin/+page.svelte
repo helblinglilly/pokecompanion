@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Email from '$/routes/auth/signin/Email.svelte';
-	import SocialPreview from '$/components/SocialPreview.svelte';
+	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Google from './Google.svelte';
 	import Github from './Github.svelte';
 	import Spotify from './Spotify.svelte';

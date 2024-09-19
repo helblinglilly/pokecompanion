@@ -1,6 +1,6 @@
 <script lang="ts">
-	import SocialPreview from '$/components/SocialPreview.svelte';
-	import Breadcrumbs from '$/components/UI/Breadcrumbs.svelte';
+	import SocialPreview from '$/lib/components/SocialPreview.svelte';
+	import Breadcrumbs from '$/lib/components/UI/Breadcrumbs.svelte';
 	import {
 		getGameFromName,
 		getGameGroupFromGame,
