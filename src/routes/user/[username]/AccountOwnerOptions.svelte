@@ -1,5 +1,5 @@
 <script lang="ts">
-	import EmailVerification from '$/components/Auth/EmailVerification.svelte';
+	import EmailVerification from '$/routes/user/[username]/EmailVerification.svelte';
 	import DeleteUser from '$/components/Users/DeleteUser.svelte';
 	import { currentUser } from '$/lib/stores/user';
 	import ResetPassword from './ResetPassword.svelte';

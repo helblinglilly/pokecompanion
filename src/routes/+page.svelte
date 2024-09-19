@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Greeting from '$/components/Homepage/Greeting.svelte';
-	import MoveOtd from '$/components/Homepage/MoveOTD.svelte';
-	import PokemonOtd from '$/components/Homepage/PokemonOTD.svelte';
-	import SelfMarketing from '$/components/Homepage/SelfMarketing.svelte';
+	import Greeting from '$/routes/Greeting.svelte';
+	import MoveOtd from './MoveOTD.svelte';
+	import PokemonOtd from './PokemonOTD.svelte';
+	import SelfMarketing from './SelfMarketing.svelte';
 	import SocialPreview from '$/components/SocialPreview.svelte';
 	import { GameGroups, getGameGroupFromName } from '$/lib/data/games';
 	import Moves from '$/lib/data/moves.json';

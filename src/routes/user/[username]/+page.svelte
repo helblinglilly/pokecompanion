@@ -5,7 +5,7 @@
 	import ReportUser from '$/components/Users/ReportUser.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
-	import EmailVerification from '$/components/Auth/EmailVerification.svelte';
+	import EmailVerification from '$/routes/user/[username]/EmailVerification.svelte';
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag/CreateNewTag.svelte';
 	import CreateNewTeam from '$/ui/molecules/Collections/Teams/CreateNewTeam/CreateNewTeam.svelte';
 	import { tagStore } from '$lib/stores/tags';
