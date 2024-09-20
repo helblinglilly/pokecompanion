@@ -8,7 +8,7 @@
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import AdjustedPokemonNames from './pokemonNames';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
-	import PageNavigator from './PagaeNavigator.svelte';
+	import PageNavigator from './PageNavigator.svelte';
 	import PokemonLink from '$/ui/molecules/pokemon/link/PokemonLink.svelte';
 
 	const numberOfPages = Math.ceil(PokemonNames.length / pokemonPageSize);
