@@ -9,15 +9,15 @@ async function respond(url: string, respondImage: boolean, headers: object) {
 	if (respondImage){
 		const response = await fetch(url);
 		const blob = await response.blob();
-	
+
 		return new Response(blob, {
-			headers: { 
+			headers: {
 				'Content-Type': response.headers.get('Content-Type') || '',
 				...headers
 			},
 		});
 	}
-	return new Response(url, { headers: { 
+	return new Response(url, { headers: {
 		'Content-Type': 'text/plain',
 		...headers
 	}
@@ -25,13 +25,11 @@ async function respond(url: string, respondImage: boolean, headers: object) {
 }
 
 export const GET: RequestHandler = async ({ url, platform, params }) => {
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore Doesn't understand
-	const id = params.pokedex as number;
+  const id = Number(params.pokedex);
 
 	const sprite = await getPokemonSprite(
-		id, 
-		platform, 
+		id,
+		platform,
 		getGameGroupFromName(url.searchParams.get('game') as UserPreferencePokemonVersion),
 		url.searchParams.get('variety'),
 		url.searchParams.get('shiny') === 'true',
@@ -40,7 +38,7 @@ export const GET: RequestHandler = async ({ url, platform, params }) => {
 		url.searchParams.get('animate') === 'true',
 
 	)
-	
+
 	if (!sprite.url){
 		Logger.warn('/api/pokemon/:id/sprite returned 404', {
 			context: `Pokemon ${id}`,

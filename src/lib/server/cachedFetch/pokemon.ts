@@ -1,53 +1,11 @@
+import type { Platform } from "$/routes/api/types";
 import type { IEncounterResponse } from "$lib/data/encounterFilter";
 import { Logger } from "$lib/log";
 import { pokeApiDomain } from "$lib/stores/domain";
 import { type IPokemon, type IPokemonSpecies, type ISprites, type Name, emptySprites } from "$lib/types/IPokemon";
-import type { Platform } from "../types";
+import { fetchCacheFirst } from "./core";
 
-export const fetchCacheFirst = async(url: string | URL, platform: Readonly<Platform> | undefined): Promise<Response> => {
-	const parsedUrl = new URL(url);
-	const req = new Request(parsedUrl);
 
-	if (platform?.caches?.default){
-		try {
-			const cacheResponse = await platform.caches.default.match(url);
-			if (cacheResponse){
-				return cacheResponse;
-			}
-		} catch(err){			
-			platform.context.waitUntil(
-				Logger.warn(
-					'Tried to read request from cache, but threw an error',
-					{
-						request: url,
-						error: Logger.buildError(err).message
-					}
-				)
-			)
-		}
-	}
-
-	const res = await fetch(req);
-	if (res.ok && platform?.caches?.default){
-		try {
-			const responseToCache = res.clone();
-            platform.context.waitUntil(
-                platform.caches.default.put(url, responseToCache)
-            );
-		} catch(err){
-			platform.context.waitUntil(
-				Logger.warn(
-					'Failed to place successful request in cache',
-					{
-						request: url,
-						error: Logger.buildError(err).message
-					}
-				)
-			)
-		}
-	}
-	return res;
-}
 
 export const fetchPokemon = async (id: number, platform: Platform | undefined): Promise<IPokemon> => {
 	const res = await fetchCacheFirst(pokeApiDomain + '/pokemon/' + id, platform);
@@ -86,7 +44,7 @@ export const fetchPokemonForm = async(url: string, platform: Platform | undefine
 	if (!res.ok){
 		platform?.context.waitUntil(
 			Logger.error(
-				Logger.ErrorClasses.OptionalOperationFailed, 
+				Logger.ErrorClasses.OptionalOperationFailed,
 				new Error(`Non-200 status code when fetching ${url} - ${res.status}`),
 				{
 					context: 'When processing forms for a Pokemon',
@@ -103,7 +61,7 @@ export const fetchPokemonForm = async(url: string, platform: Platform | undefine
 		return body;
 	} catch(err){
 		Logger.error(
-			Logger.ErrorClasses.OptionalOperationFailed, 
+			Logger.ErrorClasses.OptionalOperationFailed,
 			Logger.buildError(err),
 			{
 				context: 'Failed to parse response body',
@@ -119,7 +77,7 @@ export const fetchPokemonEncounters = async(id: number, platform: Platform | und
 	const res = await fetchCacheFirst(url, platform);
 	if (!res.ok){
 		Logger.error(
-			Logger.ErrorClasses.OptionalOperationFailed, 
+			Logger.ErrorClasses.OptionalOperationFailed,
 			new Error(`Non-200 status code when fetching ${url} - ${res.status}`),
 			{
 				context: 'Failed to fetch encounters for a Pokemon',
@@ -128,7 +86,7 @@ export const fetchPokemonEncounters = async(id: number, platform: Platform | und
 				responseStatus: res.status
 			}
 		)
-		return [];		
+		return [];
 	}
 	return await res.json() as IEncounterResponse[];
 }
