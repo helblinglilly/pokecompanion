@@ -8,15 +8,37 @@
 	import Card from '$/ui/atoms/card';
 	import { getSpriteURL } from '$/ui/atoms/pokemon/sprite/helper';
 	import type { IRecordPokemon } from '$/lib/types/IPokemon';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 
 	export let pokemon: IRecordPokemon;
-	export let showGenderAndShiny: boolean = false;
+	export let showGenderAndShiny = false;
 	export let gameOverride: IGameGroups | undefined = undefined;
 
 	const dispatch = createEventDispatcher();
 
 	$: namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
+
+	let spriteURL: string | null = null;
+
+	let isMounted = false;
+	onMount(() => {
+		isMounted = true;
+	});
+	$: {
+		const fetchSpriteURL = async () => {
+			spriteURL = null;
+			spriteURL = await getSpriteURL(
+				pokemon.id,
+				showGenderAndShiny ? pokemon.shiny === true : false,
+				showGenderAndShiny ? pokemon.gender === 'female' : false,
+				pokemon.variety,
+				gameOverride ?? $selectedGame
+			);
+		};
+		if (isMounted) {
+			fetchSpriteURL();
+		}
+	}
 
 	export let cardActiveState = false;
 </script>
@@ -41,9 +63,7 @@
 >
 	<div class="inline-flex">
 		<div class="spriteWrapper">
-			{#await getSpriteURL(pokemon.id, showGenderAndShiny ? pokemon.shiny === true : false, showGenderAndShiny ? pokemon.gender === 'female' : false, pokemon.variety, gameOverride ?? $selectedGame)}
-				<Image src={`/placeholder.png`} alt={`sprite`} loading="lazy" height="96px" width="96px" />
-			{:then spriteURL}
+			{#if spriteURL}
 				<Image
 					classNames="ml-auto mr-auto h-full max-w-min"
 					src={spriteURL}
@@ -51,7 +71,9 @@
 					loading="lazy"
 					height="64px"
 				/>
-			{/await}
+			{:else}
+				<div />
+			{/if}
 		</div>
 
 		<p style="margin-top: auto; margin-bottom: auto;">
