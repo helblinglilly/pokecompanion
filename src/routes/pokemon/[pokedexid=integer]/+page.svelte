@@ -6,31 +6,31 @@
 		selectedGame
 	} from '$lib/stores/domain';
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import Navigator from '$/routes/pokemon/[pokedexid]/Navigator.svelte';
-	import EvolutionChain from '$/lib/components/Pokemon/EvolutionChain/index.js';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import Pokedex from '$/lib/components/Pokedex.svelte';
 	import { currentUser } from '$lib/stores/user';
-	import SelectedTags from '$/lib/components/Tags/SelectedTags.svelte';
-	import Breadcrumbs from '$/lib/components/UI/Breadcrumbs.svelte';
-	import SpritePreview from '$/lib/components/Pokemon/SpritePreview.svelte';
+	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { page } from '$app/stores';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag/CreateNewTag.svelte';
 	import { tagStore } from '$lib/stores/tags';
-	import EditTag from '$/lib/components/Tags/EditTag.svelte';
-	import Abilities from '$/routes/pokemon/[pokedexid]/Abilities.svelte';
+	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import { Logger } from '$lib/log';
 	import { isPokemonInGameGroup } from '$lib/data/games';
-	import Encounters from '$/lib/components/Pokemon/Encounters/Encounters.svelte';
-	import MovesetCard from '$/lib/components/Pokemon/Moveset/MovesetCard.svelte';
 	import Type from '$/ui/atoms/type/Type.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import TypeMatchup from './TypeMatchup.svelte';
 	import BaseStats from './BaseStats.svelte';
+	import MovesetCard from './MovesetCard.svelte';
+	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
+	import Abilities from './Abilities.svelte';
+	import Encounters from './Encounters.svelte';
+	import EvolutionChain from './EvolutionChain.svelte';
+	import Pokedex from './Pokedex.svelte';
+	import SpritePreview from './SpritePreview.svelte';
+	import Navigator from './Navigator.svelte';
 
 	export let data;
 

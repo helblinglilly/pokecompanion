@@ -6,7 +6,7 @@
 	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
 	import type { Ability } from '$lib/types/IPokemon';
 	import { getNameEntry } from '$lib/utils/language';
-	import ExpandableButton from '$lib/components/UI/ExpandableButton.svelte';
+	import ExpandableButton from '$/lib/components/ExpandableButton.svelte';
 
 	export let abilities: Ability[];
 

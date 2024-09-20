@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Breadcrumbs from '$/lib/components/UI/Breadcrumbs.svelte';
+	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import { getContext, setContext } from 'svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';

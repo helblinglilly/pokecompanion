@@ -9,10 +9,10 @@
 	import type { PageData } from './$types';
 	import SearchBar from '$/lib/components/SearchBar.svelte';
 	import Tracking from '$/lib/components/Tracking.svelte';
-	import ScrollToTop from '$/lib/components/UI/ScrollToTop.svelte';
 	import Navbar from '$/ui/organisms/Navbar';
 	import Footer from '$/ui/atoms/footer/Footer.svelte';
 	import Notification from '$/ui/molecules/notification/Notification.svelte';
+	import ScrollToTop from '$/lib/components/ScrollToTop.svelte';
 
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];

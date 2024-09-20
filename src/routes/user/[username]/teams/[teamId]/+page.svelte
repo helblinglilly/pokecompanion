@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
-	import Breadcrumbs from '$/lib/components/UI/Breadcrumbs.svelte';
+	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
 	import {
 		getGameFromName,
 		getGameGroupFromGame,
@@ -158,7 +158,7 @@
 		{/if}
 
 		<div class="flex flex-wrap gap-8 mx-4">
-			{#each $team.bench.sort( (a, b) => (new Date(a.updated) < new Date(b.updated) ? -1 : 1) ) as pokemon}
+			{#each $team.bench as pokemon}
 				<BoxPokemon pokemon={writable(pokemon)} {inModifyView} />
 			{/each}
 		</div>

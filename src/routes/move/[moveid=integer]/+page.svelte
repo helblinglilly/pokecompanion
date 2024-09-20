@@ -1,9 +1,8 @@
 <script lang="ts">
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag/CreateNewTag.svelte';
-	import SelectedTags from '$/lib/components/Tags/SelectedTags.svelte';
-	import EditTag from '$/lib/components/Tags/EditTag.svelte';
-	import PokemonGroup from '$/routes/move/[moveid]/PokemonGroup.svelte';
+	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
+	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import type { IGameGroups } from '$lib/data/games';
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { tagStore } from '$lib/stores/tags.js';
@@ -12,6 +11,7 @@
 	import { getNameEntries, joinNameEntries } from '$lib/utils/language';
 	import Type from '$/ui/atoms/type/Type.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
+	import PokemonGroup from './PokemonGroup.svelte';
 
 	export let data;
 	let filterTerm = '';
