@@ -11,7 +11,7 @@
 </script>
 
 <div style="min-width: fit-content; min-height: 70px;">
-	{#if pokedexId > 0 && pokedexId < lastPokedexEntry}
+	{#if pokedexId > 0 && pokedexId <= lastPokedexEntry}
 		<a
 			href={`/pokemon/${pokedexId}${
 				$pokemonDisplayStore.transferableQueryParams.length > 0
