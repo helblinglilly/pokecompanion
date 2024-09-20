@@ -1,14 +1,13 @@
 <script lang="ts">
-	import Image from '$/ui/atoms/image/Image.svelte';
 	import { getMultiLanguageName } from '$lib/utils/language';
-	import { primaryLanguage, secondaryLanguage, selectedGame, theme } from '$lib/stores/domain';
+	import { primaryLanguage, secondaryLanguage, theme } from '$lib/stores/domain';
 	import { getPokemonEntry, type IGameGroups } from '$lib/data/games';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { pokemonVarietyNameToDisplay } from '$lib/utils/string';
 	import Card from '$/ui/atoms/card';
-	import { getSpriteURL } from '$/ui/atoms/pokemon/sprite/helper';
 	import type { IRecordPokemon } from '$/lib/types/IPokemon';
 	import { createEventDispatcher, onMount } from 'svelte';
+	import Sprite from '$/ui/atoms/pokemon/sprite/Sprite.svelte';
 
 	export let pokemon: IRecordPokemon;
 	export let showGenderAndShiny = false;
@@ -17,28 +16,6 @@
 	const dispatch = createEventDispatcher();
 
 	$: namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
-
-	let spriteURL: string | null = null;
-
-	let isMounted = false;
-	onMount(() => {
-		isMounted = true;
-	});
-	$: {
-		const fetchSpriteURL = async () => {
-			spriteURL = null;
-			spriteURL = await getSpriteURL(
-				pokemon.id,
-				showGenderAndShiny ? pokemon.shiny === true : false,
-				showGenderAndShiny ? pokemon.gender === 'female' : false,
-				pokemon.variety,
-				gameOverride ?? $selectedGame
-			);
-		};
-		if (isMounted) {
-			fetchSpriteURL();
-		}
-	}
 
 	export let cardActiveState = false;
 </script>
@@ -62,19 +39,7 @@
 	}}
 >
 	<div class="inline-flex">
-		<div class="spriteWrapper">
-			{#if spriteURL}
-				<Image
-					classNames="ml-auto mr-auto h-full max-w-min"
-					src={spriteURL}
-					alt={`sprite`}
-					loading="lazy"
-					height="64px"
-				/>
-			{:else}
-				<div />
-			{/if}
-		</div>
+		<Sprite {...pokemon} {gameOverride} />
 
 		<p style="margin-top: auto; margin-bottom: auto;">
 			#{pokemon.id}
@@ -125,12 +90,3 @@
 	</div>
 	<slot name="remove" />
 </Card>
-
-<style>
-	.spriteWrapper {
-		height: 96px;
-		width: 96px;
-		padding: 1rem;
-		align-content: center;
-	}
-</style>

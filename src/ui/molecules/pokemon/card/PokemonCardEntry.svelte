@@ -1,17 +1,19 @@
 <script lang="ts">
 	import { getLanguageEntry } from '$lib/utils/language';
-	import { primaryLanguage, secondaryLanguage, theme } from '$lib/stores/domain';
-	import { getPokemonEntry } from '$lib/data/games';
+	import { primaryLanguage, secondaryLanguage, selectedGame, theme } from '$lib/stores/domain';
+	import { getPokemonEntry, type IGameGroups } from '$lib/data/games';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { pokemonVarietyNameToDisplay } from '$lib/utils/string';
 	import Card from '$/ui/atoms/card/Card.svelte';
-	import Sprite from '$/ui/atoms/pokemon/sprite/Sprite.svelte';
+	import Image from '$/ui/atoms/image';
 	import type { IRecordPokemon } from '$/lib/types/IPokemon';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
+	import { getSpriteURL } from '$/ui/atoms/pokemon/sprite/helper';
 
 	export let pokemon: IRecordPokemon;
 	export let showGenderAndShiny: boolean;
 	export let isClickable: boolean = true;
+	export let gameOverride: IGameGroups | undefined = undefined;
 
 	const dispatch = createEventDispatcher();
 
@@ -20,6 +22,27 @@
 	$: secondaryName = $secondaryLanguage
 		? getLanguageEntry(getPokemonEntry(pokemon.id).names, $secondaryLanguage)
 		: undefined;
+
+	let spriteURL: string | null = null;
+
+	let isMounted = false;
+	onMount(() => {
+		isMounted = true;
+	});
+	$: {
+		const fetchSpriteURL = async () => {
+			spriteURL = await getSpriteURL(
+				pokemon.id,
+				showGenderAndShiny ? pokemon.shiny === true : false,
+				showGenderAndShiny ? pokemon.gender === 'female' : false,
+				pokemon.variety,
+				gameOverride ?? $selectedGame
+			);
+		};
+		if (isMounted) {
+			fetchSpriteURL();
+		}
+	}
 </script>
 
 <Card
@@ -32,7 +55,17 @@
 	}}
 >
 	<div class="spriteWrapper">
-		<Sprite {...pokemon} female={pokemon.gender === 'female'} />
+		{#if spriteURL}
+			<Image
+				classNames="ml-auto mr-auto h-full max-w-min"
+				src={spriteURL}
+				alt={`sprite`}
+				loading="lazy"
+				height="64px"
+			/>
+		{:else}
+			<div />
+		{/if}
 	</div>
 	<p>#{pokemon.id}{namePrefix ? ' ' + namePrefix : ''}</p>
 	{#if primaryName}

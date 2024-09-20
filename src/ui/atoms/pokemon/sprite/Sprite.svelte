@@ -2,6 +2,8 @@
 	import type { IGameGroups } from '$/lib/data/games';
 	import { selectedGame, versionSpecificPokemonSprites } from '$/lib/stores/domain';
 	import Image from '$/ui/atoms/image/Image.svelte';
+	import { getSpriteURL } from '$/ui/atoms/pokemon/sprite/helper';
+	import { onMount } from 'svelte';
 
 	export let id: number;
 	export let shiny: boolean = false;
@@ -13,39 +15,44 @@
 
 	const fallbackSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
-	async function getSpriteURL(id: number, shiny: boolean, female: boolean, variety: string) {
-		const res = await fetch(
-			`/api/pokemon/${id}/sprite?gender=${female ? 'female' : 'male'}&shiny=${
-				shiny ? 'true' : 'false'
-			}&game=${
-				gameOverride
-					? gameOverride.pokeapi
-					: $selectedGame && $versionSpecificPokemonSprites
-					? $selectedGame.pokeapi
-					: 'generic'
-			}&variety=${variety}`
-		);
-		if (res.ok) {
-			return await res.text();
+	let spriteURL: string | null = null;
+
+	let isMounted = false;
+	onMount(() => {
+		isMounted = true;
+	});
+	$: {
+		const game = gameOverride ?? $selectedGame;
+		const fetchSpriteURL = async () => {
+			spriteURL = await getSpriteURL(id, shiny, female, variety, game).catch((err) => {
+				return fallbackSpriteUrl;
+			});
+		};
+		if (isMounted) {
+			fetchSpriteURL();
 		}
-		return fallbackSpriteUrl;
 	}
 </script>
 
 <div class="spriteWrapper" {style}>
-	{#await getSpriteURL(id, shiny, female, variety)}
-		<Image src={'/placeholder.png'} alt={`sprite`} loading="lazy" height="96px" width="96px" />
-	{:then spriteURL}
+	{#if spriteURL}
 		<Image
-			classNames={`${imageClasses} ml-auto mr-auto max-w-full w-auto`}
+			classNames={`ml-auto mr-auto h-full max-w-min ${imageClasses}`}
 			src={spriteURL}
 			alt={`sprite`}
 			loading="lazy"
-			height="auto"
-			width="96px"
-			style="width: inherit;"
+			height="64px"
 		/>
-	{:catch}
-		<p>Something went wrong</p>
-	{/await}
+	{:else}
+		<div />
+	{/if}
 </div>
+
+<style>
+	.spriteWrapper {
+		height: 96px;
+		width: 96px;
+		padding: 1rem;
+		align-content: center;
+	}
+</style>
