@@ -28,3 +28,5 @@ scripts/manual-sprites/*-output
 storybook-static
 
 package-lock.json
+
+.wrangler
