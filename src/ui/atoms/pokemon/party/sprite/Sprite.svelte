@@ -47,7 +47,7 @@
 			<Sprite
 				{id}
 				{variety}
-				style="margin: 1rem;"
+				style="height: 5rem; width: 5rem;"
 				gameOverride={game}
 				imageClasses="max-h-12 max-w-12"
 			/>
@@ -63,7 +63,7 @@
 		<Sprite
 			{id}
 			{variety}
-			style="margin: 1rem;"
+			style="height: 5rem; width: 5rem;"
 			gameOverride={game}
 			imageClasses="max-h-12 max-w-12"
 		/>
