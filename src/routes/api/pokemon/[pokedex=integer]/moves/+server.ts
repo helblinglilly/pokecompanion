@@ -3,10 +3,10 @@ import { formatMovesetToVersionEntries } from '$lib/data/movesetFilter';
 import { Logger } from '$lib/log';
 import type { RequestHandler } from '@sveltejs/kit';
 import { parseUserPreferences } from '$/routes/api/helpers';
-import { fetchPokemon, fetchPokemonSpecies } from '../../cachedFetch';
+import { fetchPokemon, fetchPokemonSpecies } from '$/lib/server/cachedFetch/pokemon';
 import type { IPokemonRequestPreferences } from '../../types';
 
-export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {	
+export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {
 	const id = Number(params.pokedex);
 	if (!id){
 		return new Response(JSON.stringify({
@@ -43,9 +43,9 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		isFemale: url.searchParams.get('gender') === 'female',
 	}
 	const { primaryLanguage, secondaryLanguage, selectedGame, variety } = requestPreferences;
-	
+
 	// Only some values may get rassigned
-	// eslint-disable-next-line prefer-const 
+	// eslint-disable-next-line prefer-const
 	let [pokemon, species] = await Promise.all([
 		fetchPokemon(id, platform),
 		fetchPokemonSpecies(id, platform),
@@ -65,7 +65,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		} catch (err) {
 			platform?.context.waitUntil(
 				Logger.error(
-					Logger.ErrorClasses.RuntimeError, 
+					Logger.ErrorClasses.RuntimeError,
 					new Error(`Something went wrong when trying to process Pokemon forms`),
 					{
 						context: 'Failed to parse Pokemon forms',

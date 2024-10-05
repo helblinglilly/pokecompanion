@@ -77,7 +77,6 @@
 							female={benchMon.gender === 'female'}
 							id={benchMon.national_dex}
 							gameOverride={gameGroup}
-							style="max-height: 3rem; max-width: 3rem; margin: 1rem;"
 						/>
 					</div>
 					<div class="mt-auto mb-auto">

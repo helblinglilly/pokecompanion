@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Email from '$/components/Auth/Email.svelte';
-	import Github from '$/components/Auth/Github.svelte';
-	import Google from '$/components/Auth/Google.svelte';
-	import Spotify from '$/components/Auth/Spotify.svelte';
-	import SocialPreview from '$/components/SocialPreview.svelte';
+	import Email from '$/routes/auth/signin/Email.svelte';
+	import SocialPreview from '$/lib/components/SocialPreview.svelte';
+	import Google from './Google.svelte';
+	import Github from './Github.svelte';
+	import Spotify from './Spotify.svelte';
 	import type { IAuthProvider } from './+page';
 
 	export let data: { oAuthMethods: IAuthProvider[] };

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Breadcrumbs from '$/components/UI/Breadcrumbs.svelte';
+	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import { getContext, setContext } from 'svelte';
-	import SocialPreview from '$/components/SocialPreview.svelte';
+	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Header from '$/ui/molecules/Collections/Header/Header.svelte';
 	import TagEditor from './TagEditor.svelte';
 	import { writable, type Writable } from 'svelte/store';

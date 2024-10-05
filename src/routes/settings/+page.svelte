@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SocialPreview from '$/components/SocialPreview.svelte';
+	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Select from '$/ui/atoms/select/Select.svelte';
 	import { GameGroups, getGameGroupFromName } from '$lib/data/games';

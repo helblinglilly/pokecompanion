@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import SocialPreview from '$/components/SocialPreview.svelte';
+	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import { Logger } from '$lib/log.js';
 	import { primaryLanguage, secondaryLanguage, SettingNames } from '$lib/stores/domain.js';
 	import { searchTerm } from '$lib/stores/searchbar.js';

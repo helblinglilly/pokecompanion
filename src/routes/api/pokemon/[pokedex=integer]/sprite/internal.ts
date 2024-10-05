@@ -1,8 +1,8 @@
 import { PokeapiVersionGroups, type IGameGroups } from "$/lib/data/games";
+import { fetchCacheFirst } from "$/lib/server/cachedFetch/core";
 import type { IPokemon, IPokemonSpecies, ISprites } from "$/lib/types/IPokemon";
 import { capitaliseEachWord } from "$/lib/utils/string";
 import type { Platform } from "$/routes/api/types";
-import { fetchCacheFirst } from "../../cachedFetch";
 import { getSpriteAndInfo, getSpriteForGameAnimation } from "./helper";
 import type { SelfHostedSprite } from "./selfHosted";
 import { SelfHostedLegendsArceus } from "./selfHosted/legends-arceus";
@@ -13,7 +13,7 @@ import type { ISpriteAPIResponse } from "./types";
 const baseUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon`;
 
 export async function getPokemonSprite(id: number, platform: Readonly<App.Platform> | undefined, game: IGameGroups | undefined, variety: string | null, shiny: boolean, female: boolean, back: boolean, animate: boolean): Promise<ISpriteAPIResponse> {
-    let matchesForm = false;	
+    let matchesForm = false;
 
     const ultimateFallback = {
         url: baseUrl + `/${id}.png`,
@@ -60,8 +60,8 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
 
     let spriteInfo = getSpriteAndInfo(
 		gameAnimationSpecificSprites,
-		shiny, 
-		female, 
+		shiny,
+		female,
 		back
 	);
 
@@ -86,7 +86,7 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
 		const retry = getSpriteForGameAnimation(plainPokemon.data, undefined, false);
 		spriteInfo = getSpriteAndInfo(retry, shiny, female, back);
     }
-	
+
 	if (!spriteInfo){
 		return {
             ...ultimateFallback,
@@ -94,10 +94,10 @@ export async function getPokemonSprite(id: number, platform: Readonly<App.Platfo
         }
 	}
 
-    const isPerfectMatch = (!shiny || shiny && spriteInfo.hasShiny) && 
-		(!female || female && spriteInfo.hasFemale) && 
+    const isPerfectMatch = (!shiny || shiny && spriteInfo.hasShiny) &&
+		(!female || female && spriteInfo.hasFemale) &&
 		(!back || back && spriteInfo.isBack) &&
-		matchesForm && 
+		matchesForm &&
 		plainPokemon.matchesVariety;
 
     return {

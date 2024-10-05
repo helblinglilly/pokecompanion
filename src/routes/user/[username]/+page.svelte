@@ -1,15 +1,15 @@
 <script>
-	import Avatar from '$/components/Users/Avatar.svelte';
-	import ChangeUsername from '$/components/Users/ChangeUsername.svelte';
-	import DeleteUser from '$/components/Users/DeleteUser.svelte';
-	import ReportUser from '$/components/Users/ReportUser.svelte';
+	import Avatar from '$/lib/components/Users/Avatar.svelte';
+	import ChangeUsername from '$/lib/components/Users/ChangeUsername.svelte';
+	import DeleteUser from '$/lib/components/Users/DeleteUser.svelte';
+	import ReportUser from '$/lib/components/Users/ReportUser.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
-	import EmailVerification from '$/components/Auth/EmailVerification.svelte';
+	import EmailVerification from '$/routes/user/[username]/EmailVerification.svelte';
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag/CreateNewTag.svelte';
 	import CreateNewTeam from '$/ui/molecules/Collections/Teams/CreateNewTeam/CreateNewTeam.svelte';
 	import { tagStore } from '$lib/stores/tags';
-	import SocialPreview from '$/components/SocialPreview.svelte';
+	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import ResetPassword from './ResetPassword.svelte';
 	import { featureFlags } from '$/lib/stores/domain';

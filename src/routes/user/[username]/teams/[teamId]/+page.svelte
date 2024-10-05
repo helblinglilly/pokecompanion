@@ -1,6 +1,6 @@
 <script lang="ts">
-	import SocialPreview from '$/components/SocialPreview.svelte';
-	import Breadcrumbs from '$/components/UI/Breadcrumbs.svelte';
+	import SocialPreview from '$/lib/components/SocialPreview.svelte';
+	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
 	import {
 		getGameFromName,
 		getGameGroupFromGame,
@@ -158,7 +158,7 @@
 		{/if}
 
 		<div class="flex flex-wrap gap-8 mx-4">
-			{#each $team.bench.sort( (a, b) => (new Date(a.updated) < new Date(b.updated) ? -1 : 1) ) as pokemon}
+			{#each $team.bench as pokemon}
 				<BoxPokemon pokemon={writable(pokemon)} {inModifyView} />
 			{/each}
 		</div>
@@ -167,13 +167,12 @@
 
 <PokemonEditor
 	showOverlay={isNewPokemonOverlayOpen}
-	pokemon={newPokemon}
-	onSaveClick={async () => {
+	on:save={async ({ detail }) => {
 		const res = await fetch(`/api/teams/${$team.id}/pokemon`, {
 			method: 'POST',
 			body: JSON.stringify({
 				pokemon: {
-					...$newPokemon
+					...detail
 				}
 			})
 		});
@@ -181,15 +180,16 @@
 			addNotification({
 				level: 'failure',
 				message: `Failed to add ${
-					$newPokemon.nickname ??
-					getLanguageEntry(getPokemonEntry($newPokemon.national_dex).names, $primaryLanguage)
+					detail.nickname ??
+					getLanguageEntry(getPokemonEntry(detail.national_dex).names, $primaryLanguage)
 				} - Please try again`
 			});
 		} else {
+			isNewPokemonOverlayOpen.set(false);
 			$team.bench = [
 				...$team.bench,
 				{
-					...$newPokemon,
+					...detail,
 					team: $team.id,
 					owner: $team.owner,
 					position: 6,
@@ -198,4 +198,6 @@
 			];
 		}
 	}}
-/>
+>
+	<h2 class="h2" slot="title">Add Pokemon to box</h2>
+</PokemonEditor>

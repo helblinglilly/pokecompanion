@@ -1,10 +1,18 @@
 <script lang="ts">
-	import type { IBasePokemon, ITeam } from '$/lib/types/ITeams';
+	import type { ITeam, ITeamPokemon } from '$/lib/types/ITeams';
 	import PokemonEditor from '../PokemonEditor.svelte';
 	import { getContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
-	import { getGameGroupFromGame, getGameFromName, type IGame } from '$/lib/data/games';
+	import {
+		getGameGroupFromGame,
+		getGameFromName,
+		type IGame,
+		getPokemonEntry
+	} from '$/lib/data/games';
 	import BoxSprite from './BoxSprite.svelte';
+	import { addNotification } from '$/lib/stores/notifications';
+	import { primaryLanguage } from '$/lib/stores/domain';
+	import { getLanguageEntry } from '$/lib/utils/language';
 
 	let isEditorOpen = writable(false);
 	export let inModifyView = false;
@@ -14,7 +22,7 @@
 		getGameFromName($team.game) as unknown as IGame | undefined
 	);
 
-	export let pokemon: Writable<IBasePokemon>;
+	export let pokemon: Writable<ITeamPokemon>;
 </script>
 
 <button
@@ -41,9 +49,31 @@
 
 <PokemonEditor
 	showOverlay={isEditorOpen}
-	doesPokemonExist
-	{pokemon}
-	onSaveClick={async () => {
-		console.log('done editing an existing pokemon');
+	existingPokemon={$pokemon}
+	on:save={async ({ detail }) => {
+		const res = await fetch(`/api/teams/${$team.id}/pokemon/${$pokemon.id}`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				pokemon: { ...detail }
+			})
+		});
+
+		if (!res.ok) {
+			addNotification({
+				level: 'failure',
+				message: `Failed to edit ${
+					detail.nickname ??
+					getLanguageEntry(getPokemonEntry(detail.national_dex).names, $primaryLanguage)
+				} - Please try again`
+			});
+		} else {
+			isEditorOpen.set(false);
+			pokemon.set({
+				...$pokemon,
+				...detail
+			});
+		}
 	}}
-/>
+>
+	<h2 class="h2" slot="title">Edit {$pokemon.nickname ?? ''}</h2>
+</PokemonEditor>

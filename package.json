@@ -1,5 +1,5 @@
 {
-  "name": "pokemon-svelte",
+  "name": "pokecompanion",
   "version": "0.0.1",
   "private": true,
   "engines": {
@@ -7,7 +7,10 @@
     "npm": "9.6.7"
   },
   "scripts": {
+    "d1:local": "wrangler d1 execute pokecompanion_search --local --file=./src/schema.sql",
+    "d1:remote": "wrangler d1 execute pokecompanion_search --remote --file=./src/schema.sql",
     "dev": "vite dev",
+    "dev:cf": "npm run build && wrangler pages dev .svelte-kit/cloudflare --compatibility-date=2024-03-04 --live-reload",
     "build": "npm run build:app",
     "build:assets": "node scripts/socialpreviews/socialGenerator.js",
     "build:app": "vite build",

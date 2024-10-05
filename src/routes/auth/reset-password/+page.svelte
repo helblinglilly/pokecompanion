@@ -1,5 +1,5 @@
 <script>
-	import InlineTextButton from '$/components/InlineTextButton.svelte';
+	import Button from '$/ui/atoms/button';
 	import { pb } from '$lib/stores/domain';
 
 	let email = '';
@@ -46,13 +46,17 @@
 	<div class="column">
 		<div class="card">
 			<h2 class="h2">Reset password</h2>
-			<InlineTextButton
-				buttonConfig={{ text: 'Reset', onClick: onResetClick, class: 'secondary' }}
-				inputConfig={{ placeholder: 'Email' }}
-				variation="small"
-				bind:valueBinding={email}
-				containerStyling="max-width: 600px;"
-			/>
+
+			<div class="inline-flex">
+				<input type="text" placeholder="Email" bind:value={email} />
+				<Button
+					style="border-radius-bottom-left: 0;"
+					on:click={() => {
+						onResetClick();
+					}}>Reset</Button
+				>
+			</div>
+
 			<p>{emailError}&nbsp;</p>
 		</div>
 	</div>
