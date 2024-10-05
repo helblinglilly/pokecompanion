@@ -37,7 +37,7 @@ export async function PATCH({ request, cookies, platform, params }) {
     
     const requestParty = body.party.filter((a) => !!a.id);
 
-    const existingEntries = await authedPb.collection('teams').getOne(params.id) as IRecordTeam & RecordModel;
+    const existingEntries = await authedPb.collection('teams').getOne(params.teamId) as IRecordTeam & RecordModel;
 
     const addToParty = requestParty.filter((bodyMon) => !existingEntries.party.includes(bodyMon.id)).map((a) => a.id);
     const removeFromParty = existingEntries.party.filter((partyMon) => !requestParty.some((reqMon) => reqMon.id === partyMon));
@@ -47,7 +47,7 @@ export async function PATCH({ request, cookies, platform, params }) {
     const newBench = addToBench.concat(existingEntries.bench).filter((a) => !removeFromBench.includes(a));
 
     try {
-        await authedPb.collection('teams').update(params.id, {
+        await authedPb.collection('teams').update(params.teamId, {
             party: requestParty.map((a) => a.id),
             bench: newBench
         })

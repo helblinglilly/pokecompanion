@@ -53,12 +53,12 @@ export async function POST({ request, cookies, platform, params}) {
             move4: body.pokemon.move4,
             position: 6,
             owner: authedPb.authStore.model?.id,
-            team: params.id
+            team: params.teamId
         })
 
-        const existingBench = await authedPb.collection('teams').getOne(params.id);
+        const existingBench = await authedPb.collection('teams').getOne(params.teamId);
         
-        await authedPb.collection('teams').update(params.id, {
+        await authedPb.collection('teams').update(params.teamId, {
             bench: [...existingBench.bench, id]
         })
  
@@ -112,8 +112,8 @@ export async function DELETE({ request, cookies, platform, params}) {
     }
 
     try {
-        const existing = await authedPb.collection('teams').getOne(params.id) as IRecordTeam;
-        await authedPb.collection('teams').update(params.id, {
+        const existing = await authedPb.collection('teams').getOne(params.teamId) as IRecordTeam;
+        await authedPb.collection('teams').update(params.teamId, {
             bench: existing.bench.filter((a) => a !== body.pokemonId),
             party: existing.party.filter((a) => a !== body.pokemonId)
         })
@@ -128,7 +128,7 @@ export async function DELETE({ request, cookies, platform, params}) {
                     context: 'Deleting a Team Pokémon',
                     errorMessage: 'Failed to delete Pokemon from DB entries',
                     user: cookies.get('remember-token'),
-                    team: params.id
+                    team: params.teamId
                 }
             )
         )

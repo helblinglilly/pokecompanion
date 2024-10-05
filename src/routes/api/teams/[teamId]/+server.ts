@@ -49,7 +49,7 @@ export async function PATCH({ request, cookies, platform, params}) {
     }
 
    try {
-    await authedPb.collection('teams').update(params.id, newEntries)
+    await authedPb.collection('teams').update(params.teamId, newEntries)
    } catch(err){
     return new Response('Something went wrong activating an existing entry', {
         status: 500
@@ -71,10 +71,10 @@ export async function DELETE({ request, cookies, platform, params}) {
 
     try {
         // Get existing team entries
-        const existing = await authedPb.collection('teams').getOne(params.id) as IRecordTeam & RecordModel
+        const existing = await authedPb.collection('teams').getOne(params.teamId) as IRecordTeam & RecordModel
 
         // Clear out relations from teams
-        await authedPb.collection('teams').update(params.id, {
+        await authedPb.collection('teams').update(params.teamId, {
             party: [],
             bench: []
         })
@@ -88,14 +88,14 @@ export async function DELETE({ request, cookies, platform, params}) {
         }
 
         // Delete the now emtpy team
-        await authedPb.collection('teams').delete(params.id);
+        await authedPb.collection('teams').delete(params.teamId);
     }
         catch(err){
         Logger.error(
             Logger.ErrorClasses.TeamOperation,
             Logger.buildError(err),
             {
-                context: `Team ${params.id}`
+                context: `Team ${params.teamId}`
             }
         )
         return new Response('Internal Error', {
