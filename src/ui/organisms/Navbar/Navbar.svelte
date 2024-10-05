@@ -44,7 +44,7 @@
 		}}
 	>
 		<button
-			class="w-full grid p-2 justify-end z-20"
+			class="w-max grid p-2 justify-end z-20"
 			on:mousedown={() => {
 				isMobileMenuExpanded = !isMobileMenuExpanded;
 			}}
@@ -52,6 +52,7 @@
 			<img
 				src={isMobileMenuExpanded ? BagOpen : BagClosed}
 				alt={`${isMobileMenuExpanded ? 'Menus opened' : 'Menus closed'}`}
+				class="h-8 w-full"
 			/>
 		</button>
 
