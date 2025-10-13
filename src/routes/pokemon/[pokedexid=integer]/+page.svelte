@@ -43,10 +43,10 @@
 			pokemonDisplayStore.set({
 				id: data.id,
 				showFemaleSpriteIfExists,
-				hasFemaleSprite: data.sprites.hasFemale,
+				hasFemaleSprite: Boolean(data.sprites.hasFemale),
 				gender: data.sprites.hasFemale ? (showFemaleSpriteIfExists ? 'female' : 'male') : undefined,
 				showShinySpriteIfExists,
-				hasShinySprite: data.sprites.hasShiny,
+				hasShinySprite: Boolean(data.sprites.hasShiny),
 				variety: varietyName ?? data.pokemon.name + '-default',
 				transferableQueryParams: '' // Gets auto-updated within the store anyway
 			});
@@ -119,18 +119,18 @@
 		return 'generic';
 	};
 
-	const englishPokedexEntries = data.species.flavor_text_entries.filter(
+	const englishPokedexEntries = data.species?.flavor_text_entries.filter(
 		(entry) => entry.language === 'en'
 	);
 </script>
 
 <SocialPreview
-	title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
+	title={`${getMultiLanguageName(data.species?.names, $primaryLanguage, $secondaryLanguage)}`}
 	previewImage={`https://socialpreviews.pokecompanion.helbling.uk/pokemon/${data.id}-${filename(
 		$page.url.searchParams.get('shiny'),
 		$page.url.searchParams.get('gender')
 	)}.png`}
-	description={englishPokedexEntries.length > 0
+	description={englishPokedexEntries?.length > 0
 		? englishPokedexEntries[englishPokedexEntries.length - 1].textEntry
 		: `View ${getMultiLanguageName(
 				data.species.names,
