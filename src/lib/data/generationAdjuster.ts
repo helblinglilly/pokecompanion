@@ -200,5 +200,5 @@ export const fixAbilities = (
 		return overriddenEntry[0];
 	});
 
-	return merged;
+	return merged.filter((entry) => entry.ability);
 };
