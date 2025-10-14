@@ -25,6 +25,8 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** @enum {string} */
+        PokeapiLanguageCodes: "ja-Hrkt" | "ja" | "ko" | "fr" | "de" | "en" | "es";
         PokemonMove: {
             /** Format: double */
             id: number;
@@ -109,6 +111,23 @@ export interface components {
                     is_hidden: boolean;
                 }[];
             };
+            /** @description Path to a .ogg file with this pokemon's cry */
+            cry: string;
+            /**
+             * Format: double
+             * @description Weight in grams
+             */
+            weight: number;
+            /**
+             * Format: double
+             * @description Height in cm
+             */
+            height: number;
+            pokedexEntries: {
+                textEntry: string;
+                game: string;
+                language: components["schemas"]["PokeapiLanguageCodes"];
+            }[];
             /** Format: double */
             id: number;
             __internal: unknown;

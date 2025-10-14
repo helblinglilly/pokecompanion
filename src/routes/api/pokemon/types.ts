@@ -1,9 +1,9 @@
-import type { IGameGroups } from "$/lib/data/games";
-import type { IEncounters } from "$lib/data/encounterFilter";
-import type { ITypeRelations } from "$lib/data/generationAdjuster";
-import type { IMoves } from "$lib/data/movesetFilter";
-import type { IType } from "$lib/stores/pokemonPage";
-import type { Ability, Form, Name, Stat } from "$lib/types/IPokemon";
+import type { IGameGroups } from '$/lib/data/games';
+import type { IEncounters } from '$lib/data/encounterFilter';
+import type { ITypeRelations } from '$lib/data/generationAdjuster';
+import type { IMoves } from '$lib/data/movesetFilter';
+import type { IType } from '$lib/stores/pokemonPage';
+import type { Ability, Form, Name, Stat } from '$lib/types/IPokemon';
 
 export interface IPokemonResponse {
 	id: number;
@@ -12,7 +12,7 @@ export interface IPokemonResponse {
 		cries: {
 			latest: string | null;
 			legacy: string | null;
-		}
+		};
 		name: string;
 		types: IType[];
 		typeRelations: ITypeRelations;
@@ -28,33 +28,28 @@ export interface IPokemonResponse {
 	};
 	species: {
 		names: {
-			[x: string]: string
-		}[],
-		flavor_text_entries: {
-			language: string;
-    		game: string;
-    		textEntry: string;
+			[x: string]: string;
 		}[];
 		evolution_chain: {
 			url: string;
-		}
+		};
 	};
-	encounters: IEncounters; 
+	encounters: IEncounters;
 	sprites: ISpritesConsumable;
-};
+}
 
 export interface IPokemonMinimalMove {
 	id: number;
-    names: Name[];
-    type: {
-        name: string;
-        url: string;
-    };
-    damage_class: {
-        name: string;
-        url: string;
-    };
-    level?: number | undefined;
+	names: Name[];
+	type: {
+		name: string;
+		url: string;
+	};
+	damage_class: {
+		name: string;
+		url: string;
+	};
+	level?: number | undefined;
 }
 
 export interface IPokemonMinimalMoveGroups {
@@ -62,7 +57,7 @@ export interface IPokemonMinimalMoveGroups {
 	levelupMoves: IPokemonMinimalMove[];
 	tmMoves: IPokemonMinimalMove[];
 	tutorMoves: IPokemonMinimalMove[];
-} 
+}
 
 export interface IPokemonRequestPreferences {
 	variety: string | null;
@@ -78,12 +73,12 @@ export interface ISpritesConsumable {
 	primary: {
 		url: string;
 		alt: string;
-	},
+	};
 	secondary: {
 		url: string;
 		alt: string;
 		isBack: boolean;
-	}
+	};
 	hasFemale: boolean;
 	hasShiny: boolean;
 }

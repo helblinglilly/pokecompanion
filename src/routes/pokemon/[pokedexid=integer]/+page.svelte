@@ -119,9 +119,7 @@
 		return 'generic';
 	};
 
-	const englishPokedexEntries = data.species?.flavor_text_entries.filter(
-		(entry) => entry.language === 'en'
-	);
+	const englishPokedexEntries = data.pokedexEntries.filter((entry) => entry.language === 'en');
 </script>
 
 <SocialPreview
@@ -131,7 +129,7 @@
 		$page.url.searchParams.get('gender')
 	)}.png`}
 	description={englishPokedexEntries?.length > 0
-		? englishPokedexEntries[englishPokedexEntries.length - 1].textEntry
+		? englishPokedexEntries[englishPokedexEntries.length - 1]?.textEntry
 		: `View ${getMultiLanguageName(
 				data.species.names,
 				'en',
@@ -167,10 +165,10 @@
 				</div>
 
 				<Pokedex
-					pokedexEntries={data.species.flavor_text_entries}
-					height={data.pokemon.height}
-					weight={data.pokemon.weight}
-					cry={data.pokemon.cries.latest ?? data.pokemon.cries.legacy}
+					pokedexEntries={data.pokedexEntries}
+					height={data.height}
+					weight={data.weight}
+					cry={data.cry}
 				/>
 			</div>
 

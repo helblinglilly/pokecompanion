@@ -9,30 +9,9 @@
 	export let pokedexEntries: { language: string; game: string; textEntry: string }[];
 	export let height: number;
 	export let weight: number;
-	export let cry: string | null;
+	export let cry: string;
 
 	const mergedPokedexEntries = pokedexEntries;
-	// .reduce((acc: { textEntry: string; games: string[]; language: string }[], currentEntry) => {
-	// 	const existingEntry = acc.find(
-	// 		(entry) =>
-	// 			entry.textEntry === currentEntry.textEntry && entry.language === currentEntry.language
-	// 	);
-
-	// 	if (existingEntry && !existingEntry.games.includes(currentEntry.game)) {
-	// 		existingEntry.games.push(currentEntry.game);
-	// 	} else {
-	// 		acc.push({
-	// 			...currentEntry,
-	// 			games: [currentEntry.game]
-	// 		});
-	// 	}
-
-	// 	return acc;
-	// }, [])
-	// .sort((a, b) => {
-	// 	// Ensure consistency in language order
-	// 	return a.language < b.language ? 1 : -1;
-	// });
 </script>
 
 {#if pokedexEntries.length > 0}
@@ -69,7 +48,7 @@
 					Cry
 				</Button>
 			{/if}
-			<p class="mt-auto mb-auto mr-4"><strong>Weight:</strong> {weight / 10}kg</p>
+			<p class="mt-auto mb-auto mr-4"><strong>Weight:</strong> {weight / 100}kg</p>
 		</div>
 	</div>
 

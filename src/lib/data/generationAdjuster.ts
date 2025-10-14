@@ -200,5 +200,13 @@ export const fixAbilities = (
 		return overriddenEntry[0];
 	});
 
-	return merged.filter((entry) => entry.ability);
+	return merged.filter((entry) => {
+		if (entry === undefined) {
+			return false;
+		}
+		if (entry?.ability === null) {
+			return false;
+		}
+		return true;
+	});
 };

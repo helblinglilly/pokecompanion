@@ -1,102 +1,98 @@
 import { lastPokedexEntry } from '$lib/stores/domain';
-import { type FlavorTextEntry} from '$lib/types/IPokemon';
 import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
-import { fixAbilities, getPokemonTypesInGame, getTypeRelations } from '$lib/data/generationAdjuster';
+import {
+	fixAbilities,
+	getPokemonTypesInGame,
+	getTypeRelations
+} from '$lib/data/generationAdjuster';
 import { formatEncounters } from '$lib/data/encounterFilter';
 import { formatMovesetToVersionEntries } from '$lib/data/movesetFilter';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { parseUserPreferences } from '../../helpers';
 import type { IPokemonRequestPreferences, IPokemonResponse, ISpritesConsumable } from '../types';
 import { Logger } from '$lib/log';
-import { getGame } from '$lib/data/games';
 import type { RequestHandler } from '@sveltejs/kit';
 import { getPokemonSprite } from './sprite/internal';
-import { fetchPokemon, fetchPokemonEncounters, fetchPokemonForm, fetchPokemonSpecies } from '$/lib/server/cachedFetch/pokemon';
+import {
+	fetchPokemon,
+	fetchPokemonEncounters,
+	fetchPokemonForm,
+	fetchPokemonSpecies
+} from '$/lib/server/cachedFetch/pokemon';
 
-const filterPokedexEntries = (
-	allEntries: FlavorTextEntry[],
-	primaryLang: string | undefined,
-	secondaryLang: string | undefined
-) => {
-	const hasMatchingLanguageEntries = allEntries.some(
-		(entry) => entry.language.name === primaryLang || entry.language.name === secondaryLang
-	);
-
-	return allEntries
-		.filter((entry) => {
-			if (!hasMatchingLanguageEntries) {
-				return true;
-			}
-			return entry.language.name === primaryLang || entry.language.name === secondaryLang;
-		})
-		.map((entry) => {
-			let newGame = getGame(entry.version.name)?.shortName ?? entry.version.name;
-
-			if (newGame === 'omega-ruby'){
-				newGame = "Omega Ruby"
-			} else if (newGame === 'alpha-sapphire'){
-				newGame = "Alpha Sapphire";
-			}
-
-			return {
-				language: entry.language.name,
-				game: newGame,
-				// eslint-disable-next-line no-control-regex
-				textEntry: entry.flavor_text.replace(/\n|\u000c/g, ' ')
-			};
-		});
-	// To do: Move the selected game entry to the top
-};
-
-const fetchSprites = async (id: number, preferences: IPokemonRequestPreferences, platform: Readonly<App.Platform> | undefined): Promise<ISpritesConsumable & { hasShiny: boolean; hasFemale: boolean;}> => {
+const fetchSprites = async (
+	id: number,
+	preferences: IPokemonRequestPreferences,
+	platform: Readonly<App.Platform> | undefined
+): Promise<ISpritesConsumable & { hasShiny: boolean; hasFemale: boolean }> => {
 	const [frontRes, backRes] = await Promise.allSettled([
-		getPokemonSprite(id, platform, preferences.selectedGame, preferences.variety, preferences.shiny, preferences.isFemale, false, preferences.animateSprites),
-		getPokemonSprite(id, platform, preferences.selectedGame, preferences.variety, preferences.shiny, preferences.isFemale, true, preferences.animateSprites)
+		getPokemonSprite(
+			id,
+			platform,
+			preferences.selectedGame,
+			preferences.variety,
+			preferences.shiny,
+			preferences.isFemale,
+			false,
+			preferences.animateSprites
+		),
+		getPokemonSprite(
+			id,
+			platform,
+			preferences.selectedGame,
+			preferences.variety,
+			preferences.shiny,
+			preferences.isFemale,
+			true,
+			preferences.animateSprites
+		)
 	]);
 
 	const values = {
 		primary: {
 			url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
-			alt: 'Front',
+			alt: 'Front'
 		},
 		secondary: {
 			url: '',
 			alt: '',
-			isBack: false,
+			isBack: false
 		},
 		hasShiny: false,
-		hasFemale: false,
-	}
+		hasFemale: false
+	};
 
-	if (frontRes.status === 'fulfilled'){
+	if (frontRes.status === 'fulfilled') {
 		values.primary.url = frontRes.value.url ?? '';
 		values.primary.alt = frontRes.value.alt;
-		values.hasShiny = frontRes.value.hasShiny ? true : false,
-		values.hasFemale = frontRes.value.hasFemale ? true : false;
+		(values.hasShiny = frontRes.value.hasShiny ? true : false),
+			(values.hasFemale = frontRes.value.hasFemale ? true : false);
 	}
 
-	if (backRes.status === 'fulfilled'){
-		values.secondary.url = backRes.value.url ?? '',
-		values.secondary.alt = backRes.value.alt
-		values.secondary.isBack = backRes.value.isBack ? true : false
+	if (backRes.status === 'fulfilled') {
+		(values.secondary.url = backRes.value.url ?? ''), (values.secondary.alt = backRes.value.alt);
+		values.secondary.isBack = backRes.value.isBack ? true : false;
 	}
 
 	return values;
-}
+};
 
 const easterEggs = (id: number, variety: string | null): Partial<IPokemonResponse> => {
-	if (id !== 377){
-		return {}
+	if (id !== 377) {
+		return {};
 	}
 
 	let returnValue: Partial<IPokemonResponse> = {
 		pokemon: {
-			varietyForms: [{name: 'regirock-normal'}, { name: 'regirock-cnty-regirock-with-a-handbag'}],
-			types: [{ name: 'fairy'}],
+			varietyForms: [
+				{ name: 'regirock-normal' },
+				{ name: 'regirock-cnty-regirock-with-a-handbag' }
+			],
+			types: [{ name: 'fairy' }]
 		}
 	} as Partial<IPokemonResponse>;
 
-	if (variety === 'regirock-cnty-regirock-with-a-handbag'){
+	if (variety === 'regirock-cnty-regirock-with-a-handbag') {
 		returnValue = {
 			...returnValue,
 			sprites: {
@@ -109,50 +105,56 @@ const easterEggs = (id: number, variety: string | null): Partial<IPokemonRespons
 				secondary: {
 					url: 'https://i.kym-cdn.com/entries/icons/original/000/049/483/cregcover.jpg',
 					alt: 'Front',
-					isBack: false,
+					isBack: false
 				}
 			}
-		}
+		};
 	}
 	return returnValue;
-}
+};
 
 export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {
 	const id = Number(params.pokedex);
-	if (!id){
-		return new Response(JSON.stringify({
-			error: 'Missing pokemon in search params',
-			searchParam: 'pokemon=:id'
-		}), {
-			status: 404,
-			headers: {
-				'content-type': 'application/json'
+	if (!id) {
+		return new Response(
+			JSON.stringify({
+				error: 'Missing pokemon in search params',
+				searchParam: 'pokemon=:id'
+			}),
+			{
+				status: 404,
+				headers: {
+					'content-type': 'application/json'
+				}
 			}
-		})
+		);
 	}
 
-	if (id < 1 || id > lastPokedexEntry){
-		return new Response(JSON.stringify({
-			error: 'Pokemon is outside of known range',
-			knownPokemon: {
-				from: 1,
-				to: lastPokedexEntry
-			},
-			requested: id
-		}), {
-			status: 404,
-			headers: {
-				'content-type': 'application/json'
+	if (id < 1 || id > lastPokedexEntry) {
+		return new Response(
+			JSON.stringify({
+				error: 'Pokemon is outside of known range',
+				knownPokemon: {
+					from: 1,
+					to: lastPokedexEntry
+				},
+				requested: id
+			}),
+			{
+				status: 404,
+				headers: {
+					'content-type': 'application/json'
+				}
 			}
-		})
+		);
 	}
 
 	const requestPreferences: IPokemonRequestPreferences = {
 		...parseUserPreferences(url, cookies),
 		variety: url.searchParams.get('variety'),
 		shiny: url.searchParams.get('shiny') === 'true',
-		isFemale: url.searchParams.get('gender') === 'female',
-	}
+		isFemale: url.searchParams.get('gender') === 'female'
+	};
 	const { primaryLanguage, secondaryLanguage, selectedGame, variety } = requestPreferences;
 
 	// Only some values may get rassigned
@@ -162,10 +164,10 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		fetchPokemonSpecies(id, platform),
 		fetchPokemonEncounters(id, platform),
 		fetchSprites(id, requestPreferences, platform)
-	])
+	]);
 
-	if (!species.has_gender_differences && requestPreferences.isFemale){
-		requestPreferences.isFemale = false
+	if (!species.has_gender_differences && requestPreferences.isFemale) {
+		requestPreferences.isFemale = false;
 	}
 
 	const formEntry = pokemon.forms.find((entry) => entry.name === variety);
@@ -198,10 +200,17 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 
 				varietyPokemon = {
 					...varietyPokemon,
-					...varietyFormPokemon,
+					...varietyFormPokemon
 				};
 
-				if (varietyFormPokemon.names.length && varietyFormPokemon.names.some((varietyName) => varietyName.language.name === primaryLanguage || varietyName.language.name === secondaryLanguage)) {
+				if (
+					varietyFormPokemon.names.length &&
+					varietyFormPokemon.names.some(
+						(varietyName) =>
+							varietyName.language.name === primaryLanguage ||
+							varietyName.language.name === secondaryLanguage
+					)
+				) {
 					species.names = varietyFormPokemon.names;
 				} else {
 					species.names = species.names.map((name) => {
@@ -235,7 +244,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 						variety: varietyEntry.pokemon.name
 					}
 				)
-			)
+			);
 		}
 	}
 
@@ -270,21 +279,16 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		},
 		species: {
 			...species,
-			names: speciesNamesToNormalisedNames(species.names),
-			flavor_text_entries: filterPokedexEntries(
-				species.flavor_text_entries,
-				primaryLanguage,
-				secondaryLanguage
-			)
+			names: speciesNamesToNormalisedNames(species.names)
 		},
 		encounters: formatEncounters(encounters),
 		sprites: easterEggData?.sprites ?? sprites
-	}
+	};
 
 	return new Response(JSON.stringify(response), {
 		headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'public, max-age=86400',
-        },
+			'Content-Type': 'application/json',
+			'Cache-Control': 'public, max-age=86400'
+		}
 	});
 };
