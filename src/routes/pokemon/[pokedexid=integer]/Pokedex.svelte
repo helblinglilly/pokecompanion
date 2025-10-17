@@ -24,6 +24,7 @@
 			}
 			showModal = !showModal;
 		}}
+		data-umami-event="Pokedex"
 	>
 		Pokédex
 		<Image src={'/icons/pokedex.png'} alt={'Pokédex'} classNames="h-5" />

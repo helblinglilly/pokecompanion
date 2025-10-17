@@ -38,7 +38,12 @@
 <div class={`grid gap-4`}>
 	{#await getAbilityData()}
 		{#each abilities as staticAbility}
-			<Button classes="w-full text-center min-w-max" variant="primary" isNested>
+			<Button
+				classes="w-full text-center min-w-max"
+				variant="primary"
+				isNested
+				data-umami-event="PokemonAbility"
+			>
 				{#if staticAbility.is_hidden}
 					<Icon
 						name="hidden"
@@ -51,7 +56,7 @@
 		{/each}
 	{:then data}
 		{#each data as ability}
-			<ExpandableButton>
+			<ExpandableButton data-umami-event="PokemonAbility">
 				<div slot="title" class="inline-flex">
 					{#if ability.is_hidden}
 						<Icon
@@ -77,7 +82,13 @@
 		{/each}
 	{:catch}
 		{#each abilities as staticAbility}
-			<Button classes="w-full text-center min-w-max" isDisabled variant="primary" isNested>
+			<Button
+				classes="w-full text-center min-w-max"
+				isDisabled
+				variant="primary"
+				isNested
+				data-umami-event="PokemonAbility"
+			>
 				{#if staticAbility.is_hidden}
 					<Icon
 						name="hidden"

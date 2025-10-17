@@ -40,6 +40,7 @@
 			currentGame = detail;
 			currentDisplayLimit = defaultLimit;
 		}}
+		data-umami-event="PokemonEncounters"
 	/>
 {/if}
 
@@ -64,7 +65,8 @@
 					classes="w-full"
 					on:click={() => {
 						currentDisplayLimit = defaultLimit;
-					}}>Collapse all</Button
+					}}
+					data-umami-event="PokemonEncountersCollapse">Collapse all</Button
 				>
 				<Button
 					variant="primary"
@@ -72,7 +74,8 @@
 					classes="w-full"
 					on:click={() => {
 						currentDisplayLimit -= defaultLimit;
-					}}>Show 4 less</Button
+					}}
+					data-umami-event="PokemonEncountersShowLess">Show 4 less</Button
 				>
 			</div>
 		{/if}
@@ -85,7 +88,8 @@
 					classes="w-full"
 					on:click={() => {
 						currentDisplayLimit = totalLocations;
-					}}>Show all</Button
+					}}
+					data-umami-event="PokemonEncountersShowAll">Show all</Button
 				>
 				<Button
 					variant="primary"
@@ -93,7 +97,9 @@
 					classes="w-full"
 					on:click={() => {
 						currentDisplayLimit += defaultLimit;
-					}}>Show more ({currentDisplayLimit}/{totalLocations})</Button
+					}}
+					data-umami-event="PokemonEncountersShowMore"
+					>Show more ({currentDisplayLimit}/{totalLocations})</Button
 				>
 			</div>
 		{/if}

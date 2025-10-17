@@ -24,11 +24,8 @@
 						classes="w-full "
 						on:click={() => {
 							showLevelMovesOnMobile = !showLevelMovesOnMobile;
-							Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
-								action: showLevelMovesOnMobile ? 'Hide' : 'Show',
-								context: 'LevelMoves'
-							});
 						}}
+						data-umami-event="PokemonMoveList"
 						>{showLevelMovesOnMobile ? 'Hide' : 'Show'}
 						{completeData.levelupMoves.length} moves</Button
 					>

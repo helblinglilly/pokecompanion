@@ -21,6 +21,7 @@
 		isExpanded = !isExpanded;
 		dispatch('click');
 	}}
+	{...$$restProps}
 >
 	<slot name="title" />
 </Button>

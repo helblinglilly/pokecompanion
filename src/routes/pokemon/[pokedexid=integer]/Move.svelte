@@ -31,15 +31,8 @@
 </script>
 
 {#if move}
-	<a
-		href={`/move/${move.id}`}
-		on:click={() => {
-			Logger.addPageAction('UIInteraction', 'Move', {
-				action: 'Navigation'
-			});
-		}}
-	>
-		<Button isNested classes="w-full">
+	<a href={`/move/${move.id}`}>
+		<Button isNested classes="w-full" data-umami-event="PokemonMove">
 			<div class="inline-flex justify-between w-full">
 				<div class="flex flex-col items-center justify-center gap-2 pr-3">
 					{#await pokeapiPromise}

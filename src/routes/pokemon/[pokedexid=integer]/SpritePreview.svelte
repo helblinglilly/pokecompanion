@@ -32,6 +32,7 @@
 			modalContent = newContent;
 			showModal = true;
 		}
+		window?.umami?.track('PokemonSpriteModal');
 	};
 </script>
 

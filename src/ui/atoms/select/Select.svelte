@@ -28,6 +28,7 @@
 	on:change={(e) => {
 		triggerOnChange(e);
 	}}
+	{...$$restProps}
 >
 	{#each options as option}
 		<option
