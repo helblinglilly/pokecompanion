@@ -13,8 +13,8 @@ declare global {
 			Search: D1Database;
 			context: {
 				waitUntil(promise: Promise<unknown>): void;
-			}
-			caches: CacheStorage & { default: Cache }
+			};
+			caches: CacheStorage & { default: Cache };
 		}
 	}
 
@@ -25,7 +25,11 @@ declare global {
 			setCustomAttribute: (name: string, value: unknown) => void;
 			setUserId: (value: string | null) => void;
 		};
-	  }
+		umami?: {
+			identify: (id: string) => void;
+			track: (eventName: string) => void;
+		};
+	}
 }
 
 export {};
