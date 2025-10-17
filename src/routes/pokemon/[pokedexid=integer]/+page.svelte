@@ -43,10 +43,14 @@
 			pokemonDisplayStore.set({
 				id: data.id,
 				showFemaleSpriteIfExists,
-				hasFemaleSprite: Boolean(data.sprites.hasFemale),
-				gender: data.sprites.hasFemale ? (showFemaleSpriteIfExists ? 'female' : 'male') : undefined,
+				hasFemaleSprite: data.sprites.some((sprite) => sprite.hasFemale),
+				gender: data.sprites.some((sprite) => sprite.hasFemale)
+					? showFemaleSpriteIfExists
+						? 'female'
+						: 'male'
+					: undefined,
 				showShinySpriteIfExists,
-				hasShinySprite: Boolean(data.sprites.hasShiny),
+				hasShinySprite: data.sprites.some((sprite) => sprite.hasShiny),
 				variety: varietyName ?? data.pokemon.name + '-default',
 				transferableQueryParams: '' // Gets auto-updated within the store anyway
 			});
@@ -172,10 +176,7 @@
 				/>
 			</div>
 
-			<SpritePreview
-				primarySprite={data.sprites.primary}
-				secondarySprite={data.sprites.secondary}
-			/>
+			<SpritePreview sprites={data.sprites} />
 
 			{#if $currentUser}
 				<div

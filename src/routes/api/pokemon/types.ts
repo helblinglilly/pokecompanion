@@ -35,7 +35,6 @@ export interface IPokemonResponse {
 		};
 	};
 	encounters: IEncounters;
-	sprites: ISpritesConsumable;
 }
 
 export interface IPokemonMinimalMove {

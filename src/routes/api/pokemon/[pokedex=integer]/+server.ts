@@ -9,73 +9,15 @@ import { formatEncounters } from '$lib/data/encounterFilter';
 import { formatMovesetToVersionEntries } from '$lib/data/movesetFilter';
 import { speciesNamesToNormalisedNames } from '$lib/utils/language';
 import { parseUserPreferences } from '../../helpers';
-import type { IPokemonRequestPreferences, IPokemonResponse, ISpritesConsumable } from '../types';
+import type { IPokemonRequestPreferences, IPokemonResponse } from '../types';
 import { Logger } from '$lib/log';
 import type { RequestHandler } from '@sveltejs/kit';
-import { getPokemonSprite } from './sprite/internal';
 import {
 	fetchPokemon,
 	fetchPokemonEncounters,
 	fetchPokemonForm,
 	fetchPokemonSpecies
 } from '$/lib/server/cachedFetch/pokemon';
-
-const fetchSprites = async (
-	id: number,
-	preferences: IPokemonRequestPreferences,
-	platform: Readonly<App.Platform> | undefined
-): Promise<ISpritesConsumable & { hasShiny: boolean; hasFemale: boolean }> => {
-	const [frontRes, backRes] = await Promise.allSettled([
-		getPokemonSprite(
-			id,
-			platform,
-			preferences.selectedGame,
-			preferences.variety,
-			preferences.shiny,
-			preferences.isFemale,
-			false,
-			preferences.animateSprites
-		),
-		getPokemonSprite(
-			id,
-			platform,
-			preferences.selectedGame,
-			preferences.variety,
-			preferences.shiny,
-			preferences.isFemale,
-			true,
-			preferences.animateSprites
-		)
-	]);
-
-	const values = {
-		primary: {
-			url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
-			alt: 'Front'
-		},
-		secondary: {
-			url: '',
-			alt: '',
-			isBack: false
-		},
-		hasShiny: false,
-		hasFemale: false
-	};
-
-	if (frontRes.status === 'fulfilled') {
-		values.primary.url = frontRes.value.url ?? '';
-		values.primary.alt = frontRes.value.alt;
-		(values.hasShiny = frontRes.value.hasShiny ? true : false),
-			(values.hasFemale = frontRes.value.hasFemale ? true : false);
-	}
-
-	if (backRes.status === 'fulfilled') {
-		(values.secondary.url = backRes.value.url ?? ''), (values.secondary.alt = backRes.value.alt);
-		values.secondary.isBack = backRes.value.isBack ? true : false;
-	}
-
-	return values;
-};
 
 const easterEggs = (id: number, variety: string | null): Partial<IPokemonResponse> => {
 	if (id !== 377) {
@@ -159,11 +101,10 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 
 	// Only some values may get rassigned
 	// eslint-disable-next-line prefer-const
-	let [pokemon, species, encounters, sprites] = await Promise.all([
+	let [pokemon, species, encounters] = await Promise.all([
 		fetchPokemon(id, platform),
 		fetchPokemonSpecies(id, platform),
-		fetchPokemonEncounters(id, platform),
-		fetchSprites(id, requestPreferences, platform)
+		fetchPokemonEncounters(id, platform)
 	]);
 
 	if (!species.has_gender_differences && requestPreferences.isFemale) {
@@ -256,6 +197,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 
 	const response: IPokemonResponse = {
 		id,
+
 		pokemon: {
 			...pokemon,
 			abilities,
@@ -281,8 +223,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 			...species,
 			names: speciesNamesToNormalisedNames(species.names)
 		},
-		encounters: formatEncounters(encounters),
-		sprites: easterEggData?.sprites ?? sprites
+		encounters: formatEncounters(encounters)
 	};
 
 	return new Response(JSON.stringify(response), {

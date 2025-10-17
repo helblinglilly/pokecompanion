@@ -2,17 +2,17 @@
 	import { onMount } from 'svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Image from '$/ui/atoms/image/Image.svelte';
+	import type { paths } from '$/@types/api';
 
-	interface ISpriteImage {
-		url: string;
-		alt: string;
-		isBack?: boolean;
-	}
-	export let primarySprite: ISpriteImage;
-	export let secondarySprite: ISpriteImage;
+	type Sprites =
+		paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['sprites'];
+	export let sprites: Sprites;
+
+	let primarySprite = sprites[0];
+	let secondarySprite = sprites[1];
 
 	let showModal = false;
-	let modalContent: ISpriteImage = {
+	let modalContent: Pick<Sprites[number], 'url' | 'alt'> = {
 		url: '',
 		alt: 'placeholder'
 	};
@@ -27,34 +27,37 @@
 		hasMounted = true;
 	});
 
-	let toggleModal = (newContent: ISpriteImage) => {
-		modalContent = newContent;
-		showModal = true;
+	let toggleModal = (newContent: Sprites[number] | undefined) => {
+		if (newContent) {
+			modalContent = newContent;
+			showModal = true;
+		}
 	};
 </script>
 
-<!-- <div class="columns mobile" style="min-height: 178px;"> -->
 <div class="columns mobile py-2">
-	<div
-		class="column spriteBoxWrapper"
-		on:click={() => toggleModal(primarySprite)}
-		on:keydown={(key) => {
-			if (key.key === 'space' || key.key === 'enter') {
-				toggleModal(primarySprite);
-			}
-		}}
-		role="button"
-		tabindex="-1"
-	>
-		<Image
-			src={primarySprite.url}
-			alt={primarySprite.alt}
-			id="primarySprite"
-			style="max-width: 128px;"
-		/>
-	</div>
+	{#if primarySprite}
+		<div
+			class="column spriteBoxWrapper"
+			on:click={() => toggleModal(primarySprite)}
+			on:keydown={(key) => {
+				if (key.key === 'space' || key.key === 'enter') {
+					toggleModal(primarySprite);
+				}
+			}}
+			role="button"
+			tabindex="-1"
+		>
+			<Image
+				src={primarySprite.url}
+				alt={primarySprite.alt}
+				id="primarySprite"
+				style="max-width: 128px;"
+			/>
+		</div>
+	{/if}
 
-	{#if secondarySprite.url && secondarySprite.isBack}
+	{#if secondarySprite?.url && secondarySprite.isBack}
 		<div
 			class="column spriteBoxWrapper"
 			on:click={() => toggleModal(secondarySprite)}

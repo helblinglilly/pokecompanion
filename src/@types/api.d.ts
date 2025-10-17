@@ -111,6 +111,16 @@ export interface components {
                     is_hidden: boolean;
                 }[];
             };
+            sprites: {
+                isPerfectMatch: boolean;
+                matchesForm: boolean;
+                isBack: boolean;
+                matchesVariety: boolean;
+                hasFemale: boolean;
+                hasShiny: boolean;
+                alt: string;
+                url: string;
+            }[];
             /** @description Path to a .ogg file with this pokemon's cry */
             cry: string;
             /**
