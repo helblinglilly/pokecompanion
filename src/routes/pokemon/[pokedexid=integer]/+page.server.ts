@@ -81,6 +81,7 @@ export const load = async ({ params, fetch, url, cookies }) => {
 			tags: tags
 		};
 	} catch (err) {
+		console.error(err);
 		error(500, `Failed to parse JSON response from internal API`);
 	}
 };
