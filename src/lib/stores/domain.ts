@@ -30,22 +30,21 @@ export const pb = writable(new Pocketbase(PUBLIC_POCKETBASE_URL));
 
 export const defaultFeatureFlags: FeatureFlags = {
 	useTeams: false
-}
-export const featureFlags = writable<FeatureFlags>(defaultFeatureFlags)
+};
+export const featureFlags = writable<FeatureFlags>(defaultFeatureFlags);
 
-
-export enum SettingNames { 
+export enum SettingNames {
 	SelectedGame = 'selectedGame',
 	PrimaryLanguage = 'primaryLanguage',
-	SecondaryLanguage= 'secondaryLanguage',
+	SecondaryLanguage = 'secondaryLanguage',
 	VersionSpecificPokemonSprites = 'versionSpecificPokemonSprites',
 	VersionSpecificTypeSprites = 'versionSpecificTypeSprites',
-	AnimateSprites = 'animateSprites',
+	AnimateSprites = 'animateSprites'
 }
 
 export type FeatureFlags = {
 	useTeams: boolean;
-}
+};
 
 export type UserPreferencePokemonVersion = PokeapiVersionGroups | 'generic' | undefined;
 
@@ -82,10 +81,13 @@ export const cookieHandlers = {
 				return;
 			}
 
-			const existingCookie = getCookie(SettingNames.SelectedGame) as PokeapiVersionGroups | 'generic' | undefined;
+			const existingCookie = getCookie(SettingNames.SelectedGame) as
+				| PokeapiVersionGroups
+				| 'generic'
+				| undefined;
 			let existingValue = undefined;
 
-			if (existingCookie){
+			if (existingCookie) {
 				existingValue = getGameGroupFromName(existingCookie);
 			}
 
@@ -165,7 +167,7 @@ export const cookieHandlers = {
 	versionSpecificPokemonSprites: () => {
 		let existingValue = getCookie(SettingNames.VersionSpecificPokemonSprites) as string | undefined;
 		if (existingValue === undefined || existingValue === null) {
-			existingValue = 'true'
+			existingValue = 'true';
 			setCookie(SettingNames.VersionSpecificPokemonSprites, existingValue);
 		}
 
@@ -180,7 +182,7 @@ export const cookieHandlers = {
 	versionSpecificTypeSprites: () => {
 		let existingValue = getCookie(SettingNames.VersionSpecificTypeSprites) as string | undefined;
 		if (existingValue === undefined || existingValue === null) {
-			existingValue = 'true'
+			existingValue = 'true';
 			setCookie(SettingNames.VersionSpecificTypeSprites, existingValue);
 		}
 
@@ -226,6 +228,7 @@ export const cookieHandlers = {
 				id: value
 			});
 			window?.newrelic?.setUserId(value);
+			window?.umami?.identify(value);
 
 			if (!value) {
 				return;
@@ -257,10 +260,10 @@ export const cookieHandlers = {
 	featureFlags: () => {
 		let existingValue = getCookie('features') as string | undefined;
 
-		if (!existingValue){
+		if (!existingValue) {
 			existingValue = JSON.stringify(defaultFeatureFlags);
 		}
-		setCookie('features', existingValue)
+		setCookie('features', existingValue);
 		featureFlags.set(JSON.parse(existingValue));
 
 		featureFlags.subscribe((value) => {
