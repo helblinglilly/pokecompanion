@@ -27,6 +27,10 @@ export interface components {
     schemas: {
         /** @enum {string} */
         PokeapiLanguageCodes: "ja-Hrkt" | "ja" | "ko" | "fr" | "de" | "en" | "es";
+        Type: {
+            icon: string;
+            name: string;
+        };
         PokemonMove: {
             /** Format: double */
             id: number;
@@ -77,30 +81,12 @@ export interface components {
                 varietyForms: {
                     name: string;
                 }[];
-                typeRelations: {
-                    weakAgainst: {
-                        /** Format: double */
-                        multiplier: number;
-                        url: string;
-                        name: string;
-                    }[];
-                    resists: {
-                        /** Format: double */
-                        multiplier: number;
-                        url: string;
-                        name: string;
-                    }[];
-                };
                 types: {
                     url: string;
                     icon: string;
                     name: string;
                 }[];
                 name: string;
-                cries: {
-                    legacy: string;
-                    latest: string;
-                };
                 abilities: {
                     ability: {
                         url: string;
@@ -112,10 +98,15 @@ export interface components {
                 }[];
             };
             types: {
-                own: {
-                    icon: string;
-                    name: string;
-                }[];
+                weakAgainst: (components["schemas"]["Type"] & {
+                    /** Format: double */
+                    multiplier: number;
+                })[];
+                resists: (components["schemas"]["Type"] & {
+                    /** Format: double */
+                    multiplier: number;
+                })[];
+                own: components["schemas"]["Type"][];
             };
             sprites: {
                 isPerfectMatch: boolean;
@@ -127,7 +118,6 @@ export interface components {
                 alt: string;
                 url: string;
             }[];
-            /** @description Path to a .ogg file with this pokemon's cry */
             cry: string;
             /**
              * Format: double

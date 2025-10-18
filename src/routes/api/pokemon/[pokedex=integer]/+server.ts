@@ -1,59 +1,19 @@
-import { lastPokedexEntry } from '$lib/stores/domain';
-import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
-import {
-	fixAbilities,
-	getPokemonTypesInGame,
-	getTypeRelations
-} from '$lib/data/generationAdjuster';
-import { formatEncounters } from '$lib/data/encounterFilter';
-import { formatMovesetToVersionEntries } from '$lib/data/movesetFilter';
-import { speciesNamesToNormalisedNames } from '$lib/utils/language';
-import { parseUserPreferences } from '../../helpers';
-import type { IPokemonRequestPreferences, IPokemonResponse } from '../types';
-import { Logger } from '$lib/log';
-import type { RequestHandler } from '@sveltejs/kit';
 import {
 	fetchPokemon,
 	fetchPokemonEncounters,
 	fetchPokemonForm,
 	fetchPokemonSpecies
 } from '$/lib/server/cachedFetch/pokemon';
-
-// const easterEggs = (id: number, variety: string | null): Partial<IPokemonResponse> => {
-// 	if (id !== 377) {
-// 		return {};
-// 	}
-
-// 	let returnValue: Partial<IPokemonResponse> = {
-// 		pokemon: {
-// 			varietyForms: [
-// 				{ name: 'regirock-normal' },
-// 				{ name: 'regirock-cnty-regirock-with-a-handbag' }
-// 			],
-// 			types: [{ name: 'fairy' }]
-// 		}
-// 	} as Partial<IPokemonResponse>;
-
-// 	if (variety === 'regirock-cnty-regirock-with-a-handbag') {
-// 		returnValue = {
-// 			...returnValue,
-// 			sprites: {
-// 				hasShiny: false,
-// 				hasFemale: false,
-// 				primary: {
-// 					url: 'https://i.kym-cdn.com/entries/icons/original/000/049/483/cregcover.jpg',
-// 					alt: 'Front'
-// 				},
-// 				secondary: {
-// 					url: 'https://i.kym-cdn.com/entries/icons/original/000/049/483/cregcover.jpg',
-// 					alt: 'Front',
-// 					isBack: false
-// 				}
-// 			}
-// 		};
-// 	}
-// 	return returnValue;
-// };
+import { formatEncounters } from '$lib/data/encounterFilter';
+import { fixAbilities, getPokemonTypesInGame } from '$lib/data/generationAdjuster';
+import { formatMovesetToVersionEntries } from '$lib/data/movesetFilter';
+import { Logger } from '$lib/log';
+import { lastPokedexEntry } from '$lib/stores/domain';
+import { speciesNamesToNormalisedNames } from '$lib/utils/language';
+import { capitaliseFirstLetter, pokemonVarietyNameToDisplay } from '$lib/utils/string';
+import type { RequestHandler } from '@sveltejs/kit';
+import { parseUserPreferences } from '../../helpers';
+import type { IPokemonRequestPreferences, IPokemonResponse } from '../types';
 
 export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {
 	const id = Number(params.pokedex);
@@ -202,7 +162,6 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 			...pokemon,
 			abilities,
 			types,
-			typeRelations: await getTypeRelations(selectedGame?.generation, types[0], types[1]),
 			varietyForms: species.varieties
 				.map((variety) => {
 					return {

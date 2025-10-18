@@ -1,15 +1,21 @@
 <script lang="ts">
-	import type { ITypeRelations } from '$lib/data/generationAdjuster';
-	import Type from '$/ui/atoms/type/Type.svelte';
-	export let relations: ITypeRelations;
+	import type { paths } from '$/@types/api';
+	import Image from '$/ui/atoms/image/Image.svelte';
+	export let types: paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['types'];
 </script>
 
 <div class="grid grid-cols-1 sm:grid-cols-2">
 	<div class="text-center">
 		<h3 class="h3">Resists</h3>
-		{#each relations.resists as resists}
+		{#each types.resists as resists}
 			<div class="inline-flex w-full justify-center mb-2 gap-3">
-				<Type type={resists.name} style="max-height: 20px;" />
+				<div>
+					<Image
+						src={resists.icon}
+						alt={resists.name}
+						style={'h-6 object-fit: contain; max-width: 5rem; max-height: 20px;'}
+					/>
+				</div>
 
 				{#if resists.multiplier === 0}
 					<b>x {resists.multiplier}</b>
@@ -22,9 +28,15 @@
 
 	<div class="text-center">
 		<h3 class="h3">Weak to</h3>
-		{#each relations.weakAgainst as weakAgainst}
+		{#each types.weakAgainst as weakAgainst}
 			<div class="inline-flex w-full justify-center mb-2 gap-3">
-				<Type type={weakAgainst.name} style="max-height: 20px;" />
+				<div>
+					<Image
+						src={weakAgainst.icon}
+						alt={weakAgainst.name}
+						style={'h-6 object-fit: contain; max-width: 5rem; max-height: 20px;'}
+					/>
+				</div>
 
 				{#if weakAgainst.multiplier === 4}
 					<b>x {weakAgainst.multiplier}</b>

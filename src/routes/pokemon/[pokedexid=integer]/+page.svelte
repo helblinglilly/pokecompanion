@@ -19,7 +19,6 @@
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import { Logger } from '$lib/log';
 	import { isPokemonInGameGroup } from '$lib/data/games';
-	import Type from '$/ui/atoms/type/Type.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import TypeMatchup from './TypeMatchup.svelte';
 	import BaseStats from './BaseStats.svelte';
@@ -271,7 +270,7 @@
 
 		<Card>
 			<h3 class="h3 mb-4">Type matchup</h3>
-			<TypeMatchup relations={data.pokemon.typeRelations} />
+			<TypeMatchup types={data.types} />
 		</Card>
 
 		<Card>

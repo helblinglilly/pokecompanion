@@ -1,6 +1,5 @@
 import type { IGameGroups } from '$/lib/data/games';
 import type { IEncounters } from '$lib/data/encounterFilter';
-import type { ITypeRelations } from '$lib/data/generationAdjuster';
 import type { IMoves } from '$lib/data/movesetFilter';
 import type { IType } from '$lib/stores/pokemonPage';
 import type { Ability, Form, Name, Stat } from '$lib/types/IPokemon';
@@ -15,7 +14,6 @@ export interface IPokemonResponse {
 		};
 		name: string;
 		types: IType[];
-		typeRelations: ITypeRelations;
 		varietyForms: {
 			name: string;
 		}[];
