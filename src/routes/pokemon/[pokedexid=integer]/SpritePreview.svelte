@@ -8,8 +8,9 @@
 		paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['sprites'];
 	export let sprites: Sprites;
 
-	let primarySprite = sprites[0];
-	let secondarySprite = sprites[1];
+	let primarySprite: Sprites[number] | undefined;
+	let secondarySprite: Sprites[number] | undefined;
+	$: [primarySprite, secondarySprite] = sprites ?? [];
 
 	let showModal = false;
 	let modalContent: Pick<Sprites[number], 'url' | 'alt'> = {
