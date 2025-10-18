@@ -19,41 +19,41 @@ import {
 	fetchPokemonSpecies
 } from '$/lib/server/cachedFetch/pokemon';
 
-const easterEggs = (id: number, variety: string | null): Partial<IPokemonResponse> => {
-	if (id !== 377) {
-		return {};
-	}
+// const easterEggs = (id: number, variety: string | null): Partial<IPokemonResponse> => {
+// 	if (id !== 377) {
+// 		return {};
+// 	}
 
-	let returnValue: Partial<IPokemonResponse> = {
-		pokemon: {
-			varietyForms: [
-				{ name: 'regirock-normal' },
-				{ name: 'regirock-cnty-regirock-with-a-handbag' }
-			],
-			types: [{ name: 'fairy' }]
-		}
-	} as Partial<IPokemonResponse>;
+// 	let returnValue: Partial<IPokemonResponse> = {
+// 		pokemon: {
+// 			varietyForms: [
+// 				{ name: 'regirock-normal' },
+// 				{ name: 'regirock-cnty-regirock-with-a-handbag' }
+// 			],
+// 			types: [{ name: 'fairy' }]
+// 		}
+// 	} as Partial<IPokemonResponse>;
 
-	if (variety === 'regirock-cnty-regirock-with-a-handbag') {
-		returnValue = {
-			...returnValue,
-			sprites: {
-				hasShiny: false,
-				hasFemale: false,
-				primary: {
-					url: 'https://i.kym-cdn.com/entries/icons/original/000/049/483/cregcover.jpg',
-					alt: 'Front'
-				},
-				secondary: {
-					url: 'https://i.kym-cdn.com/entries/icons/original/000/049/483/cregcover.jpg',
-					alt: 'Front',
-					isBack: false
-				}
-			}
-		};
-	}
-	return returnValue;
-};
+// 	if (variety === 'regirock-cnty-regirock-with-a-handbag') {
+// 		returnValue = {
+// 			...returnValue,
+// 			sprites: {
+// 				hasShiny: false,
+// 				hasFemale: false,
+// 				primary: {
+// 					url: 'https://i.kym-cdn.com/entries/icons/original/000/049/483/cregcover.jpg',
+// 					alt: 'Front'
+// 				},
+// 				secondary: {
+// 					url: 'https://i.kym-cdn.com/entries/icons/original/000/049/483/cregcover.jpg',
+// 					alt: 'Front',
+// 					isBack: false
+// 				}
+// 			}
+// 		};
+// 	}
+// 	return returnValue;
+// };
 
 export const GET: RequestHandler = async ({ url, platform, cookies, params }) => {
 	const id = Number(params.pokedex);
@@ -191,7 +191,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 
 	const types = getPokemonTypesInGame(pokemon, selectedGame?.generation);
 
-	const easterEggData = easterEggs(id, variety);
+	// const easterEggData = easterEggs(id, variety);
 
 	const abilities = fixAbilities(pokemon.past_abilities, pokemon.abilities, selectedGame);
 
@@ -216,8 +216,8 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 					(entry, index, arr) =>
 						entry.name.includes('-') && arr.findIndex((e) => e.name === entry.name) === index
 				),
-			moves: formatMovesetToVersionEntries(pokemon.moves),
-			...easterEggData?.pokemon
+			moves: formatMovesetToVersionEntries(pokemon.moves)
+			// ...easterEggData?.pokemon
 		},
 		species: {
 			...species,
