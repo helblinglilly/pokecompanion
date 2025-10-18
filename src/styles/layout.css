@@ -1,13 +1,11 @@
-
-
 .columns {
-    display: flex;
-    flex-wrap: wrap;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .column {
-    flex: 1;
-    box-sizing: border-box;
+	flex: 1;
+	box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
@@ -16,19 +14,10 @@
 	}
 }
 
+#pageWrapper {
+	overflow-wrap: anywhere;
+}
 
 #pageWrapper {
-    overflow-wrap: anywhere;
-}
-
-@media screen and (max-width: 768px) {
-    #pageWrapper {
-        margin: 7%;
-    }
-}
-
-@media screen and (min-width: 768px) {
-    #pageWrapper {
-        margin: 3%;
-    }
+	margin: 3%;
 }
