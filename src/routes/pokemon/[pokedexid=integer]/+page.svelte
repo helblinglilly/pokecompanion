@@ -31,6 +31,7 @@
 	import Pokedex from './Pokedex.svelte';
 	import SpritePreview from './SpritePreview.svelte';
 	import Navigator from './Navigator.svelte';
+	import Image from '$/ui/atoms/image/Image.svelte';
 
 	export let data;
 
@@ -158,9 +159,13 @@
 		<Card classes="relative min-h-[250px] h-fit">
 			<div class="inline-flex w-full justify-between h-5">
 				<div class="inline-flex gap-1 justify-start w-6/12">
-					{#each data.pokemon.types as type}
+					{#each data.types.own as type}
 						<div>
-							<Type type={type.name} className="h-6" />
+							<Image
+								src={type.icon}
+								alt={type.name}
+								style={'h-6 object-fit: contain; max-width: 5rem;'}
+							/>
 						</div>
 					{/each}
 					{#if data.pokemon.types.length === 1}

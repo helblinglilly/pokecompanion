@@ -111,6 +111,12 @@ export interface components {
                     is_hidden: boolean;
                 }[];
             };
+            types: {
+                own: {
+                    icon: string;
+                    name: string;
+                }[];
+            };
             sprites: {
                 isPerfectMatch: boolean;
                 matchesForm: boolean;

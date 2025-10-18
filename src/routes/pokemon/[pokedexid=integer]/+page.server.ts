@@ -1,11 +1,11 @@
-import { error } from '@sveltejs/kit';
-import type { IPokemonResponse } from '../../api/pokemon/types';
-import { SettingNames } from '$lib/stores/domain';
-import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
+import type { paths } from '$/@types/api';
 import { Logger } from '$/lib/log';
 import type { RecordTag } from '$/routes/api/tag/types';
-import type { paths } from '$/@types/api';
 import { PUBLIC_API_HOST } from '$env/static/public';
+import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
+import { SettingNames } from '$lib/stores/domain';
+import { error } from '@sveltejs/kit';
+import type { IPokemonResponse } from '../../api/pokemon/types';
 
 export const load = async ({ params, fetch, url, cookies }) => {
 	const selfUrl = new URL(`${url.origin}/api/pokemon/${params.pokedexid}`);
@@ -42,6 +42,12 @@ export const load = async ({ params, fetch, url, cookies }) => {
 		if (game && showGameSpecificPokemonSprites) {
 			targetUrl.searchParams.append('game', game.pokeapi);
 		}
+
+		const showGameSpecificTypeSprites =
+			(url.searchParams.get(SettingNames.VersionSpecificPokemonSprites) ??
+				cookies.get(SettingNames.VersionSpecificPokemonSprites)) === 'true';
+
+		targetUrl.searchParams.append('versionSpecificSprites', `${showGameSpecificTypeSprites}`);
 	}
 
 	appendSearchParams(selfUrl);
