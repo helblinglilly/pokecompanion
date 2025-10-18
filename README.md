@@ -1,43 +1,29 @@
-# create-svelte
+# Pokecompanion
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Frontend for [pokecompanion.com](https://pokecompanion.com) built in SvelteKit 4, deployed as a Cloudflare pages project.
 
-## Creating a project
+## Getting started
 
-If you're seeing this, you've probably already done this step. Congrats!
+```sh
+cp .env.example .env
+# Change any values as required
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
+npm i
+npm run schema
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+## API
 
-To create a production version of your app:
+Parts of the API are still hosted within this project, others are hosted at [api.pokecompanion.com](https://api.pokecompanion.com/docs) which is managed through a private repo, although Swagger Docs are provided.
 
-```bash
-npm run build
-```
+### Rationale behind splitting out the backend
 
-You can preview the production build with `npm run preview`.
+- We started running into issues where Cloudflare requests exceed the maximum CPU time
+- Observability tools are very limited and don't offer sufficient insight
+- The Pocketbase instance runs on a single VPS. Rather than each worker (that's deployed across the world) reaching out to one single location, it makes more sense to have the backend as close to the DB as possible and have Cloudflare cache the responses as json
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-
----
+Furthermore, the data fetching approach throughout this project is inconsistent and this further complicates the migration to Svelte 5. Before re-writing UI components, we want to make sure they are as dumb as possible.
 
 ## New Pokémon have been released
 
