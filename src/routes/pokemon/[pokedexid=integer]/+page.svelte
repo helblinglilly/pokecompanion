@@ -265,7 +265,7 @@
 
 		<Card>
 			<h3 class="h3 mb-4">Evolutions</h3>
-			<EvolutionChain evolutionChainUrl={data.species.evolution_chain.url} />
+			<EvolutionChain evolutions={data.evolutionChain} />
 		</Card>
 
 		<Card>

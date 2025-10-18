@@ -11,7 +11,6 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Returns a Pokemon */
         get: operations["GetPokemon"];
         put?: never;
         post?: never;
@@ -28,7 +27,9 @@ export interface components {
         /** @enum {string} */
         PokeapiLanguageCodes: "ja-Hrkt" | "ja" | "ko" | "fr" | "de" | "en" | "es";
         Type: {
+            /** @description Path to the URL which will point at sprites.pokecompanion.com */
             icon: string;
+            /** @description The Pokeapi name for this type */
             name: string;
         };
         PokemonMove: {
@@ -97,6 +98,44 @@ export interface components {
                     is_hidden: boolean;
                 }[];
             };
+            evolutionChain: {
+                target: {
+                    /**
+                     * @description The URL that should be navigated to when this Pokemon is clicked
+                     * @example /pokemon/4
+                     */
+                    pokemonUrl: string;
+                    /**
+                     * @description URL for the sprite of this Pokemon
+                     * @example https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png
+                     */
+                    spriteUrl: string;
+                };
+                /** @description Additional requirements that will only be */
+                requirements: {
+                    supplementary?: string;
+                    info: string | number;
+                    /** @enum {string} */
+                    type: "hold-item" | "friendship" | "shed" | "three-critical-hits" | "beauty" | "rain" | "daytime" | "trade_for" | "party_have" | "other" | "stats" | "know_move" | "know_move_type" | "affection" | "location" | "level-up" | "use-item" | "recoil-damage" | "battle-leader" | "game-specific" | "no-animation" | "multiplayer" | "use-move" | "gender" | "party_type" | "collect_items";
+                }[];
+                /**
+                 * @description Description of what will trigger the evolution
+                 * @example Level 24
+                 */
+                trigger: string;
+                source: {
+                    /**
+                     * @description The URL that should be navigated to when this Pokemon is clicked
+                     * @example /pokemon/4
+                     */
+                    pokemonUrl: string;
+                    /**
+                     * @description URL for the sprite of this Pokemon
+                     * @example https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png
+                     */
+                    spriteUrl: string;
+                };
+            }[];
             types: {
                 weakAgainst: (components["schemas"]["Type"] & {
                     /** Format: double */
@@ -118,19 +157,26 @@ export interface components {
                 alt: string;
                 url: string;
             }[];
+            /**
+             * @description Path to a .ogg file with this pokemon's cry
+             * @example https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/3.ogg
+             */
             cry: string;
             /**
              * Format: double
              * @description Weight in grams
+             * @example 3500
              */
             weight: number;
             /**
              * Format: double
              * @description Height in cm
+             * @example 176
              */
             height: number;
             pokedexEntries: {
                 textEntry: string;
+                /** @description A display friendly game name, NOT the pokeapi name */
                 game: string;
                 language: components["schemas"]["PokeapiLanguageCodes"];
             }[];
@@ -156,7 +202,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Some stuff */
+            /** @description Ok */
             200: {
                 headers: {
                     [name: string]: unknown;
