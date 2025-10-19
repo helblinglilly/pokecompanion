@@ -69,14 +69,17 @@
 			});
 
 			const redirectUrl = getCookie('auth-redirect');
-			const cookie = $pb.authStore.exportToCookie({ expires: addMinutesToDate(new Date(), 30) });
+			// Matches the default expiry in PB
+			const cookie = $pb.authStore.exportToCookie({
+				expires: addMinutesToDate(new Date(), 1209600 / 60)
+			});
 
 			const cookieValues = parseCookieString(cookie);
 			const pbAuthObj = JSON.parse(cookieValues.pb_auth);
 
 			currentUser.set($pb.authStore.model as SignedInUser);
 			setCookie('pb_auth', JSON.stringify(pbAuthObj), {
-				expires: addDaysToDate(new Date(cookieValues.Expires), 7),
+				expires: addMinutesToDate(new Date(cookieValues.Expires), 1209600 / 60),
 				path: '/'
 			});
 
