@@ -20,11 +20,12 @@ export const load = async (context) => {
 	let oAuthMethods: IAuthProvider[] = [];
 	try {
 		const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
-		const providers = (await pb.collection('users').listAuthMethods()) as IAuthMethodsResponse;
-		oAuthMethods = providers.authProviders.map((method) => {
+		pb.collection('');
+		const providers = await pb.collection('users').listAuthMethods();
+		oAuthMethods = providers.oauth2.providers.map((method) => {
 			return {
 				...method,
-				authUrl: (method.authUrl += context.url.origin + '/auth/redirect')
+				authUrl: (method.authURL += context.url.origin + '/auth/redirect')
 			};
 		});
 	} catch (err) {

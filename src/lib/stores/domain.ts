@@ -212,7 +212,7 @@ export const cookieHandlers = {
 	auth: () => {
 		const authedPb = new Pocketbase(PUBLIC_POCKETBASE_URL);
 		authedPb.authStore.loadFromCookie(getRawCookie(document.cookie, 'pb_auth') || '');
-		currentUser.set(authedPb.authStore.model as SignedInUser);
+		currentUser.set(authedPb.authStore.record);
 		pb.set(authedPb);
 	},
 	rememberToken: () => {

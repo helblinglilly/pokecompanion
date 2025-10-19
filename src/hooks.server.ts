@@ -30,18 +30,14 @@ const { onHandle, onError } = init(
 export const handleError = onError(async (e) => {
 	try {
 		console.log('server-side error', e);
-		await Logger.error(
-			Logger.ErrorClasses.Unknown,
-			Logger.buildError(e.error),
-			{
-				context: 'Unknown error caught in hooks.server',
-				event: e.event.url,
-				statusMessage: e.status,
-				message: e.message,
-				stackTrace: e.error
-			}
-		)
-	} catch(err){
+		await Logger.error(Logger.ErrorClasses.Unknown, Logger.buildError(e.error), {
+			context: 'Unknown error caught in hooks.server',
+			event: e.event.url,
+			statusMessage: e.status,
+			message: e.message,
+			stackTrace: e.error
+		});
+	} catch (err) {
 		console.log('Reporting a server-side error failed with', err);
 		console.log('for error', e);
 	}
@@ -65,7 +61,7 @@ export const handle = onHandle(async ({ event, resolve }) => {
 	}
 
 	event.locals.pb = pb;
-	event.locals.user = pb.authStore.model;
+	event.locals.user = pb.authStore.record;
 
 	return await resolve(event);
 });
