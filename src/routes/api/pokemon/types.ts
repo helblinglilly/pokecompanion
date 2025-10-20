@@ -1,19 +1,16 @@
 import type { IGameGroups } from '$/lib/data/games';
 import type { IEncounters } from '$lib/data/encounterFilter';
 import type { IMoves } from '$lib/data/movesetFilter';
-import type { IType } from '$lib/stores/pokemonPage';
-import type { Ability, Form, Name, Stat } from '$lib/types/IPokemon';
+import type { Form, Name, Stat } from '$lib/types/IPokemon';
 
 export interface IPokemonResponse {
 	id: number;
 	pokemon: {
-		abilities: Ability[];
 		cries: {
 			latest: string | null;
 			legacy: string | null;
 		};
 		name: string;
-		types: IType[];
 		varietyForms: {
 			name: string;
 		}[];

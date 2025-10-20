@@ -11,7 +11,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["GetPokemon"];
+        get: operations["GetRoot"];
         put?: never;
         post?: never;
         delete?: never;
@@ -32,73 +32,49 @@ export interface components {
             /** @description The Pokeapi name for this type */
             name: string;
         };
-        PokemonMove: {
-            /** Format: double */
-            id: number;
-            names: {
-                name: string;
-                language: {
-                    url: string;
-                    name: string;
-                };
-            }[];
-            type: {
-                url: string;
-                name: string;
-            };
-            damage_class: {
-                url: string;
-                name: string;
-            };
-            /** Format: double */
-            level?: number;
-        };
         /** @enum {string} */
-        PokeapiStatType: "hp" | "attack" | "defense" | "speed" | "special-attack" | "special-defense";
+        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
+        PokeapiNamedApiResource: {
+            /** @description https://pokeapi.co/api/v2/.../entry/id/ */
+            url: string;
+            /** @description Short name */
+            name: string;
+        };
         PokemonV1Response: {
-            pokemon: {
+            abilities: {
                 /** Format: double */
-                weight: number;
+                slot: number;
+                is_hidden: boolean;
+                ability: components["schemas"]["PokeapiNamedApiResource"];
+            }[];
+            presenceInGame: {
+                /** @enum {number|null} */
+                pokedexNumber: null;
+                /** @enum {boolean} */
+                present: false;
+                /**
+                 * @description Playback of the game that was used in the request - mostly for clarity
+                 * @example scarlet-violet
+                 */
+                game: components["schemas"]["PokeapiVersionGroups"];
+            } | {
                 /** Format: double */
-                height: number;
-                stats: {
-                    url: string;
-                    name: components["schemas"]["PokeapiStatType"];
-                }[];
-                forms: {
-                    url: string;
-                    name: string;
-                }[];
-                /** Format: double */
-                base_experience: number;
-                moves: {
-                    [key: string]: {
-                        tutorMoves: components["schemas"]["PokemonMove"][];
-                        breedMoves: components["schemas"]["PokemonMove"][];
-                        tmMoves: components["schemas"]["PokemonMove"][];
-                        levelupMoves: components["schemas"]["PokemonMove"][];
-                    };
-                }[];
-                varietyForms: {
-                    name: string;
-                }[];
-                types: {
-                    url: string;
-                    icon: string;
-                    name: string;
-                }[];
-                name: string;
-                abilities: {
-                    ability: {
-                        url: string;
-                        name: string;
-                    };
-                    /** Format: double */
-                    slot: number;
-                    is_hidden: boolean;
-                }[];
+                pokedexNumber: number;
+                /** @enum {boolean} */
+                present: true;
+                /**
+                 * @description Playback of the game that was used in the request - mostly for clarity
+                 * @example scarlet-violet
+                 */
+                game: components["schemas"]["PokeapiVersionGroups"];
             };
             evolutionChain: {
+                /** @description Indicates wheather both source + target evolutions are present in the current game.
+                 *     An imperfect measure since it is based on the national dex ID and does not take variants
+                 *     or gender into account
+                 *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
+                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
+                isValidInGame: boolean;
                 target: {
                     /**
                      * @description The URL that should be navigated to when this Pokemon is clicked
@@ -193,7 +169,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    GetPokemon: {
+    GetRoot: {
         parameters: {
             query?: never;
             header?: never;

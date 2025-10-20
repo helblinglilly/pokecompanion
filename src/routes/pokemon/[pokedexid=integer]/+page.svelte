@@ -285,7 +285,7 @@
 
 		<Card>
 			<h3 class="h3 mb-4">Abilities</h3>
-			<Abilities abilities={data.pokemon.abilities} />
+			<Abilities abilities={data.abilities} />
 		</Card>
 	</div>
 
