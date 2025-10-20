@@ -4,7 +4,7 @@ import type { Languages } from '../utils/language';
 import PokemonNames from '$lib/data/pokemonNames.json';
 import Pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { currentUser, type SignedInUser } from './user';
+import { currentUser } from './user';
 import { getGameGroupFromName, PokeapiVersionGroups, type IGameGroups } from '$lib/data/games';
 import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';

@@ -3,13 +3,14 @@
 	import { Logger } from '$lib/log';
 	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
-	import { currentUser, type SignedInUser } from '$lib/stores/user';
+	import { currentUser } from '$lib/stores/user';
 	import { deleteCookie } from '$lib/utils/cookies';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
+	import type { PBAuthRecord } from '$/@types/pocketbase';
 
 	let showModal = false;
-	export let user: SignedInUser;
+	export let user: PBAuthRecord;
 
 	const onDeleteClick = async () => {
 		try {

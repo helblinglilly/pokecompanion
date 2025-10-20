@@ -14,10 +14,10 @@
 	let passwordConfirm: string;
 	let username: string;
 
-	let emailError: string = '';
-	let passwordError: string = '';
-	let passwordConfirmError: string = '';
-	let usernameError: string = '';
+	let emailError = '';
+	let passwordError = '';
+	let passwordConfirmError = '';
+	let usernameError = '';
 
 	let isSubmitting = false;
 
@@ -79,7 +79,7 @@
 			} else {
 				// Auth cookie is set as part of form action response
 				$pb.authStore.loadFromCookie(getRawCookie(document.cookie, 'pb_auth') || '');
-				currentUser.set($pb.authStore.model as SignedInUser);
+				currentUser.set($pb.authStore.record);
 
 				homepageMessaging.set('returning-user');
 

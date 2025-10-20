@@ -2,11 +2,11 @@
 	import { deleteCookie, getCookie, parseCookieString, setCookie } from '$lib/utils/cookies';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { addDaysToDate, addMinutesToDate } from '$lib/utils/date';
-	import { currentUser, type SignedInUser } from '$lib/stores/user';
+	import { addMinutesToDate } from '$lib/utils/date';
+	import { currentUser } from '$lib/stores/user';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
 	import { Logger } from '$lib/log';
-	import type { IAuthProvider } from '../signin/+page';
+	import type { AuthProviderInfo } from 'pocketbase';
 
 	let status = 'Authenticating...';
 	let errorDetails = '';
@@ -21,7 +21,7 @@
 				'Could not retrieve data that OAuth request was initiated with. Please try again';
 			return;
 		}
-		const provider = JSON.parse(providerCookie) as IAuthProvider;
+		const provider = JSON.parse(providerCookie) as AuthProviderInfo;
 		const params = new URL(window.location.toString()).searchParams;
 
 		if (provider.state && params.get('state')) {
@@ -75,9 +75,9 @@
 			});
 
 			const cookieValues = parseCookieString(cookie);
-			const pbAuthObj = JSON.parse(cookieValues.pb_auth);
+			const pbAuthObj = JSON.parse(cookieValues.pb_auth ?? '{}');
 
-			currentUser.set($pb.authStore.model as SignedInUser);
+			currentUser.set($pb.authStore.record);
 			setCookie('pb_auth', JSON.stringify(pbAuthObj), {
 				expires: addMinutesToDate(new Date(cookieValues.Expires), 1209600 / 60),
 				path: '/'

@@ -2,7 +2,6 @@
 	import { capitaliseFirstLetter } from '$lib/utils/string';
 	import Image from '../../../ui/atoms/image/Image.svelte';
 	import { Logger } from '$lib/log';
-	import { pokemonDisplayStore } from '$/lib/stores/pokemonPage';
 	import type { paths } from '$/@types/api';
 
 	export let evolutions: paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['evolutionChain'];

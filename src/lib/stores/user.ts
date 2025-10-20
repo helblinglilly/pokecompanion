@@ -1,16 +1,8 @@
 import { writable } from 'svelte/store';
 import { rememberToken } from './domain';
+import type { AuthRecord } from 'pocketbase';
 
-export interface SignedInUser {
-	id: string;
-	username: string;
-	email: string;
-	name: string;
-	avatar: string | undefined;
-	verified: boolean;
-}
-
-export const currentUser = writable<SignedInUser | null>();
+export const currentUser = writable<AuthRecord | null>();
 currentUser.subscribe((value) => {
 	if (!value) {
 		return;

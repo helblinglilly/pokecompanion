@@ -4,9 +4,8 @@
 	import Google from './Google.svelte';
 	import Github from './Github.svelte';
 	import Spotify from './Spotify.svelte';
-	import type { IAuthProvider } from './+page';
 
-	export let data: { oAuthMethods: IAuthProvider[] };
+	export let data;
 
 	const order = ['google', 'github', 'spotify'];
 

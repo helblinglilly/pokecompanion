@@ -10,7 +10,7 @@
 
 	export let existingUsername: string;
 
-	let newUsername: string = '';
+	let newUsername = '';
 	let statusMessages: string[] = [];
 
 	let showModal = false;

@@ -1,9 +1,11 @@
 <script lang="ts">
-	import type { IAuthProvider } from '$/routes/auth/signin/+page';
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import { setCookie } from '$lib/utils/cookies';
+	import type { AuthProviderInfo } from 'pocketbase';
 
-	export let data: IAuthProvider;
+	export let data: AuthProviderInfo & {
+		authUrl: string;
+	};
 </script>
 
 <button

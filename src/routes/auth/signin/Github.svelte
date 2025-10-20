@@ -1,8 +1,10 @@
 <script lang="ts">
-	import type { IAuthProvider } from '$/routes/auth/signin/+page';
 	import { setCookie } from '$lib/utils/cookies';
+	import type { AuthProviderInfo } from 'pocketbase';
 
-	export let data: IAuthProvider;
+	export let data: AuthProviderInfo & {
+		authUrl: string;
+	};
 </script>
 
 <button
