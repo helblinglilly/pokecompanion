@@ -15,7 +15,7 @@
 		<div class="columns mobile">
 			<div class="column" style="display: grid; justify-content: center;">
 				<a
-					href={evolution.source.pokemonUrl + $pokemonDisplayStore.transferableQueryParams}
+					href={evolution.source.pokemonUrl}
 					on:click={() => {
 						Logger.addPageAction('UIInteraction', 'EvolutionPokemon', {
 							action: 'Navigation'
@@ -219,7 +219,7 @@
 			</div>
 			<div class="column" style="display: grid; justify-content: center;">
 				<a
-					href={evolution.target.pokemonUrl + $pokemonDisplayStore.transferableQueryParams}
+					href={evolution.target.pokemonUrl}
 					on:click={() => {
 						Logger.addPageAction('UIInteraction', 'EvolutionPokemon', {
 							action: 'Navigation'
