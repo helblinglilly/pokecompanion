@@ -5,7 +5,7 @@ import {
 	fetchPokemonSpecies
 } from '$/lib/server/cachedFetch/pokemon';
 import { formatEncounters } from '$lib/data/encounterFilter';
-import { fixAbilities, getPokemonTypesInGame } from '$lib/data/generationAdjuster';
+import { fixAbilities } from '$lib/data/generationAdjuster';
 import { formatMovesetToVersionEntries } from '$lib/data/movesetFilter';
 import { Logger } from '$lib/log';
 import { lastPokedexEntry } from '$lib/stores/domain';
@@ -149,8 +149,6 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		}
 	}
 
-	const types = getPokemonTypesInGame(pokemon, selectedGame?.generation);
-
 	// const easterEggData = easterEggs(id, variety);
 
 	const abilities = fixAbilities(pokemon.past_abilities, pokemon.abilities, selectedGame);
@@ -161,7 +159,6 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		pokemon: {
 			...pokemon,
 			abilities,
-			types,
 			varietyForms: species.varieties
 				.map((variety) => {
 					return {
