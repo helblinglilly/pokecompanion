@@ -41,6 +41,12 @@ export interface components {
             name: string;
         };
         PokemonV1Response: {
+            varieties: {
+                pokecompanionUrl: string;
+                isDefault: boolean;
+                displayName: string;
+                name: string;
+            }[];
             abilities: {
                 /** Format: double */
                 slot: number;

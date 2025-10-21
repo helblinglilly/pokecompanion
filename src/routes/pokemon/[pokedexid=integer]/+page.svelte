@@ -51,7 +51,7 @@
 					: undefined,
 				showShinySpriteIfExists,
 				hasShinySprite: data.sprites.some((sprite) => sprite.hasShiny),
-				variety: varietyName ?? data.pokemon.name + '-default',
+				variety: varietyName ?? undefined,
 				transferableQueryParams: '' // Gets auto-updated within the store anyway
 			});
 
@@ -151,7 +151,7 @@
 	<Navigator
 		title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
 		currentId={data.id}
-		forms={data.pokemon.varietyForms}
+		varieties={data.varieties}
 	/>
 
 	<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -167,7 +167,7 @@
 							/>
 						</div>
 					{/each}
-					{#if data.pokemon.types.length === 1}
+					{#if data.types.own.length === 1}
 						<div class="w-full" />
 					{/if}
 				</div>

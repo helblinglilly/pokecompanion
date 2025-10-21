@@ -1,15 +1,14 @@
 <script lang="ts">
+	import type { paths } from '$/@types/api';
 	import Select from '$/ui/atoms/select/Select.svelte';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import { Logger } from '$lib/log';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
-	import { capitaliseFirstLetter } from '$lib/utils/string';
 	import NavigationButton from './NavigationButton.svelte';
 
 	export let title: string;
 	export let currentId: number;
-	export let forms: { name: string }[];
+	export let varieties: paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['varieties'];
 
 	$: innerWidth = 750;
 </script>
@@ -34,17 +33,13 @@
 		</div>
 	{/if}
 
-	{#if forms.length > 1}
+	{#if varieties.length > 1}
 		<div class="w-full flex justify-center">
 			<Select
-				value={$pokemonDisplayStore.variety}
-				options={forms.map((form) => ({
-					label: form.name
-						.split('-')
-						.splice(1)
-						.map((a) => capitaliseFirstLetter(a))
-						.join(' '),
-					value: form.name
+				value={$pokemonDisplayStore.variety ?? varieties.find((a) => a.isDefault)?.name}
+				options={varieties.map((variety) => ({
+					label: variety.displayName,
+					value: variety.name
 				}))}
 				style="width: 100%; padding-left: 1rem; padding-right: 1rem; margin: 0; text-align: center;"
 				on:change={({ detail }) => {
@@ -52,15 +47,12 @@
 						action: 'Navigation'
 					});
 
-					const newUrl = new URL($page.url);
-
-					if (detail.endsWith('-default')) {
-						newUrl.searchParams.delete('variety');
-						goto(newUrl.toString());
-					} else {
-						newUrl.searchParams.set('variety', detail);
-						goto(newUrl.toString());
+					const newTargetVariety = varieties.find((variety) => variety.name === detail);
+					if (!newTargetVariety) {
+						console.error('Could not find the same variety again as the one that got changed to');
+						return;
 					}
+					goto(newTargetVariety.pokecompanionUrl);
 				}}
 			/>
 		</div>

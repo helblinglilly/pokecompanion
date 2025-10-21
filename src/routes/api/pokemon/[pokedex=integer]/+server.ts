@@ -56,7 +56,7 @@ export const GET: RequestHandler = async ({ url, platform, cookies, params }) =>
 		shiny: url.searchParams.get('shiny') === 'true',
 		isFemale: url.searchParams.get('gender') === 'female'
 	};
-	const { primaryLanguage, secondaryLanguage, selectedGame, variety } = requestPreferences;
+	const { primaryLanguage, secondaryLanguage, variety } = requestPreferences;
 
 	// Only some values may get rassigned
 	// eslint-disable-next-line prefer-const
