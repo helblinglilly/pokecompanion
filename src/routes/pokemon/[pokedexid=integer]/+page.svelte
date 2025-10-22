@@ -134,11 +134,7 @@
 	)}.png`}
 	description={englishPokedexEntries?.length > 0
 		? englishPokedexEntries[englishPokedexEntries.length - 1]?.textEntry
-		: `View ${getMultiLanguageName(
-				data.species.names,
-				'en',
-				undefined
-		  )}'s evolutions, abilities, moves and more!'`}
+		: `View ${data.name}'s evolutions, abilities, moves and more!'`}
 />
 <Breadcrumbs
 	breadcrumbs={[
@@ -148,11 +144,7 @@
 />
 
 <div class="grid gap-4">
-	<Navigator
-		title={`${getMultiLanguageName(data.species.names, $primaryLanguage, $secondaryLanguage)}`}
-		currentId={data.id}
-		varieties={data.varieties}
-	/>
+	<Navigator title={`${data.name}`} currentId={data.id} varieties={data.varieties} />
 
 	<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 		<Card classes="relative min-h-[250px] h-fit">

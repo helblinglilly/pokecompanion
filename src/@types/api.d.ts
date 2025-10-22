@@ -130,10 +130,7 @@ export interface components {
                 own: components["schemas"]["Type"][];
             };
             sprites: {
-                isPerfectMatch: boolean;
-                matchesForm: boolean;
                 isBack: boolean;
-                matchesVariety: boolean;
                 hasFemale: boolean;
                 hasShiny: boolean;
                 alt: string;
@@ -162,6 +159,7 @@ export interface components {
                 game: string;
                 language: components["schemas"]["PokeapiLanguageCodes"];
             }[];
+            name: string;
             /** Format: double */
             id: number;
             __internal: unknown;

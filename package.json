@@ -21,6 +21,7 @@
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write .",
     "schema": "npx openapi-typescript https://api.pokecompanion.com/docs/swagger.json -o ./src/@types/api.d.ts",
+    "schema:local": "npx openapi-typescript http://localhost:3000/docs/swagger.json -o ./src/@types/api.d.ts",
     "scripts:legends-sprites": "node scripts/manual-sprites/legends-script.js",
     "scripts:swsh-sprites": "node scripts/manual-sprites/swsh-script.js",
     "scripts:sv-sprites": "node scripts/manual-sprites/sv-script.js",
