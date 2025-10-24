@@ -283,7 +283,7 @@
 
 	<Card>
 		<h3 class="h3">Moveset</h3>
-		<MovesetCard movesetData={data.pokemon.moves} />
+		<MovesetCard movesetData={data.moves} />
 	</Card>
 </div>
 

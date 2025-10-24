@@ -33,14 +33,478 @@ export interface components {
             name: string;
         };
         /** @enum {string} */
-        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
+        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
         PokeapiNamedApiResource: {
             /** @description https://pokeapi.co/api/v2/.../entry/id/ */
             url: string;
             /** @description Short name */
             name: string;
         };
+        /** @description Make all properties in T optional */
+        "Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number_____": {
+            home?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "red-blue"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            yellow?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "gold-silver"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            crystal?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "ruby-sapphire"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            emerald?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "firered-leafgreen"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "diamond-pearl"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            platinum?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "heartgold-soulsilver"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "black-white"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "black-2-white-2"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "x-y"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "omega-ruby-alpha-sapphire"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "sun-moon"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "ultra-sun-ultra-moon"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "lets-go-pikachu-lets-go-eevee"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "sword-shield"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "brilliant-diamond-and-shining-pearl"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "legends-arceus"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "scarlet-violet"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+            "legends-za"?: {
+                tutor: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                breed: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                tm: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                levelup: {
+                    /** Format: double */
+                    level: number;
+                    /** Format: double */
+                    id: number;
+                }[];
+            };
+        };
         PokemonV1Response: {
+            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number_____"];
             varieties: {
                 pokecompanionUrl: string;
                 isDefault: boolean;
@@ -75,11 +539,13 @@ export interface components {
                 game: components["schemas"]["PokeapiVersionGroups"];
             };
             evolutionChain: {
-                /** @description Indicates wheather both source + target evolutions are present in the current game.
+                /**
+                 * @description Indicates wheather both source + target evolutions are present in the current game.
                  *     An imperfect measure since it is based on the national dex ID and does not take variants
                  *     or gender into account
                  *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
-                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
+                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315
+                 */
                 isValidInGame: boolean;
                 target: {
                     /**
