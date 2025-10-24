@@ -7,6 +7,7 @@
 	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { getNameEntry } from '$lib/utils/language';
 	import Button from '$/ui/atoms/button/Button.svelte';
+	import { onMount } from 'svelte';
 
 	export let move: IPokemonMinimalMove;
 
@@ -23,7 +24,12 @@
 		}
 	};
 
-	$: pokeapiPromise = getPokeapiMove();
+	// Initialize to a resolved promise so the {#await} block has something immediately
+	let pokeapiPromise: Promise<IMove | undefined> = Promise.resolve(undefined);
+
+	onMount(() => {
+		pokeapiPromise = getPokeapiMove();
+	});
 
 	$: primaryName = move ? getNameEntry(move.names, $primaryLanguage) : undefined;
 	$: secondaryName =
