@@ -697,6 +697,11 @@ export interface components {
             average: components["schemas"]["StatValue"];
         };
         PokemonV1Response: {
+            __meta: {
+                description: string;
+                previewImage: string;
+                title: string;
+            };
             stats: components["schemas"]["Record_PokeapiStatType.StatValue_"] & components["schemas"]["Record_average.StatValue_"];
             encounters: components["schemas"]["Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______"];
             moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number__--other-Array__id-number--learnMethod-string_____"];

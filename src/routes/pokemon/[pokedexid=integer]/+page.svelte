@@ -1,11 +1,5 @@
 <script lang="ts">
-	import {
-		lastPokedexEntry,
-		primaryLanguage,
-		secondaryLanguage,
-		selectedGame
-	} from '$lib/stores/domain';
-	import { getMultiLanguageName } from '$lib/utils/language';
+	import { lastPokedexEntry, selectedGame } from '$lib/stores/domain';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { currentUser } from '$lib/stores/user';
@@ -105,37 +99,14 @@
 			}
 		});
 	});
-
-	const filename = (shiny: string | null, gender: string | null) => {
-		if (shiny === 'true') {
-			if (gender === 'male') {
-				return 'shiny-male';
-			} else if (gender === 'female') {
-				return 'shiny-female';
-			}
-			return 'shiny';
-		}
-		if (gender === 'male') {
-			return 'male';
-		} else if (gender === 'female') {
-			return 'female';
-		}
-		return 'generic';
-	};
-
-	const englishPokedexEntries = data.pokedexEntries.filter((entry) => entry.language === 'en');
 </script>
 
 <SocialPreview
-	title={data.name}
-	previewImage={`https://socialpreviews.pokecompanion.helbling.uk/pokemon/${data.id}-${filename(
-		$page.url.searchParams.get('shiny'),
-		$page.url.searchParams.get('gender')
-	)}.png`}
-	description={englishPokedexEntries?.length > 0
-		? englishPokedexEntries[englishPokedexEntries.length - 1]?.textEntry
-		: `View ${data.name}'s evolutions, abilities, moves and more!'`}
+	title={data.__meta.title}
+	previewImage={data.__meta.previewImage}
+	description={data.__meta.description}
 />
+
 <Breadcrumbs
 	breadcrumbs={[
 		{ display: 'Pokémon', url: `/pokemon?jumpTo=${data.id}` },
