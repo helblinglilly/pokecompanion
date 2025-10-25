@@ -27,7 +27,7 @@
 						}}
 						data-umami-event="PokemonMoveList"
 						>{showLevelMovesOnMobile ? 'Hide' : 'Show'}
-						{completeData.levelup} moves</Button
+						{completeData.levelup.length} moves</Button
 					>
 				</div>
 
