@@ -5,10 +5,8 @@ import { PUBLIC_API_HOST } from '$env/static/public';
 import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
 import { SettingNames } from '$lib/stores/domain';
 import { error } from '@sveltejs/kit';
-import type { IPokemonResponse } from '../../api/pokemon/types';
 
 export const load = async ({ params, fetch, url, cookies }) => {
-	const selfUrl = new URL(`${url.origin}/api/pokemon/${params.pokedexid}`);
 	const newUrl = new URL(`${PUBLIC_API_HOST}/pokemon/v1/${params.pokedexid}`);
 
 	function appendSearchParams(targetUrl: URL) {
@@ -50,22 +48,13 @@ export const load = async ({ params, fetch, url, cookies }) => {
 		targetUrl.searchParams.append('versionSpecificSprites', `${showGameSpecificTypeSprites}`);
 	}
 
-	appendSearchParams(selfUrl);
 	appendSearchParams(newUrl);
 
 	try {
-		const [selfRequest, newRequest] = await Promise.all([fetch(selfUrl), fetch(newUrl)]);
+		const request = await fetch(newUrl);
 
-		if (selfRequest.status === 404) {
-			error(404, `${params.pokedexid} is outside the known range of Pokemon`);
-		}
-
-		const [oldData, newData] = await Promise.all([
-			selfRequest.json() as Promise<IPokemonResponse>,
-			newRequest.json() as Promise<
-				paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']
-			>
-		]);
+		const body =
+			(await request.json()) as paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json'];
 
 		let tags: RecordTag[] = [];
 
@@ -82,8 +71,7 @@ export const load = async ({ params, fetch, url, cookies }) => {
 		}
 
 		return {
-			...newData,
-			...oldData,
+			...body,
 			tags: tags
 		};
 	} catch (err) {

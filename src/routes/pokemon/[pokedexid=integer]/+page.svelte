@@ -127,7 +127,7 @@
 </script>
 
 <SocialPreview
-	title={`${getMultiLanguageName(data.species?.names, $primaryLanguage, $secondaryLanguage)}`}
+	title={data.name}
 	previewImage={`https://socialpreviews.pokecompanion.helbling.uk/pokemon/${data.id}-${filename(
 		$page.url.searchParams.get('shiny'),
 		$page.url.searchParams.get('gender')
@@ -267,7 +267,7 @@
 
 		<Card>
 			<h3 class="h3 mb-4">Base stats</h3>
-			<BaseStats data={data.pokemon.stats} />
+			<BaseStats data={data.stats} />
 		</Card>
 
 		<Card>

@@ -33,7 +33,7 @@ export interface components {
             name: string;
         };
         /** @enum {string} */
-        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
+        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
         PokeapiNamedApiResource: {
             /** @description https://pokeapi.co/api/v2/.../entry/id/ */
             url: string;
@@ -41,8 +41,13 @@ export interface components {
             name: string;
         };
         /** @description Make all properties in T optional */
-        "Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number_____": {
+        "Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number__--other-Array__id-number--learnMethod-string_____": {
             home?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -63,6 +68,11 @@ export interface components {
                 }[];
             };
             "red-blue"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -83,6 +93,11 @@ export interface components {
                 }[];
             };
             yellow?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -103,6 +118,11 @@ export interface components {
                 }[];
             };
             "gold-silver"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -123,6 +143,11 @@ export interface components {
                 }[];
             };
             crystal?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -143,6 +168,11 @@ export interface components {
                 }[];
             };
             "ruby-sapphire"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -163,6 +193,11 @@ export interface components {
                 }[];
             };
             emerald?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -183,6 +218,11 @@ export interface components {
                 }[];
             };
             "firered-leafgreen"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -203,6 +243,11 @@ export interface components {
                 }[];
             };
             "diamond-pearl"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -223,6 +268,11 @@ export interface components {
                 }[];
             };
             platinum?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -243,6 +293,11 @@ export interface components {
                 }[];
             };
             "heartgold-soulsilver"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -263,6 +318,11 @@ export interface components {
                 }[];
             };
             "black-white"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -283,6 +343,11 @@ export interface components {
                 }[];
             };
             "black-2-white-2"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -303,6 +368,11 @@ export interface components {
                 }[];
             };
             "x-y"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -323,6 +393,11 @@ export interface components {
                 }[];
             };
             "omega-ruby-alpha-sapphire"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -343,6 +418,11 @@ export interface components {
                 }[];
             };
             "sun-moon"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -363,6 +443,11 @@ export interface components {
                 }[];
             };
             "ultra-sun-ultra-moon"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -383,6 +468,11 @@ export interface components {
                 }[];
             };
             "lets-go-pikachu-lets-go-eevee"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -403,6 +493,11 @@ export interface components {
                 }[];
             };
             "sword-shield"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -423,6 +518,11 @@ export interface components {
                 }[];
             };
             "brilliant-diamond-and-shining-pearl"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -443,6 +543,11 @@ export interface components {
                 }[];
             };
             "legends-arceus"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -463,6 +568,11 @@ export interface components {
                 }[];
             };
             "scarlet-violet"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -483,6 +593,11 @@ export interface components {
                 }[];
             };
             "legends-za"?: {
+                other: {
+                    learnMethod: string;
+                    /** Format: double */
+                    id: number;
+                }[];
                 tutor: {
                     /** Format: double */
                     id: number;
@@ -503,8 +618,88 @@ export interface components {
                 }[];
             };
         };
+        /** @description Construct a type with a set of properties K of type T */
+        "Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_": {
+            [key: string]: {
+                conditions: string[];
+                /** Format: double */
+                chance: number;
+                /** Format: double */
+                maxLevel: number;
+                /** Format: double */
+                minLevel: number;
+                method: string;
+            }[];
+        };
+        /** @description Make all properties in T optional */
+        "Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______": {
+            home?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            red?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            blue?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            yellow?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            gold?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            silver?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            crystal?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            ruby?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            sapphire?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            emerald?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            firered?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            leafgreen?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            diamond?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            pearl?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            platinum?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            heartgold?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            soulsilver?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            black?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            white?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "black-2"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "white-2"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            x?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            y?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "omega-ruby"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "alpha-sapphire"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            sun?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            moon?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "ultra-sun"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "ultra-moon"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "lets-go-pikachu"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "lets-go-eevee"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            sword?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            shield?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "brilliant-diamond"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "shining-pearl"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "legends-arceus"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            scarlet?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            violet?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "legends-za"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "the-isle-of-armor"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "the-crown-tundra"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "the-teal-mask"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "the-indigo-disk"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+        };
+        StatValue: {
+            /** Format: double */
+            effort: number;
+            /** Format: double */
+            stat: number;
+        };
+        /** @description Construct a type with a set of properties K of type T */
+        "Record_PokeapiStatType.StatValue_": {
+            hp: components["schemas"]["StatValue"];
+            attack: components["schemas"]["StatValue"];
+            defense: components["schemas"]["StatValue"];
+            speed: components["schemas"]["StatValue"];
+            "special-attack": components["schemas"]["StatValue"];
+            "special-defense": components["schemas"]["StatValue"];
+        };
+        /** @description Construct a type with a set of properties K of type T */
+        "Record_average.StatValue_": {
+            average: components["schemas"]["StatValue"];
+        };
         PokemonV1Response: {
-            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number_____"];
+            stats: components["schemas"]["Record_PokeapiStatType.StatValue_"] & components["schemas"]["Record_average.StatValue_"];
+            encounters: components["schemas"]["Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______"];
+            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number__--other-Array__id-number--learnMethod-string_____"];
             varieties: {
                 pokecompanionUrl: string;
                 isDefault: boolean;
@@ -539,13 +734,11 @@ export interface components {
                 game: components["schemas"]["PokeapiVersionGroups"];
             };
             evolutionChain: {
-                /**
-                 * @description Indicates wheather both source + target evolutions are present in the current game.
+                /** @description Indicates wheather both source + target evolutions are present in the current game.
                  *     An imperfect measure since it is based on the national dex ID and does not take variants
                  *     or gender into account
                  *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
-                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315
-                 */
+                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
                 isValidInGame: boolean;
                 target: {
                     /**
@@ -628,7 +821,6 @@ export interface components {
             name: string;
             /** Format: double */
             id: number;
-            __internal: unknown;
         };
     };
     responses: never;

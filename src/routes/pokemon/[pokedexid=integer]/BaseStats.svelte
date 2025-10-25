@@ -1,24 +1,7 @@
 <script lang="ts">
-	import type { Stat } from '$lib/types/IPokemon';
-	export let data: Stat[];
+	import type { paths } from '$/@types/api';
 
-	let hp = 0;
-	let attack = 0;
-	let defense = 0;
-	let speed = 0;
-	let spAtt = 0;
-	let spDef = 0;
-	let avg = 0;
-
-	$: {
-		hp = data.filter((a) => a.stat.name === 'hp')[0]?.base_stat ?? 0;
-		attack = data.filter((a) => a.stat.name === 'attack')[0]?.base_stat ?? 0;
-		defense = data.filter((a) => a.stat.name === 'defense')[0]?.base_stat ?? 0;
-		speed = data.filter((a) => a.stat.name === 'speed')[0]?.base_stat ?? 0;
-		spAtt = data.filter((a) => a.stat.name === 'special-attack')[0]?.base_stat ?? 0;
-		spDef = data.filter((a) => a.stat.name === 'special-defense')[0]?.base_stat ?? 0;
-		avg = Math.floor((hp + attack + defense + speed + spAtt + spDef) / 6);
-	}
+	export let data: paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['stats'];
 </script>
 
 <table>
@@ -34,9 +17,9 @@
 		<tr>
 			<td class="label"><p>HP</p></td>
 			<td class="data">
-				<p>{hp}</p>
+				<p>{data.hp.stat}</p>
 				<div class="wrapper">
-					<progress value={hp} max="220" />
+					<progress value={data.hp.stat} max="220" />
 					<div class="average-marker" />
 				</div>
 			</td>
@@ -47,9 +30,9 @@
 				<p class="short">A</p>
 			</td>
 			<td class="data">
-				<p>{attack}</p>
+				<p>{data.attack.stat}</p>
 				<div class="wrapper">
-					<progress value={attack} max="220" />
+					<progress value={data.attack.stat} max="220" />
 					<div class="average-marker" />
 				</div>
 			</td></tr
@@ -60,9 +43,9 @@
 				<p class="short">D</p>
 			</td>
 			<td class="data">
-				<p>{defense}</p>
+				<p>{data.defense.stat}</p>
 				<div class="wrapper">
-					<progress value={defense} max="220" />
+					<progress value={data.defense.stat} max="220" />
 					<div class="average-marker" />
 				</div>
 			</td>
@@ -73,9 +56,9 @@
 				<p class="short">S</p>
 			</td>
 			<td class="data">
-				<p>{speed}</p>
+				<p>{data.speed.stat}</p>
 				<div class="wrapper">
-					<progress value={speed} max="220" />
+					<progress value={data.speed.stat} max="220" />
 					<div class="average-marker" />
 				</div>
 			</td>
@@ -86,9 +69,9 @@
 				<p class="short">Sp A</p>
 			</td>
 			<td class="data">
-				<p>{spAtt}</p>
+				<p>{data['special-attack'].stat}</p>
 				<div class="wrapper">
-					<progress value={spAtt} max="220" />
+					<progress value={data['special-attack'].stat} max="220" />
 					<div class="average-marker" />
 				</div>
 			</td>
@@ -99,9 +82,9 @@
 				<p class="short">Sp D</p>
 			</td>
 			<td class="data">
-				<p>{spDef}</p>
+				<p>{data['special-defense'].stat}</p>
 				<div class="wrapper">
-					<progress value={spDef} max="220" />
+					<progress value={data['special-defense'].stat} max="220" />
 					<div class="average-marker" />
 				</div>
 			</td>
@@ -114,9 +97,9 @@
 				<p class="short"><b>Avg</b></p>
 			</td>
 			<td class="data">
-				<p><b>{avg}</b></p>
+				<p><b>{data.average.stat}</b></p>
 				<div class="wrapper">
-					<progress value={avg} max="220" />
+					<progress value={data.average.stat} max="220" />
 					<div class="average-marker" />
 				</div>
 			</td>
