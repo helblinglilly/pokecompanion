@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { homepageMessaging, pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
-	import { currentUser, type SignedInUser } from '$lib/stores/user';
+	import { currentUser } from '$lib/stores/user';
 	import { deleteCookie, getCookie, getRawCookie } from '$lib/utils/cookies';
 	import { isPasswordValid } from '$lib/utils/user-client';
 

@@ -2,7 +2,7 @@
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Select from '$/ui/atoms/select/Select.svelte';
-	import { GameGroups, getGameGroupFromName } from '$lib/data/games';
+	import { GameGroups, getGameGroupFromName, PokeapiVersionNames } from '$lib/data/games';
 	import {
 		animateSprites,
 		primaryLanguage,
@@ -70,13 +70,11 @@
 
 				<Select
 					isNested
-					options={[{ label: 'Generic', value: 'generic' }].concat(
-						GameGroups.map((gameGroup) => ({
-							label: gameGroup.shortName,
-							value: gameGroup.pokeapi
-						}))
-					)}
-					value={$selectedGame ? $selectedGame.pokeapi : 'generic'}
+					options={GameGroups.map((gameGroup) => ({
+						label: gameGroup.shortName,
+						value: gameGroup.pokeapi
+					}))}
+					value={$selectedGame ? $selectedGame.pokeapi ?? PokeapiVersionNames.HOME}
 					on:change={({ detail }) => {
 						selectedGame.set(getGameGroupFromName(detail));
 					}}
@@ -85,7 +83,7 @@
 					<p>This will show default sprites.</p>
 					<p>You will need to select a game whenever game-specific information is available.</p>
 				{:else if $selectedGame.pokeapi === 'home'}
-					<p>This option is the same as "Generic" but Pokémon Home sprites will be displayed.</p>
+					<p>This option will not display any game-specific information but Pokémon Home sprites will be displayed.</p>
 				{:else}
 					<p>{$selectedGame.region} Region</p>
 					<p>
