@@ -4,9 +4,8 @@
 	import { onMount } from 'svelte';
 	import { cookieHandlers, theme } from '$lib/stores/domain';
 	import { page } from '$app/stores';
-	import { env } from '$env/dynamic/public';
 	import { notifications } from '$lib/stores/notifications';
-	import { currentUser, type SignedInUser } from '$lib/stores/user';
+	import { currentUser } from '$lib/stores/user';
 	import type { PageData } from './$types';
 	import SearchBar from '$/lib/components/SearchBar.svelte';
 	import Tracking from '$/lib/components/Tracking.svelte';
@@ -19,7 +18,7 @@
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
 
-	$: currentUser.set(data.user as SignedInUser);
+	$: currentUser.set(data.user);
 
 	const initTheme = () => {
 		const changeTheme = (newTheme: 'dark' | 'light') => {

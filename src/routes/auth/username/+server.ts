@@ -1,4 +1,3 @@
-import type { SignedInUser } from '$lib/stores/user.js';
 import isStringToxic from '$lib/server/toxic.js';
 import { validateAuth } from '../../api/helpers.js';
 import { addMinutesToDate } from '$lib/utils/date.js';
@@ -30,11 +29,15 @@ export async function PATCH({ request, cookies, platform }) {
 	const isToxic = await isStringToxic(updatedUsername);
 	if (isToxic) {
 		platform?.context.waitUntil(
-			Logger.addPageAction('ToxicityDenied', 'A user tried to change their username to something toxic', {
-				user: cookies.get('remember-token'),
-				name: updatedUsername,
-			})
-		)
+			Logger.addPageAction(
+				'ToxicityDenied',
+				'A user tried to change their username to something toxic',
+				{
+					user: cookies.get('remember-token'),
+					name: updatedUsername
+				}
+			)
+		);
 
 		return new Response('Something went wrong', {
 			status: 500
@@ -42,13 +45,15 @@ export async function PATCH({ request, cookies, platform }) {
 	}
 
 	try {
-		const currentUser = pb.authStore.model as SignedInUser;
-		await pb.collection('users').update(currentUser.id, {
+		if (!pb.authStore.record) {
+			throw new Error('authStore record was nullish');
+		}
+		await pb.collection('users').update(pb.authStore.record.id, {
 			username: updatedUsername,
-			avatar: currentUser.avatar
+			avatar: pb.authStore.record.avatar
 		});
 	} catch (error) {
-		logError(`Error when updating username`, `FailedUpdateUsername`, {
+		Logger.error(Logger.ErrorClasses.UserOperation, new Error(`${error}`), {
 			error,
 			request,
 			cookies

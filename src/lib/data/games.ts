@@ -71,7 +71,9 @@ export const Generations: IGeneration[] = [
 		short: 'Gen 9',
 		pokeApiName: 'generation-ix',
 		nationalDexEnd:
-			PokemonNames.findLast((a) => a.id < 10000)?.id ?? PokemonNames[PokemonNames.length - 1].id,
+			PokemonNames.findLast((a) => a.id < 10000)?.id ??
+			PokemonNames[PokemonNames.length - 1]?.id ??
+			-1,
 		number: 9
 	}
 ];
@@ -656,25 +658,18 @@ export const isPokemonInGameGroup = (nationalDexId: number, gameGroup: IGameGrou
 
 export const getGameFromName = (
 	pokeapiname: PokeapiVersionNames | undefined
-): { shortName: string; pokeapi: PokeapiVersionNames | 'generic'; globalSortOrder: number } => {
-	const generic: {
-		shortName: string;
-		pokeapi: PokeapiVersionNames | 'generic';
-		globalSortOrder: number;
-	} = { shortName: 'Generic', pokeapi: 'generic', globalSortOrder: -1 };
-	if (!pokeapiname) {
-		return generic;
-	}
-
+): { shortName: string; pokeapi: PokeapiVersionNames; globalSortOrder: number } => {
 	const matching = GameGroups.find((game) => {
 		return game.games.some((game) => game.pokeapi === pokeapiname);
 	});
 
+	const home = { shortName: 'Home', pokeapi: PokeapiVersionNames.HOME, globalSortOrder: 1 };
+
 	if (!matching) {
-		return generic;
+		return home;
 	}
 
-	return matching.games.find((game) => game.pokeapi === pokeapiname) || generic;
+	return matching.games.find((game) => game.pokeapi === pokeapiname) ?? home;
 };
 
 /**
@@ -699,7 +694,7 @@ export const getPokemonGeneration = (id: number) => {
 		return 7;
 	} else if (id > 809 && id <= 905) {
 		return 8;
-	} else if (id > 905 && id <= 1017) {
+	} else if (id > 905 && id <= 1025) {
 		return 9;
 	} else {
 		return 10;
