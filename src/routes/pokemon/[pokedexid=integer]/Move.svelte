@@ -6,11 +6,9 @@
 	import { getNameEntry } from '$lib/utils/language';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import { onMount } from 'svelte';
-	import type { paths } from '$/@types/api';
+	import type { APIPokemon } from '$/@types/api.pokecompanion';
 
-	type Move = NonNullable<
-		paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['moves']['black-2-white-2']
-	>;
+	type Move = NonNullable<APIPokemon['moves']['black-2-white-2']>;
 
 	export let move:
 		| Move['levelup'][number]

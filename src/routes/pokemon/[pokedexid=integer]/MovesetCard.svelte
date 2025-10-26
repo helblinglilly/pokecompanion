@@ -3,9 +3,9 @@
 	import { selectedGame } from '$lib/stores/domain';
 	import Moveset from './Moveset.svelte';
 	import Select from '$/ui/atoms/select';
-	import type { paths } from '$/@types/api';
+	import type { APIPokemon } from '$/@types/api.pokecompanion';
 
-	export let movesetData: paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['moves'];
+	export let movesetData: APIPokemon['moves'];
 
 	$: allApplicableVersions = (
 		Object.keys(movesetData)

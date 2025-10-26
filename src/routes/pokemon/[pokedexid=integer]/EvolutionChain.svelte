@@ -2,9 +2,9 @@
 	import { capitaliseFirstLetter } from '$lib/utils/string';
 	import Image from '../../../ui/atoms/image/Image.svelte';
 	import { Logger } from '$lib/log';
-	import type { paths } from '$/@types/api';
+	import type { APIPokemon } from '$/@types/api.pokecompanion';
 
-	export let evolutions: paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['evolutionChain'];
+	export let evolutions: APIPokemon['evolutionChain'];
 </script>
 
 {#if evolutions.length === 0}

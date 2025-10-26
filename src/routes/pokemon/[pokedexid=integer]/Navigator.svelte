@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { paths } from '$/@types/api';
+	import type { APIPokemon } from '$/@types/api.pokecompanion';
 	import Select from '$/ui/atoms/select/Select.svelte';
 	import { goto } from '$app/navigation';
 	import { Logger } from '$lib/log';
@@ -8,7 +8,7 @@
 
 	export let title: string;
 	export let currentId: number;
-	export let varieties: paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['varieties'];
+	export let varieties: APIPokemon['varieties'];
 
 	$: innerWidth = 750;
 </script>

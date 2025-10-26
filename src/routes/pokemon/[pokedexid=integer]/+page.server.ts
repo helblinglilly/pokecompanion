@@ -1,4 +1,4 @@
-import type { paths } from '$/@types/api';
+import type { APIPokemon } from '$/@types/api.pokecompanion';
 import { Logger } from '$/lib/log';
 import type { RecordTag } from '$/routes/api/tag/types';
 import { PUBLIC_API_HOST } from '$env/static/public';
@@ -7,7 +7,7 @@ import { SettingNames } from '$lib/stores/domain';
 import { error } from '@sveltejs/kit';
 
 export const load = async ({ params, fetch, url, cookies }) => {
-	const newUrl = new URL(`${PUBLIC_API_HOST}/pokemon/v1/${params.pokedexid}`);
+	const newUrl = new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}`);
 
 	function appendSearchParams(targetUrl: URL) {
 		targetUrl.searchParams.append(
@@ -53,8 +53,7 @@ export const load = async ({ params, fetch, url, cookies }) => {
 	try {
 		const request = await fetch(newUrl);
 
-		const body =
-			(await request.json()) as paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json'];
+		const body = (await request.json()) as APIPokemon;
 
 		let tags: RecordTag[] = [];
 

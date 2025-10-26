@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { paths } from '$/@types/api';
+	import type { APIPokemon } from '$/@types/api.pokecompanion';
 
-	export let data: paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['stats'];
+	export let data: APIPokemon['stats'];
 </script>
 
 <table>

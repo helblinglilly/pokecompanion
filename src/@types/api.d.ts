@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/pokemon/v1/{id}": {
+    "/pokemon/{id}": {
         parameters: {
             query?: never;
             header?: never;

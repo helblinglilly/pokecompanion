@@ -2,10 +2,9 @@
 	import { onMount } from 'svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Image from '$/ui/atoms/image/Image.svelte';
-	import type { paths } from '$/@types/api';
+	import type { APIPokemon } from '$/@types/api.pokecompanion';
 
-	type Sprites =
-		paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['sprites'];
+	type Sprites = APIPokemon['sprites'];
 	export let sprites: Sprites;
 
 	let primarySprite: Sprites[number] | undefined;

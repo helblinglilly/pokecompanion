@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { paths } from '$/@types/api';
+	import type { APIPokemon } from '$/@types/api.pokecompanion';
 	import Image from '$/ui/atoms/image/Image.svelte';
-	export let types: paths['/pokemon/v1/{id}']['get']['responses']['200']['content']['application/json']['types'];
+	export let types: APIPokemon['types'];
 </script>
 
 <div class="grid grid-cols-1 sm:grid-cols-2">
