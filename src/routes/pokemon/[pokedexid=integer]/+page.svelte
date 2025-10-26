@@ -103,13 +103,11 @@
 	});
 </script>
 
-{#if data?.__meta}
-	<SocialPreview
-		title={data.__meta.title}
-		previewImage={data.__meta.previewImage}
-		description={data.__meta.description}
-	/>
-{/if}
+<SocialPreview
+	title={data.__meta.title}
+	previewImage={data.__meta.previewImage}
+	description={data.__meta.description}
+/>
 
 <Breadcrumbs
 	breadcrumbs={[

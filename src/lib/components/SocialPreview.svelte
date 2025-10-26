@@ -5,7 +5,6 @@
 		GameGroups[GameGroups.length - 1]?.region
 	} efficiently with Pokécompanion. Browsing and organising Pokémon, Moves, Abilities and more in a Rapidash!`;
 	export let previewImage = 'https://socialpreviews.pokecompanion.helbling.uk/generic.png';
-	import { page } from '$app/stores';
 </script>
 
 <svelte:head>
@@ -19,9 +18,9 @@
 
 	<meta property="og:type" content="website" />
 
-	<meta property="og:url" content={$page.url.origin} />
+	<!-- <meta property="og:url" content={$page.url.origin} />
 	<meta property="twitter:url" content={$page.url.origin} />
-	<meta property="twitter:domain" content={$page.url.hostname} />
+	<meta property="twitter:domain" content={$page.url.hostname} /> -->
 
 	<meta name="twitter:card" content="summary_large_image" />
 
