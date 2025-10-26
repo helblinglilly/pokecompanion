@@ -74,7 +74,7 @@
 						label: gameGroup.shortName,
 						value: gameGroup.pokeapi
 					}))}
-					value={$selectedGame ? $selectedGame.pokeapi ?? PokeapiVersionNames.HOME}
+					value={$selectedGame ? $selectedGame.pokeapi : PokeapiVersionNames.HOME}
 					on:change={({ detail }) => {
 						selectedGame.set(getGameGroupFromName(detail));
 					}}
@@ -83,7 +83,10 @@
 					<p>This will show default sprites.</p>
 					<p>You will need to select a game whenever game-specific information is available.</p>
 				{:else if $selectedGame.pokeapi === 'home'}
-					<p>This option will not display any game-specific information but Pokémon Home sprites will be displayed.</p>
+					<p>
+						This option will not display any game-specific information but Pokémon Home sprites will
+						be displayed.
+					</p>
 				{:else}
 					<p>{$selectedGame.region} Region</p>
 					<p>
