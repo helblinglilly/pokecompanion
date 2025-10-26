@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { cookieHandlers, theme } from '$lib/stores/domain';
 	import { page } from '$app/stores';
+	import { env } from '$env/dynamic/public';
 	import { notifications } from '$lib/stores/notifications';
 	import { currentUser, type SignedInUser } from '$lib/stores/user';
 	import type { PageData } from './$types';
@@ -13,6 +14,7 @@
 	import Footer from '$/ui/atoms/footer/Footer.svelte';
 	import Notification from '$/ui/molecules/notification/Notification.svelte';
 	import ScrollToTop from '$/lib/components/ScrollToTop.svelte';
+	import { PUBLIC_ENVIRONMENT } from '$env/static/public';
 
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
@@ -90,6 +92,14 @@
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 	</style>
+
+	{#if PUBLIC_ENVIRONMENT === 'production'}
+		<script
+			defer
+			src="https://analytics.helbling.uk/script.js"
+			data-website-id="f303cb13-d1aa-42c0-ab5b-77937e5a1daa"
+		></script>
+	{/if}
 </svelte:head>
 
 <Tracking />
