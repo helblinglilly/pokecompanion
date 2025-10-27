@@ -21,7 +21,7 @@
 	$: selectedVersionGroup =
 		allApplicableVersions.length > 0
 			? allApplicableVersions.find((version) => version.pokeapi === $selectedGame?.pokeapi)
-					?.pokeapi ?? allApplicableVersions[0]?.pokeapi
+					?.pokeapi ?? allApplicableVersions[allApplicableVersions.length - 1]?.pokeapi
 			: undefined;
 </script>
 

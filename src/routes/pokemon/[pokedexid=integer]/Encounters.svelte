@@ -35,7 +35,9 @@
 			label: getGameFromName(game).shortName,
 			value: game
 		}))}
-		value={allGames.findIndex((game) => game === currentGame) > 0 ? currentGame : allGames[0]}
+		value={allGames.findIndex((game) => game === currentGame) > 0
+			? currentGame
+			: allGames[allGames.length - 1]}
 		on:change={({ detail }) => {
 			currentGame = detail;
 			currentDisplayLimit = defaultLimit;
