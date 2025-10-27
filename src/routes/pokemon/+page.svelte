@@ -100,7 +100,7 @@
 	</div>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
 	{#each AdjustedPokemonNames.slice(fromPokemon, fromPokemon + pokemonPageSize).map((a) => {
 		const id = Number(a.redirect ? a.redirect.split('?')[0] : a.id);
 		const variety = a.redirect ? a.redirect.split('variety=')[1] : undefined;

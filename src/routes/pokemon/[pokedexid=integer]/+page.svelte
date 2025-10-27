@@ -119,7 +119,7 @@
 <div class="grid gap-4">
 	<Navigator title={`${data.name}`} currentId={data.id} varieties={data.varieties} />
 
-	<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 		<Card classes="relative min-h-[250px] h-fit">
 			<div class="inline-flex w-full justify-between h-5">
 				<div class="inline-flex gap-1 justify-start w-6/12">
@@ -128,7 +128,7 @@
 							<Image
 								src={type.icon}
 								alt={type.name}
-								style={'h-6 object-fit: contain; max-width: 5rem;'}
+								style={'height: 1.5rem; object-fit: contain; max-width: 5rem;'}
 							/>
 						</div>
 					{/each}
