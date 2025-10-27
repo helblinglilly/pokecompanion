@@ -28,8 +28,6 @@
 
 	export let data;
 
-	export const ssr = true;
-
 	$: {
 		if (data) {
 			const showFemaleSpriteIfExists = $page.url.searchParams.get('gender') === 'female';

@@ -6,6 +6,8 @@ import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
 import { SettingNames } from '$lib/stores/domain';
 import { error } from '@sveltejs/kit';
 
+export const ssr = true;
+
 export const load = async ({ params, fetch, url, cookies }) => {
 	const newUrl = new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}`);
 

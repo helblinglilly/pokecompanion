@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { GameGroups } from '$/lib/data/games';
+	import { page } from '$app/stores';
 	export let title = 'Pokécompanion';
 	export let description = `Explore the world from Kanto to ${
 		GameGroups[GameGroups.length - 1]?.region
@@ -18,9 +19,9 @@
 
 	<meta property="og:type" content="website" />
 
-	<!-- <meta property="og:url" content={$page.url.origin} />
+	<meta property="og:url" content={$page.url.origin} />
 	<meta property="twitter:url" content={$page.url.origin} />
-	<meta property="twitter:domain" content={$page.url.hostname} /> -->
+	<meta property="twitter:domain" content={$page.url.hostname} />
 
 	<meta name="twitter:card" content="summary_large_image" />
 
