@@ -1,21 +1,27 @@
 <script lang="ts">
+	import type { APIPokemon } from '$/@types/api.pokecompanion';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Select from '$/ui/atoms/select';
-	import type { IEncounters } from '$lib/data/encounterFilter';
-	import { getGameFromName, type PokeapiVersionNames } from '$lib/data/games';
+	import { getGameFromName, PokeapiVersionNames } from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
 	import EncounterVersion from './EncounterVersion.svelte';
 
-	export let encounterData: IEncounters;
+	export let encounterData: APIPokemon['encounters'];
 
 	$: allGames = (Object.keys(encounterData) as PokeapiVersionNames[]).sort((a, b) => {
 		return getGameFromName(a).globalSortOrder > getGameFromName(b).globalSortOrder ? 1 : -1;
 	});
 
-	$: currentGame = $selectedGame ? $selectedGame.games[0].pokeapi : allGames[0];
+	$: currentGame = allGames.some((encounterGame) =>
+		$selectedGame?.games.some((game) => game.pokeapi === encounterGame)
+	)
+		? // @ts-expect-error it's confirmed above that allGames will contain such an index
+		  allGames[$selectedGame?.games[0]?.pokeapi]
+		: allGames[allGames.length - 1];
 
 	const defaultLimit = 4;
 
+	// @ts-expect-error Can't explicitly type currentGame
 	$: relevantEncounter = encounterData[currentGame] ?? {};
 
 	$: totalLocations = Object.keys(relevantEncounter).length;
