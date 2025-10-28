@@ -13,8 +13,25 @@
 	import Pokedex from './Pokedex.svelte';
 	import { pokemonDisplayStore } from '$/lib/stores/pokemonPage';
 	import { tagStore } from '$/lib/stores/tags';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	export let data: APIPokemon;
+
+	$: hasShinySprite = data.sprites.some((sprite) => sprite.hasShiny);
+	$: hasFemaleSprite = data.sprites.some((sprite) => sprite.hasFemale);
+
+	const changeUrlQueryParam = (param: string, value: string) => {
+		const newUrl = new URL($page.url);
+		newUrl.searchParams.set(param, value);
+		goto(newUrl.toString(), { replaceState: true, noScroll: true });
+	};
+
+	const deleteUrlQueryParam = (param: string) => {
+		const newUrl = new URL($page.url);
+		newUrl.searchParams.delete(param);
+		goto(newUrl.toString(), { replaceState: true, noScroll: true });
+	};
 </script>
 
 <div class="inline-flex w-full justify-between h-5">
@@ -67,21 +84,23 @@
 	<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
 {/if}
 
-{#if $pokemonDisplayStore.hasShinySprite}
+{#if hasShinySprite}
 	<button
 		data-testid="shinyToggle"
+		data-umami-event="PokemonShiny"
 		class="triangle right"
-		style={`border-bottom-color: ${
-			$pokemonDisplayStore.showShinySpriteIfExists ? '#f0e45f' : '#f0e45f'
-		}`}
+		style={`border-bottom-color: #f0e45f;`}
 		on:click={() => {
-			Logger.addPageAction('UIInteraction', 'SpriteShiny', {
-				action: 'Sprite Change'
-			});
-			$pokemonDisplayStore.showShinySpriteIfExists = !$pokemonDisplayStore.showShinySpriteIfExists;
+			const isOnShiny = $page.url.searchParams.get('shiny') === 'true';
+
+			if (isOnShiny) {
+				deleteUrlQueryParam('shiny');
+			} else {
+				changeUrlQueryParam('shiny', 'true');
+			}
 		}}
 	>
-		{#if $pokemonDisplayStore.showShinySpriteIfExists}
+		{#if $page.url.searchParams.get('shiny') === 'true'}
 			<Icon name="spark-full" style="margin-top: 1.8rem; margin-left: -2rem;" />
 		{:else}
 			<Icon name="spark" style="margin-top: 1.8rem; margin-left: -2rem;" />
@@ -89,25 +108,25 @@
 	</button>
 {/if}
 
-{#if $pokemonDisplayStore.hasFemaleSprite}
+{#if hasFemaleSprite}
 	<button
 		data-testid="genderToggle"
 		class="triangle left"
+		data-umami-event="PokemonGender"
 		style={`border-bottom-color: ${
-			$pokemonDisplayStore.hasFemaleSprite && $pokemonDisplayStore.showFemaleSpriteIfExists
-				? '#f6abd9'
-				: '#7fbbf0'
+			hasFemaleSprite && $page.url.searchParams.get('gender') === 'female' ? '#f6abd9' : '#7fbbf0'
 		};`}
 		on:click={() => {
-			Logger.addPageAction('UIInteraction', 'SpriteGender', {
-				action: 'Sprite Change'
-			});
+			const currentGender = $page.url.searchParams.get('gender') === 'female' ? 'female' : 'male';
 
-			$pokemonDisplayStore.showFemaleSpriteIfExists =
-				!$pokemonDisplayStore.showFemaleSpriteIfExists;
+			if (currentGender === 'female') {
+				deleteUrlQueryParam('gender');
+			} else {
+				changeUrlQueryParam('gender', 'female');
+			}
 		}}
 	>
-		{#if $pokemonDisplayStore.showFemaleSpriteIfExists}
+		{#if hasFemaleSprite}
 			<Icon name="venus" style="margin-top: 2.1rem; margin-left: 0.6rem; fill: var(--dark);" />
 		{:else}
 			<Icon name="mars" style="margin-top: 2.1rem; margin-left: 0.5rem; fill: var(--dark);" />
