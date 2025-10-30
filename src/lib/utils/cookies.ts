@@ -1,3 +1,4 @@
+import { browser } from '$app/environment';
 /*
 	Below functions are taken from
 	https://javascript.info/cookie
@@ -37,6 +38,7 @@ const setCookie = (
 		path: '/',
 		expires: overrideOptions?.expires ?? expires,
 		SameSite: 'Lax',
+		Domain: `.${window.location.hostname}`,
 		...overrideOptions
 	};
 
