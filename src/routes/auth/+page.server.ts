@@ -33,15 +33,11 @@ export const actions: Actions = {
 			await locals.pb.collection('users').create(user);
 		} catch (e) {
 			platform?.context.waitUntil(
-				Logger.error(
-					Logger.ErrorClasses.UserOperation,
-					Logger.buildError(e),
-					{
-						user: cookies.get('remember-token'),
-						email: data.email
-					}
-				)
-			)
+				Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(e), {
+					user: cookies.get('remember-token'),
+					email: data.email
+				})
+			);
 			throw e;
 		}
 
@@ -52,7 +48,7 @@ export const actions: Actions = {
 					user: cookies.get('remember-token'),
 					email: data.email
 				})
-			)
+			);
 		} catch (e) {
 			console.error('Failed to request Email verification', e);
 		}
@@ -65,20 +61,23 @@ export const actions: Actions = {
 		};
 
 		try {
-			await locals.pb.collection('users').authWithPassword(data.email, data.password).catch((err) => {
-				console.log (err);
-				if (err.status === 400){
-					return {
-						status: 400
+			await locals.pb
+				.collection('users')
+				.authWithPassword(data.email, data.password)
+				.catch((err) => {
+					console.log(err);
+					if (err.status === 400) {
+						return {
+							status: 400
+						};
 					}
-				}
-			});
+				});
 			platform?.context.waitUntil(
 				Logger.addPageAction('User', 'SignInEmail', {
 					user: cookies.get('remember-token'),
 					email: data.email
 				})
-			)
+			);
 
 			/*
 				exportToCookie gives us a cookie string that is ready to be used
@@ -92,7 +91,7 @@ export const actions: Actions = {
 			const pbAuthObj = JSON.parse(cookieValues.pb_auth);
 
 			cookies.set('pb_auth', JSON.stringify(pbAuthObj), {
-				expires: new Date(cookieValues.Expires),
+				expires: addMinutesToDate(new Date(cookieValues.Expires), 1209600 / 60),
 				path: '/',
 				sameSite: 'lax',
 				httpOnly: cookieValues.httpOnly,
@@ -109,7 +108,7 @@ export const actions: Actions = {
 					user: cookies.get('remember-token'),
 					error: Logger.buildError(e).message
 				})
-			)
+			);
 
 			throw e;
 		}

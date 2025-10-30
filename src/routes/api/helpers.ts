@@ -75,7 +75,7 @@ export const validateAuth = async (request: Request, cookies: Cookies) => {
 		const pbAuthObj = JSON.parse(cookieValues.pb_auth);
 
 		cookies.set('pb_auth', JSON.stringify(pbAuthObj), {
-			expires: new Date(cookieValues.Expires),
+			expires: addMinutesToDate(new Date(cookieValues.Expires), 1209600 / 60),
 			path: '/',
 			sameSite: 'lax',
 			httpOnly: cookieValues.httpOnly,
@@ -86,35 +86,51 @@ export const validateAuth = async (request: Request, cookies: Cookies) => {
 			error: Logger.buildError(err),
 			request: request.url,
 			user: cookies.get('remember-token')
-		})
+		});
 		return false;
 	}
 	return pb;
 };
 
-
-export const respondWithJson = (payload: object | Array<unknown>, status?: number, shouldCache?: boolean) => {
+export const respondWithJson = (
+	payload: object | Array<unknown>,
+	status?: number,
+	shouldCache?: boolean
+) => {
 	const responseCode = status ?? payload ? 200 : 204;
 
 	return new Response(JSON.stringify(payload), {
 		headers: {
 			'Content-Type': 'application/json',
-			'Cache-Control': (!status || status >= 200 && status < 400) && shouldCache ? 'public, max-age=21600' : 'no-store'
+			'Cache-Control':
+				(!status || (status >= 200 && status < 400)) && shouldCache
+					? 'public, max-age=21600'
+					: 'no-store'
 		},
 		status: responseCode
 	});
 };
 
 export const parseUserPreferences = (url: URL, cookies: Cookies): IUserPreferences => {
-	const gameEntry = getGameGroupFromName(url.searchParams.get('game') as UserPreferencePokemonVersion ?? cookies.get('game') as UserPreferencePokemonVersion);
-	const primaryLanguage = url.searchParams.get(SettingNames.PrimaryLanguage) ?? cookies.get(SettingNames.PrimaryLanguage) ?? 'en';
-	const secondaryLanguage = url.searchParams.get(SettingNames.SecondaryLanguage) ?? cookies.get(SettingNames.SecondaryLanguage);
-	const animateSprites = url.searchParams.get(SettingNames.AnimateSprites) === 'true' || cookies.get(SettingNames.AnimateSprites) === 'true';
+	const gameEntry = getGameGroupFromName(
+		(url.searchParams.get('game') as UserPreferencePokemonVersion) ??
+			(cookies.get('game') as UserPreferencePokemonVersion)
+	);
+	const primaryLanguage =
+		url.searchParams.get(SettingNames.PrimaryLanguage) ??
+		cookies.get(SettingNames.PrimaryLanguage) ??
+		'en';
+	const secondaryLanguage =
+		url.searchParams.get(SettingNames.SecondaryLanguage) ??
+		cookies.get(SettingNames.SecondaryLanguage);
+	const animateSprites =
+		url.searchParams.get(SettingNames.AnimateSprites) === 'true' ||
+		cookies.get(SettingNames.AnimateSprites) === 'true';
 
 	return {
 		selectedGame: gameEntry,
 		primaryLanguage,
 		secondaryLanguage,
 		animateSprites
-	}
-}
+	};
+};
