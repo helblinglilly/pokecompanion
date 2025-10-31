@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+    "/tags": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get all of the current user's tags. Array may be empty */
+        get: operations["GetRoot"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/pokemon/{id}": {
         parameters: {
             query?: never;
@@ -24,21 +41,67 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        TagContents: {
+            move?: {
+                /**
+                 * Format: double
+                 * @description Pokeapi ID for this move
+                 */
+                id: number;
+                /** @description ISO Date string */
+                added: string;
+            }[];
+            pokemon?: {
+                /** @description The Query Param URL string that needs to be attached to get to this Pokemon */
+                variety: string;
+                shiny: boolean;
+                /**
+                 * Format: double
+                 * @description National Pokedex ID
+                 */
+                id: number;
+                /**
+                 * @description null-ish assumed to be male
+                 * @enum {string}
+                 */
+                gender?: "male" | "female";
+                /** @description ISO Date string */
+                added: string;
+            }[];
+        };
+        Tag: {
+            id: string;
+            name: string;
+            isPrivate: boolean;
+            isHiddenAcrossSite: boolean;
+            showGenderAndShiny: boolean;
+            /** @enum {string} */
+            sortKey: "added" | "id" | "alphabetical" | "custom";
+            /** @enum {string} */
+            sortOrder: "desc" | "asc" | "custom";
+            description: string;
+            contents: components["schemas"]["TagContents"];
+            /** @description The user id of the owner */
+            owner: string;
+        };
+        TagRootResponse: {
+            tags: components["schemas"]["Tag"][];
+        };
         /** @enum {string} */
         PokeapiLanguageCodes: "ja-Hrkt" | "ja" | "ko" | "fr" | "de" | "en" | "es";
         Type: {
-            /** @description Path to the URL which will point at sprites.pokecompanion.com */
-            icon: string;
             /** @description The Pokeapi name for this type */
             name: string;
+            /** @description Path to the URL which will point at sprites.pokecompanion.com */
+            icon: string;
         };
         /** @enum {string} */
         PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
         PokeapiNamedApiResource: {
-            /** @description https://pokeapi.co/api/v2/.../entry/id/ */
-            url: string;
             /** @description Short name */
             name: string;
+            /** @description https://pokeapi.co/api/v2/.../entry/id/ */
+            url: string;
         };
         /** @description Make all properties in T optional */
         "Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number__--other-Array__id-number--learnMethod-string_____": {
@@ -679,9 +742,9 @@ export interface components {
         };
         StatValue: {
             /** Format: double */
-            effort: number;
-            /** Format: double */
             stat: number;
+            /** Format: double */
+            effort: number;
         };
         /** @description Construct a type with a set of properties K of type T */
         "Record_PokeapiStatType.StatValue_": {
@@ -697,46 +760,49 @@ export interface components {
             average: components["schemas"]["StatValue"];
         };
         PokemonV1Response: {
-            __meta: {
-                description: string;
-                previewImage: string;
-                title: string;
-            };
-            stats: components["schemas"]["Record_PokeapiStatType.StatValue_"] & components["schemas"]["Record_average.StatValue_"];
-            encounters: components["schemas"]["Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______"];
-            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number__--other-Array__id-number--learnMethod-string_____"];
-            varieties: {
-                pokecompanionUrl: string;
-                isDefault: boolean;
-                displayName: string;
-                name: string;
+            /** Format: double */
+            id: number;
+            name: string;
+            pokedexEntries: {
+                textEntry: string;
+                /** @description A display friendly game name, NOT the pokeapi name */
+                game: string;
+                language: components["schemas"]["PokeapiLanguageCodes"];
             }[];
-            abilities: {
-                /** Format: double */
-                slot: number;
-                is_hidden: boolean;
-                ability: components["schemas"]["PokeapiNamedApiResource"];
+            /**
+             * Format: double
+             * @description Height in cm
+             * @example 176
+             */
+            height: number;
+            /**
+             * Format: double
+             * @description Weight in grams
+             * @example 3500
+             */
+            weight: number;
+            /**
+             * @description Path to a .ogg file with this pokemon's cry
+             * @example https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/3.ogg
+             */
+            cry: string;
+            sprites: {
+                isBack: boolean;
+                hasFemale: boolean;
+                hasShiny: boolean;
+                alt: string;
+                url: string;
             }[];
-            presenceInGame: {
-                /** @enum {number|null} */
-                pokedexNumber: null;
-                /** @enum {boolean} */
-                present: false;
-                /**
-                 * @description Playback of the game that was used in the request - mostly for clarity
-                 * @example scarlet-violet
-                 */
-                game: components["schemas"]["PokeapiVersionGroups"];
-            } | {
-                /** Format: double */
-                pokedexNumber: number;
-                /** @enum {boolean} */
-                present: true;
-                /**
-                 * @description Playback of the game that was used in the request - mostly for clarity
-                 * @example scarlet-violet
-                 */
-                game: components["schemas"]["PokeapiVersionGroups"];
+            types: {
+                weakAgainst: (components["schemas"]["Type"] & {
+                    /** Format: double */
+                    multiplier: number;
+                })[];
+                resists: (components["schemas"]["Type"] & {
+                    /** Format: double */
+                    multiplier: number;
+                })[];
+                own: components["schemas"]["Type"][];
             };
             evolutionChain: {
                 /** @description Indicates wheather both source + target evolutions are present in the current game.
@@ -782,50 +848,47 @@ export interface components {
                     spriteUrl: string;
                 };
             }[];
-            types: {
-                weakAgainst: (components["schemas"]["Type"] & {
-                    /** Format: double */
-                    multiplier: number;
-                })[];
-                resists: (components["schemas"]["Type"] & {
-                    /** Format: double */
-                    multiplier: number;
-                })[];
-                own: components["schemas"]["Type"][];
+            presenceInGame: {
+                /** @enum {number|null} */
+                pokedexNumber: null;
+                /** @enum {boolean} */
+                present: false;
+                /**
+                 * @description Playback of the game that was used in the request - mostly for clarity
+                 * @example scarlet-violet
+                 */
+                game: components["schemas"]["PokeapiVersionGroups"];
+            } | {
+                /** Format: double */
+                pokedexNumber: number;
+                /** @enum {boolean} */
+                present: true;
+                /**
+                 * @description Playback of the game that was used in the request - mostly for clarity
+                 * @example scarlet-violet
+                 */
+                game: components["schemas"]["PokeapiVersionGroups"];
             };
-            sprites: {
-                isBack: boolean;
-                hasFemale: boolean;
-                hasShiny: boolean;
-                alt: string;
-                url: string;
+            abilities: {
+                /** Format: double */
+                slot: number;
+                is_hidden: boolean;
+                ability: components["schemas"]["PokeapiNamedApiResource"];
             }[];
-            /**
-             * @description Path to a .ogg file with this pokemon's cry
-             * @example https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/3.ogg
-             */
-            cry: string;
-            /**
-             * Format: double
-             * @description Weight in grams
-             * @example 3500
-             */
-            weight: number;
-            /**
-             * Format: double
-             * @description Height in cm
-             * @example 176
-             */
-            height: number;
-            pokedexEntries: {
-                textEntry: string;
-                /** @description A display friendly game name, NOT the pokeapi name */
-                game: string;
-                language: components["schemas"]["PokeapiLanguageCodes"];
+            varieties: {
+                pokecompanionUrl: string;
+                isDefault: boolean;
+                displayName: string;
+                name: string;
             }[];
-            name: string;
-            /** Format: double */
-            id: number;
+            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number__--other-Array__id-number--learnMethod-string_____"];
+            encounters: components["schemas"]["Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______"];
+            stats: components["schemas"]["Record_PokeapiStatType.StatValue_"] & components["schemas"]["Record_average.StatValue_"];
+            __meta: {
+                description: string;
+                previewImage: string;
+                title: string;
+            };
         };
     };
     responses: never;
@@ -836,6 +899,37 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    GetRoot: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        tags: components["schemas"]["Tag"][];
+                    };
+                };
+            };
+            /** @description Unauthorised */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+        };
+    };
     GetRoot: {
         parameters: {
             query?: never;

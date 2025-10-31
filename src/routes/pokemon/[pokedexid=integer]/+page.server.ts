@@ -31,23 +31,27 @@ export const load = async ({ params, fetch, url, cookies }) => {
 			'animateSprites',
 			url.searchParams.get('animateSprites') ?? `${cookies.get(SettingNames.AnimateSprites)}`
 		);
+
 		const game = getGameGroupFromName(
 			(url.searchParams.get('game') as PokeapiVersionGroups) ??
 				cookies.get(SettingNames.SelectedGame)
 		);
+		if (game) {
+			targetUrl.searchParams.append('game', game.pokeapi);
+		}
+
 		const showGameSpecificPokemonSprites =
 			url.searchParams.get(SettingNames.VersionSpecificPokemonSprites) ??
 			cookies.get(SettingNames.VersionSpecificPokemonSprites);
-
-		if (game && showGameSpecificPokemonSprites) {
-			targetUrl.searchParams.append('game', game.pokeapi);
-		}
+		targetUrl.searchParams.append(
+			'versionSpecificPokemonSprites',
+			`${showGameSpecificPokemonSprites}`
+		);
 
 		const showGameSpecificTypeSprites =
 			(url.searchParams.get(SettingNames.VersionSpecificPokemonSprites) ??
 				cookies.get(SettingNames.VersionSpecificPokemonSprites)) === 'true';
-
-		targetUrl.searchParams.append('versionSpecificSprites', `${showGameSpecificTypeSprites}`);
+		targetUrl.searchParams.append('versionSpecificTypeSprites', `${showGameSpecificTypeSprites}`);
 	}
 
 	appendSearchParams(newUrl);
