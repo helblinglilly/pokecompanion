@@ -6,8 +6,9 @@ import type { IDisplayPokemon } from './pokemonPage';
 import { Logger } from '$lib/log';
 import type { ITagMove, RecordTag } from '$/routes/api/tag/types';
 import type { IRecordPokemon } from '../types/IPokemon';
+import type { APITag } from '$/@types/api.pokecompanion';
 
-export const tagStore = writable<RecordTag[]>([]);
+export const tagStore = writable<APITag['tags']>([]);
 
 export async function refetchTags(userId: string) {
 	try {
@@ -15,14 +16,10 @@ export async function refetchTags(userId: string) {
 		tagStore.set(tags);
 	} catch (err) {
 		addNotification({ message: 'Failed to get tags for user', level: 'failure' });
-		await Logger.error(
-			Logger.ErrorClasses.TagOperation,
-			Logger.buildError(err),
-			{
-				context: 'Failed to get tags for user',
-				user: userId,
-			}
-		)
+		await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
+			context: 'Failed to get tags for user',
+			user: userId
+		});
 	}
 }
 
@@ -48,15 +45,11 @@ export async function addPokemonToTag(pokemon: IRecordPokemon, tagId: string) {
 		}
 	} catch (err) {
 		addNotification({ message: 'Could not add tag. Please try again', level: 'failure' });
-		await Logger.error(
-			Logger.ErrorClasses.TagOperation,
-			Logger.buildError(err),
-			{
-				context: 'Add Pokemon to Tag',
-				tag: tagId,
-				pokemon: pokemon.id
-			}
-		)
+		await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
+			context: 'Add Pokemon to Tag',
+			tag: tagId,
+			pokemon: pokemon.id
+		});
 	}
 }
 
@@ -83,15 +76,11 @@ export async function addMoveToTag(move: ITagMove, tagId: string) {
 		}
 	} catch (err) {
 		addNotification({ message: 'Could not add tag. Please try again', level: 'failure' });
-		await Logger.error(
-			Logger.ErrorClasses.TagOperation,
-			Logger.buildError(err),
-			{
-				context: 'Add Move to Tag',
-				tag: tagId,
-				move: move.id
-			}
-		)
+		await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
+			context: 'Add Move to Tag',
+			tag: tagId,
+			move: move.id
+		});
 	}
 }
 
@@ -117,20 +106,16 @@ export async function removePokemonFromTag(pokemon: IRecordPokemon, tagId: strin
 		}
 	} catch (err) {
 		addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });
-		await Logger.error(
-			Logger.ErrorClasses.TagOperation,
-			Logger.buildError(err),
-			{
-				context: 'Remove Pokemon from Tag',
-				tag: tagId,
-				pokemon: pokemon.id
-			}
-		)
+		await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
+			context: 'Remove Pokemon from Tag',
+			tag: tagId,
+			pokemon: pokemon.id
+		});
 	}
 }
 
 export async function removeMoveFromTag(move: ITagMove | undefined, tagId: string) {
-	if (!move){
+	if (!move) {
 		return false;
 	}
 	try {
@@ -155,20 +140,16 @@ export async function removeMoveFromTag(move: ITagMove | undefined, tagId: strin
 		}
 	} catch (err) {
 		addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });
-		await Logger.error(
-			Logger.ErrorClasses.TagOperation,
-			Logger.buildError(err),
-			{
-				context: 'Remove Move from Tag',
-				tag: tagId,
-				move: move.id,
-			}
-		)
+		await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
+			context: 'Remove Move from Tag',
+			tag: tagId,
+			move: move.id
+		});
 	}
 }
 
 export function doesTagContainPokemon(pokemon: IDisplayPokemon | undefined, tag: RecordTag) {
-	if (!pokemon){
+	if (!pokemon) {
 		return false;
 	}
 
@@ -182,8 +163,8 @@ export function doesTagContainPokemon(pokemon: IDisplayPokemon | undefined, tag:
 	});
 }
 
-export function doesTagContainMove(move: Omit<ITagMove, "added"> | undefined, tag: RecordTag) {
-	if (!move){
+export function doesTagContainMove(move: Omit<ITagMove, 'added'> | undefined, tag: RecordTag) {
+	if (!move) {
 		return false;
 	}
 	return tag.contents.move?.some((a) => {

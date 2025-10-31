@@ -43,8 +43,7 @@
 				variety: varietyName ?? undefined,
 				transferableQueryParams: '' // Gets auto-updated within the store anyway
 			});
-
-			tagStore.set(data.tags);
+			tagStore.set(data.tags.tags);
 		}
 	}
 

@@ -11,8 +11,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get all of the current user's tags. Array may be empty */
-        get: operations["GetRoot"];
+        /** @description Get all Tags for a specific user */
+        get: operations["GetAllTagsForUser"];
         put?: never;
         post?: never;
         delete?: never;
@@ -28,7 +28,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["GetRoot"];
+        get: operations["GetPokemonById"];
         put?: never;
         post?: never;
         delete?: never;
@@ -69,6 +69,28 @@ export interface components {
                 added: string;
             }[];
         };
+        Tags: {
+            id: string;
+            collectionId: string;
+            collectionName: string;
+            expand?: {
+                [key: string]: unknown;
+            };
+            created: string;
+            updated: string;
+            /** @description The user id */
+            owner: string;
+            name: string;
+            contents: components["schemas"]["TagContents"];
+            isPrivate: boolean;
+            showGenderAndShiny: boolean;
+            /** @enum {string} */
+            sortOrder: "desc" | "asc" | "custom";
+            /** @enum {string} */
+            sortKey: "id" | "added" | "alphabetical" | "custom";
+            description: string;
+            isHiddenAcrossSite: boolean;
+        };
         Tag: {
             id: string;
             name: string;
@@ -86,6 +108,8 @@ export interface components {
         };
         TagRootResponse: {
             tags: components["schemas"]["Tag"][];
+            /** Format: double */
+            totalPages: number;
         };
         /** @enum {string} */
         PokeapiLanguageCodes: "ja-Hrkt" | "ja" | "ko" | "fr" | "de" | "en" | "es";
@@ -899,23 +923,34 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    GetRoot: {
+    GetAllTagsForUser: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description If this is provided, this user's public tags will be returned. If omitted, the currently authenicated user will be used */
+                userId?: string;
+                /** @description Pagination */
+                page?: number;
+                sortKey?: "added" | "id" | "alphabetical" | "custom";
+                sortOrder?: "desc" | "asc" | "custom";
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
+            /** @description All tags - 20 per page */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        tags: components["schemas"]["Tag"][];
+                        /** Format: double */
+                        totalPages: number;
+                        /** Format: double */
+                        currentPage: number;
+                        tags: components["schemas"]["Tags"][];
                     };
                 };
             };
@@ -930,7 +965,7 @@ export interface operations {
             };
         };
     };
-    GetRoot: {
+    GetPokemonById: {
         parameters: {
             query?: never;
             header?: never;

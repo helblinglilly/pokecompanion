@@ -1,6 +1,5 @@
-import type { APIPokemon } from '$/@types/api.pokecompanion';
+import type { APIPokemon, APITag } from '$/@types/api.pokecompanion';
 import { Logger } from '$/lib/log';
-import type { RecordTag } from '$/routes/api/tag/types';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
 import { SettingNames } from '$lib/stores/domain';
@@ -9,7 +8,7 @@ import { error } from '@sveltejs/kit';
 export const ssr = true;
 
 export const load = async ({ params, fetch, url, cookies }) => {
-	const newUrl = new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}`);
+	const pokemonRequestUrl = new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}`);
 
 	function appendSearchParams(targetUrl: URL) {
 		targetUrl.searchParams.append(
@@ -54,21 +53,24 @@ export const load = async ({ params, fetch, url, cookies }) => {
 		targetUrl.searchParams.append('versionSpecificTypeSprites', `${showGameSpecificTypeSprites}`);
 	}
 
-	appendSearchParams(newUrl);
+	appendSearchParams(pokemonRequestUrl);
 
-	try {
-		const request = await fetch(newUrl);
+	async function getTags(): Promise<APITag> {
+		const authCookie = cookies.get('pb_auth');
 
-		const body = (await request.json()) as APIPokemon;
-
-		let tags: RecordTag[] = [];
+		if (!authCookie) {
+			return {
+				currentPage: 1,
+				totalPages: 1,
+				tags: []
+			};
+		}
 
 		try {
-			const authCookie = cookies.get('pb_auth');
-			if (authCookie) {
-				const res = await fetch('/api/tag');
-				tags = (await res.json()) as RecordTag[];
-			}
+			const tagRequestUrl = new URL(`${PUBLIC_API_HOST}/tags`);
+
+			const res = await fetch(tagRequestUrl);
+			return (await res.json()) as APITag;
 		} catch (err) {
 			Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
 				context: 'Failed to fetch tags for user'
@@ -76,8 +78,20 @@ export const load = async ({ params, fetch, url, cookies }) => {
 		}
 
 		return {
+			currentPage: 1,
+			totalPages: 1,
+			tags: []
+		};
+	}
+
+	try {
+		const request = await fetch(pokemonRequestUrl);
+		const body = (await request.json()) as APIPokemon;
+		const tags = await getTags();
+
+		return {
 			...body,
-			tags: tags
+			tags
 		};
 	} catch (err) {
 		console.error(err);
