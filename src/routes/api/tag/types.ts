@@ -1,5 +1,4 @@
 import type { IRecordPokemon } from '$/lib/types/IPokemon';
-import type { RecordModel } from 'pocketbase';
 
 export interface ITagMeta {
 	description: string;
@@ -7,10 +6,6 @@ export interface ITagMeta {
 	isPrivate: boolean;
 	name: string;
 	showShinyAndGender: boolean;
-}
-
-export interface ITagInitial extends ITagMeta {
-	contents: ITagContentsInitial;
 }
 
 export interface ITagDatabase extends ITagMeta {

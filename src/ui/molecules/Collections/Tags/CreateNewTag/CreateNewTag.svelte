@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Button from '$/ui/atoms/button/Button.svelte';
-	import { Logger } from '$lib/log';
 	import type { ITagInitial, ITagMove, ITagPokemonInitial } from '$/routes/api/tag/types';
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { refetchTags } from '$/lib/stores/tags';
 	import { createEventDispatcher } from 'svelte';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 
 	export let pokemon: ITagPokemonInitial | undefined = undefined;
 	export let move: Omit<ITagMove, 'added'> | undefined = undefined;
@@ -20,7 +20,7 @@
 
 	$: requestBody = (): ITagInitial => ({
 		name,
-		isPrivate,
+		isPrivate: !!isPrivate,
 		description: '',
 		isHiddenAcrossSite: false,
 		showShinyAndGender: true,
@@ -51,18 +51,16 @@
 				<Button
 					variant="accent"
 					on:click={async () => {
-						const res = await fetch(`/api/tag`, {
+						const res = await fetch(`${PUBLIC_API_HOST}/tags`, {
 							method: 'POST',
-							body: JSON.stringify(requestBody())
+							body: JSON.stringify(requestBody()),
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							credentials: 'include'
 						});
 
-						if (res.ok) {
-							Logger.addPageAction('TagCreated', name, {
-								user: $currentUser.id,
-								name,
-								isPrivate
-							});
-
+						if (res.status === 201) {
 							addNotification({
 								message: `${name} has been created`,
 								level: 'success'
@@ -70,11 +68,27 @@
 
 							refetchTags($currentUser.username);
 							dispatch('success', requestBody);
-						} else {
-							addNotification({
-								message: `Failed to create "${name}"`,
-								level: 'failure'
-							});
+							return;
+						}
+
+						switch (res.status) {
+							case 401:
+								addNotification({
+									message: `Authentication is invalid. Try signing out and in again`,
+									level: 'failure'
+								});
+								break;
+							case 409:
+								addNotification({
+									message: `A tag with this name already exists. Please choose a different name`,
+									level: 'failure'
+								});
+								break;
+							default:
+								addNotification({
+									message: `Failed to create "${name}"`,
+									level: 'failure'
+								});
 						}
 
 						showAddNewOverlay = false;
