@@ -9,13 +9,13 @@
 	import { getMoveEntry } from '$/lib/data/games';
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
 	import MoveCardEntry from '$/ui/molecules/move/card/MoveCardEntry.svelte';
-	import type { RecordTag } from '$/routes/api/tag/types';
 	import { isEqual } from 'lodash-es';
+	import type { APITag } from '$/@types/api.pokecompanion';
 	export let filterTerm: string;
 
 	export let inModifyView: boolean;
 
-	let tag = getContext('tag') as Writable<RecordTag>;
+	let tag = getContext('tag') as Writable<APITag['tags'][number]>;
 
 	$: moveCollection =
 		$tag.contents.move

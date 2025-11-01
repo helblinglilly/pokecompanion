@@ -1,5 +1,4 @@
-import type { APIPokemon, APITag } from '$/@types/api.pokecompanion';
-import { Logger } from '$/lib/log';
+import type { APIPokemon } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
 import { SettingNames } from '$lib/stores/domain';
@@ -55,44 +54,11 @@ export const load = async ({ params, fetch, url, cookies }) => {
 
 	appendSearchParams(pokemonRequestUrl);
 
-	async function getTags(): Promise<APITag> {
-		const authCookie = cookies.get('pb_auth');
-
-		if (!authCookie) {
-			return {
-				currentPage: 1,
-				totalPages: 1,
-				tags: []
-			};
-		}
-
-		try {
-			const tagRequestUrl = new URL(`${PUBLIC_API_HOST}/tags`);
-
-			const res = await fetch(tagRequestUrl);
-			return (await res.json()) as APITag;
-		} catch (err) {
-			Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
-				context: 'Failed to fetch tags for user'
-			});
-		}
-
-		return {
-			currentPage: 1,
-			totalPages: 1,
-			tags: []
-		};
-	}
-
 	try {
 		const request = await fetch(pokemonRequestUrl);
 		const body = (await request.json()) as APIPokemon;
-		const tags = await getTags();
 
-		return {
-			...body,
-			tags
-		};
+		return body;
 	} catch (err) {
 		console.error(err);
 		error(500, `Failed to parse JSON response from internal API`);

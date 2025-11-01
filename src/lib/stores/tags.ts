@@ -3,7 +3,7 @@ import { currentUser } from './user';
 import { addNotification } from './notifications';
 import type { IDisplayPokemon } from './pokemonPage';
 import { Logger } from '$lib/log';
-import type { ITagMove, RecordTag } from '$/routes/api/tag/types';
+import type { ITagMove } from '$/routes/api/tag/types';
 import type { IRecordPokemon } from '../types/IPokemon';
 import type { APITag } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
@@ -187,7 +187,10 @@ export async function removeMoveFromTag(move: ITagMove | undefined, tagId: strin
 	}
 }
 
-export function doesTagContainPokemon(pokemon: IDisplayPokemon | undefined, tag: RecordTag) {
+export function doesTagContainPokemon(
+	pokemon: IDisplayPokemon | undefined,
+	tag: APITag['tags'][number]
+) {
 	if (!pokemon) {
 		return false;
 	}
@@ -202,7 +205,10 @@ export function doesTagContainPokemon(pokemon: IDisplayPokemon | undefined, tag:
 	});
 }
 
-export function doesTagContainMove(move: Omit<ITagMove, 'added'> | undefined, tag: RecordTag) {
+export function doesTagContainMove(
+	move: Omit<ITagMove, 'added'> | undefined,
+	tag: APITag['tags'][number]
+) {
 	if (!move) {
 		return false;
 	}
@@ -210,9 +216,3 @@ export function doesTagContainMove(move: Omit<ITagMove, 'added'> | undefined, ta
 		return a.id === move.id;
 	});
 }
-
-currentUser.subscribe(async (user) => {
-	if (user) {
-		await refetchTags(user.id);
-	}
-});

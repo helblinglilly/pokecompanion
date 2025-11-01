@@ -11,12 +11,12 @@
 	import { isEqual } from 'lodash-es';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
 	import PokemonLink from '$/ui/molecules/pokemon/link/PokemonLink.svelte';
-	import type { RecordTag } from '$/routes/api/tag/types';
+	import type { APITag } from '$/@types/api.pokecompanion';
 	export let filterTerm: string;
 
 	export let inModifyView: boolean;
 
-	let tag = getContext('tag') as Writable<RecordTag>;
+	let tag = getContext('tag') as Writable<APITag['tags'][number]>;
 
 	$: pokemonCollection = $tag.contents.pokemon
 		?.filter((mon) => {
@@ -36,9 +36,10 @@
 		})
 		.sort(
 			getSortFunction(
-				($page.url.searchParams.get('sortBy') || $tag.sortKey) as unknown as RecordTag['sortKey'],
+				($page.url.searchParams.get('sortBy') ||
+					$tag.sortKey) as unknown as APITag['tags'][number]['sortKey'],
 				($page.url.searchParams.get('sortOrder') ||
-					$tag.sortOrder) as unknown as RecordTag['sortOrder']
+					$tag.sortOrder) as unknown as APITag['tags'][number]['sortOrder']
 			).sortFunction
 		);
 </script>

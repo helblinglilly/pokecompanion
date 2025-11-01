@@ -6,12 +6,12 @@
 	import { goto } from '$app/navigation';
 	import { currentUser } from '$/lib/stores/user';
 	import Button from '$/ui/atoms/button';
-	import type { RecordTag } from '$/routes/api/tag/types';
+	import type { APITag } from '$/@types/api.pokecompanion';
 
 	let showRenameOverlay = false;
 	let showDescriptionOverlay = false;
 	let showDeleteOverlay = false;
-	let tag = getContext('tag') as Writable<RecordTag>;
+	let tag = getContext('tag') as Writable<APITag['tags'][number]>;
 
 	let newName = $tag.name;
 	let newDescription = $tag.description;

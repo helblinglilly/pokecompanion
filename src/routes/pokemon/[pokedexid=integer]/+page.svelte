@@ -6,7 +6,6 @@
 	import { page } from '$app/stores';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
 
-	import { tagStore } from '$lib/stores/tags';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 
 	import Card from '$/ui/atoms/card/Card.svelte';
@@ -43,7 +42,6 @@
 				variety: varietyName ?? undefined,
 				transferableQueryParams: '' // Gets auto-updated within the store anyway
 			});
-			tagStore.set(data.tags.tags);
 		}
 	}
 

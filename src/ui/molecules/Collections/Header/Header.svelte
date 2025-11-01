@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { currentUser } from '$/lib/stores/user';
-	import type { RecordTag } from '$/routes/api/tag/types';
 	import Button from '$/ui/atoms/button/Button.svelte';
+	import type { APITag } from '$/@types/api.pokecompanion';
 
-	export let entry: Pick<RecordTag, 'isPrivate' | 'name' | 'owner' | 'description'>;
+	export let entry: Pick<APITag['tags'][number], 'isPrivate' | 'name' | 'owner' | 'description'>;
 	export let inModifyView: boolean;
 </script>
 

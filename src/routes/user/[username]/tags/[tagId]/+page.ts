@@ -1,4 +1,4 @@
-import type { RecordTag } from '$/routes/api/tag/types.js';
+import type { APITag } from '$/@types/api.pokecompanion';
 import { Logger } from '$lib/log.js';
 import { getUserByUsername } from '$lib/pb/publicUsers';
 import { error } from '@sveltejs/kit';
@@ -8,15 +8,11 @@ export const load = async ({ params, fetch }) => {
 		getUserByUsername(params.username),
 		await fetch(`/api/tag/${params.tagId}`)
 	]).catch(async (err) => {
-		await Logger.error(
-			Logger.ErrorClasses.TagOperation,
-			Logger.buildError(err),
-			{
-				context: 'When loading a specific tag page',
-				username: params.username,
-				tag: params.tagId
-			}
-		)
+		await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
+			context: 'When loading a specific tag page',
+			username: params.username,
+			tag: params.tagId
+		});
 		return [];
 	});
 
@@ -24,8 +20,7 @@ export const load = async ({ params, fetch }) => {
 		error(404, 'This tag does not exist');
 	}
 
-	const tag = await tagRes.json() as RecordTag;
-
+	const tag = (await tagRes.json()) as APITag['tags'][number];
 
 	return { user, tag };
 };

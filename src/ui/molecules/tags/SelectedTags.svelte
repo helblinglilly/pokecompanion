@@ -19,16 +19,6 @@
 		}
 		return false;
 	});
-
-	// onMount(async () => {
-	// Here because for Pokemon, we want to move this to the page.ts action
-	// But this has not been done for moves yet
-	// Every _page_ that displays tags, should manage the refetching so this can be
-	// tied to the level that manages it
-	// if (!pokemon) {
-	// await refetchTags(userId);
-	// }
-	// });
 </script>
 
 {#each currentTags as tag}

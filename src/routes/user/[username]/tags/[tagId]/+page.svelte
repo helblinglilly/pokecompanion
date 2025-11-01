@@ -10,12 +10,12 @@
 	import TagPokemon from './TagPokemon.svelte';
 	import TagMove from './TagMove.svelte';
 	import TagViewOptions from './TagViewOptions.svelte';
-	import type { RecordTag } from '$/routes/api/tag/types.js';
+	import type { APITag } from '$/@types/api.pokecompanion';
 
 	export let data;
 	setContext('tag', writable(data.tag));
 
-	const currentTag = getContext('tag') as Writable<RecordTag>;
+	const currentTag = getContext('tag') as Writable<APITag['tags'][number]>;
 	$: items = ($currentTag.contents.pokemon?.length ?? 0) + ($currentTag.contents.move?.length ?? 0);
 
 	export const tagOwner = writable<IPublicUser>(data.user);

@@ -14,6 +14,7 @@
 	import Notification from '$/ui/molecules/notification/Notification.svelte';
 	import ScrollToTop from '$/lib/components/ScrollToTop.svelte';
 	import { PUBLIC_ENVIRONMENT } from '$env/static/public';
+	import { refetchTags } from '$/lib/stores/tags';
 
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
@@ -80,6 +81,12 @@
 			value();
 		}
 		fixImages();
+
+		currentUser.subscribe(async (user) => {
+			if (user) {
+				await refetchTags(user.id);
+			}
+		});
 	});
 
 	$: shouldDisplaySearch = !['/auth/', '/about', '/privacy'].some((noSearchBar) => {
