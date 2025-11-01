@@ -1,4 +1,3 @@
-import { getTagsByUser } from '$lib/pb/tags';
 import { writable } from 'svelte/store';
 import { currentUser } from './user';
 import { addNotification } from './notifications';
@@ -7,8 +6,32 @@ import { Logger } from '$lib/log';
 import type { ITagMove, RecordTag } from '$/routes/api/tag/types';
 import type { IRecordPokemon } from '../types/IPokemon';
 import type { APITag } from '$/@types/api.pokecompanion';
+import { PUBLIC_API_HOST } from '$env/static/public';
 
 export const tagStore = writable<APITag['tags']>([]);
+
+export const getTagsByUser = async (id: string): Promise<APITag['tags']> => {
+	if (!id) {
+		return [];
+	}
+
+	try {
+		const res = await fetch(PUBLIC_API_HOST + `/tags?userId=${id}`);
+		if (res.status !== 200) {
+			throw new Error(`Tried to get user "${id}"'s tags and got HTTP ${res.status}`);
+		}
+
+		const body: APITag = await res.json();
+
+		return body.tags;
+	} catch (err) {
+		await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
+			context: 'Failed to get Tags by user',
+			user: id
+		});
+		return [];
+	}
+};
 
 export async function refetchTags(userId: string) {
 	try {
@@ -20,6 +43,22 @@ export async function refetchTags(userId: string) {
 			context: 'Failed to get tags for user',
 			user: userId
 		});
+	}
+}
+
+export async function getTagsByUsername(username: string): Promise<APITag['tags']> {
+	try {
+		const res = await fetch(PUBLIC_API_HOST + `/tags?username=${username}`);
+		if (res.status !== 200) {
+			throw new Error(`Tried to get user "${username}"'s tags and got HTTP ${res.status}`);
+		}
+
+		const body: APITag = await res.json();
+
+		return body.tags;
+	} catch (err) {
+		addNotification({ message: `Failed to get tags for ${username}`, level: 'failure' });
+		return [];
 	}
 }
 

@@ -69,28 +69,6 @@ export interface components {
                 added: string;
             }[];
         };
-        Tags: {
-            id: string;
-            collectionId: string;
-            collectionName: string;
-            expand?: {
-                [key: string]: unknown;
-            };
-            created: string;
-            updated: string;
-            /** @description The user id */
-            owner: string;
-            name: string;
-            contents: components["schemas"]["TagContents"];
-            isPrivate: boolean;
-            showGenderAndShiny: boolean;
-            /** @enum {string} */
-            sortOrder: "desc" | "asc" | "custom";
-            /** @enum {string} */
-            sortKey: "id" | "added" | "alphabetical" | "custom";
-            description: string;
-            isHiddenAcrossSite: boolean;
-        };
         Tag: {
             id: string;
             name: string;
@@ -928,7 +906,9 @@ export interface operations {
             query?: {
                 /** @description If this is provided, this user's public tags will be returned. If omitted, the currently authenicated user will be used */
                 userId?: string;
-                /** @description Pagination */
+                /** @description Takes precendence over userId. Case sensitive */
+                username?: string;
+                /** @description Pagination, refer to response.totalPages to see the total number of pages. */
                 page?: number;
                 sortKey?: "added" | "id" | "alphabetical" | "custom";
                 sortOrder?: "desc" | "asc" | "custom";
@@ -950,7 +930,7 @@ export interface operations {
                         totalPages: number;
                         /** Format: double */
                         currentPage: number;
-                        tags: components["schemas"]["Tags"][];
+                        tags: components["schemas"]["Tag"][];
                     };
                 };
             };

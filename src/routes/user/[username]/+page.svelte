@@ -128,7 +128,7 @@
 										<p style="padding-left: 1rem; min-width: fit-content;">
 											<i
 												>({Object.keys(tag.contents).reduce((accumulator, current) => {
-													// @ts-ignore can't tell compiler that current is a key of
+													// @ts-expect-error can't tell compiler that current is a key of
 													return accumulator + tag.contents[current].length;
 												}, 0)} entries)</i
 											>
