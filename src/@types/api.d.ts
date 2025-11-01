@@ -11,10 +11,13 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get all Tags for a specific user */
+        /** @description Get all Tags for a specific user
+         *
+         *     Either: username or userId query params must be provided, OR the request must be authenticated */
         get: operations["GetAllTagsForUser"];
         put?: never;
-        post?: never;
+        /** @description Creates a new tag. User must be authenticated. */
+        post: operations["CreateNewTag"];
         delete?: never;
         options?: never;
         head?: never;
@@ -88,6 +91,28 @@ export interface components {
             tags: components["schemas"]["Tag"][];
             /** Format: double */
             totalPages: number;
+        };
+        TagPostRequestBody: {
+            contents: {
+                move?: {
+                    /** Format: double */
+                    id: number;
+                }[];
+                pokemon?: {
+                    /** @enum {boolean} */
+                    shiny?: true | false;
+                    variety?: string;
+                    /** @enum {string} */
+                    gender?: "female" | "male";
+                    /** Format: double */
+                    id: number;
+                }[];
+            }[];
+            showShinyAndGender: boolean;
+            name: string;
+            isPrivate: boolean;
+            isHiddenAcrossSite: boolean;
+            description: string;
         };
         /** @enum {string} */
         PokeapiLanguageCodes: "ja-Hrkt" | "ja" | "ko" | "fr" | "de" | "en" | "es";
@@ -904,13 +929,15 @@ export interface operations {
     GetAllTagsForUser: {
         parameters: {
             query?: {
-                /** @description If this is provided, this user's public tags will be returned. If omitted, the currently authenicated user will be used */
+                /** @description If omitted, the currently authenicated user will be used. */
                 userId?: string;
-                /** @description Takes precendence over userId. Case sensitive */
+                /** @description Case sensitive, get all public tags that the requests' user can see for the specified username. Takes precedent over userId */
                 username?: string;
                 /** @description Pagination, refer to response.totalPages to see the total number of pages. */
                 page?: number;
+                /** @description what field should be sorted on. Defaults to "added" */
                 sortKey?: "added" | "id" | "alphabetical" | "custom";
+                /** @description Defaults to "desc" */
                 sortOrder?: "desc" | "asc" | "custom";
             };
             header?: never;
@@ -919,7 +946,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description All tags - 20 per page */
+            /** @description All tags - 20 per page. Page size is not customisable */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -942,6 +969,56 @@ export interface operations {
                 content: {
                     "application/json": string;
                 };
+            };
+        };
+    };
+    CreateNewTag: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TagPostRequestBody"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description RequestError */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorised */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

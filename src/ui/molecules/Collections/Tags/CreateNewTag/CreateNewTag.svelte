@@ -1,12 +1,13 @@
 <script lang="ts">
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Button from '$/ui/atoms/button/Button.svelte';
-	import type { ITagInitial, ITagMove, ITagPokemonInitial } from '$/routes/api/tag/types';
+	import type { ITagMove, ITagPokemonInitial } from '$/routes/api/tag/types';
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { refetchTags } from '$/lib/stores/tags';
 	import { createEventDispatcher } from 'svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
+	import type { paths } from '$/@types/api';
 
 	export let pokemon: ITagPokemonInitial | undefined = undefined;
 	export let move: Omit<ITagMove, 'added'> | undefined = undefined;
@@ -18,7 +19,7 @@
 	let name: string;
 	let isPrivate: boolean;
 
-	$: requestBody = (): ITagInitial => ({
+	$: requestBody = (): paths['/tags']['post']['requestBody']['content']['application/json'] => ({
 		name,
 		isPrivate: !!isPrivate,
 		description: '',
