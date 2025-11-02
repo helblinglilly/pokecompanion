@@ -107,7 +107,7 @@ export interface components {
                     /** Format: double */
                     id: number;
                 }[];
-            }[];
+            };
             showShinyAndGender: boolean;
             name: string;
             isPrivate: boolean;

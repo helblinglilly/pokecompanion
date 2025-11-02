@@ -8,9 +8,11 @@
 	import { createEventDispatcher } from 'svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
+	import type { APITagCreateRequestBody } from '$/@types/api.pokecompanion';
 
-	export let pokemon: ITagPokemonInitial | undefined = undefined;
-	export let move: Omit<ITagMove, 'added'> | undefined = undefined;
+	export let pokemon: NonNullable<APITagCreateRequestBody['pokemon']>[number] | undefined =
+		undefined;
+	export let move: NonNullable<APITagCreateRequestBody['move']>[number] | undefined = undefined;
 
 	const dispatch = createEventDispatcher();
 
@@ -69,6 +71,7 @@
 
 							refetchTags($currentUser.username);
 							dispatch('success', requestBody);
+							showAddNewOverlay = false;
 							return;
 						}
 
