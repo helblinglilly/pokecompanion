@@ -68,7 +68,7 @@
 								level: 'success'
 							});
 
-							refetchTags($currentUser.username);
+							refetchTags($currentUser.id);
 							dispatch('success', requestBody);
 							showAddNewOverlay = false;
 							return;
