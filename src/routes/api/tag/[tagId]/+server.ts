@@ -1,9 +1,7 @@
 import { Logger } from '$/lib/log';
 import isStringToxic from '$/lib/server/toxic';
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import Pocketbase from 'pocketbase';
 import { validateAuth } from '../../helpers';
-import type { ITagDatabase, ITagMeta } from '../types';
+import type { ITagMeta } from '../types';
 
 /**
  * Update meta information about a tag
@@ -89,37 +87,5 @@ export async function PATCH({ request, cookies, platform, params }) {
 			})
 		);
 		return new Response(JSON.stringify({}), { status: 200 });
-	}
-}
-
-/**
- * Read a specific tag
- */
-export async function GET({ request, cookies, platform, params }) {
-	let pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
-
-	const authedPb = await validateAuth(request, cookies);
-	if (authedPb) {
-		pb = authedPb;
-	}
-
-	try {
-		const tags = (await pb.collection('tags').getOne(params.tagId)) as ITagDatabase;
-
-		return new Response(JSON.stringify(tags), {
-			status: 200
-		});
-	} catch (err) {
-		platform?.context.waitUntil(
-			Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
-				context: 'Failed to get a specific tag',
-				user: cookies.get('remember-token'),
-				tagId: params.tagId
-			})
-		);
-
-		return new Response('Internal error', {
-			status: 500
-		});
 	}
 }
