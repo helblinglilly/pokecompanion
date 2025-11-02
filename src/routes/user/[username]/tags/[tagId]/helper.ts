@@ -2,6 +2,7 @@ import type { APITag } from '$/@types/api.pokecompanion';
 import { Logger } from '$/lib/log';
 import { addNotification } from '$/lib/stores/notifications';
 import type { ITagMeta, ITagDatabase, ITagEntryGenerics } from '$/routes/api/tag/types';
+import { PUBLIC_API_HOST } from '$env/static/public';
 
 export function getSortFunction(
 	key: ITagDatabase['sortKey'],
@@ -69,19 +70,39 @@ export function patchTag(tag: ITagMeta & { id: string }): Promise<APITag['tags']
 		});
 }
 
-export function deleteTag(tagId: string) {
-	return fetch(`/api/tag/${tagId}`, {
-		method: 'DELETE'
-	})
-		.then((res) => {
-			if (!res.ok) {
-				throw new Error(`Non-200 status code ${res.status}`);
-			}
-		})
-		.catch((err) => {
-			addNotification({
-				message: 'Failed to delete tag. Please try again',
-				level: 'failure'
-			});
+export async function deleteTag(tagId: string) {
+	try {
+		const res = await fetch(PUBLIC_API_HOST + `/tags/${tagId}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
 		});
+
+		switch (res.status) {
+			case 204:
+				return;
+			case 401:
+				addNotification({
+					message:
+						'Failed to delete tag due to authentication. Try signing out and back in, then try again',
+					level: 'failure'
+				});
+				break;
+			case 404:
+				addNotification({
+					message: 'The tag has already been deleted - it did not exist',
+					level: 'failure'
+				});
+				break;
+			default:
+				throw new Error(`Non-204 status code`);
+		}
+	} catch (err) {
+		addNotification({
+			message: 'Failed to delete tag. Please try again',
+			level: 'failure'
+		});
+	}
 }

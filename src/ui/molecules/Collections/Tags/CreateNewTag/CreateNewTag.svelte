@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Button from '$/ui/atoms/button/Button.svelte';
-	import type { ITagMove, ITagPokemonInitial } from '$/routes/api/tag/types';
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { refetchTags } from '$/lib/stores/tags';

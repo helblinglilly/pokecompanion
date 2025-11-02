@@ -21,18 +21,11 @@ export interface ITagContents {
 	move?: ITagMove[];
 }
 
-export interface ITagContentsInitial {
-	pokemon?: ITagPokemonInitial[];
-	move?: ITagMoveInitial[];
-}
-
 export interface ITagEntryGenerics {
 	id: number;
 	added: string;
 }
 
 export type ITagPokemon = IRecordPokemon & ITagEntryGenerics;
-export type ITagPokemonInitial = Omit<ITagPokemon, 'added'>;
 
 export type ITagMove = ITagEntryGenerics;
-export type ITagMoveInitial = Omit<ITagMove, 'added'>;

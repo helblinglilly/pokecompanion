@@ -7,6 +7,7 @@
 	import { currentUser } from '$/lib/stores/user';
 	import Button from '$/ui/atoms/button';
 	import type { APITag } from '$/@types/api.pokecompanion';
+	import { refetchTags } from '$/lib/stores/tags';
 
 	let showRenameOverlay = false;
 	let showDescriptionOverlay = false;
@@ -159,10 +160,12 @@
 		>
 			<Button
 				classes="error"
-				on:click={() => {
-					deleteTag($tag.id).then(() => {
-						goto(`/user/${$currentUser?.username}`);
-					});
+				on:click={async () => {
+					await deleteTag($tag.id);
+					if ($currentUser?.id) {
+						await refetchTags($currentUser?.id);
+					}
+					goto(`/user/${$currentUser?.username}`);
 				}}>Yes, delete</Button
 			>
 			<Button on:click={() => (showDeleteOverlay = false)}>No, go back!</Button>
