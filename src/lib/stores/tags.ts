@@ -16,7 +16,12 @@ export const getTagsByUser = async (id: string): Promise<APITag['tags']> => {
 	}
 
 	try {
-		const res = await fetch(PUBLIC_API_HOST + `/tags?userId=${id}`);
+		const res = await fetch(PUBLIC_API_HOST + `/tags?userId=${id}`, {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		});
 		if (res.status !== 200) {
 			throw new Error(`Tried to get user "${id}"'s tags and got HTTP ${res.status}`);
 		}
@@ -48,7 +53,12 @@ export async function refetchTags(userId: string) {
 
 export async function getTagsByUsername(username: string): Promise<APITag['tags']> {
 	try {
-		const res = await fetch(PUBLIC_API_HOST + `/tags?username=${username}`);
+		const res = await fetch(PUBLIC_API_HOST + `/tags?username=${username}`, {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		});
 		if (res.status !== 200) {
 			throw new Error(`Tried to get user "${username}"'s tags and got HTTP ${res.status}`);
 		}

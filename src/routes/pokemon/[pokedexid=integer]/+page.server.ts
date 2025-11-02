@@ -55,7 +55,9 @@ export const load = async ({ params, fetch, url, cookies }) => {
 	appendSearchParams(pokemonRequestUrl);
 
 	try {
-		const request = await fetch(pokemonRequestUrl);
+		const request = await fetch(pokemonRequestUrl, {
+			credentials: 'include'
+		});
 		const body = (await request.json()) as APIPokemon;
 
 		return body;

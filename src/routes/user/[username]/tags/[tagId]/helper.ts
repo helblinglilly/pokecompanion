@@ -47,10 +47,13 @@ export function getSortFunction(
 }
 
 export function patchTag(tag: ITagMeta & { id: string }): Promise<APITag['tags'][number] | void> {
-	return fetch(`/api/tag/${tag.id}`, {
+	return fetch(`${PUBLIC_API_HOST}/tags/${tag.id}`, {
 		method: 'PATCH',
 		body: JSON.stringify(tag),
-		redirect: 'follow'
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include'
 	})
 		.then(async (res) => {
 			if (res.status !== 200) {

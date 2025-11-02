@@ -5,7 +5,7 @@ export interface ITagMeta {
 	isHiddenAcrossSite: boolean;
 	isPrivate: boolean;
 	name: string;
-	showShinyAndGender: boolean;
+	showGenderAndShiny: boolean;
 }
 
 export interface ITagDatabase extends ITagMeta {

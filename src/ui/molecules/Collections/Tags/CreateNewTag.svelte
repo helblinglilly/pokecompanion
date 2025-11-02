@@ -25,7 +25,7 @@
 		isPrivate: !!isPrivate,
 		description: '',
 		isHiddenAcrossSite: false,
-		showShinyAndGender: true,
+		showGenderAndShiny: true,
 		contents: {
 			pokemon: pokemon ? [pokemon] : [],
 			move: move ? [move] : []

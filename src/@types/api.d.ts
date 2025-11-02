@@ -39,7 +39,8 @@ export interface paths {
         delete: operations["DeleteTag"];
         options?: never;
         head?: never;
-        patch?: never;
+        /** @description Updates meta info about a Tag */
+        patch: operations["PatchTag"];
         trace?: never;
     };
     "/pokemon/{id}": {
@@ -90,26 +91,25 @@ export interface components {
                 added: string;
             }[];
         };
-        Tag: {
-            id: string;
+        /** @description From T, pick a set of properties whose keys are in the union K */
+        "Pick_DBTags.TagKeys_": {
+            /** @description The user id */
+            owner: string;
             name: string;
+            contents: components["schemas"]["TagContents"];
             isPrivate: boolean;
-            isHiddenAcrossSite: boolean;
             showGenderAndShiny: boolean;
             /** @enum {string} */
-            sortKey: "added" | "id" | "alphabetical" | "custom";
-            /** @enum {string} */
             sortOrder: "desc" | "asc" | "custom";
+            /** @enum {string} */
+            sortKey: "id" | "custom" | "added" | "alphabetical";
             description: string;
-            contents: components["schemas"]["TagContents"];
-            /** @description The user id of the owner */
-            owner: string;
+            isHiddenAcrossSite: boolean;
+            created: string;
+            updated: string;
+            id: string;
         };
-        TagRootResponse: {
-            tags: components["schemas"]["Tag"][];
-            /** Format: double */
-            totalPages: number;
-        };
+        Tag: components["schemas"]["Pick_DBTags.TagKeys_"];
         TagPostRequestBody: {
             contents: {
                 move?: {
@@ -126,7 +126,7 @@ export interface components {
                     id: number;
                 }[];
             };
-            showShinyAndGender: boolean;
+            showGenderAndShiny: boolean;
             name: string;
             isPrivate: boolean;
             isHiddenAcrossSite: boolean;
@@ -804,7 +804,7 @@ export interface components {
         "Record_average.StatValue_": {
             average: components["schemas"]["StatValue"];
         };
-        PokemonV1Response: {
+        PokemonResponse: {
             /** Format: double */
             id: number;
             name: string;
@@ -954,7 +954,7 @@ export interface operations {
                 /** @description Pagination, refer to response.totalPages to see the total number of pages. */
                 page?: number;
                 /** @description what field should be sorted on. Defaults to "added" */
-                sortKey?: "added" | "id" | "alphabetical" | "custom";
+                sortKey?: "id" | "custom" | "added" | "alphabetical";
                 /** @description Defaults to "desc" */
                 sortOrder?: "desc" | "asc" | "custom";
             };
@@ -1131,6 +1131,70 @@ export interface operations {
             };
         };
     };
+    PatchTag: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tagId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** @enum {string} */
+                    sortOrder: "desc" | "asc" | "custom";
+                    /** @enum {string} */
+                    sortKey: "id" | "custom" | "added" | "alphabetical";
+                    showGenderAndShiny: boolean;
+                    isHiddenAcrossSite: boolean;
+                    isPrivate: boolean;
+                    description: string;
+                    name: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Tag"];
+                };
+            };
+            /** @description Missing required values */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorised */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Tag does not exist or does not belong to this user */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     GetPokemonById: {
         parameters: {
             query?: never;
@@ -1146,7 +1210,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PokemonV1Response"];
+                    "application/json": components["schemas"]["PokemonResponse"];
                 };
             };
         };
