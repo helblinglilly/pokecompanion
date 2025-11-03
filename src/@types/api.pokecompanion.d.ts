@@ -7,3 +7,7 @@ export type APITag = paths['/tags']['get']['responses']['200']['content']['appli
 
 export type APITagCreateRequestBody =
 	paths['/tags']['post']['requestBody']['content']['application/json']['contents'];
+
+export type ITagMove = NonNullable<
+	paths['/tags/{tagId}']['get']['responses']['200']['content']['application/json']['contents']['move']
+>[number];

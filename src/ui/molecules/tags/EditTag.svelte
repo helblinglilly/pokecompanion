@@ -7,12 +7,12 @@
 		refetchTags,
 		tagStore
 	} from '$/lib/stores/tags';
-	import type { ITagMove } from '$/routes/api/tag/types';
 	import type { IDisplayPokemon } from '$/lib/stores/pokemonPage';
 	import type { IRecordPokemon } from '$/lib/types/IPokemon';
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { PUBLIC_API_HOST } from '$env/static/public';
+	import type { ITagMove } from '$/@types/api.pokecompanion';
 
 	let showAddToOverlay = false;
 	export let pokemon: IDisplayPokemon | undefined = undefined;

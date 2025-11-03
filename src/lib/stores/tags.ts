@@ -2,9 +2,8 @@ import { writable } from 'svelte/store';
 import { addNotification } from './notifications';
 import type { IDisplayPokemon } from './pokemonPage';
 import { Logger } from '$lib/log';
-import type { ITagMove } from '$/routes/api/tag/types';
 import type { IRecordPokemon } from '../types/IPokemon';
-import type { APITag } from '$/@types/api.pokecompanion';
+import type { APITag, ITagMove } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
 
 export const tagStore = writable<APITag['tags']>([]);

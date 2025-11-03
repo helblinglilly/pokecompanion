@@ -1,4 +1,5 @@
 import type { IRecordPokemon } from '$/lib/types/IPokemon';
+import type { ITagMove } from './api.pokecompanion';
 
 export interface ITagMeta {
 	description: string;
@@ -27,5 +28,3 @@ export interface ITagEntryGenerics {
 }
 
 export type ITagPokemon = IRecordPokemon & ITagEntryGenerics;
-
-export type ITagMove = ITagEntryGenerics;

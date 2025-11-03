@@ -1,7 +1,7 @@
 import type { APITag } from '$/@types/api.pokecompanion';
 import { Logger } from '$/lib/log';
 import { addNotification } from '$/lib/stores/notifications';
-import type { ITagMeta, ITagDatabase, ITagEntryGenerics } from '$/routes/api/tag/types';
+import type { ITagMeta, ITagDatabase, ITagEntryGenerics } from '$/@types/types';
 import { PUBLIC_API_HOST } from '$env/static/public';
 
 export function getSortFunction(
