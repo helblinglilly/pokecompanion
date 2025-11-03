@@ -12,6 +12,7 @@
 	import type { IRecordPokemon } from '$/lib/types/IPokemon';
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/lib/stores/notifications';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 
 	let showAddToOverlay = false;
 	export let pokemon: IDisplayPokemon | undefined = undefined;
@@ -30,8 +31,8 @@
 	};
 
 	async function modifyEntryOnTag(tagId: string, action: 'add' | 'remove') {
-		let body: string = '';
-		let route: string = '';
+		let body = '';
+		let route = '';
 
 		if (pokemon) {
 			body = JSON.stringify(pokemonBody());
@@ -39,12 +40,18 @@
 		}
 
 		if (move) {
-			body = JSON.stringify(move);
-			route = `/api/tag/${tagId}/move`;
+			body = JSON.stringify({
+				moveId: move?.id
+			});
+			route = PUBLIC_API_HOST + `/tags/${tagId}/move`;
 		}
 
 		const res = await fetch(route, {
 			method: action === 'add' ? 'POST' : 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
 			body
 		});
 		return res.ok;

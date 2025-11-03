@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store';
-import { currentUser } from './user';
 import { addNotification } from './notifications';
 import type { IDisplayPokemon } from './pokemonPage';
 import { Logger } from '$lib/log';
@@ -104,9 +103,15 @@ export async function addPokemonToTag(pokemon: IRecordPokemon, tagId: string) {
 
 export async function addMoveToTag(move: ITagMove, tagId: string) {
 	try {
-		const res = await fetch(`/api/tag/${tagId}/move`, {
+		const res = await fetch(PUBLIC_API_HOST + `/tags/${tagId}/move`, {
 			method: 'POST',
-			body: JSON.stringify(move)
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
+			body: JSON.stringify({
+				moveId: move.id
+			})
 		});
 
 		switch (res.status) {
@@ -116,7 +121,7 @@ export async function addMoveToTag(move: ITagMove, tagId: string) {
 			case 403:
 			case 401:
 				addNotification({
-					message: `Could not add tag due to authentication. Please sign in and try again`,
+					message: `Could not add move to tag due to authentication. Please sign in and try again`,
 					level: 'failure'
 				});
 				break;
@@ -135,7 +140,7 @@ export async function addMoveToTag(move: ITagMove, tagId: string) {
 
 export async function removePokemonFromTag(pokemon: IRecordPokemon, tagId: string) {
 	try {
-		const res = await fetch(`/api/tag/${tagId}/move`, {
+		const res = await fetch(`/api/tag/${tagId}/pokemon`, {
 			method: 'DELETE',
 			body: JSON.stringify(pokemon)
 		});
@@ -168,24 +173,44 @@ export async function removeMoveFromTag(move: ITagMove | undefined, tagId: strin
 		return false;
 	}
 	try {
-		const res = await fetch(`/api/tag/${tagId}/move`, {
+		const res = await fetch(PUBLIC_API_HOST + `/tags/${tagId}/move`, {
 			method: 'DELETE',
-			body: JSON.stringify(move)
+			body: JSON.stringify({
+				moveId: move.id
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
 		});
 
 		switch (res.status) {
 			case 200:
-			case 201:
 				return;
-			case 403:
-			case 401:
+			case 400:
 				addNotification({
-					message: `Could not remove tag due to authentication. Please sign in and try again`,
+					message: `Something about the request went wrong.`,
 					level: 'failure'
 				});
 				break;
+			case 401:
+				addNotification({
+					message: `Could not remove move from tag due to authentication. Please sign in and try again`,
+					level: 'failure'
+				});
+				break;
+			case 404:
+				addNotification({
+					message: `The tag no longer exists`,
+					level: 'info'
+				});
+				break;
 			default:
-				throw new Error(`Unsuccessful response code: ${res.status}`);
+				addNotification({
+					message: `The request to remove a move from a tag has failed. Please try again`,
+					level: 'failure'
+				});
+				break;
 		}
 	} catch (err) {
 		addNotification({ message: 'Could not remove tag. Please try again', level: 'failure' });

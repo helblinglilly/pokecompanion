@@ -9,14 +9,39 @@
 	import { getMoveEntry } from '$/lib/data/games';
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
 	import MoveCardEntry from '$/ui/molecules/move/card/MoveCardEntry.svelte';
-	import { isEqual } from 'lodash-es';
 	import type { APITag } from '$/@types/api.pokecompanion';
+	import { PUBLIC_API_HOST } from '$env/static/public';
+	import type { paths } from '$/@types/api';
+	import { addNotification } from '$/lib/stores/notifications';
 	export let filterTerm: string;
 
 	export let inModifyView: boolean;
 
 	let tag = getContext('tag') as Writable<APITag['tags'][number]>;
 
+	async function deleteMoveFromTag(move: { id: number }) {
+		const res = await fetch(PUBLIC_API_HOST + `/tags/${$tag.id}/move`, {
+			method: 'DELETE',
+			body: JSON.stringify({
+				moveId: move.id
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		});
+
+		if (res.status === 200) {
+			const body: paths['/tags/{tagId}/move']['delete']['responses']['200']['content']['application/json'] =
+				await res.json();
+			tag.set(body);
+		} else {
+			addNotification({
+				message: 'Failed to remove move from tag',
+				level: 'failure'
+			});
+		}
+	}
 	$: moveCollection =
 		$tag.contents.move
 			?.filter((move) => {
@@ -56,30 +81,8 @@
 					<button
 						slot="remove"
 						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
-						on:click={() => {
-							const optimisticTag = {
-								...$tag,
-								contents: {
-									...$tag.contents,
-									move: $tag.contents.move?.filter((tagMove) => !isEqual(tagMove, move))
-								}
-							};
-							const originalTag = { ...$tag };
-
-							tag.set(optimisticTag);
-
-							fetch(`/api/tag/${$tag.id}/move`, {
-								method: 'DELETE',
-								body: JSON.stringify({
-									id: move.id
-								})
-							}).then((res) => {
-								if (res.ok) {
-									tag.set(optimisticTag);
-								} else {
-									tag.set(originalTag);
-								}
-							});
+						on:click={async () => {
+							await deleteMoveFromTag(move);
 						}}
 					>
 						-
@@ -97,30 +100,8 @@
 					<button
 						slot="remove"
 						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
-						on:click={(e) => {
-							const optimisticTag = {
-								...$tag,
-								contents: {
-									...$tag.contents,
-									move: $tag.contents.move?.filter((tagMove) => !isEqual(tagMove, move))
-								}
-							};
-							const originalTag = { ...$tag };
-
-							tag.set(optimisticTag);
-
-							fetch(`/api/tag/${$tag.id}/move`, {
-								method: 'DELETE',
-								body: JSON.stringify({
-									id: move.id
-								})
-							}).then((res) => {
-								if (res.ok) {
-									tag.set(optimisticTag);
-								} else {
-									tag.set(originalTag);
-								}
-							});
+						on:click={async (e) => {
+							await deleteMoveFromTag(move);
 						}}>-</button
 					>
 				</MoveListEntry>
