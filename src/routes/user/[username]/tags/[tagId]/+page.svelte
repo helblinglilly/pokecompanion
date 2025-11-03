@@ -69,7 +69,11 @@
 {/if}
 
 <div class="grid gap-4">
-	<TagPokemon {filterTerm} {inModifyView} />
+	{#await data.tagPokemon}
+		<p>Loading Pokemon...</p>
+	{:then tagPokemon}
+		<TagPokemon {filterTerm} {inModifyView} allPokemon={tagPokemon} />
+	{/await}
 
 	<TagMove {filterTerm} {inModifyView} />
 </div>

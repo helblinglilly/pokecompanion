@@ -1,3 +1,4 @@
+import type { paths } from '$/@types/api.js';
 import type { APITag } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { Logger } from '$lib/log.js';
@@ -23,7 +24,16 @@ export const load = async ({ params, fetch }) => {
 		error(404, 'This tag does not exist');
 	}
 
+	async function getTagPokemon() {
+		const tagPokemonRes = await fetch(`${PUBLIC_API_HOST}/tags/${params.tagId}/pokemon`, {
+			credentials: 'include'
+		});
+		const tagPokemon: paths['/tags/{tagId}/pokemon']['get']['responses']['200']['content']['application/json'] =
+			await tagPokemonRes.json();
+
+		return tagPokemon;
+	}
 	const tag = (await tagRes.json()) as APITag['tags'][number];
 
-	return { user, tag };
+	return { user, tag, tagPokemon: getTagPokemon() };
 };

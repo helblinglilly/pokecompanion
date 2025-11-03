@@ -1,29 +1,23 @@
 <script lang="ts">
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card';
-	import { getPokemonEntry } from '$/lib/data/games';
-	import { primaryLanguage, secondaryLanguage } from '$/lib/stores/domain';
-	import { getMultiLanguageName } from '$/lib/utils/language';
-	import { termNormaliser } from '$/lib/utils/string';
 	import { page } from '$app/stores';
 	import { getContext } from 'svelte';
 	import { type Writable } from 'svelte/store';
-	import { getSortFunction } from './helper';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
-	import PokemonLink from '$/ui/molecules/pokemon/link/PokemonLink.svelte';
 	import type { APITag } from '$/@types/api.pokecompanion';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
 	import { addNotification } from '$/lib/stores/notifications';
-	export let filterTerm: string;
+	import { termNormaliser } from '$/lib/utils/string';
 
 	export let inModifyView: boolean;
+	export let filterTerm: string;
 
 	async function deletePokemonFromTag(pokemon: {
 		variety: string;
 		shiny: boolean;
 		id: number;
 		gender?: 'male' | 'female';
-		added: string;
 	}) {
 		const res = await fetch(PUBLIC_API_HOST + `/tags/${$tag.id}/pokemon`, {
 			method: 'DELETE',
@@ -50,72 +44,76 @@
 
 	let tag = getContext('tag') as Writable<APITag['tags'][number]>;
 
-	$: pokemonCollection = $tag.contents.pokemon
-		?.filter((mon) => {
-			const normalised = termNormaliser(filterTerm);
-			const matchesId = `${mon.id}`.includes(filterTerm);
-			const names = termNormaliser(
-				getMultiLanguageName(
-					getPokemonEntry(mon.id).names,
-					$primaryLanguage,
-					$secondaryLanguage,
-					mon.variety ?? ''
-				) ?? ''
-			);
+	export let allPokemon: paths['/tags/{tagId}/pokemon']['get']['responses']['200']['content']['application/json'];
 
-			const matchesName = names.includes(normalised);
-			return matchesId || matchesName;
-		})
-		.sort(
-			getSortFunction(
-				($page.url.searchParams.get('sortBy') ||
-					$tag.sortKey) as unknown as APITag['tags'][number]['sortKey'],
-				($page.url.searchParams.get('sortOrder') ||
-					$tag.sortOrder) as unknown as APITag['tags'][number]['sortOrder']
-			).sortFunction
-		);
+	$: pokemonCollection = allPokemon?.filter((pokemon) => {
+		if (!filterTerm) {
+			return true;
+		}
+		const normalised = termNormaliser(filterTerm);
+		const matchesId = `${pokemon.id}`.includes(normalised);
+
+		const matchesName = termNormaliser(pokemon.name).includes(normalised);
+		return matchesId || matchesName;
+	});
 </script>
 
-{#if !pokemonCollection || pokemonCollection.length === 0}
+{#if pokemonCollection.length === 0}
 	<p>No Pokemon</p>
-{:else if $page.url.searchParams.get('view') === 'card'}
-	<h2 class="h2">Pokémon</h2>
-	<div
-		class="grid gap-8 justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl-grid-cols-6"
-	>
-		{#each pokemonCollection as pokemon}
-			<PokemonLink {pokemon} isLinkHidden={inModifyView}>
-				<PokemonCardEntry
-					{pokemon}
-					showGenderAndShiny={$tag.showGenderAndShiny}
-					isClickable={!inModifyView}
-				>
-					<button
-						slot="remove"
-						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
-						on:click={async () => {
-							await deletePokemonFromTag(pokemon);
-						}}>-</button
-					>
-				</PokemonCardEntry>
-			</PokemonLink>
-		{/each}
-	</div>
 {:else}
 	<h2 class="h2">Pokémon</h2>
-	<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+
+	<div
+		class={`grid ${
+			$page.url.searchParams.get('view') === 'card'
+				? 'gap-8 justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl-grid-cols-6'
+				: 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'
+		}`}
+	>
 		{#each pokemonCollection as pokemon}
-			<PokemonLink {pokemon} isLinkHidden={inModifyView}>
-				<PokemonListEntry {pokemon} showGenderAndShiny={$tag.showGenderAndShiny}>
-					<button
-						slot="remove"
-						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
-						on:click={async () => {
-							await deletePokemonFromTag(pokemon);
-						}}>-</button
+			<a
+				href={inModifyView ? undefined : pokemon.slug}
+				style="text-decoration-line: unset; width: 100%;"
+			>
+				{#if $page.url.searchParams.get('view') === 'card'}
+					<PokemonCardEntry
+						{pokemon}
+						shiny={pokemon.shiny}
+						gender={pokemon.gender}
+						showGenderAndShiny={$tag.showGenderAndShiny}
+						isClickable={!inModifyView}
 					>
-				</PokemonListEntry>
-			</PokemonLink>
+						<button
+							slot="remove"
+							class={`removeButton ${inModifyView ? '' : 'hidden'}`}
+							on:click={async () => {
+								await deletePokemonFromTag({
+									...pokemon,
+									shiny: pokemon.shiny ?? false
+								});
+							}}>-</button
+						>
+					</PokemonCardEntry>
+				{:else}
+					<PokemonListEntry
+						{pokemon}
+						shiny={pokemon.shiny}
+						gender={pokemon.gender}
+						showGenderAndShiny={$tag.showGenderAndShiny}
+					>
+						<button
+							slot="remove"
+							class={`removeButton ${inModifyView ? '' : 'hidden'}`}
+							on:click={async () => {
+								await deletePokemonFromTag({
+									...pokemon,
+									shiny: pokemon.shiny ?? false
+								});
+							}}>-</button
+						>
+					</PokemonListEntry>
+				{/if}
+			</a>
 		{/each}
 	</div>
 {/if}

@@ -2,7 +2,7 @@
 	import type { IRecordPokemon } from '$/lib/types/IPokemon';
 
 	export let pokemon: IRecordPokemon;
-	export let isLinkHidden: boolean = false;
+	export let isLinkHidden = false;
 
 	const queryParams = new URLSearchParams();
 

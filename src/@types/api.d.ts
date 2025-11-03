@@ -68,7 +68,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** @description Adds a Pokemon to a specific tag */
+        get: operations["GetPokemon"];
         put?: never;
         /** @description Adds a Pokemon to a specific tag */
         post: operations["AddPokemon"];
@@ -87,6 +88,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["GetPokemonById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/pokemon/{id}/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["GetPokemonPreview"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1349,6 +1366,71 @@ export interface operations {
             };
         };
     };
+    GetPokemon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tagId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        variety: string;
+                        slug: string;
+                        /** @enum {string} */
+                        gender?: "female" | "male";
+                        shiny?: boolean;
+                        sprite: {
+                            url: string;
+                            alt: string;
+                        };
+                        name: string;
+                        /** Format: double */
+                        id: number;
+                    }[];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Unauthorised */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     AddPokemon: {
         parameters: {
             query?: never;
@@ -1493,6 +1575,40 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PokemonResponse"];
+                };
+            };
+        };
+    };
+    GetPokemonPreview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description Pokecompanion URL */
+                        slug: string;
+                        sprite: {
+                            url: string;
+                            alt: string;
+                        };
+                        /** @description Single string - combined both languages into the same string */
+                        name: string;
+                        /**
+                         * Format: double
+                         * @description Species National Dex ID
+                         */
+                        id: number;
+                    };
                 };
             };
         };
