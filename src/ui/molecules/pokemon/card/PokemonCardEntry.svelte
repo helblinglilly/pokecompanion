@@ -1,48 +1,42 @@
 <script lang="ts">
-	import { getLanguageEntry } from '$lib/utils/language';
-	import { primaryLanguage, secondaryLanguage, selectedGame, theme } from '$lib/stores/domain';
-	import { getPokemonEntry, type IGameGroups } from '$lib/data/games';
+	import { selectedGame, theme, versionSpecificPokemonSprites } from '$lib/stores/domain';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
-	import { pokemonVarietyNameToDisplay } from '$lib/utils/string';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Image from '$/ui/atoms/image';
 	import type { IRecordPokemon } from '$/lib/types/IPokemon';
 	import { createEventDispatcher, onMount } from 'svelte';
-	import { getSpriteURL } from '$/ui/atoms/pokemon/sprite/helper';
+	import { PUBLIC_API_HOST } from '$env/static/public';
+	import type { APIPokemon } from '$/@types/api.pokecompanion';
 
 	export let pokemon: IRecordPokemon;
 	export let showGenderAndShiny: boolean;
-	export let isClickable: boolean = true;
-	export let gameOverride: IGameGroups | undefined = undefined;
+	export let isClickable = true;
 
 	const dispatch = createEventDispatcher();
 
-	$: namePrefix = pokemonVarietyNameToDisplay(pokemon.variety ?? '');
-	$: primaryName = getLanguageEntry(getPokemonEntry(pokemon.id).names, $primaryLanguage);
-	$: secondaryName = $secondaryLanguage
-		? getLanguageEntry(getPokemonEntry(pokemon.id).names, $secondaryLanguage)
-		: undefined;
+	let fullPokemon: APIPokemon | null = null;
 
-	let spriteURL: string | null = null;
-
-	let isMounted = false;
-	onMount(() => {
-		isMounted = true;
-	});
-	$: {
-		const fetchSpriteURL = async () => {
-			spriteURL = await getSpriteURL(
-				pokemon.id,
-				showGenderAndShiny ? pokemon.shiny === true : false,
-				showGenderAndShiny ? pokemon.gender === 'female' : false,
-				pokemon.variety,
-				gameOverride ?? $selectedGame
-			);
-		};
-		if (isMounted) {
-			fetchSpriteURL();
+	onMount(async () => {
+		const pokemonRequestUrl = new URL(`${PUBLIC_API_HOST}/pokemon/${pokemon.id}`);
+		if (showGenderAndShiny) {
+			pokemonRequestUrl.searchParams.append('shiny', `${pokemon.shiny}`);
+			pokemonRequestUrl.searchParams.append('gender', `${pokemon.gender}`);
 		}
-	}
+		if (pokemon.variety) {
+			pokemonRequestUrl.searchParams.append('variety', `${pokemon.variety}`);
+		}
+
+		if ($selectedGame && $versionSpecificPokemonSprites) {
+			pokemonRequestUrl.searchParams.append('game', `${$selectedGame.pokeapi}`);
+			pokemonRequestUrl.searchParams.append('versionSpecificPokemonSprites', `true`);
+		}
+
+		const res = await fetch(pokemonRequestUrl, {
+			credentials: 'include'
+		});
+
+		fullPokemon = await res.json();
+	});
 </script>
 
 <Card
@@ -55,11 +49,11 @@
 	}}
 >
 	<div class="spriteWrapper">
-		{#if spriteURL}
+		{#if fullPokemon?.sprites && fullPokemon.sprites[0]}
 			<Image
 				classNames="ml-auto mr-auto h-full max-w-min"
-				src={spriteURL}
-				alt={`sprite`}
+				src={fullPokemon.sprites[0].url}
+				alt={fullPokemon.sprites[0].alt}
 				loading="lazy"
 				height="64px"
 			/>
@@ -67,12 +61,9 @@
 			<div />
 		{/if}
 	</div>
-	<p>#{pokemon.id}{namePrefix ? ' ' + namePrefix : ''}</p>
-	{#if primaryName}
-		<p>{primaryName}</p>
-	{/if}
-	{#if secondaryName}
-		<p>{secondaryName}</p>
+	<p>#{pokemon.id}</p>
+	{#if fullPokemon?.name}
+		<p>{fullPokemon.name}</p>
 	{/if}
 
 	<div class="indicators">
