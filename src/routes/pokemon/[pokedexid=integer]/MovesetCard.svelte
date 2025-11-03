@@ -39,8 +39,10 @@
 	/>
 
 	<Moveset
-		completeData={//  @ts-expect-error There is still a mismatch here for ORAS
-		movesetData[selectedVersionGroup]}
+		completeData={
+		//  @ts-expect-error There is still a mismatch here for ORAS
+		movesetData[selectedVersionGroup]
+		}
 	/>
 {:else}
 	<p>No data</p>

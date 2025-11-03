@@ -7,10 +7,10 @@
 	import { deleteCookie } from '$lib/utils/cookies';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
-	import type { PBAuthRecord } from '$/@types/pocketbase';
+	import type { RecordModel } from 'pocketbase';
 
 	let showModal = false;
-	export let user: PBAuthRecord;
+	export let user: RecordModel;
 
 	const onDeleteClick = async () => {
 		try {

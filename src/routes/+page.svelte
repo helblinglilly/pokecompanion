@@ -13,9 +13,11 @@
 	import { daysPassedInYear, randomDailyNumber } from '$lib/utils/number';
 	import { onMount } from 'svelte';
 
-	const pokemonOtdId = randomDailyNumber(lastPokedexEntry)[daysPassedInYear()];
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const pokemonOtdId = randomDailyNumber(lastPokedexEntry)[daysPassedInYear()]!;
 
-	const moveOtdIndex = randomDailyNumber(Moves.length)[daysPassedInYear()];
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const moveOtdIndex = randomDailyNumber(Moves.length)[daysPassedInYear()]!;
 
 	onMount(async () => {
 		Logger.addPageAction('PokemonOTD', pokemonOtdId.toString());
@@ -84,7 +86,7 @@
 			</div>
 			<div class="column p-0">
 				<h2 class="h2">Move of the day</h2>
-				<MoveOtd id={Moves[moveOtdIndex].id} />
+				<MoveOtd id={Moves[moveOtdIndex]?.id ?? 1} />
 			</div>
 		</div>
 	</section>

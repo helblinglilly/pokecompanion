@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import PokemonNames from '$lib/data/pokemonNames.json';
 import MoveNames from '$lib/data/moves.json';
 import type { UserPreferencePokemonVersion } from '$lib/stores/domain';
@@ -187,7 +188,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.HOME,
 		shortName: 'Home',
-		generation: Generations[Generations.length - 1],
+		generation: Generations[Generations.length - 1]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.HOME,
@@ -201,7 +202,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.RED_BLUE,
 		shortName: 'Red / Blue',
-		generation: Generations[0],
+		generation: Generations[0]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.RED,
@@ -220,7 +221,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.YELLOW,
 		shortName: 'Yellow',
-		generation: Generations[0],
+		generation: Generations[0]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.YELLOW,
@@ -234,7 +235,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.GOLD_SILVER,
 		shortName: 'Gold / Silver',
-		generation: Generations[1],
+		generation: Generations[1]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.GOLD,
@@ -253,7 +254,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.CRYSTAL,
 		shortName: 'Crystal',
-		generation: Generations[1],
+		generation: Generations[1]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.CRYSTAL,
@@ -267,7 +268,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.RUBY_SAPPHIRE,
 		shortName: 'Ruby / Sapphire',
-		generation: Generations[2],
+		generation: Generations[2]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.RUBY,
@@ -286,7 +287,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.EMERALD,
 		shortName: 'Emerald',
-		generation: Generations[2],
+		generation: Generations[2]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.EMERALD,
@@ -300,7 +301,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.FIRERED_LEAFGREEN,
 		shortName: 'Fire Red / Leaf Green',
-		generation: Generations[2],
+		generation: Generations[2]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.FIRERED,
@@ -319,7 +320,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.DIAMOND_PEARL,
 		shortName: 'Diamond / Pearl',
-		generation: Generations[3],
+		generation: Generations[3]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.DIAMOND,
@@ -338,7 +339,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.PLATINUM,
 		shortName: 'Platinum',
-		generation: Generations[3],
+		generation: Generations[3]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.PLATINUM,
@@ -352,7 +353,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.HEART_GOLD_SOUL_SILVER,
 		shortName: 'Heart Gold / Soul Silver',
-		generation: Generations[3],
+		generation: Generations[3]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.HEART_GOLD,
@@ -371,7 +372,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.BLACK_WHITE,
 		shortName: 'Black / White',
-		generation: Generations[4],
+		generation: Generations[4]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.BLACK,
@@ -390,7 +391,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.BLACK_2_WHITE_2,
 		shortName: 'Black 2 / White 2',
-		generation: Generations[4],
+		generation: Generations[4]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.BLACK_2,
@@ -409,7 +410,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.X_Y,
 		shortName: 'X / Y',
-		generation: Generations[5],
+		generation: Generations[5]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.X,
@@ -428,7 +429,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.OMEGA_RUBY_ALPHA_SAPPHIRE,
 		shortName: 'Omega Ruby / Alpha Sapphire',
-		generation: Generations[5],
+		generation: Generations[5]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.OMEGA_RUBY,
@@ -447,7 +448,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.SUN_MOON,
 		shortName: 'Sun / Moon',
-		generation: Generations[6],
+		generation: Generations[6]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.SUN,
@@ -466,7 +467,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.ULTRA_SUN_ULTRA_MOON,
 		shortName: 'Ultra Sun / Ultra Moon',
-		generation: Generations[6],
+		generation: Generations[6]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.ULTRA_SUN,
@@ -485,7 +486,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.PIKACHU_EEVEE,
 		shortName: "Let's Go Pikachu",
-		generation: Generations[6],
+		generation: Generations[6]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.PIKACHU,
@@ -504,7 +505,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.SWORD_SHIELD,
 		shortName: 'Sword / Shield',
-		generation: Generations[7],
+		generation: Generations[7]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.SWORD,
@@ -534,7 +535,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.BRILLIANT_DIAMOND_SHINING_PEARL,
 		shortName: 'Brilliant Diamond / Shining Pearl',
-		generation: Generations[7],
+		generation: Generations[7]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.BRILLIANT_DIAMOND,
@@ -553,7 +554,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.LEGENDS_ARCEUS,
 		shortName: 'Legends Arceus',
-		generation: Generations[7],
+		generation: Generations[7]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.LEGENDS_ARCEUS,
@@ -567,7 +568,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.SCARLET_VIOLET,
 		shortName: 'Scarlet / Violet',
-		generation: Generations[8],
+		generation: Generations[8]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.SCARLET,
@@ -597,7 +598,7 @@ export const GameGroups: IGameGroups[] = [
 	{
 		pokeapi: PokeapiVersionGroups.LEGENDS_ZA,
 		shortName: 'Legends ZA',
-		generation: Generations[8],
+		generation: Generations[8]!,
 		games: [
 			{
 				pokeapi: PokeapiVersionNames.LEGENDS_ZA,

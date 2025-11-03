@@ -11,9 +11,11 @@ const shuffle = (arr: number[], randomNumbers: number[]): number[] => {
 		randomIndex;
 
 	while (currentIndex != 0) {
+		// @ts-expect-error cba
 		randomIndex = Math.floor(randomNumbers[currentIndex]);
 		currentIndex--;
 
+		// @ts-expect-error cba
 		[arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
 	}
 

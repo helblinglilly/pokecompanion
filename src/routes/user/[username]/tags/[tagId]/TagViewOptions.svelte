@@ -1,14 +1,14 @@
 <script lang="ts">
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
-	import { type TagRecord } from '$/lib/types/ITags';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Select from '$/ui/atoms/select/Select.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
+	import type { APITag } from '$/@types/api.pokecompanion';
 
-	let tag = getContext('tag') as Writable<TagRecord>;
+	let tag = getContext('tag') as Writable<APITag['tags'][number]>;
 
 	function replaceQueryParam(name: string, value: string) {
 		const newSearchParams = new URLSearchParams($page.url.searchParams);

@@ -1,10 +1,15 @@
 <script lang="ts">
 	import ExpandableButton from '$/lib/components/ExpandableButton.svelte';
-	import type { IEncounterLocation } from '$/lib/data/encounterFilter';
 	import { Logger } from '$/lib/log';
 	import { capitaliseEachWord } from '$/lib/utils/string';
 
-	export let encounterLocation: IEncounterLocation[];
+	export let encounterLocation: Array<{
+		method: string;
+		minLevel: number;
+		maxLevel: number;
+		chance: number;
+		conditions: Array<string>;
+	}>;
 	export let locationKey: string;
 
 	$: hasRequirement = encounterLocation.some((a) => a.conditions.length >= 1);

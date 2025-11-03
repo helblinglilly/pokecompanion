@@ -45,11 +45,11 @@ const redirectOffDummyData = (id: number) => {
 
 export async function load({ params, cookies }) {
 	const moveId = redirectOffDummyData(Number(params.moveid));
-	if (moveId < 1 || moveId > Moves[Moves.length - 1].id) {
+	if (moveId < 1 || moveId > (Moves[Moves.length - 1]?.id ?? 1)) {
 		error(404, 'Move not found');
 	}
 
-	const game = getGameGroupFromName(cookies.get('selectedGame') as UserPreferencePokemonVersion)
+	const game = getGameGroupFromName(cookies.get('selectedGame') as UserPreferencePokemonVersion);
 
 	const move = await getMove(moveId, game);
 	return {

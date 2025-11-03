@@ -46,7 +46,7 @@ export const getCookieValue = (request: Request, name: string) => {
 	values.find((value) => {
 		const [key, val] = value.split('=');
 		if (key === name) {
-			result = val;
+			result = val ?? '';
 		}
 	});
 	return result;
@@ -72,7 +72,7 @@ export const validateAuth = async (request: Request, cookies: Cookies) => {
 			expires: addMinutesToDate(new Date(), 30)
 		});
 		const cookieValues = parseCookieString(refreshedCookie);
-		const pbAuthObj = JSON.parse(cookieValues.pb_auth);
+		const pbAuthObj = JSON.parse(cookieValues?.pb_auth ?? '{}');
 
 		cookies.set('pb_auth', JSON.stringify(pbAuthObj), {
 			expires: addMinutesToDate(new Date(cookieValues.Expires), 1209600 / 60),

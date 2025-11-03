@@ -6,24 +6,19 @@ import { error } from '@sveltejs/kit';
 import Pocketbase from 'pocketbase';
 import type { ListResult, RecordModel } from 'pocketbase';
 
-
 export const load = async ({ params }) => {
 	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
 	const [user, teamData] = await Promise.all([
 		getUserByUsername(params.username),
 		pb.collection('teams').getList(1, 1, {
 			filter: `id="${params.teamId}"`,
-			expand: "party,party.nickname",
-		}) as Promise<ListResult<IRecordTeam & RecordModel>>,
+			expand: 'party,party.nickname'
+		}) as Promise<ListResult<IRecordTeam & RecordModel>>
 	]).catch(async (err) => {
-		await Logger.error(
-			Logger.ErrorClasses.TagOperation,
-			Logger.buildError(err),
-			{
-				context: 'Failed to get teams for user',
-				username: params.username,
-			}
-		)
+		await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
+			context: 'Failed to get teams for user',
+			username: params.username
+		});
 		return [];
 	});
 
@@ -33,21 +28,27 @@ export const load = async ({ params }) => {
 
 	const team = teamData.items[0];
 
-	const allPokemonIds = team.party.concat(team.bench);
+	const allPokemonIds = (team?.party ?? []).concat(team?.bench ?? []);
 
-	const pokemon: Array<ITeamPokemon & RecordModel> = await pb.collection('team_pokemon').getFullList({
-		filter: allPokemonIds.map((pokemonId: string) => `id="${pokemonId}"`).join(' || ')
-	});
+	const pokemon: Array<ITeamPokemon & RecordModel> = await pb
+		.collection('team_pokemon')
+		.getFullList({
+			filter: allPokemonIds.map((pokemonId: string) => `id="${pokemonId}"`).join(' || ')
+		});
 
-	const party: ITeamPokemon[] = pokemon.filter((pokemon) => {
-		return team.party.includes(pokemon.id)
-	}).sort((a, b) => a.position < b.position ? -1 : 1)
+	const party: ITeamPokemon[] = pokemon
+		.filter((pokemon) => {
+			return (team?.party ?? []).includes(pokemon.id);
+		})
+		.sort((a, b) => (a.position < b.position ? -1 : 1));
 
-	const bench: ITeamPokemon[] = pokemon.filter((pokemon) => {
-		return team.bench.includes(pokemon.id);
-	}).sort((a, b) => new Date(a.updated) < new Date(b.updated) ? 1 : -1)
+	const bench: ITeamPokemon[] = pokemon
+		.filter((pokemon) => {
+			return (team?.bench ?? []).includes(pokemon.id);
+		})
+		.sort((a, b) => (new Date(a.updated) < new Date(b.updated) ? 1 : -1));
 
-	while(party.length < 6){
+	while (party.length < 6) {
 		party.push({
 			national_dex: -1,
 			nickname: undefined,
@@ -63,7 +64,7 @@ export const load = async ({ params }) => {
 			owner: '',
 			id: '',
 			position: 6
-		})
+		});
 	}
 
 	console.log(party);
@@ -72,7 +73,7 @@ export const load = async ({ params }) => {
 		...team,
 		party,
 		bench
-	}
+	};
 
-	return { user, team: fullTeam};
+	return { user, team: fullTeam };
 };

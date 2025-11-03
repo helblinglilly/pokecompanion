@@ -88,7 +88,7 @@ export const actions: Actions = {
 				expires: addDaysToDate(new Date(), 7)
 			});
 			const cookieValues = parseCookieString(cookie);
-			const pbAuthObj = JSON.parse(cookieValues.pb_auth);
+			const pbAuthObj = cookieValues.pb_auth ? JSON.parse(cookieValues.pb_auth) : {};
 
 			cookies.set('pb_auth', JSON.stringify(pbAuthObj), {
 				expires: addMinutesToDate(new Date(cookieValues.Expires), 1209600 / 60),

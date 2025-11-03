@@ -1,13 +1,14 @@
-import type { APITag } from '$/@types/api.pokecompanion';
+import type { paths } from '$/@types/api';
+import type { APITag, ITag } from '$/@types/api.pokecompanion';
 import { Logger } from '$/lib/log';
 import { addNotification } from '$/lib/stores/notifications';
-import type { ITagMeta, ITagDatabase, ITagEntryGenerics } from '$/@types/types';
 import { PUBLIC_API_HOST } from '$env/static/public';
 
-export function getSortFunction(
-	key: ITagDatabase['sortKey'],
-	direction: ITagDatabase['sortOrder']
-) {
+type ITagEntryGenerics = {
+	added: string;
+	id: number;
+};
+export function getSortFunction(key: ITag['sortKey'], direction: ITag['sortOrder']) {
 	const sortByDateDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics): -1 | 1 => {
 		return new Date(a.added).valueOf() < new Date(b.added).valueOf() ? 1 : -1;
 	};
@@ -46,7 +47,11 @@ export function getSortFunction(
 	};
 }
 
-export function patchTag(tag: ITagMeta & { id: string }): Promise<APITag['tags'][number] | void> {
+export function patchTag(
+	tag: paths['/tags/{tagId}']['patch']['requestBody']['content']['application/json'] & {
+		id: string;
+	}
+): Promise<APITag['tags'][number] | void> {
 	return fetch(`${PUBLIC_API_HOST}/tags/${tag.id}`, {
 		method: 'PATCH',
 		body: JSON.stringify(tag),

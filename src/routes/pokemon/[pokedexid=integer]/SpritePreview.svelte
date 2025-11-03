@@ -12,9 +12,10 @@
 	$: [primarySprite, secondarySprite] = sprites ?? [];
 
 	let showModal = false;
-	let modalContent: Pick<Sprites[number], 'url' | 'alt'> = {
+	let modalContent: Pick<Sprites[number], 'url' | 'alt' | 'isBack'> = {
 		url: '',
-		alt: 'placeholder'
+		alt: 'placeholder',
+		isBack: false
 	};
 
 	let hasMounted = false;

@@ -55,45 +55,47 @@
 
 		<div class="columns" style={`display: ${showHints ? 'grid' : 'none'};`}>
 			<div class="hintEntry">
-				<p>#1 - #{Generations[0].nationalDexEnd}</p>
+				<p>#1 - #{Generations[0]?.nationalDexEnd}</p>
 				<p>{Regions.KANTO}</p>
 			</div>
 			<div class="hintEntry">
-				<p>#{Generations[0].nationalDexEnd + 1} - #{Generations[1].nationalDexEnd}</p>
+				<p>#{Generations[0]?.nationalDexEnd ?? 0 + 1} - #{Generations[1]?.nationalDexEnd}</p>
 				<p>{Regions.JOHTO}</p>
 			</div>
 			<div class="hintEntry">
-				<p>#{Generations[1].nationalDexEnd + 1} - #{Generations[2].nationalDexEnd}</p>
+				<p>#{Generations[1]?.nationalDexEnd ?? 0 + 1} - #{Generations[2]?.nationalDexEnd}</p>
 				<p>{Regions.HOENN}</p>
 			</div>
 			<div class="hintEntry">
-				<p>#{Generations[2].nationalDexEnd + 1} - #{Generations[3].nationalDexEnd}</p>
+				<p>#{Generations[2]?.nationalDexEnd ?? 0 + 1} - #{Generations[3]?.nationalDexEnd}</p>
 				<p>{Regions.SINNOH}</p>
 			</div>
 			<div class="hintEntry">
-				<p>#{Generations[3].nationalDexEnd + 1} - #{Generations[4].nationalDexEnd}</p>
+				<p>#{Generations[3]?.nationalDexEnd ?? 0 + 1} - #{Generations[4]?.nationalDexEnd}</p>
 				<p>{Regions.UNOVA}</p>
 			</div>
 
 			<div class="hintEntry">
-				<p>#{Generations[4].nationalDexEnd + 1} - #{Generations[5].nationalDexEnd}</p>
+				<p>#{Generations[4]?.nationalDexEnd ?? 0 + 1} - #{Generations[5]?.nationalDexEnd}</p>
 				<p>{Regions.KALOS}</p>
 			</div>
 
 			<div class="hintEntry">
-				<p>#{Generations[5].nationalDexEnd + 1} - #{Generations[6].nationalDexEnd}</p>
+				<p>#{Generations[5]?.nationalDexEnd ?? 0 + 1} - #{Generations[6]?.nationalDexEnd}</p>
 				<p>{Regions.ALOLA}</p>
 			</div>
 			<div class="hintEntry">
-				<p>#{Generations[6].nationalDexEnd + 1} - #{Generations[7].nationalDexEnd - 7}</p>
+				<p>
+					#{Generations[6]?.nationalDexEnd ?? 0 + 1} - #{Generations[7]?.nationalDexEnd ?? 0 - 7}
+				</p>
 				<p>{Regions.GALAR}</p>
 			</div>
 			<div class="hintEntry">
-				<p>#{Generations[7].nationalDexEnd - 6} - #{Generations[7].nationalDexEnd}</p>
+				<p>#{Generations[7]?.nationalDexEnd ?? 0 - 6} - #{Generations[7]?.nationalDexEnd}</p>
 				<p>{Regions.HISUI}</p>
 			</div>
 			<div class="hintEntry">
-				<p>#{Generations[7].nationalDexEnd + 1} - #{Generations[8].nationalDexEnd}</p>
+				<p>#{Generations[7]?.nationalDexEnd ?? 0 + 1} - #{Generations[8]?.nationalDexEnd}</p>
 				<p>{Regions.PALDEA}</p>
 			</div>
 		</div>

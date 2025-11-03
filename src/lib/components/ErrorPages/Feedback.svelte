@@ -3,8 +3,8 @@
 	import { Logger } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 
-	export let placeholder: string = 'What are your thoughts?';
-	let freetext: string = '';
+	export let placeholder = 'What are your thoughts?';
+	let freetext = '';
 
 	const onSubmit = async () => {
 		await Logger.addPageAction('UserFeedback', '', {

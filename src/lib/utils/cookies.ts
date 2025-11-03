@@ -1,4 +1,3 @@
-import { browser } from '$app/environment';
 /*
 	Below functions are taken from
 	https://javascript.info/cookie
@@ -8,7 +7,7 @@ const getCookie = (name: string) => {
 		// eslint-disable-next-line no-useless-escape
 		new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
 	);
-	return matches ? decodeURIComponent(matches[1]) : undefined;
+	return matches ? decodeURIComponent(matches[1] ?? '') : undefined;
 };
 
 const getRawCookie = (cookieString: string | null, name: string) => {
@@ -80,11 +79,12 @@ const parseCookieString = (cookieString: string): BaseCookieAttributes & CookieV
 	const cookiePairs = cookieString.split(';');
 	for (const pair of cookiePairs) {
 		const [key, value] = pair.trim().split('=');
+		// @ts-expect-error key might be undefined but can't index
 		if (key in baseCookieAttributes) {
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
+			// @ts-expect-error key might be undefined but can't index
 			baseCookieAttributes[key as keyof BaseCookieAttributes] = value;
 		} else {
+			// @ts-expect-error key might be undefined but can't index
 			cookieValues[key] = decodeURIComponent(value);
 		}
 	}
