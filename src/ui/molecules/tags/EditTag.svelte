@@ -36,7 +36,7 @@
 
 		if (pokemon) {
 			body = JSON.stringify(pokemonBody());
-			route = `/api/tag/${tagId}/pokemon`;
+			route = PUBLIC_API_HOST + `/tags/${tagId}/pokemon`;
 		}
 
 		if (move) {

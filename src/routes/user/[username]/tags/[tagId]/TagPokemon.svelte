@@ -7,14 +7,46 @@
 	import { page } from '$app/stores';
 	import { getContext } from 'svelte';
 	import { type Writable } from 'svelte/store';
-	import { getSortFunction, patchTag } from './helper';
-	import { isEqual } from 'lodash-es';
+	import { getSortFunction } from './helper';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
 	import PokemonLink from '$/ui/molecules/pokemon/link/PokemonLink.svelte';
 	import type { APITag } from '$/@types/api.pokecompanion';
+	import { PUBLIC_API_HOST } from '$env/static/public';
+	import type { paths } from '$/@types/api';
+	import { addNotification } from '$/lib/stores/notifications';
 	export let filterTerm: string;
 
 	export let inModifyView: boolean;
+
+	async function deletePokemonFromTag(pokemon: {
+		variety: string;
+		shiny: boolean;
+		id: number;
+		gender?: 'male' | 'female';
+		added: string;
+	}) {
+		const res = await fetch(PUBLIC_API_HOST + `/tags/${$tag.id}/pokemon`, {
+			method: 'DELETE',
+			body: JSON.stringify({
+				...pokemon
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		});
+
+		if (res.status === 200) {
+			const body: paths['/tags/{tagId}/pokemon']['delete']['responses']['200']['content']['application/json'] =
+				await res.json();
+			tag.set(body);
+		} else {
+			addNotification({
+				message: 'Failed to remove move from tag',
+				level: 'failure'
+			});
+		}
+	}
 
 	let tag = getContext('tag') as Writable<APITag['tags'][number]>;
 
@@ -61,25 +93,8 @@
 					<button
 						slot="remove"
 						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
-						on:click={() => {
-							const optimisticTag = {
-								...$tag,
-								contents: {
-									...$tag.contents,
-									pokemon: $tag.contents.pokemon?.filter((tagMon) => !isEqual(tagMon, pokemon))
-								}
-							};
-							const originalTag = { ...$tag };
-
-							tag.set(optimisticTag);
-
-							patchTag(optimisticTag).then((newTag) => {
-								if (newTag) {
-									tag.set(newTag);
-								} else {
-									tag.set(originalTag);
-								}
-							});
+						on:click={async () => {
+							await deletePokemonFromTag(pokemon);
 						}}>-</button
 					>
 				</PokemonCardEntry>
@@ -95,30 +110,8 @@
 					<button
 						slot="remove"
 						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
-						on:click={(e) => {
-							const optimisticTag = {
-								...$tag,
-								contents: {
-									...$tag.contents,
-									pokemon: $tag.contents.pokemon?.filter((tagMon) => !isEqual(tagMon, pokemon))
-								}
-							};
-							const originalTag = { ...$tag };
-
-							tag.set(optimisticTag);
-
-							fetch(`/api/tag/${$tag.id}/pokemon`, {
-								method: 'DELETE',
-								body: JSON.stringify({
-									id: pokemon.id
-								})
-							}).then((res) => {
-								if (res.ok) {
-									tag.set(optimisticTag);
-								} else {
-									tag.set(originalTag);
-								}
-							});
+						on:click={async () => {
+							await deletePokemonFromTag(pokemon);
 						}}>-</button
 					>
 				</PokemonListEntry>

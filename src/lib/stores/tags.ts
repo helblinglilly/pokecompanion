@@ -73,8 +73,12 @@ export async function getTagsByUsername(username: string): Promise<APITag['tags'
 
 export async function addPokemonToTag(pokemon: IRecordPokemon, tagId: string) {
 	try {
-		const res = await fetch(`/api/tag/${tagId}/pokemon`, {
+		const res = await fetch(PUBLIC_API_HOST + `/tags/${tagId}/pokemon`, {
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
 			body: JSON.stringify(pokemon)
 		});
 		switch (res.status) {

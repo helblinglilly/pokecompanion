@@ -52,10 +52,28 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** @description Deletes a move from a specific tag */
+        /** @description Adds a move to a specific tag */
         post: operations["AddMove"];
         /** @description Deletes a move from a specific tag */
         delete: operations["DeleteMove"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tags/{tagId}/pokemon": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Adds a Pokemon to a specific tag */
+        post: operations["AddPokemon"];
+        /** @description Deletes a Pokemon from a specific tag */
+        delete: operations["DeletePokemon"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1286,6 +1304,134 @@ export interface operations {
                 "application/json": {
                     /** Format: double */
                     moveId: number;
+                };
+            };
+        };
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Tag"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Unauthorised */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AddPokemon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tagId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    variety?: string;
+                    /** @enum {boolean} */
+                    shiny?: true | false;
+                    /** @enum {string} */
+                    gender?: "female" | "male";
+                    /** Format: double */
+                    id: number;
+                };
+            };
+        };
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Tag"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Unauthorised */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    DeletePokemon: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tagId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    variety?: string;
+                    /** @enum {boolean} */
+                    shiny?: true | false;
+                    /** @enum {string} */
+                    gender?: "female" | "male";
+                    /** Format: double */
+                    id: number;
                 };
             };
         };
