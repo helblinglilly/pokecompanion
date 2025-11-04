@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Greeting from '$/routes/Greeting.svelte';
 	import MoveOtd from './MoveOTD.svelte';
-	import PokemonOtd from './PokemonOTD.svelte';
 	import SelfMarketing from './SelfMarketing.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import { GameGroups, getGameGroupFromName } from '$/lib/data/games';
@@ -9,18 +8,16 @@
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Select from '$/ui/atoms/select';
 	import { Logger } from '$lib/log';
-	import { lastPokedexEntry, selectedGame } from '$lib/stores/domain';
+	import { selectedGame } from '$lib/stores/domain';
 	import { daysPassedInYear, randomDailyNumber } from '$lib/utils/number';
 	import { onMount } from 'svelte';
-
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	const pokemonOtdId = randomDailyNumber(lastPokedexEntry)[daysPassedInYear()]!;
-
+	import PokemonCardEntry from '$/ui/molecules/pokemon/card/PokemonCardEntry.svelte';
+	import { invalidate, invalidateAll } from '$app/navigation';
+	export let data;
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const moveOtdIndex = randomDailyNumber(Moves.length)[daysPassedInYear()]!;
 
 	onMount(async () => {
-		Logger.addPageAction('PokemonOTD', pokemonOtdId.toString());
 		Logger.addPageAction('MoveOTD', moveOtdIndex.toString());
 	});
 
@@ -69,8 +66,9 @@
 								return true;
 							})}
 						value={$selectedGame ? $selectedGame.pokeapi : 'generic'}
-						on:change={({ detail }) => {
+						on:change={async ({ detail }) => {
 							selectedGame.set(getGameGroupFromName(detail));
+							await invalidate('selectedGame');
 						}}
 					/>
 
@@ -82,7 +80,15 @@
 
 			<div class="column p-0">
 				<h2 class="h2">Pokémon of the day</h2>
-				<PokemonOtd pokemon={pokemonOtdId} />
+				<a href={data.pokemon.slug} class="no-underline">
+					<PokemonCardEntry
+						pokemon={data.pokemon}
+						shiny={false}
+						showGenderAndShiny={false}
+						isClickable={true}
+						gender={undefined}
+					/>
+				</a>
 			</div>
 			<div class="column p-0">
 				<h2 class="h2">Move of the day</h2>

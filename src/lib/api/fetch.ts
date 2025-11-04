@@ -31,19 +31,23 @@ export async function fetchPokemonPreview({
 		url.searchParams.append('variety', variety);
 	}
 	if (sprites) {
-		url.searchParams.append('game', `${sprites.game}`);
-		url.searchParams.append('versionSpecificPokemonSprites', `true`);
+		url.searchParams.append('selectedGame', `${sprites.game}`);
+		url.searchParams.append(
+			'versionSpecificPokemonSprites',
+			`${Boolean(sprites.versionSpecificPokemonSprites)}`
+		);
 	}
 
 	const res = await fetch(url, {
 		credentials: 'include'
 	});
 
-	if (res.status !== 200){
-    throw new Error(`Network error - non-200 status code for ${url}`);
+	if (res.status !== 200) {
+		throw new Error(`Network error - non-200 status code for ${url}`);
 	}
 
-	const body: paths['/pokemon/{id}/preview']['get']['responses']['200']['content']['application/json'] = await res.json();
+	const body: paths['/pokemon/{id}/preview']['get']['responses']['200']['content']['application/json'] =
+		await res.json();
 
-  return body;
+	return body;
 }

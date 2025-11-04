@@ -11,9 +11,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get all Tags for a specific user
+        /**
+         * @description Get all Tags for a specific user
          *
-         *     Either: username or userId query params must be provided, OR the request must be authenticated */
+         *     Either: username or userId query params must be provided, OR the request must be authenticated
+         */
         get: operations["GetAllTagsForUser"];
         put?: never;
         /** @description Creates a new tag. User must be authenticated. */
@@ -68,7 +70,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Adds a Pokemon to a specific tag */
+        /**
+         * @description Returns all Pokemon within a Tag with enriched information
+         *
+         *     Different from just looking at tag.contents because this will return user friendly names,
+         *     sprites and slugs for how to navigate to this pokemon
+         */
         get: operations["GetPokemon"];
         put?: never;
         /** @description Adds a Pokemon to a specific tag */
@@ -903,11 +910,13 @@ export interface components {
                 own: components["schemas"]["Type"][];
             };
             evolutionChain: {
-                /** @description Indicates wheather both source + target evolutions are present in the current game.
+                /**
+                 * @description Indicates wheather both source + target evolutions are present in the current game.
                  *     An imperfect measure since it is based on the national dex ID and does not take variants
                  *     or gender into account
                  *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
-                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
+                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315
+                 */
                 isValidInGame: boolean;
                 target: {
                     /**
