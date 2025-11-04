@@ -43,7 +43,7 @@
 
 		{#if completeData.tm.length > 0}
 			<div class="item">
-				<h4 class="h4">TM/TR/HM</h4>
+				<h4 class="h4">Machine</h4>
 				<div class="md:hidden">
 					<Button
 						variant="primary"

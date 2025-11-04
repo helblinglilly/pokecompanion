@@ -16,10 +16,10 @@ export interface paths {
          *
          *     Either: username or userId query params must be provided, OR the request must be authenticated
          */
-        get: operations["GetAllTagsForUser"];
+        get: operations["getAllTagsForUser"];
         put?: never;
         /** @description Creates a new tag. User must be authenticated. */
-        post: operations["CreateNewTag"];
+        post: operations["createNewTag"];
         delete?: never;
         options?: never;
         head?: never;
@@ -34,15 +34,15 @@ export interface paths {
             cookie?: never;
         };
         /** @description Get a specific tag. */
-        get: operations["GetTag"];
+        get: operations["getTag"];
         put?: never;
         post?: never;
         /** @description Deletes the specified tag */
-        delete: operations["DeleteTag"];
+        delete: operations["deleteTag"];
         options?: never;
         head?: never;
         /** @description Updates meta info about a Tag */
-        patch: operations["PatchTag"];
+        patch: operations["patchTag"];
         trace?: never;
     };
     "/tags/{tagId}/move": {
@@ -55,9 +55,9 @@ export interface paths {
         get?: never;
         put?: never;
         /** @description Adds a move to a specific tag */
-        post: operations["AddMove"];
+        post: operations["addMove"];
         /** @description Deletes a move from a specific tag */
-        delete: operations["DeleteMove"];
+        delete: operations["deleteMove"];
         options?: never;
         head?: never;
         patch?: never;
@@ -76,12 +76,12 @@ export interface paths {
          *     Different from just looking at tag.contents because this will return user friendly names,
          *     sprites and slugs for how to navigate to this pokemon
          */
-        get: operations["GetPokemon"];
+        get: operations["getPokemon"];
         put?: never;
         /** @description Adds a Pokemon to a specific tag */
-        post: operations["AddPokemon"];
+        post: operations["addPokemon"];
         /** @description Deletes a Pokemon from a specific tag */
-        delete: operations["DeletePokemon"];
+        delete: operations["deletePokemon"];
         options?: never;
         head?: never;
         patch?: never;
@@ -94,7 +94,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["GetPokemonById"];
+        get: operations["getPokemonById"];
         put?: never;
         post?: never;
         delete?: never;
@@ -110,7 +110,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["GetPokemonPreview"];
+        get: operations["getPokemonPreview"];
         put?: never;
         post?: never;
         delete?: never;
@@ -194,14 +194,30 @@ export interface components {
         };
         /** @enum {string} */
         PokeapiLanguageCodes: "ja-Hrkt" | "ja" | "ko" | "fr" | "de" | "en" | "es";
+        /** @enum {string} */
+        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
+        RequestPreferencesQueryParams: {
+            /** @enum {string} */
+            gender?: "male" | "female";
+            variety?: string;
+            /** @enum {string} */
+            shiny?: "true" | "false";
+            /** @enum {string} */
+            animateSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificPokemonSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificTypeSprites?: "true" | "false";
+            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+        };
         Type: {
             /** @description The Pokeapi name for this type */
             name: string;
             /** @description Path to the URL which will point at sprites.pokecompanion.com */
             icon: string;
         };
-        /** @enum {string} */
-        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
         PokeapiNamedApiResource: {
             /** @description Short name */
             name: string;
@@ -1006,7 +1022,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    GetAllTagsForUser: {
+    getAllTagsForUser: {
         parameters: {
             query?: {
                 /** @description If omitted, the currently authenicated user will be used. */
@@ -1026,7 +1042,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description All tags - 20 per page. Page size is not customisable */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1052,7 +1068,7 @@ export interface operations {
             };
         };
     };
-    CreateNewTag: {
+    createNewTag: {
         parameters: {
             query?: never;
             header?: never;
@@ -1067,13 +1083,6 @@ export interface operations {
         responses: {
             /** @description Created */
             201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description No content */
-            204: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1102,7 +1111,7 @@ export interface operations {
             };
         };
     };
-    GetTag: {
+    getTag: {
         parameters: {
             query?: never;
             header?: never;
@@ -1113,7 +1122,6 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description A Tag */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1145,7 +1153,7 @@ export interface operations {
             };
         };
     };
-    DeleteTag: {
+    deleteTag: {
         parameters: {
             query?: never;
             header?: never;
@@ -1156,7 +1164,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description No content */
+            /** @description Tag deleted successfully */
             204: {
                 headers: {
                     [name: string]: unknown;
@@ -1193,7 +1201,7 @@ export interface operations {
             };
         };
     };
-    PatchTag: {
+    patchTag: {
         parameters: {
             query?: never;
             header?: never;
@@ -1218,7 +1226,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Ok */
+            /** @description Returns the updated tag */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1257,7 +1265,7 @@ export interface operations {
             };
         };
     };
-    AddMove: {
+    addMove: {
         parameters: {
             query?: never;
             header?: never;
@@ -1275,7 +1283,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Ok */
+            /** @description Returns the updated tag */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1316,7 +1324,7 @@ export interface operations {
             };
         };
     };
-    DeleteMove: {
+    deleteMove: {
         parameters: {
             query?: never;
             header?: never;
@@ -1334,7 +1342,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Ok */
+            /** @description Returns the updated tag */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1375,9 +1383,19 @@ export interface operations {
             };
         };
     };
-    GetPokemon: {
+    getPokemon: {
         parameters: {
-            query?: never;
+            query?: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+            };
             header?: never;
             path: {
                 tagId: string;
@@ -1386,7 +1404,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
+            /** @description Returns the Pokemon within this tag */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1440,7 +1458,7 @@ export interface operations {
             };
         };
     };
-    AddPokemon: {
+    addPokemon: {
         parameters: {
             query?: never;
             header?: never;
@@ -1463,7 +1481,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Ok */
+            /** @description Returns the updated tag */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1504,7 +1522,7 @@ export interface operations {
             };
         };
     };
-    DeletePokemon: {
+    deletePokemon: {
         parameters: {
             query?: never;
             header?: never;
@@ -1527,7 +1545,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description Ok */
+            /** @description Returns the updated tag */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1568,16 +1586,26 @@ export interface operations {
             };
         };
     };
-    GetPokemonById: {
+    getPokemonById: {
         parameters: {
-            query?: never;
+            query?: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1588,16 +1616,25 @@ export interface operations {
             };
         };
     };
-    GetPokemonPreview: {
+    getPokemonPreview: {
         parameters: {
-            query?: never;
+            query?: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Ok */
             200: {
                 headers: {
                     [name: string]: unknown;
