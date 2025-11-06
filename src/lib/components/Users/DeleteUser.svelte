@@ -1,29 +1,29 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { Logger } from '$lib/log';
-	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 	import { deleteCookie } from '$lib/utils/cookies';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
-	import type { RecordModel } from 'pocketbase';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 
 	let showModal = false;
-	export let user: RecordModel;
 
 	const onDeleteClick = async () => {
 		try {
-			await $pb.collection('users').delete(user.id);
+			const res = await fetch(`${PUBLIC_API_HOST}/user`, {
+				method: 'DELETE',
+				credentials: 'include'
+			});
+			if (res.status !== 204) {
+				throw new Error(`Non-204 status code for deleting a user ${res.status}`);
+			}
+
 			$pb.authStore.clear();
 			currentUser.set(null);
 			deleteCookie('pb_auth');
 			goto('/');
 		} catch (err) {
-			await Logger.error(Logger.ErrorClasses.UserOperation, Logger.buildError(err), {
-				context: 'Delete user',
-				user: user.id
-			});
 			addNotification({
 				message:
 					'Failed to delete user account. Please contact pokecompanion@helbling.uk to delete your account.',

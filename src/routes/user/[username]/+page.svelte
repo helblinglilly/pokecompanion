@@ -56,7 +56,7 @@
 							<h2 class="h2">Danger Zone</h2>
 							<ResetPassword />
 
-							<DeleteUser user={$currentUser} />
+							<DeleteUser />
 						</div>
 					{/if}
 				</div>
