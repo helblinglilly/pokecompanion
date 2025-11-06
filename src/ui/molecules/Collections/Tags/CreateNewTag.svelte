@@ -8,6 +8,7 @@
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
 	import type { APITagCreateRequestBody } from '$/@types/api.pokecompanion';
+	import { invalidate } from '$app/navigation';
 
 	export let pokemon: NonNullable<APITagCreateRequestBody['pokemon']>[number] | undefined =
 		undefined;
@@ -71,6 +72,7 @@
 							refetchTags($currentUser.id);
 							dispatch('success', requestBody);
 							showAddNewOverlay = false;
+							invalidate('tags');
 							return;
 						}
 

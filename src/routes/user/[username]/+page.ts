@@ -1,39 +1,20 @@
-import type { PokeapiVersionNames } from '$/lib/data/games.js';
-import { getTagsByUsername } from '$/lib/stores/tags';
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { Logger } from '$lib/log.js';
-import { getUserByUsername } from '$lib/pb/publicUsers';
+import type { paths } from '$/@types/api.js';
+import { PUBLIC_API_HOST } from '$env/static/public';
 import { error } from '@sveltejs/kit';
-import Pocketbase from 'pocketbase';
 
-export const load = async ({ params }) => {
-	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
-	const [user, tags, teams] = await Promise.all([
-		getUserByUsername(params.username),
-		getTagsByUsername(params.username),
-		pb.collection('teams').getFullList({
-			filter: `owner.username ~ "${params.username}"`,
-			fields: `id,name,game,description,isPrivate`,
-			sort: `-updated`
-		}) as Promise<
-			{
-				id: string;
-				name: string;
-				game: PokeapiVersionNames;
-				description: string;
-				isPrivate: boolean;
-			}[]
-		>
-	]).catch(async (err) => {
-		await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
-			context: 'Failed to get tags for user',
-			username: params.username
-		});
-		return [];
-	});
+export const load = async ({ params, depends }) => {
+	depends('tags');
+  depends('user');
+	const res = await fetch(PUBLIC_API_HOST + `/user/${params.username}`);
 
-	if (!user) {
+	if (res.status === 404) {
 		error(404, 'This user does not exist');
 	}
-	return { user, tags, teams };
+	if (res.status !== 200) {
+		error(res.status, 'Something went wrong');
+	}
+	const body =
+		(await res.json()) as paths['/user/{username}']['get']['responses']['200']['content']['application/json'];
+
+	return body;
 };

@@ -1,12 +1,11 @@
 <script lang="ts">
 	import Image from '$/ui/atoms/image/Image.svelte';
-	import type { IPublicUser } from '$lib/pb/publicUsers';
 
-	export let user: IPublicUser;
+	export let username: string;
 </script>
 
-<a class="avatarBackground" href={`/user/${user.username}`}>
-	<Image src={user.avatar} alt="Profile Picture" />
+<a class="avatarBackground" href={`/user/${username}`}>
+	<Image src={`https://avatar.helbling.uk/${username}`} alt="Profile Picture" />
 </a>
 
 <style>
