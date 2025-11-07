@@ -6,6 +6,7 @@
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { pb } from '$/lib/stores/domain';
 
 	let showModal = false;
 

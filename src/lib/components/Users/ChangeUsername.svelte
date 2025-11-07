@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { currentUser } from '$lib/stores/user';
 	import { goto } from '$app/navigation';
-	import { pb } from '$lib/stores/domain';
 	import { Logger } from '$lib/log';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import Button from '$/ui/atoms/button';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import { addNotification } from '$/lib/stores/notifications';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 
 	export let existingUsername: string;
 
@@ -44,13 +44,14 @@
 		statusMessages = ['Loading...'];
 
 		try {
-			const response = await fetch('/auth/username', {
+			const response = await fetch(`${PUBLIC_API_HOST}/user/${$currentUser.id}`, {
 				method: 'PATCH',
+				credentials: 'include',
 				headers: {
-					Authorization: `Bearer ${$pb.authStore.token}`
+					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-					updatedUsername: newUsername
+					username: newUsername
 				})
 			});
 			if (response.status > 401) {
