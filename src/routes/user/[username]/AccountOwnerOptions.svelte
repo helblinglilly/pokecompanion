@@ -20,7 +20,7 @@
 
 			<div style="padding-top: 1.5rem;">
 				<h2 class="h2">Danger Zone</h2>
-				<DeleteUser user={$currentUser} />
+				<DeleteUser />
 			</div>
 		</div>
 	</div>

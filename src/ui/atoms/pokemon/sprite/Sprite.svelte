@@ -1,17 +1,17 @@
 <script lang="ts">
 	import type { IGameGroups } from '$/lib/data/games';
-	import { selectedGame, versionSpecificPokemonSprites } from '$/lib/stores/domain';
+	import { selectedGame } from '$/lib/stores/domain';
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import { getSpriteURL } from '$/ui/atoms/pokemon/sprite/helper';
 	import { onMount } from 'svelte';
 
 	export let id: number;
-	export let shiny: boolean = false;
-	export let female: boolean = false;
-	export let variety: string = '';
-	export let style: string = '';
+	export let shiny = false;
+	export let female = false;
+	export let variety = '';
+	export let style = '';
 	export let gameOverride: IGameGroups | undefined = undefined;
-	export let imageClasses: string = '';
+	export let imageClasses = '';
 
 	const fallbackSpriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 

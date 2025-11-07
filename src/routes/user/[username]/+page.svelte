@@ -111,7 +111,7 @@
 
 						<ResetPassword />
 
-						<DeleteUser user={$currentUser} />
+						<DeleteUser />
 					</div>
 				</Card>
 			{/if}
