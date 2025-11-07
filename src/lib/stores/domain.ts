@@ -28,9 +28,7 @@ export const maxSearchResults = 15;
 export const pokemonPageSize = 50;
 export const pb = writable(new Pocketbase(PUBLIC_POCKETBASE_URL));
 
-export const defaultFeatureFlags: FeatureFlags = {
-	useTeams: false
-};
+export const defaultFeatureFlags: FeatureFlags = {};
 export const featureFlags = writable<FeatureFlags>(defaultFeatureFlags);
 
 export enum SettingNames {
@@ -42,9 +40,7 @@ export enum SettingNames {
 	AnimateSprites = 'animateSprites'
 }
 
-export type FeatureFlags = {
-	useTeams: boolean;
-};
+export type FeatureFlags = {};
 
 export type UserPreferencePokemonVersion = PokeapiVersionGroups | 'generic' | undefined;
 

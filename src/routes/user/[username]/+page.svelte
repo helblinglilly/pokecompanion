@@ -7,11 +7,9 @@
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import EmailVerification from '$/routes/user/[username]/EmailVerification.svelte';
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag.svelte';
-	import CreateNewTeam from '$/ui/molecules/Collections/Teams/CreateNewTeam/CreateNewTeam.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import ResetPassword from './ResetPassword.svelte';
-	import { featureFlags } from '$/lib/stores/domain';
 
 	export let data;
 </script>
@@ -65,19 +63,6 @@
 
 		<div class="column">
 			<div class="grid lg:flex gap-8">
-				{#if $featureFlags.useTeams}
-					<div class="w-full">
-						<Card>
-							<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
-								<h2 class="h2 content-center">{data.username}'s teams</h2>
-								{#if $currentUser}
-									<CreateNewTeam />
-								{/if}
-							</div>
-						</Card>
-					</div>
-				{/if}
-
 				<div class="w-full">
 					<Card>
 						<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
