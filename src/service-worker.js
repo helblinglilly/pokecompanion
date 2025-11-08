@@ -50,7 +50,9 @@ async function cleanupCache(cacheName) {
 	const { size, count } = await getCacheSize(cache);
 
 	if (size > MAX_CACHE_SIZE || count > MAX_ENTRIES_PER_CACHE) {
-		console.log(`Cache ${cacheName} exceeds limits (${size} bytes, ${count} entries). Cleaning up...`);
+		console.log(
+			`Cache ${cacheName} exceeds limits (${size} bytes, ${count} entries). Cleaning up...`
+		);
 
 		const keys = await cache.keys();
 		// Sort by URL to have a consistent cleanup strategy
@@ -291,19 +293,12 @@ async function fetch_listener(event) {
 
 	if (url.hostname === self.location.hostname) {
 		// Never cache protected routes
-		if (
-			url.pathname.includes('/auth/') ||
-			url.pathname.includes('/api/log') ||
-			url.pathname.includes('/user/')
-		) {
+		if (url.pathname.includes('/auth/') || url.pathname.includes('/user/')) {
 			event.respondWith(networkOnly(request));
 			return;
 		}
 
-		if (
-			url.pathname.startsWith('/src/lib/data') ||
-			url.pathname.startsWith('/api/pokemon')
-		) {
+		if (url.pathname.startsWith('/src/lib/data') || url.pathname.startsWith('/api/pokemon')) {
 			event.respondWith(cacheFirst(request));
 			return;
 		}

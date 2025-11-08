@@ -1,4 +1,4 @@
-import { PUBLIC_ENVIRONMENT, PUBLIC_LOGGING_API_KEY } from '$env/static/public';
+import { PUBLIC_ENVIRONMENT } from '$env/static/public';
 
 enum ErrorClasses {
 	ExternalAPIRequestFailed = 'External API Request Failed',
@@ -49,30 +49,6 @@ export class Logger {
 				console.error(new Date().toISOString(), 'error', errorClass, info, error);
 			}
 		}
-
-		try {
-			const res = await fetch('https://pokecompanion.com/api/log', {
-				method: 'POST',
-				headers: {
-					Authentication: PUBLIC_LOGGING_API_KEY,
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					eventType: 'ServerSideLog',
-					level: 'error',
-					errorName: error.name,
-					errorClass: errorClass,
-					message: error.message,
-					environment: PUBLIC_ENVIRONMENT,
-					...info
-				})
-			});
-			if (!res.ok) {
-				throw new Error(`Non-200 response code - ${res.status}`);
-			}
-		} catch (err) {
-			console.log('Server Side Log: Failed to log error', errorClass, error, info, err);
-		}
 	}
 
 	static async info(message: string, info?: Info) {
@@ -96,28 +72,6 @@ export class Logger {
 				console.info(new Date().toISOString(), 'info', message);
 			}
 		}
-
-		try {
-			const res = await fetch('https://pokecompanion.com/api/log', {
-				method: 'POST',
-				headers: {
-					Authentication: PUBLIC_LOGGING_API_KEY,
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					eventType: 'ServerSideLog',
-					level: 'info',
-					message,
-					environment: PUBLIC_ENVIRONMENT,
-					...info
-				})
-			});
-			if (!res.ok) {
-				throw new Error(`Non-200 response code - ${res.status}`);
-			}
-		} catch (err) {
-			console.log('Server Side Log: Failed to log info', message, info, err);
-		}
 	}
 
 	static async warn(message: string, info?: Info) {
@@ -140,28 +94,6 @@ export class Logger {
 			} else {
 				console.warn(new Date().toISOString, 'warning', message, info);
 			}
-		}
-
-		try {
-			const res = await fetch('https://pokecompanion.com/api/log', {
-				method: 'POST',
-				headers: {
-					Authentication: PUBLIC_LOGGING_API_KEY,
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					eventType: 'ServerSideLog',
-					level: 'warning',
-					message,
-					environment: PUBLIC_ENVIRONMENT,
-					...info
-				})
-			});
-			if (!res.ok) {
-				throw new Error(`Non-200 response code - ${res.status}`);
-			}
-		} catch (err) {
-			console.log('Server Side Log: Failed to log warning', message, info, err);
 		}
 	}
 
@@ -187,27 +119,6 @@ export class Logger {
 			if (window?.umami && name === 'UIInteraction') {
 				window.umami.track(message);
 			}
-		}
-
-		try {
-			const res = await fetch('https://pokecompanion.com/api/log', {
-				method: 'POST',
-				headers: {
-					Authentication: PUBLIC_LOGGING_API_KEY,
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					eventType: name,
-					message,
-					environment: PUBLIC_ENVIRONMENT,
-					...info
-				})
-			});
-			if (!res.ok) {
-				throw new Error(`Non-200 response code - ${res.status}`);
-			}
-		} catch (err) {
-			console.log('Server Side Log: Failed to log page action', name, message, info, err);
 		}
 	}
 }
