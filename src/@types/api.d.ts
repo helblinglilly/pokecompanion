@@ -21,6 +21,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/user": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** @description Deletes the account of the authenticated user */
+        delete: operations["deleteUser"];
+        options?: never;
+        head?: never;
+        /** @description Updates the authenticated and their record, returns the new user object */
+        patch: operations["updateUser"];
+        trace?: never;
+    };
     "/tags": {
         parameters: {
             query?: never;
@@ -124,6 +142,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getPokemonPreview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/pokemon/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPokemonRootPreviews"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1024,6 +1058,39 @@ export interface components {
                 title: string;
             };
         };
+        PokemonRootPreviewQueries: {
+            /** @enum {string} */
+            gender?: "male" | "female";
+            variety?: string;
+            /** @enum {string} */
+            shiny?: "true" | "false";
+            /** @enum {string} */
+            animateSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificPokemonSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificTypeSprites?: "true" | "false";
+            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+            /**
+             * Format: double
+             * @default 1
+             */
+            page: number;
+            /**
+             * Format: double
+             * @description Maximum: 50. If a value over 50 is provided, it will default back to 20
+             * @default 20
+             */
+            pageSize: number;
+            /**
+             * Format: double
+             * @description This Pokemon will be guaranteed to be on the current page.
+             *     Can be used in combination with pageSize, but will override the page value
+             */
+            jumpTo?: number;
+        };
     };
     responses: never;
     parameters: never;
@@ -1052,7 +1119,6 @@ export interface operations {
                     "application/json": {
                         username: string;
                         id: string;
-                        avatar: string;
                         tags: {
                             /** Format: double */
                             size: number;
@@ -1062,6 +1128,86 @@ export interface operations {
                         }[];
                     };
                 };
+            };
+        };
+    };
+    deleteUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updateUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    username: string;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        username: string;
+                        id: string;
+                    };
+                };
+            };
+            /** @description The new username does not meet the criteria */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description This username is already taken */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Something went wrong */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -1701,6 +1847,60 @@ export interface operations {
                          * @description Species National Dex ID
                          */
                         id: number;
+                    };
+                };
+            };
+        };
+    };
+    getPokemonRootPreviews: {
+        parameters: {
+            query?: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                page?: number;
+                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
+                pageSize?: number;
+                /** @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value */
+                jumpTo?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pagination: {
+                            /** Format: double */
+                            lastPage: number;
+                            /** Format: double */
+                            currentPage: number;
+                            /** Format: double */
+                            startingPage: number;
+                        };
+                        pokemon: {
+                            slug: string;
+                            sprite: {
+                                url: string;
+                                alt: string;
+                            };
+                            name: string;
+                            /** Format: double */
+                            id: number;
+                        }[];
                     };
                 };
             };

@@ -1,15 +1,28 @@
-import { redirect } from '@sveltejs/kit';
-import { pokemonPageSize } from '$lib/stores/domain';
-import AdjustedPokemonNames from './pokemonNames';
+import { PUBLIC_API_HOST } from '$env/static/public';
+import type { APIPokemonRootPreview } from '$/@types/api.pokecompanion';
 
-export function load({ url }) {
-	const jumpToId = url.searchParams.get('jumpTo');
+export async function load({ url, fetch }) {
+	const apiRequest = new URL(`${PUBLIC_API_HOST}/pokemon/preview`);
 
-	if (jumpToId) {
-		const index = AdjustedPokemonNames.findIndex((mon) => mon.id === Number(jumpToId));
-		if (index !== -1){
-			const targetPage = Math.ceil(index / pokemonPageSize);
-			redirect(302, `/pokemon?page=${targetPage}#${jumpToId}`);
-		}
+	const jumpTo = url.searchParams.get('jumpTo');
+	if (jumpTo) {
+		apiRequest.searchParams.append('jumpTo', jumpTo);
 	}
+
+	const page = url.searchParams.get('page');
+	if (page) {
+		apiRequest.searchParams.append('page', page);
+	}
+
+	const pageSize = url.searchParams.get('pageSize');
+	if (pageSize) {
+		apiRequest.searchParams.append('pageSize', pageSize);
+	}
+
+	const res = await fetch(apiRequest);
+	const body = (await res.json()) as APIPokemonRootPreview;
+
+	return {
+		...body
+	};
 }

@@ -1,36 +1,46 @@
 <script lang="ts">
-	import { pokemonPageSize } from '$/lib/stores/domain';
+	import type { APIPokemonRootPreview } from '$/@types/api.pokecompanion';
 	import Button from '$/ui/atoms/button';
-	import { page } from '$app/stores';
-	import PokemonNames from '$lib/data/pokemonNames.json';
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 
-	const numberOfPages = Math.ceil(PokemonNames.length / pokemonPageSize);
+	export let pagination: APIPokemonRootPreview['pagination'];
 
-	$: pageNumber = () => {
-		const searchParamsPage = Number($page.url.searchParams.get('page'));
-		if (searchParamsPage && searchParamsPage <= numberOfPages && searchParamsPage >= 1) {
-			return searchParamsPage;
-		}
-		return 1;
-	};
+	onMount(() => {
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'ArrowLeft' && pagination.currentPage > 1) {
+				goto(`/pokemon?page=${pagination.currentPage - 1}`);
+			} else if (e.key === 'ArrowRight' && pagination.currentPage < pagination.lastPage) {
+				goto(`/pokemon?page=${pagination.currentPage + 1}`);
+			}
+		});
+	});
 </script>
 
 <div>
-	<a href="/pokemon?page=1" class="no-underline"><Button>{'<<'}</Button></a>
+	<a href="/pokemon?page=1" class="no-underline"
+		><Button isDisabled={pagination.currentPage === 1}>{'<<'}</Button></a
+	>
 </div>
 
 <div>
-	<a href={`/pokemon?page=${pageNumber() - 1}`} class="no-underline"><Button>{'<'}</Button></a>
+	<a href={`/pokemon?page=${pagination.currentPage - 1}`} class="no-underline"
+		><Button isDisabled={pagination.currentPage === 1}>{'<'}</Button></a
+	>
 </div>
 <div class="grid">
 	<p class="break-words">Page</p>
-	<p class="break-words">{pageNumber()}/{numberOfPages}</p>
+	<p class="break-words">{pagination.currentPage}/{pagination.lastPage}</p>
 </div>
 
 <div>
-	<a href={`/pokemon?page=${pageNumber() + 1}`} class="no-underline"><Button>{'>'}</Button></a>
+	<a href={`/pokemon?page=${pagination.currentPage + 1}`} class="no-underline"
+		><Button isDisabled={pagination.currentPage === pagination.lastPage}>{'>'}</Button></a
+	>
 </div>
 
 <div>
-	<a href={`/pokemon?page=${numberOfPages}`} class="no-underline"><Button>{'>>'}</Button></a>
+	<a href={`/pokemon?page=${pagination.lastPage}`} class="no-underline"
+		><Button isDisabled={pagination.currentPage === pagination.lastPage}>{'>>'}</Button></a
+	>
 </div>

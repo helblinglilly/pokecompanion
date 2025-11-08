@@ -14,3 +14,6 @@ export type ITag = NonNullable<
 export type ITagContents = ITag['contents'];
 export type ITagMove = NonNullable<ITag['contents']['move']>[number];
 export type ITagPokemon = NonNullable<ITag['contents']['pokemon']>[number];
+
+export type APIPokemonRootPreview =
+	paths['/pokemon/preview']['get']['responses']['200']['content']['application/json'];
