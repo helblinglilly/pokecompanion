@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './brands.css';
 	import Email from '$/routes/auth/signin/Email.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Google from './Google.svelte';
@@ -6,10 +7,6 @@
 	import Spotify from './Spotify.svelte';
 
 	export let data;
-
-	const order = ['google', 'github', 'spotify'];
-
-	import './brands.css';
 </script>
 
 <SocialPreview
@@ -19,10 +16,10 @@
 
 <h1 class="h2 text-center mb-2">Sign in</h1>
 
-{#if data.oAuthMethods.length > 0}
+{#if data.oAuth.length > 0}
 	<p class="text-center mb-2">Use an existing social account</p>
 	<div class="grid mobile ml-auto mr-auto gap-2 justify-center mb-4">
-		{#each data.oAuthMethods.sort( (a, b) => (order.indexOf(a.name) < order.indexOf(b.name) ? -1 : 1) ) as oAuthMethod}
+		{#each data.oAuth as oAuthMethod}
 			{#if oAuthMethod.name === 'google'}
 				<Google data={oAuthMethod} />
 			{:else if oAuthMethod.name === 'github'}
@@ -34,9 +31,15 @@
 	</div>
 {/if}
 
-<p class="text-center">Or manually sign up below</p>
-<div class="columns justify-center" style="flex-direction: row;">
-	<div class="column mt-4" style="max-width: 400px;">
-		<Email />
+{#if data.password}
+	<p class="text-center">Or manually sign up below</p>
+	<div class="columns justify-center" style="flex-direction: row;">
+		<div class="column mt-4" style="max-width: 400px;">
+			<Email />
+		</div>
 	</div>
-</div>
+{/if}
+
+{#if data.oAuth.length === 0 && !data.password}
+	<p>Sorry, there are no sign-in options available at the moment.</p>
+{/if}

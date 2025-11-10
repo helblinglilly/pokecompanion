@@ -1,11 +1,9 @@
 <script lang="ts">
+	import type { paths } from '$/@types/api';
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import { setCookie } from '$lib/utils/cookies';
-	import type { AuthProviderInfo } from 'pocketbase';
 
-	export let data: AuthProviderInfo & {
-		authUrl: string;
-	};
+	export let data: paths['/auth/methods']['get']['responses']['200']['content']['application/json']['oAuth'][number];
 </script>
 
 <button

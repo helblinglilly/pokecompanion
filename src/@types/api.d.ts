@@ -157,7 +157,25 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** @description Returns paginated previews of Pokemon */
         get: operations["getPokemonRootPreviews"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/methods": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List all available auth methods */
+        get: operations["getAuthMethods"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1091,6 +1109,11 @@ export interface components {
              */
             jumpTo?: number;
         };
+        AuthMethodsQueries: {
+            /** @description The URI to redirect the user to after successful auth. The hostname will be determined by the host request header
+             *     Include the leading slash */
+            redirectUri: string;
+        };
     };
     responses: never;
     parameters: never;
@@ -1903,6 +1926,49 @@ export interface operations {
                         }[];
                     };
                 };
+            };
+        };
+    };
+    getAuthMethods: {
+        parameters: {
+            query: {
+                /** @description The URI to redirect the user to after successful auth. The hostname will be determined by the host request header
+                 *     Include the leading slash */
+                redirectUri: string;
+            };
+            header: {
+                origin: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        password: boolean | {
+                            fields: string[];
+                        };
+                        oAuth: {
+                            codeChallengeMethod: string;
+                            codeChallenge: string;
+                            codeVerifier: string;
+                            state: string;
+                            name: string;
+                            authUrl: string;
+                        }[];
+                    };
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

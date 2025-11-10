@@ -1,26 +1,21 @@
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import Pocketbase, { type AuthProviderInfo } from 'pocketbase';
+import type { paths } from '$/@types/api';
+import { PUBLIC_API_HOST } from '$env/static/public';
 
-export const load = async (context) => {
-	let oAuthMethods: Array<
-		AuthProviderInfo & {
-			authUrl: string;
-		}
-	> = [];
+export const load = async ({ fetch }) => {
 	try {
-		const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
-		const providers = await pb.collection('users').listAuthMethods();
-		oAuthMethods = providers.oauth2.providers.map((method) => {
-			return {
-				...method,
-				authUrl: (method.authURL += context.url.origin + '/auth/redirect')
-			};
+		const res = await fetch(`${PUBLIC_API_HOST}/auth/methods?redirectUri=/auth/redirect`, {
+			credentials: 'include'
 		});
-	} catch (err) {
-		console.log(err);
-	}
 
-	return {
-		oAuthMethods
-	};
+		const body =
+			(await res.json()) as paths['/auth/methods']['get']['responses']['200']['content']['application/json'];
+
+		return body;
+	} catch (err) {
+		console.error(err);
+		return {
+			oAuth: [],
+			password: false
+		} as paths['/auth/methods']['get']['responses']['200']['content']['application/json'];
+	}
 };
