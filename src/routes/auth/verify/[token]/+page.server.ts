@@ -1,26 +1,25 @@
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { Logger } from '$lib/log.js';
-import Pocketbase from 'pocketbase';
+import type { paths } from '$/@types/api.js';
+import { PUBLIC_API_HOST } from '$env/static/public';
 
-export const load = async ({ params, platform }) => {
-	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
+export const load = async ({ params }) => {
 	try {
-		await pb.collection('users').confirmVerification(params.token);
-		return {
-			success: true
-		};
+		const res = await fetch(`${PUBLIC_API_HOST}/auth/verify`, {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			method: 'POST',
+			credentials: 'include',
+			body: JSON.stringify({
+				token: params.token
+			})
+		});
+
+		const response =
+			(await res.json()) as paths['/auth/verify']['post']['responses']['200']['content']['application/json'];
+		return response;
 	} catch (err) {
-		platform?.context.waitUntil(
-			Logger.error(
-				Logger.ErrorClasses.UserOperation,
-				Logger.buildError(err),
-				{
-					context: 'Email verification failed',
-				}
-			)
-		)
 		return {
 			success: false
-		};
+		} as paths['/auth/verify']['post']['responses']['200']['content']['application/json'];
 	}
 };
