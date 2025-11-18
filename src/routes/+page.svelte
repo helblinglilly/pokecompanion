@@ -3,7 +3,7 @@
 	import MoveOtd from './MoveOTD.svelte';
 	import SelfMarketing from './SelfMarketing.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
-	import { GameGroups, getGameGroupFromName } from '$/lib/data/games';
+	import { getGameGroupFromName } from '$/lib/data/games';
 	import Moves from '$/lib/data/moves.json';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Select from '$/ui/atoms/select';
@@ -12,7 +12,7 @@
 	import { daysPassedInYear, randomDailyNumber } from '$lib/utils/number';
 	import { onMount } from 'svelte';
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card/PokemonCardEntry.svelte';
-	import { invalidate, invalidateAll } from '$app/navigation';
+	import { invalidate } from '$app/navigation';
 	export let data;
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const moveOtdIndex = randomDailyNumber(Moves.length)[daysPassedInYear()]!;
@@ -52,20 +52,13 @@
 					<p>You can change this later in settings</p>
 					<Select
 						isNested
-						options={[{ label: 'Generic', value: 'generic' }]
-							.concat(
-								GameGroups.map((gameGroup) => ({
-									label: gameGroup.shortName,
-									value: gameGroup.pokeapi
-								}))
-							)
-							.filter((a) => {
-								if ($selectedGame) {
-									return a.value !== 'generic';
-								}
-								return true;
-							})}
-						value={$selectedGame ? $selectedGame.pokeapi : 'generic'}
+						options={data.games.map((game) => ({
+							label: game.shortName,
+							value: game.pokeapi
+						}))}
+						value={$selectedGame
+							? $selectedGame.pokeapi
+							: data.games[data.games.length - 1]?.pokeapi}
 						on:change={async ({ detail }) => {
 							selectedGame.set(getGameGroupFromName(detail));
 							await invalidate('selectedGame');

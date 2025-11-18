@@ -1,15 +1,7 @@
+import type { PokeapiLanguageCodes } from '$/@types/api.pokecompanion';
 import type { Name } from '$lib/types/IPokemon';
 
-export interface Languages {
-	'ja-Hrkt'?: string;
-	roomaji?: string;
-	ko?: string;
-	fr?: string;
-	de?: string;
-	en?: string;
-	ja?: string;
-	none?: string | undefined;
-}
+export type Languages = Record<PokeapiLanguageCodes, string | undefined>;
 
 export const getLanguageEntry = (entries: Languages[], languageCode: keyof Languages) => {
 	let result: string | undefined;

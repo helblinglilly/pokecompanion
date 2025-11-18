@@ -5,10 +5,11 @@ import PokemonNames from '$lib/data/pokemonNames.json';
 import Pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import { currentUser } from './user';
-import { getGameGroupFromName, PokeapiVersionGroups, type IGameGroups } from '$lib/data/games';
+import { getGameGroupFromName, type IGameGroups } from '$lib/data/games';
 import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';
 import * as Sentry from '@sentry/browser';
+import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<IGameGroups | undefined>();
@@ -42,7 +43,7 @@ export enum SettingNames {
 
 export type FeatureFlags = {};
 
-export type UserPreferencePokemonVersion = PokeapiVersionGroups | 'generic' | undefined;
+export type UserPreferencePokemonVersion = PokeapiVersionGroups | undefined;
 
 export const cookieHandlers = {
 	selectedGame: () => {
@@ -54,7 +55,7 @@ export const cookieHandlers = {
 			existingValue = isInSearchParam;
 		} else {
 			if (!existingValue) {
-				existingValue = PokeapiVersionGroups.SCARLET_VIOLET;
+				existingValue = 'legends-za';
 				setCookie(SettingNames.SelectedGame, existingValue);
 			}
 		}
@@ -79,7 +80,6 @@ export const cookieHandlers = {
 
 			const existingCookie = getCookie(SettingNames.SelectedGame) as
 				| PokeapiVersionGroups
-				| 'generic'
 				| undefined;
 			let existingValue = undefined;
 

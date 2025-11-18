@@ -46,9 +46,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get all Tags for a specific user
+        /**
+         * @description Get all Tags for a specific user
          *
-         *     Either: username or userId query params must be provided, OR the request must be authenticated */
+         *     Either: username or userId query params must be provided, OR the request must be authenticated
+         */
         get: operations["getAllTagsForUser"];
         put?: never;
         /** @description Creates a new tag. User must be authenticated. */
@@ -103,10 +105,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Returns all Pokemon within a Tag with enriched information
+        /**
+         * @description Returns all Pokemon within a Tag with enriched information
          *
          *     Different from just looking at tag.contents because this will return user friendly names,
-         *     sprites and slugs for how to navigate to this pokemon */
+         *     sprites and slugs for how to navigate to this pokemon
+         */
         get: operations["getPokemon"];
         put?: never;
         /** @description Adds a Pokemon to a specific tag */
@@ -167,6 +171,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/meta": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["GetMeta"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/methods": {
         parameters: {
             query?: never;
@@ -193,7 +213,24 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["verifyOAuthToken"];
+        /** @description Will verify a user that signed up with Email + Password */
+        post: operations["verifyUserEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/oauth": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["VerifyOAuthLogin"];
         delete?: never;
         options?: never;
         head?: never;
@@ -274,7 +311,7 @@ export interface components {
             description: string;
         };
         /** @enum {string} */
-        PokeapiLanguageCodes: "ja-Hrkt" | "ja" | "ko" | "fr" | "de" | "en" | "es";
+        PokeapiLanguageCodes: "ja-Hrkt" | "zh-Hant" | "ja" | "ko" | "fr" | "de" | "en" | "es" | "it";
         /** @enum {string} */
         PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
         RequestPreferencesQueryParams: {
@@ -1007,11 +1044,13 @@ export interface components {
                 own: components["schemas"]["Type"][];
             };
             evolutionChain: {
-                /** @description Indicates wheather both source + target evolutions are present in the current game.
+                /**
+                 * @description Indicates wheather both source + target evolutions are present in the current game.
                  *     An imperfect measure since it is based on the national dex ID and does not take variants
                  *     or gender into account
                  *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
-                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
+                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315
+                 */
                 isValidInGame: boolean;
                 target: {
                     /**
@@ -1125,10 +1164,36 @@ export interface components {
              */
             jumpTo?: number;
         };
+        /** @enum {string} */
+        PokeapiGameNames: "home" | "red" | "blue" | "yellow" | "gold" | "silver" | "crystal" | "ruby" | "sapphire" | "emerald" | "firered" | "leafgreen" | "diamond" | "pearl" | "platinum" | "heartgold" | "soulsilver" | "black" | "white" | "black-2" | "white-2" | "x" | "y" | "omega-ruby" | "alpha-sapphire" | "sun" | "moon" | "ultra-sun" | "ultra-moon" | "lets-go-pikachu" | "lets-go-eevee" | "sword" | "shield" | "brilliant-diamond" | "shining-pearl" | "legends-arceus" | "scarlet" | "violet" | "legends-za" | "the-isle-of-armor" | "the-crown-tundra" | "the-teal-mask" | "the-indigo-disk";
+        /** @enum {string} */
+        PokeapiGenerationName: "generation-i" | "generation-ii" | "generation-iii" | "generation-iv" | "generation-v" | "generation-vi" | "generation-vii" | "generation-viii" | "generation-ix";
+        IGeneration: {
+            name: string;
+            short: string;
+            pokeApiName: components["schemas"]["PokeapiGenerationName"];
+            /** Format: double */
+            nationalDexEnd: number;
+            /** Format: double */
+            number: number;
+        };
+        /** @enum {string} */
+        PokeapiRegions: "kanto" | "johto" | "hoenn" | "sinnoh" | "unova" | "kalos" | "alola" | "galar" | "hisui" | "paldea";
         AuthMethodsQueries: {
-            /** @description The URI to redirect the user to after successful auth. The hostname will be determined by the host request header
-             *     Include the leading slash */
+            /**
+             * @description The URI to redirect the user to after successful auth. The hostname will be determined by the host request header
+             *     Include the leading slash
+             */
             redirectUri: string;
+        };
+        AuthProviderInfo: {
+            name: string;
+            displayName: string;
+            state: string;
+            authURL: string;
+            codeVerifier: string;
+            codeChallenge: string;
+            codeChallengeMethod: string;
         };
     };
     responses: never;
@@ -1906,8 +1971,10 @@ export interface operations {
                 page?: number;
                 /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
                 pageSize?: number;
-                /** @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value */
+                /**
+                 * @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value
+                 */
                 jumpTo?: number;
             };
             header?: never;
@@ -1945,11 +2012,57 @@ export interface operations {
             };
         };
     };
+    GetMeta: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        games: {
+                            region: components["schemas"]["PokeapiRegions"];
+                            games: {
+                                /** Format: double */
+                                globalSortOrder: number;
+                                shortName: string;
+                                pokeapi: components["schemas"]["PokeapiGameNames"];
+                            }[];
+                            generation: components["schemas"]["IGeneration"];
+                            shortName: string;
+                            pokeapi: components["schemas"]["PokeapiVersionGroups"];
+                            dlcGames: {
+                                /** Format: double */
+                                globalSortOrder: number;
+                                shortName: string;
+                                pokeapi: components["schemas"]["PokeapiGameNames"];
+                            }[];
+                        }[];
+                        languages: {
+                            code: components["schemas"]["PokeapiLanguageCodes"];
+                            flag: string;
+                            name: string;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
     getAuthMethods: {
         parameters: {
             query: {
-                /** @description The URI to redirect the user to after successful auth. The hostname will be determined by the host request header
-                 *     Include the leading slash */
+                /**
+                 * @description The URI to redirect the user to after successful auth. The hostname will be determined by the host request header
+                 *     Include the leading slash
+                 */
                 redirectUri: string;
             };
             header: {
@@ -1988,7 +2101,7 @@ export interface operations {
             };
         };
     };
-    verifyOAuthToken: {
+    verifyUserEmail: {
         parameters: {
             query?: never;
             header?: never;
@@ -2014,6 +2127,34 @@ export interface operations {
                 };
             };
             500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    VerifyOAuthLogin: {
+        parameters: {
+            query?: never;
+            header?: {
+                origin?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    redirectSlug: string;
+                    code: string;
+                    state: string;
+                    provider: components["schemas"]["AuthProviderInfo"];
+                };
+            };
+        };
+        responses: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };

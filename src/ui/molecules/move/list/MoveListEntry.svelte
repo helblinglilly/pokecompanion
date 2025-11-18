@@ -5,14 +5,15 @@
 	import Type from '../../../atoms/type/Type.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import { createEventDispatcher } from 'svelte';
-	import { getGameGroupFromName, type PokeapiVersionGroups } from '$/lib/data/games';
+	import { getGameGroupFromName } from '$/lib/data/games';
+	import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 
 	export let id: number;
 	export let cardActiveState = false;
-	export let style: string = '';
-	export let isNested: boolean = false;
+	export let style = '';
+	export let isNested = false;
 	export let game: PokeapiVersionGroups | undefined = $selectedGame?.pokeapi;
-	export let isClickable: boolean = true;
+	export let isClickable = true;
 	let move: IMove | undefined;
 
 	const dispatch = createEventDispatcher();

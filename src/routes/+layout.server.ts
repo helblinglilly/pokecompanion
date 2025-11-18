@@ -1,6 +1,24 @@
+import type { APIMeta } from '$/@types/api.pokecompanion';
+import { PUBLIC_API_HOST } from '$env/static/public';
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ locals, cookies }) => {
+export const load: LayoutServerLoad = async ({ locals, cookies, fetch }) => {
+	let languages: APIMeta['languages'] = [];
+	let games: APIMeta['games'] = [];
+
+	try {
+		const res = await fetch(`${PUBLIC_API_HOST}/meta`, {
+			credentials: 'include'
+		});
+
+		const body = (await res.json()) as APIMeta;
+
+		games = body.games;
+		languages = body.languages;
+	} catch (err) {
+		console.error(`Failed to get the main config ${err}`);
+	}
+
 	return {
 		user: locals.user,
 		preferences: {
@@ -10,6 +28,8 @@ export const load: LayoutServerLoad = async ({ locals, cookies }) => {
 			selectedGame: cookies.get('selectedGame'),
 			versionSpecificPokemonSprites: cookies.get('versionSpecificPokemonSprites'),
 			versionSpecificTypeSprites: cookies.get('versionSpecificTypeSprites')
-		}
+		},
+		games,
+		languages
 	};
 };

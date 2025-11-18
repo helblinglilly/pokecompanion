@@ -1,17 +1,18 @@
-import type { IGameGroups, PokeapiVersionGroups } from '$lib/data/games';
+import type { IGameGroups } from '$lib/data/games';
 import { pokeApiDomain } from '$lib/stores/domain';
 import type { Name, VersionGroup } from './IPokemon';
 import { error } from '@sveltejs/kit';
 import { Logger } from '$lib/log';
 import adjustMoveForGame from '../gameAdjustors/move';
+import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 
 interface IEffectEntries {
 	effect: string;
-		short_effect: string;
-		language: {
-			name: string;
-			url: string;
-		};
+	short_effect: string;
+	language: {
+		name: string;
+		url: string;
+	};
 }
 
 export interface IMove {
@@ -94,14 +95,14 @@ export interface IMove {
 		effect_entries: IEffectEntries[];
 		power: number | null;
 		pp: number | null;
-		type: {	
+		type: {
 			name: string;
 			url: string;
 		} | null;
 		version_group: {
 			name: PokeapiVersionGroups;
 			url: string;
-		}
+		};
 	}[];
 	power: number | null;
 	pp: number;
@@ -120,11 +121,7 @@ export interface IMove {
 	};
 }
 
-
-export async function getMove(
-	id: string | number,
-	selectedGame: IGameGroups | undefined,
-) {
+export async function getMove(id: string | number, selectedGame: IGameGroups | undefined) {
 	const url = `${pokeApiDomain}/move/${id}`;
 	try {
 		const response = await fetch(url);
@@ -139,14 +136,10 @@ export async function getMove(
 
 		return adjustMoveForGame(body, selectedGame.pokeapi);
 	} catch (err) {
-		await Logger.error(
-			Logger.ErrorClasses.ExternalAPIRequestFailed,
-			Logger.buildError(err),
-			{
-				context: 'Failed to get Move API Data',
-				url,
-			}
-		)
+		await Logger.error(Logger.ErrorClasses.ExternalAPIRequestFailed, Logger.buildError(err), {
+			context: 'Failed to get Move API Data',
+			url
+		});
 		error(500, 'Failed to get Move API data');
 	}
 }

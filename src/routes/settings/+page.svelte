@@ -12,43 +12,7 @@
 		versionSpecificTypeSprites
 	} from '$lib/stores/domain';
 
-	const languages = [
-		{
-			code: 'en',
-			name: 'English',
-			flag: '🇬🇧'
-		},
-		{
-			code: 'de',
-			name: 'German - Deutsch',
-			flag: '🇩🇪'
-		},
-		{
-			code: 'ja-Hrkt',
-			name: 'Japanese - 日本語',
-			flag: '🇯🇵'
-		},
-		{
-			code: 'zh-Hant',
-			name: 'Chinese - 中国人',
-			flag: '🇨🇳'
-		},
-		{
-			code: 'fr',
-			name: 'French - Français',
-			flag: '🇫🇷'
-		},
-		{
-			code: 'it',
-			name: 'Italian - Italiano',
-			flag: '🇮🇹'
-		},
-		{
-			code: 'es',
-			name: 'Spanish - Español',
-			flag: '🇪🇸'
-		}
-	];
+	export let data;
 </script>
 
 <svelte:head>
@@ -171,7 +135,7 @@
 
 				<Select
 					isNested
-					options={languages.map((lang) => ({
+					options={data.languages.map((lang) => ({
 						label: lang.flag + ' ' + lang.name,
 						value: lang.code,
 						disabled: $secondaryLanguage === lang.code
@@ -188,7 +152,7 @@
 				<Select
 					isNested
 					options={[{ label: '🏳️ None', value: 'none' }].concat(
-						languages.map((lang) => ({
+						data.languages.map((lang) => ({
 							label: lang.flag + ' ' + lang.name,
 							value: lang.code,
 							disabled: $primaryLanguage === lang.code

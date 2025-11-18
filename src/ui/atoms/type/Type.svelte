@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { PokeapiVersionGroups } from '$/lib/data/games';
+	import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 	import { selectedGame, versionSpecificTypeSprites } from '$/lib/stores/domain';
 	import Image from '$/ui/atoms/image';
 
 	export let type: string;
-	export let style: string = '';
-	export let className: string = '';
+	export let style = '';
+	export let className = '';
 	export let game: PokeapiVersionGroups | undefined = undefined;
 
 	const baseURL = `https://sprites.pokecompanion.com/types`;

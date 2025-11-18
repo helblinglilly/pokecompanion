@@ -1,6 +1,6 @@
-import type { APIPokemon } from '$/@types/api.pokecompanion';
+import type { APIPokemon, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
-import { getGameGroupFromName, PokeapiVersionGroups } from '$lib/data/games';
+import { getGameGroupFromName } from '$lib/data/games';
 import { SettingNames } from '$lib/stores/domain';
 import { error } from '@sveltejs/kit';
 

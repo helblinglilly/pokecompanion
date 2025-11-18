@@ -2,8 +2,8 @@
  * This file should only contain common types found on the API response objects
  */
 
-import type { PokeapiVersionGroups } from "../data/games";
-import type { Languages } from "../utils/language";
+import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
+import type { Languages } from '../utils/language';
 
 export interface Language {
 	name: keyof Languages;
@@ -16,7 +16,7 @@ export interface VersionGroup {
 }
 
 export type FlavorTextEntry = {
-    flavor_text: string;
-    language: Language;
-    version_group: VersionGroup;
-}
+	flavor_text: string;
+	language: Language;
+	version_group: VersionGroup;
+};

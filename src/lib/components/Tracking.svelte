@@ -15,7 +15,8 @@
 	import type { Languages } from '$lib/utils/language';
 	import { PUBLIC_ENVIRONMENT, PUBLIC_SENTRY_DSN } from '$env/static/public';
 	import * as Sentry from '@sentry/browser';
-	import { PokeapiVersionGroups, getGameGroupFromName } from '$lib/data/games';
+	import { getGameGroupFromName } from '$lib/data/games';
+	import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 
 	let navsAsNewUser = 0;
 	navigating.subscribe(async (nav) => {

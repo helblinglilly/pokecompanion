@@ -1,4 +1,8 @@
-import type { paths } from './api';
+import type { paths, components } from './api';
+
+/**
+ * Endpoint responses
+ */
 
 export type APIPokemon =
 	paths['/pokemon/{id}']['get']['responses']['200']['content']['application/json'];
@@ -17,3 +21,12 @@ export type ITagPokemon = NonNullable<ITag['contents']['pokemon']>[number];
 
 export type APIPokemonRootPreview =
 	paths['/pokemon/preview']['get']['responses']['200']['content']['application/json'];
+
+export type APIMeta = paths['/meta']['get']['responses']['200']['content']['application/json'];
+
+/**
+ * Schemas
+ */
+
+export type PokeapiVersionGroups = components['schemas']['PokeapiVersionGroups'];
+export type PokeapiLanguageCodes = components['schemas']['PokeapiLanguageCodes'];

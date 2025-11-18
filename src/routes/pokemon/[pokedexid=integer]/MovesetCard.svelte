@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { getGameGroupFromName, PokeapiVersionGroups, type IGameGroups } from '$lib/data/games';
+	import { getGameGroupFromName, type IGameGroups } from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
 	import Moveset from './Moveset.svelte';
 	import Select from '$/ui/atoms/select';
-	import type { APIPokemon } from '$/@types/api.pokecompanion';
+	import type { APIPokemon, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 
 	export let movesetData: APIPokemon['moves'];
 
@@ -39,10 +39,8 @@
 	/>
 
 	<Moveset
-		completeData={
-		//  @ts-expect-error There is still a mismatch here for ORAS
-		movesetData[selectedVersionGroup]
-		}
+		completeData={//  @ts-expect-error There is still a mismatch here for ORAS
+		movesetData[selectedVersionGroup]}
 	/>
 {:else}
 	<p>No data</p>

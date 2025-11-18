@@ -1,4 +1,5 @@
-import type { PokeapiVersionGroups, PokeapiVersionNames } from "$lib/data/games";
+import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
+import type { PokeapiVersionNames } from '$lib/data/games';
 
 export interface IRecordPokemon {
 	id: number;
@@ -35,7 +36,7 @@ export interface IPokemon {
 	cries: {
 		legacy: string;
 		latest: string;
-	}
+	};
 }
 
 export interface Ability {
@@ -114,7 +115,6 @@ export interface VersionGroup {
 	url: string;
 }
 
-
 export interface IBaseSprites {
 	back_default: null | string;
 	back_female: null | string;
@@ -165,16 +165,18 @@ interface Other {
 	dream_world: DreamWorld;
 	home: Home;
 	'official-artwork': OfficialArtwork;
-	showdown?: {
-		back_default: string | null,
-		back_female	: string | null,
-		back_shiny	: string | null,
-		back_shiny_female	: string | null,
-		front_default: string | null,
-		front_female: string | null,
-		front_shiny	: string | null,
-		front_shiny_female: string | null,
-	} | undefined
+	showdown?:
+		| {
+				back_default: string | null;
+				back_female: string | null;
+				back_shiny: string | null;
+				back_shiny_female: string | null;
+				front_default: string | null;
+				front_female: string | null;
+				front_shiny: string | null;
+				front_shiny_female: string | null;
+		  }
+		| undefined;
 }
 
 interface DreamWorld {
@@ -466,9 +468,9 @@ export interface FlavorTextEntry {
 	flavor_text: string;
 	language: Language;
 	version: {
-		name: PokeapiVersionNames,
+		name: PokeapiVersionNames;
 		url: string;
-	}
+	};
 }
 
 interface Language {
