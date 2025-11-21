@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { Logger } from '$lib/log';
 	import { getIdByUsername } from '$lib/pb/publicUsers';
 	import { pb } from '$lib/stores/domain';
@@ -14,18 +15,19 @@
 
 	const reportUserClick = async () => {
 		try {
-			submitButtonText = 'Reporting...';
-			const userId = await getIdByUsername(username);
-			if (!userId) {
-				throw new Error(`Could not retrieve user id for "${username}"`);
-			}
-
-			await $pb.collection('user_reports').create({
-				user: userId,
-				notes: reportText,
-				status: 'new',
-				reported_by: $currentUser?.id ?? null
+			await fetch(`${PUBLIC_API_HOST}/user/report`, {
+				method: 'POST',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					username: username,
+					notes: reportText
+				})
 			});
+
+			submitButtonText = 'Reporting...';
 			addNotification({ message: `Reported ${username}`, level: 'info' });
 		} catch (err) {
 			addNotification({
