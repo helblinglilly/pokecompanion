@@ -5,8 +5,15 @@
 	import Google from './Google.svelte';
 	import Github from './Github.svelte';
 	import Spotify from './Spotify.svelte';
+	import { onMount } from 'svelte';
+	import { setCookie } from '$/lib/utils/cookies';
+	import { page } from '$app/stores';
 
 	export let data;
+
+	onMount(() => {
+		setCookie('redirectUrl', $page.url.origin);
+	});
 </script>
 
 <SocialPreview

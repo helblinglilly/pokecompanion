@@ -3,7 +3,7 @@ import { PUBLIC_API_HOST } from '$env/static/public';
 
 export const load = async ({ fetch }) => {
 	try {
-		const res = await fetch(`${PUBLIC_API_HOST}/auth/methods?redirectUri=/auth/redirect`, {
+		const res = await fetch(`${PUBLIC_API_HOST}/auth/methods`, {
 			credentials: 'include'
 		});
 
