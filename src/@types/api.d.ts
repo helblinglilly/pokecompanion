@@ -39,6 +39,23 @@ export interface paths {
         patch: operations["updateUser"];
         trace?: never;
     };
+    "/user/report": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Report a user for moderation */
+        post: operations["updateUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/tags": {
         parameters: {
             query?: never;
@@ -46,11 +63,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description Get all Tags for a specific user
+        /** @description Get all Tags for a specific user
          *
-         *     Either: username or userId query params must be provided, OR the request must be authenticated
-         */
+         *     Either: username or userId query params must be provided, OR the request must be authenticated */
         get: operations["getAllTagsForUser"];
         put?: never;
         /** @description Creates a new tag. User must be authenticated. */
@@ -105,12 +120,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description Returns all Pokemon within a Tag with enriched information
+        /** @description Returns all Pokemon within a Tag with enriched information
          *
          *     Different from just looking at tag.contents because this will return user friendly names,
-         *     sprites and slugs for how to navigate to this pokemon
-         */
+         *     sprites and slugs for how to navigate to this pokemon */
         get: operations["getPokemon"];
         put?: never;
         /** @description Adds a Pokemon to a specific tag */
@@ -228,9 +241,33 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /** @description Will require a `provider` cookie to be present and accessible, to contain the contents returned
+         *     by getAuthMethods call
+         *
+         *     Sets the auth cookie and authorization header in its response
+         *
+         *     Redirects to the value of the `redirectUrl` cookie (fully qualified URL) or the referrer
+         *     header if blank. */
+        get: operations["VerifyOAuthLogin"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/signup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         get?: never;
         put?: never;
-        post: operations["VerifyOAuthLogin"];
+        /** @description Will create a new user account with Email + Password auth */
+        post: operations["signUpWithEmail"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1044,13 +1081,11 @@ export interface components {
                 own: components["schemas"]["Type"][];
             };
             evolutionChain: {
-                /**
-                 * @description Indicates wheather both source + target evolutions are present in the current game.
+                /** @description Indicates wheather both source + target evolutions are present in the current game.
                  *     An imperfect measure since it is based on the national dex ID and does not take variants
                  *     or gender into account
                  *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
-                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315
-                 */
+                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
                 isValidInGame: boolean;
                 target: {
                     /**
@@ -1179,22 +1214,6 @@ export interface components {
         };
         /** @enum {string} */
         PokeapiRegions: "kanto" | "johto" | "hoenn" | "sinnoh" | "unova" | "kalos" | "alola" | "galar" | "hisui" | "paldea";
-        AuthMethodsQueries: {
-            /**
-             * @description The URI to redirect the user to after successful auth. The hostname will be determined by the host request header
-             *     Include the leading slash
-             */
-            redirectUri: string;
-        };
-        AuthProviderInfo: {
-            name: string;
-            displayName: string;
-            state: string;
-            authURL: string;
-            codeVerifier: string;
-            codeChallenge: string;
-            codeChallengeMethod: string;
-        };
     };
     responses: never;
     parameters: never;
@@ -1301,6 +1320,51 @@ export interface operations {
             };
             /** @description This username is already taken */
             409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Something went wrong */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updateUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    notes: string;
+                    username: string;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The new username does not meet the criteria */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1971,10 +2035,8 @@ export interface operations {
                 page?: number;
                 /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
                 pageSize?: number;
-                /**
-                 * @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value
-                 */
+                /** @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value */
                 jumpTo?: number;
             };
             header?: never;
@@ -2058,13 +2120,7 @@ export interface operations {
     };
     getAuthMethods: {
         parameters: {
-            query: {
-                /**
-                 * @description The URI to redirect the user to after successful auth. The hostname will be determined by the host request header
-                 *     Include the leading slash
-                 */
-                redirectUri: string;
-            };
+            query?: never;
             header: {
                 origin: string;
             };
@@ -2137,24 +2193,51 @@ export interface operations {
     VerifyOAuthLogin: {
         parameters: {
             query?: never;
-            header?: {
-                origin?: string;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
+        };
+    };
+    signUpWithEmail: {
+        parameters: {
+            query?: never;
+            header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody: {
             content: {
                 "application/json": {
-                    redirectSlug: string;
-                    code: string;
-                    state: string;
-                    provider: components["schemas"]["AuthProviderInfo"];
+                    /** @description Optional. One will be auto-generated if none provided */
+                    username?: string;
+                    password_confirmation: string;
+                    password: string;
+                    email: string;
                 };
             };
         };
         responses: {
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        success: boolean;
+                    };
+                };
+            };
+            500: {
                 headers: {
                     [name: string]: unknown;
                 };
