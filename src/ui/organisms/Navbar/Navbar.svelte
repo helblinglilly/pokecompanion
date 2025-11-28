@@ -26,7 +26,7 @@
 	</div>
 
 	<div
-		class="md:hidden w-fit justify-end"
+		class="md:hidden w-fit justify-end ml-auto relative"
 		id="navbar-hamburger"
 		role="menu"
 		tabindex="0"
@@ -58,7 +58,7 @@
 
 		<div
 			id="mobileNavbarLinks"
-			class={`z-20 relative w-fit gap-2 ${isMobileMenuExpanded ? 'grid' : 'hidden'}`}
+			class={`absolute right-0 top-12 z-10 w-fit gap-2 ${isMobileMenuExpanded ? 'grid' : 'hidden'}`}
 		>
 			<NavbarLinks />
 		</div>
