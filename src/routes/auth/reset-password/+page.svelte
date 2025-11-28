@@ -1,6 +1,6 @@
 <script>
 	import Button from '$/ui/atoms/button';
-	import { pb } from '$lib/stores/domain';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 
 	let email = '';
 	let emailError = '';
@@ -12,7 +12,9 @@
 		}
 
 		try {
-			await $pb.collection('users').requestPasswordReset(email);
+			await fetch(`${PUBLIC_API_HOST}/auth/password-reset?email=${email}`, {
+				credentials: 'include'
+			});
 		} catch (err) {
 			// do nothing - hide if the account doesn't exist
 		} finally {

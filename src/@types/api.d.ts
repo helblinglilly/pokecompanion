@@ -63,9 +63,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get all Tags for a specific user
+        /**
+         * @description Get all Tags for a specific user
          *
-         *     Either: username or userId query params must be provided, OR the request must be authenticated */
+         *     Either: username or userId query params must be provided, OR the request must be authenticated
+         */
         get: operations["getAllTagsForUser"];
         put?: never;
         /** @description Creates a new tag. User must be authenticated. */
@@ -120,10 +122,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Returns all Pokemon within a Tag with enriched information
+        /**
+         * @description Returns all Pokemon within a Tag with enriched information
          *
          *     Different from just looking at tag.contents because this will return user friendly names,
-         *     sprites and slugs for how to navigate to this pokemon */
+         *     sprites and slugs for how to navigate to this pokemon
+         */
         get: operations["getPokemon"];
         put?: never;
         /** @description Adds a Pokemon to a specific tag */
@@ -241,13 +245,15 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Will require a `provider` cookie to be present and accessible, to contain the contents returned
+        /**
+         * @description Will require a `provider` cookie to be present and accessible, to contain the contents returned
          *     by getAuthMethods call
          *
          *     Sets the auth cookie and authorization header in its response
          *
          *     Redirects to the value of the `redirectUrl` cookie (fully qualified URL) or the referrer
-         *     header if blank. */
+         *     header if blank.
+         */
         get: operations["VerifyOAuthLogin"];
         put?: never;
         post?: never;
@@ -268,6 +274,39 @@ export interface paths {
         put?: never;
         /** @description Will create a new user account with Email + Password auth */
         post: operations["signUpWithEmail"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Will sign a user in via Email and Password */
+        post: operations["loginWithEmailPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/password-reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["requestPasswordReset"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1081,11 +1120,13 @@ export interface components {
                 own: components["schemas"]["Type"][];
             };
             evolutionChain: {
-                /** @description Indicates wheather both source + target evolutions are present in the current game.
+                /**
+                 * @description Indicates wheather both source + target evolutions are present in the current game.
                  *     An imperfect measure since it is based on the national dex ID and does not take variants
                  *     or gender into account
                  *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
-                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
+                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315
+                 */
                 isValidInGame: boolean;
                 target: {
                     /**
@@ -2035,8 +2076,10 @@ export interface operations {
                 page?: number;
                 /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
                 pageSize?: number;
-                /** @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value */
+                /**
+                 * @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value
+                 */
                 jumpTo?: number;
             };
             header?: never;
@@ -2237,6 +2280,78 @@ export interface operations {
                     };
                 };
             };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    loginWithEmailPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    password: string;
+                    email: string;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        success: boolean;
+                    };
+                };
+            };
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    requestPasswordReset: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    email: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Password reset Email sent */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid Email provided in body */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
             500: {
                 headers: {
                     [name: string]: unknown;
