@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { Logger } from '$lib/log';
 	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
@@ -30,7 +31,18 @@
 		passwordError = '';
 
 		try {
-			await $pb.collection('users').confirmPasswordReset(token, newPassword, confirmNewPassword);
+			await fetch(`${PUBLIC_API_HOST}/auth/password-reset`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					token: token,
+					newPassword: newPassword,
+					confirmNewPassword: confirmNewPassword
+				}),
+				credentials: 'include'
+			});
 			passwordError = 'Your password has been changed';
 			await Logger.addPageAction('User', 'PasswordReset');
 		} catch (err) {
