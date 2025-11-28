@@ -2,10 +2,7 @@
 // for information about these interfaces
 declare global {
 	namespace App {
-		interface Locals {
-			pb: import('pocketbase').default;
-			user: import('pocketbase').default['authStore']['model'];
-		}
+		// interface Locals {}
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}

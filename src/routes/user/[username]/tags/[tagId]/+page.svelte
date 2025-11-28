@@ -6,7 +6,6 @@
 	import Header from '$/ui/molecules/Collections/Header/Header.svelte';
 	import TagEditor from './TagEditor.svelte';
 	import { writable, type Writable } from 'svelte/store';
-	import type { IPublicUser } from '$/lib/pb/publicUsers.js';
 	import TagPokemon from './TagPokemon.svelte';
 	import TagMove from './TagMove.svelte';
 	import TagViewOptions from './TagViewOptions.svelte';
@@ -18,7 +17,7 @@
 	const currentTag = getContext('tag') as Writable<APITag['tags'][number]>;
 	$: items = ($currentTag.contents.pokemon?.length ?? 0) + ($currentTag.contents.move?.length ?? 0);
 
-	export const tagOwner = writable<IPublicUser>(data.user);
+	export const tagOwner = writable(data.user);
 
 	let filterTerm = '';
 

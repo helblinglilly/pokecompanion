@@ -91,7 +91,6 @@
     "@sentry/integrations": "^7.94.1",
     "jdenticon": "^3.2.0",
     "pako": "^2.1.0",
-    "pocketbase": "^0.26.2",
     "uuid": "^9.0.1"
   }
 }

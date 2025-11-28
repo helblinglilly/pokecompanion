@@ -2,9 +2,7 @@ import { get, writable } from 'svelte/store';
 import { getCookie, getRawCookie, setCookie } from '../utils/cookies';
 import type { Languages } from '../utils/language';
 import PokemonNames from '$lib/data/pokemonNames.json';
-import Pocketbase from 'pocketbase';
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { currentUser } from './user';
+import { currentUser, type AuthRecord } from './user';
 import { getGameGroupFromName, type IGameGroups } from '$lib/data/games';
 import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';
@@ -27,7 +25,6 @@ export const lastPokedexEntry =
 	})?.id ?? 5000;
 export const maxSearchResults = 15;
 export const pokemonPageSize = 50;
-export const pb = writable(new Pocketbase(PUBLIC_POCKETBASE_URL));
 
 export const defaultFeatureFlags: FeatureFlags = {};
 export const featureFlags = writable<FeatureFlags>(defaultFeatureFlags);
@@ -205,11 +202,16 @@ export const cookieHandlers = {
 			setCookie(SettingNames.AnimateSprites, value.toString());
 		});
 	},
-	auth: () => {
-		const authedPb = new Pocketbase(PUBLIC_POCKETBASE_URL);
-		authedPb.authStore.loadFromCookie(getRawCookie(document.cookie, 'pb_auth') || '');
-		currentUser.set(authedPb.authStore.record);
-		pb.set(authedPb);
+	user: () => {
+		const cookieValue = getRawCookie(document.cookie, 'pb_auth');
+		const rawData = cookieValue.replace('pb_auth=', '');
+		const deocdedString = decodeURIComponent(rawData);
+		const authData = JSON.parse(deocdedString) as {
+			token: string;
+			record: AuthRecord;
+		};
+
+		currentUser.set(authData.record);
 	},
 	rememberToken: () => {
 		let existingValue = getCookie('remember-token') as string | undefined;

@@ -6,7 +6,6 @@
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
-	import { pb } from '$/lib/stores/domain';
 
 	let showModal = false;
 
@@ -20,7 +19,6 @@
 				throw new Error(`Non-204 status code for deleting a user ${res.status}`);
 			}
 
-			$pb.authStore.clear();
 			currentUser.set(null);
 			deleteCookie('pb_auth');
 			goto('/');

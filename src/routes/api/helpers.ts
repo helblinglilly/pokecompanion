@@ -1,10 +1,5 @@
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import { getRawCookie, parseCookieString } from '$lib/utils/cookies';
-import { addMinutesToDate } from '$lib/utils/date';
 import type { Cookies } from '@sveltejs/kit';
-import Pocketbase from 'pocketbase';
 import type { IUserPreferences } from './types';
-import { Logger } from '$lib/log';
 import { getGameGroupFromName } from '$lib/data/games';
 import { SettingNames, type UserPreferencePokemonVersion } from '$lib/stores/domain';
 
@@ -50,46 +45,6 @@ export const getCookieValue = (request: Request, name: string) => {
 		}
 	});
 	return result;
-};
-
-export const validateAuth = async (request: Request, cookies: Cookies) => {
-	const authCookie = getRawCookie(request.headers.get('cookie'), 'pb_auth');
-	if (!authCookie) {
-		return false;
-	}
-
-	const pb = new Pocketbase(PUBLIC_POCKETBASE_URL);
-	pb.authStore.loadFromCookie(authCookie);
-
-	try {
-		if (!pb.authStore.isValid) {
-			return false;
-		}
-
-		await pb.collection('users').authRefresh();
-
-		const refreshedCookie = pb.authStore.exportToCookie({
-			expires: addMinutesToDate(new Date(), 30)
-		});
-		const cookieValues = parseCookieString(refreshedCookie);
-		const pbAuthObj = JSON.parse(cookieValues?.pb_auth ?? '{}');
-
-		cookies.set('pb_auth', JSON.stringify(pbAuthObj), {
-			expires: addMinutesToDate(new Date(cookieValues.Expires), 1209600 / 60),
-			path: '/',
-			sameSite: 'lax',
-			httpOnly: cookieValues.httpOnly,
-			secure: cookieValues.Secure
-		});
-	} catch (err) {
-		Logger.warn('Failed to auth refresh with a signed in user', {
-			error: Logger.buildError(err),
-			request: request.url,
-			user: cookies.get('remember-token')
-		});
-		return false;
-	}
-	return pb;
 };
 
 export const respondWithJson = (
