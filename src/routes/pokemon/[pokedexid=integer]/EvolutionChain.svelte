@@ -16,9 +16,7 @@
 				<a
 					href={evolution.source.pokemonUrl}
 					on:click={() => {
-						Logger.addPageAction('UIInteraction', 'EvolutionPokemon', {
-							action: 'Navigation'
-						});
+						Logger.addPageAction('EvolutionPokemon');
 					}}
 				>
 					<Image
@@ -60,7 +58,7 @@
 							href={requirement.supplementary}
 							style="width: 100%; display: inline-flex; justify-content: center;"
 							on:click={() => {
-								Logger.addPageAction('UIInteraction', 'EvolutionUseItemNavigation');
+								Logger.addPageAction('EvolutionUseItemNavigation');
 							}}
 						>
 							<p class="min-w-fit">Use</p>
@@ -78,9 +76,7 @@
 							href={requirement.supplementary}
 							style="width: 100%; display: inline-flex; justify-content: center;"
 							on:click={() => {
-								Logger.addPageAction('UIInteraction', 'EvolutionHoldItem', {
-									action: 'Navigation'
-								});
+								Logger.addPageAction('EvolutionHoldItem');
 							}}
 						>
 							<p>Hold</p>
@@ -113,9 +109,7 @@
 						<a
 							href={requirement.supplementary}
 							on:click={() => {
-								Logger.addPageAction('UIInteraction', 'EvolutionPartyHave', {
-									action: 'Navigation'
-								});
+								Logger.addPageAction('EvolutionPartyHave');
 							}}>Have {requirement.info} in party</a
 						>
 					{/if}
@@ -124,9 +118,7 @@
 						<a
 							href={`${requirement.info}`}
 							on:click={() => {
-								Logger.addPageAction('UIInteraction', 'EvolutionKnowMove', {
-									action: 'Navigation'
-								});
+								Logger.addPageAction('EvolutionKnowMove');
 							}}>Knows {requirement.supplementary}</a
 						>
 					{/if}
@@ -135,9 +127,7 @@
 						<a
 							href={`${requirement.info}`}
 							on:click={() => {
-								Logger.addPageAction('UIInteraction', 'EvolutionUseMove', {
-									action: 'Navigation'
-								});
+								Logger.addPageAction('EvolutionUseMove');
 							}}>{requirement.supplementary}</a
 						>
 					{/if}
@@ -146,9 +136,7 @@
 						<a
 							href={`${requirement.info}`}
 							on:click={() => {
-								Logger.addPageAction('UIInteraction', 'EvolutionCollectItems', {
-									action: 'Navigation'
-								});
+								Logger.addPageAction('EvolutionCollectItems');
 							}}>{requirement.supplementary}</a
 						>
 					{/if}
@@ -157,9 +145,7 @@
 						<a
 							href={requirement.supplementary}
 							on:click={() => {
-								Logger.addPageAction('UIInteraction', 'EvolutionTradeFor', {
-									action: 'Navigation'
-								});
+								Logger.addPageAction('EvolutionTradeFor');
 							}}>Trade for {requirement.info}</a
 						>
 					{/if}
@@ -220,9 +206,7 @@
 				<a
 					href={evolution.target.pokemonUrl}
 					on:click={() => {
-						Logger.addPageAction('UIInteraction', 'EvolutionPokemon', {
-							action: 'Navigation'
-						});
+						Logger.addPageAction('EvolutionPokemon');
 					}}
 				>
 					<Image

@@ -6,7 +6,6 @@ import { currentUser, type AuthRecord } from './user';
 import { getGameGroupFromName, type IGameGroups } from '$lib/data/games';
 import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';
-import * as Sentry from '@sentry/browser';
 import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 
 export const theme = writable<'dark' | 'light' | undefined>();
@@ -61,7 +60,6 @@ export const cookieHandlers = {
 		selectedGame.set(foundGame);
 
 		selectedGame.subscribe((value) => {
-			Sentry.setTag(SettingNames.SelectedGame, value?.pokeapi);
 			window?.newrelic?.setCustomAttribute(SettingNames.SelectedGame, value?.pokeapi);
 
 			const isInSearchParam = get(page).url.searchParams.get('game');
@@ -105,7 +103,6 @@ export const cookieHandlers = {
 		primaryLanguage.set(existingValue);
 
 		primaryLanguage.subscribe((value) => {
-			Sentry.setTag(SettingNames.PrimaryLanguage, value);
 			window?.newrelic?.setCustomAttribute(SettingNames.PrimaryLanguage, value);
 			const isInSearchParam = get(page).url.searchParams.get(SettingNames.PrimaryLanguage);
 
@@ -139,7 +136,6 @@ export const cookieHandlers = {
 		secondaryLanguage.set(existingValue);
 
 		secondaryLanguage.subscribe((value) => {
-			Sentry.setTag(SettingNames.SecondaryLanguage, value);
 			window?.newrelic?.setCustomAttribute(SettingNames.SecondaryLanguage, value);
 
 			const isInSearchParam = get(page).url.searchParams.get(SettingNames.SecondaryLanguage);
@@ -168,7 +164,6 @@ export const cookieHandlers = {
 
 		versionSpecificPokemonSprites.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute(SettingNames.VersionSpecificPokemonSprites, value);
-			Sentry.setTag(SettingNames.VersionSpecificPokemonSprites, value);
 			setCookie(SettingNames.VersionSpecificPokemonSprites, value.toString());
 		});
 	},
@@ -183,7 +178,6 @@ export const cookieHandlers = {
 
 		versionSpecificTypeSprites.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute(SettingNames.VersionSpecificTypeSprites, value);
-			Sentry.setTag(SettingNames.VersionSpecificTypeSprites, value);
 			setCookie(SettingNames.VersionSpecificTypeSprites, value.toString());
 		});
 	},
@@ -197,7 +191,6 @@ export const cookieHandlers = {
 		animateSprites.set(existingValue === 'true' ? true : false);
 
 		animateSprites.subscribe((value) => {
-			Sentry.setTag(SettingNames.AnimateSprites, value);
 			window?.newrelic?.setCustomAttribute(SettingNames.AnimateSprites, value);
 			setCookie(SettingNames.AnimateSprites, value.toString());
 		});
@@ -222,9 +215,6 @@ export const cookieHandlers = {
 		rememberToken.set(existingValue);
 
 		rememberToken.subscribe((value) => {
-			Sentry.setUser({
-				id: value
-			});
 			window?.newrelic?.setUserId(value);
 			window?.umami?.identify(value);
 

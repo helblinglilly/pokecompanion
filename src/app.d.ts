@@ -22,9 +22,18 @@ declare global {
 			setCustomAttribute: (name: string, value: unknown) => void;
 			setUserId: (value: string | null) => void;
 		};
+		/**
+		 * https://umami.is/docs/tracker-functions
+		 */
 		umami?: {
-			identify: (id: string) => void;
-			track: (eventName: string) => void;
+			/**
+			 * Identify the current user
+			 */
+			identify: (unique_id: string | object, data?: object) => void;
+			/**
+			 *  Track a custom event
+			 */
+			track: (event_name?: string | object, data?: object) => void;
 		};
 	}
 }

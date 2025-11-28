@@ -43,7 +43,7 @@
 				credentials: 'include'
 			});
 			passwordError = 'Your password has been changed';
-			await Logger.addPageAction('User', 'PasswordReset');
+			await Logger.addPageAction('PasswordReset');
 		} catch (err) {
 			addNotification({ message: 'Failed to reset password', level: 'failure' });
 			await Logger.warn('User', {

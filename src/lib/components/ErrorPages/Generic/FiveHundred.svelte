@@ -5,9 +5,9 @@
 	import { Logger } from '$lib/log';
 	import { onMount } from 'svelte';
 
-	onMount(async () => {
-		await Logger.addPageAction('ErrorBoundary', 'FiveHundred', {
-			error: $page.error?.message
+	onMount(() => {
+		Logger.addPageAction('ErrorBoundary', {
+			kind: '500'
 		});
 	});
 </script>

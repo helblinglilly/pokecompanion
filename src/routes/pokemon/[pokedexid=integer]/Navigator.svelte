@@ -43,9 +43,7 @@
 				}))}
 				style="width: 100%; padding-left: 1rem; padding-right: 1rem; margin: 0; text-align: center;"
 				on:change={({ detail }) => {
-					Logger.addPageAction('UIInteraction', 'Variety', {
-						action: 'Navigation'
-					});
+					Logger.addPageAction('Variety');
 
 					const newTargetVariety = varieties.find((variety) => variety.name === detail);
 					if (!newTargetVariety) {

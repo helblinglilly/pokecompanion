@@ -24,7 +24,7 @@
 	}
 
 	onMount(async () => {
-		await Logger.addPageAction('SearchResult', data.errorMessage, {
+		await Logger.addPageAction('SearchResult', {
 			searchTerm: data.searchTerm,
 			abilityResults: data.results.abilities.length,
 			itemResults: data.results.items.length,

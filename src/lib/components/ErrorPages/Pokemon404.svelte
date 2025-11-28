@@ -1,12 +1,11 @@
 <script>
-	import { page } from '$app/stores';
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import { Logger } from '$lib/log';
 	import { onMount } from 'svelte';
 
 	onMount(async () => {
-		await Logger.addPageAction('ErrorBoundary', 'Pokemon404', {
-			error: $page.error?.message
+		await Logger.addPageAction('ErrorBoundary', {
+			kind: 'Pokemon404'
 		});
 	});
 </script>

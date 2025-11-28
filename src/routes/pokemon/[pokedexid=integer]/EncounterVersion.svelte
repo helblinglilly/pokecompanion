@@ -17,7 +17,7 @@
 
 <ExpandableButton
 	on:click={() => {
-		Logger.addPageAction('UIInteraction', 'Encounter');
+		Logger.addPageAction('EncounterExpand');
 	}}
 >
 	<p slot="title" class="button secondary ml-auto mr-auto">

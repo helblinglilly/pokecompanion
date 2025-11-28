@@ -2,20 +2,18 @@
   "name": "pokecompanion",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "engines": {
     "node": "20.9.0",
     "npm": "10.1.0"
   },
   "scripts": {
-    "d1:local": "wrangler d1 execute pokecompanion_search --local --file=./src/schema.sql",
-    "d1:remote": "wrangler d1 execute pokecompanion_search --remote --file=./src/schema.sql",
     "dev": "vite dev",
-    "dev:cf": "npm run build && wrangler pages dev .svelte-kit/cloudflare --compatibility-date=2024-03-04 --live-reload",
     "build": "npm run build:app",
     "build:assets": "node scripts/socialpreviews/socialGenerator.js",
     "build:app": "vite build",
     "preview": "vite preview",
-    "test": "npm run test:integration && npm run test:unit",
+    "test": "npm run test:unit",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
@@ -25,17 +23,17 @@
     "scripts:legends-sprites": "node scripts/manual-sprites/legends-script.js",
     "scripts:swsh-sprites": "node scripts/manual-sprites/swsh-script.js",
     "scripts:sv-sprites": "node scripts/manual-sprites/sv-script.js",
-    "test:integration": "playwright test",
-    "test:integration-ui": "playwright test --ui",
     "test:unit": "vitest",
     "test:unit:watch": "vitest --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "dependencies": {
+    "uuid": "^9.0.1"
+  },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.1",
     "@cloudflare/workers-types": "^4.20240208.0",
-    "@playwright/test": "^1.37.1",
     "@storybook/addon-essentials": "^8.2.2",
     "@storybook/addon-interactions": "^8.2.2",
     "@storybook/addon-links": "^8.2.2",
@@ -51,8 +49,6 @@
     "@sveltejs/kit": "^2.5.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@testing-library/svelte": "^5.1.0",
-    "@types/lodash-es": "^4.17.8",
-    "@types/pako": "^2.0.3",
     "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
@@ -64,7 +60,6 @@
     "esm": "^3.2.25",
     "jest-dom": "^4.0.0",
     "jsdom": "^24.0.0",
-    "lodash-es": "^4.17.21",
     "msw": "^2.2.14",
     "node-fetch": "^3.3.2",
     "openapi-typescript": "^7.9.1",
@@ -83,14 +78,5 @@
     "typescript": "^5.3.3",
     "vite": "^5.0.12",
     "vitest": "^1.0.0"
-  },
-  "type": "module",
-  "dependencies": {
-    "@jill64/sentry-sveltekit-cloudflare": "^1.7.2",
-    "@sentry/browser": "^7.86.0",
-    "@sentry/integrations": "^7.94.1",
-    "jdenticon": "^3.2.0",
-    "pako": "^2.1.0",
-    "uuid": "^9.0.1"
   }
 }

@@ -19,9 +19,7 @@
 					: ''
 			}`}
 			on:click={() => {
-				Logger.addPageAction('UIInteraction', 'PokemonNavigation', {
-					action: 'Navigation'
-				});
+				Logger.addPageAction('PokemonNavigation');
 			}}
 		>
 			<Card classes="w-fit h-auto inline-flex" style="margin: 0; padding: 10px;" isClickable>

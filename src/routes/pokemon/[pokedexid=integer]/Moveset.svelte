@@ -51,7 +51,7 @@
 						classes="w-full"
 						on:click={() => {
 							showTmMovesOnMobile = !showTmMovesOnMobile;
-							Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
+							Logger.addPageAction('PokemonMoveList', {
 								action: showTmMovesOnMobile ? 'Hide' : 'Show',
 								context: 'TMMoves'
 							});
@@ -80,7 +80,7 @@
 						classes="w-full"
 						on:click={() => {
 							showBreedMovesOnMobile = !showBreedMovesOnMobile;
-							Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
+							Logger.addPageAction('PokemonMoveList', {
 								action: showBreedMovesOnMobile ? 'Hide' : 'Show',
 								context: 'BreedMoves'
 							});
@@ -111,7 +111,7 @@
 						classes="w-full"
 						on:click={() => {
 							showTutoredMovesOnMobile = !showTutoredMovesOnMobile;
-							Logger.addPageAction('UIInteraction', 'PokemonMoveList', {
+							Logger.addPageAction('PokemonMoveList', {
 								action: showTutoredMovesOnMobile ? 'Hide' : 'Show',
 								context: 'TutorMoves'
 							});

@@ -160,7 +160,7 @@
 					)}
 					bind:value={$secondaryLanguage}
 				/>
-				{#if $secondaryLanguage === 'none'}
+				{#if !$secondaryLanguage}
 					<p>You can add another language if you wish</p>
 				{:else}
 					<p>You can search in either language. To disable, select "None".</p>

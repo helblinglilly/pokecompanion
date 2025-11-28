@@ -18,7 +18,9 @@
 	const moveOtdIndex = randomDailyNumber(Moves.length)[daysPassedInYear()]!;
 
 	onMount(async () => {
-		Logger.addPageAction('MoveOTD', moveOtdIndex.toString());
+		Logger.addPageAction('MoveOTD', {
+			id: moveOtdIndex.toString()
+		});
 	});
 
 	/**

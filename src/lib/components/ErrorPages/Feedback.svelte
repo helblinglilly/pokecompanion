@@ -7,7 +7,7 @@
 	let freetext = '';
 
 	const onSubmit = async () => {
-		await Logger.addPageAction('UserFeedback', '', {
+		Logger.addPageAction('UserFeedback', {
 			message: freetext
 		});
 		addNotification({ message: 'Got it! Thanks for your input!', level: 'success' });

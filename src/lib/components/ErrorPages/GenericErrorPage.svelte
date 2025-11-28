@@ -9,8 +9,8 @@
 
 	onMount(async () => {
 		if (![404, 523].includes($page.status)) {
-			await Logger.addPageAction('ErrorBoundary', 'Generic', {
-				error: $page.error?.message
+			await Logger.addPageAction('ErrorBoundary', {
+				kind: '500'
 			});
 		}
 	});

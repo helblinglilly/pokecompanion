@@ -6,8 +6,8 @@
 	import { onMount } from 'svelte';
 
 	onMount(() => {
-		Logger.addPageAction('ErrorBoundary', $page.error?.message ?? '', {
-			kind: 'FourOhFour'
+		Logger.addPageAction('ErrorBoundary', {
+			kind: '404'
 		});
 	});
 </script>

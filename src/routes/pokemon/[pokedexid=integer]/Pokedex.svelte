@@ -18,7 +18,7 @@
 	<button
 		on:click={() => {
 			if (!showModal) {
-				Logger.addPageAction('UIInteraction', 'Pokedex', {
+				Logger.addPageAction('Pokedex', {
 					action: 'Overlay Shown'
 				});
 			}

@@ -13,8 +13,18 @@
 	import Footer from '$/ui/atoms/footer/Footer.svelte';
 	import Notification from '$/ui/molecules/notification/Notification.svelte';
 	import ScrollToTop from '$/lib/components/ScrollToTop.svelte';
-	import { PUBLIC_ENVIRONMENT } from '$env/static/public';
 	import { refetchTags } from '$/lib/stores/tags';
+	import { navigating } from '$app/stores';
+	import {
+		primaryLanguage,
+		secondaryLanguage,
+		selectedGame,
+		SettingNames
+	} from '$lib/stores/domain';
+	import { getCookie } from '$lib/utils/cookies';
+	import type { Languages } from '$lib/utils/language';
+	import { getGameGroupFromName } from '$lib/data/games';
+	import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
@@ -92,20 +102,31 @@
 	$: shouldDisplaySearch = !['/auth/', '/about', '/privacy'].some((noSearchBar) => {
 		return $page.url.pathname.includes(noSearchBar);
 	});
+
+	navigating.subscribe(async (nav) => {
+		if (nav) {
+			if ($primaryLanguage !== getCookie(SettingNames.PrimaryLanguage)) {
+				primaryLanguage.set(getCookie(SettingNames.PrimaryLanguage) as keyof Languages);
+			}
+			if ($secondaryLanguage !== getCookie(SettingNames.SecondaryLanguage)) {
+				secondaryLanguage.set(getCookie(SettingNames.SecondaryLanguage) as keyof Languages);
+			}
+			if ($selectedGame !== getCookie(SettingNames.SelectedGame)) {
+				const cookieValue = getCookie(SettingNames.SelectedGame) as PokeapiVersionGroups;
+				if (cookieValue) {
+					selectedGame.set(getGameGroupFromName(cookieValue));
+				}
+			}
+
+			await nav.complete;
+		}
+	});
 </script>
 
 <svelte:head>
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 	</style>
-
-	{#if PUBLIC_ENVIRONMENT === 'production'}
-		<script
-			defer
-			src="https://analytics.helbling.uk/script.js"
-			data-website-id="f303cb13-d1aa-42c0-ab5b-77937e5a1daa"
-		></script>
-	{/if}
 </svelte:head>
 
 <Tracking />

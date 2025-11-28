@@ -20,7 +20,6 @@ export const load: LayoutServerLoad = async ({ locals, cookies, fetch }) => {
 	}
 
 	return {
-		user: locals.user,
 		preferences: {
 			animateSprites: cookies.get('animateSprites'),
 			primaryLanguage: cookies.get('primaryLanguage'),

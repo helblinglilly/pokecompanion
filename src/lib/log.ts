@@ -97,27 +97,13 @@ export class Logger {
 		}
 	}
 
-	static async addPageAction(name: string, message: string, info?: Info) {
+	static async addPageAction(name: string, details?: object) {
 		if (PUBLIC_ENVIRONMENT === 'local') {
-			console.log('PageAction', name, message, info);
+			console.debug('PageAction', name, details);
 		}
 		if (typeof window !== 'undefined') {
-			if (window?.newrelic) {
-				try {
-					window.newrelic?.addPageAction(name, {
-						message,
-						...info
-					});
-					return;
-				} catch (err) {
-					console.info(new Date().toISOString, 'notice', name, message, info, err);
-				}
-			} else {
-				console.info(new Date().toISOString, 'notice', name, message, info);
-			}
-
-			if (window?.umami && name === 'UIInteraction') {
-				window.umami.track(message);
+			if (window?.umami) {
+				window.umami.track(name, details);
 			}
 		}
 	}
