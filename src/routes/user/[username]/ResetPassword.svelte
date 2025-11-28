@@ -4,6 +4,7 @@
 	import { addNotification } from '$/lib/stores/notifications';
 	import { currentUser } from '$/lib/stores/user';
 	import Button from '$/ui/atoms/button/Button.svelte';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 </script>
 
 <Button
@@ -13,7 +14,9 @@
 			return;
 		}
 		try {
-			await $pb.collection('users').requestPasswordReset($currentUser.email);
+		await fetch(`${PUBLIC_API_HOST}/auth/password-reset?email=${$currentUser.}`, {
+			credentials: 'include'
+		});
 			addNotification({
 				message: 'You have requested a password reset',
 				level: 'info'

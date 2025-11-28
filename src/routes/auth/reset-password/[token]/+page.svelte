@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { Logger } from '$lib/log';
-	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
 	import { isPasswordValid } from '$lib/utils/user-client';
 

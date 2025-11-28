@@ -9,7 +9,6 @@
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
-	import ResetPassword from './ResetPassword.svelte';
 
 	export let data;
 </script>
@@ -52,8 +51,6 @@
 
 						<div class="grid gap-4">
 							<h2 class="h2">Danger Zone</h2>
-							<ResetPassword />
-
 							<DeleteUser />
 						</div>
 					{/if}
@@ -108,8 +105,6 @@
 
 					<div class="grid gap-4">
 						<h2 class="h2">Danger Zone</h2>
-
-						<ResetPassword />
 
 						<DeleteUser />
 					</div>

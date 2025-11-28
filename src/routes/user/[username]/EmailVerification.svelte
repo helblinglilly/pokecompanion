@@ -1,7 +1,7 @@
 <script>
 	import Button from '$/ui/atoms/button/Button.svelte';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { Logger } from '$lib/log';
-	import { pb } from '$lib/stores/domain';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 </script>
@@ -18,7 +18,9 @@
 				if (!$currentUser) {
 					return;
 				}
-				await $pb.collection('users').requestVerification($currentUser.email);
+				await fetch(`${PUBLIC_API_HOST}/auth/verify?email=${$currentUser.email}`, {
+					credentials: 'include'
+				});
 			} catch (err) {
 				addNotification({ message: 'Failed to request verification Email', level: 'failure' });
 				await Logger.warn('Failed to request verification email', {
