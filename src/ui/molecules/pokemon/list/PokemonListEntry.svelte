@@ -20,7 +20,7 @@
 {#if typeof pokemon.sprite !== 'undefined'}
 	<Card
 		ariaLabel={pokemon.name}
-		classes="m-0 w-full inline-flex justify-between"
+		classes="m-0 w-full inline-flex justify-between h-28"
 		isClickable
 		id={pokemon.id.toString()}
 		style={`position: relative; padding: 0.5rem; ${

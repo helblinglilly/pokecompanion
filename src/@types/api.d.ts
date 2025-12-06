@@ -63,11 +63,9 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description Get all Tags for a specific user
+        /** @description Get all Tags for a specific user
          *
-         *     Either: username or userId query params must be provided, OR the request must be authenticated
-         */
+         *     Either: username or userId query params must be provided, OR the request must be authenticated */
         get: operations["getAllTagsForUser"];
         put?: never;
         /** @description Creates a new tag. User must be authenticated. */
@@ -122,18 +120,67 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description Returns all Pokemon within a Tag with enriched information
+        /** @description Returns all Pokemon within a Tag with enriched information
          *
          *     Different from just looking at tag.contents because this will return user friendly names,
-         *     sprites and slugs for how to navigate to this pokemon
-         */
+         *     sprites and slugs for how to navigate to this pokemon */
         get: operations["getPokemon"];
         put?: never;
         /** @description Adds a Pokemon to a specific tag */
         post: operations["addPokemon"];
         /** @description Deletes a Pokemon from a specific tag */
         delete: operations["deletePokemon"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/search/pokemon": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["searchPokemon"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/search/moves": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["searchMoves"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get search results across Pokemon, Items, Moves and Abilities
+         *
+         *     Will return the sufficient payload to create preview elements for each */
+        get: operations["search"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -188,6 +235,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/move/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getMoveById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/meta": {
         parameters: {
             query?: never;
@@ -196,6 +259,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["GetMeta"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/item/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getItemById"];
         put?: never;
         post?: never;
         delete?: never;
@@ -228,7 +307,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** @description Will request an Email verification Email for an Email + Password user */
+        get: operations["requestEmailVerification"];
         put?: never;
         /** @description Will verify a user that signed up with Email + Password */
         post: operations["verifyUserEmail"];
@@ -245,15 +325,13 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * @description Will require a `provider` cookie to be present and accessible, to contain the contents returned
+        /** @description Will require a `provider` cookie to be present and accessible, to contain the contents returned
          *     by getAuthMethods call
          *
          *     Sets the auth cookie and authorization header in its response
          *
          *     Redirects to the value of the `redirectUrl` cookie (fully qualified URL) or the referrer
-         *     header if blank.
-         */
+         *     header if blank. */
         get: operations["VerifyOAuthLogin"];
         put?: never;
         post?: never;
@@ -304,9 +382,25 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: operations["requestPasswordReset"];
         put?: never;
-        post: operations["requestPasswordReset"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["verifyPasswordReset"];
+        trace?: never;
+    };
+    "/ability/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAbilityById"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -405,6 +499,32 @@ export interface components {
             primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
             secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
             gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+        };
+        SearchQueryParams: {
+            /** @enum {string} */
+            gender?: "male" | "female";
+            variety?: string;
+            /** @enum {string} */
+            shiny?: "true" | "false";
+            /** @enum {string} */
+            animateSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificPokemonSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificTypeSprites?: "true" | "false";
+            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+            /** @description Search term */
+            term: string;
+            /**
+             * Format: double
+             * @description The page number to get results
+             *
+             *     Page size is not configurable and defaults to 10
+             * @default 1
+             */
+            page: number;
         };
         Type: {
             /** @description The Pokeapi name for this type */
@@ -1120,13 +1240,11 @@ export interface components {
                 own: components["schemas"]["Type"][];
             };
             evolutionChain: {
-                /**
-                 * @description Indicates wheather both source + target evolutions are present in the current game.
+                /** @description Indicates wheather both source + target evolutions are present in the current game.
                  *     An imperfect measure since it is based on the national dex ID and does not take variants
                  *     or gender into account
                  *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
-                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315
-                 */
+                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
                 isValidInGame: boolean;
                 target: {
                     /**
@@ -1984,6 +2102,224 @@ export interface operations {
             };
         };
     };
+    searchPokemon: {
+        parameters: {
+            query: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                /** @description Search term */
+                term: string;
+                /** @description The page number to get results
+                 *
+                 *     Page size is not configurable and defaults to 10 */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Results */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: double */
+                        totalItems: number;
+                        data: {
+                            slug: string;
+                            sprite: {
+                                url: string;
+                                alt: string;
+                            };
+                            name: string;
+                            /** Format: double */
+                            id: number;
+                        }[];
+                    };
+                };
+            };
+            /** @description No results */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    searchMoves: {
+        parameters: {
+            query: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                /** @description Search term */
+                term: string;
+                /** @description The page number to get results
+                 *
+                 *     Page size is not configurable and defaults to 10 */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Results */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: double */
+                        totalItems: number;
+                        data: {
+                            slug: string;
+                            name: string;
+                            /** Format: double */
+                            id: number;
+                        }[];
+                    };
+                };
+            };
+            /** @description No results */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    search: {
+        parameters: {
+            query: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                /** @description Search term */
+                term: string;
+                /** @description The page number to get results
+                 *
+                 *     Page size is not configurable and defaults to 10 */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Results */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        moves: {
+                            /** Format: double */
+                            totalItems: number;
+                            data: {
+                                slug: string;
+                                name: string;
+                                /** Format: double */
+                                id: number;
+                            }[];
+                        };
+                        abilities: unknown[];
+                        items: unknown[];
+                        pokemon: {
+                            /** Format: double */
+                            totalItems: number;
+                            data: {
+                                slug: string;
+                                sprite: {
+                                    url: string;
+                                    alt: string;
+                                };
+                                name: string;
+                                /** Format: double */
+                                id: number;
+                            }[];
+                        };
+                        searchTerm: string;
+                    };
+                };
+            };
+            /** @description No results */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getPokemonById: {
         parameters: {
             query?: {
@@ -2076,10 +2412,8 @@ export interface operations {
                 page?: number;
                 /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
                 pageSize?: number;
-                /**
-                 * @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value
-                 */
+                /** @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value */
                 jumpTo?: number;
             };
             header?: never;
@@ -2112,6 +2446,32 @@ export interface operations {
                             /** Format: double */
                             id: number;
                         }[];
+                    };
+                };
+            };
+        };
+    };
+    getMoveById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        slug: string;
+                        name: string;
+                        /** Format: double */
+                        id: number;
                     };
                 };
             };
@@ -2161,6 +2521,33 @@ export interface operations {
             };
         };
     };
+    getItemById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        name: string;
+                        /** Format: double */
+                        cost: number;
+                        /** Format: double */
+                        id: number;
+                    };
+                };
+            };
+        };
+    };
     getAuthMethods: {
         parameters: {
             query?: never;
@@ -2193,6 +2580,40 @@ export interface operations {
                 };
             };
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    requestEmailVerification: {
+        parameters: {
+            query: {
+                email: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Email sent to user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Provided email address is invalid */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -2324,18 +2745,14 @@ export interface operations {
     };
     requestPasswordReset: {
         parameters: {
-            query?: never;
+            query: {
+                email: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": {
-                    email: string;
-                };
-            };
-        };
+        requestBody?: never;
         responses: {
             /** @description Password reset Email sent */
             200: {
@@ -2357,6 +2774,71 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    verifyPasswordReset: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    confirmNewPassword: string;
+                    newPassword: string;
+                    token: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Password reset */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid credentials provided */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAbilityById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        name: string;
+                        /** Format: double */
+                        id: number;
+                    };
+                };
             };
         };
     };

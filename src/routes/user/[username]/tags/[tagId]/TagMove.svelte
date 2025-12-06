@@ -7,7 +7,7 @@
 	import { type Writable } from 'svelte/store';
 	import { getSortFunction } from './helper';
 	import { getMoveEntry } from '$/lib/data/games';
-	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
+	import OldMoveListEntry from '$/ui/molecules/move/list/OldMoveListEntry.svelte';
 	import MoveCardEntry from '$/ui/molecules/move/card/MoveCardEntry.svelte';
 	import type { APITag } from '$/@types/api.pokecompanion';
 	import { PUBLIC_API_HOST } from '$env/static/public';
@@ -96,7 +96,7 @@
 	<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 		{#each moveCollection as move}
 			<a href={inModifyView ? undefined : `/move/${move.id}`} class="no-underline">
-				<MoveListEntry id={move.id} isClickable={!inModifyView}>
+				<OldMoveListEntry id={move.id} isClickable={!inModifyView}>
 					<button
 						slot="remove"
 						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
@@ -104,7 +104,7 @@
 							await deleteMoveFromTag(move);
 						}}>-</button
 					>
-				</MoveListEntry>
+				</OldMoveListEntry>
 			</a>
 		{/each}
 	</div>
