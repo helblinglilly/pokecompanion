@@ -114,7 +114,8 @@
 					loadMorePokemon();
 				}}
 			>
-				Show {10} more Pokémon ({$pokemonResults.data.length}/{$pokemonResults.totalItems})
+				Show {Math.min(10, $pokemonResults.totalItems - $pokemonResults.data.length)} more Pokémon ({$pokemonResults
+					.data.length}/{$pokemonResults.totalItems})
 			</Button>
 		{/if}
 	</section>
@@ -137,7 +138,8 @@
 					loadMoreMoves();
 				}}
 			>
-				Show {10} more Moves ({$moveResults.data.length}/{$moveResults.totalItems})
+				Show {Math.min(10, $moveResults.totalItems - $moveResults.data.length)} more moves ({$moveResults
+					.data.length}/{$moveResults.totalItems})
 			</Button>
 		{/if}
 	</section>
