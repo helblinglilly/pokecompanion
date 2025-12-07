@@ -3,6 +3,7 @@
 	import { addSettingsAsSearchParams } from '$/lib/api/clientFetch.js';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import { addNotification } from '$/lib/stores/notifications';
+	import { searchTerm } from '$/lib/stores/searchbar.js';
 	import Button from '$/ui/atoms/button';
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list/PokemonListEntry.svelte';
@@ -11,6 +12,8 @@
 	import { writable } from 'svelte/store';
 
 	export let data;
+	searchTerm.set(data.searchTerm);
+
 	const pokemonResults = writable(data.pokemon);
 	const moveResults = writable(data.moves);
 
