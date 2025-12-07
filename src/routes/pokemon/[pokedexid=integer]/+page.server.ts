@@ -1,3 +1,4 @@
+import type { paths } from '$/@types/api.js';
 import type { APIPokemon, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { getGameGroupFromName } from '$lib/data/games';
@@ -54,13 +55,29 @@ export const load = async ({ params, fetch, url, cookies }) => {
 
 	appendSearchParams(pokemonRequestUrl);
 
+	async function getFullAbility(ability: APIPokemon['abilities'][number]) {
+		const abilityUrl = new URL(`${PUBLIC_API_HOST}/ability/${ability.id}`);
+		appendSearchParams(abilityUrl);
+		const res = await fetch(abilityUrl, {
+			credentials: 'include'
+		});
+		return (await res.json()) as paths['/ability/{id}']['get']['responses']['200']['content']['application/json'];
+	}
 	try {
 		const request = await fetch(pokemonRequestUrl, {
 			credentials: 'include'
 		});
 		const body = (await request.json()) as APIPokemon;
 
-		return body;
+		return {
+			...body,
+			abilities: body.abilities.map((ability) => {
+				return {
+					...ability,
+					data: getFullAbility(ability)
+				};
+			})
+		};
 	} catch (err) {
 		console.error(err);
 		error(500, `Failed to parse JSON response from internal API`);

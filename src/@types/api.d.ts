@@ -1309,6 +1309,8 @@ export interface components {
                 slot: number;
                 is_hidden: boolean;
                 ability: components["schemas"]["PokeapiNamedApiResource"];
+                /** Format: double */
+                id: number;
             }[];
             varieties: {
                 pokecompanionUrl: string;
@@ -2834,7 +2836,12 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
+                        effectEntries: {
+                            shortEffect: string;
+                            effect: string;
+                        }[];
                         name: string;
+                        slug: string;
                         /** Format: double */
                         id: number;
                     };

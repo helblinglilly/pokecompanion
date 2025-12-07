@@ -52,6 +52,7 @@ export async function load({ params, cookies }) {
 	const game = getGameGroupFromName(cookies.get('selectedGame') as UserPreferencePokemonVersion);
 
 	const move = await getMove(moveId, game);
+
 	return {
 		move
 	};

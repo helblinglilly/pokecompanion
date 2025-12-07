@@ -1,77 +1,72 @@
 <script lang="ts">
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { capitaliseEachWord } from '$/lib/utils/string';
-	import type { AbilityResponse } from '$/routes/api/ability/[id=integer]/types';
 	import Button from '$/ui/atoms/button/Button.svelte';
-	import { primaryLanguage, secondaryLanguage } from '$lib/stores/domain';
-	import type { Ability } from '$lib/types/IPokemon';
-	import { getNameEntry } from '$lib/utils/language';
 	import ExpandableButton from '$/lib/components/ExpandableButton.svelte';
+	import type { APIPokemon } from '$/@types/api.pokecompanion';
+	import type { paths } from '$/@types/api';
 
-	export let abilities: Ability[];
+	type APIAbility =
+		paths['/ability/{id}']['get']['responses']['200']['content']['application/json'];
 
-	async function getAbilityData() {
-		const responses = await Promise.all(
-			abilities.map((ability) => fetch(`/api/ability/${ability.ability.url.split('/')[6]}`))
-		);
-		const bodies = (await Promise.all(responses.map((res) => res.json()))) as AbilityResponse[];
+	export let abilities: Array<
+		APIPokemon['abilities'][number] & {
+			data: Promise<APIAbility>;
+		}
+	>;
 
-		return bodies
-			.map((ability) => ({
-				name: getNameEntry(ability.names, $primaryLanguage),
-				is_hidden: abilities.find((monAbility) => monAbility.ability.name === ability.name)
-					?.is_hidden,
-				effect_entries: ability.effect_entries
-					.filter((entry) => [$primaryLanguage, $secondaryLanguage].includes(entry.language.name))
-					.map((entry) => entry.short_effect) ?? ['Missing data'],
-				id: ability.id
-			}))
-			.sort((a, b) =>
-				(abilities.find((ability) => ability.ability.name === a.name)?.slot ?? -1) >
-				(abilities.find((ability) => ability.ability.name === b.name)?.slot ?? -1)
-					? 1
-					: -1
-			);
+	function findStaticAbility(fullAbility: APIAbility) {
+		const staticAbility = abilities.find((ability) => ability.id === fullAbility.id);
+		if (!staticAbility) {
+			throw new Error('Could not find a matching static ability from the same data set');
+		}
+
+		return {
+			...staticAbility,
+			...fullAbility
+		};
 	}
 </script>
 
 <div class={`grid gap-4`}>
-	{#await getAbilityData()}
-		{#each abilities as staticAbility}
+	{#await Promise.all(abilities.map((ability) => ability.data))}
+		{#each abilities as pendingAbility}
 			<Button
 				classes="w-full text-center min-w-max"
+				style="height: 3rem;"
 				variant="primary"
+				isDisabled
 				isNested
 				data-umami-event="PokemonAbility"
 			>
-				{#if staticAbility.is_hidden}
+				{#if pendingAbility.is_hidden}
 					<Icon
 						name="hidden"
 						style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
 					/>
 				{/if}
 
-				{capitaliseEachWord(staticAbility.ability.name).replaceAll('-', ' ')}
+				{capitaliseEachWord(pendingAbility.ability.name).replaceAll('-', ' ')}
 			</Button>
 		{/each}
-	{:then data}
-		{#each data as ability}
+	{:then fullAbilities}
+		{#each fullAbilities as fullAbility}
 			<ExpandableButton data-umami-event="PokemonAbility">
 				<div slot="title" class="inline-flex">
-					{#if ability.is_hidden}
+					{#if findStaticAbility(fullAbility).is_hidden}
 						<Icon
 							name="hidden"
 							style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
 						/>
 					{/if}
 
-					{ability.name}
+					{fullAbility.name}
 				</div>
 				<div slot="content">
-					{#each ability.effect_entries as effect}
-						<p>{effect}</p>
+					{#each fullAbility.effectEntries as effect}
+						<p>{effect.shortEffect}</p>
 					{/each}
-					<a href={`/ability/${ability.id}`} class="inline-flex"
+					<a href={fullAbility.slug} class="inline-flex"
 						>Learn more <Icon
 							name="link"
 							style="margin-top: auto; margin-bottom: auto; margin-left: 0.5rem;"
@@ -81,23 +76,24 @@
 			</ExpandableButton>
 		{/each}
 	{:catch}
-		{#each abilities as staticAbility}
+		{#each abilities as ability}
 			<Button
 				classes="w-full text-center min-w-max"
-				isDisabled
 				variant="primary"
+				isDisabled
 				isNested
 				data-umami-event="PokemonAbility"
 			>
-				{#if staticAbility.is_hidden}
+				{#if ability.is_hidden}
 					<Icon
 						name="hidden"
 						style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
 					/>
 				{/if}
 
-				{capitaliseEachWord(staticAbility.ability.name).replaceAll('-', ' ')}
+				{capitaliseEachWord(ability.ability.name).replaceAll('-', ' ')}
 			</Button>
+			<p>Failed to get more info about this ability</p>
 		{/each}
 	{/await}
 </div>
