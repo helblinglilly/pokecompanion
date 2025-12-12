@@ -32,7 +32,7 @@
 				</p>
 
 				<p>
-					<!-- {data.move.}/{data.move.pp} PP -->
+					{data.move.pp}/{data.move.pp} PP
 				</p>
 			</div>
 		</div>
@@ -47,38 +47,35 @@
 					<th>Accuracy</th>
 				</thead>
 				<tbody>
-					<!-- <tr class="text-center">
+					<tr class="text-center">
 						<td>
-							<Type
-								type={data.move.damage_class.name}
-								className="ml-auto mr-auto"
-								style="max-height: 20px;"
+							<Image
+								src={data.move.damageClass.icon}
+								alt={`${data.move.damageClass.name} type`}
+								classNames="mx-auto"
+								style={`object-fit: contain; max-width: 5rem; max-height: 20px;`}
 							/>
 						</td>
 						<td>{data.move.power ?? '-'}</td>
 						<td>{data.move.accuracy ?? '-'}</td>
-					</tr> -->
+					</tr>
 				</tbody>
 			</table>
 		</div>
 		<hr />
 
-		<!-- {#if primaryFlavourText || secondaryFlavourText}
-			<p>{primaryFlavourText ?? secondaryFlavourText}</p>
-
+		{#if data.move.flavourTexts?.length > 0}
+			{#each data.move.flavourTexts as text}
+				<p>{text}</p>
+			{/each}
 			<hr />
 		{/if}
 
-		{#if primaryEffectEntry}
-			<p>{primaryEffectEntry}</p>
+		{#if data.move.effectEntries.length > 0}
+			{#each data.move.effectEntries as effectEntry}
+				<p>{effectEntry}</p>
+			{/each}
 		{/if}
-		{#if secondaryEffectEntry}
-			<p>{secondaryEffectEntry}</p>
-		{/if}
-
-		{#if !primaryEffectEntry && !secondaryEffectEntry}
-			<p>{findEffectEntry(data.move, 'en')}</p>
-		{/if} -->
 
 		{#if $currentUser}
 			<hr />
