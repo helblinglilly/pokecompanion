@@ -63,9 +63,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get all Tags for a specific user
+        /**
+         * @description Get all Tags for a specific user
          *
-         *     Either: username or userId query params must be provided, OR the request must be authenticated */
+         *     Either: username or userId query params must be provided, OR the request must be authenticated
+         */
         get: operations["getAllTagsForUser"];
         put?: never;
         /** @description Creates a new tag. User must be authenticated. */
@@ -120,10 +122,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Returns all Pokemon within a Tag with enriched information
+        /**
+         * @description Returns all Pokemon within a Tag with enriched information
          *
          *     Different from just looking at tag.contents because this will return user friendly names,
-         *     sprites and slugs for how to navigate to this pokemon */
+         *     sprites and slugs for how to navigate to this pokemon
+         */
         get: operations["getPokemon"];
         put?: never;
         /** @description Adds a Pokemon to a specific tag */
@@ -174,9 +178,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get search results across Pokemon, Items, Moves and Abilities
+        /**
+         * @description Get search results across Pokemon, Items, Moves and Abilities
          *
-         *     Will return the sufficient payload to create preview elements for each */
+         *     Will return the sufficient payload to create preview elements for each
+         */
         get: operations["search"];
         put?: never;
         post?: never;
@@ -243,6 +249,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getMoveById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/move/{id}/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getMovePreview"];
         put?: never;
         post?: never;
         delete?: never;
@@ -325,13 +347,15 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Will require a `provider` cookie to be present and accessible, to contain the contents returned
+        /**
+         * @description Will require a `provider` cookie to be present and accessible, to contain the contents returned
          *     by getAuthMethods call
          *
          *     Sets the auth cookie and authorization header in its response
          *
          *     Redirects to the value of the `redirectUrl` cookie (fully qualified URL) or the referrer
-         *     header if blank. */
+         *     header if blank.
+         */
         get: operations["VerifyOAuthLogin"];
         put?: never;
         post?: never;
@@ -527,10 +551,34 @@ export interface components {
             page: number;
         };
         Type: {
-            /** @description The Pokeapi name for this type */
             name: string;
             /** @description Path to the URL which will point at sprites.pokecompanion.com */
             icon: string;
+        };
+        MoveResponse: {
+            /** Format: double */
+            id: number;
+            /** @description Combined name in both languages */
+            name: string;
+            /** @description Pokecompanion slug */
+            slug: string;
+            /** @description List of Pokemon Previews that can learn this move */
+            learnedByPokemon: {
+                slug: string;
+                sprite: {
+                    url: string;
+                    alt: string;
+                };
+                name: string;
+                /** Format: double */
+                id: number;
+            }[];
+            /** @description Flavour text entries in the selected languages */
+            flavourTexts: string[];
+            /** @description Effect entries in the selected languages */
+            effectEntries: string[];
+            /** @description The type of this move */
+            type: components["schemas"]["Type"];
         };
         PokeapiNamedApiResource: {
             /** @description Short name */
@@ -1240,11 +1288,13 @@ export interface components {
                 own: components["schemas"]["Type"][];
             };
             evolutionChain: {
-                /** @description Indicates wheather both source + target evolutions are present in the current game.
+                /**
+                 * @description Indicates wheather both source + target evolutions are present in the current game.
                  *     An imperfect measure since it is based on the national dex ID and does not take variants
                  *     or gender into account
                  *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
-                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
+                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315
+                 */
                 isValidInGame: boolean;
                 target: {
                     /**
@@ -2118,9 +2168,11 @@ export interface operations {
                 gameEntry?: components["schemas"]["PokeapiVersionGroups"];
                 /** @description Search term */
                 term: string;
-                /** @description The page number to get results
+                /**
+                 * @description The page number to get results
                  *
-                 *     Page size is not configurable and defaults to 10 */
+                 *     Page size is not configurable and defaults to 10
+                 */
                 page?: number;
             };
             header?: never;
@@ -2187,9 +2239,11 @@ export interface operations {
                 gameEntry?: components["schemas"]["PokeapiVersionGroups"];
                 /** @description Search term */
                 term: string;
-                /** @description The page number to get results
+                /**
+                 * @description The page number to get results
                  *
-                 *     Page size is not configurable and defaults to 10 */
+                 *     Page size is not configurable and defaults to 10
+                 */
                 page?: number;
             };
             header?: never;
@@ -2207,12 +2261,7 @@ export interface operations {
                     "application/json": {
                         /** Format: double */
                         totalItems: number;
-                        data: {
-                            slug: string;
-                            name: string;
-                            /** Format: double */
-                            id: number;
-                        }[];
+                        data: components["schemas"]["MoveResponse"][];
                     };
                 };
             };
@@ -2252,9 +2301,11 @@ export interface operations {
                 gameEntry?: components["schemas"]["PokeapiVersionGroups"];
                 /** @description Search term */
                 term: string;
-                /** @description The page number to get results
+                /**
+                 * @description The page number to get results
                  *
-                 *     Page size is not configurable and defaults to 10 */
+                 *     Page size is not configurable and defaults to 10
+                 */
                 page?: number;
             };
             header?: never;
@@ -2273,12 +2324,7 @@ export interface operations {
                         moves: {
                             /** Format: double */
                             totalItems: number;
-                            data: {
-                                slug: string;
-                                name: string;
-                                /** Format: double */
-                                id: number;
-                            }[];
+                            data: components["schemas"]["MoveResponse"][];
                         };
                         abilities: unknown[];
                         items: unknown[];
@@ -2414,8 +2460,10 @@ export interface operations {
                 page?: number;
                 /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
                 pageSize?: number;
-                /** @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value */
+                /**
+                 * @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value
+                 */
                 jumpTo?: number;
             };
             header?: never;
@@ -2454,6 +2502,27 @@ export interface operations {
         };
     };
     getMoveById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MoveResponse"];
+                };
+            };
+        };
+    };
+    getMovePreview: {
         parameters: {
             query?: never;
             header?: never;

@@ -3,72 +3,36 @@
 	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag.svelte';
 	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
-	import type { IGameGroups } from '$lib/data/games';
-	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
 	import { tagStore } from '$lib/stores/tags.js';
 	import { currentUser } from '$lib/stores/user';
-	import type { IMove } from '$lib/types/IMoves.js';
-	import { getNameEntries, joinNameEntries } from '$lib/utils/language';
-	import Type from '$/ui/atoms/type/Type.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
-	import PokemonGroup from './PokemonGroup.svelte';
+	import Image from '$/ui/atoms/image';
 
 	export let data;
-	let filterTerm = '';
-
-	const findFlavourEntry = (
-		move: IMove,
-		languageCode: string | undefined,
-		selectedGame?: IGameGroups | undefined
-	) => {
-		const entry = move.flavor_text_entries.find((entry) => {
-			if (selectedGame) {
-				return (
-					entry.language.name === languageCode && entry.version_group.name === selectedGame.pokeapi
-				);
-			}
-			return entry.language.name === languageCode;
-		});
-		if (!entry) {
-			return '';
-		}
-		return entry.flavor_text;
-	};
-
-	const findEffectEntry = (move: IMove, language: string | undefined) => {
-		const effect = move.effect_entries.find((entry) => {
-			return entry.language.name === language;
-		});
-
-		return effect?.effect ?? '';
-	};
-
-	$: primaryFlavourText = findFlavourEntry(data.move, $primaryLanguage, $selectedGame);
-	$: secondaryFlavourText = findFlavourEntry(data.move, $secondaryLanguage, $selectedGame);
-
-	$: primaryEffectEntry = findEffectEntry(data.move, $primaryLanguage);
-	$: secondaryEffectEntry = findEffectEntry(data.move, $secondaryLanguage);
-
-	$: names = getNameEntries(data.move.names, $primaryLanguage, $secondaryLanguage);
 </script>
 
 <SocialPreview
-	title={`${names.primary ?? names.secondary}`}
+	title={`${data.move.name}`}
 	previewImage="https://socialpreviews.pokecompanion.helbling.uk/moves.png"
-	description={primaryEffectEntry ?? secondaryEffectEntry}
+	description={data.move.effectEntries[0]}
 />
 
 <div class="w-full inline-flex justify-center">
 	<Card classes="w-full md:max-w-[75%]">
 		<div class="inline-flex w-full">
-			<Type type={data.move.type.name} className="mr-3" style="max-height: 20px;" />
+			<Image
+				src={data.move.type.icon}
+				alt={`${data.move.type.name} type`}
+				classNames="mr-3"
+				style={`object-fit: contain; max-width: 5rem; max-height: 20px;`}
+			/>
 			<div class="inline-flex justify-between w-full">
 				<p>
-					{joinNameEntries(names, '-')}
+					{data.move.name}
 				</p>
 
 				<p>
-					{data.move.pp}/{data.move.pp} PP
+					<!-- {data.move.}/{data.move.pp} PP -->
 				</p>
 			</div>
 		</div>
@@ -83,7 +47,7 @@
 					<th>Accuracy</th>
 				</thead>
 				<tbody>
-					<tr class="text-center">
+					<!-- <tr class="text-center">
 						<td>
 							<Type
 								type={data.move.damage_class.name}
@@ -93,13 +57,13 @@
 						</td>
 						<td>{data.move.power ?? '-'}</td>
 						<td>{data.move.accuracy ?? '-'}</td>
-					</tr>
+					</tr> -->
 				</tbody>
 			</table>
 		</div>
 		<hr />
 
-		{#if primaryFlavourText || secondaryFlavourText}
+		<!-- {#if primaryFlavourText || secondaryFlavourText}
 			<p>{primaryFlavourText ?? secondaryFlavourText}</p>
 
 			<hr />
@@ -114,7 +78,7 @@
 
 		{#if !primaryEffectEntry && !secondaryEffectEntry}
 			<p>{findEffectEntry(data.move, 'en')}</p>
-		{/if}
+		{/if} -->
 
 		{#if $currentUser}
 			<hr />
@@ -144,6 +108,7 @@
 	</Card>
 </div>
 
+<!--
 <div style="padding-top: 2rem;">
 	<div class="md:max-w-[75%] mx-auto grid gap-4">
 		<div class="inline-flex flex-col md:flex-row w-full gap-4 justify-between">
@@ -159,6 +124,7 @@
 		</div>
 
 		<!-- Replace this with a manual implementation like on search results -->
+<!--
 		<PokemonGroup
 			pokemonResults={data.move.learned_by_pokemon.map((val) => {
 				return { id: Number(val.url.split('/')[6]) };
@@ -167,7 +133,7 @@
 			{filterTerm}
 		/>
 	</div>
-</div>
+</div> -->
 
 <style>
 	hr {
