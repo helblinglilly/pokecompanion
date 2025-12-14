@@ -39,15 +39,6 @@ export const getMultiLanguageName = (
 	}
 };
 
-export const speciesNamesToNormalisedNames = (input: Name[]) => {
-	return input.map((item) => {
-		const languageName = item.language.name;
-		const languageValue = item.name;
-
-		return { [languageName]: languageValue };
-	});
-};
-
 export const getNameEntry = (entries: Name[], languageCode: keyof Languages | undefined) => {
 	const entry = entries.find((a) => {
 		return a.language.name === languageCode;
@@ -68,25 +59,4 @@ export const getNameEntries = (
 		primary: getNameEntry(entries, primary),
 		secondary: secondary ? getNameEntry(entries, secondary) : undefined
 	};
-};
-
-export const joinNameEntries = (
-	nameEntries: { primary: string | undefined; secondary: string | undefined },
-	joinChar: string
-): string => {
-	if (nameEntries.primary && !nameEntries.secondary) {
-		return nameEntries.primary;
-	} else if (nameEntries.secondary && !nameEntries.primary) {
-		return nameEntries.secondary;
-	}
-
-	if (nameEntries.primary && nameEntries.primary === nameEntries.secondary) {
-		return nameEntries.primary;
-	}
-
-	if (!nameEntries.primary && !nameEntries.secondary) {
-		return 'No data';
-	}
-
-	return `${nameEntries.primary} ${joinChar} ${nameEntries.secondary}`;
 };

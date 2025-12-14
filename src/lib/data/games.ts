@@ -615,13 +615,6 @@ export function getGameGroupFromName(pokeapiname: UserPreferencePokemonVersion) 
 	});
 }
 
-export function getGameGroupFromGame(game: IGame | undefined) {
-	if (!game) {
-		return;
-	}
-	return GameGroups.find((groupGame) => groupGame.games.includes(game));
-}
-
 // TODO This function should really look at the Pokedex for each game. But pokedex' don't exist yet
 export const isPokemonInGameGroup = (nationalDexId: number, gameGroup: IGameGroups | undefined) => {
 	if (!gameGroup) return true;
@@ -643,35 +636,6 @@ export const getGameFromName = (
 	}
 
 	return matching.games.find((game) => game.pokeapi === pokeapiname) ?? home;
-};
-
-/**
- * Will return the number of the Generation that a given Pokemon is in
- * @param id The National Pokedex ID for a pokemon
- * @returns Generation number, starting from 1
- */
-export const getPokemonGeneration = (id: number) => {
-	if (id <= 151) {
-		return 1;
-	} else if (id > 151 && id <= 252) {
-		return 2;
-	} else if (id > 252 && id <= 386) {
-		return 3;
-	} else if (id > 386 && id <= 493) {
-		return 4;
-	} else if (id > 492 && id <= 649) {
-		return 5;
-	} else if (id > 649 && id <= 721) {
-		return 6;
-	} else if (id > 721 && id <= 809) {
-		return 7;
-	} else if (id > 809 && id <= 905) {
-		return 8;
-	} else if (id > 905 && id <= 1025) {
-		return 9;
-	} else {
-		return 10;
-	}
 };
 
 export interface IStaticPokemon {
@@ -709,42 +673,6 @@ export interface IStaticMove {
 		roomaji?: string | undefined;
 	}[];
 }
-/**
- * Return a scraped entry of a Pokemon with a given ID
- * @param id The national dex id for a pokemon
- * @returns
- */
-export const getPokemonEntry = (id: number): IStaticPokemon => {
-	const entry = PokemonNames.find((a) => {
-		return a.id === id;
-	});
-
-	if (!entry) {
-		return {
-			names: [
-				{
-					'ja-Hrkt': ''
-				}
-			],
-			id: -1,
-			generation: -1,
-			redirect: undefined
-		};
-	}
-
-	const speciesId = entry.redirect ? Number(entry.redirect.split('?')[0]) : entry.id;
-
-	if (entry.id > 10000) {
-		return {
-			...entry,
-			id: speciesId
-		};
-	}
-	return {
-		...entry,
-		redirect: speciesId.toString()
-	};
-};
 
 export const getMoveEntry = (id: number): IStaticMove => {
 	const entry = MoveNames.find((a) => {

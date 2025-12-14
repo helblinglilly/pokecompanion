@@ -13,23 +13,6 @@ export const capitaliseEachWord = (input: string) => {
 };
 
 /**
- * To be used when trying to convert variety names such as wooper-paldea into Paldea
- * @param name
- */
-export const pokemonVarietyNameToDisplay = (name: string) => {
-	if (!name || !name.includes('-') || name.endsWith('-default')) {
-		return '';
-	}
-
-	const parts = name.split('-');
-	if (parts.length >= 2) {
-		const varietyParts = parts.slice(1).map((a) => capitaliseFirstLetter(a));
-		return capitaliseFirstLetter(varietyParts.join(' '));
-	}
-	return '';
-};
-
-/**
  * To be used when comparing strings in search
  * @param term
  * @returns

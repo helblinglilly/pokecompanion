@@ -55,46 +55,4 @@ const deleteCookie = (name: string) => {
 	});
 };
 
-type BaseCookieAttributes = {
-	Path: string;
-	SameSite: 'none' | 'lax' | 'strict' | undefined;
-	httpOnly: boolean | undefined;
-	Secure: boolean | undefined;
-	Expires: Date;
-};
-
-type CookieValues = { [key: string]: string };
-
-const parseCookieString = (cookieString: string): BaseCookieAttributes & CookieValues => {
-	const baseCookieAttributes: BaseCookieAttributes = {
-		Path: '/',
-		SameSite: 'none',
-		httpOnly: undefined,
-		Expires: new Date(),
-		Secure: undefined
-	};
-
-	const cookieValues: CookieValues = {};
-
-	const cookiePairs = cookieString.split(';');
-	for (const pair of cookiePairs) {
-		const [key, value] = pair.trim().split('=');
-		// @ts-expect-error key might be undefined but can't index
-		if (key in baseCookieAttributes) {
-			// @ts-expect-error key might be undefined but can't index
-			baseCookieAttributes[key as keyof BaseCookieAttributes] = value;
-		} else {
-			// @ts-expect-error key might be undefined but can't index
-			cookieValues[key] = decodeURIComponent(value);
-		}
-	}
-
-	const parsedCookie: BaseCookieAttributes & CookieValues = {
-		...baseCookieAttributes,
-		...cookieValues
-	} as BaseCookieAttributes & CookieValues;
-
-	return parsedCookie;
-};
-
-export { getCookie, setCookie, deleteCookie, getRawCookie, parseCookieString };
+export { getCookie, setCookie, deleteCookie, getRawCookie };
