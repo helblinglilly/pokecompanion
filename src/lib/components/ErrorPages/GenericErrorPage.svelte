@@ -3,7 +3,6 @@
 	import { onMount } from 'svelte';
 	import { Logger } from '$lib/log';
 	import FiveHundred from '$lib/components/ErrorPages/Generic/FiveHundred.svelte';
-	import FiveTwoThree from '$lib/components/ErrorPages/Generic/FiveTwoThree.svelte';
 	import FourOhFour from '$lib/components/ErrorPages/Generic/FourOhFour.svelte';
 	import Pokemon404 from '$/lib/components/ErrorPages/Pokemon404.svelte';
 
@@ -21,8 +20,6 @@
 		<Pokemon404 />
 	{:else if $page.status === 404}
 		<FourOhFour />
-	{:else if $page.status === 523}
-		<FiveTwoThree />
 	{:else}
 		<FiveHundred />
 	{/if}
