@@ -37,5 +37,7 @@
 				{/if}
 			</Card>
 		</a>
+	{:else}
+		<div class="w-[50px]" />
 	{/if}
 </div>
