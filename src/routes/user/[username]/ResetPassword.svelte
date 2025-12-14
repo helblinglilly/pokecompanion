@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Logger } from '$/lib/log';
-	import { pb } from '$/lib/stores/domain';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { currentUser } from '$/lib/stores/user';
 	import Button from '$/ui/atoms/button/Button.svelte';
@@ -14,9 +13,9 @@
 			return;
 		}
 		try {
-		await fetch(`${PUBLIC_API_HOST}/auth/password-reset?email=${$currentUser.}`, {
-			credentials: 'include'
-		});
+			await fetch(`${PUBLIC_API_HOST}/auth/password-reset?email=${$currentUser.email}`, {
+				credentials: 'include'
+			});
 			addNotification({
 				message: 'You have requested a password reset',
 				level: 'info'
