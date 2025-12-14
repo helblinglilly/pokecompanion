@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
-	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag.svelte';
+	import CreateNewTag from '$/ui/molecules/Collections/CreateNewTag.svelte';
 	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import { tagStore } from '$lib/stores/tags.js';

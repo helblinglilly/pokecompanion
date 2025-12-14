@@ -24,8 +24,6 @@ scripts/deleteAllMoves.js
 
 scripts/manual-sprites/*-input
 scripts/manual-sprites/*-output
-*storybook.log
-storybook-static
 
 package-lock.json
 

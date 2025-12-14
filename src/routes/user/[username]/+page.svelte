@@ -6,7 +6,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import EmailVerification from '$/routes/user/[username]/EmailVerification.svelte';
-	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag.svelte';
+	import CreateNewTag from '$/ui/molecules/Collections/CreateNewTag.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 

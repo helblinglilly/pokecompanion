@@ -5,7 +5,7 @@
 	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { selectedGame } from '$lib/stores/domain';
-	import CreateNewTag from '$/ui/molecules/Collections/Tags/CreateNewTag.svelte';
+	import CreateNewTag from '$/ui/molecules/Collections/CreateNewTag.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import SpritePreview from './SpritePreview.svelte';

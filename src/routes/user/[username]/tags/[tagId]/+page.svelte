@@ -3,7 +3,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import { getContext, setContext } from 'svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
-	import Header from '$/ui/molecules/Collections/Header/Header.svelte';
+	import Header from '$/ui/molecules/Collections/Header.svelte';
 	import TagEditor from './TagEditor.svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import TagPokemon from './TagPokemon.svelte';

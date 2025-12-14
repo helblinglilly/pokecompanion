@@ -2,7 +2,7 @@ import type { APIMeta } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ locals, cookies, fetch }) => {
+export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
 	let languages: APIMeta['languages'] = [];
 	let games: APIMeta['games'] = [];
 
