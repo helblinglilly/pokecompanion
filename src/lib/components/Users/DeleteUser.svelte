@@ -25,7 +25,7 @@
 		} catch (err) {
 			addNotification({
 				message:
-					'Failed to delete user account. Please contact pokecompanion@helbling.uk to delete your account.',
+					'Failed to delete user account. Please contact user_deletion@pokecompanion.com to delete your account.',
 				level: 'failure'
 			});
 		}

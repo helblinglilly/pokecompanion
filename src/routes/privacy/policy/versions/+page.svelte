@@ -6,6 +6,7 @@
 
 <ol>
 	<li>
-		<a href="/privacy/policy/versions/2024-07-14">14 July 2024 (Current)</a>
+		<a href="/privacy/policy/versions/2024-07-14">14 July 2024</a>
+		<a href="/privacy/policy/versions/2025-12-14">14 December 2025 (Current)</a>
 	</li>
 </ol>
