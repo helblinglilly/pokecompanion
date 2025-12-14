@@ -18,14 +18,12 @@
 		isBack: false
 	};
 
-	let hasMounted = false;
 	onMount(() => {
 		document.addEventListener('keypress', (event) => {
 			if (event.key === 'escape') {
 				showModal = false;
 			}
 		});
-		hasMounted = true;
 	});
 
 	let toggleModal = (newContent: Sprites[number] | undefined) => {
