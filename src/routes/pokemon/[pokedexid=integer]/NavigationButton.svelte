@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Logger } from '$/lib/log';
+	import { Logger } from '$/debt/log';
 	import { meta } from '$/lib/stores/domain';
 	import { pokemonDisplayStore } from '$/lib/stores/pokemonPage';
 	import Card from '$/ui/atoms/card';

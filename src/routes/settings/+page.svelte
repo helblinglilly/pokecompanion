@@ -2,7 +2,7 @@
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Select from '$/ui/atoms/select/Select.svelte';
-	import { GameGroups, getGameGroupFromName, PokeapiVersionNames } from '$lib/data/games';
+	import { GameGroups, getGameGroupFromName, PokeapiVersionNames } from '$/debt/games';
 	import {
 		animateSprites,
 		primaryLanguage,

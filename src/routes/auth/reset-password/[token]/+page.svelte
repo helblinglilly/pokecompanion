@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { PUBLIC_API_HOST } from '$env/static/public';
-	import { Logger } from '$lib/log';
+	import { Logger } from '$/debt/log';
 	import { addNotification } from '$lib/stores/notifications';
-	import { isPasswordValid } from '$lib/utils/user-client';
+	import { isPasswordValid } from '$/debt/user-client';
 
 	let newPassword: string;
 	let confirmNewPassword: string;

@@ -2,13 +2,13 @@
 	import Greeting from '$/routes/Greeting.svelte';
 	import SelfMarketing from './SelfMarketing.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
-	import { getGameGroupFromName } from '$/lib/data/games';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Select from '$/ui/atoms/select';
 	import { selectedGame } from '$lib/stores/domain';
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card/PokemonCardEntry.svelte';
 	import { invalidate } from '$app/navigation';
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
+	import { getGameGroupFromName } from '$/debt/games';
 	export let data;
 
 	/**

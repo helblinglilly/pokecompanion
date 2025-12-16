@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { capitaliseFirstLetter } from '$lib/utils/string';
 	import Image from '../../../ui/atoms/image/Image.svelte';
-	import { Logger } from '$lib/log';
+	import { Logger } from '$/debt/log';
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 
 	export let evolutions: APIPokemon['evolutionChain'];

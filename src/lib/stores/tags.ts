@@ -1,10 +1,10 @@
 import { writable } from 'svelte/store';
 import { addNotification } from './notifications';
 import type { IDisplayPokemon } from './pokemonPage';
-import { Logger } from '$lib/log';
-import type { IRecordPokemon } from '../types/IPokemon';
+import { Logger } from '$/debt/log';
 import type { APITag, ITagMove } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
+import type { paths } from '$/@types/api';
 
 export const tagStore = writable<APITag['tags']>([]);
 
@@ -70,7 +70,10 @@ export async function getTagsByUsername(username: string): Promise<APITag['tags'
 	}
 }
 
-export async function addPokemonToTag(pokemon: IRecordPokemon, tagId: string) {
+export async function addPokemonToTag(
+	pokemon: paths['/tags/{tagId}/pokemon']['post']['requestBody']['content']['application/json'],
+	tagId: string
+) {
 	try {
 		const res = await fetch(PUBLIC_API_HOST + `/tags/${tagId}/pokemon`, {
 			method: 'POST',

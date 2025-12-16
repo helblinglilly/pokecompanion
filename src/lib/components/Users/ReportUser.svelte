@@ -2,7 +2,7 @@
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
-	import { Logger } from '$lib/log';
+	import { Logger } from '$/debt/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 

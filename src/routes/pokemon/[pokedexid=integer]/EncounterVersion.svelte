@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { Logger } from '$/debt/log';
 	import ExpandableButton from '$/lib/components/ExpandableButton.svelte';
-	import { Logger } from '$/lib/log';
 	import { capitaliseEachWord } from '$/lib/utils/string';
 
 	export let encounterLocation: Array<{

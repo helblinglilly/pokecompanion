@@ -3,7 +3,7 @@ import { PUBLIC_API_HOST } from '$env/static/public';
 import type { Cookies } from '@sveltejs/kit';
 import { SettingNames } from '../stores/domain';
 import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
-import { getGameGroupFromName } from '../data/games';
+import { getGameGroupFromName } from '../../debt/games';
 
 export function addCookiesAsSearchParams(baseUrl: URL, requestUrl: URL, cookies: Cookies) {
 	baseUrl.searchParams.append(

@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { Logger } from '$/debt/log';
 	import { goto } from '$app/navigation';
-	import { Logger } from '$lib/log';
 	import { addNotification } from '$lib/stores/notifications';
 
 	export let placeholder = 'What are your thoughts?';

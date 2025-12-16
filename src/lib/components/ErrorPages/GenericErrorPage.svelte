@@ -1,10 +1,10 @@
 <script>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import { Logger } from '$lib/log';
 	import FiveHundred from '$lib/components/ErrorPages/Generic/FiveHundred.svelte';
 	import FourOhFour from '$lib/components/ErrorPages/Generic/FourOhFour.svelte';
 	import Pokemon404 from '$/lib/components/ErrorPages/Pokemon404.svelte';
+	import { Logger } from '$/debt/log';
 
 	onMount(async () => {
 		if (![404, 523].includes($page.status)) {

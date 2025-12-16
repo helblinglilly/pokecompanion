@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GameGroups } from '$/lib/data/games';
+	import { GameGroups } from '$/debt/games';
 	import { currentUser } from '$/lib/stores/user';
 
 	let trainerName = $currentUser?.username || 'Trainer';

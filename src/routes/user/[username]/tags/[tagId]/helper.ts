@@ -1,6 +1,6 @@
 import type { paths } from '$/@types/api';
 import type { APITag, ITag } from '$/@types/api.pokecompanion';
-import { Logger } from '$/lib/log';
+import { Logger } from '$/debt/log';
 import { addNotification } from '$/lib/stores/notifications';
 import { PUBLIC_API_HOST } from '$env/static/public';
 

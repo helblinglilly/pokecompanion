@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
+	import { getGameFromName, type PokeapiVersionNames } from '$/debt/games';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Select from '$/ui/atoms/select';
-	import { getGameFromName, PokeapiVersionNames } from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
 	import EncounterVersion from './EncounterVersion.svelte';
 

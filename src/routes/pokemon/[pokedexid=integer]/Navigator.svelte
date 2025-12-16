@@ -2,7 +2,7 @@
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 	import Select from '$/ui/atoms/select/Select.svelte';
 	import { goto } from '$app/navigation';
-	import { Logger } from '$lib/log';
+	import { Logger } from '$/debt/log';
 	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
 	import NavigationButton from './NavigationButton.svelte';
 

@@ -10,7 +10,6 @@
 	import SearchBar from '$/lib/components/SearchBar.svelte';
 	import Tracking from '$/lib/components/Tracking.svelte';
 	import Navbar from '$/ui/organisms/Navbar';
-	import Footer from '$/ui/atoms/footer/Footer.svelte';
 	import Notification from '$/ui/molecules/notification/Notification.svelte';
 	import ScrollToTop from '$/lib/components/ScrollToTop.svelte';
 	import { refetchTags } from '$/lib/stores/tags';
@@ -22,9 +21,9 @@
 		SettingNames
 	} from '$lib/stores/domain';
 	import { getCookie } from '$lib/utils/cookies';
-	import type { Languages } from '$lib/utils/language';
-	import { getGameGroupFromName } from '$lib/data/games';
 	import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
+	import Footer from './Footer.svelte';
+	import { getGameGroupFromName } from '$/debt/games';
 
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
@@ -108,10 +107,10 @@
 	navigating.subscribe(async (nav) => {
 		if (nav) {
 			if ($primaryLanguage !== getCookie(SettingNames.PrimaryLanguage)) {
-				primaryLanguage.set(getCookie(SettingNames.PrimaryLanguage) as keyof Languages);
+				primaryLanguage.set(getCookie(SettingNames.PrimaryLanguage));
 			}
 			if ($secondaryLanguage !== getCookie(SettingNames.SecondaryLanguage)) {
-				secondaryLanguage.set(getCookie(SettingNames.SecondaryLanguage) as keyof Languages);
+				secondaryLanguage.set(getCookie(SettingNames.SecondaryLanguage));
 			}
 			if ($selectedGame !== getCookie(SettingNames.SelectedGame)) {
 				const cookieValue = getCookie(SettingNames.SelectedGame) as PokeapiVersionGroups;

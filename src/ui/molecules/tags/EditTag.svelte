@@ -8,17 +8,19 @@
 		tagStore
 	} from '$/lib/stores/tags';
 	import type { IDisplayPokemon } from '$/lib/stores/pokemonPage';
-	import type { IRecordPokemon } from '$/lib/types/IPokemon';
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { ITagMove } from '$/@types/api.pokecompanion';
+	import type { paths } from '$/@types/api';
 
 	let showAddToOverlay = false;
 	export let pokemon: IDisplayPokemon | undefined = undefined;
 	export let move: Omit<ITagMove, 'added'> | undefined = undefined;
 
-	$: pokemonBody = (): IRecordPokemon | undefined => {
+	$: pokemonBody = ():
+		| paths['/tags/{tagId}/pokemon']['post']['requestBody']['content']['application/json']
+		| undefined => {
 		if (!pokemon) {
 			return;
 		}

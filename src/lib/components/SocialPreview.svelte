@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GameGroups } from '$/lib/data/games';
+	import { GameGroups } from '$/debt/games';
 	import { page } from '$app/stores';
 	export let title = 'Pokécompanion';
 	export let description = `Explore the world from Kanto to ${

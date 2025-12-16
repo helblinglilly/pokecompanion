@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$/ui/atoms/button/Button.svelte';
-	import { Logger } from '$lib/log';
+	import { Logger } from '$/debt/log';
 	import Move from './Move.svelte';
 	import type { paths } from '$/@types/api';
 

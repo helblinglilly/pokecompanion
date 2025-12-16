@@ -1,18 +1,16 @@
 import { get, writable } from 'svelte/store';
 import { getCookie, getRawCookie, setCookie } from '../utils/cookies';
-import type { Languages } from '../utils/language';
 import { currentUser, type AuthRecord } from './user';
-import { getGameGroupFromName, type IGameGroups } from '$lib/data/games';
+import { getGameGroupFromName, type IGameGroups } from '$/debt/games';
 import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';
 import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 import type { paths } from '$/@types/api';
-import { invalidateAll } from '$app/navigation';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<IGameGroups | undefined>();
-export const primaryLanguage = writable<keyof Languages>('en');
-export const secondaryLanguage = writable<keyof Languages | undefined>();
+export const primaryLanguage = writable('en');
+export const secondaryLanguage = writable<string | undefined>();
 export const versionSpecificPokemonSprites = writable<boolean>(true);
 export const versionSpecificTypeSprites = writable<boolean>(false);
 export const animateSprites = writable<boolean>(true);
@@ -24,11 +22,8 @@ export const meta = writable<
 	games: [],
 	languages: []
 });
-export const pokeApiDomain = 'https://pokeapi.co/api/v2';
 export const maxSearchResults = 15;
 export const pokemonPageSize = 50;
-
-export const defaultFeatureFlags: FeatureFlags = {};
 
 export enum SettingNames {
 	SelectedGame = 'selectedGame',
@@ -38,8 +33,6 @@ export enum SettingNames {
 	VersionSpecificTypeSprites = 'versionSpecificTypeSprites',
 	AnimateSprites = 'animateSprites'
 }
-
-export type FeatureFlags = {};
 
 export type UserPreferencePokemonVersion = PokeapiVersionGroups | undefined;
 
@@ -62,7 +55,6 @@ export const cookieHandlers = {
 		selectedGame.set(foundGame);
 
 		selectedGame.subscribe((value) => {
-			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.SelectedGame, value?.pokeapi);
 
 			const isInSearchParam = get(page).url.searchParams.get('game');
@@ -92,10 +84,10 @@ export const cookieHandlers = {
 	},
 	primaryLanguage: () => {
 		const isInSearchParam = get(page).url.searchParams.get(SettingNames.PrimaryLanguage);
-		let existingValue = getCookie(SettingNames.PrimaryLanguage) as keyof Languages;
+		let existingValue = getCookie(SettingNames.PrimaryLanguage);
 
 		if (isInSearchParam) {
-			existingValue = isInSearchParam as keyof Languages;
+			existingValue = isInSearchParam;
 		} else {
 			if (!existingValue) {
 				existingValue = 'en';
@@ -106,7 +98,6 @@ export const cookieHandlers = {
 		primaryLanguage.set(existingValue);
 
 		primaryLanguage.subscribe((value) => {
-			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.PrimaryLanguage, value);
 			const isInSearchParam = get(page).url.searchParams.get(SettingNames.PrimaryLanguage);
 
@@ -140,7 +131,6 @@ export const cookieHandlers = {
 		secondaryLanguage.set(existingValue);
 
 		secondaryLanguage.subscribe((value) => {
-			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.SecondaryLanguage, value);
 
 			const isInSearchParam = get(page).url.searchParams.get(SettingNames.SecondaryLanguage);
@@ -168,7 +158,6 @@ export const cookieHandlers = {
 		versionSpecificPokemonSprites.set(existingValue === 'true' ? true : false);
 
 		versionSpecificPokemonSprites.subscribe((value) => {
-			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.VersionSpecificPokemonSprites, value);
 			setCookie(SettingNames.VersionSpecificPokemonSprites, value.toString());
 		});
@@ -183,7 +172,6 @@ export const cookieHandlers = {
 		versionSpecificTypeSprites.set(existingValue === 'true' ? true : false);
 
 		versionSpecificTypeSprites.subscribe((value) => {
-			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.VersionSpecificTypeSprites, value);
 			setCookie(SettingNames.VersionSpecificTypeSprites, value.toString());
 		});
@@ -198,7 +186,6 @@ export const cookieHandlers = {
 		animateSprites.set(existingValue === 'true' ? true : false);
 
 		animateSprites.subscribe((value) => {
-			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.AnimateSprites, value);
 			setCookie(SettingNames.AnimateSprites, value.toString());
 		});
@@ -223,7 +210,6 @@ export const cookieHandlers = {
 		rememberToken.set(existingValue);
 
 		rememberToken.subscribe((value) => {
-			invalidateAll();
 			window?.newrelic?.setUserId(value);
 			window?.umami?.identify(value);
 

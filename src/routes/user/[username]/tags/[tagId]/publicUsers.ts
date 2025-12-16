@@ -1,6 +1,6 @@
 import type { paths } from '$/@types/api';
 import { PUBLIC_API_HOST } from '$env/static/public';
-import { Logger } from '$lib/log';
+import { Logger } from '$/debt/log';
 
 export const getUserByUsername = async (username: string) => {
 	if (!username) {

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { currentUser } from '$lib/stores/user';
 	import { goto } from '$app/navigation';
-	import { Logger } from '$lib/log';
+	import { Logger } from '$/debt/log';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import Button from '$/ui/atoms/button';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';

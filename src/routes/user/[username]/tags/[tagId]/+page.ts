@@ -1,8 +1,8 @@
 import type { paths } from '$/@types/api.js';
 import type { APITag } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
-import { Logger } from '$lib/log.js';
-import { getUserByUsername } from '$/lib/api/publicUsers';
+import { Logger } from '$/debt/log.js';
+import { getUserByUsername } from '$/routes/user/[username]/tags/[tagId]/publicUsers';
 import { error } from '@sveltejs/kit';
 
 export const load = async ({ params, fetch }) => {

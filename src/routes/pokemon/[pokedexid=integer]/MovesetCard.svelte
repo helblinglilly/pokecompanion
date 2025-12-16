@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { getGameGroupFromName, type IGameGroups } from '$lib/data/games';
 	import { selectedGame } from '$lib/stores/domain';
 	import Moveset from './Moveset.svelte';
 	import Select from '$/ui/atoms/select';
 	import type { APIPokemon, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 	import type { paths } from '$/@types/api';
+	import { getGameGroupFromName, type IGameGroups } from '$/debt/games';
 
 	export let skeletonData: APIPokemon['moves'];
 	export let movePromise: Promise<

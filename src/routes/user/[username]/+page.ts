@@ -4,7 +4,7 @@ import { error } from '@sveltejs/kit';
 
 export const load = async ({ params, depends }) => {
 	depends('tags');
-  depends('user');
+	depends('user');
 	const res = await fetch(PUBLIC_API_HOST + `/user/${params.username}`);
 
 	if (res.status === 404) {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
-	import { isPokemonInGameGroup } from '$lib/data/games';
+	import { isPokemonInGameGroup } from '$/debt/games';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';

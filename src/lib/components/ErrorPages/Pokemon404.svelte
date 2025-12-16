@@ -1,6 +1,6 @@
 <script>
 	import Image from '$/ui/atoms/image/Image.svelte';
-	import { Logger } from '$lib/log';
+	import { Logger } from '$/debt/log';
 	import { onMount } from 'svelte';
 
 	onMount(async () => {
