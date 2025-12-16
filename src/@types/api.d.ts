@@ -236,6 +236,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/pokemon/{id}/moves": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Returns move previews for a given Pokemon */
+        get: operations["getPokemonMoves"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/move/{id}": {
         parameters: {
             query?: never;
@@ -574,7 +591,532 @@ export interface components {
             url: string;
         };
         /** @description Make all properties in T optional */
-        "Partial_Record_PokeapiVersionGroups._levelup-Array__level-number_-and-MovePreview_--tm-Array_MovePreview_--breed-Array_MovePreview_--tutor-Array_MovePreview_--other-Array__learnMethod-string_-and-MovePreview____": {
+        "Partial_Record_PokeapiVersionGroups._levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___": {
+            home?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "red-blue"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            yellow?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "gold-silver"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            crystal?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "ruby-sapphire"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            emerald?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "firered-leafgreen"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "diamond-pearl"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            platinum?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "heartgold-soulsilver"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "black-white"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "black-2-white-2"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "x-y"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "omega-ruby-alpha-sapphire"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "sun-moon"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "ultra-sun-ultra-moon"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "lets-go-pikachu-lets-go-eevee"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "sword-shield"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "brilliant-diamond-and-shining-pearl"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "legends-arceus"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "scarlet-violet"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+            "legends-za"?: {
+                /** Format: double */
+                other: number;
+                /** Format: double */
+                tutor: number;
+                /** Format: double */
+                breed: number;
+                /** Format: double */
+                tm: number;
+                /** Format: double */
+                levelup: number;
+            };
+        };
+        /** @description Construct a type with a set of properties K of type T */
+        "Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_": {
+            [key: string]: {
+                conditions: string[];
+                /** Format: double */
+                chance: number;
+                /** Format: double */
+                maxLevel: number;
+                /** Format: double */
+                minLevel: number;
+                method: string;
+            }[];
+        };
+        /** @description Make all properties in T optional */
+        "Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______": {
+            home?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            red?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            blue?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            yellow?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            gold?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            silver?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            crystal?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            ruby?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            sapphire?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            emerald?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            firered?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            leafgreen?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            diamond?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            pearl?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            platinum?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            heartgold?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            soulsilver?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            black?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            white?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "black-2"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "white-2"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            x?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            y?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "omega-ruby"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "alpha-sapphire"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            sun?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            moon?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "ultra-sun"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "ultra-moon"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "lets-go-pikachu"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "lets-go-eevee"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            sword?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            shield?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "brilliant-diamond"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "shining-pearl"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "legends-arceus"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            scarlet?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            violet?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "legends-za"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "the-isle-of-armor"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "the-crown-tundra"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "the-teal-mask"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "the-indigo-disk"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+        };
+        StatValue: {
+            /** Format: double */
+            stat: number;
+            /** Format: double */
+            effort: number;
+        };
+        /** @description Construct a type with a set of properties K of type T */
+        "Record_PokeapiStatType.StatValue_": {
+            hp: components["schemas"]["StatValue"];
+            attack: components["schemas"]["StatValue"];
+            defense: components["schemas"]["StatValue"];
+            speed: components["schemas"]["StatValue"];
+            "special-attack": components["schemas"]["StatValue"];
+            "special-defense": components["schemas"]["StatValue"];
+        };
+        /** @description Construct a type with a set of properties K of type T */
+        "Record_average.StatValue_": {
+            average: components["schemas"]["StatValue"];
+        };
+        PokemonResponse: {
+            /** Format: double */
+            id: number;
+            name: string;
+            pokedexEntries: {
+                textEntry: string;
+                /** @description A display friendly game name, NOT the pokeapi name */
+                game: string;
+                language: components["schemas"]["PokeapiLanguageCodes"];
+            }[];
+            /**
+             * Format: double
+             * @description Height in cm
+             * @example 176
+             */
+            height: number;
+            /**
+             * Format: double
+             * @description Weight in grams
+             * @example 3500
+             */
+            weight: number;
+            /**
+             * @description Path to a .ogg file with this pokemon's cry
+             * @example https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/3.ogg
+             */
+            cry: string;
+            sprites: {
+                isBack: boolean;
+                hasFemale: boolean;
+                hasShiny: boolean;
+                alt: string;
+                url: string;
+            }[];
+            types: {
+                weakAgainst: (components["schemas"]["Type"] & {
+                    /** Format: double */
+                    multiplier: number;
+                })[];
+                resists: (components["schemas"]["Type"] & {
+                    /** Format: double */
+                    multiplier: number;
+                })[];
+                own: components["schemas"]["Type"][];
+            };
+            evolutionChain: {
+                /** @description Indicates wheather both source + target evolutions are present in the current game.
+                 *     An imperfect measure since it is based on the national dex ID and does not take variants
+                 *     or gender into account
+                 *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
+                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
+                isValidInGame: boolean;
+                target: {
+                    /**
+                     * @description The URL that should be navigated to when this Pokemon is clicked
+                     * @example /pokemon/4
+                     */
+                    pokemonUrl: string;
+                    /**
+                     * @description URL for the sprite of this Pokemon
+                     * @example https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png
+                     */
+                    spriteUrl: string;
+                };
+                /** @description Additional requirements that will only be */
+                requirements: {
+                    supplementary?: string;
+                    info: string | number;
+                    /** @enum {string} */
+                    type: "hold-item" | "friendship" | "shed" | "three-critical-hits" | "beauty" | "rain" | "daytime" | "trade_for" | "party_have" | "other" | "stats" | "know_move" | "know_move_type" | "affection" | "location" | "level-up" | "use-item" | "recoil-damage" | "battle-leader" | "game-specific" | "no-animation" | "multiplayer" | "use-move" | "gender" | "party_type" | "collect_items";
+                }[];
+                /**
+                 * @description Description of what will trigger the evolution
+                 * @example Level 24
+                 */
+                trigger: string;
+                source: {
+                    /**
+                     * @description The URL that should be navigated to when this Pokemon is clicked
+                     * @example /pokemon/4
+                     */
+                    pokemonUrl: string;
+                    /**
+                     * @description URL for the sprite of this Pokemon
+                     * @example https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png
+                     */
+                    spriteUrl: string;
+                };
+            }[];
+            presenceInGame: {
+                /** @enum {number|null} */
+                pokedexNumber: null;
+                /** @enum {boolean} */
+                present: false;
+                /**
+                 * @description Playback of the game that was used in the request - mostly for clarity
+                 * @example scarlet-violet
+                 */
+                game: components["schemas"]["PokeapiVersionGroups"];
+            } | {
+                /** Format: double */
+                pokedexNumber: number;
+                /** @enum {boolean} */
+                present: true;
+                /**
+                 * @description Playback of the game that was used in the request - mostly for clarity
+                 * @example scarlet-violet
+                 */
+                game: components["schemas"]["PokeapiVersionGroups"];
+            };
+            abilities: {
+                /** Format: double */
+                slot: number;
+                is_hidden: boolean;
+                ability: components["schemas"]["PokeapiNamedApiResource"];
+                /** Format: double */
+                id: number;
+            }[];
+            varieties: {
+                pokecompanionUrl: string;
+                isDefault: boolean;
+                displayName: string;
+                name: string;
+            }[];
+            /** @description The number of moves in each learn set.
+             *     Only to be used to populate a skeleton laoder. Use /pokemon/:id/moves to
+             *     retrieve the actual moves. */
+            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___"];
+            encounters: components["schemas"]["Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______"];
+            stats: components["schemas"]["Record_PokeapiStatType.StatValue_"] & components["schemas"]["Record_average.StatValue_"];
+            __meta: {
+                description: string;
+                previewImage: string;
+                title: string;
+            };
+        };
+        PokemonRootPreviewQueries: {
+            /** @enum {string} */
+            gender?: "male" | "female";
+            variety?: string;
+            /** @enum {string} */
+            shiny?: "true" | "false";
+            /** @enum {string} */
+            animateSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificPokemonSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificTypeSprites?: "true" | "false";
+            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+            /**
+             * Format: double
+             * @default 1
+             */
+            page: number;
+            /**
+             * Format: double
+             * @description Maximum: 50. If a value over 50 is provided, it will default back to 20
+             * @default 20
+             */
+            pageSize: number;
+            /**
+             * Format: double
+             * @description This Pokemon will be guaranteed to be on the current page.
+             *     Can be used in combination with pageSize, but will override the page value
+             */
+            jumpTo?: number;
+        };
+        PokemonMoves: {
             home?: {
                 other: ({
                     learnMethod: string;
@@ -851,250 +1393,6 @@ export interface components {
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
             };
-        };
-        /** @description Construct a type with a set of properties K of type T */
-        "Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_": {
-            [key: string]: {
-                conditions: string[];
-                /** Format: double */
-                chance: number;
-                /** Format: double */
-                maxLevel: number;
-                /** Format: double */
-                minLevel: number;
-                method: string;
-            }[];
-        };
-        /** @description Make all properties in T optional */
-        "Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______": {
-            home?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            red?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            blue?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            yellow?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            gold?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            silver?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            crystal?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            ruby?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            sapphire?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            emerald?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            firered?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            leafgreen?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            diamond?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            pearl?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            platinum?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            heartgold?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            soulsilver?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            black?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            white?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "black-2"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "white-2"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            x?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            y?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "omega-ruby"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "alpha-sapphire"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            sun?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            moon?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "ultra-sun"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "ultra-moon"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "lets-go-pikachu"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "lets-go-eevee"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            sword?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            shield?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "brilliant-diamond"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "shining-pearl"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "legends-arceus"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            scarlet?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            violet?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "legends-za"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "the-isle-of-armor"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "the-crown-tundra"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "the-teal-mask"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "the-indigo-disk"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-        };
-        StatValue: {
-            /** Format: double */
-            stat: number;
-            /** Format: double */
-            effort: number;
-        };
-        /** @description Construct a type with a set of properties K of type T */
-        "Record_PokeapiStatType.StatValue_": {
-            hp: components["schemas"]["StatValue"];
-            attack: components["schemas"]["StatValue"];
-            defense: components["schemas"]["StatValue"];
-            speed: components["schemas"]["StatValue"];
-            "special-attack": components["schemas"]["StatValue"];
-            "special-defense": components["schemas"]["StatValue"];
-        };
-        /** @description Construct a type with a set of properties K of type T */
-        "Record_average.StatValue_": {
-            average: components["schemas"]["StatValue"];
-        };
-        PokemonResponse: {
-            /** Format: double */
-            id: number;
-            name: string;
-            pokedexEntries: {
-                textEntry: string;
-                /** @description A display friendly game name, NOT the pokeapi name */
-                game: string;
-                language: components["schemas"]["PokeapiLanguageCodes"];
-            }[];
-            /**
-             * Format: double
-             * @description Height in cm
-             * @example 176
-             */
-            height: number;
-            /**
-             * Format: double
-             * @description Weight in grams
-             * @example 3500
-             */
-            weight: number;
-            /**
-             * @description Path to a .ogg file with this pokemon's cry
-             * @example https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/3.ogg
-             */
-            cry: string;
-            sprites: {
-                isBack: boolean;
-                hasFemale: boolean;
-                hasShiny: boolean;
-                alt: string;
-                url: string;
-            }[];
-            types: {
-                weakAgainst: (components["schemas"]["Type"] & {
-                    /** Format: double */
-                    multiplier: number;
-                })[];
-                resists: (components["schemas"]["Type"] & {
-                    /** Format: double */
-                    multiplier: number;
-                })[];
-                own: components["schemas"]["Type"][];
-            };
-            evolutionChain: {
-                /** @description Indicates wheather both source + target evolutions are present in the current game.
-                 *     An imperfect measure since it is based on the national dex ID and does not take variants
-                 *     or gender into account
-                 *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
-                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
-                isValidInGame: boolean;
-                target: {
-                    /**
-                     * @description The URL that should be navigated to when this Pokemon is clicked
-                     * @example /pokemon/4
-                     */
-                    pokemonUrl: string;
-                    /**
-                     * @description URL for the sprite of this Pokemon
-                     * @example https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png
-                     */
-                    spriteUrl: string;
-                };
-                /** @description Additional requirements that will only be */
-                requirements: {
-                    supplementary?: string;
-                    info: string | number;
-                    /** @enum {string} */
-                    type: "hold-item" | "friendship" | "shed" | "three-critical-hits" | "beauty" | "rain" | "daytime" | "trade_for" | "party_have" | "other" | "stats" | "know_move" | "know_move_type" | "affection" | "location" | "level-up" | "use-item" | "recoil-damage" | "battle-leader" | "game-specific" | "no-animation" | "multiplayer" | "use-move" | "gender" | "party_type" | "collect_items";
-                }[];
-                /**
-                 * @description Description of what will trigger the evolution
-                 * @example Level 24
-                 */
-                trigger: string;
-                source: {
-                    /**
-                     * @description The URL that should be navigated to when this Pokemon is clicked
-                     * @example /pokemon/4
-                     */
-                    pokemonUrl: string;
-                    /**
-                     * @description URL for the sprite of this Pokemon
-                     * @example https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png
-                     */
-                    spriteUrl: string;
-                };
-            }[];
-            presenceInGame: {
-                /** @enum {number|null} */
-                pokedexNumber: null;
-                /** @enum {boolean} */
-                present: false;
-                /**
-                 * @description Playback of the game that was used in the request - mostly for clarity
-                 * @example scarlet-violet
-                 */
-                game: components["schemas"]["PokeapiVersionGroups"];
-            } | {
-                /** Format: double */
-                pokedexNumber: number;
-                /** @enum {boolean} */
-                present: true;
-                /**
-                 * @description Playback of the game that was used in the request - mostly for clarity
-                 * @example scarlet-violet
-                 */
-                game: components["schemas"]["PokeapiVersionGroups"];
-            };
-            abilities: {
-                /** Format: double */
-                slot: number;
-                is_hidden: boolean;
-                ability: components["schemas"]["PokeapiNamedApiResource"];
-                /** Format: double */
-                id: number;
-            }[];
-            varieties: {
-                pokecompanionUrl: string;
-                isDefault: boolean;
-                displayName: string;
-                name: string;
-            }[];
-            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._levelup-Array__level-number_-and-MovePreview_--tm-Array_MovePreview_--breed-Array_MovePreview_--tutor-Array_MovePreview_--other-Array__learnMethod-string_-and-MovePreview____"];
-            encounters: components["schemas"]["Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______"];
-            stats: components["schemas"]["Record_PokeapiStatType.StatValue_"] & components["schemas"]["Record_average.StatValue_"];
-            __meta: {
-                description: string;
-                previewImage: string;
-                title: string;
-            };
-        };
-        PokemonRootPreviewQueries: {
-            /** @enum {string} */
-            gender?: "male" | "female";
-            variety?: string;
-            /** @enum {string} */
-            shiny?: "true" | "false";
-            /** @enum {string} */
-            animateSprites?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificPokemonSprites?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificTypeSprites?: "true" | "false";
-            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            gameEntry?: components["schemas"]["PokeapiVersionGroups"];
-            /**
-             * Format: double
-             * @default 1
-             */
-            page: number;
-            /**
-             * Format: double
-             * @description Maximum: 50. If a value over 50 is provided, it will default back to 20
-             * @default 20
-             */
-            pageSize: number;
-            /**
-             * Format: double
-             * @description This Pokemon will be guaranteed to be on the current page.
-             *     Can be used in combination with pageSize, but will override the page value
-             */
-            jumpTo?: number;
         };
         MoveResponse: {
             /** Format: double */
@@ -2278,6 +2576,37 @@ export interface operations {
                             id: number;
                         }[];
                     };
+                };
+            };
+        };
+    };
+    getPokemonMoves: {
+        parameters: {
+            query?: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PokemonMoves"];
                 };
             };
         };

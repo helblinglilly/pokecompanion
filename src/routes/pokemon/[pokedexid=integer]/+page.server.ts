@@ -1,68 +1,44 @@
 import type { paths } from '$/@types/api.js';
-import type { APIPokemon, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
+import type { APIPokemon } from '$/@types/api.pokecompanion';
+import { addCookiesAsSearchParams } from '$/lib/api/fetch';
 import { PUBLIC_API_HOST } from '$env/static/public';
-import { getGameGroupFromName } from '$lib/data/games';
-import { SettingNames } from '$lib/stores/domain';
 import { error } from '@sveltejs/kit';
 
 export const ssr = true;
 
 export const load = async ({ params, fetch, url, cookies }) => {
-	const pokemonRequestUrl = new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}`);
-
-	function appendSearchParams(targetUrl: URL) {
-		targetUrl.searchParams.append(
-			SettingNames.PrimaryLanguage,
-			url.searchParams.get(SettingNames.PrimaryLanguage) ??
-				cookies.get(SettingNames.PrimaryLanguage) ??
-				''
-		);
-		targetUrl.searchParams.append(
-			SettingNames.SecondaryLanguage,
-			url.searchParams.get(SettingNames.SecondaryLanguage) ??
-				cookies.get(SettingNames.SecondaryLanguage) ??
-				''
-		);
-		targetUrl.searchParams.append('variety', url.searchParams.get('variety') ?? '');
-		targetUrl.searchParams.append('shiny', url.searchParams.get('shiny') ?? '');
-		targetUrl.searchParams.append('gender', url.searchParams.get('gender') ?? '');
-		targetUrl.searchParams.append(
-			'animateSprites',
-			url.searchParams.get('animateSprites') ?? `${cookies.get(SettingNames.AnimateSprites)}`
-		);
-
-		const game = getGameGroupFromName(
-			(url.searchParams.get('game') as PokeapiVersionGroups) ??
-				cookies.get(SettingNames.SelectedGame)
-		);
-		if (game) {
-			targetUrl.searchParams.append('game', game.pokeapi);
-		}
-
-		const showGameSpecificPokemonSprites =
-			url.searchParams.get(SettingNames.VersionSpecificPokemonSprites) ??
-			cookies.get(SettingNames.VersionSpecificPokemonSprites);
-		targetUrl.searchParams.append(
-			'versionSpecificPokemonSprites',
-			`${showGameSpecificPokemonSprites}`
-		);
-
-		const showGameSpecificTypeSprites =
-			(url.searchParams.get(SettingNames.VersionSpecificPokemonSprites) ??
-				cookies.get(SettingNames.VersionSpecificPokemonSprites)) === 'true';
-		targetUrl.searchParams.append('versionSpecificTypeSprites', `${showGameSpecificTypeSprites}`);
-	}
-
-	appendSearchParams(pokemonRequestUrl);
+	const pokemonRequestUrl = addCookiesAsSearchParams(
+		new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}`),
+		url,
+		cookies
+	);
 
 	async function getFullAbility(ability: APIPokemon['abilities'][number]) {
-		const abilityUrl = new URL(`${PUBLIC_API_HOST}/ability/${ability.id}`);
-		appendSearchParams(abilityUrl);
+		const abilityUrl = addCookiesAsSearchParams(
+			new URL(`${PUBLIC_API_HOST}/ability/${ability.id}`),
+			url,
+			cookies
+		);
+
 		const res = await fetch(abilityUrl, {
 			credentials: 'include'
 		});
 		return (await res.json()) as paths['/ability/{id}']['get']['responses']['200']['content']['application/json'];
 	}
+
+	async function getFullMoves() {
+		const moveRequestUrl = addCookiesAsSearchParams(
+			new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}/moves`),
+			url,
+			cookies
+		);
+
+		const request = await fetch(moveRequestUrl, {
+			credentials: 'include'
+		});
+		return (await request.json()) as paths['/pokemon/{id}/moves']['get']['responses']['200']['content']['application/json'];
+	}
+
 	try {
 		const request = await fetch(pokemonRequestUrl, {
 			credentials: 'include'
@@ -76,7 +52,8 @@ export const load = async ({ params, fetch, url, cookies }) => {
 					...ability,
 					data: getFullAbility(ability)
 				};
-			})
+			}),
+			fullMoves: getFullMoves()
 		};
 	} catch (err) {
 		console.error(err);
