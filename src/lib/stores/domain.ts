@@ -17,7 +17,6 @@ export const versionSpecificPokemonSprites = writable<boolean>(true);
 export const versionSpecificTypeSprites = writable<boolean>(false);
 export const animateSprites = writable<boolean>(true);
 export const rememberToken = writable<string>(uuid());
-export const homepageMessaging = writable<string>('');
 export const meta = writable<
 	paths['/meta']['get']['responses']['200']['content']['application/json']
 >({
@@ -30,7 +29,6 @@ export const maxSearchResults = 15;
 export const pokemonPageSize = 50;
 
 export const defaultFeatureFlags: FeatureFlags = {};
-export const featureFlags = writable<FeatureFlags>(defaultFeatureFlags);
 
 export enum SettingNames {
 	SelectedGame = 'selectedGame',
@@ -236,37 +234,6 @@ export const cookieHandlers = {
 			if (!existing || value !== existing) {
 				setCookie('remember-token', value);
 			}
-		});
-	},
-	homepageMessaging: () => {
-		let existingValue = getCookie('homepage-messaging') as string | undefined;
-		if (!existingValue) {
-			existingValue = 'new-visitor';
-			setCookie('homepage-messaging', get(homepageMessaging));
-		}
-		homepageMessaging.set(existingValue);
-
-		homepageMessaging.subscribe((value) => {
-			if (!value) {
-				return;
-			}
-			const existing = getCookie('homepage-messaging');
-			if (!existing || value !== existing) {
-				setCookie('homepage-messaging', value);
-			}
-		});
-	},
-	featureFlags: () => {
-		let existingValue = getCookie('features') as string | undefined;
-
-		if (!existingValue) {
-			existingValue = JSON.stringify(defaultFeatureFlags);
-		}
-		setCookie('features', existingValue);
-		featureFlags.set(JSON.parse(existingValue));
-
-		featureFlags.subscribe((value) => {
-			setCookie('features', JSON.stringify(value));
 		});
 	}
 };
