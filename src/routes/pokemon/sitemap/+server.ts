@@ -1,10 +1,18 @@
-import { lastPokedexEntry } from '$lib/stores/domain';
+import type { paths } from '$/@types/api';
+import { PUBLIC_API_HOST } from '$env/static/public';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ fetch }) => {
 	const validPokemon = [];
 
-	for (let i = 1; i < lastPokedexEntry; i++) {
+	const metaRes = await fetch(`${PUBLIC_API_HOST}/meta`, {
+		credentials: 'include'
+	});
+
+	const meta =
+		(await metaRes.json()) as paths['/meta']['get']['responses']['200']['content']['application/json'];
+
+	for (let i = 1; i < meta.lastPokedexEntry; i++) {
 		validPokemon.push(i);
 	}
 

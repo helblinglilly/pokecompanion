@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { lastPokedexEntry } from '$lib/stores/domain';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 
@@ -86,7 +85,7 @@
 		document.addEventListener('keydown', (e) => {
 			if (e.key === 'ArrowLeft' && data.id > 1) {
 				goto(`/pokemon/${data.id - 1}`);
-			} else if (e.key === 'ArrowRight' && data.id < lastPokedexEntry) {
+			} else if (e.key === 'ArrowRight' && data.id < data.lastPokedexEntry) {
 				goto(`/pokemon/${data.id + 1}`);
 			}
 		});

@@ -2731,6 +2731,8 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
+                        /** Format: double */
+                        lastPokedexEntry: number;
                         games: {
                             region: components["schemas"]["PokeapiRegions"];
                             games: {

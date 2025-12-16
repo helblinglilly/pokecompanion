@@ -5,6 +5,7 @@ import type { LayoutServerLoad } from './$types';
 export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
 	let languages: APIMeta['languages'] = [];
 	let games: APIMeta['games'] = [];
+	let lastPokedexEntry: APIMeta['lastPokedexEntry'] = 1;
 
 	try {
 		const res = await fetch(`${PUBLIC_API_HOST}/meta`, {
@@ -15,6 +16,7 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
 
 		games = body.games;
 		languages = body.languages;
+		lastPokedexEntry = body.lastPokedexEntry;
 	} catch (err) {
 		console.error(`Failed to get the main config ${err}`);
 	}
@@ -29,6 +31,7 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
 			versionSpecificTypeSprites: cookies.get('versionSpecificTypeSprites')
 		},
 		games,
-		languages
+		languages,
+		lastPokedexEntry
 	};
 };

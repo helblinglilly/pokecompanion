@@ -1,5 +1,9 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import PokemonNames from '$lib/data/pokemonNames.json';
+/**
+ * TODO
+ *
+ * This file needs to be migrated away
+ */
+
 import type { UserPreferencePokemonVersion } from '$lib/stores/domain';
 import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 export interface IGeneration {
@@ -71,10 +75,7 @@ export const Generations: IGeneration[] = [
 		name: 'Generation 9',
 		short: 'Gen 9',
 		pokeApiName: 'generation-ix',
-		nationalDexEnd:
-			PokemonNames.findLast((a) => a.id < 10000)?.id ??
-			PokemonNames[PokemonNames.length - 1]?.id ??
-			-1,
+		nationalDexEnd: 1025,
 		number: 9
 	}
 ];

@@ -2,7 +2,7 @@
 	import '$/styles/global.css';
 
 	import { onMount } from 'svelte';
-	import { cookieHandlers, theme } from '$lib/stores/domain';
+	import { cookieHandlers, meta, theme } from '$lib/stores/domain';
 	import { page } from '$app/stores';
 	import { notifications } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
@@ -97,6 +97,8 @@
 				await refetchTags(user.id);
 			}
 		});
+
+		meta.set(data);
 	});
 
 	$: shouldDisplaySearch = !['/auth/', '/about', '/privacy'].some((noSearchBar) => {

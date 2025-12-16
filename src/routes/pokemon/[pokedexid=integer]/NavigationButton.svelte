@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Logger } from '$/lib/log';
-	import { lastPokedexEntry } from '$/lib/stores/domain';
+	import { meta } from '$/lib/stores/domain';
 	import { pokemonDisplayStore } from '$/lib/stores/pokemonPage';
 	import Card from '$/ui/atoms/card';
 	import Image from '$/ui/atoms/image/Image.svelte';
@@ -11,7 +11,7 @@
 </script>
 
 <div style="min-width: fit-content; min-height: 70px;">
-	{#if pokedexId > 0 && pokedexId <= lastPokedexEntry}
+	{#if pokedexId > 0 && pokedexId <= $meta.lastPokedexEntry}
 		<a
 			href={`/pokemon/${pokedexId}${
 				$pokemonDisplayStore.transferableQueryParams.length > 0

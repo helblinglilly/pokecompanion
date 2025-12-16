@@ -1,12 +1,12 @@
 import { get, writable } from 'svelte/store';
 import { getCookie, getRawCookie, setCookie } from '../utils/cookies';
 import type { Languages } from '../utils/language';
-import PokemonNames from '$lib/data/pokemonNames.json';
 import { currentUser, type AuthRecord } from './user';
 import { getGameGroupFromName, type IGameGroups } from '$lib/data/games';
 import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';
 import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
+import type { paths } from '$/@types/api';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<IGameGroups | undefined>();
@@ -17,11 +17,14 @@ export const versionSpecificTypeSprites = writable<boolean>(false);
 export const animateSprites = writable<boolean>(true);
 export const rememberToken = writable<string>(uuid());
 export const homepageMessaging = writable<string>('');
+export const meta = writable<
+	paths['/meta']['get']['responses']['200']['content']['application/json']
+>({
+	lastPokedexEntry: 1,
+	games: [],
+	languages: []
+});
 export const pokeApiDomain = 'https://pokeapi.co/api/v2';
-export const lastPokedexEntry =
-	PokemonNames.findLast((entry) => {
-		return entry.id < 10000;
-	})?.id ?? 5000;
 export const maxSearchResults = 15;
 export const pokemonPageSize = 50;
 
