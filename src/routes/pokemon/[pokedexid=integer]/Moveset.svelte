@@ -2,9 +2,9 @@
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import { Logger } from '$lib/log';
 	import Move from './Move.svelte';
-	import type { APIPokemon } from '$/@types/api.pokecompanion';
+	import type { paths } from '$/@types/api';
 
-	export let completeData: APIPokemon['moves']['black-2-white-2'];
+	export let completeData: paths['/pokemon/{id}/moves']['get']['responses']['200']['content']['application/json']['black-2-white-2'];
 
 	$: showLevelMovesOnMobile = false;
 	$: showTmMovesOnMobile = false;

@@ -1,15 +1,17 @@
 <script lang="ts">
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import Button from '$/ui/atoms/button/Button.svelte';
-	import type { APIPokemon } from '$/@types/api.pokecompanion';
+	import type { paths } from '$/@types/api';
 
-	type Move = NonNullable<APIPokemon['moves']['black-2-white-2']>;
+	type FullMove = NonNullable<
+		paths['/pokemon/{id}/moves']['get']['responses']['200']['content']['application/json']['black-2-white-2']
+	>;
 
 	export let move:
-		| Move['levelup'][number]
-		| Move['breed'][number]
-		| Move['tm'][number]
-		| Move['tutor'][number];
+		| FullMove['levelup'][number]
+		| FullMove['breed'][number]
+		| FullMove['tm'][number]
+		| FullMove['tutor'][number];
 </script>
 
 <a href={move.slug}>
@@ -30,7 +32,7 @@
 
 			<div class="grid w-full justify-start">
 				{#each move.names as name}
-					<p>{name}</p>
+					<p class="text-left">{name}</p>
 				{/each}
 			</div>
 

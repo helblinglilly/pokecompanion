@@ -11,7 +11,7 @@
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import TypeMatchup from './TypeMatchup.svelte';
 	import BaseStats from './BaseStats.svelte';
-	// import MovesetCard from './MovesetCard.svelte';
+	import MovesetCard from './MovesetCard.svelte';
 	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
 	import Abilities from './Abilities.svelte';
 	import Encounters from './Encounters.svelte';
@@ -142,6 +142,6 @@
 
 	<Card>
 		<h3 class="h3">Moveset</h3>
-		<!-- <MovesetCard movesetData={data.moves} /> -->
+		<MovesetCard skeletonData={data.moves} movePromise={data.fullMoves} />
 	</Card>
 </div>

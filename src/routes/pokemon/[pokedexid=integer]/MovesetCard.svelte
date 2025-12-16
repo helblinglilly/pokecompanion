@@ -4,11 +4,15 @@
 	import Moveset from './Moveset.svelte';
 	import Select from '$/ui/atoms/select';
 	import type { APIPokemon, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
+	import type { paths } from '$/@types/api';
 
-	export let movesetData: APIPokemon['moves'];
+	export let skeletonData: APIPokemon['moves'];
+	export let movePromise: Promise<
+		paths['/pokemon/{id}/moves']['get']['responses']['200']['content']['application/json']
+	>;
 
 	$: allApplicableVersions = (
-		Object.keys(movesetData)
+		Object.keys(skeletonData)
 			.map((key) => getGameGroupFromName(key as PokeapiVersionGroups))
 			.filter((a) => a) as IGameGroups[]
 	).sort((a, b) => {
@@ -38,10 +42,11 @@
 		}}
 	/>
 
-	<Moveset
-		completeData={//  @ts-expect-error There is still a mismatch here for ORAS
-		movesetData[selectedVersionGroup]}
-	/>
+	{#await movePromise}
+		<p>Loading...</p>
+	{:then moveData}
+		<Moveset completeData={moveData[selectedVersionGroup]} />
+	{/await}
 {:else}
 	<p>No data</p>
 {/if}
