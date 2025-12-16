@@ -18,7 +18,7 @@
 </script>
 
 <search>
-	<form id="searchForm" action="/search" method="get">
+	<form id="searchForm" action="/search" method="get" data-sveltekit-reload>
 		<input
 			type="text"
 			style="width: 100%"
