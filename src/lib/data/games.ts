@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import PokemonNames from '$lib/data/pokemonNames.json';
-import MoveNames from '$lib/data/moves.json';
 import type { UserPreferencePokemonVersion } from '$lib/stores/domain';
 import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 export interface IGeneration {
@@ -673,22 +672,3 @@ export interface IStaticMove {
 		roomaji?: string | undefined;
 	}[];
 }
-
-export const getMoveEntry = (id: number): IStaticMove => {
-	const entry = MoveNames.find((a) => {
-		return a.id === id;
-	});
-
-	if (!entry) {
-		return {
-			id: id,
-			names: [
-				{
-					'ja-Hrkt': ''
-				}
-			]
-		};
-	}
-
-	return entry;
-};
