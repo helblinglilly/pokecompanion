@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';
 import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 import type { paths } from '$/@types/api';
+import { invalidateAll } from '$app/navigation';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<IGameGroups | undefined>();
@@ -63,6 +64,7 @@ export const cookieHandlers = {
 		selectedGame.set(foundGame);
 
 		selectedGame.subscribe((value) => {
+			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.SelectedGame, value?.pokeapi);
 
 			const isInSearchParam = get(page).url.searchParams.get('game');
@@ -106,6 +108,7 @@ export const cookieHandlers = {
 		primaryLanguage.set(existingValue);
 
 		primaryLanguage.subscribe((value) => {
+			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.PrimaryLanguage, value);
 			const isInSearchParam = get(page).url.searchParams.get(SettingNames.PrimaryLanguage);
 
@@ -139,6 +142,7 @@ export const cookieHandlers = {
 		secondaryLanguage.set(existingValue);
 
 		secondaryLanguage.subscribe((value) => {
+			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.SecondaryLanguage, value);
 
 			const isInSearchParam = get(page).url.searchParams.get(SettingNames.SecondaryLanguage);
@@ -166,6 +170,7 @@ export const cookieHandlers = {
 		versionSpecificPokemonSprites.set(existingValue === 'true' ? true : false);
 
 		versionSpecificPokemonSprites.subscribe((value) => {
+			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.VersionSpecificPokemonSprites, value);
 			setCookie(SettingNames.VersionSpecificPokemonSprites, value.toString());
 		});
@@ -180,6 +185,7 @@ export const cookieHandlers = {
 		versionSpecificTypeSprites.set(existingValue === 'true' ? true : false);
 
 		versionSpecificTypeSprites.subscribe((value) => {
+			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.VersionSpecificTypeSprites, value);
 			setCookie(SettingNames.VersionSpecificTypeSprites, value.toString());
 		});
@@ -194,6 +200,7 @@ export const cookieHandlers = {
 		animateSprites.set(existingValue === 'true' ? true : false);
 
 		animateSprites.subscribe((value) => {
+			invalidateAll();
 			window?.newrelic?.setCustomAttribute(SettingNames.AnimateSprites, value);
 			setCookie(SettingNames.AnimateSprites, value.toString());
 		});
@@ -218,6 +225,7 @@ export const cookieHandlers = {
 		rememberToken.set(existingValue);
 
 		rememberToken.subscribe((value) => {
+			invalidateAll();
 			window?.newrelic?.setUserId(value);
 			window?.umami?.identify(value);
 

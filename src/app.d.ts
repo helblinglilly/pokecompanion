@@ -6,13 +6,7 @@ declare global {
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}
-		export interface Platform {
-			Search: D1Database;
-			context: {
-				waitUntil(promise: Promise<unknown>): void;
-			};
-			caches: CacheStorage & { default: Cache };
-		}
+		// export interface Platform {}
 	}
 
 	interface Window {
