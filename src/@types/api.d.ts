@@ -317,6 +317,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/home": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getHome"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/methods": {
         parameters: {
             query?: never;
@@ -591,7 +607,7 @@ export interface components {
             url: string;
         };
         /** @description Make all properties in T optional */
-        "Partial_Record_PokeapiVersionGroups._levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___": {
+        "Partial_Record_PokeapiVersionGroups._displayName_description-AfriendlydisplaynameforthisPokemonGameGroup_-string--levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___": {
             home?: {
                 /** Format: double */
                 other: number;
@@ -603,6 +619,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "red-blue"?: {
                 /** Format: double */
@@ -615,6 +632,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             yellow?: {
                 /** Format: double */
@@ -627,6 +645,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "gold-silver"?: {
                 /** Format: double */
@@ -639,6 +658,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             crystal?: {
                 /** Format: double */
@@ -651,6 +671,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "ruby-sapphire"?: {
                 /** Format: double */
@@ -663,6 +684,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             emerald?: {
                 /** Format: double */
@@ -675,6 +697,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "firered-leafgreen"?: {
                 /** Format: double */
@@ -687,6 +710,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "diamond-pearl"?: {
                 /** Format: double */
@@ -699,6 +723,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             platinum?: {
                 /** Format: double */
@@ -711,6 +736,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "heartgold-soulsilver"?: {
                 /** Format: double */
@@ -723,6 +749,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "black-white"?: {
                 /** Format: double */
@@ -735,6 +762,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "black-2-white-2"?: {
                 /** Format: double */
@@ -747,6 +775,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "x-y"?: {
                 /** Format: double */
@@ -759,6 +788,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "omega-ruby-alpha-sapphire"?: {
                 /** Format: double */
@@ -771,6 +801,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "sun-moon"?: {
                 /** Format: double */
@@ -783,6 +814,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "ultra-sun-ultra-moon"?: {
                 /** Format: double */
@@ -795,6 +827,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "lets-go-pikachu-lets-go-eevee"?: {
                 /** Format: double */
@@ -807,6 +840,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "sword-shield"?: {
                 /** Format: double */
@@ -819,6 +853,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "brilliant-diamond-and-shining-pearl"?: {
                 /** Format: double */
@@ -831,6 +866,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "legends-arceus"?: {
                 /** Format: double */
@@ -843,6 +879,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "scarlet-violet"?: {
                 /** Format: double */
@@ -855,6 +892,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
             "legends-za"?: {
                 /** Format: double */
@@ -867,6 +905,7 @@ export interface components {
                 tm: number;
                 /** Format: double */
                 levelup: number;
+                displayName: string;
             };
         };
         /** @description Construct a type with a set of properties K of type T */
@@ -1074,7 +1113,7 @@ export interface components {
             /** @description The number of moves in each learn set.
              *     Only to be used to populate a skeleton laoder. Use /pokemon/:id/moves to
              *     retrieve the actual moves. */
-            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___"];
+            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._displayName_description-AfriendlydisplaynameforthisPokemonGameGroup_-string--levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___"];
             encounters: components["schemas"]["Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______"];
             stats: components["schemas"]["Record_PokeapiStatType.StatValue_"] & components["schemas"]["Record_average.StatValue_"];
             __meta: {
@@ -1128,6 +1167,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "red-blue"?: {
                 other: ({
@@ -1140,6 +1180,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             yellow?: {
                 other: ({
@@ -1152,6 +1193,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "gold-silver"?: {
                 other: ({
@@ -1164,6 +1206,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             crystal?: {
                 other: ({
@@ -1176,6 +1219,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "ruby-sapphire"?: {
                 other: ({
@@ -1188,6 +1232,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             emerald?: {
                 other: ({
@@ -1200,6 +1245,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "firered-leafgreen"?: {
                 other: ({
@@ -1212,6 +1258,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "diamond-pearl"?: {
                 other: ({
@@ -1224,6 +1271,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             platinum?: {
                 other: ({
@@ -1236,6 +1284,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "heartgold-soulsilver"?: {
                 other: ({
@@ -1248,6 +1297,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "black-white"?: {
                 other: ({
@@ -1260,6 +1310,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "black-2-white-2"?: {
                 other: ({
@@ -1272,6 +1323,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "x-y"?: {
                 other: ({
@@ -1284,6 +1336,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "omega-ruby-alpha-sapphire"?: {
                 other: ({
@@ -1296,6 +1349,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "sun-moon"?: {
                 other: ({
@@ -1308,6 +1362,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "ultra-sun-ultra-moon"?: {
                 other: ({
@@ -1320,6 +1375,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "lets-go-pikachu-lets-go-eevee"?: {
                 other: ({
@@ -1332,6 +1388,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "sword-shield"?: {
                 other: ({
@@ -1344,6 +1401,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "brilliant-diamond-and-shining-pearl"?: {
                 other: ({
@@ -1356,6 +1414,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "legends-arceus"?: {
                 other: ({
@@ -1368,6 +1427,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "scarlet-violet"?: {
                 other: ({
@@ -1380,6 +1440,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
             "legends-za"?: {
                 other: ({
@@ -1392,6 +1453,7 @@ export interface components {
                     /** Format: double */
                     level: number;
                 } & components["schemas"]["MovePreview"])[];
+                displayName: string;
             };
         };
         MoveResponse: {
@@ -2719,6 +2781,39 @@ export interface operations {
                         cost: number;
                         /** Format: double */
                         id: number;
+                    };
+                };
+            };
+        };
+    };
+    getHome: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        ofTheDay: {
+                            move: components["schemas"]["MovePreview"];
+                            pokemon: {
+                                slug: string;
+                                sprite: {
+                                    url: string;
+                                    alt: string;
+                                };
+                                name: string;
+                                /** Format: double */
+                                id: number;
+                            };
+                        };
                     };
                 };
             };

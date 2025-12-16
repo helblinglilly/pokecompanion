@@ -1,23 +1,19 @@
-import { fetchPokemonPreview } from '$/lib/api/fetch';
-import { daysPassedInYear, randomDailyNumber } from '$/lib/utils/number';
+import type { paths } from '$/@types/api.js';
+import { addCookiesAsSearchParams } from '$/lib/api/fetch.js';
+import { PUBLIC_API_HOST } from '$env/static/public';
 
-export async function load({ cookies, depends }) {
-	depends('selectedGame');
-	const id = randomDailyNumber(1025)[daysPassedInYear()] ?? 1;
+export async function load({ cookies, url, fetch }) {
+	async function getHomeContents() {
+		const homeUrl = addCookiesAsSearchParams(new URL(`${PUBLIC_API_HOST}/home`), url, cookies);
 
-	const versionSpecificSprites = cookies.get('versionSpecificPokemonSprites') === 'true';
-	const game = cookies.get('selectedGame');
+		const res = await fetch(homeUrl, {
+			credentials: 'include'
+		});
 
-	const pokemon = await fetchPokemonPreview({
-		id,
-		shiny: Math.random() < 0.04,
-		sprites: {
-			game,
-			versionSpecificPokemonSprites: versionSpecificSprites
-		}
-	});
+		return (await res.json()) as paths['/home']['get']['responses']['200']['content']['application/json'];
+	}
 
 	return {
-		pokemon
+		data: getHomeContents()
 	};
 }

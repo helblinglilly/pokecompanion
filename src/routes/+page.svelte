@@ -1,27 +1,15 @@
 <script lang="ts">
 	import Greeting from '$/routes/Greeting.svelte';
-	import MoveOtd from './MoveOTD.svelte';
 	import SelfMarketing from './SelfMarketing.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import { getGameGroupFromName } from '$/lib/data/games';
-	import Moves from '$/lib/data/moves.json';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Select from '$/ui/atoms/select';
-	import { Logger } from '$lib/log';
 	import { selectedGame } from '$lib/stores/domain';
-	import { daysPassedInYear, randomDailyNumber } from '$lib/utils/number';
-	import { onMount } from 'svelte';
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card/PokemonCardEntry.svelte';
 	import { invalidate } from '$app/navigation';
+	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
 	export let data;
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	const moveOtdIndex = randomDailyNumber(Moves.length)[daysPassedInYear()]!;
-
-	onMount(async () => {
-		Logger.addPageAction('MoveOTD', {
-			id: moveOtdIndex.toString()
-		});
-	});
 
 	/**
 	 * Styling:
@@ -75,19 +63,37 @@
 
 			<div class="column p-0">
 				<h2 class="h2">Pokémon of the day</h2>
-				<a href={data.pokemon.slug} class="no-underline">
-					<PokemonCardEntry
-						pokemon={data.pokemon}
-						shiny={false}
-						showGenderAndShiny={false}
-						isClickable={true}
-						gender={undefined}
-					/>
-				</a>
+				{#await data.data}
+					<p>Loading...</p>
+				{:then resolved}
+					{#if resolved.ofTheDay.pokemon}
+						<a href={resolved.ofTheDay.pokemon?.slug} class="no-underline">
+							<PokemonCardEntry
+								pokemon={resolved.ofTheDay.pokemon}
+								shiny={false}
+								showGenderAndShiny={false}
+								isClickable={true}
+								gender={undefined}
+							/>
+						</a>
+					{:else}
+						<p>No Pokémon available</p>
+					{/if}
+				{/await}
 			</div>
 			<div class="column p-0">
 				<h2 class="h2">Move of the day</h2>
-				<MoveOtd id={Moves[moveOtdIndex]?.id ?? 1} />
+				{#await data.data}
+					<p>Loading...</p>
+				{:then resolved}
+					{#if resolved.ofTheDay.move}
+						<a href={resolved.ofTheDay.move?.slug} class="no-underline">
+							<MoveListEntry move={resolved.ofTheDay.move} />
+						</a>
+					{:else}
+						<p>No Move available</p>
+					{/if}
+				{/await}
 			</div>
 		</div>
 	</section>

@@ -9,7 +9,7 @@
 <Card
 	id={`move-${move.id}`}
 	style={`position: relative;`}
-	classes="m-0 w-full flex p-8 h-28"
+	classes={`m-0 w-full flex p-8 h-28`}
 	isClickable
 >
 	<table>
