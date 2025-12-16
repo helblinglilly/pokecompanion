@@ -1,54 +1,44 @@
 <script lang="ts">
-	import { primaryLanguage, secondaryLanguage, selectedGame } from '$lib/stores/domain';
-	import { getMove, type IMove } from '$lib/types/IMoves';
-	import { getNameEntry } from '$lib/utils/language';
-	import { onMount } from 'svelte';
+	import type { components } from '$/@types/api';
 	import Card from '$/ui/atoms/card';
 	import Type from '$/ui/atoms/type';
+	import Image from '$/ui/atoms/image/Image.svelte';
 
-	export let id: number;
-	export let isClickable: boolean = true;
-	let move: IMove | undefined;
-
-	onMount(async () => {
-		move = await getMove(id, $selectedGame);
-	});
-
-	$: primaryName = move ? getNameEntry(move.names, $primaryLanguage) : undefined;
-	$: secondaryName =
-		move && $secondaryLanguage ? getNameEntry(move.names, $secondaryLanguage) : undefined;
+	export let move: components['schemas']['MovePreview'];
+	export let isClickable = true;
 </script>
 
 <Card
 	{isClickable}
-	id={`move-${id}`}
+	id={`move-${move.id}`}
 	classes="relative h-auto"
 	style={` min-height: 150px; padding: 0;`}
 >
-	{#if move}
-		<div class="spriteWrapper">
-			<table>
-				<tbody>
-					<tr>
-						<td class="types">
-							<Type
-								type={move.type.name}
-								style="margin-bottom: 0.2rem; margin-left: auto; margin-right: auto;"
-							/>
+	<div class="spriteWrapper">
+		<table>
+			<tbody>
+				<tr>
+					<td class="types">
+						<Image
+							src={move.damageClass.icon}
+							alt={move.damageClass.name}
+							style={'max-width: 5rem; object-fit: contain; margin-left: auto; margin-right: auto;'}
+						/>
 
-							<Type type={move.damage_class.name} style="margin-left: auto; margin-right: auto;" />
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+						<Image
+							src={move.type.icon}
+							alt={move.type.name}
+							style={'max-width: 5rem; object-fit: contain; margin-bottom: 0.2rem; margin-left: auto; margin-right: auto;'}
+						/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
-		<p class="text-center">
-			{primaryName}{secondaryName && primaryName !== secondaryName ? ` ${secondaryName}` : ''}
-		</p>
-	{:else}
-		<p>Loading...</p>
-	{/if}
+	{#each move.names as name}
+		<p>{name}</p>
+	{/each}
 
 	<slot name="remove" />
 </Card>

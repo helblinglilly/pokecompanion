@@ -77,7 +77,9 @@
 	{#await data.tagMoves}
 		<p>Loading Moves...</p>
 	{:then tagMoves}
-		<TagMove {filterTerm} {inModifyView} moveCollection={tagMoves.moves} />
+		<TagMove {inModifyView} moveCollection={tagMoves.moves} />
+	{:catch}
+		<p>Failed to get moves</p>
 	{/await}
 </div>
 

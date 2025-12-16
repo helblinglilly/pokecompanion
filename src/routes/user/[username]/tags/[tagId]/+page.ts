@@ -34,13 +34,19 @@ export const load = async ({ params, fetch }) => {
 		return tagPokemon;
 	}
 	async function getTagMoves() {
-		const tagPokemonRes = await fetch(`${PUBLIC_API_HOST}/tags/${params.tagId}/move`, {
-			credentials: 'include'
-		});
-		const tagPokemon: paths['/tags/{tagId}/move']['get']['responses']['200']['content']['application/json'] =
-			await tagPokemonRes.json();
+		try {
+			const tagMoveRes = await fetch(`${PUBLIC_API_HOST}/tags/${params.tagId}/move`, {
+				credentials: 'include'
+			});
+			const tagMove: paths['/tags/{tagId}/move']['get']['responses']['200']['content']['application/json'] =
+				await tagMoveRes.json();
 
-		return tagPokemon;
+			return tagMove;
+		} catch {
+			return {
+				moves: []
+			};
+		}
 	}
 	const tag = (await tagRes.json()) as APITag['tags'][number];
 

@@ -8,7 +8,6 @@
 	import type { paths } from '$/@types/api';
 	import { addNotification } from '$/lib/stores/notifications';
 	import MoveListEntry from '$/ui/molecules/move/list';
-	export let filterTerm: string;
 
 	export let inModifyView: boolean;
 
@@ -48,7 +47,7 @@
 	>
 		{#each moveCollection as move}
 			<a href={inModifyView ? undefined : `/move/${move.id}`} class="no-underline">
-				<MoveCardEntry id={move.id} isClickable={!inModifyView}>
+				<MoveCardEntry {move} isClickable={!inModifyView}>
 					<button
 						slot="remove"
 						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
