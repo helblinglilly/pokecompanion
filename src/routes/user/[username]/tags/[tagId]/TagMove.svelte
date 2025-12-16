@@ -1,18 +1,13 @@
 <script lang="ts">
-	import { primaryLanguage, secondaryLanguage } from '$/lib/stores/domain';
-	import { getMultiLanguageName } from '$/lib/utils/language';
-	import { termNormaliser } from '$/lib/utils/string';
 	import { page } from '$app/stores';
 	import { getContext } from 'svelte';
 	import { type Writable } from 'svelte/store';
-	import { getSortFunction } from './helper';
-	import { getMoveEntry } from '$/lib/data/games';
-	import OldMoveListEntry from '$/ui/molecules/move/list/OldMoveListEntry.svelte';
 	import MoveCardEntry from '$/ui/molecules/move/card/MoveCardEntry.svelte';
 	import type { APITag } from '$/@types/api.pokecompanion';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
 	import { addNotification } from '$/lib/stores/notifications';
+	import MoveListEntry from '$/ui/molecules/move/list';
 	export let filterTerm: string;
 
 	export let inModifyView: boolean;
@@ -42,32 +37,8 @@
 			});
 		}
 	}
-	$: moveCollection =
-		$tag.contents.move
-			?.filter((move) => {
-				if (!filterTerm) {
-					return true;
-				}
-				const normalised = termNormaliser(filterTerm);
-				const matchesId = `${move.id}`.includes(normalised);
-				const names = termNormaliser(
-					getMultiLanguageName(getMoveEntry(move.id).names, $primaryLanguage, $secondaryLanguage) ??
-						''
-				);
 
-				const matchesName = names.includes(normalised);
-				return matchesId || matchesName;
-			})
-			.sort(
-				getSortFunction(
-					($page.url.searchParams.get('sortBy') || $tag.sortKey) as
-						| 'custom'
-						| 'id'
-						| 'added'
-						| 'alphabetical',
-					($page.url.searchParams.get('sortOrder') || $tag.sortOrder) as 'asc' | 'desc' | 'custom'
-				).sortFunction
-			) ?? [];
+	export let moveCollection: paths['/tags/{tagId}/move']['get']['responses']['200']['content']['application/json']['moves'];
 </script>
 
 {#if moveCollection.length > 0 && $page.url.searchParams.get('view') === 'card'}
@@ -96,7 +67,7 @@
 	<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 		{#each moveCollection as move}
 			<a href={inModifyView ? undefined : `/move/${move.id}`} class="no-underline">
-				<OldMoveListEntry id={move.id} isClickable={!inModifyView}>
+				<MoveListEntry {move}>
 					<button
 						slot="remove"
 						class={`removeButton ${inModifyView ? '' : 'hidden'}`}
@@ -104,7 +75,7 @@
 							await deleteMoveFromTag(move);
 						}}>-</button
 					>
-				</OldMoveListEntry>
+				</MoveListEntry>
 			</a>
 		{/each}
 	</div>

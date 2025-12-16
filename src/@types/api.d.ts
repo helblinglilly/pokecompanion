@@ -102,7 +102,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** @description Retreives a collection of Move previews for a given tag */
+        get: operations["getTagMoves"];
         put?: never;
         /** @description Adds a move to a specific tag */
         post: operations["addMove"];
@@ -496,6 +497,21 @@ export interface components {
             isHiddenAcrossSite: boolean;
             description: string;
         };
+        MovePreview: {
+            /** Format: double */
+            id: number;
+            name: string;
+            slug: string;
+            damageClass: {
+                icon: string;
+                /** @enum {string} */
+                name: "status" | "special" | "physical";
+            };
+            type: {
+                icon: string;
+                name: string;
+            };
+        };
         /** @enum {string} */
         PokeapiLanguageCodes: "ja-Hrkt" | "zh-Hant" | "ja" | "ko" | "fr" | "de" | "en" | "es" | "it";
         /** @enum {string} */
@@ -546,52 +562,6 @@ export interface components {
             name: string;
             /** @description Path to the URL which will point at sprites.pokecompanion.com */
             icon: string;
-        };
-        MoveResponse: {
-            /** Format: double */
-            id: number;
-            /** @description Combined name in both languages */
-            name: string;
-            /** @description Pokecompanion slug */
-            slug: string;
-            /** @description List of Pokemon Previews that can learn this move */
-            learnedByPokemon: {
-                slug: string;
-                sprite: {
-                    url: string;
-                    alt: string;
-                };
-                name: string;
-                /** Format: double */
-                id: number;
-            }[];
-            /** @description Flavour text entries in the selected languages */
-            flavourTexts: string[];
-            /** @description Effect entries in the selected languages */
-            effectEntries: string[];
-            /**
-             * Format: double
-             * @description The number of power points that this move has
-             */
-            pp: number;
-            /**
-             * Format: double
-             * @description The damage that this move can do. Will be null for status moves
-             */
-            power: number | null;
-            /**
-             * Format: double
-             * @description The chance that this move will hit the target
-             */
-            accuracy: number | null;
-            damageClass: {
-                /** @description Path to the URL which will point at sprites.pokecompanion.com */
-                icon: string;
-                /** @enum {string} */
-                name: "status" | "physical" | "special";
-            };
-            /** @description The type of this move */
-            type: components["schemas"]["Type"];
         };
         PokeapiNamedApiResource: {
             /** @description Short name */
@@ -1421,6 +1391,52 @@ export interface components {
              */
             jumpTo?: number;
         };
+        MoveResponse: {
+            /** Format: double */
+            id: number;
+            /** @description Combined name in both languages */
+            name: string;
+            /** @description Pokecompanion slug */
+            slug: string;
+            /** @description List of Pokemon Previews that can learn this move */
+            learnedByPokemon: {
+                slug: string;
+                sprite: {
+                    url: string;
+                    alt: string;
+                };
+                name: string;
+                /** Format: double */
+                id: number;
+            }[];
+            /** @description Flavour text entries in the selected languages */
+            flavourTexts: string[];
+            /** @description Effect entries in the selected languages */
+            effectEntries: string[];
+            /**
+             * Format: double
+             * @description The number of power points that this move has
+             */
+            pp: number;
+            /**
+             * Format: double
+             * @description The damage that this move can do. Will be null for status moves
+             */
+            power: number | null;
+            /**
+             * Format: double
+             * @description The chance that this move will hit the target
+             */
+            accuracy: number | null;
+            damageClass: {
+                /** @description Path to the URL which will point at sprites.pokecompanion.com */
+                icon: string;
+                /** @enum {string} */
+                name: "status" | "physical" | "special";
+            };
+            /** @description The type of this move */
+            type: components["schemas"]["Type"];
+        };
         /** @enum {string} */
         PokeapiGameNames: "home" | "red" | "blue" | "yellow" | "gold" | "silver" | "crystal" | "ruby" | "sapphire" | "emerald" | "firered" | "leafgreen" | "diamond" | "pearl" | "platinum" | "heartgold" | "soulsilver" | "black" | "white" | "black-2" | "white-2" | "x" | "y" | "omega-ruby" | "alpha-sapphire" | "sun" | "moon" | "ultra-sun" | "ultra-moon" | "lets-go-pikachu" | "lets-go-eevee" | "sword" | "shield" | "brilliant-diamond" | "shining-pearl" | "legends-arceus" | "scarlet" | "violet" | "legends-za" | "the-isle-of-armor" | "the-crown-tundra" | "the-teal-mask" | "the-indigo-disk";
         /** @enum {string} */
@@ -1834,6 +1850,59 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getTagMoves: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tagId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        moves: components["schemas"]["MovePreview"][];
+                    };
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Unauthorised */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
             };
             /** @description Internal Server Error */
             500: {
@@ -2268,7 +2337,7 @@ export interface operations {
                     "application/json": {
                         /** Format: double */
                         totalItems: number;
-                        data: components["schemas"]["MoveResponse"][];
+                        data: components["schemas"]["MovePreview"][];
                     };
                 };
             };
@@ -2329,7 +2398,7 @@ export interface operations {
                         moves: {
                             /** Format: double */
                             totalItems: number;
-                            data: components["schemas"]["MoveResponse"][];
+                            data: components["schemas"]["MovePreview"][];
                         };
                         abilities: unknown[];
                         items: unknown[];
@@ -2541,12 +2610,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        slug: string;
-                        name: string;
-                        /** Format: double */
-                        id: number;
-                    };
+                    "application/json": components["schemas"]["MovePreview"];
                 };
             };
         };

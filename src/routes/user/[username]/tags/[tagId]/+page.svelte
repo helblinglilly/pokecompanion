@@ -74,7 +74,11 @@
 		<TagPokemon {filterTerm} {inModifyView} allPokemon={tagPokemon} />
 	{/await}
 
-	<TagMove {filterTerm} {inModifyView} />
+	{#await data.tagMoves}
+		<p>Loading Moves...</p>
+	{:then tagMoves}
+		<TagMove {filterTerm} {inModifyView} moveCollection={tagMoves.moves} />
+	{/await}
 </div>
 
 <div class="w-full text-center mt-12">
