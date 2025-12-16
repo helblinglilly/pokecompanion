@@ -501,6 +501,10 @@ export interface components {
             /** Format: double */
             id: number;
             name: string;
+            /** @description Contains the primary language in first position, and the secondary in second
+             *
+             *     Deduped */
+            names: string[];
             slug: string;
             damageClass: {
                 icon: string;
@@ -570,581 +574,282 @@ export interface components {
             url: string;
         };
         /** @description Make all properties in T optional */
-        "Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number__--other-Array__id-number--learnMethod-string_____": {
+        "Partial_Record_PokeapiVersionGroups._levelup-Array__level-number_-and-MovePreview_--tm-Array_MovePreview_--breed-Array_MovePreview_--tutor-Array_MovePreview_--other-Array__learnMethod-string_-and-MovePreview____": {
             home?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "red-blue"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             yellow?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "gold-silver"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             crystal?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "ruby-sapphire"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             emerald?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "firered-leafgreen"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "diamond-pearl"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             platinum?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "heartgold-soulsilver"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "black-white"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "black-2-white-2"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "x-y"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "omega-ruby-alpha-sapphire"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "sun-moon"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "ultra-sun-ultra-moon"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "lets-go-pikachu-lets-go-eevee"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "sword-shield"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "brilliant-diamond-and-shining-pearl"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "legends-arceus"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "scarlet-violet"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
             "legends-za"?: {
-                other: {
+                other: ({
                     learnMethod: string;
-                    /** Format: double */
-                    id: number;
-                }[];
-                tutor: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                breed: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                tm: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                levelup: {
+                } & components["schemas"]["MovePreview"])[];
+                tutor: components["schemas"]["MovePreview"][];
+                breed: components["schemas"]["MovePreview"][];
+                tm: components["schemas"]["MovePreview"][];
+                levelup: ({
                     /** Format: double */
                     level: number;
-                    /** Format: double */
-                    id: number;
-                }[];
+                } & components["schemas"]["MovePreview"])[];
             };
         };
         /** @description Construct a type with a set of properties K of type T */
@@ -1349,7 +1054,7 @@ export interface components {
                 displayName: string;
                 name: string;
             }[];
-            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._levelup-Array__id-number--level-number__--tm-Array__id-number__--breed-Array__id-number__--tutor-Array__id-number__--other-Array__id-number--learnMethod-string_____"];
+            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._levelup-Array__level-number_-and-MovePreview_--tm-Array_MovePreview_--breed-Array_MovePreview_--tutor-Array_MovePreview_--other-Array__learnMethod-string_-and-MovePreview____"];
             encounters: components["schemas"]["Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______"];
             stats: components["schemas"]["Record_PokeapiStatType.StatValue_"] & components["schemas"]["Record_average.StatValue_"];
             __meta: {
@@ -1396,6 +1101,10 @@ export interface components {
             id: number;
             /** @description Combined name in both languages */
             name: string;
+            /** @description Contains the primary language in first position, and the secondary in second
+             *
+             *     Deduped */
+            names: string[];
             /** @description Pokecompanion slug */
             slug: string;
             /** @description List of Pokemon Previews that can learn this move */
