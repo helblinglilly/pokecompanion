@@ -18,13 +18,13 @@
 </script>
 
 <div>
-	<a href="/pokemon?page=1" class="no-underline"
+	<a href="/pokemon?page=1" class="no-underline" data-sveltekit-reload
 		><Button isDisabled={pagination.currentPage === 1}>{'<<'}</Button></a
 	>
 </div>
 
 <div>
-	<a href={`/pokemon?page=${pagination.currentPage - 1}`} class="no-underline"
+	<a href={`/pokemon?page=${pagination.currentPage - 1}`} class="no-underline" data-sveltekit-reload
 		><Button isDisabled={pagination.currentPage === 1}>{'<'}</Button></a
 	>
 </div>
@@ -34,13 +34,13 @@
 </div>
 
 <div>
-	<a href={`/pokemon?page=${pagination.currentPage + 1}`} class="no-underline"
+	<a href={`/pokemon?page=${pagination.currentPage + 1}`} class="no-underline" data-sveltekit-reload
 		><Button isDisabled={pagination.currentPage === pagination.lastPage}>{'>'}</Button></a
 	>
 </div>
 
 <div>
-	<a href={`/pokemon?page=${pagination.lastPage}`} class="no-underline"
+	<a href={`/pokemon?page=${pagination.lastPage}`} class="no-underline" data-sveltekit-reload
 		><Button isDisabled={pagination.currentPage === pagination.lastPage}>{'>>'}</Button></a
 	>
 </div>
