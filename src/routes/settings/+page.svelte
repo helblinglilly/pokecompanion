@@ -135,7 +135,7 @@
 
 				<Select
 					isNested
-					options={data.languages.map((lang) => ({
+					options={(data.languages ?? []).map((lang) => ({
 						label: lang.flag + ' ' + lang.name,
 						value: lang.code,
 						disabled: $secondaryLanguage === lang.code
@@ -152,7 +152,7 @@
 				<Select
 					isNested
 					options={[{ label: '🏳️ None', value: 'none' }].concat(
-						data.languages.map((lang) => ({
+						(data.languages ?? []).map((lang) => ({
 							label: lang.flag + ' ' + lang.name,
 							value: lang.code,
 							disabled: $primaryLanguage === lang.code

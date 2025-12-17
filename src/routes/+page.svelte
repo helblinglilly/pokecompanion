@@ -42,13 +42,15 @@
 					<p>You can change this later in settings</p>
 					<Select
 						isNested
-						options={data.games.map((game) => ({
+						options={(data.games ?? []).map((game) => ({
 							label: game.shortName,
 							value: game.pokeapi
 						}))}
 						value={$selectedGame
 							? $selectedGame.pokeapi
-							: data.games[data.games.length - 1]?.pokeapi}
+							: data.games
+							? data.games[data.games.length - 1]?.pokeapi
+							: undefined}
 						on:change={async ({ detail }) => {
 							selectedGame.set(getGameGroupFromName(detail));
 							await invalidate('selectedGame');
