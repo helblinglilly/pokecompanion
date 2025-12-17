@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Logger } from '$/lib/log';
+	import { Logger } from '$/debt/log';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { currentUser } from '$/lib/stores/user';
 	import Button from '$/ui/atoms/button/Button.svelte';

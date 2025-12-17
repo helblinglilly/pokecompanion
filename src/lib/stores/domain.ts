@@ -4,13 +4,13 @@ import { currentUser, type AuthRecord } from './user';
 import { getGameGroupFromName, type IGameGroups } from '$/debt/games';
 import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';
-import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
+import type { PokeapiLanguageCodes, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 import type { paths } from '$/@types/api';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<IGameGroups | undefined>();
-export const primaryLanguage = writable('en');
-export const secondaryLanguage = writable<string | undefined>();
+export const primaryLanguage = writable<PokeapiLanguageCodes>('en');
+export const secondaryLanguage = writable<PokeapiLanguageCodes | undefined>();
 export const versionSpecificPokemonSprites = writable<boolean>(true);
 export const versionSpecificTypeSprites = writable<boolean>(false);
 export const animateSprites = writable<boolean>(true);
@@ -95,7 +95,7 @@ export const cookieHandlers = {
 			}
 		}
 
-		primaryLanguage.set(existingValue);
+		primaryLanguage.set(existingValue as PokeapiLanguageCodes);
 
 		primaryLanguage.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute(SettingNames.PrimaryLanguage, value);
@@ -117,18 +117,19 @@ export const cookieHandlers = {
 	},
 	secondaryLanguage: () => {
 		const isInSearchParam = get(page).url.searchParams.get(SettingNames.SecondaryLanguage);
-		let existingValue = getCookie(SettingNames.SecondaryLanguage) as keyof Languages | undefined;
+		let existingValue = getCookie(SettingNames.SecondaryLanguage) as
+			| keyof PokeapiLanguageCodes
+			| undefined;
 
 		if (isInSearchParam) {
-			existingValue = isInSearchParam as keyof Languages;
+			existingValue = isInSearchParam as keyof PokeapiLanguageCodes;
 		} else {
 			if (!existingValue) {
-				existingValue = 'none';
-				setCookie(SettingNames.SecondaryLanguage, existingValue);
+				setCookie(SettingNames.SecondaryLanguage, '');
 			}
 		}
 
-		secondaryLanguage.set(existingValue);
+		secondaryLanguage.set(existingValue as PokeapiLanguageCodes | undefined);
 
 		secondaryLanguage.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute(SettingNames.SecondaryLanguage, value);
@@ -139,12 +140,9 @@ export const cookieHandlers = {
 				return;
 			}
 
-			if (!value) {
-				value = 'none';
-			}
 			const existing = getCookie(SettingNames.SecondaryLanguage);
 			if (!existing || value !== existing) {
-				setCookie(SettingNames.SecondaryLanguage, value);
+				setCookie(SettingNames.SecondaryLanguage, value as PokeapiLanguageCodes);
 			}
 		});
 	},

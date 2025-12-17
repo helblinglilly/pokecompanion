@@ -144,9 +144,12 @@ export async function addMoveToTag(move: ITagMove, tagId: string) {
 	}
 }
 
-export async function removePokemonFromTag(pokemon: IRecordPokemon, tagId: string) {
+export async function removePokemonFromTag(
+	pokemon: paths['/tags/{tagId}/pokemon']['delete']['requestBody']['content']['application/json'],
+	tagId: string
+) {
 	try {
-		const res = await fetch(`/api/tag/${tagId}/pokemon`, {
+		const res = await fetch(`${PUBLIC_API_HOST}/tags/${tagId}/pokemon`, {
 			method: 'DELETE',
 			body: JSON.stringify(pokemon)
 		});

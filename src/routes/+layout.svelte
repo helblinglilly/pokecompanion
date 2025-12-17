@@ -21,14 +21,12 @@
 		SettingNames
 	} from '$lib/stores/domain';
 	import { getCookie } from '$lib/utils/cookies';
-	import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
+	import type { PokeapiLanguageCodes, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 	import Footer from './Footer.svelte';
 	import { getGameGroupFromName } from '$/debt/games';
 
 	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
-
-	$: currentUser.set(data.user);
 
 	const initTheme = () => {
 		const changeTheme = (newTheme: 'dark' | 'light') => {
@@ -107,10 +105,12 @@
 	navigating.subscribe(async (nav) => {
 		if (nav) {
 			if ($primaryLanguage !== getCookie(SettingNames.PrimaryLanguage)) {
-				primaryLanguage.set(getCookie(SettingNames.PrimaryLanguage));
+				primaryLanguage.set(getCookie(SettingNames.PrimaryLanguage) as PokeapiLanguageCodes);
 			}
 			if ($secondaryLanguage !== getCookie(SettingNames.SecondaryLanguage)) {
-				secondaryLanguage.set(getCookie(SettingNames.SecondaryLanguage));
+				secondaryLanguage.set(
+					getCookie(SettingNames.SecondaryLanguage) as PokeapiLanguageCodes | undefined
+				);
 			}
 			if ($selectedGame !== getCookie(SettingNames.SelectedGame)) {
 				const cookieValue = getCookie(SettingNames.SelectedGame) as PokeapiVersionGroups;
