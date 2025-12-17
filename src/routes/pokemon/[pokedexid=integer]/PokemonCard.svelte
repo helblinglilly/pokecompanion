@@ -23,13 +23,13 @@
 	const changeUrlQueryParam = (param: string, value: string) => {
 		const newUrl = new URL($page.url);
 		newUrl.searchParams.set(param, value);
-		goto(newUrl.toString(), { noScroll: true, keepFocus: true });
+		goto(newUrl.toString(), { noScroll: true, keepFocus: false });
 	};
 
 	const deleteUrlQueryParam = (param: string) => {
 		const newUrl = new URL($page.url);
 		newUrl.searchParams.delete(param);
-		goto(newUrl.toString(), { noScroll: true, keepFocus: true });
+		goto(newUrl.toString(), { noScroll: true, keepFocus: false });
 	};
 </script>
 

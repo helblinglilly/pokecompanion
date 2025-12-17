@@ -22,7 +22,11 @@
 				Logger.addPageAction('PokemonNavigation');
 			}}
 		>
-			<Card classes="w-fit h-auto inline-flex" style="margin: 0; padding: 10px;" isClickable>
+			<Card
+				classes="w-fit h-auto inline-flex"
+				style="margin: 0; padding: 10px; min-height: 70px;"
+				isClickable
+			>
 				<p class="m-auto hidden sm:block">#{pokedexId}</p>
 				{#if iconUrl}
 					<Image
