@@ -3,9 +3,6 @@
 	import { goto } from '$app/navigation';
 
 	import { page } from '$app/stores';
-	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
-
-	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import TypeMatchup from './TypeMatchup.svelte';
@@ -20,29 +17,6 @@
 	import PokemonCard from './PokemonCard.svelte';
 
 	export let data;
-
-	// Update the store whenever data or URL changes
-	// URL is the source of truth, not the store
-	$: {
-		const showFemaleSpriteIfExists = $page.url.searchParams.get('gender') === 'female';
-		const showShinySpriteIfExists = $page.url.searchParams.get('shiny') === 'true';
-		const varietyName = $page.url.searchParams.get('variety');
-
-		pokemonDisplayStore.set({
-			id: data.id,
-			showFemaleSpriteIfExists,
-			hasFemaleSprite: data.sprites.some((sprite) => sprite.hasFemale),
-			gender: data.sprites.some((sprite) => sprite.hasFemale)
-				? showFemaleSpriteIfExists
-					? 'female'
-					: 'male'
-				: undefined,
-			showShinySpriteIfExists,
-			hasShinySprite: data.sprites.some((sprite) => sprite.hasShiny),
-			variety: varietyName ?? undefined,
-			transferableQueryParams: '' // Gets auto-updated within the store anyway
-		});
-	}
 
 	onMount(() => {
 		document.addEventListener('keydown', (e) => {

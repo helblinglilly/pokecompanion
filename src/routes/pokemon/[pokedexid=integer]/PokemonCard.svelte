@@ -10,7 +10,6 @@
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import SpritePreview from './SpritePreview.svelte';
 	import Pokedex from './Pokedex.svelte';
-	import { pokemonDisplayStore } from '$/lib/stores/pokemonPage';
 	import { tagStore } from '$/lib/stores/tags';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
@@ -19,6 +18,9 @@
 
 	$: hasShinySprite = data.sprites.some((sprite) => sprite.hasShiny);
 	$: hasFemaleSprite = data.sprites.some((sprite) => sprite.hasFemale);
+
+	const genderParam = $page.url.searchParams.get('gender');
+	const gender = genderParam === 'male' ? 'male' : genderParam === 'female' ? 'female' : undefined;
 
 	const changeUrlQueryParam = (param: string, value: string) => {
 		const newUrl = new URL($page.url);
@@ -61,19 +63,39 @@
 
 {#if $currentUser}
 	<div class="flex justify-center items-center w-full gap-2 relative z-20" style="flex-flow: wrap;">
-		<SelectedTags pokemon={$pokemonDisplayStore} />
+		<SelectedTags
+			pokemon={{
+				id: data.id,
+				hasFemaleSprite: hasFemaleSprite,
+				showFemaleSpriteIfExists: gender === 'female',
+				hasShinySprite: hasShinySprite,
+				showShinySpriteIfExists: $page.url.searchParams.get('shiny') === 'true',
+				gender,
+				variety: $page.url.searchParams.get('variety') ?? undefined
+			}}
+		/>
 	</div>
 	<div class="flex justify-center items-center w-full gap-2 pt-2">
 		{#if $tagStore.length > 0}
-			<EditTag pokemon={$pokemonDisplayStore} />
+			<EditTag
+				pokemon={{
+					id: data.id,
+					hasFemaleSprite: hasFemaleSprite,
+					showFemaleSpriteIfExists: gender === 'female',
+					hasShinySprite: hasShinySprite,
+					showShinySpriteIfExists: $page.url.searchParams.get('shiny') === 'true',
+					gender,
+					variety: $page.url.searchParams.get('variety') ?? undefined
+				}}
+			/>
 		{/if}
 
 		<CreateNewTag
 			pokemon={{
 				id: data.id,
-				gender: $pokemonDisplayStore.gender,
-				shiny: $pokemonDisplayStore.hasShinySprite && $pokemonDisplayStore.showShinySpriteIfExists,
-				variety: $pokemonDisplayStore.variety
+				gender: gender,
+				shiny: $page.url.searchParams.get('shiny') === 'true',
+				variety: $page.url.searchParams.get('variety') ?? undefined
 			}}
 		/>
 	</div>
@@ -113,10 +135,10 @@
 		class="triangle left"
 		data-umami-event="PokemonGender"
 		style={`border-bottom-color: ${
-			hasFemaleSprite && $page.url.searchParams.get('gender') === 'female' ? '#f6abd9' : '#7fbbf0'
+			hasFemaleSprite && gender === 'female' ? '#f6abd9' : '#7fbbf0'
 		};`}
 		on:click={() => {
-			const currentGender = $page.url.searchParams.get('gender') === 'female' ? 'female' : 'male';
+			const currentGender = gender === 'female' ? 'female' : 'male';
 
 			if (currentGender === 'female') {
 				deleteUrlQueryParam('gender');

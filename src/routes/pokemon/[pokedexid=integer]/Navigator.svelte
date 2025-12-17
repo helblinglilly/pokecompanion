@@ -3,12 +3,13 @@
 	import Select from '$/ui/atoms/select/Select.svelte';
 	import { goto } from '$app/navigation';
 	import { Logger } from '$/debt/log';
-	import { pokemonDisplayStore } from '$lib/stores/pokemonPage';
 	import NavigationButton from './NavigationButton.svelte';
+	import { page } from '$app/stores';
 
 	export let title: string;
 	export let currentId: number;
 	export let varieties: APIPokemon['varieties'];
+	const varietyParam = $page.url.searchParams.get('variety');
 
 	$: innerWidth = 750;
 </script>
@@ -36,7 +37,7 @@
 	{#if varieties.length > 1}
 		<div class="w-full flex justify-center">
 			<Select
-				value={$pokemonDisplayStore.variety ?? varieties.find((a) => a.isDefault)?.name}
+				value={varieties.find((a) => (varietyParam ? a.name === varietyParam : a.isDefault))?.name}
 				options={varieties.map((variety) => ({
 					label: variety.displayName,
 					value: variety.name

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { Logger } from '$/debt/log';
 	import { meta } from '$/lib/stores/domain';
-	import { pokemonDisplayStore } from '$/lib/stores/pokemonPage';
 	import Card from '$/ui/atoms/card';
 	import Image from '$/ui/atoms/image/Image.svelte';
+	import { page } from '$app/stores';
 
 	export let pokedexId: number;
 
@@ -13,11 +13,7 @@
 <div style="min-width: fit-content; min-height: 70px;">
 	{#if pokedexId > 0 && pokedexId <= $meta.lastPokedexEntry}
 		<a
-			href={`/pokemon/${pokedexId}${
-				$pokemonDisplayStore.transferableQueryParams.length > 0
-					? `${$pokemonDisplayStore.transferableQueryParams}`
-					: ''
-			}`}
+			href={`/pokemon/${pokedexId}${$page.url.search}`}
 			on:click={() => {
 				Logger.addPageAction('PokemonNavigation');
 			}}
