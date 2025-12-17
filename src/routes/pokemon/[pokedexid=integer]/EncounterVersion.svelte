@@ -27,12 +27,14 @@
 	<div slot="content" class="extendedWrapper">
 		<table>
 			<thead>
-				<th>Method</th>
-				<th>Level</th>
-				<th>Chance</th>
-				{#if hasRequirement}
-					<th>Req</th>
-				{/if}
+				<tr>
+					<th>Method</th>
+					<th>Level</th>
+					<th>Chance</th>
+					{#if hasRequirement}
+						<th>Req</th>
+					{/if}
+				</tr>
 			</thead>
 			<tbody>
 				{#each encounterLocation.sort((a, b) => (a.minLevel > b.minLevel ? 1 : -1)) as locationInfo}

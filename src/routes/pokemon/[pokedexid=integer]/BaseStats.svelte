@@ -6,12 +6,14 @@
 
 <table>
 	<thead>
-		<th> Stat </th>
-		<td id="statTableHeading">
-			<p>0</p>
-			<p>70 Average</p>
-			<p>220</p>
-		</td>
+		<tr>
+			<th> Stat </th>
+			<th id="statTableHeading">
+				<p>0</p>
+				<p>70 Average</p>
+				<p>220</p>
+			</th>
+		</tr>
 	</thead>
 	<tbody>
 		<tr>

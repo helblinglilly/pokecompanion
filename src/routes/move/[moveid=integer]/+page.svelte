@@ -42,9 +42,11 @@
 		<div>
 			<table>
 				<thead>
-					<th>Category</th>
-					<th>Power</th>
-					<th>Accuracy</th>
+					<tr>
+						<th>Category</th>
+						<th>Power</th>
+						<th>Accuracy</th>
+					</tr>
 				</thead>
 				<tbody>
 					<tr class="text-center">

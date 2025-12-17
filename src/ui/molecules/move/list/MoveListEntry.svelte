@@ -13,24 +13,26 @@
 	isClickable
 >
 	<table>
-		<tr>
-			<td>
-				<Image
-					src={move.damageClass.icon}
-					alt={move.damageClass.name}
-					style={'max-width: 5rem; object-fit: contain;'}
-				/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<Image
-					src={move.type.icon}
-					alt={move.type.name}
-					style={'max-width: 5rem; object-fit: contain;'}
-				/>
-			</td>
-		</tr>
+		<tbody>
+			<tr>
+				<td>
+					<Image
+						src={move.damageClass.icon}
+						alt={move.damageClass.name}
+						style={'max-width: 5rem; object-fit: contain;'}
+					/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<Image
+						src={move.type.icon}
+						alt={move.type.name}
+						style={'max-width: 5rem; object-fit: contain;'}
+					/>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 
 	<span class="ml-4">
