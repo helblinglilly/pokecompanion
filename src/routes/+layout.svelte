@@ -2,11 +2,10 @@
 	import '$/styles/global.css';
 
 	import { onMount } from 'svelte';
-	import { cookieHandlers, meta, theme } from '$lib/stores/domain';
+	import { cookieHandlers, theme } from '$lib/stores/domain';
 	import { page } from '$app/stores';
 	import { notifications } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
-	import type { PageData } from './$types';
 	import SearchBar from '$/lib/components/SearchBar.svelte';
 	import Tracking from '$/lib/components/Tracking.svelte';
 	import Navbar from '$/ui/organisms/Navbar';
@@ -25,7 +24,6 @@
 	import Footer from './Footer.svelte';
 	import { getGameGroupFromName } from '$/debt/games';
 
-	export let data: PageData;
 	export let breadcrumbs: { display: string; url: string }[] = [];
 
 	const initTheme = () => {
@@ -94,8 +92,6 @@
 				await refetchTags(user.id);
 			}
 		});
-
-		meta.set(data);
 	});
 
 	$: shouldDisplaySearch = !['/auth/', '/about', '/privacy'].some((noSearchBar) => {

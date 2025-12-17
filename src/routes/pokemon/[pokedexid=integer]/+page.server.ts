@@ -1,12 +1,13 @@
 import type { paths } from '$/@types/api.js';
 import type { APIPokemon } from '$/@types/api.pokecompanion';
-import { addCookiesAsSearchParams } from '$/lib/api/fetch';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { error } from '@sveltejs/kit';
+import { addCookiesAsSearchParams } from '$/lib/api/fetch';
 
-export const ssr = true;
+export const load = async ({ params, fetch, url, depends, cookies }) => {
+	depends('app:pokemonSearchParams');
+	depends('app:settings');
 
-export const load = async ({ params, fetch, url, cookies }) => {
 	const pokemonRequestUrl = addCookiesAsSearchParams(
 		new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}`),
 		url,

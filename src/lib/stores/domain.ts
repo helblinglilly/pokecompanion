@@ -16,11 +16,18 @@ export const versionSpecificTypeSprites = writable<boolean>(false);
 export const animateSprites = writable<boolean>(true);
 export const rememberToken = writable<string>(uuid());
 export const meta = writable<
-	paths['/meta']['get']['responses']['200']['content']['application/json']
+	paths['/meta']['get']['responses']['200']['content']['application/json'] & {
+		preferences: {
+			animateSprites: boolean;
+		};
+	}
 >({
 	lastPokedexEntry: 1,
 	games: [],
-	languages: []
+	languages: [],
+	preferences: {
+		animateSprites: false
+	}
 });
 export const maxSearchResults = 15;
 export const pokemonPageSize = 50;
