@@ -198,13 +198,18 @@ export const cookieHandlers = {
 	user: () => {
 		const cookieValue = getRawCookie(document.cookie, 'pb_auth');
 		const rawData = cookieValue.replace('pb_auth=', '');
-		const deocdedString = decodeURIComponent(rawData);
-		const authData = JSON.parse(deocdedString) as {
-			token: string;
-			record: AuthRecord;
-		};
+		const decodedString = decodeURIComponent(rawData);
 
-		currentUser.set(authData.record);
+		if (decodedString) {
+			const authData = JSON.parse(decodedString) as {
+				token: string;
+				record: AuthRecord;
+			};
+
+			currentUser.set(authData.record);
+		} else {
+			currentUser.set(null);
+		}
 	},
 	rememberToken: () => {
 		let existingValue = getCookie('remember-token') as string | undefined;

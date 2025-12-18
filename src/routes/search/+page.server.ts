@@ -5,7 +5,7 @@ import { PUBLIC_API_HOST } from '$env/static/public';
 export const load = async ({ fetch, url, cookies }) => {
 	const searchRequestUrl = addCookiesAsSearchParams(
 		new URL(`${PUBLIC_API_HOST}/search?term=${url.searchParams.get('term')}`),
-		url,
+		url.searchParams,
 		cookies
 	);
 

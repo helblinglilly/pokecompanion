@@ -6,7 +6,7 @@ export async function load({ url, fetch, cookies, depends }) {
 	depends('app:pokemonRootParams');
 	const apiRequest = addCookiesAsSearchParams(
 		new URL(`${PUBLIC_API_HOST}/pokemon/preview`),
-		url,
+		url.searchParams,
 		cookies
 	);
 

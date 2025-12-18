@@ -5,7 +5,7 @@ import type { paths } from '$/@types/api';
 export async function load({ params, cookies, fetch, url }) {
 	const requestUrl = addCookiesAsSearchParams(
 		new URL(`${PUBLIC_API_HOST}/move/${params.moveid}`),
-		url,
+		url.searchParams,
 		cookies
 	);
 
@@ -13,7 +13,8 @@ export async function load({ params, cookies, fetch, url }) {
 		credentials: 'include'
 	});
 
-  const move = (await res.json()) as paths['/move/{id}']['get']['responses']['200']['content']['application/json'];
+	const move =
+		(await res.json()) as paths['/move/{id}']['get']['responses']['200']['content']['application/json'];
 	return {
 		move
 	};

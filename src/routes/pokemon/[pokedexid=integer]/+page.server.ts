@@ -4,20 +4,17 @@ import { PUBLIC_API_HOST } from '$env/static/public';
 import { error } from '@sveltejs/kit';
 import { addCookiesAsSearchParams } from '$/lib/api/fetch';
 
-export const load = async ({ params, fetch, url, depends, cookies }) => {
-	depends('app:pokemonSearchParams');
-	depends('app:settings');
-
+export const load = async ({ params, fetch, url, cookies }) => {
 	const pokemonRequestUrl = addCookiesAsSearchParams(
 		new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}`),
-		url,
+		url.searchParams,
 		cookies
 	);
 
 	async function getFullAbility(ability: APIPokemon['abilities'][number]) {
 		const abilityUrl = addCookiesAsSearchParams(
 			new URL(`${PUBLIC_API_HOST}/ability/${ability.id}`),
-			url,
+			url.searchParams,
 			cookies
 		);
 
@@ -30,7 +27,7 @@ export const load = async ({ params, fetch, url, depends, cookies }) => {
 	async function getFullMoves() {
 		const moveRequestUrl = addCookiesAsSearchParams(
 			new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}/moves`),
-			url,
+			url.searchParams,
 			cookies
 		);
 

@@ -9,26 +9,26 @@ import {
 	versionSpecificTypeSprites
 } from '../stores/domain';
 
-export function addSettingsAsSearchParams(baseUrl: URL, requestUrl: URL) {
+export function addSettingsAsSearchParams(baseUrl: URL, searchParams: URLSearchParams) {
 	const primaryLanguageSetting =
-		requestUrl.searchParams.get(SettingNames.PrimaryLanguage) ?? get(primaryLanguage);
+		searchParams.get(SettingNames.PrimaryLanguage) ?? get(primaryLanguage);
 	if (primaryLanguageSetting) {
 		baseUrl.searchParams.append(SettingNames.PrimaryLanguage, primaryLanguageSetting);
 	}
 
 	const secondaryLanguageSetting =
-		requestUrl.searchParams.get(SettingNames.SecondaryLanguage) ?? get(secondaryLanguage);
+		searchParams.get(SettingNames.SecondaryLanguage) ?? get(secondaryLanguage);
 	if (secondaryLanguageSetting) {
 		baseUrl.searchParams.append(SettingNames.SecondaryLanguage, secondaryLanguageSetting);
 	}
 
 	const animateSpritesSetting =
-		requestUrl.searchParams.get(SettingNames.AnimateSprites) === 'true' || get(animateSprites);
+		searchParams.get(SettingNames.AnimateSprites) === 'true' || get(animateSprites);
 	if (animateSpritesSetting) {
 		baseUrl.searchParams.append(SettingNames.AnimateSprites, `${animateSpritesSetting}`);
 	}
 
-	const game = requestUrl.searchParams.get(SettingNames.SelectedGame) ?? get(selectedGame)?.pokeapi;
+	const game = searchParams.get(SettingNames.SelectedGame) ?? get(selectedGame)?.pokeapi;
 	if (game) {
 		baseUrl.searchParams.append(SettingNames.SelectedGame, game);
 	}
@@ -43,14 +43,14 @@ export function addSettingsAsSearchParams(baseUrl: URL, requestUrl: URL) {
 		get(versionSpecificTypeSprites) ? 'true' : 'false'
 	);
 
-	if (requestUrl.searchParams.get('shiny')) {
-		baseUrl.searchParams.append('shiny', requestUrl.searchParams.get('shiny') ?? '');
+	if (searchParams.get('shiny')) {
+		baseUrl.searchParams.append('shiny', searchParams.get('shiny') ?? '');
 	}
-	if (requestUrl.searchParams.get('gender')) {
-		baseUrl.searchParams.append('gender', requestUrl.searchParams.get('gender') ?? '');
+	if (searchParams.get('gender')) {
+		baseUrl.searchParams.append('gender', searchParams.get('gender') ?? '');
 	}
-	if (requestUrl.searchParams.get('variety')) {
-		baseUrl.searchParams.append('variety', requestUrl.searchParams.get('variety') ?? '');
+	if (searchParams.get('variety')) {
+		baseUrl.searchParams.append('variety', searchParams.get('variety') ?? '');
 	}
 
 	return baseUrl;

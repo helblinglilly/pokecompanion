@@ -24,7 +24,7 @@
 		try {
 			const url = addSettingsAsSearchParams(
 				new URL(`${PUBLIC_API_HOST}/search/pokemon`),
-				$page.url
+				$page.url.searchParams
 			);
 
 			url.searchParams.append('term', $page.url.searchParams.get('term') ?? '');
@@ -52,7 +52,10 @@
 	}
 	async function loadMoreMoves() {
 		try {
-			const url = addSettingsAsSearchParams(new URL(`${PUBLIC_API_HOST}/search/moves`), $page.url);
+			const url = addSettingsAsSearchParams(
+				new URL(`${PUBLIC_API_HOST}/search/moves`),
+				$page.url.searchParams
+			);
 
 			url.searchParams.append('term', $page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${movesPage + 1}`);

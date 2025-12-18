@@ -2,7 +2,6 @@
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 	import Select from '$/ui/atoms/select/Select.svelte';
 	import { goto } from '$app/navigation';
-	import { Logger } from '$/debt/log';
 	import NavigationButton from './NavigationButton.svelte';
 	import { page } from '$app/stores';
 
@@ -44,8 +43,6 @@
 				}))}
 				style="width: 100%; padding-left: 1rem; padding-right: 1rem; margin: 0; text-align: center;"
 				on:change={({ detail }) => {
-					Logger.addPageAction('Variety');
-
 					const newTargetVariety = varieties.find((variety) => variety.name === detail);
 					if (!newTargetVariety) {
 						console.error('Could not find the same variety again as the one that got changed to');

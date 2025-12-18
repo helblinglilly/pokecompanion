@@ -5,42 +5,45 @@ import { SettingNames } from '../stores/domain';
 import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 import { getGameGroupFromName } from '../../debt/games';
 
-export function addCookiesAsSearchParams(baseUrl: URL, requestUrl: URL, cookies: Cookies) {
+export function addCookiesAsSearchParams(
+	baseUrl: URL,
+	searchParams: URLSearchParams,
+	cookies: Cookies
+) {
 	baseUrl.searchParams.append(
 		SettingNames.PrimaryLanguage,
-		requestUrl.searchParams.get(SettingNames.PrimaryLanguage) ??
+		searchParams.get(SettingNames.PrimaryLanguage) ??
 			cookies.get(SettingNames.PrimaryLanguage) ??
 			''
 	);
 	baseUrl.searchParams.append(
 		SettingNames.SecondaryLanguage,
-		requestUrl.searchParams.get(SettingNames.SecondaryLanguage) ??
+		searchParams.get(SettingNames.SecondaryLanguage) ??
 			cookies.get(SettingNames.SecondaryLanguage) ??
 			''
 	);
-	baseUrl.searchParams.append('variety', requestUrl.searchParams.get('variety') ?? '');
-	baseUrl.searchParams.append('shiny', requestUrl.searchParams.get('shiny') ?? '');
-	baseUrl.searchParams.append('gender', requestUrl.searchParams.get('gender') ?? '');
+	baseUrl.searchParams.append('variety', searchParams.get('variety') ?? '');
+	baseUrl.searchParams.append('shiny', searchParams.get('shiny') ?? '');
+	baseUrl.searchParams.append('gender', searchParams.get('gender') ?? '');
 	baseUrl.searchParams.append(
 		'animateSprites',
-		requestUrl.searchParams.get('animateSprites') ?? `${cookies.get(SettingNames.AnimateSprites)}`
+		searchParams.get('animateSprites') ?? `${cookies.get(SettingNames.AnimateSprites)}`
 	);
 
 	const game = getGameGroupFromName(
-		(requestUrl.searchParams.get('game') as PokeapiVersionGroups) ??
-			cookies.get(SettingNames.SelectedGame)
+		(searchParams.get('game') as PokeapiVersionGroups) ?? cookies.get(SettingNames.SelectedGame)
 	);
 	if (game) {
 		baseUrl.searchParams.append('game', game.pokeapi);
 	}
 
 	const showGameSpecificPokemonSprites =
-		requestUrl.searchParams.get(SettingNames.VersionSpecificPokemonSprites) ??
+		searchParams.get(SettingNames.VersionSpecificPokemonSprites) ??
 		cookies.get(SettingNames.VersionSpecificPokemonSprites);
 	baseUrl.searchParams.append('versionSpecificPokemonSprites', `${showGameSpecificPokemonSprites}`);
 
 	const showGameSpecificTypeSprites =
-		(requestUrl.searchParams.get(SettingNames.VersionSpecificPokemonSprites) ??
+		(searchParams.get(SettingNames.VersionSpecificPokemonSprites) ??
 			cookies.get(SettingNames.VersionSpecificPokemonSprites)) === 'true';
 	baseUrl.searchParams.append('versionSpecificTypeSprites', `${showGameSpecificTypeSprites}`);
 

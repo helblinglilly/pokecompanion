@@ -4,7 +4,11 @@ import { PUBLIC_API_HOST } from '$env/static/public';
 
 export async function load({ cookies, url, fetch }) {
 	async function getHomeContents() {
-		const homeUrl = addCookiesAsSearchParams(new URL(`${PUBLIC_API_HOST}/home`), url, cookies);
+		const homeUrl = addCookiesAsSearchParams(
+			new URL(`${PUBLIC_API_HOST}/home`),
+			url.searchParams,
+			cookies
+		);
 
 		const res = await fetch(homeUrl, {
 			credentials: 'include'
