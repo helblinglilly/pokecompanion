@@ -63,9 +63,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get all Tags for a specific user
+        /**
+         * @description Get all Tags for a specific user
          *
-         *     Either: username or userId query params must be provided, OR the request must be authenticated */
+         *     Either: username or userId query params must be provided, OR the request must be authenticated
+         */
         get: operations["getAllTagsForUser"];
         put?: never;
         /** @description Creates a new tag. User must be authenticated. */
@@ -121,10 +123,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Returns all Pokemon within a Tag with enriched information
+        /**
+         * @description Returns all Pokemon within a Tag with enriched information
          *
          *     Different from just looking at tag.contents because this will return user friendly names,
-         *     sprites and slugs for how to navigate to this pokemon */
+         *     sprites and slugs for how to navigate to this pokemon
+         */
         get: operations["getPokemon"];
         put?: never;
         /** @description Adds a Pokemon to a specific tag */
@@ -175,9 +179,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get search results across Pokemon, Items, Moves and Abilities
+        /**
+         * @description Get search results across Pokemon, Items, Moves and Abilities
          *
-         *     Will return the sufficient payload to create preview elements for each */
+         *     Will return the sufficient payload to create preview elements for each
+         */
         get: operations["search"];
         put?: never;
         post?: never;
@@ -375,13 +381,15 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Will require a `provider` cookie to be present and accessible, to contain the contents returned
+        /**
+         * @description Will require a `provider` cookie to be present and accessible, to contain the contents returned
          *     by getAuthMethods call
          *
          *     Sets the auth cookie and authorization header in its response
          *
          *     Redirects to the value of the `redirectUrl` cookie (fully qualified URL) or the referrer
-         *     header if blank. */
+         *     header if blank.
+         */
         get: operations["VerifyOAuthLogin"];
         put?: never;
         post?: never;
@@ -534,9 +542,11 @@ export interface components {
             /** Format: double */
             id: number;
             name: string;
-            /** @description Contains the primary language in first position, and the secondary in second
+            /**
+             * @description Contains the primary language in first position, and the secondary in second
              *
-             *     Deduped */
+             *     Deduped
+             */
             names: string[];
             slug: string;
             damageClass: {
@@ -1032,11 +1042,13 @@ export interface components {
                 own: components["schemas"]["Type"][];
             };
             evolutionChain: {
-                /** @description Indicates wheather both source + target evolutions are present in the current game.
+                /**
+                 * @description Indicates wheather both source + target evolutions are present in the current game.
                  *     An imperfect measure since it is based on the national dex ID and does not take variants
                  *     or gender into account
                  *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
-                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315 */
+                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315
+                 */
                 isValidInGame: boolean;
                 target: {
                     /**
@@ -1110,9 +1122,11 @@ export interface components {
                 displayName: string;
                 name: string;
             }[];
-            /** @description The number of moves in each learn set.
+            /**
+             * @description The number of moves in each learn set.
              *     Only to be used to populate a skeleton laoder. Use /pokemon/:id/moves to
-             *     retrieve the actual moves. */
+             *     retrieve the actual moves.
+             */
             moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._displayName_description-AfriendlydisplaynameforthisPokemonGameGroup_-string--levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___"];
             encounters: components["schemas"]["Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______"];
             stats: components["schemas"]["Record_PokeapiStatType.StatValue_"] & components["schemas"]["Record_average.StatValue_"];
@@ -1461,9 +1475,11 @@ export interface components {
             id: number;
             /** @description Combined name in both languages */
             name: string;
-            /** @description Contains the primary language in first position, and the secondary in second
+            /**
+             * @description Contains the primary language in first position, and the secondary in second
              *
-             *     Deduped */
+             *     Deduped
+             */
             names: string[];
             /** @description Pokecompanion slug */
             slug: string;
@@ -2317,9 +2333,11 @@ export interface operations {
                 gameEntry?: components["schemas"]["PokeapiVersionGroups"];
                 /** @description Search term */
                 term: string;
-                /** @description The page number to get results
+                /**
+                 * @description The page number to get results
                  *
-                 *     Page size is not configurable and defaults to 10 */
+                 *     Page size is not configurable and defaults to 10
+                 */
                 page?: number;
             };
             header?: never;
@@ -2386,9 +2404,11 @@ export interface operations {
                 gameEntry?: components["schemas"]["PokeapiVersionGroups"];
                 /** @description Search term */
                 term: string;
-                /** @description The page number to get results
+                /**
+                 * @description The page number to get results
                  *
-                 *     Page size is not configurable and defaults to 10 */
+                 *     Page size is not configurable and defaults to 10
+                 */
                 page?: number;
             };
             header?: never;
@@ -2446,9 +2466,11 @@ export interface operations {
                 gameEntry?: components["schemas"]["PokeapiVersionGroups"];
                 /** @description Search term */
                 term: string;
-                /** @description The page number to get results
+                /**
+                 * @description The page number to get results
                  *
-                 *     Page size is not configurable and defaults to 10 */
+                 *     Page size is not configurable and defaults to 10
+                 */
                 page?: number;
             };
             header?: never;
@@ -2603,8 +2625,10 @@ export interface operations {
                 page?: number;
                 /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
                 pageSize?: number;
-                /** @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value */
+                /**
+                 * @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value
+                 */
                 jumpTo?: number;
             };
             header?: never;
