@@ -172,6 +172,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/search/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["searchItems"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/search/abilities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["searchAbilities"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/search": {
         parameters: {
             query?: never;
@@ -2452,6 +2484,146 @@ export interface operations {
             };
         };
     };
+    searchItems: {
+        parameters: {
+            query: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                /** @description Search term */
+                term: string;
+                /**
+                 * @description The page number to get results
+                 *
+                 *     Page size is not configurable and defaults to 10
+                 */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Results */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: double */
+                        totalItems: number;
+                        data: {
+                            slug: string;
+                            name: string;
+                            names: string[];
+                            /** Format: double */
+                            id: number;
+                        }[];
+                    };
+                };
+            };
+            /** @description No results */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    searchAbilities: {
+        parameters: {
+            query: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                /** @description Search term */
+                term: string;
+                /**
+                 * @description The page number to get results
+                 *
+                 *     Page size is not configurable and defaults to 10
+                 */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Results */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** Format: double */
+                        totalItems: number;
+                        data: {
+                            effectEntries: {
+                                shortEffect: string;
+                                effect: string;
+                            }[];
+                            names: string[];
+                            name: string;
+                            slug: string;
+                            /** Format: double */
+                            id: number;
+                        }[];
+                    };
+                };
+            };
+            /** @description No results */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     search: {
         parameters: {
             query: {
@@ -2491,8 +2663,32 @@ export interface operations {
                             totalItems: number;
                             data: components["schemas"]["MovePreview"][];
                         };
-                        abilities: unknown[];
-                        items: unknown[];
+                        abilities: {
+                            /** Format: double */
+                            totalItems: number;
+                            data: {
+                                effectEntries: {
+                                    shortEffect: string;
+                                    effect: string;
+                                }[];
+                                names: string[];
+                                name: string;
+                                slug: string;
+                                /** Format: double */
+                                id: number;
+                            }[];
+                        };
+                        items: {
+                            /** Format: double */
+                            totalItems: number;
+                            data: {
+                                slug: string;
+                                name: string;
+                                names: string[];
+                                /** Format: double */
+                                id: number;
+                            }[];
+                        };
                         pokemon: {
                             /** Format: double */
                             totalItems: number;
@@ -2803,6 +2999,7 @@ export interface operations {
                 content: {
                     "application/json": {
                         name: string;
+                        names: string[];
                         /** Format: double */
                         cost: number;
                         /** Format: double */
@@ -3135,6 +3332,7 @@ export interface operations {
                             shortEffect: string;
                             effect: string;
                         }[];
+                        names: string[];
                         name: string;
                         slug: string;
                         /** Format: double */
