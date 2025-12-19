@@ -1,15 +1,29 @@
 <script lang="ts">
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
-	import { getGameFromName, type PokeapiVersionNames } from '$/debt/games';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Select from '$/ui/atoms/select';
-	import { selectedGame } from '$lib/stores/domain';
+	import { meta, selectedGame } from '$lib/stores/domain';
 	import EncounterVersion from './EncounterVersion.svelte';
 
 	export let encounterData: APIPokemon['encounters'];
 
-	$: allGames = (Object.keys(encounterData) as PokeapiVersionNames[]).sort((a, b) => {
-		return getGameFromName(a).globalSortOrder > getGameFromName(b).globalSortOrder ? 1 : -1;
+	$: allGames = Object.keys(encounterData).sort((a, b) => {
+		const aGameIndex =
+			$meta.games
+				.map((metaGames) => {
+					const matching = metaGames.games.find((metaGame) => metaGame.pokeapi === a);
+					return matching?.globalSortOrder ?? -1;
+				})
+				.filter((a) => a > 0)[0] ?? -1;
+		const bGameIndex =
+			$meta.games
+				.map((metaGames) => {
+					const matching = metaGames.games.find((metaGame) => metaGame.pokeapi === b);
+					return matching?.globalSortOrder ?? -1;
+				})
+				.filter((a) => a > 0)[0] ?? -1;
+
+		return aGameIndex > bGameIndex ? 1 : -1;
 	});
 
 	$: currentGame = allGames.some((encounterGame) =>
@@ -38,7 +52,10 @@
 		style="width: 100%; margin-right: 0; max-width: inherit;"
 		isNested
 		options={allGames.map((game) => ({
-			label: getGameFromName(game).shortName,
+			label:
+				$meta.games.filter((metaGames) =>
+					metaGames.games.find((metaGame) => metaGame.pokeapi === game)
+				)[0]?.shortName ?? '',
 			value: game
 		}))}
 		value={allGames.findIndex((game) => game === currentGame) > 0

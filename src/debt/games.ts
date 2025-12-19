@@ -622,22 +622,6 @@ export const isPokemonInGameGroup = (nationalDexId: number, gameGroup: IGameGrou
 	return nationalDexId < gameGroup.generation.nationalDexEnd;
 };
 
-export const getGameFromName = (
-	pokeapiname: PokeapiVersionNames | undefined
-): { shortName: string; pokeapi: PokeapiVersionNames; globalSortOrder: number } => {
-	const matching = GameGroups.find((game) => {
-		return game.games.some((game) => game.pokeapi === pokeapiname);
-	});
-
-	const home = { shortName: 'Home', pokeapi: PokeapiVersionNames.HOME, globalSortOrder: 1 };
-
-	if (!matching) {
-		return home;
-	}
-
-	return matching.games.find((game) => game.pokeapi === pokeapiname) ?? home;
-};
-
 export interface IStaticPokemon {
 	id: number;
 	generation: number;
