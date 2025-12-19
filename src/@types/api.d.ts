@@ -1155,6 +1155,13 @@ export interface components {
                 name: string;
             }[];
             /**
+             * @description This Pokemon's Pokecompanion URL
+             *
+             *     To be used when a faulty Pokemon request was made (id > 10000) to
+             *     keep malicious traffic on track
+             */
+            slug: string;
+            /**
              * @description The number of moves in each learn set.
              *     Only to be used to populate a skeleton laoder. Use /pokemon/:id/moves to
              *     retrieve the actual moves.

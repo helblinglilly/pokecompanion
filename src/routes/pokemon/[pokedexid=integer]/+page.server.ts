@@ -1,7 +1,7 @@
 import type { paths } from '$/@types/api.js';
 import type { APIPokemon } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { addCookiesAsSearchParams } from '$/lib/api/fetch';
 
 export const load = async ({ params, fetch, url, cookies }) => {
@@ -43,6 +43,11 @@ export const load = async ({ params, fetch, url, cookies }) => {
 		});
 		const body = (await request.json()) as APIPokemon;
 
+		// Redirect mon's so that subsequent API calls work correctly
+		if (Number(params.pokedexid) >= 10000) {
+			redirect(308, body.slug);
+		}
+
 		return {
 			...body,
 			abilities: body.abilities.map((ability) => {
@@ -54,7 +59,21 @@ export const load = async ({ params, fetch, url, cookies }) => {
 			fullMoves: getFullMoves()
 		};
 	} catch (err) {
-		console.error(err);
+		if (
+			err !== null &&
+			typeof err === 'object' &&
+			'status' in err &&
+			typeof err.status === 'number'
+		) {
+			if (
+				err.status >= 300 &&
+				err.status <= 308 &&
+				'location' in err &&
+				typeof err.location === 'string'
+			) {
+				redirect(err.status, err.location);
+			}
+		}
 		error(500, `Failed to parse JSON response from internal API`);
 	}
 };
