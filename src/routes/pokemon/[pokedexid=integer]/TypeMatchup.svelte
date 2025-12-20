@@ -1,7 +1,11 @@
 <script lang="ts">
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 	import Image from '$/ui/atoms/image/Image.svelte';
-	export let types: APIPokemon['types'];
+	interface Props {
+		types: APIPokemon['types'];
+	}
+
+	let { types }: Props = $props();
 </script>
 
 <div class="grid grid-cols-1 sm:grid-cols-2">

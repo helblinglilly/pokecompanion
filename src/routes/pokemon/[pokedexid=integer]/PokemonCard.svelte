@@ -9,25 +9,29 @@
 	import SpritePreview from './SpritePreview.svelte';
 	import Pokedex from './Pokedex.svelte';
 	import { tagStore } from '$/lib/stores/tags';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 
-	export let data: APIPokemon;
+	interface Props {
+		data: APIPokemon;
+	}
 
-	$: hasShinySprite = data.sprites.some((sprite) => sprite.hasShiny);
-	$: hasFemaleSprite = data.sprites.some((sprite) => sprite.hasFemale);
+	let { data }: Props = $props();
 
-	const genderParam = $page.url.searchParams.get('gender');
+	let hasShinySprite = $derived(data.sprites.some((sprite) => sprite.hasShiny));
+	let hasFemaleSprite = $derived(data.sprites.some((sprite) => sprite.hasFemale));
+
+	const genderParam = page.url.searchParams.get('gender');
 	const gender = genderParam === 'male' ? 'male' : genderParam === 'female' ? 'female' : undefined;
 
 	const changeUrlQueryParam = (param: string, value: string) => {
-		const newUrl = new URL($page.url);
+		const newUrl = new URL(page.url);
 		newUrl.searchParams.set(param, value);
 		goto(newUrl.toString(), { noScroll: true, keepFocus: false });
 	};
 
 	const deleteUrlQueryParam = (param: string) => {
-		const newUrl = new URL($page.url);
+		const newUrl = new URL(page.url);
 		newUrl.searchParams.delete(param);
 		goto(newUrl.toString(), { noScroll: true, keepFocus: false });
 	};
@@ -45,7 +49,7 @@
 			</div>
 		{/each}
 		{#if data.types.own.length === 1}
-			<div class="w-full" />
+		<div class="w-full"></div>
 		{/if}
 	</div>
 
@@ -67,9 +71,9 @@
 				hasFemaleSprite: hasFemaleSprite,
 				showFemaleSpriteIfExists: gender === 'female',
 				hasShinySprite: hasShinySprite,
-				showShinySpriteIfExists: $page.url.searchParams.get('shiny') === 'true',
+				showShinySpriteIfExists: page.url.searchParams.get('shiny') === 'true',
 				gender,
-				variety: $page.url.searchParams.get('variety') ?? undefined
+				variety: page.url.searchParams.get('variety') ?? undefined
 			}}
 		/>
 	</div>
@@ -81,9 +85,9 @@
 					hasFemaleSprite: hasFemaleSprite,
 					showFemaleSpriteIfExists: gender === 'female',
 					hasShinySprite: hasShinySprite,
-					showShinySpriteIfExists: $page.url.searchParams.get('shiny') === 'true',
+					showShinySpriteIfExists: page.url.searchParams.get('shiny') === 'true',
 					gender,
-					variety: $page.url.searchParams.get('variety') ?? undefined
+					variety: page.url.searchParams.get('variety') ?? undefined
 				}}
 			/>
 		{/if}
@@ -92,8 +96,8 @@
 			pokemon={{
 				id: data.id,
 				gender: gender,
-				shiny: $page.url.searchParams.get('shiny') === 'true',
-				variety: $page.url.searchParams.get('variety') ?? undefined
+				shiny: page.url.searchParams.get('shiny') === 'true',
+				variety: page.url.searchParams.get('variety') ?? undefined
 			}}
 		/>
 	</div>
@@ -105,8 +109,8 @@
 		data-umami-event="PokemonShiny"
 		class="triangle right"
 		style={`border-bottom-color: #f0e45f;`}
-		on:click={() => {
-			const isOnShiny = $page.url.searchParams.get('shiny') === 'true';
+		onclick={() => {
+			const isOnShiny = page.url.searchParams.get('shiny') === 'true';
 
 			if (isOnShiny) {
 				deleteUrlQueryParam('shiny');
@@ -115,7 +119,7 @@
 			}
 		}}
 	>
-		{#if $page.url.searchParams.get('shiny') === 'true'}
+		{#if page.url.searchParams.get('shiny') === 'true'}
 			<Icon name="spark-full" style="margin-top: 1.8rem; margin-left: -2rem;" />
 		{:else}
 			<Icon name="spark" style="margin-top: 1.8rem; margin-left: -2rem;" />
@@ -131,7 +135,7 @@
 		style={`border-bottom-color: ${
 			hasFemaleSprite && gender === 'female' ? '#f6abd9' : '#7fbbf0'
 		};`}
-		on:click={() => {
+		onclick={() => {
 			const currentGender = gender === 'female' ? 'female' : 'male';
 
 			if (currentGender === 'female') {

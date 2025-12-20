@@ -4,8 +4,12 @@
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import type { APITag } from '$/@types/api.pokecompanion';
 
-	export let entry: Pick<APITag['tags'][number], 'isPrivate' | 'name' | 'owner' | 'description'>;
-	export let inModifyView: boolean;
+	interface Props {
+		entry: Pick<APITag['tags'][number], 'isPrivate' | 'name' | 'owner' | 'description'>;
+		inModifyView: boolean;
+	}
+
+	let { entry, inModifyView = $bindable() }: Props = $props();
 </script>
 
 <div>
@@ -21,7 +25,7 @@
 			<Button
 				variant={inModifyView ? 'primary' : 'secondary'}
 				classes="h-full"
-				on:click={() => (inModifyView = !inModifyView)}
+				onclick={() => (inModifyView = !inModifyView)}
 			>
 				{#if inModifyView}
 					<p>Done</p>

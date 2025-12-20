@@ -1,53 +1,11 @@
 import type { paths } from '$/@types/api';
-import type { APITag, ITag } from '$/@types/api.pokecompanion';
+import type { APITag } from '$/@types/api.pokecompanion';
 import { Logger } from '$/debt/log';
 import { addNotification } from '$/lib/stores/notifications';
+import { invalidate } from '$app/navigation';
 import { PUBLIC_API_HOST } from '$env/static/public';
 
-type ITagEntryGenerics = {
-	added: string;
-	id: number;
-};
-export function getSortFunction(key: ITag['sortKey'], direction: ITag['sortOrder']) {
-	const sortByDateDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics): -1 | 1 => {
-		return new Date(a.added).valueOf() < new Date(b.added).valueOf() ? 1 : -1;
-	};
-
-	const sortByDateAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics): -1 | 1 => {
-		return new Date(a.added).valueOf() > new Date(b.added).valueOf() ? 1 : -1;
-	};
-
-	const sortByIdDesc = (a: ITagEntryGenerics, b: ITagEntryGenerics): -1 | 1 => {
-		return a.id < b.id ? 1 : -1;
-	};
-
-	const sortByIdAsc = (a: ITagEntryGenerics, b: ITagEntryGenerics): -1 | 1 => {
-		return a.id > b.id ? 1 : -1;
-	};
-
-	let sortFunction = sortByIdAsc;
-	if (key === 'id') {
-		if (direction === 'asc') {
-			sortFunction = sortByIdAsc;
-		} else {
-			sortFunction = sortByIdDesc;
-		}
-	} else if (key === 'added') {
-		if (direction === 'asc') {
-			sortFunction = sortByDateAsc;
-		} else {
-			sortFunction = sortByDateDesc;
-		}
-	}
-
-	return {
-		sortFunction,
-		sortKey: key.toLowerCase() as 'id' | 'added' | 'alphabetical' | 'custom',
-		sortOrder: direction.toLowerCase() as 'asc' | 'desc' | 'custom'
-	};
-}
-
-export function patchTag(
+export async function patchTag(
 	tag: paths['/tags/{tagId}']['patch']['requestBody']['content']['application/json'] & {
 		id: string;
 	}
@@ -64,6 +22,7 @@ export function patchTag(
 			if (res.status !== 200) {
 				throw new Error(`Non-200 status code ${res.status}`);
 			}
+			invalidate(`tag:${tag.id}`);
 			return (await res.json()) as APITag['tags'][number];
 		})
 		.catch((err) => {

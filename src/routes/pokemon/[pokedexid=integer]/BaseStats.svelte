@@ -1,7 +1,11 @@
 <script lang="ts">
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 
-	export let data: APIPokemon['stats'];
+	interface Props {
+		data: APIPokemon['stats'];
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <table>
@@ -21,8 +25,8 @@
 			<td class="data">
 				<p>{data.hp.stat}</p>
 				<div class="wrapper">
-					<progress value={data.hp.stat} max="220" />
-					<div class="average-marker" />
+					<progress value={data.hp.stat} max="220"></progress>
+					<div class="average-marker"></div>
 				</div>
 			</td>
 		</tr>
@@ -34,8 +38,8 @@
 			<td class="data">
 				<p>{data.attack.stat}</p>
 				<div class="wrapper">
-					<progress value={data.attack.stat} max="220" />
-					<div class="average-marker" />
+					<progress value={data.attack.stat} max="220"></progress>
+					<div class="average-marker"></div>
 				</div>
 			</td></tr
 		>
@@ -47,8 +51,8 @@
 			<td class="data">
 				<p>{data.defense.stat}</p>
 				<div class="wrapper">
-					<progress value={data.defense.stat} max="220" />
-					<div class="average-marker" />
+					<progress value={data.defense.stat} max="220"></progress>
+					<div class="average-marker"></div>
 				</div>
 			</td>
 		</tr>
@@ -60,8 +64,8 @@
 			<td class="data">
 				<p>{data.speed.stat}</p>
 				<div class="wrapper">
-					<progress value={data.speed.stat} max="220" />
-					<div class="average-marker" />
+					<progress value={data.speed.stat} max="220"></progress>
+					<div class="average-marker"></div>
 				</div>
 			</td>
 		</tr>
@@ -73,8 +77,8 @@
 			<td class="data">
 				<p>{data['special-attack'].stat}</p>
 				<div class="wrapper">
-					<progress value={data['special-attack'].stat} max="220" />
-					<div class="average-marker" />
+					<progress value={data['special-attack'].stat} max="220"></progress>
+					<div class="average-marker"></div>
 				</div>
 			</td>
 		</tr>
@@ -86,8 +90,8 @@
 			<td class="data">
 				<p>{data['special-defense'].stat}</p>
 				<div class="wrapper">
-					<progress value={data['special-defense'].stat} max="220" />
-					<div class="average-marker" />
+					<progress value={data['special-defense'].stat} max="220"></progress>
+					<div class="average-marker"></div>
 				</div>
 			</td>
 		</tr>
@@ -101,8 +105,8 @@
 			<td class="data">
 				<p><b>{data.average.stat}</b></p>
 				<div class="wrapper">
-					<progress value={data.average.stat} max="220" />
-					<div class="average-marker" />
+					<progress value={data.average.stat} max="220"></progress>
+					<div class="average-marker"></div>
 				</div>
 			</td>
 		</tr>

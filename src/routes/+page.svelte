@@ -8,17 +8,7 @@
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card/PokemonCardEntry.svelte';
 
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
-	export let data;
-
-	/**
-	 * Styling:
-	 * Tailwind will take a while to load and apply, especially on slower network
-	 * conntections
-	 *
-	 * Styling elements that affect the layout have been done inline to avoid
-	 * layout shift as the site/assets load in
-	 *
-	 */
+	let { data } = $props();
 </script>
 
 <SocialPreview previewImage={`https://socialpreviews.pokecompanion.helbling.uk/home.png`} />
@@ -50,7 +40,7 @@
 							: data.games
 							? data.games[data.games.length - 1]?.pokeapi
 							: undefined}
-						on:change={async ({ detail }) => {
+						onchange={async (detail) => {
 							const game = $meta.games.find((metaGame) => metaGame.pokeapi === detail);
 							if (game) {
 								selectedGame.set(game);

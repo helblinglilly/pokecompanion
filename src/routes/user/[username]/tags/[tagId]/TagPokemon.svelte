@@ -1,17 +1,13 @@
 <script lang="ts">
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card';
-	import { page } from '$app/stores';
-	import { getContext } from 'svelte';
-	import { type Writable } from 'svelte/store';
+	import { page } from '$app/state';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
 	import type { APITag } from '$/@types/api.pokecompanion';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { termNormaliser } from '$/lib/utils/string';
-
-	export let inModifyView: boolean;
-	export let filterTerm: string;
+	import { invalidate } from '$app/navigation';
 
 	async function deletePokemonFromTag(pokemon: {
 		variety: string;
@@ -19,7 +15,7 @@
 		id: number;
 		gender?: 'male' | 'female';
 	}) {
-		const res = await fetch(PUBLIC_API_HOST + `/tags/${$tag.id}/pokemon`, {
+		const res = await fetch(PUBLIC_API_HOST + `/tags/${tag.id}/pokemon`, {
 			method: 'DELETE',
 			body: JSON.stringify({
 				...pokemon
@@ -31,9 +27,7 @@
 		});
 
 		if (res.status === 200) {
-			const body: paths['/tags/{tagId}/pokemon']['delete']['responses']['200']['content']['application/json'] =
-				await res.json();
-			tag.set(body);
+			invalidate(`tag:${tag.id}`);
 		} else {
 			addNotification({
 				message: 'Failed to remove move from tag',
@@ -42,20 +36,27 @@
 		}
 	}
 
-	let tag = getContext('tag') as Writable<APITag['tags'][number]>;
+	interface Props {
+		inModifyView: boolean;
+		filterTerm: string;
+		allPokemon: paths['/tags/{tagId}/pokemon']['get']['responses']['200']['content']['application/json'];
+		tag: APITag['tags'][number];
+	}
 
-	export let allPokemon: paths['/tags/{tagId}/pokemon']['get']['responses']['200']['content']['application/json'];
+	let { inModifyView, filterTerm, allPokemon, tag }: Props = $props();
 
-	$: pokemonCollection = allPokemon?.filter((pokemon) => {
-		if (!filterTerm) {
-			return true;
-		}
-		const normalised = termNormaliser(filterTerm);
-		const matchesId = `${pokemon.id}`.includes(normalised);
+	let pokemonCollection = $derived(
+		allPokemon?.filter((pokemon) => {
+			if (!filterTerm) {
+				return true;
+			}
+			const normalised = termNormaliser(filterTerm);
+			const matchesId = `${pokemon.id}`.includes(normalised);
 
-		const matchesName = termNormaliser(pokemon.name).includes(normalised);
-		return matchesId || matchesName;
-	});
+			const matchesName = termNormaliser(pokemon.name).includes(normalised);
+			return matchesId || matchesName;
+		})
+	);
 </script>
 
 {#if pokemonCollection.length === 0}
@@ -65,7 +66,7 @@
 
 	<div
 		class={`grid ${
-			$page.url.searchParams.get('view') === 'card'
+			page.url.searchParams.get('view') === 'card'
 				? 'gap-8 justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl-grid-cols-6'
 				: 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'
 		}`}
@@ -75,42 +76,44 @@
 				href={inModifyView ? undefined : pokemon.slug}
 				style="text-decoration-line: unset; width: 100%;"
 			>
-				{#if $page.url.searchParams.get('view') === 'card'}
+				{#if page.url.searchParams.get('view') === 'card'}
 					<PokemonCardEntry
 						{pokemon}
 						shiny={pokemon.shiny}
 						gender={pokemon.gender}
-						showGenderAndShiny={$tag.showGenderAndShiny}
+						showGenderAndShiny={tag.showGenderAndShiny}
 						isClickable={!inModifyView}
 					>
-						<button
-							slot="remove"
-							class={`removeButton ${inModifyView ? '' : 'hidden'}`}
-							on:click={async () => {
-								await deletePokemonFromTag({
-									...pokemon,
-									shiny: pokemon.shiny ?? false
-								});
-							}}>-</button
-						>
+						{#snippet remove()}
+							<button
+								class={`removeButton ${inModifyView ? '' : 'hidden'}`}
+								onclick={async () => {
+									await deletePokemonFromTag({
+										...pokemon,
+										shiny: pokemon.shiny ?? false
+									});
+								}}>-</button
+							>
+						{/snippet}
 					</PokemonCardEntry>
 				{:else}
 					<PokemonListEntry
 						{pokemon}
 						shiny={pokemon.shiny}
 						gender={pokemon.gender}
-						showGenderAndShiny={$tag.showGenderAndShiny}
+						showGenderAndShiny={tag.showGenderAndShiny}
 					>
-						<button
-							slot="remove"
-							class={`removeButton ${inModifyView ? '' : 'hidden'}`}
-							on:click={async () => {
-								await deletePokemonFromTag({
-									...pokemon,
-									shiny: pokemon.shiny ?? false
-								});
-							}}>-</button
-						>
+						{#snippet remove()}
+							<button
+								class={`removeButton ${inModifyView ? '' : 'hidden'}`}
+								onclick={async () => {
+									await deletePokemonFromTag({
+										...pokemon,
+										shiny: pokemon.shiny ?? false
+									});
+								}}>-</button
+							>
+						{/snippet}
 					</PokemonListEntry>
 				{/if}
 			</a>

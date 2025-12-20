@@ -7,7 +7,7 @@
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 
-	let showModal = false;
+	let showModal = $state(false);
 
 	const onDeleteClick = async () => {
 		try {
@@ -32,17 +32,19 @@
 	};
 </script>
 
-<Button classes="error" on:click={() => (showModal = true)}>Delete my account</Button>
+<Button classes="error" onclick={() => (showModal = true)}>Delete my account</Button>
 
 <Modal bind:showModal>
-	<h2 class="h2" slot="header">Confirm deletion?</h2>
+	{#snippet header()}
+		<h2 class="h2">Confirm deletion?</h2>
+	{/snippet}
 
 	<div class="h-full mt-4">
 		<p class="p-4">Are you sure you want to delete your user account?</p>
 
 		<div class="inline-flex h-full justify-between p-4 w-full pt-8">
-			<Button classes="error" on:click={onDeleteClick}>Yes, delete</Button>
-			<Button variant="secondary" on:click={() => (showModal = false)}>No, go back!</Button>
+			<Button classes="error" onclick={onDeleteClick}>Yes, delete</Button>
+			<Button variant="secondary" onclick={() => (showModal = false)}>No, go back!</Button>
 		</div>
 	</div>
 </Modal>

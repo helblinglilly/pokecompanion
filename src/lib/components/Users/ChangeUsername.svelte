@@ -8,14 +8,16 @@
 	import { addNotification } from '$/lib/stores/notifications';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 
-	export let existingUsername: string;
+	interface Props {
+		existingUsername: string;
+	}
 
-	let newUsername = '';
-	let statusMessages: string[] = [];
+	let { existingUsername }: Props = $props();
 
-	let showModal = false;
+	let newUsername = $state('');
+	let statusMessages: string[] = $state([]);
 
-	$: isValid = validateUsername(newUsername);
+	let showModal = $state(false);
 
 	function validateUsername(username: string) {
 		let valid = true;
@@ -42,6 +44,10 @@
 		}
 
 		statusMessages = ['Loading...'];
+
+		if (!validateUsername(newUsername)){
+		  throw new Error('Username is not valid');
+		}
 
 		try {
 			const response = await fetch(`${PUBLIC_API_HOST}/user/${$currentUser.id}`, {
@@ -77,7 +83,7 @@
 	<Button
 		variant="default"
 		classes="gap-4 w-full inline-flex gap-4 justify-center"
-		on:click={() => {
+		onclick={() => {
 			showModal = true;
 		}}
 	>
@@ -86,8 +92,10 @@
 	</Button>
 {/if}
 
-<Modal bind:showModal classes="md:w-[40rem] md:h-[20rem]">
-	<h2 class="h2" slot="header">Update username</h2>
+<Modal bind:showModal>
+	{#snippet header()}
+		<h2 class="h2">Update username</h2>
+	{/snippet}
 
 	<div class="grid gap-4 p-8">
 		<div>
@@ -106,8 +114,7 @@
 
 		<Button
 			variant="accent"
-			isDisabled={!isValid}
-			on:click={async () => {
+			onclick={async () => {
 				const result = await updateUsername();
 				showModal = false;
 

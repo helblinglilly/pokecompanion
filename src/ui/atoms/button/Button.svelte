@@ -1,16 +1,31 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	interface Props {
+		variant?: 'accent' | 'primary' | 'secondary' | 'default';
+		isNested?: boolean;
+		isDisabled?: boolean;
+		active?: boolean;
+		label?: string;
+		classes?: string;
+		style?: string;
+		type?: 'submit' | 'reset' | 'button';
+		onclick?: (event: MouseEvent) => void;
+		children?: import('svelte').Snippet;
+		[key: string]: any;
+	}
 
-	export let variant: 'accent' | 'primary' | 'secondary' | 'default' = 'default';
-	export let isNested: boolean = false;
-	export let isDisabled: boolean = false;
-	export let active: boolean = false;
-	export let label: string = '';
-	export let classes: string = '';
-	export let style: string = '';
-	export let type: 'submit' | 'reset' | 'button' = 'button';
-
-	const dispatch = createEventDispatcher();
+	let {
+		variant = 'default',
+		isNested = false,
+		isDisabled = false,
+		active = false,
+		label = '',
+		classes = '',
+		style = '',
+		type = 'button',
+		onclick,
+		children,
+		...rest
+	}: Props = $props();
 </script>
 
 <button
@@ -20,13 +35,11 @@
 	} ${classes}`}
 	{style}
 	disabled={isDisabled}
-	{...$$restProps}
-	on:click={() => {
-		dispatch('click');
-	}}
+	{onclick}
+	{...rest}
 >
 	{label}
-	<slot />
+	{@render children?.()}
 </button>
 
 <style>

@@ -8,7 +8,7 @@
 
 <Button
 	variant="primary"
-	on:click={async () => {
+	onclick={async () => {
 		if (!$currentUser) {
 			return;
 		}

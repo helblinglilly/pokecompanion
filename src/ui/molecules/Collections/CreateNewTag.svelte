@@ -4,41 +4,44 @@
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { refetchTags } from '$/lib/stores/tags';
-	import { createEventDispatcher } from 'svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
 	import type { APITagCreateRequestBody } from '$/@types/api.pokecompanion';
 	import { invalidate } from '$app/navigation';
 
-	export let pokemon: NonNullable<APITagCreateRequestBody['pokemon']>[number] | undefined =
-		undefined;
-	export let move: NonNullable<APITagCreateRequestBody['move']>[number] | undefined = undefined;
+	interface Props {
+		pokemon?: NonNullable<APITagCreateRequestBody['pokemon']>[number] | undefined;
+		move?: NonNullable<APITagCreateRequestBody['move']>[number] | undefined;
+		onsuccess?: (event: CustomEvent<paths['/tags']['post']['requestBody']['content']['application/json']>) => void;
+	}
 
-	const dispatch = createEventDispatcher();
+	let { pokemon = undefined, move = undefined, onsuccess }: Props = $props();
 
-	let showAddNewOverlay: boolean;
+	let showAddNewOverlay: boolean = $state(false);
 
-	let name: string;
-	let isPrivate: boolean;
+	let name: string = $state('');
+	let isPrivate: boolean = $state(false);
 
-	$: requestBody = (): paths['/tags']['post']['requestBody']['content']['application/json'] => ({
-		name,
-		isPrivate: !!isPrivate,
-		description: '',
-		isHiddenAcrossSite: false,
-		showGenderAndShiny: true,
-		contents: {
-			pokemon: pokemon ? [pokemon] : [],
-			move: move ? [move] : []
-		}
-	});
+	let requestBody = $derived(
+		(): paths['/tags']['post']['requestBody']['content']['application/json'] => ({
+			name,
+			isPrivate: !!isPrivate,
+			description: '',
+			isHiddenAcrossSite: false,
+			showGenderAndShiny: true,
+			contents: {
+				pokemon: pokemon ? [pokemon] : [],
+				move: move ? [move] : []
+			}
+		})
+	);
 </script>
 
 {#if $currentUser}
 	<Button
 		classes="h-2 text-sm md:min-h-fit relative z-20"
 		variant="accent"
-		on:click={() => {
+		onclick={() => {
 			showAddNewOverlay = true;
 		}}
 	>
@@ -46,14 +49,16 @@
 	</Button>
 
 	<Modal bind:showModal={showAddNewOverlay}>
-		<h2 class="h2" slot="header">Create new tag</h2>
+		{#snippet header()}
+			<h2 class="h2">Create new tag</h2>
+		{/snippet}
 
 		<form class="grid gap-4 w-full">
 			<div class="inline-flex gap-2 justify-center">
 				<input type="text" class="w-6/12" placeholder="Tag name" bind:value={name} />
 				<Button
 					variant="accent"
-					on:click={async () => {
+					onclick={async () => {
 						const res = await fetch(`${PUBLIC_API_HOST}/tags`, {
 							method: 'POST',
 							body: JSON.stringify(requestBody()),
@@ -70,7 +75,7 @@
 							});
 
 							refetchTags($currentUser.id);
-							dispatch('success', requestBody);
+							onsuccess?.(new CustomEvent('success', { detail: requestBody() }));
 							showAddNewOverlay = false;
 							invalidate('tags');
 							return;
@@ -108,7 +113,7 @@
 					type="checkbox"
 					id="isPrivate"
 					class="nested"
-					on:change={(e) => {
+					onchange={(e) => {
 						isPrivate = e.currentTarget.checked;
 					}}
 				/>

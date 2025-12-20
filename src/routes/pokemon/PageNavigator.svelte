@@ -4,7 +4,11 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
-	export let pagination: APIPokemonRootPreview['pagination'];
+	interface Props {
+		pagination: APIPokemonRootPreview['pagination'];
+	}
+
+	let { pagination }: Props = $props();
 
 	onMount(() => {
 		document.addEventListener('keydown', (e) => {

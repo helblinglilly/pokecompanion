@@ -2,18 +2,29 @@
 	import { theme } from '$lib/stores/domain';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import Card from '$/ui/atoms/card';
-	import { createEventDispatcher } from 'svelte';
 	import Image from '$/ui/atoms/image';
 	import type { paths } from '$/@types/api';
 
-	export let pokemon: paths['/pokemon/{id}/preview']['get']['responses']['200']['content']['application/json'];
-	export let shiny: boolean | undefined;
-	export let gender: 'male' | 'female' | undefined;
-	export let showGenderAndShiny = false;
 
-	const dispatch = createEventDispatcher();
+	interface Props {
+		pokemon: paths['/pokemon/{id}/preview']['get']['responses']['200']['content']['application/json'];
+		shiny: boolean | undefined;
+		gender: 'male' | 'female' | undefined;
+		showGenderAndShiny?: boolean;
+		cardActiveState?: boolean;
+		remove?: import('svelte').Snippet;
+		onclick?: (_: any) => void;
+	}
 
-	export let cardActiveState = false;
+	let {
+		pokemon,
+		shiny,
+		gender,
+		showGenderAndShiny = false,
+		cardActiveState = $bindable(false),
+		remove,
+		onclick,
+	}: Props = $props();
 </script>
 
 <Card
@@ -24,8 +35,10 @@
 	style={`position: relative; padding: 0.5rem; ${
 		cardActiveState ? 'background-color: var(--card-hover);' : ''
 	}`}
-	on:click={() => {
-		dispatch('click', pokemon);
+	onclick={() => {
+		if (onclick){
+		onclick(pokemon);
+		}
 		cardActiveState = true;
 	}}
 >
@@ -40,7 +53,7 @@
 					height="64px"
 				/>
 			{:else}
-				<div />
+				<div></div>
 			{/if}
 		</div>
 
@@ -82,11 +95,11 @@
 					style={`fill: ${$theme === 'dark' ? '#99b3ff' : '#3366ff'}; margin: auto;`}
 				/>
 			{:else}
-				<div style="width: 1rem;" />
+				<div style="width: 1rem;"></div>
 			{/if}
 		{/if}
 	</div>
-	<slot name="remove" />
+	{@render remove?.()}
 </Card>
 
 <style>

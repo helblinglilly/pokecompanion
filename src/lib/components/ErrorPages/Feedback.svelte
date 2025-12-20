@@ -3,8 +3,12 @@
 	import { goto } from '$app/navigation';
 	import { addNotification } from '$lib/stores/notifications';
 
-	export let placeholder = 'What are your thoughts?';
-	let freetext = '';
+	interface Props {
+		placeholder?: string;
+	}
+
+	let { placeholder = 'What are your thoughts?' }: Props = $props();
+	let freetext = $state('');
 
 	const onSubmit = async () => {
 		Logger.addPageAction('UserFeedback', {
@@ -17,8 +21,8 @@
 </script>
 
 <div>
-	<form on:submit={onSubmit}>
-		<textarea bind:value={freetext} {placeholder} />
+	<form onsubmit={onSubmit}>
+		<textarea bind:value={freetext} {placeholder}></textarea>
 
 		<button class="button" type="submit">Submit Feedback</button>
 	</form>

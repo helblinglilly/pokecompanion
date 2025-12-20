@@ -1,21 +1,34 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	interface Props {
+		options?: { label: string; value: string; disabled?: boolean }[];
+		value?: string;
+		style?: string;
+		defaultValue?: string;
+		isNested?: boolean;
+		name?: string;
+		onchange?: (value: string) => void;
+		oninput?: (value: string) => void;
+		[key: string]: any;
+	}
 
-	export let options: { label: string; value: string; disabled?: boolean }[] = [];
-	export let value = '';
-	export let style = '';
-	export let defaultValue = '';
-	export let isNested = false;
-	export let name = '';
-
-	const dispatch = createEventDispatcher();
+	let {
+		options = [],
+		value = $bindable(''),
+		style = '',
+		defaultValue = '',
+		isNested = false,
+		name = '',
+		onchange,
+		oninput,
+		...rest
+	}: Props = $props();
 
 	function triggerOnChange(event: Event & { currentTarget: EventTarget & HTMLSelectElement }) {
 		const eventTarget = event.target as HTMLInputElement;
 
 		if (eventTarget?.value) {
-			dispatch('change', eventTarget.value);
-			dispatch('input', eventTarget.value);
+			onchange?.(eventTarget.value);
+			oninput?.(eventTarget.value);
 		}
 	}
 </script>
@@ -25,10 +38,10 @@
 	class={`select${isNested ? ' nested' : ''}`}
 	{style}
 	bind:value
-	on:change={(e) => {
+	onchange={(e) => {
 		triggerOnChange(e);
 	}}
-	{...$$restProps}
+	{...rest}
 >
 	{#each options as option}
 		<option

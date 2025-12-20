@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import TypeMatchup from './TypeMatchup.svelte';
@@ -16,7 +16,7 @@
 	import Navigator from './Navigator.svelte';
 	import PokemonCard from './PokemonCard.svelte';
 
-	export let data;
+	let { data } = $props();
 
 	onMount(() => {
 		document.addEventListener('keydown', (e) => {
@@ -40,9 +40,9 @@
 
 	<meta property="og:type" content="website" />
 
-	<meta property="og:url" content={$page.url.origin} />
-	<meta property="twitter:url" content={$page.url.origin} />
-	<meta property="twitter:domain" content={$page.url.hostname} />
+	<meta property="og:url" content={page.url.origin} />
+	<meta property="twitter:url" content={page.url.origin} />
+	<meta property="twitter:domain" content={page.url.hostname} />
 
 	<meta name="twitter:card" content="summary_large_image" />
 
@@ -57,7 +57,7 @@
 	]}
 />
 
-{#key `${data.id}-${$page.url.searchParams.get('variety')}-${$page.url.searchParams.get('shiny')}-${$page.url.searchParams.get('gender')}`}
+{#key `${data.id}-${page.url.searchParams.get('variety')}-${page.url.searchParams.get('shiny')}-${page.url.searchParams.get('gender')}`}
 	<div class="grid gap-4">
 		<Navigator title={`${data.name}`} currentId={data.id} varieties={data.varieties} />
 

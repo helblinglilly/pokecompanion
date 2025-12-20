@@ -1,3 +1,3 @@
-import PokemonListEntry from "./PokemonListEntry.svelte";
+import PokemonListEntry from './PokemonListEntry.svelte';
 
 export default PokemonListEntry;

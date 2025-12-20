@@ -1,5 +1,5 @@
 <script>
-	import { page } from '$app/stores';
+  import { page } from '$app/state';
 	import Feedback from '$/lib/components/ErrorPages/Feedback.svelte';
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import { Logger } from '$/debt/log';
@@ -14,9 +14,9 @@
 
 <Image src="/missingno.png" alt="missingno" style="margin-left: auto; margin-right: auto;" />
 
-<h2 class="h2">{$page.status} - Something went wrong</h2>
+<h2 class="h2">{page.status} - Something went wrong</h2>
 
-<p>{$page.error?.message}</p>
+<p>{page.error?.message}</p>
 
 <div style="margin-top: 1rem;">
 	<p>

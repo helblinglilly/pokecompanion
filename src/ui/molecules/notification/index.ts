@@ -1,3 +1,3 @@
-import Notification from "./Notification.svelte";
+import Notification from './Notification.svelte';
 
 export default Notification;

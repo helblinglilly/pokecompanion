@@ -30,7 +30,7 @@
 
 <button
 	class="w-32 h-12 md:w-fit md:px-4 md:ml-auto min-h-full"
-	on:click={() => {
+	onclick={() => {
 		if ($theme === 'light') {
 			theme.set('dark');
 		} else {

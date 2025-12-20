@@ -4,12 +4,19 @@
 	import Move from './Move.svelte';
 	import type { paths } from '$/@types/api';
 
-	export let completeData: paths['/pokemon/{id}/moves']['get']['responses']['200']['content']['application/json']['black-2-white-2'];
+	interface Props {
+		completeData: paths['/pokemon/{id}/moves']['get']['responses']['200']['content']['application/json']['black-2-white-2'];
+	}
 
-	$: showLevelMovesOnMobile = false;
-	$: showTmMovesOnMobile = false;
-	$: showBreedMovesOnMobile = false;
-	$: showTutoredMovesOnMobile = false;
+	let { completeData }: Props = $props();
+
+	let showLevelMovesOnMobile = $state(false);
+
+	let showTmMovesOnMobile = $state(false);
+
+	let showBreedMovesOnMobile = $state(false);
+
+	let showTutoredMovesOnMobile = $state(false);
 </script>
 
 <div class="container pt-2">
@@ -22,7 +29,7 @@
 						variant="primary"
 						style="height: 3rem; margin-bottom: 1rem;"
 						classes="w-full "
-						on:click={() => {
+						onclick={() => {
 							showLevelMovesOnMobile = !showLevelMovesOnMobile;
 						}}
 						data-umami-event="PokemonMoveList"
@@ -49,7 +56,7 @@
 						variant="primary"
 						style="height: 3rem; margin-bottom: 1rem;"
 						classes="w-full"
-						on:click={() => {
+						onclick={() => {
 							showTmMovesOnMobile = !showTmMovesOnMobile;
 							Logger.addPageAction('PokemonMoveList', {
 								action: showTmMovesOnMobile ? 'Hide' : 'Show',
@@ -78,7 +85,7 @@
 						variant="primary"
 						style="height: 3rem; margin-bottom: 1rem;"
 						classes="w-full"
-						on:click={() => {
+						onclick={() => {
 							showBreedMovesOnMobile = !showBreedMovesOnMobile;
 							Logger.addPageAction('PokemonMoveList', {
 								action: showBreedMovesOnMobile ? 'Hide' : 'Show',
@@ -109,7 +116,7 @@
 						variant="primary"
 						style="height: 3rem; margin-bottom: 1rem;"
 						classes="w-full"
-						on:click={() => {
+						onclick={() => {
 							showTutoredMovesOnMobile = !showTutoredMovesOnMobile;
 							Logger.addPageAction('PokemonMoveList', {
 								action: showTutoredMovesOnMobile ? 'Hide' : 'Show',

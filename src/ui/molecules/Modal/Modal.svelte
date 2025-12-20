@@ -1,45 +1,48 @@
-<script lang="ts">
-	export let showModal: boolean;
+<script>
+	let { showModal = $bindable(), header, children } = $props();
 
-	let dialog: HTMLDialogElement;
-	export let style: string = '';
-	export let classes: string = '';
+	let dialog = $state(); // HTMLDialogElement
 
-	$: if (dialog && showModal) dialog.showModal();
-	$: if (dialog && !showModal) dialog.close();
+	$effect(() => {
+		if (showModal) {
+			dialog.showModal();
+			document.body.style.overflow = 'hidden';
+		} else {
+			dialog?.close();
+			document.body.style.overflow = '';
+		}
+
+		return () => {
+			document.body.style.overflow = '';
+		};
+	});
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
 	bind:this={dialog}
-	on:close={() => (showModal = false)}
-	on:click|self={() => dialog.close()}
-	{style}
-	class={classes}
+	onclose={() => (showModal = false)}
+	onclick={(e) => {
+		if (e.target === dialog) dialog.close();
+	}}
 >
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div on:click|stopPropagation class="dialogWrapper">
-		<div class="header">
-			<div class="closeWrapper">
-				<button class="closeButton" on:click={() => dialog.close()}>X</button>
-			</div>
+	<div class="closeWrapper">
+		<button class="closeButton" onclick={() => dialog.close()}>X</button>
+	</div>
 
-			<div class="titleWrapper">
-				<slot name="header" />
-			</div>
-		</div>
-
-		<div class="contentWrapper">
-			<slot />
-		</div>
-
-		<div class="footerWrapper">
-			<slot name="footer" />
-		</div>
+	<div class="contentWrapper">
+		{@render header?.()}
+		{@render children?.()}
 	</div>
 </dialog>
 
 <style>
+	dialog {
+		border-radius: 0.5rem;
+	}
+	div.contentWrapper {
+		padding: 1rem;
+	}
 	div.closeWrapper {
 		position: absolute;
 		top: 0;
@@ -66,44 +69,15 @@
 		background: rgba(0, 0, 0, 0.8);
 	}
 
-	.header {
-		padding-left: 0.5rem;
-		min-height: 4rem;
-		justify-items: center;
-		border-bottom: 1px solid var(--text);
-	}
-
-	.titleWrapper {
-		height: 100%;
-		display: grid;
-		align-content: center;
-		padding-left: 0.5rem;
-		padding-top: 1rem;
-	}
-
 	.contentWrapper {
 		padding: 0.5rem;
 		height: 100%;
 	}
 
-	.footerWrapper:empty {
-		display: none;
-	}
-
-	.footerWrapper:not(:empty) {
-		position: fixed;
-		bottom: 1.2rem;
-		z-index: 2;
-	}
-
 	@media screen and (max-width: 768px) {
 		dialog {
-			height: 100%;
+			min-height: 50%;
 			width: 100%;
-		}
-
-		.footerWrapper:not(:empty) {
-			width: calc(100% - (19px * 2));
 		}
 	}
 
@@ -112,11 +86,6 @@
 			border-radius: 0.5rem;
 			min-width: 16rem;
 			min-height: 16rem;
-		}
-
-		.footerWrapper:not(:empty) {
-			width: 100%;
-			max-width: 40rem;
 		}
 	}
 

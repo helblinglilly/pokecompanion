@@ -13,7 +13,7 @@
 	<Button
 		variant="secondary"
 		classes="w-full"
-		on:click={async () => {
+		onclick={async () => {
 			try {
 				if (!$currentUser) {
 					return;

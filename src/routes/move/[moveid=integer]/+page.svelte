@@ -8,7 +8,7 @@
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Image from '$/ui/atoms/image';
 
-	export let data;
+	let { data } = $props();
 </script>
 
 <SocialPreview

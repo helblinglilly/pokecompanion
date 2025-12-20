@@ -3,17 +3,21 @@
 	import { selectedGame, versionSpecificTypeSprites } from '$/lib/stores/domain';
 	import Image from '$/ui/atoms/image';
 
-	export let type: string;
-	export let style = '';
-	export let className = '';
-	export let game: PokeapiVersionGroups | undefined = undefined;
+	interface Props {
+		type: string;
+		style?: string;
+		className?: string;
+		game?: PokeapiVersionGroups | undefined;
+	}
+
+	let { type, style = '', className = '', game = undefined }: Props = $props();
 
 	const baseURL = `https://sprites.pokecompanion.com/types`;
 
-	$: specificGame = game ?? $selectedGame?.pokeapi;
-	$: src = `${baseURL}${
-		specificGame && $versionSpecificTypeSprites ? '/' + specificGame : ''
-	}/${type}.png`;
+	let specificGame = $derived(game ?? $selectedGame?.pokeapi);
+	let src = $derived(
+		`${baseURL}${specificGame && $versionSpecificTypeSprites ? '/' + specificGame : ''}/${type}.png`
+	);
 </script>
 
 <Image

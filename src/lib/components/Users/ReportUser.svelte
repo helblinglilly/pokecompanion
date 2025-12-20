@@ -6,10 +6,14 @@
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 
-	let showModal = false;
-	let reportText = '';
-	let submitButtonText = 'Submit';
-	export let username: string;
+	let showModal = $state(false);
+	let reportText = $state('');
+	let submitButtonText = $state('Submit');
+	interface Props {
+		username: string;
+	}
+
+	let { username }: Props = $props();
 
 	const reportUserClick = async () => {
 		try {
@@ -42,11 +46,13 @@
 </script>
 
 {#if $currentUser}
-	<Button classes="w-full" variant="secondary" on:click={() => (showModal = true)}>Report</Button>
+	<Button classes="w-full" variant="secondary" onclick={() => (showModal = true)}>Report</Button>
 {/if}
 
-<Modal bind:showModal classes="md:h-[20rem]">
-	<h2 class="h2" slot="header">Report {username}</h2>
+<Modal bind:showModal>
+	{#snippet header()}
+		<h2 class="h2">Report {username}</h2>
+	{/snippet}
 
 	<div class="grid gap-4 p-8 md:min-w-[40rem]">
 		<div>
@@ -54,7 +60,7 @@
 		</div>
 		<form
 			class="grid gap-4"
-			on:submit={async () => {
+			onsubmit={async () => {
 				await reportUserClick();
 				submitButtonText = 'Submit';
 				reportText = '';
@@ -62,7 +68,7 @@
 			}}
 		>
 			<input type="text" bind:value={reportText} placeholder="What's wrong?" />
-			<Button variant="accent" classes="w-full">{submitButtonText}</Button>
+			<Button variant="accent" classes="w-full" type={'submit'}>{submitButtonText}</Button>
 		</form>
 	</div>
 </Modal>

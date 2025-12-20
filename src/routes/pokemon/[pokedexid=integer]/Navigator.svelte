@@ -3,14 +3,18 @@
 	import Select from '$/ui/atoms/select/Select.svelte';
 	import { goto } from '$app/navigation';
 	import NavigationButton from './NavigationButton.svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	export let title: string;
-	export let currentId: number;
-	export let varieties: APIPokemon['varieties'];
-	const varietyParam = $page.url.searchParams.get('variety');
+	interface Props {
+		title: string;
+		currentId: number;
+		varieties: APIPokemon['varieties'];
+	}
 
-	$: innerWidth = 750;
+	let { title, currentId, varieties }: Props = $props();
+	const varietyParam = $derived(page.url.searchParams.get('variety'));
+
+	let innerWidth = $state(750);
 </script>
 
 <svelte:window bind:innerWidth />
@@ -42,7 +46,8 @@
 					value: variety.name
 				}))}
 				style="width: 100%; padding-left: 1rem; padding-right: 1rem; margin: 0; text-align: center;"
-				on:change={({ detail }) => {
+				onchange={(detail) => {
+					console.log(detail);
 					const newTargetVariety = varieties.find((variety) => variety.name === detail);
 					if (!newTargetVariety) {
 						console.error('Could not find the same variety again as the one that got changed to');

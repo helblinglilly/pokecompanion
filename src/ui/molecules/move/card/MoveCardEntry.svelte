@@ -4,8 +4,13 @@
 	import Type from '$/ui/atoms/type';
 	import Image from '$/ui/atoms/image/Image.svelte';
 
-	export let move: components['schemas']['MovePreview'];
-	export let isClickable = true;
+	interface Props {
+		move: components['schemas']['MovePreview'];
+		isClickable?: boolean;
+		remove?: import('svelte').Snippet;
+	}
+
+	let { move, isClickable = true, remove }: Props = $props();
 </script>
 
 <Card
@@ -40,7 +45,7 @@
 		<p>{name}</p>
 	{/each}
 
-	<slot name="remove" />
+	{@render remove?.()}
 </Card>
 
 <style>

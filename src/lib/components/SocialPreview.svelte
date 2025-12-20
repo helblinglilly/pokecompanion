@@ -1,8 +1,16 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	export let title = 'Pokécompanion';
-	export let description = `Explore the world from Kanto to Lumiose City efficiently with Pokécompanion. Browsing and organising Pokémon, Moves, Abilities and more in a Rapidash!`;
-	export let previewImage = 'https://socialpreviews.pokecompanion.helbling.uk/generic.png';
+	import { page } from '$app/state';
+	interface Props {
+		title?: string;
+		description?: any;
+		previewImage?: string;
+	}
+
+	let {
+		title = 'Pokécompanion',
+		description = `Explore the world from Kanto to Lumiose City efficiently with Pokécompanion. Browsing and organising Pokémon, Moves, Abilities and more in a Rapidash!`,
+		previewImage = 'https://socialpreviews.pokecompanion.helbling.uk/generic.png'
+	}: Props = $props();
 </script>
 
 <svelte:head>
@@ -16,9 +24,9 @@
 
 	<meta property="og:type" content="website" />
 
-	<meta property="og:url" content={$page.url.origin} />
-	<meta property="twitter:url" content={$page.url.origin} />
-	<meta property="twitter:domain" content={$page.url.hostname} />
+	<meta property="og:url" content={page.url.origin} />
+	<meta property="twitter:url" content={page.url.origin} />
+	<meta property="twitter:domain" content={page.url.hostname} />
 
 	<meta name="twitter:card" content="summary_large_image" />
 

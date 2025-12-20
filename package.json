@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22.0.0",
-    "npm": ">=10.0.0"
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
   },
   "scripts": {
     "dev": "vite dev",
@@ -29,14 +29,14 @@
     "@sveltejs/adapter-cloudflare": "^4.9.0",
     "@sveltejs/adapter-vercel": "^5.10.3",
     "@sveltejs/kit": "^2.49.2",
-    "@sveltejs/vite-plugin-svelte": "^3.1.2",
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
     "@testing-library/svelte": "^5.2.10",
     "@types/uuid": "^10.0.0",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
+    "@typescript-eslint/eslint-plugin": "^8.50.0",
+    "@typescript-eslint/parser": "^8.50.0",
     "autoprefixer": "^10.4.20",
     "baseline-browser-mapping": "^2.9.11",
-    "eslint": "^8.57.1",
+    "eslint": "^9.39.2",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-svelte": "^2.46.1",
     "esm": "^3.2.25",
@@ -51,13 +51,13 @@
     "prettier-plugin-svelte": "^3.4.1",
     "save-svg-as-png": "^1.4.17",
     "sharp": "^0.33.5",
-    "svelte": "^4.2.20",
+    "svelte": "^5.46.0",
     "svelte-check": "^4.3.5",
     "tailwindcss": "^3.4.19",
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
     "typescript": "^5.7.3",
-    "vite": "^5.4.21",
-    "vitest": "^2.1.8"
+    "vite": "^6.0.7",
+    "vitest": "^4.0.16"
   }
 }

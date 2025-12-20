@@ -3,12 +3,16 @@
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import { setCookie } from '$lib/utils/cookies';
 
-	export let data: paths['/auth/methods']['get']['responses']['200']['content']['application/json']['oAuth'][number];
+	interface Props {
+		data: paths['/auth/methods']['get']['responses']['200']['content']['application/json']['oAuth'][number];
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <button
 	class="spotify-btn signin-button"
-	on:click={async () => {
+	onclick={async () => {
 		setCookie('provider', JSON.stringify(data));
 		window.location.assign(data.authUrl);
 	}}

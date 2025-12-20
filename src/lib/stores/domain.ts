@@ -1,7 +1,7 @@
 import { get, writable } from 'svelte/store';
 import { getCookie, getRawCookie, setCookie } from '../utils/cookies';
 import { currentUser, type AuthRecord } from './user';
-import { page } from '$app/stores';
+import { page } from '$app/state';
 import type {
 	MetaGame,
 	PokeapiLanguageCodes,
@@ -11,28 +11,9 @@ import type { paths } from '$/@types/api';
 import { uuid } from '../utils/uuid';
 
 export const theme = writable<'dark' | 'light' | undefined>();
-export const selectedGame = writable<MetaGame>({
-	region: 'kalos',
-	games: [
-		{
-			globalSortOrder: 1,
-			shortName: 'Home',
-			pokeapi: 'home'
-		}
-	],
-	generation: {
-		name: '1',
-		nationalDexEnd: 1,
-		number: 1,
-		pokeApiName: 'generation-i',
-		short: 'Gen 1'
-	},
-	shortName: 'Home',
-	pokeapi: 'home',
-	dlcGames: []
-});
+export const selectedGame = writable<MetaGame | undefined>();
 export const primaryLanguage = writable<PokeapiLanguageCodes>('en');
-export const secondaryLanguage = writable<PokeapiLanguageCodes | undefined>();
+export const secondaryLanguage = writable<PokeapiLanguageCodes | ''>('');
 export const versionSpecificPokemonSprites = writable<boolean>(true);
 export const versionSpecificTypeSprites = writable<boolean>(false);
 export const animateSprites = writable<boolean>(true);
@@ -67,7 +48,7 @@ export type UserPreferencePokemonVersion = PokeapiVersionGroups | undefined;
 
 export const cookieHandlers = {
 	selectedGame: () => {
-		const isInSearchParam = get(page).url.searchParams.get('game') as UserPreferencePokemonVersion;
+		const isInSearchParam = page.url.searchParams.get('game') as UserPreferencePokemonVersion;
 
 		let existingValue = getCookie(SettingNames.SelectedGame) as UserPreferencePokemonVersion;
 
@@ -91,7 +72,7 @@ export const cookieHandlers = {
 		selectedGame.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute(SettingNames.SelectedGame, value?.pokeapi);
 
-			const isInSearchParam = get(page).url.searchParams.get('game');
+			const isInSearchParam = page.url.searchParams.get('game');
 
 			if (isInSearchParam) {
 				return;
@@ -115,7 +96,7 @@ export const cookieHandlers = {
 		});
 	},
 	primaryLanguage: () => {
-		const isInSearchParam = get(page).url.searchParams.get(SettingNames.PrimaryLanguage);
+		const isInSearchParam = page.url.searchParams.get(SettingNames.PrimaryLanguage);
 		let existingValue = getCookie(SettingNames.PrimaryLanguage);
 
 		if (isInSearchParam) {
@@ -131,7 +112,7 @@ export const cookieHandlers = {
 
 		primaryLanguage.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute(SettingNames.PrimaryLanguage, value);
-			const isInSearchParam = get(page).url.searchParams.get(SettingNames.PrimaryLanguage);
+			const isInSearchParam = page.url.searchParams.get(SettingNames.PrimaryLanguage);
 
 			if (!value || isInSearchParam) {
 				return;
@@ -148,7 +129,7 @@ export const cookieHandlers = {
 		});
 	},
 	secondaryLanguage: () => {
-		const isInSearchParam = get(page).url.searchParams.get(SettingNames.SecondaryLanguage);
+		const isInSearchParam = page.url.searchParams.get(SettingNames.SecondaryLanguage);
 		let existingValue = getCookie(SettingNames.SecondaryLanguage) as
 			| keyof PokeapiLanguageCodes
 			| undefined;
@@ -161,12 +142,12 @@ export const cookieHandlers = {
 			}
 		}
 
-		secondaryLanguage.set(existingValue as PokeapiLanguageCodes | undefined);
+		secondaryLanguage.set(existingValue as PokeapiLanguageCodes | '');
 
 		secondaryLanguage.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute(SettingNames.SecondaryLanguage, value);
 
-			const isInSearchParam = get(page).url.searchParams.get(SettingNames.SecondaryLanguage);
+			const isInSearchParam = page.url.searchParams.get(SettingNames.SecondaryLanguage);
 
 			if (!value || isInSearchParam) {
 				return;

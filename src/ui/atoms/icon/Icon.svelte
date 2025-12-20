@@ -1,25 +1,36 @@
 <script lang="ts">
-	export let name:
-		| 'tag'
-		| 'tags'
-		| 'lock'
-		| 'mars'
-		| 'venus'
-		| 'spark'
-		| 'spark-full'
-		| 'list'
-		| 'card'
-		| 'pencil'
-		| 'floppy'
-		| 'hidden'
-		| 'link'
-		| 'heart'
-		| 'heart-full';
-	export let theme: 'dark' | 'light' | null = null;
-	export let style: string | null = null;
-	export let pathStroke: string | null = null;
-	export let lineStroke: string | null = null;
-	export let pathFill: string | null = null;
+	interface Props {
+		name:
+			| 'tag'
+			| 'tags'
+			| 'lock'
+			| 'mars'
+			| 'venus'
+			| 'spark'
+			| 'spark-full'
+			| 'list'
+			| 'card'
+			| 'pencil'
+			| 'floppy'
+			| 'hidden'
+			| 'link'
+			| 'heart'
+			| 'heart-full';
+		theme?: 'dark' | 'light' | null;
+		style?: string | null;
+		pathStroke?: string | null;
+		lineStroke?: string | null;
+		pathFill?: string | null;
+	}
+
+	let {
+		name,
+		theme = null,
+		style = null,
+		pathStroke = null,
+		lineStroke = null,
+		pathFill = null
+	}: Props = $props();
 </script>
 
 {#if name === 'tag'}

@@ -8,17 +8,20 @@
 	import Card from '$/ui/atoms/card';
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list/PokemonListEntry.svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { writable } from 'svelte/store';
 
-	export let data;
-	searchTerm.set(data.searchTerm);
+	let { data } = $props();
 
-	const pokemonResults = writable(data.pokemon);
-	const moveResults = writable(data.moves);
-	const itemResults = writable(data.items);
-	const abilityResults = writable(data.abilities);
+	$effect(() => {
+		searchTerm.set(data.searchTerm);
+	});
+
+	const pokemonResults = $derived(writable(data.pokemon));
+	const moveResults = $derived(writable(data.moves));
+	const itemResults = $derived(writable(data.items));
+	const abilityResults = $derived(writable(data.abilities));
 
 	let pokemonPage = 1;
 	let movesPage = 1;
@@ -29,10 +32,10 @@
 		try {
 			const url = addSettingsAsSearchParams(
 				new URL(`${PUBLIC_API_HOST}/search/pokemon`),
-				$page.url.searchParams
+				page.url.searchParams
 			);
 
-			url.searchParams.append('term', $page.url.searchParams.get('term') ?? '');
+			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${pokemonPage + 1}`);
 
 			const res = await fetch(url, {
@@ -59,10 +62,10 @@
 		try {
 			const url = addSettingsAsSearchParams(
 				new URL(`${PUBLIC_API_HOST}/search/moves`),
-				$page.url.searchParams
+				page.url.searchParams
 			);
 
-			url.searchParams.append('term', $page.url.searchParams.get('term') ?? '');
+			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${movesPage + 1}`);
 
 			const res = await fetch(url, {
@@ -89,10 +92,10 @@
 		try {
 			const url = addSettingsAsSearchParams(
 				new URL(`${PUBLIC_API_HOST}/search/abilities`),
-				$page.url.searchParams
+				page.url.searchParams
 			);
 
-			url.searchParams.append('term', $page.url.searchParams.get('term') ?? '');
+			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${abilityPage + 1}`);
 
 			const res = await fetch(url, {
@@ -119,10 +122,10 @@
 		try {
 			const url = addSettingsAsSearchParams(
 				new URL(`${PUBLIC_API_HOST}/search/items`),
-				$page.url.searchParams
+				page.url.searchParams
 			);
 
-			url.searchParams.append('term', $page.url.searchParams.get('term') ?? '');
+			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${itemsPage + 1}`);
 
 			const res = await fetch(url, {
@@ -178,7 +181,7 @@
 
 		{#if $pokemonResults.data.length < $pokemonResults.totalItems}
 			<Button
-				on:click={() => {
+				onclick={() => {
 					loadMorePokemon();
 				}}
 			>
@@ -202,7 +205,7 @@
 
 		{#if $moveResults.data.length < $moveResults.totalItems}
 			<Button
-				on:click={() => {
+				onclick={() => {
 					loadMoreMoves();
 				}}
 			>
@@ -233,7 +236,7 @@
 
 		{#if $itemResults.data.length < $itemResults.totalItems}
 			<Button
-				on:click={() => {
+				onclick={() => {
 					loadMoreItems();
 				}}
 			>
@@ -264,7 +267,7 @@
 
 		{#if $abilityResults.data.length < $abilityResults.totalItems}
 			<Button
-				on:click={() => {
+				onclick={() => {
 					loadMoreAbilities();
 				}}
 			>

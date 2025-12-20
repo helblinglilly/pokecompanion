@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Avatar from '$/lib/components/Users/Avatar.svelte';
 	import ChangeUsername from '$/lib/components/Users/ChangeUsername.svelte';
 	import DeleteUser from '$/lib/components/Users/DeleteUser.svelte';
@@ -10,7 +10,7 @@
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 
-	export let data;
+	let { data } = $props();
 </script>
 
 <SocialPreview

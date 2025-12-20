@@ -1,15 +1,27 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	interface Props {
+		isClickable?: boolean;
+		style?: string;
+		classes?: string;
+		isNested?: boolean;
+		id?: string | undefined;
+		isActive?: boolean;
+		ariaLabel?: string;
+		onclick?: (event: MouseEvent) => void;
+		children?: import('svelte').Snippet;
+	}
 
-	export let isClickable: boolean = false;
-	export let style: string = '';
-	export let classes: string = '';
-	export let isNested: boolean = false;
-	export let id: string | undefined = undefined;
-	export let isActive = false;
-	export let ariaLabel: string = '';
-
-	const dispatch = createEventDispatcher();
+	let {
+		isClickable = false,
+		style = '',
+		classes = '',
+		isNested = false,
+		id = undefined,
+		isActive = false,
+		ariaLabel = '',
+		onclick,
+		children
+	}: Props = $props();
 </script>
 
 <div
@@ -27,11 +39,9 @@
 		.join(' ')}
 	{style}
 	role={isClickable ? 'button' : 'cell'}
-	on:click={() => {
-		dispatch('click');
-	}}
+	{onclick}
 >
-	<slot />
+	{@render children?.()}
 </div>
 
 <style>

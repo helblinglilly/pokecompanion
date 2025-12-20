@@ -12,10 +12,12 @@
 		versionSpecificTypeSprites
 	} from '$lib/stores/domain';
 	import { capitaliseFirstLetter } from '$/lib/utils/string.js';
+	import type { PokeapiLanguageCodes } from '$/@types/api.pokecompanion';
 
-	export let data;
+	let { data } = $props();
 </script>
 
+<!-- svelte-ignore component_name_lowercase -->
 <svelte:head>
 	<meta name="robots" content="noindex" />
 </svelte:head>
@@ -39,31 +41,21 @@
 						label: game.shortName,
 						value: game.pokeapi
 					}))}
-					value={$selectedGame.pokeapi}
-					on:change={({ detail }) => {
+					value={$selectedGame?.pokeapi ?? ''}
+					onchange={(detail) => {
 						const game = $meta.games.find((metaGame) => metaGame.pokeapi === detail);
 						if (game) {
 							selectedGame.set(game);
 						}
 					}}
 				/>
-				{#if !$selectedGame}
-					<p>This will show default sprites.</p>
-					<p>You will need to select a game whenever game-specific information is available.</p>
-				{:else if $selectedGame.pokeapi === 'home'}
-					<p>
-						This option will not display any game-specific information but Pokémon Home sprites will
-						be displayed.
-					</p>
-				{:else}
-					<p>{capitaliseFirstLetter($selectedGame.region)} Region</p>
-					<p>
-						{$selectedGame.generation.name}, including Pokémon up to #{$selectedGame.generation
-							.nationalDexEnd === 9999
-							? $meta.lastPokedexEntry
-							: $selectedGame.generation.nationalDexEnd} in the National Pokédex
-					</p>
-				{/if}
+				<p>{capitaliseFirstLetter($selectedGame?.region ?? '')} Region</p>
+				<p>
+					{$selectedGame?.generation.name}, including Pokémon up to #{$selectedGame?.generation
+						.nationalDexEnd === 9999
+						? $meta.lastPokedexEntry
+						: $selectedGame?.generation.nationalDexEnd} in the National Pokédex
+				</p>
 			</Card>
 		</div>
 
@@ -73,7 +65,7 @@
 
 				<div class="input-group">
 					<input
-						on:change={() => {
+						onchange={() => {
 							animateSprites.set(!$animateSprites);
 						}}
 						checked={$animateSprites}
@@ -86,7 +78,7 @@
 
 				<div class="input-group">
 					<input
-						on:change={() => {
+						onchange={() => {
 							if ($versionSpecificPokemonSprites && $versionSpecificTypeSprites) {
 								versionSpecificPokemonSprites.set(false);
 								versionSpecificTypeSprites.set(false);
@@ -105,7 +97,7 @@
 
 				<div class="input-group ml-8">
 					<input
-						on:change={() => {
+						onchange={() => {
 							versionSpecificPokemonSprites.set(!$versionSpecificPokemonSprites);
 						}}
 						checked={$versionSpecificPokemonSprites}
@@ -118,7 +110,7 @@
 
 				<div class="input-group ml-8">
 					<input
-						on:change={() => {
+						onchange={() => {
 							versionSpecificTypeSprites.set(!$versionSpecificTypeSprites);
 						}}
 						checked={$versionSpecificTypeSprites}
@@ -133,7 +125,6 @@
 	</div>
 
 	<h2 class="h2 pb-4">Language</h2>
-	<p />
 	<div class="columns">
 		<div class="column pb-4 md:mr-4">
 			<Card classes="h-full pl-8 pr-8">
@@ -141,30 +132,42 @@
 
 				<Select
 					isNested
-					options={(data.languages ?? []).map((lang) => ({
-						label: lang.flag + ' ' + lang.name,
-						value: lang.code,
-						disabled: $secondaryLanguage === lang.code
-					}))}
-					bind:value={$primaryLanguage}
+					options={[{ label: '🏳️ None', value: '' }].concat(
+						(data.languages ?? []).map((lang) => ({
+							label: lang.flag + ' ' + lang.name,
+							value: lang.code,
+							disabled: $secondaryLanguage === lang.code
+						}))
+					)}
+					value={$primaryLanguage ?? ''}
+					onchange={(detail) => {
+			  primaryLanguage.set(detail as PokeapiLanguageCodes);
+					}}
 				/>
+
 				<p>This will change the language of any data, not the site.</p>
 			</Card>
 		</div>
-
 		<div class="column pb-4 md:ml-4">
 			<Card classes="h-full pl-8 pr-8">
 				<label for="secondaryLanguageSelector"><h3 class="h3">Secondary Language</h3></label>
 				<Select
 					isNested
-					options={[{ label: '🏳️ None', value: 'none' }].concat(
+					options={[{ label: '🏳️ None', value: '' }].concat(
 						(data.languages ?? []).map((lang) => ({
 							label: lang.flag + ' ' + lang.name,
 							value: lang.code,
 							disabled: $primaryLanguage === lang.code
 						}))
 					)}
-					bind:value={$secondaryLanguage}
+					value={$secondaryLanguage ?? ''}
+					onchange={(detail) => {
+					  if (detail === ''){
+							secondaryLanguage.set('')
+							} else {
+							secondaryLanguage.set(detail as PokeapiLanguageCodes);
+							}
+					}}
 				/>
 				{#if !$secondaryLanguage}
 					<p>You can add another language if you wish</p>

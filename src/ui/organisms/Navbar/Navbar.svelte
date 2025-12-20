@@ -4,7 +4,7 @@
 	import BagOpen from '$/ui/assets/bag_open.png';
 	import BagClosed from '$/ui/assets/bag_closed.png';
 
-	$: isMobileMenuExpanded = false;
+	let isMobileMenuExpanded = $state(false);
 </script>
 
 <nav class="flex w-full h-12">
@@ -30,10 +30,10 @@
 		id="navbar-hamburger"
 		role="menu"
 		tabindex="0"
-		on:focusin={() => {
+		onfocusin={() => {
 			isMobileMenuExpanded = true;
 		}}
-		on:focusout={() => {
+		onfocusout={() => {
 			setTimeout(() => {
 				const navbarHamburger = document.getElementById('navbar-hamburger');
 				// Don't lose focus if a user is tabbing through the menus
@@ -45,7 +45,7 @@
 	>
 		<button
 			class="w-max grid p-2 justify-end z-20"
-			on:mousedown={() => {
+			onmousedown={() => {
 				isMobileMenuExpanded = !isMobileMenuExpanded;
 			}}
 		>

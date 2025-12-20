@@ -1,31 +1,45 @@
 <script lang="ts">
 	import Button from '$/ui/atoms/button/Button.svelte';
-	import { navigating } from '$app/stores';
-	import { createEventDispatcher } from 'svelte';
+	// import { navigating } from '$app/stores';
+	import type { Snippet } from 'svelte';
 
-	let isExpanded = false;
+	interface Props {
+		title?: Snippet;
+		content?: Snippet;
+		onclick?: () => void;
+		[key: string]: any;
+	}
 
-	const dispatch = createEventDispatcher();
+	let { title, content, onclick, ...rest }: Props = $props();
 
-	navigating.subscribe(() => {
-		isExpanded = false;
-	});
+	let isExpanded = $state(false);
+
+	// $effect(() => {
+	// 	const unsubscribe = navigating.subscribe(() => {
+	// 		isExpanded = false;
+	// 	});
+
+	// 	return unsubscribe;
+	// });
+
+	function handleClick() {
+	console.log('clicked');
+		isExpanded = !isExpanded;
+		onclick?.();
+	}
 </script>
 
 <Button
 	variant="primary"
 	isNested
-	classes="w-full contents"
+	classes="w-full"
 	style="height: 3rem;"
-	on:click={() => {
-		isExpanded = !isExpanded;
-		dispatch('click');
-	}}
-	{...$$restProps}
+	onclick={handleClick}
+	{...rest}
 >
-	<slot name="title" />
+	{@render title?.()}
 </Button>
 
 {#if isExpanded}
-	<slot name="content" />
+	{@render content?.()}
 {/if}

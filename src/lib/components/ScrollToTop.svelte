@@ -2,7 +2,7 @@
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import { onMount } from 'svelte';
 
-	let scrolled = false;
+	let scrolled = $state(false);
 
 	onMount(() => {
 		window.addEventListener('scroll', () => {
@@ -16,7 +16,7 @@
 </script>
 
 <div class={`${!scrolled ? 'hidden' : ''}`}>
-	<Button variant="accent" on:click={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+	<Button variant="accent" onclick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
 		Back to top
 	</Button>
 </div>

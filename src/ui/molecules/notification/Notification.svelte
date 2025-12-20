@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { removeNotification, type INotification } from '$/lib/stores/notifications';
 
-	export let notification: INotification;
+	interface Props {
+		notification: INotification;
+	}
+
+	let { notification }: Props = $props();
 </script>
 
 <div class={`notification notification--${notification.level}`}>
@@ -9,7 +13,7 @@
 
 	<button
 		class="remove-button"
-		on:click={() => {
+		onclick={() => {
 			removeNotification(notification);
 		}}
 	>

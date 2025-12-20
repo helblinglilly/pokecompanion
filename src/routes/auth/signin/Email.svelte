@@ -5,17 +5,17 @@
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { addNotification } from '$lib/stores/notifications';
 
-	let email: string;
-	let password: string;
-	let passwordConfirm: string;
-	let username: string;
+	let email = $state('');
+	let password = $state('');
+	let passwordConfirm = $state('');
+	let username = $state('');
 
-	let emailError = '';
-	let passwordError = '';
+	let emailError = $state('');
+	let passwordError = $state('');
 	let passwordConfirmError = '';
-	let usernameError = '';
+	let usernameError = $state('');
 
-	let showSignupFields = false;
+	let showSignupFields = $state(false);
 
 	const handleFormSubmit = async () => {
 		if (showSignupFields) {
@@ -78,16 +78,34 @@
 			})
 		});
 
-		if (res.status !== 200) {
-			return;
+		switch (res.status) {
+			case 200:
+				await invalidateAll();
+				goto('/');
+				break;
+			case 401:
+				addNotification({
+					level: 'failure',
+					message: 'Wrong credentials'
+				});
+				break;
+			case 400:
+				addNotification({
+					level: 'failure',
+					message: 'Bad request'
+				});
+				break;
+			default:
+				addNotification({
+					level: 'failure',
+					message: 'Something went wrong - try a different authentication method'
+				});
+				break;
 		}
-
-		await invalidateAll();
-		goto('/');
 	};
 </script>
 
-<form on:submit={handleFormSubmit}>
+<form onsubmit={handleFormSubmit}>
 	<Card>
 		<div id="wrapper">
 			<div class="columns inputGroup">
@@ -96,7 +114,7 @@
 					type="email"
 					id="email"
 					bind:value={email}
-					on:change={() => {
+					onchange={() => {
 						if (!email) {
 							emailError = '';
 						}
@@ -124,7 +142,7 @@
 						type="text"
 						id="username"
 						bind:value={username}
-						on:change={() => {
+						onchange={() => {
 							if (!username) {
 								usernameError = '';
 							}
@@ -142,7 +160,7 @@
 					<Button
 						classes="w-full"
 						type={showSignupFields ? 'submit' : 'button'}
-						on:click={(e) => {
+						onclick={(e) => {
 							e.preventDefault();
 							if (!showSignupFields) {
 								showSignupFields = true;

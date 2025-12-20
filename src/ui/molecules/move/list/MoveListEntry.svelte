@@ -3,7 +3,12 @@
 	import Card from '$/ui/atoms/card';
 	import Image from '$/ui/atoms/image/Image.svelte';
 
-	export let move: paths['/search/moves']['get']['responses']['200']['content']['application/json']['data'][number];
+	interface Props {
+		move: paths['/search/moves']['get']['responses']['200']['content']['application/json']['data'][number];
+		remove?: import('svelte').Snippet;
+	}
+
+	let { move, remove }: Props = $props();
 </script>
 
 <Card
@@ -39,7 +44,7 @@
 		<p>{move.name}</p>
 	</span>
 
-	<slot name="remove" />
+	{@render remove?.()}
 </Card>
 
 <style>

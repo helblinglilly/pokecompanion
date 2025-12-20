@@ -4,7 +4,11 @@
 	import { Logger } from '$/debt/log';
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 
-	export let evolutions: APIPokemon['evolutionChain'];
+	interface Props {
+		evolutions: APIPokemon['evolutionChain'];
+	}
+
+	let { evolutions }: Props = $props();
 </script>
 
 {#if evolutions.length === 0}
@@ -16,7 +20,7 @@
 				<div class="column" style="display: grid; justify-content: center;">
 					<a
 						href={evolution.source.pokemonUrl}
-						on:click={() => {
+						onclick={() => {
 							Logger.addPageAction('EvolutionPokemon');
 						}}
 					>
@@ -58,7 +62,7 @@
 							<a
 								href={requirement.supplementary}
 								style="width: 100%; display: inline-flex; justify-content: center;"
-								on:click={() => {
+								onclick={() => {
 									Logger.addPageAction('EvolutionUseItemNavigation');
 								}}
 							>
@@ -76,7 +80,7 @@
 							<a
 								href={requirement.supplementary}
 								style="width: 100%; display: inline-flex; justify-content: center;"
-								on:click={() => {
+								onclick={() => {
 									Logger.addPageAction('EvolutionHoldItem');
 								}}
 							>
@@ -109,7 +113,7 @@
 						{#if requirement.type === 'party_have'}
 							<a
 								href={requirement.supplementary}
-								on:click={() => {
+								onclick={() => {
 									Logger.addPageAction('EvolutionPartyHave');
 								}}>Have {requirement.info} in party</a
 							>
@@ -118,7 +122,7 @@
 						{#if requirement.type === 'know_move'}
 							<a
 								href={`${requirement.info}`}
-								on:click={() => {
+								onclick={() => {
 									Logger.addPageAction('EvolutionKnowMove');
 								}}>Knows {requirement.supplementary}</a
 							>
@@ -127,7 +131,7 @@
 						{#if requirement.type === 'use-move'}
 							<a
 								href={`${requirement.info}`}
-								on:click={() => {
+								onclick={() => {
 									Logger.addPageAction('EvolutionUseMove');
 								}}>{requirement.supplementary}</a
 							>
@@ -136,7 +140,7 @@
 						{#if requirement.type === 'collect_items'}
 							<a
 								href={`${requirement.info}`}
-								on:click={() => {
+								onclick={() => {
 									Logger.addPageAction('EvolutionCollectItems');
 								}}>{requirement.supplementary}</a
 							>
@@ -145,7 +149,7 @@
 						{#if requirement.type === 'trade_for'}
 							<a
 								href={requirement.supplementary}
-								on:click={() => {
+								onclick={() => {
 									Logger.addPageAction('EvolutionTradeFor');
 								}}>Trade for {requirement.info}</a
 							>
@@ -206,7 +210,7 @@
 				<div class="column" style="display: grid; justify-content: center;">
 					<a
 						href={evolution.target.pokemonUrl}
-						on:click={() => {
+						onclick={() => {
 							Logger.addPageAction('EvolutionPokemon');
 						}}
 					>

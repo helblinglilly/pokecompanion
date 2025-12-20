@@ -5,20 +5,26 @@
 	import { type IDisplayPokemon } from '$lib/stores/pokemonPage';
 	import type { ITagMove } from '$/@types/api.pokecompanion';
 
-	export let pokemon: IDisplayPokemon | undefined = undefined;
-	export let move: Omit<ITagMove, 'added'> | undefined = undefined;
+	interface Props {
+		pokemon?: IDisplayPokemon | undefined;
+		move?: Omit<ITagMove, 'added'> | undefined;
+	}
 
-	$: currentTags = $tagStore.filter((tag) => {
-		if (tag.isHiddenAcrossSite) {
+	let { pokemon = undefined, move = undefined }: Props = $props();
+
+	let currentTags = $derived(
+		$tagStore.filter((tag) => {
+			if (tag.isHiddenAcrossSite) {
+				return false;
+			}
+			if (pokemon) {
+				return doesTagContainPokemon(pokemon, tag);
+			} else if (move) {
+				return doesTagContainMove(move, tag);
+			}
 			return false;
-		}
-		if (pokemon) {
-			return doesTagContainPokemon(pokemon, tag);
-		} else if (move) {
-			return doesTagContainMove(move, tag);
-		}
-		return false;
-	});
+		})
+	);
 </script>
 
 {#each currentTags as tag}

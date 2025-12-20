@@ -5,23 +5,30 @@
 	import type { APIPokemon, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 	import type { paths } from '$/@types/api';
 
-	export let skeletonData: APIPokemon['moves'];
-	export let movePromise: Promise<
-		paths['/pokemon/{id}/moves']['get']['responses']['200']['content']['application/json']
-	>;
+	interface Props {
+		skeletonData: APIPokemon['moves'];
+		movePromise: Promise<
+			paths['/pokemon/{id}/moves']['get']['responses']['200']['content']['application/json']
+		>;
+	}
 
-	$: allApplicableVersions = Object.keys(skeletonData).sort((a, b) => {
-		const aIndex = $meta.games.findIndex((metaGame) => metaGame.pokeapi === a);
-		const bIndex = $meta.games.findIndex((metaGame) => metaGame.pokeapi === b);
+	let { skeletonData, movePromise }: Props = $props();
 
-		return aIndex > bIndex ? 1 : -1;
-	}) as PokeapiVersionGroups[];
+	let allApplicableVersions = $derived(
+		Object.keys(skeletonData).sort((a, b) => {
+			const aIndex = $meta.games.findIndex((metaGame) => metaGame.pokeapi === a);
+			const bIndex = $meta.games.findIndex((metaGame) => metaGame.pokeapi === b);
 
-	$: selectedVersionGroup =
+			return aIndex > bIndex ? 1 : -1;
+		}) as PokeapiVersionGroups[]
+	);
+
+	let selectedVersionGroup = $derived(
 		allApplicableVersions.length > 0
 			? allApplicableVersions.find((pokeapi) => pokeapi === $selectedGame?.pokeapi) ??
-			  allApplicableVersions[allApplicableVersions.length - 1]
-			: undefined;
+					allApplicableVersions[allApplicableVersions.length - 1]
+			: undefined
+	);
 </script>
 
 {#if selectedVersionGroup}
@@ -32,7 +39,7 @@
 			value: version
 		}))}
 		value={selectedVersionGroup}
-		on:change={({ detail }) => {
+		onchange={(detail) => {
 			const game = $meta.games.find((metaGame) => metaGame.pokeapi === detail);
 			if (game) {
 				selectedGame.set(game);

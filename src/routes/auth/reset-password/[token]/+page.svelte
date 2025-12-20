@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { Logger } from '$/debt/log';
 	import { addNotification } from '$lib/stores/notifications';
 	import { isPasswordValid } from '$/debt/user-client';
 
-	let newPassword: string;
-	let confirmNewPassword: string;
-	let passwordError = '';
-	let token = $page.params.token;
+	let newPassword = $state('');
+	let confirmNewPassword = $state('');
+	let passwordError = $state('');
+	let token = page.params.token;
 
 	const onUpdateClick = async () => {
 		const result = isPasswordValid(newPassword);
@@ -67,7 +67,7 @@
 			<button
 				class="button primary"
 				disabled={newPassword !== confirmNewPassword || !newPassword}
-				on:click={onUpdateClick}
+				onclick={onUpdateClick}
 			>
 				Change Password
 			</button>

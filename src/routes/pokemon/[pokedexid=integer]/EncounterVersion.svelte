@@ -3,67 +3,75 @@
 	import ExpandableButton from '$/lib/components/ExpandableButton.svelte';
 	import { capitaliseEachWord } from '$/lib/utils/string';
 
-	export let encounterLocation: Array<{
-		method: string;
-		minLevel: number;
-		maxLevel: number;
-		chance: number;
-		conditions: Array<string>;
-	}>;
-	export let locationKey: string;
+	interface Props {
+		encounterLocation: Array<{
+			method: string;
+			minLevel: number;
+			maxLevel: number;
+			chance: number;
+			conditions: Array<string>;
+		}>;
+		locationKey: string;
+	}
 
-	$: hasRequirement = encounterLocation.some((a) => a.conditions.length >= 1);
+	let { encounterLocation, locationKey }: Props = $props();
+
+	let hasRequirement = $derived(encounterLocation.some((a) => a.conditions.length >= 1));
 </script>
 
 <ExpandableButton
-	on:click={() => {
+	onclick={() => {
 		Logger.addPageAction('EncounterExpand');
 	}}
 >
-	<p slot="title" class="button secondary ml-auto mr-auto">
-		{capitaliseEachWord(locationKey.replaceAll('-', ' '))}
-	</p>
+	{#snippet title()}
+		<p class="button secondary ml-auto mr-auto">
+			{capitaliseEachWord(locationKey.replaceAll('-', ' '))}
+		</p>
+	{/snippet}
 
-	<div slot="content" class="extendedWrapper">
-		<table>
-			<thead>
-				<tr>
-					<th>Method</th>
-					<th>Level</th>
-					<th>Chance</th>
-					{#if hasRequirement}
-						<th>Req</th>
-					{/if}
-				</tr>
-			</thead>
-			<tbody>
-				{#each encounterLocation.sort((a, b) => (a.minLevel > b.minLevel ? 1 : -1)) as locationInfo}
+	{#snippet content()}
+		<div class="extendedWrapper">
+			<table>
+				<thead>
 					<tr>
-						<td>
-							{capitaliseEachWord(locationInfo.method.replaceAll('-', ' '))}
-						</td>
-						<td>
-							{#if locationInfo.minLevel !== locationInfo.maxLevel}
-								{locationInfo.minLevel} - {locationInfo.maxLevel}
-							{:else}
-								{locationInfo.maxLevel}
-							{/if}
-						</td>
-						<td>
-							{locationInfo.chance}%
-						</td>
+						<th>Method</th>
+						<th>Level</th>
+						<th>Chance</th>
 						{#if hasRequirement}
-							<td>
-								{locationInfo.conditions
-									.map((a) => capitaliseEachWord(a.replaceAll('-', ' ')))
-									.join(', ')}
-							</td>
+							<th>Req</th>
 						{/if}
 					</tr>
-				{/each}
-			</tbody>
-		</table>
-	</div>
+				</thead>
+				<tbody>
+					{#each encounterLocation.sort( (a, b) => (a.minLevel > b.minLevel ? 1 : -1) ) as locationInfo}
+						<tr>
+							<td>
+								{capitaliseEachWord(locationInfo.method.replaceAll('-', ' '))}
+							</td>
+							<td>
+								{#if locationInfo.minLevel !== locationInfo.maxLevel}
+									{locationInfo.minLevel} - {locationInfo.maxLevel}
+								{:else}
+									{locationInfo.maxLevel}
+								{/if}
+							</td>
+							<td>
+								{locationInfo.chance}%
+							</td>
+							{#if hasRequirement}
+								<td>
+									{locationInfo.conditions
+										.map((a) => capitaliseEachWord(a.replaceAll('-', ' ')))
+										.join(', ')}
+								</td>
+							{/if}
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
+	{/snippet}
 </ExpandableButton>
 
 <style>

@@ -2,8 +2,8 @@
 	import Button from '$/ui/atoms/button';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 
-	let email = '';
-	let emailError = '';
+	let email = $state('');
+	let emailError = $state('');
 
 	const onResetClick = async () => {
 		if (!email.includes('@') || !email.includes('.')) {

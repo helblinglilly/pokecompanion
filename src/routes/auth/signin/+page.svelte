@@ -5,14 +5,13 @@
 	import Google from './Google.svelte';
 	import Github from './Github.svelte';
 	import Spotify from './Spotify.svelte';
-	import { onMount } from 'svelte';
 	import { setCookie } from '$/lib/utils/cookies';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	export let data;
+	let { data } = $props();
 
-	onMount(() => {
-		setCookie('redirectUrl', $page.url.origin);
+	$effect(() => {
+		setCookie('redirectUrl', page.url.origin);
 	});
 </script>
 

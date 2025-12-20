@@ -9,11 +9,15 @@
 	type APIAbility =
 		paths['/ability/{id}']['get']['responses']['200']['content']['application/json'];
 
-	export let abilities: Array<
-		APIPokemon['abilities'][number] & {
-			data: Promise<APIAbility>;
-		}
-	>;
+	interface Props {
+		abilities: Array<
+			APIPokemon['abilities'][number] & {
+				data: Promise<APIAbility>;
+			}
+		>;
+	}
+
+	let { abilities }: Props = $props();
 
 	function findStaticAbility(fullAbility: APIAbility) {
 		const staticAbility = abilities.find((ability) => ability.id === fullAbility.id);
@@ -52,27 +56,32 @@
 	{:then fullAbilities}
 		{#each fullAbilities as fullAbility}
 			<ExpandableButton data-umami-event="PokemonAbility">
-				<div slot="title" class="inline-flex">
-					{#if findStaticAbility(fullAbility).is_hidden}
-						<Icon
-							name="hidden"
-							style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
-						/>
-					{/if}
+				{#snippet title()}
+					<div class="inline-flex">
+						{#if findStaticAbility(fullAbility).is_hidden}
+							<Icon
+								name="hidden"
+								style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
+							/>
+						{/if}
 
-					{fullAbility.name}
-				</div>
-				<div slot="content">
-					{#each fullAbility.effectEntries as effect}
-						<p>{effect.shortEffect}</p>
-					{/each}
-					<a href={fullAbility.slug} class="inline-flex"
-						>Learn more <Icon
-							name="link"
-							style="margin-top: auto; margin-bottom: auto; margin-left: 0.5rem;"
-						/></a
-					>
-				</div>
+						{fullAbility.name}
+					</div>
+				{/snippet}
+				{#snippet content()}
+				<p>Expanded</p>
+					<div>
+						{#each fullAbility.effectEntries as effect}
+							<p>{effect.shortEffect}</p>
+						{/each}
+						<a href={fullAbility.slug} class="inline-flex"
+							>Learn more <Icon
+								name="link"
+								style="margin-top: auto; margin-bottom: auto; margin-left: 0.5rem;"
+							/></a
+						>
+					</div>
+				{/snippet}
 			</ExpandableButton>
 		{/each}
 	{:catch}

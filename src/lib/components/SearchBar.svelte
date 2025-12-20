@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 
 	const placeholders = ['Pokémon names', 'Pokédex ID', 'Items', 'Moves', 'Abilities'];
-	let id = Math.floor(Math.random() * placeholders.length);
+	let id = $state(Math.floor(Math.random() * placeholders.length));
 
 	onMount(() => {
 		const interval = setInterval(() => {

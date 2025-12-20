@@ -1,3 +1,3 @@
-import Modal from "./Modal.svelte";
+import Modal from './Modal.svelte';
 
 export default Modal;

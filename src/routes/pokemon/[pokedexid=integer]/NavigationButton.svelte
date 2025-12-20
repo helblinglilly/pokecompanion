@@ -3,9 +3,13 @@
 	import { meta } from '$/lib/stores/domain';
 	import Card from '$/ui/atoms/card';
 	import Image from '$/ui/atoms/image/Image.svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	export let pokedexId: number;
+	interface Props {
+		pokedexId: number;
+	}
+
+	let { pokedexId }: Props = $props();
 
 	const iconUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
 </script>
@@ -13,8 +17,8 @@
 <div style="min-width: fit-content; min-height: 70px;">
 	{#if pokedexId > 0 && pokedexId <= $meta.lastPokedexEntry}
 		<a
-			href={`/pokemon/${pokedexId}${$page.url.search}`}
-			on:click={() => {
+			href={`/pokemon/${pokedexId}${page.url.search}`}
+			onclick={() => {
 				Logger.addPageAction('PokemonNavigation');
 			}}
 		>
@@ -38,6 +42,7 @@
 			</Card>
 		</a>
 	{:else}
+		<!-- svelte-ignore element_invalid_self_closing_tag -->
 		<div class="w-[50px]" />
 	{/if}
 </div>

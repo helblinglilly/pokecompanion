@@ -3,7 +3,7 @@
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
 	import PageNavigator from './PageNavigator.svelte';
 
-	export let data;
+	let { data } = $props();
 </script>
 
 <SocialPreview

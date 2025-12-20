@@ -26,8 +26,8 @@
 
 		<p>
 			<b>Questions or concerns?</b> Reading this privacy policy will help you understand your privacy
-			rights and choices. If you do not agree with our policies and practices, please do not use our
-			Services. If you still have any questions or concerns, please contact us at pokecompanion@helbling.uk.
+			rights and choices. If you do not agree with our policies and practices, please do not use our Services.
+			If you still have any questions or concerns, please contact us at pokecompanion@helbling.uk.
 		</p>
 	</section>
 
@@ -121,8 +121,8 @@
 		</p>
 
 		<p>
-			We may manually review <a href="#browserData">Browser Data</a> to identify and fix issues with
-			our products.
+			We may manually review <a href="#browserData">Browser Data</a> to identify and fix issues with our
+			products.
 		</p>
 	</section>
 

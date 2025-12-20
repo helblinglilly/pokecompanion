@@ -1,9 +1,8 @@
 <script lang="ts">
 	import '$/styles/global.css';
 
-	import { onMount } from 'svelte';
-	import { cookieHandlers, meta, theme } from '$lib/stores/domain';
-	import { page } from '$app/stores';
+	import { cookieHandlers, theme } from '$lib/stores/domain';
+	import { page } from '$app/state';
 	import { notifications } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 	import SearchBar from '$/lib/components/SearchBar.svelte';
@@ -12,18 +11,14 @@
 	import Notification from '$/ui/molecules/notification/Notification.svelte';
 	import ScrollToTop from '$/lib/components/ScrollToTop.svelte';
 	import { refetchTags } from '$/lib/stores/tags';
-	import { navigating } from '$app/stores';
-	import {
-		primaryLanguage,
-		secondaryLanguage,
-		selectedGame,
-		SettingNames
-	} from '$lib/stores/domain';
-	import { getCookie } from '$lib/utils/cookies';
-	import type { PokeapiLanguageCodes, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 	import Footer from './Footer.svelte';
 
-	export let breadcrumbs: { display: string; url: string }[] = [];
+	interface Props {
+		breadcrumbs?: { display: string; url: string }[];
+		children?: import('svelte').Snippet;
+	}
+
+	let { breadcrumbs = [], children }: Props = $props();
 
 	const initTheme = () => {
 		const changeTheme = (newTheme: 'dark' | 'light') => {
@@ -72,52 +67,39 @@
 			}
 			image.addEventListener('error', () => {
 				if (image.src !== '/placeholder.png') {
-					image.srcset = '/p  laceholder.png';
+					image.srcset = '/placeholder.png';
 				}
 			});
 		});
 	};
 
-	onMount(() => {
-		initTheme();
-		// Initialise all cookies and stores
-		for (const value of Object.values(cookieHandlers)) {
-			value();
-		}
-		fixImages();
-
-		currentUser.subscribe(async (user) => {
-			if (user) {
-				await refetchTags(user.id);
+	$effect(() => {
+	initTheme();
+	})
+	$effect(() => {
+			// Initialise all cookies and stores
+			for (const value of Object.values(cookieHandlers)) {
+				value();
 			}
-		});
-	});
-
-	$: shouldDisplaySearch = !['/auth/', '/about', '/privacy'].some((noSearchBar) => {
-		return $page.url.pathname.includes(noSearchBar);
-	});
-
-	navigating.subscribe(async (nav) => {
-		if (nav) {
-			if ($primaryLanguage !== getCookie(SettingNames.PrimaryLanguage)) {
-				primaryLanguage.set(getCookie(SettingNames.PrimaryLanguage) as PokeapiLanguageCodes);
-			}
-			if ($secondaryLanguage !== getCookie(SettingNames.SecondaryLanguage)) {
-				secondaryLanguage.set(
-					getCookie(SettingNames.SecondaryLanguage) as PokeapiLanguageCodes | undefined
-				);
-			}
-			if ($selectedGame.pokeapi !== getCookie(SettingNames.SelectedGame)) {
-				const cookieValue = getCookie(SettingNames.SelectedGame) as PokeapiVersionGroups;
-				const game = $meta.games.find((metaGame) => metaGame.pokeapi === cookieValue);
-				if (game) {
-					selectedGame.set(game);
-				}
-			}
-
-			await nav.complete;
+	})
+	$effect(() => {
+	currentUser.subscribe(async (user) => {
+		if (user) {
+			await refetchTags(user.id);
 		}
 	});
+	})
+
+	$effect(() => {
+	fixImages();
+	})
+
+
+	let shouldDisplaySearch = $derived(
+		!['/auth/', '/about', '/privacy'].some((noSearchBar) => {
+			return page.url.pathname.includes(noSearchBar);
+		})
+	);
 </script>
 
 <svelte:head>
@@ -144,7 +126,7 @@
 	<div id="pageWrapper">
 		{#if shouldDisplaySearch}
 			<SearchBar />
-			{#if breadcrumbs.length > 0 && $page.status === 200}
+			{#if breadcrumbs.length > 0 && page.status === 200}
 				<div style="display: inline-flex; margin-bottom: 2rem;">
 					{#each breadcrumbs as crumb}
 						{#if breadcrumbs.indexOf(crumb) < breadcrumbs.length - 1}
@@ -157,7 +139,7 @@
 				</div>
 			{/if}
 		{/if}
-		<slot />
+		{@render children?.()}
 	</div>
 </div>
 

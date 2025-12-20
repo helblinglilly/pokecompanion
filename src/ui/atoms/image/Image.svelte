@@ -1,19 +1,33 @@
 <script lang="ts">
-	export let src: string;
-	export let alt: string;
-	export let height: string | undefined = 'inherit';
-	export let width: string | undefined = 'inherit';
-	export let style: string | undefined = undefined;
-	export let classNames: string | undefined = undefined;
-	export let id: string | undefined = `image-${src}-${alt}`;
-	export let loading: 'eager' | 'lazy' = 'lazy';
-	export let fallback = '';
+	interface Props {
+		src: string;
+		alt: string;
+		height?: string | undefined;
+		width?: string | undefined;
+		style?: string | undefined;
+		classNames?: string | undefined;
+		id?: string | undefined;
+		loading?: 'eager' | 'lazy';
+		fallback?: string;
+	}
+
+	let {
+		src = $bindable(),
+		alt,
+		height = 'inherit',
+		width = 'inherit',
+		style = undefined,
+		classNames = undefined,
+		id = `image-${src}-${alt}`,
+		loading = 'lazy',
+		fallback = ''
+	}: Props = $props();
 
 	if (!src) {
 		src = '/placeholder.png';
 	}
 
-	let hasFallenBack = fallback === '' ? true : false;
+	let hasFallenBack = $derived(fallback === '' ? true : false);
 </script>
 
 <img
@@ -25,7 +39,7 @@
 	{id}
 	class={`${classNames} text-textColour`}
 	{loading}
-	on:error={(e) => {
+	onerror={(e) => {
 		if (e.target) {
 			if ('src' in e.target) {
 				if (!hasFallenBack) {

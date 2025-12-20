@@ -1,7 +1,7 @@
 import type { APIMeta } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import type { LayoutLoad } from './$types';
-import { animateSprites, meta } from '$lib/stores/domain';
+import { animateSprites, meta, selectedGame } from '$lib/stores/domain';
 import { get } from 'svelte/store';
 
 export const load: LayoutLoad = async ({ fetch }) => {
@@ -21,6 +21,10 @@ export const load: LayoutLoad = async ({ fetch }) => {
 				animateSprites: get(animateSprites)
 			}
 		});
+
+		if (get(selectedGame) === undefined) {
+			selectedGame.set(body.games[body.games.length - 1]);
+		}
 
 		return body;
 	} catch (err) {

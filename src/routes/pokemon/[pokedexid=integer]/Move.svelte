@@ -7,11 +7,15 @@
 		paths['/pokemon/{id}/moves']['get']['responses']['200']['content']['application/json']['black-2-white-2']
 	>;
 
-	export let move:
-		| FullMove['levelup'][number]
-		| FullMove['breed'][number]
-		| FullMove['tm'][number]
-		| FullMove['tutor'][number];
+	interface Props {
+		move:
+			| FullMove['levelup'][number]
+			| FullMove['breed'][number]
+			| FullMove['tm'][number]
+			| FullMove['tutor'][number];
+	}
+
+	let { move }: Props = $props();
 </script>
 
 <a href={move.slug}>

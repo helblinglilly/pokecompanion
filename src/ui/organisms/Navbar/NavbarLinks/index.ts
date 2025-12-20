@@ -1,3 +1,3 @@
-import NavbarLinks from "./NavbarLinks.svelte";
+import NavbarLinks from './NavbarLinks.svelte';
 
-export default NavbarLinks
+export default NavbarLinks;

@@ -3,16 +3,20 @@
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Image from '$/ui/atoms/image';
-	import { createEventDispatcher } from 'svelte';
 	import type { paths } from '$/@types/api';
 
-	export let pokemon: paths['/pokemon/{id}/preview']['get']['responses']['200']['content']['application/json'];
-	export let shiny: boolean | undefined;
-	export let gender: 'male' | 'female' | undefined;
-	export let showGenderAndShiny: boolean;
-	export let isClickable = true;
+	interface Props {
+		pokemon: paths['/pokemon/{id}/preview']['get']['responses']['200']['content']['application/json'];
+		shiny: boolean | undefined;
+		gender: 'male' | 'female' | undefined;
+		showGenderAndShiny: boolean;
+		isClickable?: boolean;
+		remove?: import('svelte').Snippet;
+		onclick?: (_: any) => void;
+	}
 
-	const dispatch = createEventDispatcher();
+	let { pokemon, shiny, gender, showGenderAndShiny, isClickable = true, remove, onclick }: Props = $props();
+
 </script>
 
 <Card
@@ -20,8 +24,10 @@
 	{isClickable}
 	classes="relative h-auto p-8 text-center"
 	style={`min-height: 150px;`}
-	on:click={() => {
-		dispatch('click', pokemon);
+	onclick={() => {
+	  if (onclick){
+			onclick(pokemon);
+			}
 	}}
 >
 	<div class="spriteWrapper">
@@ -34,7 +40,7 @@
 				height="64px"
 			/>
 		{:else}
-			<div />
+			<div></div>
 		{/if}
 	</div>
 	<p>#{pokemon.id}</p>
@@ -76,7 +82,7 @@
 			/>
 		{/if}
 
-		<slot name="remove" />
+		{@render remove?.()}
 	</div>
 </Card>
 

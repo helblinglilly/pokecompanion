@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let breadcrumbs: { display: string; url?: string }[] = [];
+	interface Props {
+		breadcrumbs?: { display: string; url?: string }[];
+	}
+
+	let { breadcrumbs = [] }: Props = $props();
 </script>
 
 <div>

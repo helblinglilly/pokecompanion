@@ -5,7 +5,9 @@ import { Logger } from '$/debt/log.js';
 import { getUserByUsername } from '$/routes/user/[username]/tags/[tagId]/publicUsers';
 import { error } from '@sveltejs/kit';
 
-export const load = async ({ params, fetch }) => {
+export const load = async ({ params, fetch, depends }) => {
+	depends(`tag:${params.tagId}`);
+
 	const [user, tagRes] = await Promise.all([
 		getUserByUsername(params.username),
 		await fetch(`${PUBLIC_API_HOST}/tags/${params.tagId}`, {

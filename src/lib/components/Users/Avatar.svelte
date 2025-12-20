@@ -1,7 +1,11 @@
 <script lang="ts">
 	import Image from '$/ui/atoms/image/Image.svelte';
 
-	export let username: string;
+	interface Props {
+		username: string;
+	}
+
+	let { username }: Props = $props();
 </script>
 
 <a class="avatarBackground" href={`/user/${username}`}>

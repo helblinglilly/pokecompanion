@@ -1,22 +1,30 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { onMount } from 'svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 
 	type Sprites = APIPokemon['sprites'];
-	export let sprites: Sprites;
+	interface Props {
+		sprites: Sprites;
+	}
 
-	let primarySprite: Sprites[number] | undefined;
-	let secondarySprite: Sprites[number] | undefined;
-	$: [primarySprite, secondarySprite] = sprites ?? [];
+	let { sprites }: Props = $props();
 
-	let showModal = false;
-	let modalContent: Pick<Sprites[number], 'url' | 'alt' | 'isBack'> = {
+	let primarySprite: Sprites[number] | undefined = $state();
+	let secondarySprite: Sprites[number] | undefined = $state();
+	run(() => {
+		[primarySprite, secondarySprite] = sprites ?? [];
+	});
+
+	let showModal = $state(false);
+	let modalContent: Pick<Sprites[number], 'url' | 'alt' | 'isBack'> = $state({
 		url: '',
 		alt: 'placeholder',
 		isBack: false
-	};
+	});
 
 	onMount(() => {
 		document.addEventListener('keypress', (event) => {
@@ -39,8 +47,8 @@
 	{#if primarySprite}
 		<div
 			class="column spriteBoxWrapper"
-			on:click={() => toggleModal(primarySprite)}
-			on:keydown={(key) => {
+			onclick={() => toggleModal(primarySprite)}
+			onkeydown={(key) => {
 				if (key.key === 'space' || key.key === 'enter') {
 					toggleModal(primarySprite);
 				}
@@ -60,8 +68,8 @@
 	{#if secondarySprite?.url && secondarySprite.isBack}
 		<div
 			class="column spriteBoxWrapper"
-			on:click={() => toggleModal(secondarySprite)}
-			on:keydown={(key) => {
+			onclick={() => toggleModal(secondarySprite)}
+			onkeydown={(key) => {
 				if (key.key === 'space' || key.key === 'enter') {
 					toggleModal(secondarySprite);
 				}
@@ -82,9 +90,11 @@
 </div>
 
 <Modal bind:showModal>
-	<h2 class="h2" slot="header">
-		{modalContent.alt}
-	</h2>
+	{#snippet header()}
+		<h2 class="h2">
+			{modalContent.alt}
+		</h2>
+	{/snippet}
 
 	<div id="modalImageWrapper">
 		<Image

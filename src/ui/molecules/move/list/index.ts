@@ -1,3 +1,3 @@
-import MoveListEntry from "./MoveListEntry.svelte";
+import MoveListEntry from './MoveListEntry.svelte';
 
 export default MoveListEntry;
