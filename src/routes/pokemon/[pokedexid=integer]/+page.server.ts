@@ -21,6 +21,11 @@ export const load = async ({ params, fetch, url, cookies }) => {
 		const res = await fetch(abilityUrl, {
 			credentials: 'include'
 		});
+
+		if (res.status !== 200) {
+			throw new Error('Failed to get abilities');
+		}
+
 		return (await res.json()) as paths['/ability/{id}']['get']['responses']['200']['content']['application/json'];
 	}
 
@@ -34,6 +39,10 @@ export const load = async ({ params, fetch, url, cookies }) => {
 		const request = await fetch(moveRequestUrl, {
 			credentials: 'include'
 		});
+
+		if (request.status !== 200) {
+			throw new Error('Failed to get moves');
+		}
 		return (await request.json()) as paths['/pokemon/{id}/moves']['get']['responses']['200']['content']['application/json'];
 	}
 
@@ -41,6 +50,11 @@ export const load = async ({ params, fetch, url, cookies }) => {
 		const request = await fetch(pokemonRequestUrl, {
 			credentials: 'include'
 		});
+
+		if (request.status !== 200) {
+			throw new Error(`Failed to get Pokemon info - ${request.status}`);
+		}
+
 		const body = (await request.json()) as APIPokemon;
 
 		// Redirect mon's so that subsequent API calls work correctly
