@@ -12,6 +12,7 @@
 		versionSpecificPokemonSprites,
 		versionSpecificTypeSprites
 	} from '$lib/stores/domain';
+	import { capitaliseFirstLetter } from '$/lib/utils/string.js';
 
 	export let data;
 </script>
@@ -56,10 +57,12 @@
 						be displayed.
 					</p>
 				{:else}
-					<p>{$selectedGame.region} Region</p>
+					<p>{capitaliseFirstLetter($selectedGame.region)} Region</p>
 					<p>
 						{$selectedGame.generation.name}, including Pokémon up to #{$selectedGame.generation
-							.nationalDexEnd} in the National Pokédex
+							.nationalDexEnd === 9999
+							? $meta.lastPokedexEntry
+							: $selectedGame.generation.nationalDexEnd} in the National Pokédex
 					</p>
 				{/if}
 			</Card>
