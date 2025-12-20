@@ -107,7 +107,7 @@
 					getCookie(SettingNames.SecondaryLanguage) as PokeapiLanguageCodes | undefined
 				);
 			}
-			if ($selectedGame !== getCookie(SettingNames.SelectedGame)) {
+			if ($selectedGame.pokeapi !== getCookie(SettingNames.SelectedGame)) {
 				const cookieValue = getCookie(SettingNames.SelectedGame) as PokeapiVersionGroups;
 				const game = $meta.games.find((metaGame) => metaGame.pokeapi === cookieValue);
 				if (game) {

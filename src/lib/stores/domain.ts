@@ -1,7 +1,6 @@
 import { get, writable } from 'svelte/store';
 import { getCookie, getRawCookie, setCookie } from '../utils/cookies';
 import { currentUser, type AuthRecord } from './user';
-import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';
 import type {
 	MetaGame,
@@ -9,6 +8,7 @@ import type {
 	PokeapiVersionGroups
 } from '$/@types/api.pokecompanion';
 import type { paths } from '$/@types/api';
+import { uuid } from '../utils/uuid';
 
 export const theme = writable<'dark' | 'light' | undefined>();
 export const selectedGame = writable<MetaGame>({
@@ -84,7 +84,9 @@ export const cookieHandlers = {
 			get(meta).games.find((metaGame) => metaGame.pokeapi === existingValue) ??
 			get(meta).games[get(meta).games.length - 1];
 
-		selectedGame.set(game);
+		if (game) {
+			selectedGame.set(game);
+		}
 
 		selectedGame.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute(SettingNames.SelectedGame, value?.pokeapi);

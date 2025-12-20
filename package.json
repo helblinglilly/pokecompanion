@@ -24,9 +24,6 @@
     "scripts:swsh-sprites": "node scripts/manual-sprites/swsh-script.js",
     "scripts:sv-sprites": "node scripts/manual-sprites/sv-script.js"
   },
-  "dependencies": {
-    "uuid": "^9.0.1"
-  },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240208.0",
     "@sveltejs/adapter-cloudflare": "^3.0.1",

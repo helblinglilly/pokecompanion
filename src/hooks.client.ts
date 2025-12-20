@@ -1,6 +1,7 @@
 import type { HandleServerError } from '@sveltejs/kit';
+import { uuid } from './lib/utils/uuid';
 export const handleError: HandleServerError = async ({ status, message }) => {
-	const errorId = crypto.randomUUID();
+	const errorId = uuid();
 
 	if (!navigator.onLine) {
 		return {
