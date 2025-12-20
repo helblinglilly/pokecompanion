@@ -4,7 +4,6 @@
  * This file needs to be migrated away
  */
 
-import type { UserPreferencePokemonVersion } from '$lib/stores/domain';
 import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 export interface IGeneration {
 	name: string;
@@ -603,16 +602,6 @@ export function getGame(pokeapiname: PokeapiVersionNames | undefined): IGame | u
 		return gameGroups.dlcGames.find((game) => game.pokeapi === pokeapiname);
 	});
 	return matchingDLC?.dlcGames.find((game) => game.pokeapi === pokeapiname);
-}
-
-export function getGameGroupFromName(pokeapiname: UserPreferencePokemonVersion) {
-	if (!pokeapiname) {
-		return;
-	}
-
-	return GameGroups.find((gameGroup) => {
-		return gameGroup.pokeapi === pokeapiname;
-	});
 }
 
 // TODO This function should really look at the Pokedex for each game. But pokedex' don't exist yet

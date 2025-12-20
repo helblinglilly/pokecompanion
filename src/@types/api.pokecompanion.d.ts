@@ -30,3 +30,5 @@ export type APIMeta = paths['/meta']['get']['responses']['200']['content']['appl
 
 export type PokeapiVersionGroups = components['schemas']['PokeapiVersionGroups'];
 export type PokeapiLanguageCodes = components['schemas']['PokeapiLanguageCodes'];
+export type MetaGame =
+	paths['/meta']['get']['responses']['200']['content']['application/json']['games'][number];

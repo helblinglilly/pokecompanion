@@ -1,14 +1,17 @@
 import { get, writable } from 'svelte/store';
 import { getCookie, getRawCookie, setCookie } from '../utils/cookies';
 import { currentUser, type AuthRecord } from './user';
-import { getGameGroupFromName, type IGameGroups } from '$/debt/games';
 import { v4 as uuid } from 'uuid';
 import { page } from '$app/stores';
-import type { PokeapiLanguageCodes, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
+import type {
+	MetaGame,
+	PokeapiLanguageCodes,
+	PokeapiVersionGroups
+} from '$/@types/api.pokecompanion';
 import type { paths } from '$/@types/api';
 
 export const theme = writable<'dark' | 'light' | undefined>();
-export const selectedGame = writable<IGameGroups | undefined>();
+export const selectedGame = writable<MetaGame | undefined>();
 export const primaryLanguage = writable<PokeapiLanguageCodes>('en');
 export const secondaryLanguage = writable<PokeapiLanguageCodes | undefined>();
 export const versionSpecificPokemonSprites = writable<boolean>(true);
@@ -58,8 +61,11 @@ export const cookieHandlers = {
 			}
 		}
 
-		const foundGame = getGameGroupFromName(existingValue);
-		selectedGame.set(foundGame);
+		const game =
+			get(meta).games.find((metaGame) => metaGame.pokeapi === existingValue) ??
+			get(meta).games[get(meta).games.length - 1];
+
+		selectedGame.set(game);
 
 		selectedGame.subscribe((value) => {
 			window?.newrelic?.setCustomAttribute(SettingNames.SelectedGame, value?.pokeapi);
@@ -75,13 +81,11 @@ export const cookieHandlers = {
 				return;
 			}
 
-			const existingCookie = getCookie(SettingNames.SelectedGame) as
-				| PokeapiVersionGroups
-				| undefined;
+			const existingCookie = getCookie(SettingNames.SelectedGame) as MetaGame['pokeapi'];
 			let existingValue = undefined;
 
 			if (existingCookie) {
-				existingValue = getGameGroupFromName(existingCookie);
+				existingValue = get(meta).games.find((metaGame) => metaGame.pokeapi === existingCookie);
 			}
 
 			if (!existingValue || value.pokeapi !== existingValue.pokeapi) {

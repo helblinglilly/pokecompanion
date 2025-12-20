@@ -2,8 +2,6 @@ import type { paths } from '$/@types/api';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import type { Cookies } from '@sveltejs/kit';
 import { SettingNames } from '../stores/domain';
-import type { PokeapiVersionGroups } from '$/@types/api.pokecompanion';
-import { getGameGroupFromName } from '../../debt/games';
 
 export function addCookiesAsSearchParams(
 	baseUrl: URL,
@@ -30,11 +28,9 @@ export function addCookiesAsSearchParams(
 		searchParams.get('animateSprites') ?? `${cookies.get(SettingNames.AnimateSprites)}`
 	);
 
-	const game = getGameGroupFromName(
-		(searchParams.get('game') as PokeapiVersionGroups) ?? cookies.get(SettingNames.SelectedGame)
-	);
+	const game = searchParams.get('game') ?? cookies.get(SettingNames.SelectedGame);
 	if (game) {
-		baseUrl.searchParams.append('game', game.pokeapi);
+		baseUrl.searchParams.append('game', game);
 	}
 
 	const showGameSpecificPokemonSprites =
@@ -47,6 +43,7 @@ export function addCookiesAsSearchParams(
 			cookies.get(SettingNames.VersionSpecificPokemonSprites)) === 'true';
 	baseUrl.searchParams.append('versionSpecificTypeSprites', `${showGameSpecificTypeSprites}`);
 
+	console.log(baseUrl);
 	return baseUrl;
 }
 

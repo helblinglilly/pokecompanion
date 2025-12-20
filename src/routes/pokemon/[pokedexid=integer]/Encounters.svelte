@@ -1,5 +1,6 @@
 <script lang="ts">
-	import type { APIPokemon } from '$/@types/api.pokecompanion';
+	import type { APIPokemon, MetaGame } from '$/@types/api.pokecompanion';
+	import type { PokeapiVersionNames } from '$/debt/games';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Select from '$/ui/atoms/select';
 	import { meta, selectedGame } from '$lib/stores/domain';
@@ -24,13 +25,12 @@
 				.filter((a) => a > 0)[0] ?? -1;
 
 		return aGameIndex > bGameIndex ? 1 : -1;
-	});
+	}) as Array<MetaGame['games'][number]['pokeapi']>;
 
-	$: currentGame = allGames.some((encounterGame) =>
+	$: currentGame = allGames.filter((encounterGame) =>
 		$selectedGame?.games.some((game) => game.pokeapi === encounterGame)
 	)
-		? // @ts-expect-error it's confirmed above that allGames will contain such an index
-		  allGames[$selectedGame?.games[0]?.pokeapi]
+		? $selectedGame?.games[0]?.pokeapi
 		: allGames[allGames.length - 1];
 
 	const defaultLimit = 4;
@@ -53,9 +53,11 @@
 		isNested
 		options={allGames.map((game) => ({
 			label:
-				$meta.games.filter((metaGames) =>
-					metaGames.games.find((metaGame) => metaGame.pokeapi === game)
-				)[0]?.shortName ?? '',
+				$meta.games
+					.filter((gameGroup) => {
+						return gameGroup.games.some((metaGame) => metaGame.pokeapi === game);
+					})[0]
+					?.games.find((metaGame) => metaGame.pokeapi === game)?.shortName ?? '',
 			value: game
 		}))}
 		value={allGames.findIndex((game) => game === currentGame) > 0

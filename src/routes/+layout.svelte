@@ -2,7 +2,7 @@
 	import '$/styles/global.css';
 
 	import { onMount } from 'svelte';
-	import { cookieHandlers, theme } from '$lib/stores/domain';
+	import { cookieHandlers, meta, theme } from '$lib/stores/domain';
 	import { page } from '$app/stores';
 	import { notifications } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
@@ -22,7 +22,6 @@
 	import { getCookie } from '$lib/utils/cookies';
 	import type { PokeapiLanguageCodes, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 	import Footer from './Footer.svelte';
-	import { getGameGroupFromName } from '$/debt/games';
 
 	export let breadcrumbs: { display: string; url: string }[] = [];
 
@@ -73,7 +72,7 @@
 			}
 			image.addEventListener('error', () => {
 				if (image.src !== '/placeholder.png') {
-					image.srcset = '/placeholder.png';
+					image.srcset = '/p  laceholder.png';
 				}
 			});
 		});
@@ -110,8 +109,9 @@
 			}
 			if ($selectedGame !== getCookie(SettingNames.SelectedGame)) {
 				const cookieValue = getCookie(SettingNames.SelectedGame) as PokeapiVersionGroups;
-				if (cookieValue) {
-					selectedGame.set(getGameGroupFromName(cookieValue));
+				const game = $meta.games.find((metaGame) => metaGame.pokeapi === cookieValue);
+				if (game) {
+					selectedGame.set(game);
 				}
 			}
 

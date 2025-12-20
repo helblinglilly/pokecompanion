@@ -4,11 +4,10 @@
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Select from '$/ui/atoms/select';
-	import { selectedGame } from '$lib/stores/domain';
+	import { meta, selectedGame } from '$lib/stores/domain';
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card/PokemonCardEntry.svelte';
-	import { invalidate } from '$app/navigation';
+
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
-	import { getGameGroupFromName } from '$/debt/games';
 	export let data;
 
 	/**
@@ -52,8 +51,10 @@
 							? data.games[data.games.length - 1]?.pokeapi
 							: undefined}
 						on:change={async ({ detail }) => {
-							selectedGame.set(getGameGroupFromName(detail));
-							await invalidate('selectedGame');
+							const game = $meta.games.find((metaGame) => metaGame.pokeapi === detail);
+							if (game) {
+								selectedGame.set(game);
+							}
 						}}
 					/>
 
