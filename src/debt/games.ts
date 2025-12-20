@@ -582,35 +582,6 @@ export const GameGroups: IGameGroups[] = [
 	}
 ];
 
-/**
- * Returns a VersionGroup based off a single games' Pokeapi name
- * @param pokeapiname
- * @returns
- */
-export function getGame(pokeapiname: PokeapiVersionNames | undefined): IGame | undefined {
-	if (!pokeapiname) {
-		return;
-	}
-
-	const matchingGame = GameGroups.find((gameGroup) => {
-		return gameGroup.games.find((game) => game.pokeapi === pokeapiname);
-	});
-	if (matchingGame) {
-		return matchingGame.games.find((game) => game.pokeapi === pokeapiname);
-	}
-	const matchingDLC = GameGroups.find((gameGroups) => {
-		return gameGroups.dlcGames.find((game) => game.pokeapi === pokeapiname);
-	});
-	return matchingDLC?.dlcGames.find((game) => game.pokeapi === pokeapiname);
-}
-
-// TODO This function should really look at the Pokedex for each game. But pokedex' don't exist yet
-export const isPokemonInGameGroup = (nationalDexId: number, gameGroup: IGameGroups | undefined) => {
-	if (!gameGroup) return true;
-
-	return nationalDexId < gameGroup.generation.nationalDexEnd;
-};
-
 export interface IStaticPokemon {
 	id: number;
 	generation: number;

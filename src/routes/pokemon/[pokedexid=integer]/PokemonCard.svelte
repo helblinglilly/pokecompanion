@@ -1,10 +1,8 @@
 <script lang="ts">
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
-	import { isPokemonInGameGroup } from '$/debt/games';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
-	import { selectedGame } from '$lib/stores/domain';
 	import CreateNewTag from '$/ui/molecules/Collections/CreateNewTag.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import Image from '$/ui/atoms/image/Image.svelte';
@@ -99,10 +97,6 @@
 			}}
 		/>
 	</div>
-{/if}
-
-{#if !isPokemonInGameGroup(data.id, $selectedGame)}
-	<p style="text-align: center; margin-top: 20px;">Pokémon is not present in game</p>
 {/if}
 
 {#if hasShinySprite}
