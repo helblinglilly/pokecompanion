@@ -43,7 +43,6 @@ export function addCookiesAsSearchParams(
 			cookies.get(SettingNames.VersionSpecificPokemonSprites)) === 'true';
 	baseUrl.searchParams.append('versionSpecificTypeSprites', `${showGameSpecificTypeSprites}`);
 
-	console.log(baseUrl);
 	return baseUrl;
 }
 

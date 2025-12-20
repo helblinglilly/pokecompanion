@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { APIPokemon, MetaGame } from '$/@types/api.pokecompanion';
-	import type { PokeapiVersionNames } from '$/debt/games';
 	import Button from '$/ui/atoms/button/Button.svelte';
 	import Select from '$/ui/atoms/select';
 	import { meta, selectedGame } from '$lib/stores/domain';

@@ -1,10 +1,7 @@
 <script lang="ts">
-	import { GameGroups } from '$/debt/games';
 	import { page } from '$app/stores';
 	export let title = 'Pokécompanion';
-	export let description = `Explore the world from Kanto to ${
-		GameGroups[GameGroups.length - 1]?.region
-	} efficiently with Pokécompanion. Browsing and organising Pokémon, Moves, Abilities and more in a Rapidash!`;
+	export let description = `Explore the world from Kanto to Lumiose City efficiently with Pokécompanion. Browsing and organising Pokémon, Moves, Abilities and more in a Rapidash!`;
 	export let previewImage = 'https://socialpreviews.pokecompanion.helbling.uk/generic.png';
 </script>
 

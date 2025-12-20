@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { GameGroups } from '$/debt/games';
 	import { currentUser } from '$/lib/stores/user';
 
 	let trainerName = $currentUser?.username || 'Trainer';
@@ -24,8 +23,7 @@
 	<div class="column">
 		<div class="mt-auto mb-auto h-full">
 			<p class="h-full">
-				Explore the world from Kanto to {GameGroups[GameGroups.length - 1]?.region} efficiently with
-				Pokécompanion.
+				Explore the world from Kanto to Lumiose City efficiently with Pokécompanion.
 				<br />
 				Browsing and organising Pokémon, Moves, Abilities and more in a
 				<a href="/pokemon/78" class="underline">Rapidash</a>!

@@ -2,7 +2,6 @@
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import Select from '$/ui/atoms/select/Select.svelte';
-	import { GameGroups, PokeapiVersionNames } from '$/debt/games';
 	import {
 		animateSprites,
 		meta,
@@ -36,11 +35,11 @@
 
 				<Select
 					isNested
-					options={GameGroups.map((gameGroup) => ({
-						label: gameGroup.shortName,
-						value: gameGroup.pokeapi
+					options={$meta.games.map((game) => ({
+						label: game.shortName,
+						value: game.pokeapi
 					}))}
-					value={$selectedGame ? $selectedGame.pokeapi : PokeapiVersionNames.HOME}
+					value={$selectedGame.pokeapi}
 					on:change={({ detail }) => {
 						const game = $meta.games.find((metaGame) => metaGame.pokeapi === detail);
 						if (game) {

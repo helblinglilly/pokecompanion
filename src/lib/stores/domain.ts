@@ -11,7 +11,26 @@ import type {
 import type { paths } from '$/@types/api';
 
 export const theme = writable<'dark' | 'light' | undefined>();
-export const selectedGame = writable<MetaGame | undefined>();
+export const selectedGame = writable<MetaGame>({
+	region: 'kalos',
+	games: [
+		{
+			globalSortOrder: 1,
+			shortName: 'Home',
+			pokeapi: 'home'
+		}
+	],
+	generation: {
+		name: '1',
+		nationalDexEnd: 1,
+		number: 1,
+		pokeApiName: 'generation-i',
+		short: 'Gen 1'
+	},
+	shortName: 'Home',
+	pokeapi: 'home',
+	dlcGames: []
+});
 export const primaryLanguage = writable<PokeapiLanguageCodes>('en');
 export const secondaryLanguage = writable<PokeapiLanguageCodes | undefined>();
 export const versionSpecificPokemonSprites = writable<boolean>(true);
