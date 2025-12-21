@@ -45,8 +45,8 @@
 
 		statusMessages = ['Loading...'];
 
-		if (!validateUsername(newUsername)){
-		  throw new Error('Username is not valid');
+		if (!validateUsername(newUsername)) {
+			throw new Error('Username is not valid');
 		}
 
 		try {

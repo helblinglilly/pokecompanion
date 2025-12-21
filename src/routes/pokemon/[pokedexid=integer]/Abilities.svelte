@@ -69,7 +69,7 @@
 					</div>
 				{/snippet}
 				{#snippet content()}
-				<p>Expanded</p>
+					<p>Expanded</p>
 					<div>
 						{#each fullAbility.effectEntries as effect}
 							<p>{effect.shortEffect}</p>

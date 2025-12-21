@@ -15,8 +15,15 @@
 		onclick?: (_: any) => void;
 	}
 
-	let { pokemon, shiny, gender, showGenderAndShiny, isClickable = true, remove, onclick }: Props = $props();
-
+	let {
+		pokemon,
+		shiny,
+		gender,
+		showGenderAndShiny,
+		isClickable = true,
+		remove,
+		onclick
+	}: Props = $props();
 </script>
 
 <Card
@@ -25,9 +32,9 @@
 	classes="relative h-auto p-8 text-center"
 	style={`min-height: 150px;`}
 	onclick={() => {
-	  if (onclick){
+		if (onclick) {
 			onclick(pokemon);
-			}
+		}
 	}}
 >
 	<div class="spriteWrapper">

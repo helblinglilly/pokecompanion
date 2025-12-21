@@ -25,8 +25,8 @@
 
 	let selectedVersionGroup = $derived(
 		allApplicableVersions.length > 0
-			? allApplicableVersions.find((pokeapi) => pokeapi === $selectedGame?.pokeapi) ??
-					allApplicableVersions[allApplicableVersions.length - 1]
+			? (allApplicableVersions.find((pokeapi) => pokeapi === $selectedGame?.pokeapi) ??
+					allApplicableVersions[allApplicableVersions.length - 1])
 			: undefined
 	);
 </script>

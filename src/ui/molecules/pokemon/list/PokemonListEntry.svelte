@@ -5,7 +5,6 @@
 	import Image from '$/ui/atoms/image';
 	import type { paths } from '$/@types/api';
 
-
 	interface Props {
 		pokemon: paths['/pokemon/{id}/preview']['get']['responses']['200']['content']['application/json'];
 		shiny: boolean | undefined;
@@ -23,7 +22,7 @@
 		showGenderAndShiny = false,
 		cardActiveState = $bindable(false),
 		remove,
-		onclick,
+		onclick
 	}: Props = $props();
 </script>
 
@@ -36,8 +35,8 @@
 		cardActiveState ? 'background-color: var(--card-hover);' : ''
 	}`}
 	onclick={() => {
-		if (onclick){
-		onclick(pokemon);
+		if (onclick) {
+			onclick(pokemon);
 		}
 		cardActiveState = true;
 	}}

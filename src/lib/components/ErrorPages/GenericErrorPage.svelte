@@ -1,5 +1,5 @@
 <script>
-  import { page } from '$app/state';
+	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import FiveHundred from '$lib/components/ErrorPages/Generic/FiveHundred.svelte';
 	import FourOhFour from '$lib/components/ErrorPages/Generic/FourOhFour.svelte';

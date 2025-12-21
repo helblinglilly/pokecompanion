@@ -74,26 +74,25 @@
 	};
 
 	$effect(() => {
-	initTheme();
-	})
+		initTheme();
+	});
 	$effect(() => {
-			// Initialise all cookies and stores
-			for (const value of Object.values(cookieHandlers)) {
-				value();
-			}
-	})
-	$effect(() => {
-	currentUser.subscribe(async (user) => {
-		if (user) {
-			await refetchTags(user.id);
+		// Initialise all cookies and stores
+		for (const value of Object.values(cookieHandlers)) {
+			value();
 		}
 	});
-	})
+	$effect(() => {
+		currentUser.subscribe(async (user) => {
+			if (user) {
+				await refetchTags(user.id);
+			}
+		});
+	});
 
 	$effect(() => {
-	fixImages();
-	})
-
+		fixImages();
+	});
 
 	let shouldDisplaySearch = $derived(
 		!['/auth/', '/about', '/privacy'].some((noSearchBar) => {

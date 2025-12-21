@@ -12,7 +12,9 @@
 	interface Props {
 		pokemon?: NonNullable<APITagCreateRequestBody['pokemon']>[number] | undefined;
 		move?: NonNullable<APITagCreateRequestBody['move']>[number] | undefined;
-		onsuccess?: (event: CustomEvent<paths['/tags']['post']['requestBody']['content']['application/json']>) => void;
+		onsuccess?: (
+			event: CustomEvent<paths['/tags']['post']['requestBody']['content']['application/json']>
+		) => void;
 	}
 
 	let { pokemon = undefined, move = undefined, onsuccess }: Props = $props();

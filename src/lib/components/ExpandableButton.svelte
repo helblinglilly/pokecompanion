@@ -23,7 +23,7 @@
 	// });
 
 	function handleClick() {
-	console.log('clicked');
+		console.log('clicked');
 		isExpanded = !isExpanded;
 		onclick?.();
 	}

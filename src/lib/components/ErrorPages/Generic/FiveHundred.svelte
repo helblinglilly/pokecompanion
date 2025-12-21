@@ -1,5 +1,5 @@
 <script>
-  import { page } from '$app/state';
+	import { page } from '$app/state';
 	import Feedback from '$/lib/components/ErrorPages/Feedback.svelte';
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import { Logger } from '$/debt/log';

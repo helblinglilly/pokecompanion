@@ -271,8 +271,8 @@
 					loadMoreAbilities();
 				}}
 			>
-				Show {Math.min(10, $abilityResults.totalItems - $abilityResults.data.length)} more abilities
-				({$abilityResults.data.length}/{$abilityResults.totalItems})
+				Show {Math.min(10, $abilityResults.totalItems - $abilityResults.data.length)} more abilities ({$abilityResults
+					.data.length}/{$abilityResults.totalItems})
 			</Button>
 		{/if}
 	</section>

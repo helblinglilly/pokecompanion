@@ -141,7 +141,7 @@
 					)}
 					value={$primaryLanguage ?? ''}
 					onchange={(detail) => {
-			  primaryLanguage.set(detail as PokeapiLanguageCodes);
+						primaryLanguage.set(detail as PokeapiLanguageCodes);
 					}}
 				/>
 
@@ -162,11 +162,11 @@
 					)}
 					value={$secondaryLanguage ?? ''}
 					onchange={(detail) => {
-					  if (detail === ''){
-							secondaryLanguage.set('')
-							} else {
+						if (detail === '') {
+							secondaryLanguage.set('');
+						} else {
 							secondaryLanguage.set(detail as PokeapiLanguageCodes);
-							}
+						}
 					}}
 				/>
 				{#if !$secondaryLanguage}

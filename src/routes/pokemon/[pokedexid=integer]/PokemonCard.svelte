@@ -49,7 +49,7 @@
 			</div>
 		{/each}
 		{#if data.types.own.length === 1}
-		<div class="w-full"></div>
+			<div class="w-full"></div>
 		{/if}
 	</div>
 
