@@ -8,6 +8,7 @@
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card/PokemonCardEntry.svelte';
 
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
+	import { capitaliseFirstLetter } from '$/lib/utils/string';
 	let { data } = $props();
 </script>
 
@@ -38,8 +39,8 @@
 						value={$selectedGame
 							? $selectedGame.pokeapi
 							: data.games
-							? data.games[data.games.length - 1]?.pokeapi
-							: undefined}
+								? data.games[data.games.length - 1]?.pokeapi
+								: undefined}
 						onchange={async (detail) => {
 							const game = $meta.games.find((metaGame) => metaGame.pokeapi === detail);
 							if (game) {
@@ -49,7 +50,7 @@
 					/>
 
 					{#if $selectedGame && $selectedGame?.pokeapi !== 'home'}
-						<p class="mb-4">{$selectedGame.region} Region</p>
+						<p class="mb-4">{capitaliseFirstLetter($selectedGame.region)} Region</p>
 					{/if}
 				</Card>
 			</div>
