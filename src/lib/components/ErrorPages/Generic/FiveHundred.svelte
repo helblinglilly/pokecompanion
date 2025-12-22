@@ -2,14 +2,6 @@
 	import { page } from '$app/state';
 	import Feedback from '$/lib/components/ErrorPages/Feedback.svelte';
 	import Image from '$/ui/atoms/image/Image.svelte';
-	import { Logger } from '$/debt/log';
-	import { onMount } from 'svelte';
-
-	onMount(() => {
-		Logger.addPageAction('ErrorBoundary', {
-			kind: '500'
-		});
-	});
 </script>
 
 <Image src="/missingno.png" alt="missingno" style="margin-left: auto; margin-right: auto;" />

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 
 	import { page } from '$app/state';
@@ -18,14 +17,19 @@
 
 	let { data } = $props();
 
-	onMount(() => {
-		document.addEventListener('keydown', (e) => {
+	$effect(() => {
+		const event = (e: KeyboardEvent) => {
 			if (e.key === 'ArrowLeft' && data.id > 1) {
 				goto(`/pokemon/${data.id - 1}`);
 			} else if (e.key === 'ArrowRight' && data.id < (data.lastPokedexEntry ?? 1)) {
 				goto(`/pokemon/${data.id + 1}`);
 			}
-		});
+		};
+		document.addEventListener('keydown', event);
+
+		return () => {
+			document.removeEventListener('keydown', event);
+		};
 	});
 </script>
 

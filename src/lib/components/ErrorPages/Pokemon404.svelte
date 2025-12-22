@@ -1,13 +1,5 @@
 <script>
 	import Image from '$/ui/atoms/image/Image.svelte';
-	import { Logger } from '$/debt/log';
-	import { onMount } from 'svelte';
-
-	onMount(async () => {
-		await Logger.addPageAction('ErrorBoundary', {
-			kind: 'Pokemon404'
-		});
-	});
 </script>
 
 <div id="errorHeader">

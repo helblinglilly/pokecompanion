@@ -3,14 +3,13 @@
 	import { goto } from '$app/navigation';
 	import { currentUser } from '$lib/stores/user';
 	import { deleteCookie, setCookie } from '$lib/utils/cookies';
-	import { onMount } from 'svelte';
 
 	$currentUser = null;
 	deleteCookie('pb_auth');
 	deleteCookie('auth-redirect');
 	setCookie('remember-token', uuid());
 
-	onMount(() => {
+	$effect(() => {
 		goto('/auth/signin');
 	});
 </script>

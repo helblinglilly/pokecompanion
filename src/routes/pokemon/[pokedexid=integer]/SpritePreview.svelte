@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { run } from 'svelte/legacy';
 
-	import { onMount } from 'svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Image from '$/ui/atoms/image/Image.svelte';
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
@@ -26,12 +25,17 @@
 		isBack: false
 	});
 
-	onMount(() => {
-		document.addEventListener('keypress', (event) => {
+	$effect(() => {
+		const event = (event: KeyboardEvent) => {
 			if (event.key === 'escape') {
 				showModal = false;
 			}
-		});
+		};
+		document.addEventListener('keypress', event);
+
+		return () => {
+			document.removeEventListener('keypress', event);
+		};
 	});
 
 	let toggleModal = (newContent: Sprites[number] | undefined) => {

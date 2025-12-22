@@ -1,17 +1,21 @@
 <script lang="ts">
 	import Button from '$/ui/atoms/button/Button.svelte';
-	import { onMount } from 'svelte';
 
 	let scrolled = $state(false);
 
-	onMount(() => {
-		window.addEventListener('scroll', () => {
+	$effect(() => {
+		const eventListener = () => {
 			if (window.scrollY >= window.innerHeight) {
 				scrolled = true;
 			} else {
 				scrolled = false;
 			}
-		});
+		};
+		window.addEventListener('scroll', eventListener);
+
+		return () => {
+			document.removeEventListener('scroll', eventListener);
+		};
 	});
 </script>
 

@@ -2,7 +2,6 @@
 	import type { APIPokemonRootPreview } from '$/@types/api.pokecompanion';
 	import Button from '$/ui/atoms/button';
 	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
 
 	interface Props {
 		pagination: APIPokemonRootPreview['pagination'];
@@ -10,14 +9,20 @@
 
 	let { pagination }: Props = $props();
 
-	onMount(() => {
-		document.addEventListener('keydown', (e) => {
+	$effect(() => {
+		const handleKeydown = (e: KeyboardEvent) => {
 			if (e.key === 'ArrowLeft' && pagination.currentPage > 1) {
 				goto(`/pokemon?page=${pagination.currentPage - 1}`);
 			} else if (e.key === 'ArrowRight' && pagination.currentPage < pagination.lastPage) {
 				goto(`/pokemon?page=${pagination.currentPage + 1}`);
 			}
-		});
+		};
+
+		document.addEventListener('keydown', handleKeydown);
+
+		return () => {
+			document.removeEventListener('keydown', handleKeydown);
+		};
 	});
 </script>
 
