@@ -2,7 +2,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import { goto } from '$app/navigation';
 	import { Logger } from '$/debt/log';
-	import Icon from '$/ui/atoms/icon/Icon.svelte';
+	import Icon from '$/ui/atoms/Icon.svelte';
 	import Button from '$/ui/atoms/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import { addNotification } from '$/lib/stores/notifications';

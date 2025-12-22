@@ -2,7 +2,7 @@
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
-	import Icon from '$/ui/atoms/icon/Icon.svelte';
+	import Icon from '$/ui/atoms/Icon.svelte';
 	import CreateNewTag from '$/ui/molecules/Collections/CreateNewTag.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
