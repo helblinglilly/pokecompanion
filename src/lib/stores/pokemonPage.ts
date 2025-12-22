@@ -1,9 +1,3 @@
-export interface IType {
-	name: string;
-	icon: string;
-	url: string;
-}
-
 export interface IDisplayPokemon {
 	id: number;
 

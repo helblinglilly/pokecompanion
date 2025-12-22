@@ -115,6 +115,7 @@
 		display: grid;
 		align-content: center;
 		justify-content: center;
+		min-height: 128px;
 	}
 
 	#modalImageWrapper {
