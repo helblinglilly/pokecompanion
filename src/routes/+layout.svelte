@@ -6,12 +6,12 @@
 	import { currentUser } from '$lib/stores/user';
 	import Tracking from '$/lib/components/Tracking.svelte';
 	import Navbar from '$/ui/organisms/Navbar';
-	import ScrollToTop from '$/lib/components/ScrollToTop.svelte';
 	import { refetchTags } from '$/lib/stores/tags';
 	import Footer from './Footer.svelte';
 	import { notifications } from '$/features/notifications/notifications';
 	import Notification from '$/features/notifications/Notification.svelte';
 	import SearchBar from '$/features/search/SearchBar.svelte';
+	import ScrollToTop from './ScrollToTop.svelte';
 
 	interface Props {
 		breadcrumbs?: { display: string; url: string }[];

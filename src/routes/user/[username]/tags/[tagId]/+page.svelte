@@ -2,11 +2,11 @@
 	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
 	import { currentUser } from '$lib/stores/user';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
-	import Header from '$/ui/molecules/Collections/Header.svelte';
 	import TagEditor from './TagEditor.svelte';
 	import TagPokemon from './TagPokemon.svelte';
 	import TagMove from './TagMove.svelte';
 	import TagViewOptions from './TagViewOptions.svelte';
+	import Header from './Header.svelte';
 
 	let { data } = $props();
 

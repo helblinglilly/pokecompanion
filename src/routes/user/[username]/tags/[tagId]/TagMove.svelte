@@ -4,7 +4,7 @@
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
 	import { addNotification } from '$/features/notifications/notifications';
-	import MoveListEntry from '$/ui/molecules/move/list';
+	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
 	import { invalidate } from '$app/navigation';
 	import MoveCardEntry from './MoveCardEntry.svelte';
 

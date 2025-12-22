@@ -3,7 +3,6 @@
 	import { currentUser } from '$lib/stores/user';
 	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
 	import Icon from '$/ui/atoms/Icon.svelte';
-	import CreateNewTag from '$/ui/molecules/Collections/CreateNewTag.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
 	import SpritePreview from './SpritePreview.svelte';
@@ -11,6 +10,7 @@
 	import { tagStore } from '$/lib/stores/tags';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
+	import CreateNewTag from '$/ui/molecules/Modal/CreateNewTag.svelte';
 
 	interface Props {
 		data: APIPokemon;

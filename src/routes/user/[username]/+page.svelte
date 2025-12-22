@@ -6,9 +6,9 @@
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$/ui/atoms/Icon.svelte';
 	import EmailVerification from '$/routes/user/[username]/EmailVerification.svelte';
-	import CreateNewTag from '$/ui/molecules/Collections/CreateNewTag.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
+	import CreateNewTag from '$/ui/molecules/Modal/CreateNewTag.svelte';
 
 	let { data } = $props();
 </script>
