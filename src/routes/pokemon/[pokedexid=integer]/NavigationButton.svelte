@@ -11,13 +11,19 @@
 
 	let { pokedexId }: Props = $props();
 
+	const urlWithoutVariety = $derived(() => {
+		const url = new URL(page.url);
+		url.searchParams.delete('variety');
+		return url.search;
+	});
+
 	const iconUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
 </script>
 
 <div style="min-width: fit-content; min-height: 70px;">
 	{#if pokedexId > 0 && pokedexId <= $meta.lastPokedexEntry}
 		<a
-			href={`/pokemon/${pokedexId}${page.url.search}`}
+			href={`/pokemon/${pokedexId}${urlWithoutVariety()}`}
 			onclick={() => {
 				Logger.addPageAction('PokemonNavigation');
 			}}
