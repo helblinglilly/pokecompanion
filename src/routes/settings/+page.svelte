@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
-	import Select from '$/ui/atoms/select/Select.svelte';
+	import Select from '$/ui/atoms/Select.svelte';
 	import {
 		animateSprites,
 		meta,

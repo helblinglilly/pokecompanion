@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { meta, selectedGame } from '$lib/stores/domain';
 	import Moveset from './Moveset.svelte';
-	import Select from '$/ui/atoms/select';
+	import Select from '$/ui/atoms/Select.svelte';
 	import type { APIPokemon, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 	import type { paths } from '$/@types/api';
 

@@ -3,7 +3,7 @@
 	import SelfMarketing from './SelfMarketing.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
-	import Select from '$/ui/atoms/select';
+	import Select from '$/ui/atoms/Select.svelte';
 	import { meta, selectedGame } from '$lib/stores/domain';
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card/PokemonCardEntry.svelte';
 

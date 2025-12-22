@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
-	import Select from '$/ui/atoms/select/Select.svelte';
+	import Select from '$/ui/atoms/Select.svelte';
 	import { goto } from '$app/navigation';
 	import NavigationButton from './NavigationButton.svelte';
 	import { page } from '$app/state';
