@@ -3,7 +3,7 @@
 
 	import { page } from '$app/state';
 
-	import Card from '$/ui/atoms/card/Card.svelte';
+	import Card from '$/ui/atoms/Card.svelte';
 	import TypeMatchup from './TypeMatchup.svelte';
 	import BaseStats from './BaseStats.svelte';
 	import MovesetCard from './MovesetCard.svelte';

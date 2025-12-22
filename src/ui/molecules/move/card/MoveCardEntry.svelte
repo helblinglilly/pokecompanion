@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { components } from '$/@types/api';
-	import Card from '$/ui/atoms/card';
+	import Card from '$/ui/atoms/Card.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
 
 	interface Props {

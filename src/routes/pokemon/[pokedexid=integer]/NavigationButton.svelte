@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Logger } from '$/debt/log';
 	import { meta } from '$/lib/stores/domain';
-	import Card from '$/ui/atoms/card';
+	import Card from '$/ui/atoms/Card.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
 	import { page } from '$app/state';
 

@@ -5,7 +5,7 @@
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import { tagStore } from '$lib/stores/tags.js';
 	import { currentUser } from '$lib/stores/user';
-	import Card from '$/ui/atoms/card/Card.svelte';
+	import Card from '$/ui/atoms/Card.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
 
 	let { data } = $props();

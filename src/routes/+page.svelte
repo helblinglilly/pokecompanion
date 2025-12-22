@@ -2,7 +2,7 @@
 	import Greeting from '$/routes/Greeting.svelte';
 	import SelfMarketing from './SelfMarketing.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
-	import Card from '$/ui/atoms/card/Card.svelte';
+	import Card from '$/ui/atoms/Card.svelte';
 	import Select from '$/ui/atoms/select';
 	import { meta, selectedGame } from '$lib/stores/domain';
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card/PokemonCardEntry.svelte';

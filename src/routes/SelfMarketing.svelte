@@ -1,5 +1,5 @@
 <script>
-	import Card from '$/ui/atoms/card/Card.svelte';
+	import Card from '$/ui/atoms/Card.svelte';
 </script>
 
 <div>

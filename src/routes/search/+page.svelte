@@ -5,7 +5,7 @@
 	import { addNotification } from '$/lib/stores/notifications';
 	import { searchTerm } from '$/lib/stores/searchbar.js';
 	import Button from '$/ui/atoms/Button.svelte';
-	import Card from '$/ui/atoms/card';
+	import Card from '$/ui/atoms/Card.svelte';
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list/PokemonListEntry.svelte';
 	import { page } from '$app/state';

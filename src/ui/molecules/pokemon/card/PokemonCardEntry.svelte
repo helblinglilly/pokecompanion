@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { theme } from '$lib/stores/domain';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
-	import Card from '$/ui/atoms/card/Card.svelte';
+	import Card from '$/ui/atoms/Card.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
 	import type { paths } from '$/@types/api';
 
