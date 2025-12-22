@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { removeNotification, type INotification } from '$/lib/stores/notifications';
+	import { removeNotification, type INotification } from './notifications';
 
 	interface Props {
 		notification: INotification;

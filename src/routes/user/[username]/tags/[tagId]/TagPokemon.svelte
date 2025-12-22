@@ -5,7 +5,7 @@
 	import type { APITag } from '$/@types/api.pokecompanion';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
-	import { addNotification } from '$/lib/stores/notifications';
+	import { addNotification } from '$/features/notifications/notifications';
 	import { termNormaliser } from '$/lib/utils/string';
 	import { invalidate } from '$app/navigation';
 

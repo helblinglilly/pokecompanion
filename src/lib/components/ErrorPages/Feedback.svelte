@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Logger } from '$/debt/log';
+	import { addNotification } from '$/features/notifications/notifications';
 	import { goto } from '$app/navigation';
-	import { addNotification } from '$lib/stores/notifications';
 
 	interface Props {
 		placeholder?: string;

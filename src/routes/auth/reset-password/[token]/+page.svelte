@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { Logger } from '$/debt/log';
-	import { addNotification } from '$lib/stores/notifications';
+	import { addNotification } from '$/features/notifications/notifications';
 	import { isPasswordValid } from '$/debt/user-client';
 
 	let newPassword = $state('');

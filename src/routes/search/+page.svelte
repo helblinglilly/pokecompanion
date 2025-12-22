@@ -2,8 +2,7 @@
 	import type { paths } from '$/@types/api.js';
 	import { addSettingsAsSearchParams } from '$/lib/api/clientFetch.js';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
-	import { addNotification } from '$/lib/stores/notifications';
-	import { searchTerm } from '$/lib/stores/searchbar.js';
+	import { addNotification } from '$/features/notifications/notifications';
 	import Button from '$/ui/atoms/Button.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
@@ -11,6 +10,7 @@
 	import { page } from '$app/state';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { writable } from 'svelte/store';
+	import { searchTerm } from '$/features/search/searchbar.js';
 
 	let { data } = $props();
 

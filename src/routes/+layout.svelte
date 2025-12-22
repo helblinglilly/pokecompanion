@@ -3,15 +3,15 @@
 
 	import { cookieHandlers, theme } from '$lib/stores/domain';
 	import { page } from '$app/state';
-	import { notifications } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
-	import SearchBar from '$/lib/components/SearchBar.svelte';
 	import Tracking from '$/lib/components/Tracking.svelte';
 	import Navbar from '$/ui/organisms/Navbar';
-	import Notification from '$/ui/molecules/notification/Notification.svelte';
 	import ScrollToTop from '$/lib/components/ScrollToTop.svelte';
 	import { refetchTags } from '$/lib/stores/tags';
 	import Footer from './Footer.svelte';
+	import { notifications } from '$/features/notifications/notifications';
+	import Notification from '$/features/notifications/Notification.svelte';
+	import SearchBar from '$/features/search/SearchBar.svelte';
 
 	interface Props {
 		breadcrumbs?: { display: string; url: string }[];

@@ -70,8 +70,6 @@ export const cookieHandlers = {
 		}
 
 		selectedGame.subscribe((value) => {
-			window?.newrelic?.setCustomAttribute(SettingNames.SelectedGame, value?.pokeapi);
-
 			const isInSearchParam = page.url.searchParams.get('game');
 
 			if (isInSearchParam) {
@@ -111,7 +109,6 @@ export const cookieHandlers = {
 		primaryLanguage.set(existingValue as PokeapiLanguageCodes);
 
 		primaryLanguage.subscribe((value) => {
-			window?.newrelic?.setCustomAttribute(SettingNames.PrimaryLanguage, value);
 			const isInSearchParam = page.url.searchParams.get(SettingNames.PrimaryLanguage);
 
 			if (!value || isInSearchParam) {
@@ -145,8 +142,6 @@ export const cookieHandlers = {
 		secondaryLanguage.set(existingValue as PokeapiLanguageCodes | '');
 
 		secondaryLanguage.subscribe((value) => {
-			window?.newrelic?.setCustomAttribute(SettingNames.SecondaryLanguage, value);
-
 			const isInSearchParam = page.url.searchParams.get(SettingNames.SecondaryLanguage);
 
 			if (!value || isInSearchParam) {
@@ -169,7 +164,6 @@ export const cookieHandlers = {
 		versionSpecificPokemonSprites.set(existingValue === 'true' ? true : false);
 
 		versionSpecificPokemonSprites.subscribe((value) => {
-			window?.newrelic?.setCustomAttribute(SettingNames.VersionSpecificPokemonSprites, value);
 			setCookie(SettingNames.VersionSpecificPokemonSprites, value.toString());
 		});
 	},
@@ -183,7 +177,6 @@ export const cookieHandlers = {
 		versionSpecificTypeSprites.set(existingValue === 'true' ? true : false);
 
 		versionSpecificTypeSprites.subscribe((value) => {
-			window?.newrelic?.setCustomAttribute(SettingNames.VersionSpecificTypeSprites, value);
 			setCookie(SettingNames.VersionSpecificTypeSprites, value.toString());
 		});
 	},
@@ -197,7 +190,6 @@ export const cookieHandlers = {
 		animateSprites.set(existingValue === 'true' ? true : false);
 
 		animateSprites.subscribe((value) => {
-			window?.newrelic?.setCustomAttribute(SettingNames.AnimateSprites, value);
 			setCookie(SettingNames.AnimateSprites, value.toString());
 		});
 	},
@@ -226,7 +218,6 @@ export const cookieHandlers = {
 		rememberToken.set(existingValue);
 
 		rememberToken.subscribe((value) => {
-			window?.newrelic?.setUserId(value);
 			window?.umami?.identify(value);
 
 			if (!value) {

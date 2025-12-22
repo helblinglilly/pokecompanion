@@ -2,7 +2,7 @@
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Button from '$/ui/atoms/Button.svelte';
 	import { currentUser } from '$/lib/stores/user';
-	import { addNotification } from '$/lib/stores/notifications';
+	import { addNotification } from '$/features/notifications/notifications';
 	import { refetchTags } from '$/lib/stores/tags';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';

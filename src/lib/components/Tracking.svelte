@@ -4,7 +4,6 @@
 
 <svelte:head>
 	{#if PUBLIC_ENVIRONMENT === 'production'}
-		<script src="/newrelic.js"></script>
 		<script
 			defer
 			src="https://analytics.helbling.uk/script.js"

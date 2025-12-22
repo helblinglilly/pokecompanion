@@ -3,7 +3,7 @@
 	import Card from '$/ui/atoms/Card.svelte';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { PUBLIC_API_HOST } from '$env/static/public';
-	import { addNotification } from '$lib/stores/notifications';
+	import { addNotification } from '$/features/notifications/notifications';
 
 	let email = $state('');
 	let password = $state('');

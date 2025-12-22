@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$/ui/atoms/Button.svelte';
-	import { searchTerm } from '$lib/stores/searchbar';
+	import { searchTerm } from './searchbar';
 
 	const placeholders = ['Pokémon names', 'Pokédex ID', 'Items', 'Moves', 'Abilities'];
 	let id = $state(Math.floor(Math.random() * placeholders.length));

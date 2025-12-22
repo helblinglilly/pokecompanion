@@ -3,7 +3,7 @@
 	import CreateNewTag from '$/ui/molecules/Collections/CreateNewTag.svelte';
 	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
-	import { tagStore } from '$lib/stores/tags.js';
+	import { tagStore } from '$lib/stores/tags';
 	import { currentUser } from '$lib/stores/user';
 	import Card from '$/ui/atoms/Card.svelte';
 	import Image from '$/ui/atoms/Image.svelte';

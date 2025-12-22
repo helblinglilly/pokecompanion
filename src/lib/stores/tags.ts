@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { addNotification } from './notifications';
+import { addNotification } from '../../features/notifications/notifications';
 import type { IDisplayPokemon } from './pokemonPage';
 import { Logger } from '$/debt/log';
 import type { APITag, ITagMove } from '$/@types/api.pokecompanion';

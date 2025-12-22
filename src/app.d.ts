@@ -10,12 +10,6 @@ declare global {
 	}
 
 	interface Window {
-		newrelic?: {
-			addPageAction: (name: string, attributes?: object) => void;
-			noticeError: (error: Error, attributes?: object) => void;
-			setCustomAttribute: (name: string, value: unknown) => void;
-			setUserId: (value: string | null) => void;
-		};
 		/**
 		 * https://umami.is/docs/tracker-functions
 		 */

@@ -2,7 +2,7 @@
 	import Button from '$/ui/atoms/Button.svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { Logger } from '$/debt/log';
-	import { addNotification } from '$lib/stores/notifications';
+	import { addNotification } from '$/features/notifications/notifications';
 	import { currentUser } from '$lib/stores/user';
 </script>
 

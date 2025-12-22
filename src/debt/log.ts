@@ -27,73 +27,17 @@ export class Logger {
 		if (PUBLIC_ENVIRONMENT === 'local') {
 			console.error(errorClass, error, info);
 		}
-		if (typeof window !== 'undefined') {
-			if (window?.newrelic) {
-				try {
-					window.newrelic.noticeError(error, {
-						errorClass,
-						...info
-					});
-					window.newrelic?.addPageAction('ClientSideLog', {
-						level: 'error',
-						message: info?.context,
-						errorClass,
-						...info
-					});
-					return;
-				} catch (err) {
-					console.error(new Date().toISOString(), 'error', errorClass, info, error);
-					return;
-				}
-			} else {
-				console.error(new Date().toISOString(), 'error', errorClass, info, error);
-			}
-		}
 	}
 
 	static async info(message: string, info?: Info) {
 		if (PUBLIC_ENVIRONMENT === 'local') {
 			console.info(message, info);
 		}
-		if (typeof window !== 'undefined') {
-			if (window?.newrelic) {
-				try {
-					window.newrelic?.addPageAction('ClientSideLog', {
-						level: 'info',
-						message,
-						...info
-					});
-					return;
-				} catch (err) {
-					console.info(new Date().toISOString(), 'info', message, err);
-					return;
-				}
-			} else {
-				console.info(new Date().toISOString(), 'info', message);
-			}
-		}
 	}
 
 	static async warn(message: string, info?: Info) {
 		if (PUBLIC_ENVIRONMENT === 'local') {
 			console.warn(message, info);
-		}
-		if (typeof window !== 'undefined') {
-			if (window?.newrelic) {
-				try {
-					window.newrelic?.addPageAction('ClientSideLog', {
-						level: 'warning',
-						message,
-						...info
-					});
-					return;
-				} catch (err) {
-					console.warn(new Date().toISOString, 'warning', message, info);
-					return;
-				}
-			} else {
-				console.warn(new Date().toISOString, 'warning', message, info);
-			}
 		}
 	}
 

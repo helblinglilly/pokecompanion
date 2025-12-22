@@ -5,8 +5,8 @@
 	import Icon from '$/ui/atoms/Icon.svelte';
 	import Button from '$/ui/atoms/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
-	import { addNotification } from '$/lib/stores/notifications';
 	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { addNotification } from '$/features/notifications/notifications';
 
 	interface Props {
 		existingUsername: string;

@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import MoveCardEntry from '$/ui/molecules/move/card/MoveCardEntry.svelte';
 	import type { APITag } from '$/@types/api.pokecompanion';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
-	import { addNotification } from '$/lib/stores/notifications';
+	import { addNotification } from '$/features/notifications/notifications';
 	import MoveListEntry from '$/ui/molecules/move/list';
 	import { invalidate } from '$app/navigation';
+	import MoveCardEntry from './MoveCardEntry.svelte';
 
 	async function deleteMoveFromTag(move: { id: number }) {
 		const res = await fetch(PUBLIC_API_HOST + `/tags/${tag.id}/move`, {
