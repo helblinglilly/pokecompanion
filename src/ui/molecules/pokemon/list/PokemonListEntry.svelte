@@ -2,7 +2,7 @@
 	import { theme } from '$lib/stores/domain';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import Card from '$/ui/atoms/card';
-	import Image from '$/ui/atoms/image';
+	import Image from '$/ui/atoms/Image.svelte';
 	import type { paths } from '$/@types/api';
 
 	interface Props {

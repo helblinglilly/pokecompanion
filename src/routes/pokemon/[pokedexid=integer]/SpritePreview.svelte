@@ -2,7 +2,7 @@
 	import { run } from 'svelte/legacy';
 
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
-	import Image from '$/ui/atoms/image/Image.svelte';
+	import Image from '$/ui/atoms/Image.svelte';
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 
 	type Sprites = APIPokemon['sprites'];

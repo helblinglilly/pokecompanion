@@ -6,7 +6,7 @@
 	import { tagStore } from '$lib/stores/tags.js';
 	import { currentUser } from '$lib/stores/user';
 	import Card from '$/ui/atoms/card/Card.svelte';
-	import Image from '$/ui/atoms/image';
+	import Image from '$/ui/atoms/Image.svelte';
 
 	let { data } = $props();
 </script>

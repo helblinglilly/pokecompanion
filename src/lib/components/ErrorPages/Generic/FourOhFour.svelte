@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/state';
 	import Feedback from '$/lib/components/ErrorPages/Feedback.svelte';
-	import Image from '$/ui/atoms/image/Image.svelte';
+	import Image from '$/ui/atoms/Image.svelte';
 </script>
 
 <Image

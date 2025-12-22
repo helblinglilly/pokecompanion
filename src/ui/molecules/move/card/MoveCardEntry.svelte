@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { components } from '$/@types/api';
 	import Card from '$/ui/atoms/card';
-	import Image from '$/ui/atoms/image/Image.svelte';
+	import Image from '$/ui/atoms/Image.svelte';
 
 	interface Props {
 		move: components['schemas']['MovePreview'];

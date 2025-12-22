@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { paths } from '$/@types/api';
-	import Image from '$/ui/atoms/image/Image.svelte';
+	import Image from '$/ui/atoms/Image.svelte';
 	import { setCookie } from '$lib/utils/cookies';
 
 	interface Props {

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { paths } from '$/@types/api';
 	import Card from '$/ui/atoms/card';
-	import Image from '$/ui/atoms/image/Image.svelte';
+	import Image from '$/ui/atoms/Image.svelte';
 
 	interface Props {
 		move: paths['/search/moves']['get']['responses']['200']['content']['application/json']['data'][number];

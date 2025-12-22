@@ -2,7 +2,7 @@
 	import { Logger } from '$/debt/log';
 	import { meta } from '$/lib/stores/domain';
 	import Card from '$/ui/atoms/card';
-	import Image from '$/ui/atoms/image/Image.svelte';
+	import Image from '$/ui/atoms/Image.svelte';
 	import { page } from '$app/state';
 
 	interface Props {

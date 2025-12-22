@@ -1,5 +1,5 @@
 <script>
-	import Image from '$/ui/atoms/image/Image.svelte';
+	import Image from '$/ui/atoms/Image.svelte';
 </script>
 
 <div id="errorHeader">

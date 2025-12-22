@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { capitaliseFirstLetter } from '$lib/utils/string';
-	import Image from '../../../ui/atoms/image/Image.svelte';
+	import Image from '$/ui/atoms/Image.svelte';
 	import { Logger } from '$/debt/log';
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 

@@ -5,7 +5,7 @@
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import CreateNewTag from '$/ui/molecules/Collections/CreateNewTag.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
-	import Image from '$/ui/atoms/image/Image.svelte';
+	import Image from '$/ui/atoms/Image.svelte';
 	import SpritePreview from './SpritePreview.svelte';
 	import Pokedex from './Pokedex.svelte';
 	import { tagStore } from '$/lib/stores/tags';

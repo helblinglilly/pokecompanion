@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Image from '$/ui/atoms/image/Image.svelte';
+	import Image from '$/ui/atoms/Image.svelte';
 
 	interface Props {
 		username: string;
