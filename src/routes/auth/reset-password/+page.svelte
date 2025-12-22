@@ -1,5 +1,5 @@
 <script>
-	import Button from '$/ui/atoms/button';
+	import Button from '$/ui/atoms/Button.svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 
 	let email = $state('');

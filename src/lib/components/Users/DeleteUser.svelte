@@ -3,7 +3,7 @@
 	import { addNotification } from '$lib/stores/notifications';
 	import { currentUser } from '$lib/stores/user';
 	import { deleteCookie } from '$lib/utils/cookies';
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 

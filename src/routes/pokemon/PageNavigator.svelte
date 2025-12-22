@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { APIPokemonRootPreview } from '$/@types/api.pokecompanion';
-	import Button from '$/ui/atoms/button';
+	import Button from '$/ui/atoms/Button.svelte';
 	import { goto } from '$app/navigation';
 
 	interface Props {

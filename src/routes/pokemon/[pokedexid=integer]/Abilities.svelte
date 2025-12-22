@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { capitaliseEachWord } from '$/lib/utils/string';
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 	import ExpandableButton from '$/lib/components/ExpandableButton.svelte';
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 	import type { paths } from '$/@types/api';

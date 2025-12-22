@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 

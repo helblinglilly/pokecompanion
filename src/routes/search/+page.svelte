@@ -4,7 +4,7 @@
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { searchTerm } from '$/lib/stores/searchbar.js';
-	import Button from '$/ui/atoms/button';
+	import Button from '$/ui/atoms/Button.svelte';
 	import Card from '$/ui/atoms/card';
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list/PokemonListEntry.svelte';

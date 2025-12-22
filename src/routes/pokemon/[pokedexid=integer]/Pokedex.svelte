@@ -2,7 +2,7 @@
 	import { Logger } from '$/debt/log';
 	import Image from '$/ui/atoms/Image.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 
 	let showModal = $state(false);
 

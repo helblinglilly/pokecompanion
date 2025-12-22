@@ -1,5 +1,5 @@
 <script>
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { Logger } from '$/debt/log';
 	import { addNotification } from '$lib/stores/notifications';

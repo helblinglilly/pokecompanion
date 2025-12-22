@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 	// import { navigating } from '$app/stores';
 	import type { Snippet } from 'svelte';
 

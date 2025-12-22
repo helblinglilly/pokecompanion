@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Image from '$/ui/atoms/Image.svelte';
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 	import type { paths } from '$/@types/api';
 
 	type FullMove = NonNullable<

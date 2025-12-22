@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 	import {
 		doesTagContainMove,
 		doesTagContainPokemon,

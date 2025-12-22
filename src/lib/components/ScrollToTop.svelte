@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 
 	let scrolled = $state(false);
 

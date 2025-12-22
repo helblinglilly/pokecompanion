@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 	import { searchTerm } from '$lib/stores/searchbar';
 
 	const placeholders = ['Pokémon names', 'Pokédex ID', 'Items', 'Moves', 'Abilities'];

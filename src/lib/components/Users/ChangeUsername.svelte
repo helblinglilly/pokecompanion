@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { Logger } from '$/debt/log';
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
-	import Button from '$/ui/atoms/button';
+	import Button from '$/ui/atoms/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import { addNotification } from '$/lib/stores/notifications';
 	import { PUBLIC_API_HOST } from '$env/static/public';

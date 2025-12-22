@@ -3,7 +3,7 @@
 	import { deleteTag, patchTag } from './helper';
 	import { goto } from '$app/navigation';
 	import { currentUser } from '$/lib/stores/user';
-	import Button from '$/ui/atoms/button';
+	import Button from '$/ui/atoms/Button.svelte';
 	import type { APITag } from '$/@types/api.pokecompanion';
 
 	let showRenameOverlay = $state(false);

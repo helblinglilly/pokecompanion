@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Icon from '$/ui/atoms/icon/Icon.svelte';
 	import { currentUser } from '$/lib/stores/user';
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 	import type { APITag } from '$/@types/api.pokecompanion';
 
 	interface Props {

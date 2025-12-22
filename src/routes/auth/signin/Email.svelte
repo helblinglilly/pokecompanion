@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$/ui/atoms/button/Button.svelte';
+	import Button from '$/ui/atoms/Button.svelte';
 	import Card from '$/ui/atoms/card/Card.svelte';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { PUBLIC_API_HOST } from '$env/static/public';
