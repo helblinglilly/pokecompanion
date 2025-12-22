@@ -1,5 +1,0 @@
-name = "pokecompanion"
-[[d1_databases]]
-binding = "Search"
-database_name = "pokemon"
-database_id = "be67a3f1-476a-44ad-b0d3-692474c5720e"

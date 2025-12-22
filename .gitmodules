@@ -1,3 +1,0 @@
-[submodule "scripts/migrations"]
-	path = scripts/migrations
-	url = https://github.com/helblinglilly/pokecompanion-migrations
