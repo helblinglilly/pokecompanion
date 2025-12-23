@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
 	import { currentUser } from '$lib/stores/user';
-	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
 	import Icon from '$/ui/atoms/Icon.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
@@ -11,6 +10,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import CreateNewTag from '$/ui/molecules/Modal/CreateNewTag.svelte';
+	import AttachedTags from '$/features/tags/AttachedTags.svelte';
 
 	interface Props {
 		data: APIPokemon;
@@ -65,15 +65,12 @@
 
 {#if $currentUser}
 	<div class="flex justify-center items-center w-full gap-2 relative z-20" style="flex-flow: wrap;">
-		<SelectedTags
+		<AttachedTags
 			pokemon={{
 				id: data.id,
-				hasFemaleSprite: hasFemaleSprite,
-				showFemaleSpriteIfExists: gender === 'female',
-				hasShinySprite: hasShinySprite,
-				showShinySpriteIfExists: page.url.searchParams.get('shiny') === 'true',
 				gender,
-				variety: page.url.searchParams.get('variety') ?? undefined
+				variety: page.url.searchParams.get('variety') ?? null,
+				shiny: page.url.searchParams.get('shiny') === 'true'
 			}}
 		/>
 	</div>

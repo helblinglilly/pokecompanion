@@ -6,19 +6,21 @@
 	import { currentUser } from '$lib/stores/user';
 	import Tracking from '$/lib/components/Tracking.svelte';
 	import Navbar from '$/ui/organisms/Navbar';
-	import { refetchTags } from '$/lib/stores/tags';
+	import { refetchTags, tagStore } from '$/lib/stores/tags';
 	import Footer from './Footer.svelte';
 	import { notifications } from '$/features/notifications/notifications';
 	import Notification from '$/features/notifications/Notification.svelte';
 	import SearchBar from '$/features/search/SearchBar.svelte';
 	import ScrollToTop from './ScrollToTop.svelte';
+	import type { LayoutData } from './$types';
 
 	interface Props {
+		data: LayoutData;
 		breadcrumbs?: { display: string; url: string }[];
 		children?: import('svelte').Snippet;
 	}
 
-	let { breadcrumbs = [], children }: Props = $props();
+	let { breadcrumbs = [], children, data }: Props = $props();
 
 	const initTheme = () => {
 		const changeTheme = (newTheme: 'dark' | 'light') => {

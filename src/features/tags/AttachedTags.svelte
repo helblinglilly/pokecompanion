@@ -1,33 +1,31 @@
 <script lang="ts">
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$/ui/atoms/Icon.svelte';
-	import { doesTagContainMove, doesTagContainPokemon, tagStore } from '$lib/stores/tags';
-	import { type IDisplayPokemon } from '$lib/stores/pokemonPage';
 	import type { ITagMove } from '$/@types/api.pokecompanion';
+	import { page } from '$app/state';
+	import type { LayoutData } from '../../routes/$types';
+	import type { MinimalTagPokemon } from './types';
+	import { doesTagContainPokemon } from './utils/containsPokemon';
 
-	interface Props {
-		pokemon?: IDisplayPokemon | undefined;
+	let {
+		pokemon = undefined,
+		move = undefined
+	}: {
+		pokemon?: MinimalTagPokemon;
 		move?: Omit<ITagMove, 'added'> | undefined;
-	}
+	} = $props();
 
-	let { pokemon = undefined, move = undefined }: Props = $props();
-
-	let currentTags = $derived(
-		$tagStore.filter((tag) => {
-			if (tag.isHiddenAcrossSite) {
-				return false;
-			}
-			if (pokemon) {
-				return doesTagContainPokemon(pokemon, tag);
-			} else if (move) {
-				return doesTagContainMove(move, tag);
-			}
-			return false;
-		})
+	let tags = $derived(
+		(page.data as LayoutData).tags?.tags ||
+			[].filter((tag) => {
+				if (pokemon) {
+					return doesTagContainPokemon(tag, pokemon);
+				}
+			})
 	);
 </script>
 
-{#each currentTags as tag}
+{#each tags as tag}
 	<a
 		class="tag inline-flex gap-1 p-2 w-max m-1"
 		href={`/user/${$currentUser?.username}/tags/${tag.id}#${

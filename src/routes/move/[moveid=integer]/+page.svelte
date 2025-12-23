@@ -1,12 +1,12 @@
 <script lang="ts">
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
-	import SelectedTags from '$/ui/molecules/tags/SelectedTags.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import { tagStore } from '$lib/stores/tags';
 	import { currentUser } from '$lib/stores/user';
 	import Card from '$/ui/atoms/Card.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
 	import CreateNewTag from '$/ui/molecules/Modal/CreateNewTag.svelte';
+	import AttachedTags from '$/features/tags/AttachedTags.svelte';
 
 	let { data } = $props();
 </script>
@@ -84,7 +84,7 @@
 
 			<div class="grid gap-2">
 				<div class="flex justify-center w-full gap-2">
-					<SelectedTags move={data.move} />
+					<AttachedTags move={data.move} />
 				</div>
 
 				<div class="w-full flex justify-center gap-2">

@@ -512,8 +512,12 @@ export interface components {
                 added: string;
             }[];
             pokemon?: {
-                /** @description The Query Param URL string that needs to be attached to get to this Pokemon */
-                variety: string;
+                /**
+                 * @description The Query Param URL string that needs to be attached to get to this Pokemon
+                 *
+                 *     undefined if it should be the default
+                 */
+                variety?: string;
                 shiny: boolean;
                 /**
                  * Format: double
@@ -2183,7 +2187,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        variety: string;
+                        variety?: string;
                         slug: string;
                         /** @enum {string} */
                         gender?: "female" | "male";
