@@ -1,18 +1,34 @@
 import type { components } from '$/@types/api';
 import type { MinimalTagPokemon } from '../types';
 
-export function doesTagContainPokemon(
+export function doesTagPokemonContainPokemon(
 	tag: components['schemas']['TagContents']['pokemon'],
-	pokemon: MinimalTagPokemon
+	pokemon: MinimalTagPokemon | undefined
 ) {
-	if (!tag) {
+	if (tag === undefined) {
+		return false;
+	}
+
+	if (!pokemon) {
 		return false;
 	}
 
 	return tag.some((tag) => {
-		return (
-			tag.id === pokemon.id && tag.variety === pokemon.variety && tag.shiny === pokemon.shiny
-			// tag.gender === pokemon.gender
-		);
+		if (tag.id !== pokemon.id) {
+			return false;
+		}
+
+		// tag.variety will be [pokemon-name]-default
+		if (!!pokemon.variety) {
+			if (tag.variety !== pokemon.variety) {
+				return false;
+			}
+		}
+
+		if (!!tag.shiny !== !!pokemon.shiny) {
+			return false;
+		}
+
+		return true;
 	});
 }
