@@ -264,7 +264,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Returns paginated previews of Pokemon */
+        /**
+         * @deprecated
+         * @description Returns paginated previews of Pokemon
+         */
         get: operations["getPokemonRootPreviews"];
         put?: never;
         post?: never;
@@ -299,6 +302,23 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getAllPokedexes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/pokedex/{pokedexId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Returns a root-level view of all the Pokemon in a specific Pokedex */
+        get: operations["getPokedex"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3154,6 +3174,76 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["PokedexRootResponse"];
                 };
+            };
+        };
+    };
+    getPokedex: {
+        parameters: {
+            query?: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                page?: number;
+                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
+                pageSize?: number;
+                /**
+                 * @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value
+                 */
+                jumpTo?: number;
+            };
+            header?: never;
+            path: {
+                pokedexId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Pokedex Preview */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        pagination: {
+                            /** Format: double */
+                            lastPage: number;
+                            /** Format: double */
+                            currentPage: number;
+                            /** Format: double */
+                            startingPage: number;
+                        };
+                        pokedex: {
+                            name: string;
+                            description: string;
+                            slug: string;
+                        };
+                        pokemon: {
+                            slug: string;
+                            sprite: {
+                                url: string;
+                                alt: string;
+                            };
+                            name: string;
+                            /** Format: double */
+                            id: number;
+                        }[];
+                    };
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
