@@ -3,7 +3,6 @@
 
 	import { cookieHandlers, theme } from '$lib/stores/domain';
 	import { page } from '$app/state';
-	import { currentUser } from '$lib/stores/user';
 	import Tracking from '$/lib/components/Tracking.svelte';
 	import Navbar from '$/ui/organisms/Navbar';
 	import Footer from './Footer.svelte';
@@ -12,8 +11,6 @@
 	import SearchBar from '$/features/search/SearchBar.svelte';
 	import ScrollToTop from './ScrollToTop.svelte';
 	import type { LayoutData } from './$types';
-	import { invalidate } from '$app/navigation';
-	import { DEPEND_ALL_TAGS } from '$/features/tags/depends';
 
 	interface Props {
 		data: LayoutData;
@@ -84,13 +81,6 @@
 		for (const value of Object.values(cookieHandlers)) {
 			value();
 		}
-	});
-	$effect(() => {
-		currentUser.subscribe(async (user) => {
-			if (user) {
-				invalidate(DEPEND_ALL_TAGS);
-			}
-		});
 	});
 
 	$effect(() => {

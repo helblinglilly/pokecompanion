@@ -6,7 +6,9 @@ import { error } from '@sveltejs/kit';
 export const load = async ({ params, depends }) => {
 	depends(DEPEND_TAG_USER(params.username));
 	depends('user:all');
-	const res = await fetch(PUBLIC_API_HOST + `/user/${params.username}`);
+	const res = await fetch(PUBLIC_API_HOST + `/user/${params.username}`, {
+		credentials: 'include'
+	});
 
 	if (res.status === 404) {
 		error(404, 'This user does not exist');

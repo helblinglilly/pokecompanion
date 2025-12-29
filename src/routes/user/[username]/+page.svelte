@@ -8,7 +8,7 @@
 	import EmailVerification from '$/routes/user/[username]/EmailVerification.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
-	import CreateNewTag from '$/ui/molecules/Modal/CreateNewTag.svelte';
+	import CreateNewTag from '$/features/tags/new/CreateNewTag.svelte';
 
 	let { data } = $props();
 </script>

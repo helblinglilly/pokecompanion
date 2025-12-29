@@ -4,10 +4,10 @@
 	import { currentUser } from '$lib/stores/user';
 	import Card from '$/ui/atoms/Card.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
-	import CreateNewTag from '$/ui/molecules/Modal/CreateNewTag.svelte';
 	import AttachedTags from '$/features/tags/AttachedTags.svelte';
 	import { page } from '$app/state';
 	import type { LayoutData } from '../../$types.js';
+	import CreateNewTag from '$/features/tags/new/CreateNewTag.svelte';
 
 	let { data } = $props();
 	const layoutData = $derived(page.data) as LayoutData;
@@ -97,11 +97,7 @@
 					{/if}
 
 					<div class="my-auto">
-						<CreateNewTag
-							move={{
-								id: data.move.id
-							}}
-						/>
+						<CreateNewTag move={[{ id: data.move.id }]} />
 					</div>
 				</div>
 			</div>

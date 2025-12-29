@@ -8,9 +8,9 @@
 	import Pokedex from './Pokedex.svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import CreateNewTag from '$/ui/molecules/Modal/CreateNewTag.svelte';
 	import AttachedTags from '$/features/tags/AttachedTags.svelte';
 	import type { LayoutData } from '../../$types';
+	import CreateNewTag from '$/features/tags/new/CreateNewTag.svelte';
 
 	interface Props {
 		data: APIPokemon;
@@ -89,12 +89,14 @@
 		{/if}
 
 		<CreateNewTag
-			pokemon={{
-				id: data.id,
-				gender: gender,
-				shiny: page.url.searchParams.get('shiny') === 'true',
-				variety: page.url.searchParams.get('variety') ?? undefined
-			}}
+			pokemon={[
+				{
+					id: data.id,
+					gender: gender,
+					shiny: page.url.searchParams.get('shiny') === 'true',
+					variety: page.url.searchParams.get('variety') ?? undefined
+				}
+			]}
 		/>
 	</div>
 {/if}
