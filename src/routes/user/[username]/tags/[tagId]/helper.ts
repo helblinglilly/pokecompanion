@@ -1,6 +1,7 @@
 import type { paths } from '$/@types/api';
 import { Logger } from '$/debt/log';
 import { addNotification } from '$/features/notifications/notifications';
+import { DEPEND_TAG_ID } from '$/features/tags/depends';
 import type { APITag } from '$/features/tags/types';
 import { invalidate } from '$app/navigation';
 import { PUBLIC_API_HOST } from '$env/static/public';
@@ -22,7 +23,7 @@ export async function patchTag(
 			if (res.status !== 200) {
 				throw new Error(`Non-200 status code ${res.status}`);
 			}
-			invalidate(`tag:${tag.id}`);
+			invalidate(DEPEND_TAG_ID(tag.id));
 			return (await res.json()) as APITag['tags'][number];
 		})
 		.catch((err) => {

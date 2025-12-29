@@ -8,6 +8,7 @@
 	import { termNormaliser } from '$/lib/utils/string';
 	import { invalidate } from '$app/navigation';
 	import type { APITag, MinimalTagPokemon } from '$/features/tags/types';
+	import { DEPEND_TAG_ID } from '$/features/tags/depends';
 
 	async function deletePokemonFromTag(pokemon: MinimalTagPokemon) {
 		const res = await fetch(PUBLIC_API_HOST + `/tags/${tag.id}/pokemon`, {
@@ -22,7 +23,7 @@
 		});
 
 		if (res.status === 200) {
-			invalidate(`tag:${tag.id}`);
+			invalidate(DEPEND_TAG_ID(tag.id));
 		} else {
 			addNotification({
 				message: 'Failed to remove move from tag',

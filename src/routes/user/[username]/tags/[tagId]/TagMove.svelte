@@ -7,6 +7,7 @@
 	import { invalidate } from '$app/navigation';
 	import MoveCardEntry from './MoveCardEntry.svelte';
 	import type { APITag } from '$/features/tags/types';
+	import { DEPEND_TAG_ID } from '$/features/tags/depends';
 
 	async function deleteMoveFromTag(move: { id: number }) {
 		const res = await fetch(PUBLIC_API_HOST + `/tags/${tag.id}/move`, {
@@ -21,7 +22,7 @@
 		});
 
 		if (res.status === 200) {
-			invalidate(`tag:${tag.id}`);
+			invalidate(DEPEND_TAG_ID(tag.id));
 		} else {
 			addNotification({
 				message: 'Failed to remove move from tag',

@@ -11,6 +11,7 @@
 	import { page } from '$app/state';
 	import type { LayoutData } from '../../../routes/$types';
 	import type { MinimalTagMove, MinimalTagPokemon } from '$/features/tags/types';
+	import { DEPEND_TAG_ID } from '$/features/tags/depends';
 
 	let showAddToOverlay = $state(false);
 	interface Props {
@@ -100,7 +101,7 @@
 								);
 
 								if (success) {
-									invalidate(`tag:${tag.id}`);
+									invalidate(DEPEND_TAG_ID(tag.id));
 								} else {
 									addNotification({
 										message: `Failed to modify tag "${tag.name}""`,

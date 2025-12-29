@@ -7,6 +7,7 @@
 	import type { paths } from '$/@types/api';
 	import type { APITagCreateRequestBody } from '$/@types/api.pokecompanion';
 	import { invalidate } from '$app/navigation';
+	import { DEPEND_ALL_TAGS } from '$/features/tags/depends';
 
 	interface Props {
 		pokemon?: NonNullable<APITagCreateRequestBody['pokemon']>[number] | undefined;
@@ -77,7 +78,7 @@
 
 							onsuccess?.(new CustomEvent('success', { detail: requestBody() }));
 							showAddNewOverlay = false;
-							invalidate('tags');
+							invalidate(DEPEND_ALL_TAGS);
 							return;
 						}
 
