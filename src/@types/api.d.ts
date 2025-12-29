@@ -291,6 +291,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/pokedex": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAllPokedexes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/move/{id}": {
         parameters: {
             query?: never;
@@ -1012,6 +1028,7 @@ export interface components {
             "the-crown-tundra"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
             "the-teal-mask"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
             "the-indigo-disk"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
+            "mega-dimension"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
         };
         StatValue: {
             /** Format: double */
@@ -1513,6 +1530,237 @@ export interface components {
                 displayName: string;
             };
         };
+        /** @enum {string} */
+        PokeapiGenerationName: "generation-i" | "generation-ii" | "generation-iii" | "generation-iv" | "generation-v" | "generation-vi" | "generation-vii" | "generation-viii" | "generation-ix";
+        IGeneration: {
+            name: string;
+            short: string;
+            pokeApiName: components["schemas"]["PokeapiGenerationName"];
+            /** Format: double */
+            nationalDexEnd: number;
+            /** Format: double */
+            number: number;
+        };
+        /** @enum {string} */
+        PokeapiGameNames: "home" | "red" | "blue" | "yellow" | "gold" | "silver" | "crystal" | "ruby" | "sapphire" | "emerald" | "firered" | "leafgreen" | "diamond" | "pearl" | "platinum" | "heartgold" | "soulsilver" | "black" | "white" | "black-2" | "white-2" | "x" | "y" | "omega-ruby" | "alpha-sapphire" | "sun" | "moon" | "ultra-sun" | "ultra-moon" | "lets-go-pikachu" | "lets-go-eevee" | "sword" | "shield" | "brilliant-diamond" | "shining-pearl" | "legends-arceus" | "scarlet" | "violet" | "legends-za" | "the-isle-of-armor" | "the-crown-tundra" | "the-teal-mask" | "the-indigo-disk" | "mega-dimension";
+        /** @enum {string} */
+        PokeapiRegions: "kanto" | "johto" | "hoenn" | "sinnoh" | "unova" | "kalos" | "alola" | "galar" | "hisui" | "paldea";
+        IGameGroup: {
+            pokeapi: components["schemas"]["PokeapiVersionGroups"];
+            shortName: string;
+            generation: components["schemas"]["IGeneration"];
+            games: {
+                /** Format: double */
+                globalSortOrder: number;
+                shortName: string;
+                pokeapi: components["schemas"]["PokeapiGameNames"];
+            }[];
+            region: components["schemas"]["PokeapiRegions"];
+            pokedexUrls: string[];
+            dlcGames: {
+                pokedexUrls: string[];
+                /** Format: double */
+                globalSortOrder: number;
+                shortName: string;
+                pokeapi: components["schemas"]["PokeapiGameNames"];
+            }[];
+        };
+        /** @description Make all properties in T optional */
+        "Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array__slug_description-ThePokecompanionslugforthisspecificPokedex_-string--description_description-AdescriptionforthisPokedex._92_nMightbenullformissingdata_-string-or-null--name_description-Thedisplay-friendlynameforthisPokedex_92_nMightbenullformissingdata_-string-or-null_____": {
+            home?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "red-blue"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            yellow?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "gold-silver"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            crystal?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "ruby-sapphire"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            emerald?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "firered-leafgreen"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "diamond-pearl"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            platinum?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "heartgold-soulsilver"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "black-white"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "black-2-white-2"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "x-y"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "omega-ruby-alpha-sapphire"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "sun-moon"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "ultra-sun-ultra-moon"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "lets-go-pikachu-lets-go-eevee"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "sword-shield"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "brilliant-diamond-and-shining-pearl"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "legends-arceus"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "scarlet-violet"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            "legends-za"?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+            national?: {
+                pokedex: {
+                    name: string;
+                    description: string;
+                    slug: string;
+                }[];
+                game: components["schemas"]["IGameGroup"];
+            };
+        };
+        PokedexRootResponse: components["schemas"]["Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array__slug_description-ThePokecompanionslugforthisspecificPokedex_-string--description_description-AdescriptionforthisPokedex._92_nMightbenullformissingdata_-string-or-null--name_description-Thedisplay-friendlynameforthisPokedex_92_nMightbenullformissingdata_-string-or-null_____"];
         MoveResponse: {
             /** Format: double */
             id: number;
@@ -1565,21 +1813,6 @@ export interface components {
             /** @description The type of this move */
             type: components["schemas"]["Type"];
         };
-        /** @enum {string} */
-        PokeapiGameNames: "home" | "red" | "blue" | "yellow" | "gold" | "silver" | "crystal" | "ruby" | "sapphire" | "emerald" | "firered" | "leafgreen" | "diamond" | "pearl" | "platinum" | "heartgold" | "soulsilver" | "black" | "white" | "black-2" | "white-2" | "x" | "y" | "omega-ruby" | "alpha-sapphire" | "sun" | "moon" | "ultra-sun" | "ultra-moon" | "lets-go-pikachu" | "lets-go-eevee" | "sword" | "shield" | "brilliant-diamond" | "shining-pearl" | "legends-arceus" | "scarlet" | "violet" | "legends-za" | "the-isle-of-armor" | "the-crown-tundra" | "the-teal-mask" | "the-indigo-disk";
-        /** @enum {string} */
-        PokeapiGenerationName: "generation-i" | "generation-ii" | "generation-iii" | "generation-iv" | "generation-v" | "generation-vi" | "generation-vii" | "generation-viii" | "generation-ix";
-        IGeneration: {
-            name: string;
-            short: string;
-            pokeApiName: components["schemas"]["PokeapiGenerationName"];
-            /** Format: double */
-            nationalDexEnd: number;
-            /** Format: double */
-            number: number;
-        };
-        /** @enum {string} */
-        PokeapiRegions: "kanto" | "johto" | "hoenn" | "sinnoh" | "unova" | "kalos" | "alola" | "galar" | "hisui" | "paldea";
     };
     responses: never;
     parameters: never;
@@ -2900,6 +3133,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PokemonMoves"];
+                };
+            };
+        };
+    };
+    getAllPokedexes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Ok */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PokedexRootResponse"];
                 };
             };
         };
