@@ -1,7 +1,7 @@
 import type { paths } from '$/@types/api';
-import type { APITag } from '$/@types/api.pokecompanion';
 import { Logger } from '$/debt/log';
 import { addNotification } from '$/features/notifications/notifications';
+import type { APITag } from '$/features/tags/types';
 import { invalidate } from '$app/navigation';
 import { PUBLIC_API_HOST } from '$env/static/public';
 

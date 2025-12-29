@@ -6,13 +6,14 @@
 	import { currentUser } from '$lib/stores/user';
 	import Tracking from '$/lib/components/Tracking.svelte';
 	import Navbar from '$/ui/organisms/Navbar';
-	import { refetchTags, tagStore } from '$/lib/stores/tags';
 	import Footer from './Footer.svelte';
 	import { notifications } from '$/features/notifications/notifications';
 	import Notification from '$/features/notifications/Notification.svelte';
 	import SearchBar from '$/features/search/SearchBar.svelte';
 	import ScrollToTop from './ScrollToTop.svelte';
 	import type { LayoutData } from './$types';
+	import { invalidate } from '$app/navigation';
+	import { DEPEND_ALL_TAGS } from '$/features/tags/depends';
 
 	interface Props {
 		data: LayoutData;
@@ -87,7 +88,7 @@
 	$effect(() => {
 		currentUser.subscribe(async (user) => {
 			if (user) {
-				await refetchTags(user.id);
+				invalidate(DEPEND_ALL_TAGS);
 			}
 		});
 	});

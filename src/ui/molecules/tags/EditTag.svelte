@@ -1,12 +1,7 @@
 <script lang="ts">
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Button from '$/ui/atoms/Button.svelte';
-	import {
-		doesTagContainMove,
-		doesTagContainPokemon,
-		refetchTags,
-		tagStore
-	} from '$/lib/stores/tags';
+	import { doesTagContainMove, doesTagContainPokemon, tagStore } from '$/lib/stores/tags';
 	import type { IDisplayPokemon } from '$/lib/stores/pokemonPage';
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/features/notifications/notifications';
@@ -101,7 +96,6 @@
 
 								if (success) {
 									invalidate(`tag:${tag.id}`);
-									await refetchTags($currentUser?.id);
 								} else {
 									addNotification({
 										message: `Failed to modify tag "${tag.name}""`,

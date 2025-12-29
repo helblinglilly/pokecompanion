@@ -2,7 +2,7 @@
 	import Icon from '$/ui/atoms/Icon.svelte';
 	import { currentUser } from '$/lib/stores/user';
 	import Button from '$/ui/atoms/Button.svelte';
-	import type { APITag } from '$/@types/api.pokecompanion';
+	import type { APITag } from '$/features/tags/types';
 
 	interface Props {
 		entry: Pick<APITag['tags'][number], 'isPrivate' | 'name' | 'owner' | 'description'>;

@@ -110,7 +110,7 @@ export interface paths {
         /** @description Adds a move to a specific tag */
         post: operations["addMove"];
         /** @description Deletes a move from a specific tag */
-        delete: operations["deleteMove"];
+        delete: operations["deleteTagMove"];
         options?: never;
         head?: never;
         patch?: never;
@@ -129,12 +129,12 @@ export interface paths {
          *     Different from just looking at tag.contents because this will return user friendly names,
          *     sprites and slugs for how to navigate to this pokemon
          */
-        get: operations["getPokemon"];
+        get: operations["getTagPokemon"];
         put?: never;
         /** @description Adds a Pokemon to a specific tag */
-        post: operations["addPokemon"];
+        post: operations["addTagPokemon"];
         /** @description Deletes a Pokemon from a specific tag */
-        delete: operations["deletePokemon"];
+        delete: operations["deleteTagPokemon"];
         options?: never;
         head?: never;
         patch?: never;
@@ -2100,7 +2100,7 @@ export interface operations {
             };
         };
     };
-    deleteMove: {
+    deleteTagMove: {
         parameters: {
             query?: never;
             header?: never;
@@ -2159,7 +2159,7 @@ export interface operations {
             };
         };
     };
-    getPokemon: {
+    getTagPokemon: {
         parameters: {
             query?: {
                 gender?: "male" | "female";
@@ -2234,7 +2234,7 @@ export interface operations {
             };
         };
     };
-    addPokemon: {
+    addTagPokemon: {
         parameters: {
             query?: never;
             header?: never;
@@ -2298,7 +2298,7 @@ export interface operations {
             };
         };
     };
-    deletePokemon: {
+    deleteTagPokemon: {
         parameters: {
             query?: never;
             header?: never;

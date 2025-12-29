@@ -3,11 +3,11 @@ import { PUBLIC_API_HOST } from '$env/static/public';
 import type { LayoutLoad } from './$types';
 import { animateSprites, meta, selectedGame } from '$lib/stores/domain';
 import { get } from 'svelte/store';
-import type { paths } from '$/@types/api';
+import { getAllTagsForUser } from '$/features/tags/api';
+import { DEPEND_ALL_TAGS } from '$/features/tags/depends';
 
-export const load: LayoutLoad = async (a) => {
-	const { fetch, depends } = a;
-	depends('app:tags');
+export const load: LayoutLoad = async ({ fetch, depends }) => {
+	depends(DEPEND_ALL_TAGS);
 
 	async function getMeta() {
 		const res = await fetch(`${PUBLIC_API_HOST}/meta`, {
@@ -15,24 +15,6 @@ export const load: LayoutLoad = async (a) => {
 		});
 
 		return (await res.json()) as APIMeta;
-	}
-
-	async function getTags(): Promise<
-		paths['/tags']['get']['responses']['200']['content']['application/json']
-	> {
-		try {
-			const res = await fetch(`${PUBLIC_API_HOST}/tags`, {
-				credentials: 'include'
-			});
-
-			return await res.json();
-		} catch {
-			return {
-				currentPage: 0,
-				tags: [],
-				totalPages: 0
-			};
-		}
 	}
 
 	try {
@@ -51,7 +33,7 @@ export const load: LayoutLoad = async (a) => {
 			selectedGame.set(metaBody.games[metaBody.games.length - 1]);
 		}
 
-		const tagBody = await getTags();
+		const tagBody = await getAllTagsForUser(undefined, fetch);
 
 		return {
 			...metaBody,

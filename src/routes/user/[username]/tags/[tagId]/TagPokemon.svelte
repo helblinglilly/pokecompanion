@@ -2,12 +2,12 @@
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card';
 	import { page } from '$app/state';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
-	import type { APITag } from '$/@types/api.pokecompanion';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
 	import { addNotification } from '$/features/notifications/notifications';
 	import { termNormaliser } from '$/lib/utils/string';
 	import { invalidate } from '$app/navigation';
+	import type { APITag } from '$/features/tags/types';
 
 	async function deletePokemonFromTag(pokemon: {
 		variety: string;

@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { currentUser } from '$/lib/stores/user';
 	import Button from '$/ui/atoms/Button.svelte';
-	import type { APITag } from '$/@types/api.pokecompanion';
+	import type { APITag } from '$/features/tags/types';
 
 	let showRenameOverlay = $state(false);
 	let showDescriptionOverlay = $state(false);

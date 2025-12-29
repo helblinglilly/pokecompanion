@@ -3,7 +3,6 @@
 	import Button from '$/ui/atoms/Button.svelte';
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/features/notifications/notifications';
-	import { refetchTags } from '$/lib/stores/tags';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
 	import type { APITagCreateRequestBody } from '$/@types/api.pokecompanion';
@@ -76,7 +75,6 @@
 								level: 'success'
 							});
 
-							refetchTags($currentUser.id);
 							onsuccess?.(new CustomEvent('success', { detail: requestBody() }));
 							showAddNewOverlay = false;
 							invalidate('tags');
