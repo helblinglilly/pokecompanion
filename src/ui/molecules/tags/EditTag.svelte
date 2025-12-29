@@ -1,19 +1,21 @@
 <script lang="ts">
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Button from '$/ui/atoms/Button.svelte';
-	import { doesTagContainMove, doesTagContainPokemon, tagStore } from '$/lib/stores/tags';
-	import type { IDisplayPokemon } from '$/lib/stores/pokemonPage';
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/features/notifications/notifications';
 	import { PUBLIC_API_HOST } from '$env/static/public';
-	import type { ITagMove } from '$/@types/api.pokecompanion';
 	import type { paths } from '$/@types/api';
 	import { invalidate } from '$app/navigation';
+	import { doesTagPokemonContainPokemon } from '$/features/tags/utils/containsPokemon';
+	import { doesTagMoveContainMove } from '$/features/tags/utils/containsMove';
+	import { page } from '$app/state';
+	import type { LayoutData } from '../../../routes/$types';
+	import type { MinimalTagMove, MinimalTagPokemon } from '$/features/tags/types';
 
 	let showAddToOverlay = $state(false);
 	interface Props {
-		pokemon?: IDisplayPokemon | undefined;
-		move?: Omit<ITagMove, 'added'> | undefined;
+		pokemon?: MinimalTagPokemon | undefined;
+		move?: MinimalTagMove | undefined;
 	}
 
 	let { pokemon = undefined, move = undefined }: Props = $props();
@@ -28,7 +30,7 @@
 			return {
 				id: pokemon.id,
 				gender: pokemon.gender,
-				shiny: pokemon.hasShinySprite && pokemon.showShinySpriteIfExists,
+				shiny: pokemon.shiny,
 				variety: pokemon.variety
 			};
 		}
@@ -60,6 +62,8 @@
 		});
 		return res.ok;
 	}
+
+	const layoutData = $derived(page.data as LayoutData);
 </script>
 
 {#if $currentUser}
@@ -81,13 +85,14 @@
 		<div class="grid gap-4">
 			<p>Select the tags which this item should be attached to</p>
 			<div class="grid gap-2">
-				{#each $tagStore as tag}
+				{#each layoutData.tags.tags as tag}
 					<div class="inline-flex">
 						<input
 							type="checkbox"
 							class="nested"
 							id={tag.name}
-							checked={doesTagContainPokemon(pokemon, tag) || doesTagContainMove(move, tag)}
+							checked={doesTagPokemonContainPokemon(tag.contents.pokemon, pokemon) ||
+								doesTagMoveContainMove(tag.contents.move, move)}
 							onchange={async (e) => {
 								const success = await modifyEntryOnTag(
 									tag.id,

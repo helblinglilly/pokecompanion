@@ -29,6 +29,6 @@ export const getAllTagsForUser = async (
 			currentPage: 0,
 			tags: [],
 			totalPages: 0
-		};
+		} as paths['/tags']['get']['responses']['200']['content']['application/json'];
 	}
 };

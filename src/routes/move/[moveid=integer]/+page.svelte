@@ -1,14 +1,16 @@
 <script lang="ts">
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
-	import { tagStore } from '$lib/stores/tags';
 	import { currentUser } from '$lib/stores/user';
 	import Card from '$/ui/atoms/Card.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
 	import CreateNewTag from '$/ui/molecules/Modal/CreateNewTag.svelte';
 	import AttachedTags from '$/features/tags/AttachedTags.svelte';
+	import { page } from '$app/state';
+	import type { LayoutData } from '../../$types.js';
 
 	let { data } = $props();
+	const layoutData = $derived(page.data) as LayoutData;
 </script>
 
 <SocialPreview
@@ -88,7 +90,7 @@
 				</div>
 
 				<div class="w-full flex justify-center gap-2">
-					{#if $tagStore.length > 0}
+					{#if layoutData.tags.tags.length > 0}
 						<div class="my-auto">
 							<EditTag move={{ id: data.move.id }} />
 						</div>

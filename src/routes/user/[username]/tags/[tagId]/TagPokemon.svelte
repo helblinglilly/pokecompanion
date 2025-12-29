@@ -7,14 +7,9 @@
 	import { addNotification } from '$/features/notifications/notifications';
 	import { termNormaliser } from '$/lib/utils/string';
 	import { invalidate } from '$app/navigation';
-	import type { APITag } from '$/features/tags/types';
+	import type { APITag, MinimalTagPokemon } from '$/features/tags/types';
 
-	async function deletePokemonFromTag(pokemon: {
-		variety: string;
-		shiny: boolean;
-		id: number;
-		gender?: 'male' | 'female';
-	}) {
+	async function deletePokemonFromTag(pokemon: MinimalTagPokemon) {
 		const res = await fetch(PUBLIC_API_HOST + `/tags/${tag.id}/pokemon`, {
 			method: 'DELETE',
 			body: JSON.stringify({
@@ -90,7 +85,7 @@
 								onclick={async () => {
 									await deletePokemonFromTag({
 										...pokemon,
-										shiny: pokemon.shiny ?? false
+										shiny: !!pokemon.shiny
 									});
 								}}>-</button
 							>
@@ -109,7 +104,7 @@
 								onclick={async () => {
 									await deletePokemonFromTag({
 										...pokemon,
-										shiny: pokemon.shiny ?? false
+										shiny: !!pokemon.shiny
 									});
 								}}>-</button
 							>

@@ -6,11 +6,11 @@
 	import Image from '$/ui/atoms/Image.svelte';
 	import SpritePreview from './SpritePreview.svelte';
 	import Pokedex from './Pokedex.svelte';
-	import { tagStore } from '$/lib/stores/tags';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import CreateNewTag from '$/ui/molecules/Modal/CreateNewTag.svelte';
 	import AttachedTags from '$/features/tags/AttachedTags.svelte';
+	import type { LayoutData } from '../../$types';
 
 	interface Props {
 		data: APIPokemon;
@@ -20,6 +20,8 @@
 
 	let hasShinySprite = $derived(data.sprites.some((sprite) => sprite.hasShiny));
 	let hasFemaleSprite = $derived(data.sprites.some((sprite) => sprite.hasFemale));
+
+	const layoutData = $derived(page.data) as LayoutData;
 
 	const genderParam = page.url.searchParams.get('gender');
 	const gender = genderParam === 'male' ? 'male' : genderParam === 'female' ? 'female' : undefined;
@@ -69,20 +71,17 @@
 			pokemon={{
 				id: data.id,
 				gender,
-				variety: page.url.searchParams.get('variety') ?? null,
+				variety: page.url.searchParams.get('variety') ?? undefined,
 				shiny: page.url.searchParams.get('shiny') === 'true'
 			}}
 		/>
 	</div>
 	<div class="flex justify-center items-center w-full gap-2 pt-2">
-		{#if $tagStore.length > 0}
+		{#if layoutData.tags.tags.length > 0}
 			<EditTag
 				pokemon={{
 					id: data.id,
-					hasFemaleSprite: hasFemaleSprite,
-					showFemaleSpriteIfExists: gender === 'female',
-					hasShinySprite: hasShinySprite,
-					showShinySpriteIfExists: page.url.searchParams.get('shiny') === 'true',
+					shiny: page.url.searchParams.get('shiny') === 'true',
 					gender,
 					variety: page.url.searchParams.get('variety') ?? undefined
 				}}

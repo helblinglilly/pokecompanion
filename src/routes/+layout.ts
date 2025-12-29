@@ -40,6 +40,6 @@ export const load: LayoutLoad = async ({ fetch, depends }) => {
 			tags: tagBody
 		};
 	} catch (err) {
-		console.error(`Failed to get the main config ${err}`);
+		throw new Error(`Failed to get base system configuration`);
 	}
 };
