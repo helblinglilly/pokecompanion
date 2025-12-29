@@ -10,4 +10,9 @@ export type MinimalTagMove = Omit<
 	'added'
 >;
 
+export type MinimalTagEntity = {
+	pokemon?: MinimalTagPokemon | undefined;
+	move?: MinimalTagMove | undefined;
+};
+
 export type APITag = paths['/tags']['get']['responses']['200']['content']['application/json'];

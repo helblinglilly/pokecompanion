@@ -5,8 +5,7 @@
 	import { page } from '$app/state';
 	import type { LayoutData } from '../../routes/$types';
 	import type { MinimalTagPokemon } from './types';
-	import { doesTagPokemonContainPokemon } from './utils/containsPokemon';
-	import { doesTagMoveContainMove } from './utils/containsMove';
+	import { doesTagContainEntry } from './utils/contains';
 
 	let {
 		pokemon = undefined,
@@ -18,13 +17,10 @@
 
 	let tags = $derived(
 		((page.data as LayoutData).tags?.tags || []).filter((tag) => {
-			if (pokemon) {
-				return doesTagPokemonContainPokemon(tag.contents.pokemon, pokemon);
-			}
-			if (move) {
-				return doesTagMoveContainMove(tag.contents.pokemon, move);
-			}
-			return false;
+			return doesTagContainEntry(tag.contents, {
+				pokemon,
+				move
+			});
 		})
 	);
 </script>

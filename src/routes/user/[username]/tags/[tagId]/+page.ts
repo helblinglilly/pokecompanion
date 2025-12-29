@@ -4,9 +4,10 @@ import { Logger } from '$/debt/log.js';
 import { getUserByUsername } from '$/routes/user/[username]/tags/[tagId]/publicUsers';
 import { error } from '@sveltejs/kit';
 import type { APITag } from '$/features/tags/types';
+import { DEPEND_TAG_ID } from '$/features/tags/depends.js';
 
 export const load = async ({ params, fetch, depends }) => {
-	depends(`tag:${params.tagId}`);
+	depends(DEPEND_TAG_ID(params.tagId));
 
 	const [user, tagRes] = await Promise.all([
 		getUserByUsername(params.username),

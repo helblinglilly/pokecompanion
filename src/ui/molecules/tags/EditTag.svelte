@@ -6,12 +6,11 @@
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import type { paths } from '$/@types/api';
 	import { invalidate } from '$app/navigation';
-	import { doesTagPokemonContainPokemon } from '$/features/tags/utils/containsPokemon';
-	import { doesTagMoveContainMove } from '$/features/tags/utils/containsMove';
 	import { page } from '$app/state';
 	import type { LayoutData } from '../../../routes/$types';
 	import type { MinimalTagMove, MinimalTagPokemon } from '$/features/tags/types';
 	import { DEPEND_TAG_ID } from '$/features/tags/depends';
+	import { doesTagContainEntry } from '$/features/tags/utils/contains';
 
 	let showAddToOverlay = $state(false);
 	interface Props {
@@ -92,8 +91,10 @@
 							type="checkbox"
 							class="nested"
 							id={tag.name}
-							checked={doesTagPokemonContainPokemon(tag.contents.pokemon, pokemon) ||
-								doesTagMoveContainMove(tag.contents.move, move)}
+							checked={doesTagContainEntry(tag.contents, {
+								pokemon: pokemon,
+								move: move
+							})}
 							onchange={async (e) => {
 								const success = await modifyEntryOnTag(
 									tag.id,

@@ -1,9 +1,10 @@
 import type { paths } from '$/@types/api.js';
+import { DEPEND_TAG_USER } from '$/features/tags/depends.js';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { error } from '@sveltejs/kit';
 
 export const load = async ({ params, depends }) => {
-	depends('tags:all');
+	depends(DEPEND_TAG_USER(params.username));
 	depends('user:all');
 	const res = await fetch(PUBLIC_API_HOST + `/user/${params.username}`);
 
