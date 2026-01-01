@@ -327,6 +327,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/pokedex/{pokedexId}/pokemon/{pokemonInPokedexId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Returns a root-level view of all the Pokemon in a specific Pokedex */
+        get: operations["getPokedexPokemon"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/move/{id}": {
         parameters: {
             query?: never;
@@ -1781,6 +1798,71 @@ export interface components {
             };
         };
         PokedexRootResponse: components["schemas"]["Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array__slug_description-ThePokecompanionslugforthisspecificPokedex_-string--description_description-AdescriptionforthisPokedex._92_nMightbenullformissingdata_-string-or-null--name_description-Thedisplay-friendlynameforthisPokedex_92_nMightbenullformissingdata_-string-or-null_____"];
+        PokemonPreviewResponse: {
+            /**
+             * Format: double
+             * @description That Pokemons National Dex ID
+             */
+            id: number;
+            /** @description Pokemon's name in the corresponding languages as a single string */
+            name: string;
+            sprite: {
+                url: string;
+                alt: string;
+            };
+            /** @description The Slug to get to that specific Pokemon's page */
+            slug: string;
+        };
+        PokedexPokemonResponse: {
+            navigation: {
+                /** @description Entry for the next pokemon in this pokedex, if applicable */
+                next: {
+                    /**
+                     * Format: double
+                     * @description That Pokemons National Pokedex ID
+                     */
+                    speciesId: number;
+                    /**
+                     * Format: double
+                     * @description The Pokedex ID of that Pokemon within this Pokedex
+                     */
+                    pokedexId: number;
+                    /** @description Slug to the next entry within this Pokedex - not the specific Pokemon */
+                    slug: string;
+                    pokemon: components["schemas"]["PokemonPreviewResponse"];
+                } | null;
+                current: {
+                    /**
+                     * Format: double
+                     * @description That Pokemons National Pokedex ID
+                     */
+                    speciesId: number;
+                    /**
+                     * Format: double
+                     * @description The Pokedex ID of that Pokemon within this Pokedex
+                     */
+                    pokedexId: number;
+                    pokemon: components["schemas"]["PokemonPreviewResponse"];
+                };
+                /** @description Entry for the previous pokemon in this pokedex, if applicable */
+                previous: {
+                    /**
+                     * Format: double
+                     * @description That Pokemons National Pokedex ID
+                     */
+                    speciesId: number;
+                    /**
+                     * Format: double
+                     * @description The Pokedex ID of that Pokemon within this Pokedex
+                     */
+                    pokedexId: number;
+                    /** @description Slug to the next entry within this Pokedex - not the specific Pokemon */
+                    slug: string;
+                    pokemon: components["schemas"]["PokemonPreviewResponse"];
+                } | null;
+            };
+            pokemon: components["schemas"]["PokemonResponse"];
+        };
         MoveResponse: {
             /** Format: double */
             id: number;
@@ -3237,6 +3319,53 @@ export interface operations {
                             id: number;
                         }[];
                     };
+                };
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getPokedexPokemon: {
+        parameters: {
+            query?: {
+                gender?: "male" | "female";
+                variety?: string;
+                shiny?: "true" | "false";
+                animateSprites?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                page?: number;
+                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
+                pageSize?: number;
+                /**
+                 * @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value
+                 */
+                jumpTo?: number;
+            };
+            header?: never;
+            path: {
+                pokedexId: number;
+                pokemonInPokedexId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Pokémon within this Pokédex */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PokedexPokemonResponse"];
                 };
             };
             404: {
