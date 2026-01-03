@@ -650,39 +650,70 @@ export interface components {
         };
         /** @enum {string} */
         PokeapiLanguageCodes: "ja-Hrkt" | "zh-Hant" | "ja" | "ko" | "fr" | "de" | "en" | "es" | "it";
-        /** @enum {string} */
-        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
-        RequestPreferencesQueryParams: {
-            /** @enum {string} */
-            gender?: "male" | "female";
-            variety?: string;
-            /** @enum {string} */
-            shiny?: "true" | "false";
-            /** @enum {string} */
-            animateSprites?: "true" | "false";
+        QueriesGetTagPokemon: {
             /** @enum {string} */
             versionSpecificPokemonSprites?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificTypeSprites?: "true" | "false";
+            /**
+             * @description Indicates whether the API should return sprites to .gif files where possible.
+             *
+             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+             * @enum {string}
+             */
+            animateSprites?: "true" | "false";
+            selectedGame?: string;
             primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
             secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            gameEntry?: components["schemas"]["PokeapiVersionGroups"];
         };
-        SearchQueryParams: {
-            /** @enum {string} */
-            gender?: "male" | "female";
-            variety?: string;
+        /** @enum {string} */
+        Gender: "male" | "female";
+        SearchPokemonQueryParams: {
+            gender?: components["schemas"]["Gender"];
+            variety?: string | null;
             /** @enum {string} */
             shiny?: "true" | "false";
-            /** @enum {string} */
-            animateSprites?: "true" | "false";
             /** @enum {string} */
             versionSpecificPokemonSprites?: "true" | "false";
             /** @enum {string} */
             versionSpecificTypeSprites?: "true" | "false";
+            /**
+             * @description Indicates whether the API should return sprites to .gif files where possible.
+             *
+             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+             * @enum {string}
+             */
+            animateSprites?: "true" | "false";
             primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
             secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+            selectedGame?: string;
+            /**
+             * Format: double
+             * @description The page number to get results
+             *
+             *     Page size is not configurable and defaults to 10
+             * @default 1
+             */
+            page: number;
+            /**
+             * Format: double
+             * @description Maximum: 50. If a value over 50 is provided, it will default back to 20
+             * @default 20
+             */
+            pageSize: number;
+            /**
+             * Format: double
+             * @description This Pokemon will be guaranteed to be on the current page.
+             *     Can be used in combination with pageSize, but will override the page value
+             */
+            jumpTo?: number;
+            /**
+             * Format: double
+             * @default 1
+             */
+            pokedex: number;
+            /** @description Search term */
+            term: string;
+        };
+        SearchOtherQueryParams: {
             /** @description Search term */
             term: string;
             /**
@@ -693,12 +724,17 @@ export interface components {
              * @default 1
              */
             page: number;
+            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            selectedGame?: string;
         };
         Type: {
             name: string;
             /** @description Path to the URL which will point at sprites.pokecompanion.com */
             icon: string;
         };
+        /** @enum {string} */
+        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
         PokeapiNamedApiResource: {
             /** @description Short name */
             name: string;
@@ -1233,21 +1269,70 @@ export interface components {
                 title: string;
             };
         };
-        PokemonRootPreviewQueries: {
-            /** @enum {string} */
-            gender?: "male" | "female";
-            variety?: string;
+        QueryParamsGetPokemon: {
+            gender?: components["schemas"]["Gender"];
             /** @enum {string} */
             shiny?: "true" | "false";
-            /** @enum {string} */
-            animateSprites?: "true" | "false";
             /** @enum {string} */
             versionSpecificPokemonSprites?: "true" | "false";
             /** @enum {string} */
             versionSpecificTypeSprites?: "true" | "false";
+            /**
+             * @description Indicates whether the API should return sprites to .gif files where possible.
+             *
+             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+             * @enum {string}
+             */
+            animateSprites?: "true" | "false";
             primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
             secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+            selectedGame?: string;
+            variety?: string | null;
+        };
+        QueryParamsGetPreviewPokemon: {
+            gender?: components["schemas"]["Gender"];
+            /** @enum {string} */
+            shiny?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificPokemonSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificTypeSprites?: "true" | "false";
+            /**
+             * @description Indicates whether the API should return sprites to .gif files where possible.
+             *
+             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+             * @enum {string}
+             */
+            animateSprites?: "true" | "false";
+            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            selectedGame?: string;
+            variety?: string | null;
+            /**
+             * Format: double
+             * @default 1
+             */
+            pokedex: number;
+        };
+        AllQueryParameters: {
+            gender?: components["schemas"]["Gender"];
+            variety?: string | null;
+            /** @enum {string} */
+            shiny?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificPokemonSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificTypeSprites?: "true" | "false";
+            /**
+             * @description Indicates whether the API should return sprites to .gif files where possible.
+             *
+             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+             * @enum {string}
+             */
+            animateSprites?: "true" | "false";
+            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            selectedGame?: string;
             /**
              * Format: double
              * @default 1
@@ -1265,6 +1350,11 @@ export interface components {
              *     Can be used in combination with pageSize, but will override the page value
              */
             jumpTo?: number;
+            /**
+             * Format: double
+             * @default 1
+             */
+            pokedex: number;
         };
         PokemonMoves: {
             home?: {
@@ -1567,6 +1657,12 @@ export interface components {
                 displayName: string;
             };
         };
+        QueryParamsGetPokemonMoves: {
+            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            selectedGame?: string;
+            variety?: string | null;
+        };
         /** @enum {string} */
         PokeapiGenerationName: "generation-i" | "generation-ii" | "generation-iii" | "generation-iv" | "generation-v" | "generation-vi" | "generation-vii" | "generation-viii" | "generation-ix";
         IGeneration: {
@@ -1798,6 +1894,25 @@ export interface components {
             };
         };
         PokedexRootResponse: components["schemas"]["Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array__slug_description-ThePokecompanionslugforthisspecificPokedex_-string--description_description-AdescriptionforthisPokedex._92_nMightbenullformissingdata_-string-or-null--name_description-Thedisplay-friendlynameforthisPokedex_92_nMightbenullformissingdata_-string-or-null_____"];
+        QueryParamsGetAllPokedexes: {
+            gender?: components["schemas"]["Gender"];
+            /** @enum {string} */
+            shiny?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificPokemonSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificTypeSprites?: "true" | "false";
+            /**
+             * @description Indicates whether the API should return sprites to .gif files where possible.
+             *
+             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+             * @enum {string}
+             */
+            animateSprites?: "true" | "false";
+            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            selectedGame?: string;
+        };
         PokemonPreviewResponse: {
             /**
              * Format: double
@@ -1861,7 +1976,6 @@ export interface components {
                     pokemon: components["schemas"]["PokemonPreviewResponse"];
                 } | null;
             };
-            pokemon: components["schemas"]["PokemonResponse"];
         };
         MoveResponse: {
             /** Format: double */
@@ -2497,15 +2611,16 @@ export interface operations {
     getTagPokemon: {
         parameters: {
             query?: {
-                gender?: "male" | "female";
-                variety?: string;
-                shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
                 versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
+                /**
+                 * @description Indicates whether the API should return sprites to .gif files where possible.
+                 *
+                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+                 */
+                animateSprites?: "true" | "false";
+                selectedGame?: string;
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
             };
             header?: never;
             path: {
@@ -2700,23 +2815,36 @@ export interface operations {
     searchPokemon: {
         parameters: {
             query: {
-                gender?: "male" | "female";
+                gender?: components["schemas"]["Gender"];
                 variety?: string;
                 shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
                 versionSpecificPokemonSprites?: "true" | "false";
                 versionSpecificTypeSprites?: "true" | "false";
+                /**
+                 * @description Indicates whether the API should return sprites to .gif files where possible.
+                 *
+                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+                 */
+                animateSprites?: "true" | "false";
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
-                /** @description Search term */
-                term: string;
+                selectedGame?: string;
                 /**
                  * @description The page number to get results
                  *
                  *     Page size is not configurable and defaults to 10
                  */
                 page?: number;
+                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
+                pageSize?: number;
+                /**
+                 * @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value
+                 */
+                jumpTo?: number;
+                pokedex?: number;
+                /** @description Search term */
+                term: string;
             };
             header?: never;
             path?: never;
@@ -2734,6 +2862,13 @@ export interface operations {
                         /** Format: double */
                         totalItems: number;
                         data: {
+                            pokedex: {
+                                /** Format: double */
+                                speciesId: number;
+                                /** Format: double */
+                                pokedexId: number;
+                                pokedexSlug: string;
+                            };
                             slug: string;
                             sprite: {
                                 url: string;
@@ -2771,15 +2906,6 @@ export interface operations {
     searchMoves: {
         parameters: {
             query: {
-                gender?: "male" | "female";
-                variety?: string;
-                shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
                 /** @description Search term */
                 term: string;
                 /**
@@ -2788,6 +2914,9 @@ export interface operations {
                  *     Page size is not configurable and defaults to 10
                  */
                 page?: number;
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                selectedGame?: string;
             };
             header?: never;
             path?: never;
@@ -2833,23 +2962,36 @@ export interface operations {
     searchItems: {
         parameters: {
             query: {
-                gender?: "male" | "female";
+                gender?: components["schemas"]["Gender"];
                 variety?: string;
                 shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
                 versionSpecificPokemonSprites?: "true" | "false";
                 versionSpecificTypeSprites?: "true" | "false";
+                /**
+                 * @description Indicates whether the API should return sprites to .gif files where possible.
+                 *
+                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+                 */
+                animateSprites?: "true" | "false";
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
-                /** @description Search term */
-                term: string;
+                selectedGame?: string;
                 /**
                  * @description The page number to get results
                  *
                  *     Page size is not configurable and defaults to 10
                  */
                 page?: number;
+                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
+                pageSize?: number;
+                /**
+                 * @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value
+                 */
+                jumpTo?: number;
+                pokedex?: number;
+                /** @description Search term */
+                term: string;
             };
             header?: never;
             path?: never;
@@ -2901,15 +3043,6 @@ export interface operations {
     searchAbilities: {
         parameters: {
             query: {
-                gender?: "male" | "female";
-                variety?: string;
-                shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
                 /** @description Search term */
                 term: string;
                 /**
@@ -2918,6 +3051,9 @@ export interface operations {
                  *     Page size is not configurable and defaults to 10
                  */
                 page?: number;
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                selectedGame?: string;
             };
             header?: never;
             path?: never;
@@ -2973,23 +3109,36 @@ export interface operations {
     search: {
         parameters: {
             query: {
-                gender?: "male" | "female";
+                gender?: components["schemas"]["Gender"];
                 variety?: string;
                 shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
                 versionSpecificPokemonSprites?: "true" | "false";
                 versionSpecificTypeSprites?: "true" | "false";
+                /**
+                 * @description Indicates whether the API should return sprites to .gif files where possible.
+                 *
+                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+                 */
+                animateSprites?: "true" | "false";
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
-                /** @description Search term */
-                term: string;
+                selectedGame?: string;
                 /**
                  * @description The page number to get results
                  *
                  *     Page size is not configurable and defaults to 10
                  */
                 page?: number;
+                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
+                pageSize?: number;
+                /**
+                 * @description This Pokemon will be guaranteed to be on the current page.
+                 *     Can be used in combination with pageSize, but will override the page value
+                 */
+                jumpTo?: number;
+                pokedex?: number;
+                /** @description Search term */
+                term: string;
             };
             header?: never;
             path?: never;
@@ -3039,6 +3188,13 @@ export interface operations {
                             /** Format: double */
                             totalItems: number;
                             data: {
+                                pokedex: {
+                                    /** Format: double */
+                                    speciesId: number;
+                                    /** Format: double */
+                                    pokedexId: number;
+                                    pokedexSlug: string;
+                                };
                                 slug: string;
                                 sprite: {
                                     url: string;
@@ -3078,15 +3234,20 @@ export interface operations {
     getPokemonById: {
         parameters: {
             query?: {
-                gender?: "male" | "female";
-                variety?: string;
+                gender?: components["schemas"]["Gender"];
                 shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
                 versionSpecificPokemonSprites?: "true" | "false";
                 versionSpecificTypeSprites?: "true" | "false";
+                /**
+                 * @description Indicates whether the API should return sprites to .gif files where possible.
+                 *
+                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+                 */
+                animateSprites?: "true" | "false";
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                selectedGame?: string;
+                variety?: string;
             };
             header?: never;
             path: {
@@ -3110,15 +3271,21 @@ export interface operations {
     getPokemonPreview: {
         parameters: {
             query?: {
-                gender?: "male" | "female";
-                variety?: string;
+                gender?: components["schemas"]["Gender"];
                 shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
                 versionSpecificPokemonSprites?: "true" | "false";
                 versionSpecificTypeSprites?: "true" | "false";
+                /**
+                 * @description Indicates whether the API should return sprites to .gif files where possible.
+                 *
+                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+                 */
+                animateSprites?: "true" | "false";
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                selectedGame?: string;
+                variety?: string;
+                pokedex?: number;
             };
             header?: never;
             path: {
@@ -3134,6 +3301,13 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
+                        pokedex: {
+                            /** Format: double */
+                            pokedexId: number;
+                            pokedexSlug: string;
+                            /** Format: double */
+                            speciesId: number;
+                        } | null;
                         /** @description Pokecompanion URL */
                         slug: string;
                         sprite: {
@@ -3155,15 +3329,20 @@ export interface operations {
     getPokemonRootPreviews: {
         parameters: {
             query?: {
-                gender?: "male" | "female";
+                gender?: components["schemas"]["Gender"];
                 variety?: string;
                 shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
                 versionSpecificPokemonSprites?: "true" | "false";
                 versionSpecificTypeSprites?: "true" | "false";
+                /**
+                 * @description Indicates whether the API should return sprites to .gif files where possible.
+                 *
+                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+                 */
+                animateSprites?: "true" | "false";
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                selectedGame?: string;
                 page?: number;
                 /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
                 pageSize?: number;
@@ -3172,6 +3351,7 @@ export interface operations {
                  *     Can be used in combination with pageSize, but will override the page value
                  */
                 jumpTo?: number;
+                pokedex?: number;
             };
             header?: never;
             path?: never;
@@ -3194,6 +3374,13 @@ export interface operations {
                             startingPage: number;
                         };
                         pokemon: {
+                            pokedex: {
+                                /** Format: double */
+                                pokedexId: number;
+                                pokedexSlug: string;
+                                /** Format: double */
+                                speciesId: number;
+                            };
                             slug: string;
                             sprite: {
                                 url: string;
@@ -3211,15 +3398,10 @@ export interface operations {
     getPokemonMoves: {
         parameters: {
             query?: {
-                gender?: "male" | "female";
-                variety?: string;
-                shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                selectedGame?: string;
+                variety?: string;
             };
             header?: never;
             path: {
@@ -3241,7 +3423,21 @@ export interface operations {
     };
     getAllPokedexes: {
         parameters: {
-            query?: never;
+            query?: {
+                gender?: components["schemas"]["Gender"];
+                shiny?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                /**
+                 * @description Indicates whether the API should return sprites to .gif files where possible.
+                 *
+                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+                 */
+                animateSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                selectedGame?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -3262,15 +3458,20 @@ export interface operations {
     getPokedex: {
         parameters: {
             query?: {
-                gender?: "male" | "female";
+                gender?: components["schemas"]["Gender"];
                 variety?: string;
                 shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
                 versionSpecificPokemonSprites?: "true" | "false";
                 versionSpecificTypeSprites?: "true" | "false";
+                /**
+                 * @description Indicates whether the API should return sprites to .gif files where possible.
+                 *
+                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+                 */
+                animateSprites?: "true" | "false";
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
+                selectedGame?: string;
                 page?: number;
                 /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
                 pageSize?: number;
@@ -3279,6 +3480,7 @@ export interface operations {
                  *     Can be used in combination with pageSize, but will override the page value
                  */
                 jumpTo?: number;
+                pokedex?: number;
             };
             header?: never;
             path: {
@@ -3309,6 +3511,13 @@ export interface operations {
                             slug: string;
                         };
                         pokemon: {
+                            pokedex: {
+                                /** Format: double */
+                                pokedexId: number;
+                                pokedexSlug: string;
+                                /** Format: double */
+                                speciesId: number;
+                            };
                             slug: string;
                             sprite: {
                                 url: string;
@@ -3332,23 +3541,20 @@ export interface operations {
     getPokedexPokemon: {
         parameters: {
             query?: {
-                gender?: "male" | "female";
-                variety?: string;
+                gender?: components["schemas"]["Gender"];
                 shiny?: "true" | "false";
-                animateSprites?: "true" | "false";
                 versionSpecificPokemonSprites?: "true" | "false";
                 versionSpecificTypeSprites?: "true" | "false";
+                /**
+                 * @description Indicates whether the API should return sprites to .gif files where possible.
+                 *
+                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+                 */
+                animateSprites?: "true" | "false";
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                gameEntry?: components["schemas"]["PokeapiVersionGroups"];
-                page?: number;
-                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
-                pageSize?: number;
-                /**
-                 * @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value
-                 */
-                jumpTo?: number;
+                selectedGame?: string;
+                variety?: string;
             };
             header?: never;
             path: {
@@ -3359,7 +3565,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Pokémon within this Pokédex */
+            /** @description Returns navigation details for this Pokemon within a given Pokedex */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -3510,6 +3716,13 @@ export interface operations {
                         ofTheDay: {
                             move: components["schemas"]["MovePreview"];
                             pokemon: {
+                                pokedex: {
+                                    /** Format: double */
+                                    speciesId: number;
+                                    /** Format: double */
+                                    pokedexId: number;
+                                    pokedexSlug: string;
+                                };
                                 slug: string;
                                 sprite: {
                                     url: string;

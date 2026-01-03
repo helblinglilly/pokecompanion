@@ -56,7 +56,7 @@
 
 <Breadcrumbs
 	breadcrumbs={[
-		{ display: 'Pokémon', url: `/pokemon?jumpTo=#${data.id}` },
+		{ display: 'Pokémon', url: `/pokemon?jumpTo=${data.id}#${data.id}` },
 		{ display: `${data.id}` }
 	]}
 />

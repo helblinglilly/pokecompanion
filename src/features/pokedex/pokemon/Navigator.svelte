@@ -57,7 +57,7 @@
 
 {#snippet nationalDexLink()}
 	{#if displayNationalDex}
-		<a href={`/pokedex/1?jumpTo=${current.speciesId}`} class="content-center">
+		<a href={`/pokedex/1?jumpTo=${current.speciesId}#${current.speciesId}`} class="content-center">
 			<p class="my-auto text-center">#{current.speciesId}</p>
 		</a>
 	{/if}

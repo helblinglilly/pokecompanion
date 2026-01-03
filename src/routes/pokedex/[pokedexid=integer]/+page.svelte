@@ -21,8 +21,15 @@
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
 	{#each data.pokedex.pokemon as pokemon}
-		<a id={`${pokemon.id}`} href={pokemon.slug}>
-			<PokemonListEntry {pokemon} shiny={false} gender={undefined} />
+		<a id={`${pokemon.id}`} href={pokemon.pokedex.pokedexSlug}>
+			<PokemonListEntry
+				pokemon={{
+					...pokemon,
+					id: pokemon.pokedex.pokedexId
+				}}
+				shiny={false}
+				gender={undefined}
+			/>
 		</a>
 	{/each}
 </div>
