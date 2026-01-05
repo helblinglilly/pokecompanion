@@ -28,3 +28,30 @@ export const getPokedexPokemon = async (
 
 	return (await res.json()) as paths['/pokedex/{pokedexId}/pokemon/{pokemonInPokedexId}']['get']['responses']['200']['content']['application/json'];
 };
+
+export const getPokemon = async (
+	pokemonId: number,
+	query: paths['/pokemon/{id}']['get']['parameters']['query'],
+	propFetch?: typeof globalThis.fetch
+) => {
+	const fetchSafe = propFetch ?? fetch;
+
+	const url = new URL(`/pokemon/${pokemonId}`, PUBLIC_API_HOST);
+	if (query) {
+		Object.entries(query).forEach(([key, value]) => {
+			if (typeof value === 'string' || typeof value === 'number') {
+				url.searchParams.append(key, value.toString());
+			}
+		});
+	}
+
+	const res = await fetchSafe(url, {
+		credentials: 'include'
+	});
+
+	if (res.status !== 200) {
+		throw new Error(`Tried to get a Pokemon but got HTTP ${res.status}`);
+	}
+
+	return (await res.json()) as paths['/pokemon/{id}']['get']['responses']['200']['content']['application/json'];
+};
