@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Navigator from '$/features/pokedex/pokemon/Navigator.svelte';
+	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Abilities from '$/routes/pokemon/[pokedexid=integer]/Abilities.svelte';
 	import BaseStats from '$/routes/pokemon/[pokedexid=integer]/BaseStats.svelte';
@@ -19,6 +20,19 @@
 	title={data.pokedex.__meta.title}
 	description={data.pokedex.__meta.description}
 	previewImage="https://socialpreviews.pokecompanion.helbling.uk/generic.png"
+/>
+
+<Breadcrumbs
+	breadcrumbs={[
+		{ display: 'Pokédex', url: `/pokedex` },
+		{
+			display: data.pokedex.pokedex.name,
+			url:
+				data.pokedex.pokedex.slug +
+				`?jumpTo=${data.pokedex.navigation.current.pokedexId}#${data.pokedex.navigation.current.pokedexId}`
+		},
+		{ display: `${data.pokedex.navigation.current.pokedexId}` }
+	]}
 />
 
 <Navigator previous={navigation.previous} current={navigation.current} next={navigation.next} />

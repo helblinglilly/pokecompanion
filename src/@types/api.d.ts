@@ -1933,6 +1933,15 @@ export interface components {
                 description: string;
                 title: string;
             };
+            pokedex: {
+                /** @example /pokedex/1 */
+                slug: string;
+                /**
+                 * @description Nicely formatted name of this Pokedex
+                 * @example Original Johto
+                 */
+                name: string;
+            };
             navigation: {
                 /** @description Entry for the next pokemon in this pokedex, if applicable */
                 next: {

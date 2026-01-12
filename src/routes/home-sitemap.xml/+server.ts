@@ -13,6 +13,11 @@ export const GET: RequestHandler = async () => {
     <priority>0.8</priority>
 </url>
 <url>
+    <loc>https://pokecompanion.com/pokedex</loc>
+    <lastmod>2026-01-12T22:40:00+00:00</lastmod>
+    <priority>0.8</priority>
+</url>
+<url>
     <loc>https://pokecompanion.com/pokemon</loc>
     <lastmod>2024-04-20T18:41:35+00:00</lastmod>
     <priority>0.8</priority>

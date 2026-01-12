@@ -3,8 +3,8 @@
 	import { currentUser } from '$/lib/stores/user';
 </script>
 
-<a href="/pokemon" class="w-32 h-12 md:w-fit md:px-4 no-underline">
-	<p class="grid h-full text-center items-center">Pokémon</p>
+<a href="/pokedex" class="w-32 h-12 md:w-fit md:px-4 no-underline">
+	<p class="grid h-full text-center items-center">Pokédex</p>
 </a>
 
 <a href="/settings" class="w-32 h-12 md:w-fit md:px-4 no-underline">

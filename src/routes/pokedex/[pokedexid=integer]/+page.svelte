@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import PageNavigator from '$/routes/pokemon/PageNavigator.svelte';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
