@@ -334,7 +334,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Returns a root-level view of all the Pokemon in a specific Pokedex */
+        /** @description Returns a specific Pokemon within the Pokedex */
         get: operations["getPokedexPokemon"];
         put?: never;
         post?: never;
@@ -734,7 +734,7 @@ export interface components {
             icon: string;
         };
         /** @enum {string} */
-        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-and-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
+        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
         PokeapiNamedApiResource: {
             /** @description Short name */
             name: string;
@@ -990,7 +990,7 @@ export interface components {
                 levelup: number;
                 displayName: string;
             };
-            "brilliant-diamond-and-shining-pearl"?: {
+            "brilliant-diamond-shining-pearl"?: {
                 /** Format: double */
                 other: number;
                 /** Format: double */
@@ -1604,7 +1604,7 @@ export interface components {
                 } & components["schemas"]["MovePreview"])[];
                 displayName: string;
             };
-            "brilliant-diamond-and-shining-pearl"?: {
+            "brilliant-diamond-shining-pearl"?: {
                 other: ({
                     learnMethod: string;
                 } & components["schemas"]["MovePreview"])[];
@@ -1852,7 +1852,7 @@ export interface components {
                 }[];
                 game: components["schemas"]["IGameGroup"];
             };
-            "brilliant-diamond-and-shining-pearl"?: {
+            "brilliant-diamond-shining-pearl"?: {
                 pokedex: {
                     name: string;
                     description: string;
@@ -1929,6 +1929,10 @@ export interface components {
             slug: string;
         };
         PokedexPokemonResponse: {
+            __meta: {
+                description: string;
+                title: string;
+            };
             navigation: {
                 /** @description Entry for the next pokemon in this pokedex, if applicable */
                 next: {
@@ -3534,6 +3538,10 @@ export interface operations {
                             /** Format: double */
                             id: number;
                         }[];
+                        __meta: {
+                            description: string;
+                            title: string;
+                        };
                     };
                 };
             };

@@ -7,7 +7,8 @@
 </script>
 
 <SocialPreview
-	title={data.pokedex.pokedex.name + ' Pokédex'}
+	title={data.pokedex.__meta.title}
+	description={data.pokedex.__meta.description}
 	previewImage="https://socialpreviews.pokecompanion.helbling.uk/generic.png"
 />
 

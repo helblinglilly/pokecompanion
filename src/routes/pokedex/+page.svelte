@@ -40,7 +40,8 @@
 {/snippet}
 
 <SocialPreview
-	title="Pokédex"
+	title="All Pokédexes"
+	description="List of all Pokédexes in the main-series games."
 	previewImage="https://socialpreviews.pokecompanion.helbling.uk/generic.png"
 />
 

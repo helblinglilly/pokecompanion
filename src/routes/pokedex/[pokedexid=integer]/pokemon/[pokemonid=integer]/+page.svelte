@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Navigator from '$/features/pokedex/pokemon/Navigator.svelte';
+	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Abilities from '$/routes/pokemon/[pokedexid=integer]/Abilities.svelte';
 	import BaseStats from '$/routes/pokemon/[pokedexid=integer]/BaseStats.svelte';
 	import Encounters from '$/routes/pokemon/[pokedexid=integer]/Encounters.svelte';
@@ -13,6 +14,12 @@
 	let { data } = $props();
 	const navigation = $derived(data.pokedex.navigation);
 </script>
+
+<SocialPreview
+	title={data.pokedex.__meta.title}
+	description={data.pokedex.__meta.description}
+	previewImage="https://socialpreviews.pokecompanion.helbling.uk/generic.png"
+/>
 
 <Navigator previous={navigation.previous} current={navigation.current} next={navigation.next} />
 
