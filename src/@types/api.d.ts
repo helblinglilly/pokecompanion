@@ -3301,6 +3301,12 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
+                        /**
+                         * @description Returns details about the Pokemon with regards to the ?pokedex query parameter, which defaults
+                         *     to 1 (National Dex)
+                         *
+                         *     Will return null if the Pokemon is not within that Pokedex at all
+                         */
                         pokedex: {
                             /** Format: double */
                             pokedexId: number;
@@ -3505,6 +3511,7 @@ export interface operations {
                             /** Format: double */
                             startingPage: number;
                         };
+                        games: components["schemas"]["PokeapiVersionGroups"][];
                         pokedex: {
                             name: string;
                             description: string;

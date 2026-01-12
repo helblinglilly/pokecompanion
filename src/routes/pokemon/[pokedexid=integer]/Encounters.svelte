@@ -7,29 +7,41 @@
 
 	interface Props {
 		encounterData: APIPokemon['encounters'];
+		onlyShowCurrentGames?: boolean;
 	}
 
-	let { encounterData }: Props = $props();
+	let { encounterData, onlyShowCurrentGames }: Props = $props();
 
 	let allGames = $derived(
-		Object.keys(encounterData).sort((a, b) => {
-			const aGameIndex =
-				$meta.games
-					.map((metaGames) => {
-						const matching = metaGames.games.find((metaGame) => metaGame.pokeapi === a);
-						return matching?.globalSortOrder ?? -1;
-					})
-					.filter((a) => a > 0)[0] ?? -1;
-			const bGameIndex =
-				$meta.games
-					.map((metaGames) => {
-						const matching = metaGames.games.find((metaGame) => metaGame.pokeapi === b);
-						return matching?.globalSortOrder ?? -1;
-					})
-					.filter((a) => a > 0)[0] ?? -1;
+		Object.keys(encounterData)
+			.sort((a, b) => {
+				const aGameIndex =
+					$meta.games
+						.map((metaGames) => {
+							const matching = metaGames.games.find((metaGame) => metaGame.pokeapi === a);
+							return matching?.globalSortOrder ?? -1;
+						})
+						.filter((a) => a > 0)[0] ?? -1;
+				const bGameIndex =
+					$meta.games
+						.map((metaGames) => {
+							const matching = metaGames.games.find((metaGame) => metaGame.pokeapi === b);
+							return matching?.globalSortOrder ?? -1;
+						})
+						.filter((a) => a > 0)[0] ?? -1;
 
-			return aGameIndex > bGameIndex ? 1 : -1;
-		}) as Array<MetaGame['games'][number]['pokeapi']>
+				return aGameIndex > bGameIndex ? 1 : -1;
+			})
+			.filter((game) => {
+				if (onlyShowCurrentGames) {
+					const selectedGames = $selectedGame?.games
+						.map((sGame) => sGame.pokeapi)
+						?.concat($selectedGame?.dlcGames.map((sDlcGame) => sDlcGame.pokeapi));
+
+					return selectedGames?.some((sGame) => sGame === game);
+				}
+				return true;
+			}) as Array<MetaGame['games'][number]['pokeapi']>
 	);
 
 	let currentGame = $derived(
@@ -50,7 +62,7 @@
 	let currentDisplayLimit = $state(defaultLimit);
 </script>
 
-{#if $selectedGame && !$selectedGame.games.some((a) => allGames.includes(a.pokeapi))}
+{#if !onlyShowCurrentGames && $selectedGame && !$selectedGame.games.some( (a) => allGames.includes(a.pokeapi) )}
 	<p>Missing data for {$selectedGame.shortName}</p>
 {/if}
 

@@ -21,7 +21,10 @@
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
 	{#each data.pokedex.pokemon as pokemon}
-		<a id={`${pokemon.id}`} href={pokemon.pokedex.pokedexSlug}>
+		<a
+			id={`${pokemon.id}`}
+			href={pokemon.pokedex.pokedexSlug + `?gameEntry=${data.pokedex.games[0]}`}
+		>
 			<PokemonListEntry
 				pokemon={{
 					...pokemon,

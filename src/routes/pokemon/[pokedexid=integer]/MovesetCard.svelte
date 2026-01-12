@@ -10,9 +10,10 @@
 		movePromise: Promise<
 			paths['/pokemon/{id}/moves']['get']['responses']['200']['content']['application/json']
 		>;
+		onlyShowCurrentGames?: boolean;
 	}
 
-	let { skeletonData, movePromise }: Props = $props();
+	let { skeletonData, movePromise, onlyShowCurrentGames }: Props = $props();
 
 	let allApplicableVersions = $derived(
 		Object.keys(skeletonData).sort((a, b) => {
@@ -31,7 +32,7 @@
 	);
 </script>
 
-{#if selectedVersionGroup}
+{#if selectedVersionGroup && !onlyShowCurrentGames}
 	<Select
 		isNested
 		options={allApplicableVersions.map((version) => ({

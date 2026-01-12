@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { type components } from '$/@types/api';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import { selectedGame } from '$/lib/stores/domain';
 	import Card from '$/ui/atoms/Card.svelte';
@@ -18,10 +19,13 @@
 	);
 </script>
 
-{#snippet pokedexGrid(pokedexList: (typeof dexData)[number]['pokedex'])}
+{#snippet pokedexGrid(
+	pokedexList: (typeof dexData)[number]['pokedex'],
+	game: components['schemas']['IGameGroup']
+)}
 	<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
 		{#each pokedexList as pokedex}
-			<a id={pokedex.slug} href={pokedex.slug} class="no-underline">
+			<a id={pokedex.slug} href={pokedex.slug + `?game=${game.pokeapi}`} class="no-underline">
 				<Card
 					ariaLabel={pokedex.name}
 					classes="m-0 w-full grid justify-between h-fit min-h-20"
@@ -45,13 +49,13 @@
 <div class="grid gap-4">
 	{#if selectedGameDex}
 		<h3 class="h3">{selectedGameDex.game.shortName}</h3>
-		{@render pokedexGrid(selectedGameDex.pokedex)}
+		{@render pokedexGrid(selectedGameDex.pokedex, selectedGameDex.game)}
 		<hr />
 	{/if}
 
 	{#each Object.entries(dexData) as [_, dexGameEntry]}
 		<h3 class="h3" id={dexGameEntry.game.pokeapi}>{dexGameEntry.game.shortName}</h3>
 
-		{@render pokedexGrid(dexGameEntry.pokedex)}
+		{@render pokedexGrid(dexGameEntry.pokedex, dexGameEntry.game)}
 	{/each}
 </div>
