@@ -25,12 +25,12 @@
 	{#each data.pokedex.pokemon as pokemon}
 		<a
 			id={`${pokemon.id}`}
-			href={pokemon.pokedex.pokedexSlug + `?gameEntry=${data.pokedex.games[0]}`}
+			href={pokemon.pokedex?.pokedexSlug + `?gameEntry=${data.pokedex.games[0]}`}
 		>
 			<PokemonListEntry
 				pokemon={{
 					...pokemon,
-					id: pokemon.pokedex.pokedexId
+					id: pokemon.pokedex?.pokedexId ?? pokemon.id
 				}}
 				shiny={false}
 				gender={undefined}

@@ -49,7 +49,7 @@ export interface paths {
         get?: never;
         put?: never;
         /** @description Report a user for moderation */
-        post: operations["updateUser"];
+        post: operations["reportUser"];
         delete?: never;
         options?: never;
         head?: never;
@@ -687,9 +687,6 @@ export interface components {
             selectedGame?: string;
             /**
              * Format: double
-             * @description The page number to get results
-             *
-             *     Page size is not configurable and defaults to 10
              * @default 1
              */
             page: number;
@@ -716,17 +713,14 @@ export interface components {
         SearchOtherQueryParams: {
             /** @description Search term */
             term: string;
-            /**
-             * Format: double
-             * @description The page number to get results
-             *
-             *     Page size is not configurable and defaults to 10
-             * @default 1
-             */
-            page: number;
             primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
             secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
             selectedGame?: string;
+            /**
+             * Format: double
+             * @default 1
+             */
+            page: number;
         };
         Type: {
             name: string;
@@ -740,6 +734,25 @@ export interface components {
             name: string;
             /** @description https://pokeapi.co/api/v2/.../entry/id/ */
             url: string;
+        };
+        PokemonRequestInfo: {
+            /**
+             * @description Slug for the Website
+             * @example /pokemon/194?variety=paldea-wooper&shiny=true
+             */
+            slug: string;
+            /**
+             * @description Indicates whether gender differences have been requested
+             * @example female
+             */
+            gender: string | null;
+            /**
+             * @description The variety name for this pokemon
+             * @example paldea-wooper
+             */
+            variety: string | null;
+            /** @description Whether the shiny form of this pokemon was requested */
+            shiny: boolean;
         };
         /** @description Make all properties in T optional */
         "Partial_Record_PokeapiVersionGroups._displayName_description-AfriendlydisplaynameforthisPokemonGameGroup_-string--levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___": {
@@ -1126,6 +1139,7 @@ export interface components {
             /** Format: double */
             id: number;
             name: string;
+            names: string[];
             pokedexEntries: {
                 textEntry: string;
                 /** @description A display friendly game name, NOT the pokeapi name */
@@ -1243,7 +1257,7 @@ export interface components {
                 id: number;
             }[];
             varieties: {
-                pokecompanionUrl: string;
+                requestInfo: components["schemas"]["PokemonRequestInfo"];
                 isDefault: boolean;
                 displayName: string;
                 name: string;
@@ -1288,6 +1302,25 @@ export interface components {
             secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
             selectedGame?: string;
             variety?: string | null;
+        };
+        PokedexPokemonAttachment: {
+            /**
+             * Format: double
+             * @description The ID of this Pokedex
+             */
+            pokedexEntityId: number;
+            /**
+             * Format: double
+             * @description The ID of this Pokemon in the national pokedex
+             */
+            speciesId: number;
+            /** @example /pokedex/34 */
+            pokedexSlug: string;
+            /**
+             * Format: double
+             * @description The ID of this Pokemon within this Pokedex
+             */
+            pokedexId: number;
         };
         QueryParamsGetPreviewPokemon: {
             gender?: components["schemas"]["Gender"];
@@ -1921,12 +1954,33 @@ export interface components {
             id: number;
             /** @description Pokemon's name in the corresponding languages as a single string */
             name: string;
+            /** @description All names for this Pokemon in an array */
+            names: string[];
             sprite: {
                 url: string;
                 alt: string;
             };
-            /** @description The Slug to get to that specific Pokemon's page */
+            /**
+             * @description The Slug to get to that specific Pokemon's page
+             * @example /pokemon/194
+             */
             slug: string;
+        };
+        PokedexInfo: {
+            /** @example /pokedex/34 */
+            slug: string;
+            /**
+             * Format: double
+             * @description The ID for this specific Pokedex
+             */
+            id: number;
+            /** @description The description that's attached to this Pokedex */
+            description: string;
+            /**
+             * @description The name of this Pokedex (human friendly)
+             * @example Updated Johto Pokedex
+             */
+            name: string;
         };
         PokedexPokemonResponse: {
             __meta: {
@@ -1941,6 +1995,11 @@ export interface components {
                  * @example Original Johto
                  */
                 name: string;
+                /**
+                 * Format: double
+                 * @description ID of that Pokedex
+                 */
+                id: number;
             };
             navigation: {
                 /** @description Entry for the next pokemon in this pokedex, if applicable */
@@ -2041,6 +2100,24 @@ export interface components {
             };
             /** @description The type of this move */
             type: components["schemas"]["Type"];
+        };
+        QueryParamsGetHome: {
+            /** @enum {string} */
+            shiny?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificPokemonSprites?: "true" | "false";
+            /** @enum {string} */
+            versionSpecificTypeSprites?: "true" | "false";
+            /**
+             * @description Indicates whether the API should return sprites to .gif files where possible.
+             *
+             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+             * @enum {string}
+             */
+            animateSprites?: "true" | "false";
+            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+            selectedGame?: string;
         };
     };
     responses: never;
@@ -2162,7 +2239,7 @@ export interface operations {
             };
         };
     };
-    updateUser: {
+    reportUser: {
         parameters: {
             query?: never;
             header?: never;
@@ -2842,11 +2919,6 @@ export interface operations {
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 selectedGame?: string;
-                /**
-                 * @description The page number to get results
-                 *
-                 *     Page size is not configurable and defaults to 10
-                 */
                 page?: number;
                 /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
                 pageSize?: number;
@@ -2879,6 +2951,8 @@ export interface operations {
                                 /** Format: double */
                                 speciesId: number;
                                 /** Format: double */
+                                pokedexEntityId: number;
+                                /** Format: double */
                                 pokedexId: number;
                                 pokedexSlug: string;
                             };
@@ -2887,6 +2961,7 @@ export interface operations {
                                 url: string;
                                 alt: string;
                             };
+                            names: string[];
                             name: string;
                             /** Format: double */
                             id: number;
@@ -2921,15 +2996,10 @@ export interface operations {
             query: {
                 /** @description Search term */
                 term: string;
-                /**
-                 * @description The page number to get results
-                 *
-                 *     Page size is not configurable and defaults to 10
-                 */
-                page?: number;
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 selectedGame?: string;
+                page?: number;
             };
             header?: never;
             path?: never;
@@ -2989,11 +3059,6 @@ export interface operations {
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 selectedGame?: string;
-                /**
-                 * @description The page number to get results
-                 *
-                 *     Page size is not configurable and defaults to 10
-                 */
                 page?: number;
                 /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
                 pageSize?: number;
@@ -3058,15 +3123,10 @@ export interface operations {
             query: {
                 /** @description Search term */
                 term: string;
-                /**
-                 * @description The page number to get results
-                 *
-                 *     Page size is not configurable and defaults to 10
-                 */
-                page?: number;
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 selectedGame?: string;
+                page?: number;
             };
             header?: never;
             path?: never;
@@ -3136,11 +3196,6 @@ export interface operations {
                 primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
                 selectedGame?: string;
-                /**
-                 * @description The page number to get results
-                 *
-                 *     Page size is not configurable and defaults to 10
-                 */
                 page?: number;
                 /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
                 pageSize?: number;
@@ -3205,6 +3260,8 @@ export interface operations {
                                     /** Format: double */
                                     speciesId: number;
                                     /** Format: double */
+                                    pokedexEntityId: number;
+                                    /** Format: double */
                                     pokedexId: number;
                                     pokedexSlug: string;
                                 };
@@ -3213,6 +3270,7 @@ export interface operations {
                                     url: string;
                                     alt: string;
                                 };
+                                names: string[];
                                 name: string;
                                 /** Format: double */
                                 id: number;
@@ -3320,19 +3378,14 @@ export interface operations {
                          *
                          *     Will return null if the Pokemon is not within that Pokedex at all
                          */
-                        pokedex: {
-                            /** Format: double */
-                            pokedexId: number;
-                            pokedexSlug: string;
-                            /** Format: double */
-                            speciesId: number;
-                        } | null;
+                        pokedex: components["schemas"]["PokedexPokemonAttachment"] | null;
                         /** @description Pokecompanion URL */
                         slug: string;
                         sprite: {
                             url: string;
                             alt: string;
                         };
+                        names: string[];
                         /** @description Single string - combined both languages into the same string */
                         name: string;
                         /**
@@ -3393,18 +3446,13 @@ export interface operations {
                             startingPage: number;
                         };
                         pokemon: {
-                            pokedex: {
-                                /** Format: double */
-                                pokedexId: number;
-                                pokedexSlug: string;
-                                /** Format: double */
-                                speciesId: number;
-                            };
+                            pokedex: components["schemas"]["PokedexPokemonAttachment"];
                             slug: string;
                             sprite: {
                                 url: string;
                                 alt: string;
                             };
+                            names: string[];
                             name: string;
                             /** Format: double */
                             id: number;
@@ -3521,34 +3569,18 @@ export interface operations {
                             lastPage: number;
                             /** Format: double */
                             currentPage: number;
-                            /** Format: double */
-                            startingPage: number;
+                            /** @enum {number} */
+                            startingPage: 1;
                         };
                         games: components["schemas"]["PokeapiVersionGroups"][];
-                        pokedex: {
-                            name: string;
-                            description: string;
-                            slug: string;
-                        };
-                        pokemon: {
-                            pokedex: {
-                                /** Format: double */
-                                pokedexId: number;
-                                pokedexSlug: string;
-                                /** Format: double */
-                                speciesId: number;
-                            };
-                            slug: string;
-                            sprite: {
-                                url: string;
-                                alt: string;
-                            };
-                            name: string;
-                            /** Format: double */
-                            id: number;
-                        }[];
+                        pokedex: components["schemas"]["PokedexInfo"];
+                        pokemon: (components["schemas"]["PokemonPreviewResponse"] & {
+                            pokedex: components["schemas"]["PokedexPokemonAttachment"] | null;
+                        })[];
                         __meta: {
+                            /** @example Gold/Silver/Crystal Johto dex - called the "new" Pokédex in-game */
                             description: string;
+                            /** @example Original Johto Pokedex */
                             title: string;
                         };
                     };
@@ -3724,7 +3756,20 @@ export interface operations {
     };
     getHome: {
         parameters: {
-            query?: never;
+            query?: {
+                shiny?: "true" | "false";
+                versionSpecificPokemonSprites?: "true" | "false";
+                versionSpecificTypeSprites?: "true" | "false";
+                /**
+                 * @description Indicates whether the API should return sprites to .gif files where possible.
+                 *
+                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+                 */
+                animateSprites?: "true" | "false";
+                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
+                selectedGame?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -3744,6 +3789,8 @@ export interface operations {
                                     /** Format: double */
                                     speciesId: number;
                                     /** Format: double */
+                                    pokedexEntityId: number;
+                                    /** Format: double */
                                     pokedexId: number;
                                     pokedexSlug: string;
                                 };
@@ -3752,6 +3799,7 @@ export interface operations {
                                     url: string;
                                     alt: string;
                                 };
+                                names: string[];
                                 name: string;
                                 /** Format: double */
                                 id: number;

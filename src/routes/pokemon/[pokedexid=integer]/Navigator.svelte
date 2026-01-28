@@ -53,7 +53,7 @@
 						console.error('Could not find the same variety again as the one that got changed to');
 						return;
 					}
-					goto(newTargetVariety.pokecompanionUrl);
+					goto(newTargetVariety.requestInfo.slug);
 				}}
 			/>
 		</div>
