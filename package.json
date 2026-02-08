@@ -22,8 +22,8 @@
     "schema:local": "npx openapi-typescript http://localhost:3000/docs/swagger.json -o ./src/@types/api.d.ts"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20251218.0",
-    "@sveltejs/adapter-cloudflare": "^4.9.0",
+    "@cloudflare/workers-types": "^4.20250507.0",
+    "@sveltejs/adapter-cloudflare": "^7.2.6",
     "@sveltejs/adapter-vercel": "^5.10.3",
     "@sveltejs/kit": "^2.49.2",
     "@sveltejs/vite-plugin-svelte": "^6.2.1",
