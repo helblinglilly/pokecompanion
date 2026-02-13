@@ -66,9 +66,12 @@
 			return;
 		}
 
-		const res = await fetch(`${PUBLIC_API_HOST}/auth/login`, {
+		const url = new URL('/auth/login', PUBLIC_API_HOST);
+
+		const res = await fetch(url, {
 			credentials: 'include',
 			method: 'POST',
+			redirect: 'manual',
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -81,6 +84,11 @@
 		switch (res.status) {
 			case 200:
 				await invalidateAll();
+				const body = await res.json();
+				if (body.redirectTo) {
+					goto(body.redirectTo);
+					break;
+				}
 				goto('/');
 				break;
 			case 401:

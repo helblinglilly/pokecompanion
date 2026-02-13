@@ -11,7 +11,20 @@
 	let { data } = $props();
 
 	$effect(() => {
-		setCookie('redirectUrl', page.url.origin);
+		const callbacUri = page.url.searchParams.get('callback');
+		if (callbacUri) {
+			const protocol = callbacUri.split('://')[0];
+			const protocolWhitelist = ['exp', 'apppokecompanion'];
+
+			if (!protocolWhitelist.includes(protocol ?? '')) {
+				return;
+			}
+
+			setCookie('authCallback', callbacUri);
+			return;
+		}
+
+		setCookie('redirectUrl', page.url.origin + '/auth/signin/callback');
 	});
 </script>
 
