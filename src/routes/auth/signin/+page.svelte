@@ -11,6 +11,19 @@
 	let { data } = $props();
 
 	$effect(() => {
+		const redirectUri = page.url.searchParams.get('redirect');
+		if (redirectUri) {
+			const protocol = redirectUri.split('://')[0];
+			const protocolWhitelist = ['exp', 'apppokecompanion'];
+
+			if (!protocolWhitelist.includes(protocol ?? '')) {
+				return;
+			}
+
+			setCookie('redirectUrl', redirectUri);
+			return;
+		}
+
 		setCookie('redirectUrl', page.url.origin);
 	});
 </script>
