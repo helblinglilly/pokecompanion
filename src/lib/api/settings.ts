@@ -80,7 +80,7 @@ export function addSettingsToUrl(
 
 	const game = sp.get('game') ?? sp.get(SettingNames.SelectedGame) ?? settings.selectedGame;
 	if (game) {
-		baseUrl.searchParams.append('game', game);
+		baseUrl.searchParams.append('selectedGame', game);
 	}
 
 	const versionSpecificPokemon =

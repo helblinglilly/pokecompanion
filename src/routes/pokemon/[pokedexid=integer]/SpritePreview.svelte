@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
@@ -11,12 +9,8 @@
 	}
 
 	let { sprites }: Props = $props();
-
-	let primarySprite: Sprites[number] | undefined = $state();
-	let secondarySprite: Sprites[number] | undefined = $state();
-	run(() => {
-		[primarySprite, secondarySprite] = sprites ?? [];
-	});
+	let primarySprite = $derived(sprites[0]);
+	let secondarySprite = $derived(sprites[1]);
 
 	let showModal = $state(false);
 	let modalContent: Pick<Sprites[number], 'url' | 'alt' | 'isBack'> = $state({
