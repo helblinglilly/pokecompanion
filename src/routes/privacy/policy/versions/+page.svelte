@@ -1,3 +1,7 @@
+<script lang="ts">
+	export const prerender = true;
+</script>
+
 <div class="pb-4">
 	<h1 class="h1">Previous Privacy Policies</h1>
 
