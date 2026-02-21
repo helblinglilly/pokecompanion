@@ -1,13 +1,19 @@
 import { PUBLIC_API_HOST } from '$env/static/public';
 import type { APIPokemonRootPreview } from '$/@types/api.pokecompanion';
-import { addCookiesAsSearchParams } from '$/lib/api/fetch';
+import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
+import type { PageLoad } from './$types';
 
-export async function load({ url, fetch, cookies, depends }) {
+export const load: PageLoad = async ({ url, fetch, depends, parent }) => {
 	depends('app:pokemonRootParams');
-	const apiRequest = addCookiesAsSearchParams(
+	depends(DEPENDS_SETTINGS);
+
+	const { settings: serverSettings } = await parent();
+	const settings = resolveSettings(serverSettings);
+
+	const apiRequest = addSettingsToUrl(
 		new URL(`${PUBLIC_API_HOST}/pokemon/preview`),
-		url.searchParams,
-		cookies
+		settings,
+		url.searchParams
 	);
 
 	const jumpTo = url.searchParams.get('jumpTo');
@@ -26,4 +32,4 @@ export async function load({ url, fetch, cookies, depends }) {
 	return {
 		...body
 	};
-}
+};

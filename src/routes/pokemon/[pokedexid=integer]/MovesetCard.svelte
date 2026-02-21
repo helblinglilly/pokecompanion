@@ -4,6 +4,8 @@
 	import Select from '$/ui/atoms/Select.svelte';
 	import type { APIPokemon, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 	import type { paths } from '$/@types/api';
+	import { invalidate } from '$app/navigation';
+	import { DEPENDS_SETTINGS } from '$lib/api/settings';
 
 	interface Props {
 		skeletonData: APIPokemon['moves'];
@@ -44,6 +46,7 @@
 			const game = $meta.games.find((metaGame) => metaGame.pokeapi === detail);
 			if (game) {
 				selectedGame.set(game);
+				invalidate(DEPENDS_SETTINGS);
 			}
 		}}
 	/>

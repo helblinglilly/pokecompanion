@@ -9,6 +9,9 @@
 
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
 	import { capitaliseFirstLetter } from '$/lib/utils/string';
+	import { invalidate } from '$app/navigation';
+	import { DEPENDS_SETTINGS } from '$lib/api/settings';
+
 	let { data } = $props();
 </script>
 
@@ -45,6 +48,7 @@
 							const game = $meta.games.find((metaGame) => metaGame.pokeapi === detail);
 							if (game) {
 								selectedGame.set(game);
+								invalidate(DEPENDS_SETTINGS);
 							}
 						}}
 					/>

@@ -13,6 +13,8 @@
 	} from '$lib/stores/domain';
 	import { capitaliseFirstLetter } from '$/lib/utils/string.js';
 	import type { PokeapiLanguageCodes } from '$/@types/api.pokecompanion';
+	import { invalidate } from '$app/navigation';
+	import { DEPENDS_SETTINGS } from '$lib/api/settings';
 
 	let { data } = $props();
 </script>
@@ -46,6 +48,7 @@
 						const game = $meta.games.find((metaGame) => metaGame.pokeapi === detail);
 						if (game) {
 							selectedGame.set(game);
+							invalidate(DEPENDS_SETTINGS);
 						}
 					}}
 				/>
@@ -67,6 +70,7 @@
 					<input
 						onchange={() => {
 							animateSprites.set(!$animateSprites);
+							invalidate(DEPENDS_SETTINGS);
 						}}
 						checked={$animateSprites}
 						type="checkbox"
@@ -86,6 +90,7 @@
 								versionSpecificPokemonSprites.set(true);
 								versionSpecificTypeSprites.set(true);
 							}
+							invalidate(DEPENDS_SETTINGS);
 						}}
 						checked={$versionSpecificPokemonSprites && $versionSpecificTypeSprites}
 						type="checkbox"
@@ -99,6 +104,7 @@
 					<input
 						onchange={() => {
 							versionSpecificPokemonSprites.set(!$versionSpecificPokemonSprites);
+							invalidate(DEPENDS_SETTINGS);
 						}}
 						checked={$versionSpecificPokemonSprites}
 						type="checkbox"
@@ -112,6 +118,7 @@
 					<input
 						onchange={() => {
 							versionSpecificTypeSprites.set(!$versionSpecificTypeSprites);
+							invalidate(DEPENDS_SETTINGS);
 						}}
 						checked={$versionSpecificTypeSprites}
 						type="checkbox"
@@ -142,6 +149,7 @@
 					value={$primaryLanguage ?? ''}
 					onchange={(detail) => {
 						primaryLanguage.set(detail as PokeapiLanguageCodes);
+						invalidate(DEPENDS_SETTINGS);
 					}}
 				/>
 
@@ -167,6 +175,7 @@
 						} else {
 							secondaryLanguage.set(detail as PokeapiLanguageCodes);
 						}
+						invalidate(DEPENDS_SETTINGS);
 					}}
 				/>
 				{#if !$secondaryLanguage}

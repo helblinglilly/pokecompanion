@@ -5,9 +5,14 @@ import { animateSprites, meta, selectedGame } from '$lib/stores/domain';
 import { get } from 'svelte/store';
 import { getAllTagsForUser } from '$/features/tags/api';
 import { DEPEND_ALL_TAGS } from '$/features/tags/depends';
+import { resolveSettings } from '$lib/api/settings';
 
-export const load: LayoutLoad = async ({ fetch, depends }) => {
+export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 	depends(DEPEND_ALL_TAGS);
+
+	// Resolve settings: on the server this uses cookie values from +layout.server.ts,
+	// on the client this uses the live store values (initialised by cookieHandlers).
+	const settings = resolveSettings(data.settings);
 
 	async function getMeta() {
 		const res = await fetch(`${PUBLIC_API_HOST}/meta`, {
@@ -37,7 +42,8 @@ export const load: LayoutLoad = async ({ fetch, depends }) => {
 
 		return {
 			...metaBody,
-			tags: tagBody
+			tags: tagBody,
+			settings
 		};
 	} catch (err) {
 		throw new Error(`Failed to get base system configuration`);

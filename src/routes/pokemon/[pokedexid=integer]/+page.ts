@@ -2,20 +2,25 @@ import type { paths } from '$/@types/api.js';
 import type { APIPokemon } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { error, redirect } from '@sveltejs/kit';
-import { addCookiesAsSearchParams } from '$/lib/api/fetch';
+import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
+import type { PageLoad } from './$types';
 
-export const load = async ({ params, fetch, url, cookies }) => {
-	const pokemonRequestUrl = addCookiesAsSearchParams(
+export const load: PageLoad = async ({ params, fetch, url, parent, depends }) => {
+	depends(DEPENDS_SETTINGS);
+	const { settings: serverSettings } = await parent();
+	const settings = resolveSettings(serverSettings);
+
+	const pokemonRequestUrl = addSettingsToUrl(
 		new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}`),
-		url.searchParams,
-		cookies
+		settings,
+		url.searchParams
 	);
 
 	async function getFullAbility(ability: APIPokemon['abilities'][number]) {
-		const abilityUrl = addCookiesAsSearchParams(
+		const abilityUrl = addSettingsToUrl(
 			new URL(`${PUBLIC_API_HOST}/ability/${ability.id}`),
-			url.searchParams,
-			cookies
+			settings,
+			url.searchParams
 		);
 
 		const res = await fetch(abilityUrl, {
@@ -30,10 +35,10 @@ export const load = async ({ params, fetch, url, cookies }) => {
 	}
 
 	async function getFullMoves() {
-		const moveRequestUrl = addCookiesAsSearchParams(
+		const moveRequestUrl = addSettingsToUrl(
 			new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}/moves`),
-			url.searchParams,
-			cookies
+			settings,
+			url.searchParams
 		);
 
 		const request = await fetch(moveRequestUrl, {

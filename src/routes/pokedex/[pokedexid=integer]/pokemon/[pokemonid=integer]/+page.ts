@@ -1,10 +1,15 @@
 import type { paths } from '$/@types/api';
 import type { APIPokemon } from '$/@types/api.pokecompanion';
 import { getPokedexPokemon, getPokemon } from '$/features/pokedex/pokemon/api';
-import { addCookiesAsSearchParams } from '$/lib/api/fetch.js';
+import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
 import { PUBLIC_API_HOST } from '$env/static/public';
+import type { PageLoad } from './$types';
 
-export async function load({ fetch, params, url, cookies }) {
+export const load: PageLoad = async ({ fetch, params, url, parent, depends }) => {
+	depends(DEPENDS_SETTINGS);
+	const { settings: serverSettings } = await parent();
+	const settings = resolveSettings(serverSettings);
+
 	// Extract query parameters from the URL
 	const queryParams = {
 		page: url.searchParams.get('page') ? Number(url.searchParams.get('page')) : undefined,
@@ -44,10 +49,10 @@ export async function load({ fetch, params, url, cookies }) {
 	const pokemon = await getPokemon(pokedex.navigation.current.speciesId, queryParams, fetch);
 
 	async function getFullAbility(ability: APIPokemon['abilities'][number]) {
-		const abilityUrl = addCookiesAsSearchParams(
+		const abilityUrl = addSettingsToUrl(
 			new URL(`${PUBLIC_API_HOST}/ability/${ability.id}`),
-			url.searchParams,
-			cookies
+			settings,
+			url.searchParams
 		);
 
 		const res = await fetch(abilityUrl, {
@@ -62,10 +67,10 @@ export async function load({ fetch, params, url, cookies }) {
 	}
 
 	async function getFullMoves() {
-		const moveRequestUrl = addCookiesAsSearchParams(
+		const moveRequestUrl = addSettingsToUrl(
 			new URL(`${PUBLIC_API_HOST}/pokemon/${params.pokedexid}/moves`),
-			url.searchParams,
-			cookies
+			settings,
+			url.searchParams
 		);
 
 		const request = await fetch(moveRequestUrl, {
@@ -89,4 +94,4 @@ export async function load({ fetch, params, url, cookies }) {
 		}),
 		fullMoves: getFullMoves()
 	};
-}
+};

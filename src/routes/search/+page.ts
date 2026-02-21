@@ -1,12 +1,17 @@
 import type { paths } from '$/@types/api.js';
-import { addCookiesAsSearchParams } from '$/lib/api/fetch.js';
+import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
 import { PUBLIC_API_HOST } from '$env/static/public';
+import type { PageLoad } from './$types';
 
-export const load = async ({ fetch, url, cookies }) => {
-	const searchRequestUrl = addCookiesAsSearchParams(
+export const load: PageLoad = async ({ fetch, url, parent, depends }) => {
+	depends(DEPENDS_SETTINGS);
+	const { settings: serverSettings } = await parent();
+	const settings = resolveSettings(serverSettings);
+
+	const searchRequestUrl = addSettingsToUrl(
 		new URL(`${PUBLIC_API_HOST}/search?term=${url.searchParams.get('term')}`),
-		url.searchParams,
-		cookies
+		settings,
+		url.searchParams
 	);
 
 	const res = await fetch(searchRequestUrl, {
