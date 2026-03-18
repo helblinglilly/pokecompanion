@@ -9,7 +9,7 @@
 	import { page } from '$app/state';
 	import type { LayoutData } from '../../../routes/$types';
 	import type { MinimalTagMove, MinimalTagPokemon } from '$/features/tags/types';
-	import { DEPEND_TAG_ID } from '$/features/tags/depends';
+	import { DEPEND_ALL_TAGS, DEPEND_TAG_ID } from '$/features/tags/depends';
 	import { doesTagContainEntry } from '$/features/tags/utils/contains';
 
 	let showAddToOverlay = $state(false);
@@ -103,6 +103,7 @@
 
 								if (success) {
 									invalidate(DEPEND_TAG_ID(tag.id));
+									invalidate(DEPEND_ALL_TAGS);
 								} else {
 									addNotification({
 										message: `Failed to modify tag "${tag.name}""`,
