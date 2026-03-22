@@ -441,6 +441,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Return information about the current user */
+        get: operations["getAuthMe"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/verify": {
         parameters: {
             query?: never;
@@ -648,6 +665,56 @@ export interface components {
                 name: string;
             };
         };
+        PokemonRequestInfo: {
+            /**
+             * @description Slug for the Website
+             * @example /pokemon/194?variety=paldea-wooper&shiny=true
+             */
+            slug: string;
+            /**
+             * @description Indicates whether gender differences have been requested
+             * @example female
+             */
+            gender: string | null;
+            /**
+             * @description The variety name for this pokemon
+             * @example paldea-wooper
+             */
+            variety: string | null;
+            /** @description Whether the shiny form of this pokemon was requested */
+            shiny: boolean;
+        };
+        /** @description Recursively unwraps the "awaited type" of a type. Non-promise "thenables" should resolve to `never`. This emulates the behavior of `await`. */
+        "Awaited_ReturnType_PokemonPreviewController-at-getPokemonPreview__": {
+            pokedex: {
+                /** Format: double */
+                speciesId: number;
+                /** Format: double */
+                pokedexEntityId: number;
+                /** Format: double */
+                pokedexId: number;
+                pokedexSlug: string;
+            };
+            requestInfo: components["schemas"]["PokemonRequestInfo"];
+            slug: string;
+            sprite: {
+                url: string;
+                alt: string;
+            };
+            names: string[];
+            name: string;
+            /** Format: double */
+            id: number;
+        };
+        PokemonPreview: components["schemas"]["Awaited_ReturnType_PokemonPreviewController-at-getPokemonPreview__"];
+        /** @description Exclude null and undefined from T */
+        NonNullable_PokemonPreview_: components["schemas"]["PokemonPreview"] & Record<string, never>;
+        TagPokemonPreview: components["schemas"]["NonNullable_PokemonPreview_"] & {
+            /** @enum {string} */
+            gender?: "female" | "male";
+            shiny?: boolean;
+            added?: string;
+        };
         /** @enum {string} */
         PokeapiLanguageCodes: "ja-Hrkt" | "zh-Hant" | "ja" | "ko" | "fr" | "de" | "en" | "es" | "it";
         QueriesGetTagPokemon: {
@@ -734,25 +801,6 @@ export interface components {
             name: string;
             /** @description https://pokeapi.co/api/v2/.../entry/id/ */
             url: string;
-        };
-        PokemonRequestInfo: {
-            /**
-             * @description Slug for the Website
-             * @example /pokemon/194?variety=paldea-wooper&shiny=true
-             */
-            slug: string;
-            /**
-             * @description Indicates whether gender differences have been requested
-             * @example female
-             */
-            gender: string | null;
-            /**
-             * @description The variety name for this pokemon
-             * @example paldea-wooper
-             */
-            variety: string | null;
-            /** @description Whether the shiny form of this pokemon was requested */
-            shiny: boolean;
         };
         /** @description Make all properties in T optional */
         "Partial_Record_PokeapiVersionGroups._displayName_description-AfriendlydisplaynameforthisPokemonGameGroup_-string--levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___": {
@@ -1322,6 +1370,28 @@ export interface components {
              */
             pokedexId: number;
         };
+        PokemonPreviewResponse: {
+            /**
+             * Format: double
+             * @description That Pokemons National Dex ID
+             */
+            id: number;
+            /** @description Pokemon's name in the corresponding languages as a single string */
+            name: string;
+            /** @description All names for this Pokemon in an array */
+            names: string[];
+            sprite: {
+                url: string;
+                alt: string;
+            };
+            /**
+             * @description The Slug to get to that specific Pokemon's page
+             * @example /pokemon/194
+             */
+            slug: string;
+            requestInfo: components["schemas"]["PokemonRequestInfo"];
+            pokedex: components["schemas"]["PokedexPokemonAttachment"] | null;
+        };
         QueryParamsGetPreviewPokemon: {
             gender?: components["schemas"]["Gender"];
             /** @enum {string} */
@@ -1731,202 +1801,124 @@ export interface components {
                 pokeapi: components["schemas"]["PokeapiGameNames"];
             }[];
         };
+        PokedexInfo: {
+            /** @example /pokedex/34 */
+            slug: string;
+            /**
+             * Format: double
+             * @description The ID for this specific Pokedex
+             */
+            id: number;
+            /** @description The description that's attached to this Pokedex */
+            description: string;
+            /**
+             * @description The name of this Pokedex (human friendly)
+             * @example Updated Johto Pokedex
+             */
+            name: string;
+            /** @description Games for which this Pokedex applies for */
+            games: components["schemas"]["PokeapiVersionGroups"][];
+        };
         /** @description Make all properties in T optional */
-        "Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array__slug_description-ThePokecompanionslugforthisspecificPokedex_-string--description_description-AdescriptionforthisPokedex._92_nMightbenullformissingdata_-string-or-null--name_description-Thedisplay-friendlynameforthisPokedex_92_nMightbenullformissingdata_-string-or-null_____": {
+        "Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array_PokedexInfo____": {
             home?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "red-blue"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             yellow?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "gold-silver"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             crystal?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "ruby-sapphire"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             emerald?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "firered-leafgreen"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "diamond-pearl"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             platinum?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "heartgold-soulsilver"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "black-white"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "black-2-white-2"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "x-y"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "omega-ruby-alpha-sapphire"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "sun-moon"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "ultra-sun-ultra-moon"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "lets-go-pikachu-lets-go-eevee"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "sword-shield"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "brilliant-diamond-shining-pearl"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "legends-arceus"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "scarlet-violet"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             "legends-za"?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
             national?: {
-                pokedex: {
-                    name: string;
-                    description: string;
-                    slug: string;
-                }[];
+                pokedex: components["schemas"]["PokedexInfo"][];
                 game: components["schemas"]["IGameGroup"];
             };
         };
-        PokedexRootResponse: components["schemas"]["Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array__slug_description-ThePokecompanionslugforthisspecificPokedex_-string--description_description-AdescriptionforthisPokedex._92_nMightbenullformissingdata_-string-or-null--name_description-Thedisplay-friendlynameforthisPokedex_92_nMightbenullformissingdata_-string-or-null_____"];
+        PokedexRootResponse: components["schemas"]["Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array_PokedexInfo____"];
         QueryParamsGetAllPokedexes: {
             gender?: components["schemas"]["Gender"];
             /** @enum {string} */
@@ -1945,42 +1937,6 @@ export interface components {
             primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
             secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
             selectedGame?: string;
-        };
-        PokemonPreviewResponse: {
-            /**
-             * Format: double
-             * @description That Pokemons National Dex ID
-             */
-            id: number;
-            /** @description Pokemon's name in the corresponding languages as a single string */
-            name: string;
-            /** @description All names for this Pokemon in an array */
-            names: string[];
-            sprite: {
-                url: string;
-                alt: string;
-            };
-            /**
-             * @description The Slug to get to that specific Pokemon's page
-             * @example /pokemon/194
-             */
-            slug: string;
-        };
-        PokedexInfo: {
-            /** @example /pokedex/34 */
-            slug: string;
-            /**
-             * Format: double
-             * @description The ID for this specific Pokedex
-             */
-            id: number;
-            /** @description The description that's attached to this Pokedex */
-            description: string;
-            /**
-             * @description The name of this Pokedex (human friendly)
-             * @example Updated Johto Pokedex
-             */
-            name: string;
         };
         PokedexPokemonResponse: {
             __meta: {
@@ -2726,20 +2682,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        variety?: string;
-                        slug: string;
-                        /** @enum {string} */
-                        gender?: "female" | "male";
-                        shiny?: boolean;
-                        sprite: {
-                            url: string;
-                            alt: string;
-                        };
-                        name: string;
-                        /** Format: double */
-                        id: number;
-                    }[];
+                    "application/json": components["schemas"]["TagPokemonPreview"][];
                 };
             };
             400: {
@@ -2956,6 +2899,7 @@ export interface operations {
                                 pokedexId: number;
                                 pokedexSlug: string;
                             };
+                            requestInfo: components["schemas"]["PokemonRequestInfo"];
                             slug: string;
                             sprite: {
                                 url: string;
@@ -3265,6 +3209,7 @@ export interface operations {
                                     pokedexId: number;
                                     pokedexSlug: string;
                                 };
+                                requestInfo: components["schemas"]["PokemonRequestInfo"];
                                 slug: string;
                                 sprite: {
                                     url: string;
@@ -3371,29 +3316,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /**
-                         * @description Returns details about the Pokemon with regards to the ?pokedex query parameter, which defaults
-                         *     to 1 (National Dex)
-                         *
-                         *     Will return null if the Pokemon is not within that Pokedex at all
-                         */
-                        pokedex: components["schemas"]["PokedexPokemonAttachment"] | null;
-                        /** @description Pokecompanion URL */
-                        slug: string;
-                        sprite: {
-                            url: string;
-                            alt: string;
-                        };
-                        names: string[];
-                        /** @description Single string - combined both languages into the same string */
-                        name: string;
-                        /**
-                         * Format: double
-                         * @description Species National Dex ID
-                         */
-                        id: number;
-                    };
+                    "application/json": components["schemas"]["PokemonPreviewResponse"];
                 };
             };
         };
@@ -3445,18 +3368,7 @@ export interface operations {
                             /** Format: double */
                             startingPage: number;
                         };
-                        pokemon: {
-                            pokedex: components["schemas"]["PokedexPokemonAttachment"];
-                            slug: string;
-                            sprite: {
-                                url: string;
-                                alt: string;
-                            };
-                            names: string[];
-                            name: string;
-                            /** Format: double */
-                            id: number;
-                        }[];
+                        pokemon: components["schemas"]["PokemonPreviewResponse"][];
                     };
                 };
             };
@@ -3794,6 +3706,7 @@ export interface operations {
                                     pokedexId: number;
                                     pokedexSlug: string;
                                 };
+                                requestInfo: components["schemas"]["PokemonRequestInfo"];
                                 slug: string;
                                 sprite: {
                                     url: string;
@@ -3842,6 +3755,37 @@ export interface operations {
                 };
             };
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAuthMe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        username: unknown;
+                        userSince: unknown;
+                        emailVerified: unknown;
+                        email: unknown;
+                    };
+                };
+            };
+            /** @description Not authenticated */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -3993,6 +3937,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
+                        redirectTo: string;
                         success: boolean;
                     };
                 };
