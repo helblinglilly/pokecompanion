@@ -27,12 +27,14 @@
 			if (!pokemon) {
 				return;
 			}
-			return {
-				id: pokemon.id,
-				gender: pokemon.gender,
-				shiny: pokemon.shiny,
-				variety: pokemon.variety
-			};
+			return [
+				{
+					id: pokemon.id,
+					gender: pokemon.gender,
+					shiny: pokemon.shiny,
+					variety: pokemon.variety
+				}
+			];
 		}
 	);
 
@@ -64,6 +66,19 @@
 	}
 
 	const layoutData = $derived(page.data as LayoutData);
+
+	let tagCheckedState = $state<Record<string, boolean>>({});
+
+	$effect(() => {
+		if (showAddToOverlay) {
+			tagCheckedState = Object.fromEntries(
+				layoutData.tags.tags.map((tag) => [
+					tag.id,
+					doesTagContainEntry(tag.contents, { pokemon, move })
+				])
+			);
+		}
+	});
 </script>
 
 {#if $currentUser}
@@ -91,20 +106,18 @@
 							type="checkbox"
 							class="nested"
 							id={tag.name}
-							checked={doesTagContainEntry(tag.contents, {
-								pokemon: pokemon,
-								move: move
-							})}
-							onchange={async (e) => {
-								const success = await modifyEntryOnTag(
-									tag.id,
-									e.currentTarget.checked ? 'add' : 'remove'
-								);
+							checked={tagCheckedState[tag.id]}
+							onclick={async () => {
+								const newValue = !tagCheckedState[tag.id];
+								tagCheckedState[tag.id] = newValue;
+								const action = newValue ? 'add' : 'remove';
+								const success = await modifyEntryOnTag(tag.id, action);
 
 								if (success) {
 									invalidate(DEPEND_TAG_ID(tag.id));
 									invalidate(DEPEND_ALL_TAGS);
 								} else {
+									tagCheckedState[tag.id] = !newValue;
 									addNotification({
 										message: `Failed to modify tag "${tag.name}""`,
 										level: 'failure'

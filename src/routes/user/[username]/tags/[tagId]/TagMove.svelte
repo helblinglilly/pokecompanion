@@ -12,9 +12,11 @@
 	async function deleteMoveFromTag(move: { id: number }) {
 		const res = await fetch(PUBLIC_API_HOST + `/tags/${tag.id}/move`, {
 			method: 'DELETE',
-			body: JSON.stringify({
-				moveId: move.id
-			}),
+			body: JSON.stringify([
+				{
+					moveId: move.id
+				}
+			]),
 			headers: {
 				'Content-Type': 'application/json'
 			},

@@ -13,9 +13,11 @@
 	async function deletePokemonFromTag(pokemon: MinimalTagPokemon) {
 		const res = await fetch(PUBLIC_API_HOST + `/tags/${tag.id}/pokemon`, {
 			method: 'DELETE',
-			body: JSON.stringify({
-				...pokemon
-			}),
+			body: JSON.stringify([
+				{
+					...pokemon
+				}
+			]),
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -83,7 +85,8 @@
 						{#snippet remove()}
 							<button
 								class={`removeButton ${inModifyView ? '' : 'hidden'}`}
-								onclick={async () => {
+								onclick={async (e) => {
+									e.stopPropagation();
 									await deletePokemonFromTag({
 										...pokemon,
 										shiny: !!pokemon.shiny
@@ -102,7 +105,8 @@
 						{#snippet remove()}
 							<button
 								class={`removeButton ${inModifyView ? '' : 'hidden'}`}
-								onclick={async () => {
+								onclick={async (e) => {
+									e.stopPropagation();
 									await deletePokemonFromTag({
 										...pokemon,
 										shiny: !!pokemon.shiny

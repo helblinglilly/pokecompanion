@@ -2550,7 +2550,7 @@ export interface operations {
                 "application/json": {
                     /** Format: double */
                     moveId: number;
-                };
+                }[];
             };
         };
         responses: {
@@ -2609,7 +2609,7 @@ export interface operations {
                 "application/json": {
                     /** Format: double */
                     moveId: number;
-                };
+                }[];
             };
         };
         responses: {
@@ -2736,7 +2736,7 @@ export interface operations {
                     gender?: "female" | "male";
                     /** Format: double */
                     id: number;
-                };
+                }[];
             };
         };
         responses: {
@@ -2800,7 +2800,7 @@ export interface operations {
                     gender?: "female" | "male";
                     /** Format: double */
                     id: number;
-                };
+                }[];
             };
         };
         responses: {
