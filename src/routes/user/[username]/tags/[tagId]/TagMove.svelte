@@ -53,7 +53,8 @@
 					{#snippet remove()}
 						<button
 							class={`removeButton ${inModifyView ? '' : 'hidden'}`}
-							onclick={async () => {
+							onclick={async (e) => {
+								e.stopPropagation();
 								await deleteMoveFromTag(move);
 							}}
 						>
@@ -74,6 +75,7 @@
 						<button
 							class={`removeButton ${inModifyView ? '' : 'hidden'}`}
 							onclick={async (e) => {
+								e.stopPropagation();
 								await deleteMoveFromTag(move);
 							}}>-</button
 						>
