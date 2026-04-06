@@ -84,6 +84,7 @@
 					>
 						{#snippet remove()}
 							<button
+								type="button"
 								class={`removeButton ${inModifyView ? '' : 'hidden'}`}
 								onclick={async (e) => {
 									e.stopPropagation();
@@ -104,6 +105,7 @@
 					>
 						{#snippet remove()}
 							<button
+								type="button"
 								class={`removeButton ${inModifyView ? '' : 'hidden'}`}
 								onclick={async (e) => {
 									e.stopPropagation();
