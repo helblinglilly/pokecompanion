@@ -22,11 +22,6 @@
 		<Greeting />
 	</section>
 
-	<hr
-		class="desktop-only"
-		style="border-color: var(--text); height: 0.2rem; margin-top: 0.2rem; margin-bottom: 0.2rem;"
-	/>
-
 	<section>
 		<div class="columns" style="width: 100%; gap: 2rem;">
 			<div class="column p-0">
