@@ -65,9 +65,8 @@
 		border-radius: 0.5rem;
 		max-width: 24rem;
 		appearance: none;
-		background-color: var(--grey-primary);
+		background-color: var(--card-background);
 		color: var(--text);
-
 		cursor: pointer;
 	}
 

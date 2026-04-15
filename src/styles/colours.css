@@ -1,45 +1,45 @@
 :root {
-	--red-accent-light: #f54848;
+	--red-accent-light: #e03a3a;
 	--red-accent-dark: #ce3939;
 
-	--red-accent-muted-light: #d74141;
+	--red-accent-muted-light: #c23232;
 	--red-accent-muted-dark: #9b3434;
 
-	--red-accent-muted-darker-light: #902a2a;
+	--red-accent-muted-darker-light: #8a2020;
 	--red-accent-darker-dark: #652525;
 
-	--grey-primary-light: #ece9e9;
+	--grey-primary-light: #f2f2f2;
 	--grey-primary-dark: #888888;
 
-	--grey-muted-light: #bdbdbd;
+	--grey-muted-light: #cecaca;
 	--grey-muted-dark: #aaa9a9;
 
-	--text-light: #333333;
+	--text-light: #2a2424;
 	--text-dark: #e7e2e2;
 
-	--text-inverse-light: #edebeb;
+	--text-inverse-light: #ffffff;
 	--text-inverse-dark: #000000;
 
-	--site-background-light: rgb(225, 221, 221);
+	--site-background-light: #ede8e8;
 	--site-background-dark: rgb(43, 43, 43);
 
-	--card-background-light: rgb(232, 232, 232);
+	--card-background-light: #f2f2f2;
 	--card-background-dark: rgb(26, 26, 26);
-	--card-hover-light: #b7b7b7;
+	--card-hover-light: #dbd5d5;
 	--card-hover-dark: #534f4f;
 
-	--select-background-light: rgb(218, 218, 218);
+	--select-background-light: #e8e2e2;
 	--select-background-dark: rgb(49, 49, 49);
 
 	--navbar-background: #3d3938;
 
-	--error-light: rgb(241, 54, 54);
+	--error-light: rgb(210, 45, 45);
 	--error-dark: rgb(198, 26, 26);
 
-	--success-light: rgb(40, 159, 74);
+	--success-light: rgb(31, 140, 62);
 	--success-dark: rgb(34, 131, 62);
 
-	--info-light: rgb(35, 99, 188);
+	--info-light: rgb(30, 90, 175);
 	--info-dark: rgb(25, 99, 188);
 }
 
