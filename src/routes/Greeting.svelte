@@ -26,7 +26,7 @@
 						Explore the world from Kanto to Lumiose City efficiently with Pokécompanion.
 						<br />
 						Browsing and organising Pokémon, Moves, Abilities and more in a
-						<a href="/pokemon/78" class="underline">Rapidash</a>!
+						<a href="/pokedex/1/pokemon/78" class="underline">Rapidash</a>!
 					</p>
 				{/if}
 			</div>
