@@ -1,15 +1,22 @@
-import { PRIVATE_API_HOST } from '$env/static/private';
-import { PUBLIC_API_HOST } from '$env/static/public';
 import type { HandleFetch } from '@sveltejs/kit';
 
-// During SSR, any fetch that targets the Vite proxy (PUBLIC_API_HOST) is
-// rewritten to go directly to the real API (PRIVATE_API_HOST) instead.
-// This is necessary because the Vite proxy only handles browser requests —
-// Node.js can't route through it, so SSR fetches would otherwise fail.
+const PROXY_PREFIX = '/proxy';
+const REAL_API_HOST = 'https://api.pokecompanion.com';
+
+// During SSR, any fetch that targets the Vite dev proxy is rewritten to go
+// directly to the real API instead. The Vite proxy only handles browser
+// requests — Node.js bypasses it entirely, so without this rewrite all
+// server-side fetches would fail in local dev.
+// In production no URLs contain PROXY_PREFIX, so this branch never fires.
 export const handleFetch: HandleFetch = ({ request, fetch }) => {
-	if (request.url.startsWith(PUBLIC_API_HOST)) {
-		const rewritten = request.url.replace(PUBLIC_API_HOST, PRIVATE_API_HOST);
-		request = new Request(rewritten, request);
+	const url = new URL(request.url);
+
+	if (url.pathname.startsWith(PROXY_PREFIX)) {
+		const rewritten = new Request(
+			REAL_API_HOST + url.pathname.slice(PROXY_PREFIX.length) + url.search,
+			request
+		);
+		return fetch(rewritten);
 	}
 
 	return fetch(request);

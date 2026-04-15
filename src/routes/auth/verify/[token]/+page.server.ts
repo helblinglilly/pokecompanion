@@ -1,9 +1,9 @@
 import type { paths } from '$/@types/api.js';
-import { PRIVATE_API_HOST } from '$env/static/private';
+import { PUBLIC_API_HOST } from '$env/static/public';
 
 export const load = async ({ params }) => {
 	try {
-		const res = await fetch(`${PRIVATE_API_HOST}/auth/verify`, {
+		const res = await fetch(`${PUBLIC_API_HOST}/auth/verify`, {
 			headers: {
 				'Content-Type': 'application/json'
 			},

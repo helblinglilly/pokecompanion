@@ -23,9 +23,9 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250507.0",
-    "@sveltejs/adapter-cloudflare": "^7.2.6",
+    "@sveltejs/adapter-cloudflare": "^7.2.8",
     "@sveltejs/adapter-vercel": "^5.10.3",
-    "@sveltejs/kit": "^2.49.2",
+    "@sveltejs/kit": "^2.57.1",
     "@sveltejs/vite-plugin-svelte": "^6.2.1",
     "@testing-library/svelte": "^5.2.10",
     "@types/uuid": "^10.0.0",
