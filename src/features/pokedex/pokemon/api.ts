@@ -9,7 +9,7 @@ export const getPokedexPokemon = async (
 ) => {
 	const fetchSafe = propFetch ?? fetch;
 
-	const url = new URL(`/pokedex/${pokedexId}/pokemon/${pokemonId}`, PUBLIC_API_HOST);
+	const url = new URL(`${PUBLIC_API_HOST}/pokedex/${pokedexId}/pokemon/${pokemonId}`);
 	if (query) {
 		Object.entries(query).forEach(([key, value]) => {
 			if (typeof value === 'string' || typeof value === 'number') {
@@ -36,7 +36,7 @@ export const getPokemon = async (
 ) => {
 	const fetchSafe = propFetch ?? fetch;
 
-	const url = new URL(`/pokemon/${pokemonId}`, PUBLIC_API_HOST);
+	const url = new URL(`${PUBLIC_API_HOST}/pokemon/${pokemonId}`);
 	if (query) {
 		Object.entries(query).forEach(([key, value]) => {
 			if (typeof value === 'string' || typeof value === 'number') {

@@ -1,4 +1,4 @@
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PRIVATE_API_HOST } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 
 export async function load({ cookies }) {
@@ -15,7 +15,8 @@ export async function load({ cookies }) {
 	}
 
 	if (['http:', 'https:'].includes(authCallbackUrl.protocol)) {
-		if (authCallbackUrl.hostname !== PUBLIC_API_HOST) {
+		const apiHostname = new URL(PRIVATE_API_HOST).hostname;
+		if (authCallbackUrl.hostname !== apiHostname) {
 			redirect(307, '/');
 		}
 	}

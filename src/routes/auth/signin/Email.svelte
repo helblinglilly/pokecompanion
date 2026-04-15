@@ -66,9 +66,7 @@
 			return;
 		}
 
-		const url = new URL('/auth/login', PUBLIC_API_HOST);
-
-		const res = await fetch(url, {
+		const res = await fetch(`${PUBLIC_API_HOST}/auth/login`, {
 			credentials: 'include',
 			method: 'POST',
 			redirect: 'manual',

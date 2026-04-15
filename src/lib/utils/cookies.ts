@@ -33,11 +33,12 @@ const setCookie = (
 		expires = overrideOptions.expires;
 	}
 
+	const hostname = window.location.hostname;
 	const options = {
 		path: '/',
 		expires: overrideOptions?.expires ?? expires,
 		SameSite: 'Lax',
-		Domain: `.${window.location.hostname}`,
+		...(hostname !== 'localhost' && { Domain: `.${hostname}` }),
 		...overrideOptions
 	};
 

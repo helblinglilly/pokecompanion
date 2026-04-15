@@ -5,9 +5,7 @@ export const createNewTag = async (
 	requestBody: paths['/tags']['post']['requestBody']['content']['application/json']
 ) => {
 	try {
-		const url = new URL('/tags', PUBLIC_API_HOST);
-
-		const res = await fetch(url, {
+		const res = await fetch(`${PUBLIC_API_HOST}/tags`, {
 			credentials: 'include',
 			method: 'POST',
 			headers: {

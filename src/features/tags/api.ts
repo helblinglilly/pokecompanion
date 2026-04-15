@@ -7,7 +7,7 @@ export const getAllTagsForUser = async (
 ) => {
 	const fetchSafe = propFetch ?? fetch;
 
-	const url = new URL(`/tags`, PUBLIC_API_HOST);
+	const url = new URL(`${PUBLIC_API_HOST}/tags`);
 	if (query) {
 		Object.entries(query).forEach(([key, value]) => {
 			url.searchParams.append(key, value.toString());

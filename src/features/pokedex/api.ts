@@ -4,7 +4,7 @@ import { PUBLIC_API_HOST } from '$env/static/public';
 export const getAllPokedexes = async (propFetch?: typeof globalThis.fetch) => {
 	const fetchSafe = propFetch ?? fetch;
 
-	const url = new URL(`/pokedex`, PUBLIC_API_HOST);
+	const url = new URL(`${PUBLIC_API_HOST}/pokedex`);
 
 	try {
 		const res = await fetchSafe(url, {
@@ -28,7 +28,7 @@ export const getPokedex = async (
 ) => {
 	const fetchSafe = propFetch ?? fetch;
 
-	const url = new URL(`/pokedex/${id}`, PUBLIC_API_HOST);
+	const url = new URL(`${PUBLIC_API_HOST}/pokedex/${id}`);
 	if (query) {
 		Object.entries(query).forEach(([key, value]) => {
 			if (typeof value === 'string' || typeof value === 'number') {
