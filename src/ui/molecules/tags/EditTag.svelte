@@ -48,9 +48,11 @@
 		}
 
 		if (move) {
-			body = JSON.stringify({
-				moveId: move?.id
-			});
+			body = JSON.stringify([
+				{
+					moveId: move?.id
+				}
+			]);
 			route = PUBLIC_API_HOST + `/tags/${tagId}/move`;
 		}
 
