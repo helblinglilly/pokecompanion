@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { marked } from 'marked';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import { currentUser } from '$lib/stores/user';
@@ -70,14 +71,16 @@
 
 		{#if data.move.flavourTexts?.length > 0}
 			{#each data.move.flavourTexts as text}
-				<p>{text}</p>
+				<p class="text-center">{text}</p>
 			{/each}
 			<hr />
 		{/if}
 
 		{#if data.move.effectEntries.length > 0}
 			{#each data.move.effectEntries as effectEntry}
-				<p>{effectEntry}</p>
+				<div class="prose prose-sm max-w-none grid justify-center">
+					{@html marked(effectEntry)}
+				</div>
 			{/each}
 		{/if}
 
