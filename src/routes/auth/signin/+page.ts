@@ -3,6 +3,7 @@ import { PUBLIC_API_HOST } from '$env/static/public';
 
 export const load = async ({ fetch }) => {
 	try {
+		console.log(PUBLIC_API_HOST);
 		const res = await fetch(`${PUBLIC_API_HOST}/auth/methods`, {
 			credentials: 'include'
 		});

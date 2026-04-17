@@ -7,7 +7,13 @@
 	import { DEPEND_ALL_TAGS, DEPEND_TAG_USER } from '$/features/tags/depends';
 	import { createNewTag } from './api';
 
-	let contents: Parameters<typeof createNewTag>[0]['contents'] = $props();
+	let {
+		contents,
+		onSuccess
+	}: {
+		contents: Parameters<typeof createNewTag>[0]['contents'];
+		onSuccess?: (tagId: string) => void;
+	} = $props();
 
 	let showModal: boolean = $state(false);
 
@@ -23,7 +29,7 @@
 			return;
 		}
 
-		const status = await createNewTag({
+		const { status, tagId } = await createNewTag({
 			contents,
 			showGenderAndShiny: true,
 			name,
@@ -41,6 +47,11 @@
 					message: `${name} has been created`,
 					level: 'success'
 				});
+
+				if (onSuccess) {
+					onSuccess(tagId);
+				}
+
 				invalidate(DEPEND_ALL_TAGS);
 
 				invalidate(DEPEND_TAG_USER($currentUser.username));

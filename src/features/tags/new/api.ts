@@ -13,8 +13,24 @@ export const createNewTag = async (
 			},
 			body: JSON.stringify(requestBody)
 		});
-		return res.status;
-	} catch (err) {
-		return 500;
+
+		if (res.ok) {
+			const body =
+				(await res.json()) as paths['/tags']['post']['responses']['201']['content']['application/json'];
+			return {
+				status: res.status,
+				tagId: body
+			};
+		}
+
+		return {
+			status: res.status,
+			tagId: ''
+		};
+	} catch {
+		return {
+			status: 500,
+			tagId: ''
+		};
 	}
 };

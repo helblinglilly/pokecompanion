@@ -140,6 +140,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/tags/{tagId}/pokemon/pokedex/{pokedexId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** @description Populates a tag with all Pokemon from a certain pokedex */
+        patch: operations["addPokedexToTag"];
+        trace?: never;
+    };
     "/search/pokemon": {
         parameters: {
             query?: never;
@@ -580,6 +597,8 @@ export interface components {
                 id: number;
                 /** @description ISO Date string */
                 added: string;
+                /** @enum {string} */
+                __typename: "move";
             }[];
             pokemon?: {
                 /**
@@ -587,7 +606,7 @@ export interface components {
                  *
                  *     undefined if it should be the default
                  */
-                variety?: string;
+                variety: string | null;
                 shiny: boolean;
                 /**
                  * Format: double
@@ -596,11 +615,13 @@ export interface components {
                 id: number;
                 /**
                  * @description null-ish assumed to be male
-                 * @enum {string}
+                 * @enum {string|null}
                  */
-                gender?: "male" | "female";
+                gender: "male" | "female" | null;
                 /** @description ISO Date string */
                 added: string;
+                /** @enum {string} */
+                __typename: "pokemon";
             }[];
         };
         /** @description From T, pick a set of properties whose keys are in the union K */
@@ -710,9 +731,9 @@ export interface components {
         /** @description Exclude null and undefined from T */
         NonNullable_PokemonPreview_: components["schemas"]["PokemonPreview"] & Record<string, never>;
         TagPokemonPreview: components["schemas"]["NonNullable_PokemonPreview_"] & {
-            /** @enum {string} */
-            gender?: "female" | "male";
-            shiny?: boolean;
+            /** @enum {string|null} */
+            gender?: "female" | "male" | null;
+            shiny?: boolean | null;
             added?: string;
         };
         /** @enum {string} */
@@ -2304,7 +2325,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": string;
+                };
             };
             /** @description RequestError */
             400: {
@@ -2835,6 +2858,66 @@ export interface operations {
                 content: {
                     "application/json": string;
                 };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    addPokedexToTag: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tagId: string;
+                pokedexId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returns the updated tag */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Tag"];
+                };
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Unauthorised */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": string;
+                };
+            };
+            /** @description Tag not empty */
+            412: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Internal Server Error */
             500: {

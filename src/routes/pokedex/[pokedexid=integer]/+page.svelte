@@ -1,8 +1,10 @@
 <script lang="ts">
-	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
+	import CreateNewTag from '$/features/tags/new/CreateNewTag.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
+	import { currentUser } from '$/lib/stores/user.js';
 	import PageNavigator from '$/routes/pokemon/PageNavigator.svelte';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 
 	let { data } = $props();
 </script>
@@ -16,8 +18,22 @@
 <div class="inline-grid md:inline-flex w-full gap-4 mb-4 md:justify-between">
 	<h1 class="h1">{data.pokedex.pokedex.name}</h1>
 
-	<div class="inline-flex gap-4 content-cente justify-center md:justify-end">
-		<PageNavigator pagination={data.pokedex.pagination} />
+	<div class="inline-flex gap-4 content-center justify-start md:justify-end">
+		{#if $currentUser}
+			<!-- <Button onclick={async () => {}}>Turn into Tag</Button> -->
+			<CreateNewTag
+				contents={{
+					pokemon: [],
+					move: []
+				}}
+				onSuccess={async (tagId) => {
+					await fetch(`${PUBLIC_API_HOST}/tags/${tagId}/pokedex/${data.pokedex.pokedex.id}`, {
+						credentials: 'include',
+						method: 'PATCH'
+					});
+				}}
+			/>
+		{/if}
 	</div>
 </div>
 
