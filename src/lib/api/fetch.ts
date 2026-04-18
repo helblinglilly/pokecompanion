@@ -83,9 +83,7 @@ export async function fetchPokemonPreview({
 		);
 	}
 
-	const res = await fetch(url, {
-		credentials: 'include'
-	});
+	const res = await fetch(url);
 
 	if (res.status !== 200) {
 		throw new Error(`Network error - non-200 status code for ${url}`);

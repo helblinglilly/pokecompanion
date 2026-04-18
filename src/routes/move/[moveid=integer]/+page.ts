@@ -14,9 +14,7 @@ export const load: PageLoad = async ({ params, fetch, url, parent, depends }) =>
 		url.searchParams
 	);
 
-	const res = await fetch(requestUrl, {
-		credentials: 'include'
-	});
+	const res = await fetch(requestUrl);
 
 	const move =
 		(await res.json()) as paths['/move/{id}']['get']['responses']['200']['content']['application/json'];

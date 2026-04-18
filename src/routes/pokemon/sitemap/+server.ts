@@ -5,9 +5,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 export const GET: RequestHandler = async ({ fetch }) => {
 	const validPokemon = [];
 
-	const metaRes = await fetch(`${PUBLIC_API_HOST}/meta`, {
-		credentials: 'include'
-	});
+	const metaRes = await fetch(`${PUBLIC_API_HOST}/meta`);
 
 	const meta =
 		(await metaRes.json()) as paths['/meta']['get']['responses']['200']['content']['application/json'];

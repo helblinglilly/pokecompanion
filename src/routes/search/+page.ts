@@ -14,9 +14,7 @@ export const load: PageLoad = async ({ fetch, url, parent, depends }) => {
 		url.searchParams
 	);
 
-	const res = await fetch(searchRequestUrl, {
-		credentials: 'include'
-	});
+	const res = await fetch(searchRequestUrl);
 	const body =
 		(await res.json()) as paths['/search']['get']['responses']['200']['content']['application/json'];
 

@@ -18,9 +18,7 @@ export const getPokedexPokemon = async (
 		});
 	}
 
-	const res = await fetchSafe(url, {
-		credentials: 'include'
-	});
+	const res = await fetchSafe(url);
 
 	if (res.status !== 200) {
 		throw new Error(`Tried to get a Pokedex Pokemon but got HTTP ${res.status}`);
@@ -45,9 +43,7 @@ export const getPokemon = async (
 		});
 	}
 
-	const res = await fetchSafe(url, {
-		credentials: 'include'
-	});
+	const res = await fetchSafe(url);
 
 	if (res.status !== 200) {
 		throw new Error(`Tried to get a Pokemon but got HTTP ${res.status}`);

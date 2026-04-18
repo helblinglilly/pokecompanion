@@ -52,9 +52,7 @@ export const load: PageLoad = async ({ params, fetch, url, parent, depends }) =>
 	}
 
 	try {
-		const request = await fetch(pokemonRequestUrl, {
-			credentials: 'include'
-		});
+		const request = await fetch(pokemonRequestUrl);
 
 		if (request.status !== 200) {
 			throw new Error(`Failed to get Pokemon info - ${request.status}`);

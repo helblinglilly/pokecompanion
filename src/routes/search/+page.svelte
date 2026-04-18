@@ -38,9 +38,7 @@
 			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${pokemonPage + 1}`);
 
-			const res = await fetch(url, {
-				credentials: 'include'
-			});
+			const res = await fetch(url);
 
 			const body =
 				(await res.json()) as paths['/search/pokemon']['get']['responses']['200']['content']['application/json'];
@@ -68,9 +66,7 @@
 			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${movesPage + 1}`);
 
-			const res = await fetch(url, {
-				credentials: 'include'
-			});
+			const res = await fetch(url);
 
 			const body =
 				(await res.json()) as paths['/search/moves']['get']['responses']['200']['content']['application/json'];
@@ -98,9 +94,7 @@
 			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${abilityPage + 1}`);
 
-			const res = await fetch(url, {
-				credentials: 'include'
-			});
+			const res = await fetch(url);
 
 			const body =
 				(await res.json()) as paths['/search/abilities']['get']['responses']['200']['content']['application/json'];
@@ -128,9 +122,7 @@
 			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${itemsPage + 1}`);
 
-			const res = await fetch(url, {
-				credentials: 'include'
-			});
+			const res = await fetch(url);
 
 			const body =
 				(await res.json()) as paths['/search/items']['get']['responses']['200']['content']['application/json'];

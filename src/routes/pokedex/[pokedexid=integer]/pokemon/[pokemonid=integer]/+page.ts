@@ -55,9 +55,7 @@ export const load: PageLoad = async ({ fetch, params, url, parent, depends }) =>
 			url.searchParams
 		);
 
-		const res = await fetch(abilityUrl, {
-			credentials: 'include'
-		});
+		const res = await fetch(abilityUrl);
 
 		if (res.status !== 200) {
 			throw new Error('Failed to get abilities');
@@ -73,9 +71,7 @@ export const load: PageLoad = async ({ fetch, params, url, parent, depends }) =>
 			url.searchParams
 		);
 
-		const request = await fetch(moveRequestUrl, {
-			credentials: 'include'
-		});
+		const request = await fetch(moveRequestUrl);
 
 		if (request.status !== 200) {
 			throw new Error('Failed to get moves');

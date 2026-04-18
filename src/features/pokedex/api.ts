@@ -7,9 +7,7 @@ export const getAllPokedexes = async (propFetch?: typeof globalThis.fetch) => {
 	const url = new URL(`${PUBLIC_API_HOST}/pokedex`);
 
 	try {
-		const res = await fetchSafe(url, {
-			credentials: 'include'
-		});
+		const res = await fetchSafe(url);
 
 		if (res.status !== 200) {
 			throw new Error(`Tried to get all pokedexes but got HTTP ${res.status}`);
@@ -38,9 +36,7 @@ export const getPokedex = async (
 	}
 
 	try {
-		const res = await fetchSafe(url, {
-			credentials: 'include'
-		});
+		const res = await fetchSafe(url);
 
 		if (res.status !== 200) {
 			throw new Error(`Tried to get all pokedexes but got HTTP ${res.status}`);

@@ -15,9 +15,7 @@ export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 	const settings = resolveSettings(data.settings);
 
 	async function getMeta() {
-		const res = await fetch(`${PUBLIC_API_HOST}/meta`, {
-			credentials: 'include'
-		});
+		const res = await fetch(`${PUBLIC_API_HOST}/meta`);
 
 		return (await res.json()) as APIMeta;
 	}
