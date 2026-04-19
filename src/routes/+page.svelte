@@ -60,7 +60,7 @@
 					<p>Loading...</p>
 				{:then resolved}
 					{#if resolved.ofTheDay.pokemon}
-						<a href={resolved.ofTheDay.pokemon?.slug} class="no-underline">
+						<a href={resolved.ofTheDay.pokemon?.pokedex.pokedexSlug} class="no-underline">
 							<PokemonCardEntry
 								pokemon={resolved.ofTheDay.pokemon}
 								shiny={false}
