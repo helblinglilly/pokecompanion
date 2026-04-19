@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import NavigationButton from './NavigationButton.svelte';
 	import { page } from '$app/state';
+	import VarietySelector from '$/features/pokedex/pokemon/VarietySelector.svelte';
 
 	interface Props {
 		title: string;
@@ -37,25 +38,5 @@
 		</div>
 	{/if}
 
-	{#if varieties.length > 1}
-		<div class="w-full flex justify-center">
-			<Select
-				value={varieties.find((a) => (varietyParam ? a.name === varietyParam : a.isDefault))?.name}
-				options={varieties.map((variety) => ({
-					label: variety.displayName,
-					value: variety.name
-				}))}
-				style="width: 100%; padding-left: 1rem; padding-right: 1rem; margin: 0; text-align: center;"
-				onchange={(detail) => {
-					console.log(detail);
-					const newTargetVariety = varieties.find((variety) => variety.name === detail);
-					if (!newTargetVariety) {
-						console.error('Could not find the same variety again as the one that got changed to');
-						return;
-					}
-					goto(newTargetVariety.requestInfo.slug);
-				}}
-			/>
-		</div>
-	{/if}
+	<VarietySelector {varieties} />
 </div>

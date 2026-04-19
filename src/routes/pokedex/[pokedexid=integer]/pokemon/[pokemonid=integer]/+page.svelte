@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Navigator from '$/features/pokedex/pokemon/Navigator.svelte';
+	import VarietySelector from '$/features/pokedex/pokemon/VarietySelector.svelte';
 	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Abilities from '$/routes/pokemon/[pokedexid=integer]/Abilities.svelte';
@@ -35,7 +36,9 @@
 	]}
 />
 
-<Navigator previous={navigation.previous} current={navigation.current} next={navigation.next} />
+<Navigator previous={navigation.previous} current={navigation.current} next={navigation.next}>
+	<VarietySelector varieties={data.pokemon.varieties} classes="py-2" />
+</Navigator>
 
 {#key `${data.pokemon.id}-${page.url.searchParams.get('variety')}-${page.url.searchParams.get('shiny')}-${page.url.searchParams.get('gender')}`}
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">

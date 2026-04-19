@@ -5,7 +5,14 @@
 	import { page } from '$app/state';
 	import type { getPokedexPokemon } from './api';
 
-	let { previous, current, next }: Awaited<ReturnType<typeof getPokedexPokemon>>['navigation'] =
+	import type { Snippet } from 'svelte';
+
+	let {
+		previous,
+		current,
+		next,
+		children
+	}: Awaited<ReturnType<typeof getPokedexPokemon>>['navigation'] & { children?: Snippet } =
 		$props();
 
 	const displayNationalDex = $derived(
@@ -68,13 +75,16 @@
 		<div class="w-full grid gap-2">
 			<div class="inline-flex w-full justify-between gap-4">
 				{@render navigationButton(previous)}
-				<div class="inline-flex gap-2">
-					<h2 class="h2 my-auto">#{current.pokedexId}</h2>
+				<div class="grid gap-0 content-center">
+					<h2 class="h2">#{current.pokedexId}</h2>
 					{@render nationalDexLink()}
 				</div>
 				{@render navigationButton(next)}
 			</div>
 			<h1 class="h2 my-auto text-center">{current.pokemon.name}</h1>
+			{#if children}
+				{@render children()}
+			{/if}
 		</div>
 	{:else}
 		<div class="w-full inline-flex justify-between gap-2">
@@ -85,30 +95,11 @@
 					{current.pokemon.name}
 				</h1>
 				{@render nationalDexLink()}
+				{#if children}
+					{@render children()}
+				{/if}
 			</div>
 			{@render navigationButton(next)}
 		</div>
 	{/if}
-
-	<!-- {#if varieties.length > 1}
-		<div class="w-full flex justify-center">
-			<Select
-				value={varieties.find((a) => (varietyParam ? a.name === varietyParam : a.isDefault))?.name}
-				options={varieties.map((variety) => ({
-					label: variety.displayName,
-					value: variety.name
-				}))}
-				style="width: 100%; padding-left: 1rem; padding-right: 1rem; margin: 0; text-align: center;"
-				onchange={(detail) => {
-					console.log(detail);
-					const newTargetVariety = varieties.find((variety) => variety.name === detail);
-					if (!newTargetVariety) {
-						console.error('Could not find the same variety again as the one that got changed to');
-						return;
-					}
-					goto(newTargetVariety.pokecompanionUrl);
-				}}
-			/>
-		</div>
-	{/if} -->
 </div>
