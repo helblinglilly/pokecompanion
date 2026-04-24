@@ -1,6 +1,5 @@
 import type { paths } from '$/@types/api';
 import type { APIPokemon } from '$/@types/api.pokecompanion';
-import { getPokedexPokemon, getPokemon } from '$/features/pokedex/pokemon/api';
 import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import type { PageLoad } from './$types';
@@ -10,43 +9,34 @@ export const load: PageLoad = async ({ fetch, params, url, parent, depends }) =>
 	const { settings: serverSettings } = await parent();
 	const settings = resolveSettings(serverSettings);
 
-	// Extract query parameters from the URL
-	const queryParams = {
-		page: url.searchParams.get('page') ? Number(url.searchParams.get('page')) : undefined,
-		pageSize: url.searchParams.get('pageSize')
-			? Number(url.searchParams.get('pageSize'))
-			: undefined,
-		jumpTo: url.searchParams.get('jumpTo') ? Number(url.searchParams.get('jumpTo')) : undefined,
-		gender: url.searchParams.get('gender') as 'male' | 'female' | undefined,
-		variety: url.searchParams.get('variety') || undefined,
-		shiny: url.searchParams.get('shiny') as 'true' | 'false' | undefined,
-		animateSprites: url.searchParams.get('animateSprites') as 'true' | 'false' | undefined,
-		versionSpecificPokemonSprites: url.searchParams.get('versionSpecificPokemonSprites') as
-			| 'true'
-			| 'false'
-			| undefined,
-		versionSpecificTypeSprites: url.searchParams.get('versionSpecificTypeSprites') as
-			| 'true'
-			| 'false'
-			| undefined,
-		primaryLanguage: url.searchParams.get('primaryLanguage') as any,
-		secondaryLanguage: url.searchParams.get('secondaryLanguage') as any,
-		gameEntry: url.searchParams.get('gameEntry') as any
-	};
-
-	// Filter out undefined values to pass only the params that were actually provided
-	const filteredParams = Object.fromEntries(
-		Object.entries(queryParams).filter(([_, v]) => v !== undefined)
+	const pokemonDexRequestUrl = addSettingsToUrl(
+		new URL(`${PUBLIC_API_HOST}/pokedex/${params.pokedexid}/pokemon/${params.pokemonid}`),
+		settings,
+		url.searchParams
 	);
 
-	const pokedex = await getPokedexPokemon(
-		Number(params.pokedexid),
-		Number(params.pokemonid),
-		filteredParams,
-		fetch
+	const pokemonDexRes = await fetch(pokemonDexRequestUrl);
+
+	if (pokemonDexRes.status !== 200) {
+		throw new Error(`Tried to get a Pokedex Pokemon but got HTTP ${pokemonDexRes.status}`);
+	}
+
+	const pokemonDex =
+		(await pokemonDexRes.json()) as paths['/pokedex/{pokedexId}/pokemon/{pokemonInPokedexId}']['get']['responses']['200']['content']['application/json'];
+
+	const pokemonRes = await fetch(
+		addSettingsToUrl(
+			new URL(`${PUBLIC_API_HOST}/pokemon/${pokemonDex.navigation.current.speciesId}`),
+			settings,
+			url.searchParams
+		)
 	);
 
-	const pokemon = await getPokemon(pokedex.navigation.current.speciesId, queryParams, fetch);
+	if (pokemonRes.status !== 200) {
+		throw new Error(`Tried to get a Pokemon but got HTTP ${pokemonRes.status}`);
+	}
+	const pokemon =
+		(await pokemonRes.json()) as paths['/pokemon/{id}']['get']['responses']['200']['content']['application/json'];
 
 	async function getFullAbility(ability: APIPokemon['abilities'][number]) {
 		const abilityUrl = addSettingsToUrl(
@@ -80,7 +70,7 @@ export const load: PageLoad = async ({ fetch, params, url, parent, depends }) =>
 	}
 
 	return {
-		pokedex,
+		pokedex: pokemonDex,
 		pokemon,
 		abilities: pokemon.abilities.map((ability) => {
 			return {
