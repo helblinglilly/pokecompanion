@@ -1,0 +1,24 @@
+import { PUBLIC_API_HOST } from '$env/static/public';
+import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
+import type { paths } from '$/@types/api';
+import type { PageLoad } from './$types';
+
+export const load: PageLoad = async ({ params, fetch, url, parent, depends }) => {
+	depends(DEPENDS_SETTINGS);
+	const { settings: serverSettings } = await parent();
+	const settings = resolveSettings(serverSettings);
+
+	const requestUrl = addSettingsToUrl(
+		new URL(`${PUBLIC_API_HOST}/item/${params.itemId}`),
+		settings,
+		url.searchParams
+	);
+	const res = await fetch(requestUrl);
+
+	const item =
+		(await res.json()) as paths['/item/{id}']['get']['responses']['200']['content']['application/json'];
+
+	return {
+		item
+	};
+};

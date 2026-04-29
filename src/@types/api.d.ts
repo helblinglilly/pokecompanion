@@ -2078,6 +2078,29 @@ export interface components {
             /** @description The type of this move */
             type: components["schemas"]["Type"];
         };
+        ItemAttributesMap: {
+            holdable: boolean;
+            countable: boolean;
+            battle: boolean;
+            overworld: boolean;
+            underground: boolean;
+            holdablePassive: boolean;
+            holdableActive: boolean;
+        };
+        ItemResponse: {
+            /** Format: double */
+            id: number;
+            /** Format: double */
+            cost: number | null;
+            names: string[];
+            name: string;
+            icon?: string;
+            flavourTexts: string[];
+            effectEntries: string[];
+            /** Format: double */
+            price: number | null;
+            attributes: components["schemas"]["ItemAttributesMap"];
+        };
         QueryParamsGetHome: {
             /** @enum {string} */
             shiny?: "true" | "false";
@@ -3739,19 +3762,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** Format: double */
-                        price: number;
-                        effectEntries: string[];
-                        flavourTexts: string[];
-                        icon: string;
-                        name: string;
-                        names: string[];
-                        /** Format: double */
-                        cost: number;
-                        /** Format: double */
-                        id: number;
-                    };
+                    "application/json": components["schemas"]["ItemResponse"];
                 };
             };
         };
