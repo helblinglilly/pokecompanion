@@ -2,6 +2,7 @@
 	interface Props {
 		src: string;
 		alt: string;
+		isSprite?: boolean;
 		height?: string | undefined;
 		width?: string | undefined;
 		style?: string | undefined;
@@ -17,6 +18,7 @@
 		height = 'inherit',
 		width = 'inherit',
 		style = undefined,
+		isSprite = false,
 		classNames = undefined,
 		id = `image-${src}-${alt}`,
 		loading = 'lazy',
@@ -37,7 +39,7 @@
 	{width}
 	{style}
 	{id}
-	class={`${classNames} text-textColour`}
+	class={`${classNames} text-textColour ${isSprite ? 'sprite' : ''}`}
 	{loading}
 	onerror={(e) => {
 		if (e.target) {
@@ -52,3 +54,10 @@
 		}
 	}}
 />
+
+<style>
+	img.sprite {
+		image-rendering: pixelated;
+		image-rendering: crisp-edges;
+	}
+</style>

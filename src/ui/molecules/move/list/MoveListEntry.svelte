@@ -24,6 +24,7 @@
 					<Image
 						src={move.damageClass.icon}
 						alt={move.damageClass.name}
+						isSprite
 						style={'max-width: 5rem; object-fit: contain;'}
 					/>
 				</td>
@@ -33,6 +34,7 @@
 					<Image
 						src={move.type.icon}
 						alt={move.type.name}
+						isSprite
 						style={'max-width: 5rem; object-fit: contain;'}
 					/>
 				</td>

@@ -46,6 +46,7 @@
 				<Image
 					src={type.icon}
 					alt={type.name}
+					isSprite
 					style={'height: 1.5rem; object-fit: contain; max-width: 5rem;'}
 				/>
 			</div>

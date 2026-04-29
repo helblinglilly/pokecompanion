@@ -3115,6 +3115,7 @@ export interface operations {
                         totalItems: number;
                         data: {
                             slug: string;
+                            icon: string;
                             name: string;
                             names: string[];
                             /** Format: double */
@@ -3273,6 +3274,7 @@ export interface operations {
                             totalItems: number;
                             data: {
                                 slug: string;
+                                icon: string;
                                 name: string;
                                 names: string[];
                                 /** Format: double */
@@ -3738,6 +3740,11 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
+                        /** Format: double */
+                        price: number;
+                        effectEntries: string[];
+                        flavourTexts: string[];
+                        icon: string;
                         name: string;
                         names: string[];
                         /** Format: double */

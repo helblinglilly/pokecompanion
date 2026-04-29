@@ -4,7 +4,12 @@
 	import Image from '$/ui/atoms/Image.svelte';
 </script>
 
-<Image src="/missingno.png" alt="missingno" style="margin-left: auto; margin-right: auto;" />
+<Image
+	src="/missingno.png"
+	alt="missingno"
+	style="margin-left: auto; margin-right: auto;"
+	isSprite
+/>
 
 <h2 class="h2">{page.status} - Something went wrong</h2>
 

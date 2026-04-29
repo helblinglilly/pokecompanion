@@ -17,6 +17,7 @@
 					<Image
 						src={resists.icon}
 						alt={resists.name}
+						isSprite
 						style={'h-6 object-fit: contain; max-width: 5rem; max-height: 20px;'}
 					/>
 				</div>
@@ -38,6 +39,7 @@
 					<Image
 						src={weakAgainst.icon}
 						alt={weakAgainst.name}
+						isSprite
 						style={'h-6 object-fit: contain; max-width: 5rem; max-height: 20px;'}
 					/>
 				</div>

@@ -42,6 +42,7 @@
 			<Image
 				classNames="ml-auto mr-auto h-full max-w-min"
 				src={pokemon.sprite.url}
+				isSprite
 				alt={pokemon.sprite.alt}
 				loading="lazy"
 				height="64px"

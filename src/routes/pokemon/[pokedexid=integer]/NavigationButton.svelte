@@ -37,6 +37,7 @@
 				{#if iconUrl}
 					<Image
 						src={`${iconUrl}/${pokedexId}.png`}
+						isSprite
 						alt="icon"
 						classNames="icon"
 						loading="eager"

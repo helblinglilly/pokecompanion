@@ -27,6 +27,7 @@
 						<Image
 							src={evolution.source.spriteUrl}
 							alt={evolution.source.pokemonUrl}
+							isSprite
 							classNames="sprite min-w-6 min-h-6 w-auto h-auto max-w-16 max-h-16"
 						/>
 					</a>
@@ -69,6 +70,7 @@
 								<p class="min-w-fit">Use</p>
 								<Image
 									src={`${requirement.info}`}
+									isSprite
 									height="30"
 									width="30"
 									alt={requirement.supplementary ?? ''}
@@ -87,6 +89,7 @@
 								<p>Hold</p>
 								<Image
 									src={`${requirement.info}`}
+									isSprite
 									height="30"
 									width="30"
 									alt={requirement.supplementary ?? ''}
@@ -217,6 +220,7 @@
 						<Image
 							src={evolution.target.spriteUrl}
 							alt={evolution.target.pokemonUrl}
+							isSprite
 							classNames="sprite min-w-6 min-h-6 w-auto h-auto max-w-16 max-h-16"
 						/>
 					</a>

@@ -6,6 +6,7 @@
 	<Image
 		src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-question.png"
 		alt="Question mark Incognito"
+		isSprite
 		style="margin-left: auto; margin-right: auto;"
 	/>
 

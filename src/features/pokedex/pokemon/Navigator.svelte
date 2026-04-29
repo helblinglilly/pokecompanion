@@ -53,6 +53,7 @@
 				<Image
 					src={contents.pokemon.sprite.url}
 					alt={contents.pokemon.name}
+					isSprite
 					classNames="icon w-12"
 				/>
 			</Card>

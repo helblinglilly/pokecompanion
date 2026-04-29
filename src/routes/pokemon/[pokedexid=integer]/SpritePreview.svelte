@@ -57,6 +57,7 @@
 			<Image
 				src={primarySprite.url}
 				alt={primarySprite.alt}
+				isSprite
 				id="primarySprite"
 				style="max-width: 128px;"
 			/>
@@ -79,6 +80,7 @@
 				<Image
 					src={secondarySprite.url}
 					alt={secondarySprite.alt}
+					isSprite
 					id="secondarySprite"
 					style="width: 128px; max-height: 178px;"
 				/>
@@ -97,6 +99,7 @@
 	<div id="modalImageWrapper">
 		<Image
 			src={modalContent.url}
+			isSprite
 			style="margin-left: auto; margin-right: auto; height: inherit;"
 			alt={modalContent.alt}
 			id={`modalImage${modalContent.isBack ? '-back' : ''}`}
