@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { theme } from '$lib/stores/domain';
+	import { selectedGame, theme } from '$lib/stores/domain';
 	import Icon from '$/ui/atoms/Icon.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
 	import type { paths } from '$/@types/api';
+	import { isSprite } from '$/lib/utils/isSprite';
 
 	interface Props {
 		pokemon: paths['/pokemon/{id}/preview']['get']['responses']['200']['content']['application/json'];
@@ -42,7 +43,7 @@
 			<Image
 				classNames="ml-auto mr-auto h-full max-w-min"
 				src={pokemon.sprite.url}
-				isSprite
+				isSprite={isSprite($selectedGame?.pokeapi)}
 				alt={pokemon.sprite.alt}
 				loading="lazy"
 				height="64px"

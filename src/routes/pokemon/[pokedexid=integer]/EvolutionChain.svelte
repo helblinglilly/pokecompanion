@@ -3,6 +3,8 @@
 	import Image from '$/ui/atoms/Image.svelte';
 	import { Logger } from '$/debt/log';
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
+	import { selectedGame } from '$/lib/stores/domain';
+	import { isSprite } from '$/lib/utils/isSprite';
 
 	interface Props {
 		evolutions: APIPokemon['evolutionChain'];
@@ -27,7 +29,7 @@
 						<Image
 							src={evolution.source.spriteUrl}
 							alt={evolution.source.pokemonUrl}
-							isSprite
+							isSprite={isSprite($selectedGame?.pokeapi)}
 							classNames="sprite min-w-6 min-h-6 w-auto h-auto max-w-16 max-h-16"
 						/>
 					</a>
@@ -220,7 +222,7 @@
 						<Image
 							src={evolution.target.spriteUrl}
 							alt={evolution.target.pokemonUrl}
-							isSprite
+							isSprite={isSprite($selectedGame?.pokeapi)}
 							classNames="sprite min-w-6 min-h-6 w-auto h-auto max-w-16 max-h-16"
 						/>
 					</a>

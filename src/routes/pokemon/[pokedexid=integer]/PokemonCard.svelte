@@ -11,6 +11,8 @@
 	import AttachedTags from '$/features/tags/AttachedTags.svelte';
 	import type { LayoutData } from '../../$types';
 	import CreateNewTag from '$/features/tags/new/CreateNewTag.svelte';
+	import { isSprite } from '$/lib/utils/isSprite';
+	import { selectedGame } from '$/lib/stores/domain';
 
 	interface Props {
 		data: APIPokemon;
@@ -46,7 +48,7 @@
 				<Image
 					src={type.icon}
 					alt={type.name}
-					isSprite
+					isSprite={isSprite($selectedGame?.pokeapi)}
 					style={'height: 1.5rem; object-fit: contain; max-width: 5rem;'}
 				/>
 			</div>

@@ -2,6 +2,8 @@
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
+	import { isSprite } from '$/lib/utils/isSprite';
+	import { selectedGame } from '$/lib/stores/domain';
 
 	type Sprites = APIPokemon['sprites'];
 	interface Props {
@@ -57,7 +59,7 @@
 			<Image
 				src={primarySprite.url}
 				alt={primarySprite.alt}
-				isSprite
+				isSprite={isSprite($selectedGame?.pokeapi)}
 				id="primarySprite"
 				style="max-width: 128px;"
 			/>
@@ -80,7 +82,7 @@
 				<Image
 					src={secondarySprite.url}
 					alt={secondarySprite.alt}
-					isSprite
+					isSprite={isSprite($selectedGame?.pokeapi)}
 					id="secondarySprite"
 					style="width: 128px; max-height: 178px;"
 				/>
@@ -99,7 +101,7 @@
 	<div id="modalImageWrapper">
 		<Image
 			src={modalContent.url}
-			isSprite
+			isSprite={isSprite($selectedGame?.pokeapi)}
 			style="margin-left: auto; margin-right: auto; height: inherit;"
 			alt={modalContent.alt}
 			id={`modalImage${modalContent.isBack ? '-back' : ''}`}

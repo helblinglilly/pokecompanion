@@ -12,6 +12,8 @@
 	import { writable } from 'svelte/store';
 	import { searchTerm } from '$/features/search/searchbar.js';
 	import Image from '$/ui/atoms/Image.svelte';
+	import { isSprite } from '$/lib/utils/isSprite.js';
+	import { selectedGame } from '$/lib/stores/domain.js';
 
 	let { data } = $props();
 
@@ -223,7 +225,7 @@
 					isClickable
 				>
 					{#if item.icon}
-						<Image src={item.icon} alt={item.name} isSprite />
+						<Image src={item.icon} alt={item.name} isSprite={isSprite($selectedGame?.pokeapi)} />
 					{/if}
 					<p class="content-center">{item.name}</p>
 				</Card>
