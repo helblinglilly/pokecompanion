@@ -26,14 +26,12 @@
 						<Image
 							src={move.damageClass.icon}
 							alt={move.damageClass.name}
-							isSprite
 							style={'max-width: 5rem; object-fit: contain; margin-left: auto; margin-right: auto;'}
 						/>
 
 						<Image
 							src={move.type.icon}
 							alt={move.type.name}
-							isSprite
 							style={'max-width: 5rem; object-fit: contain; margin-bottom: 0.2rem; margin-left: auto; margin-right: auto;'}
 						/>
 					</td>

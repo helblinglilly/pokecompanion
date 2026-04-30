@@ -11,6 +11,7 @@
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { writable } from 'svelte/store';
 	import { searchTerm } from '$/features/search/searchbar.js';
+	import Image from '$/ui/atoms/Image.svelte';
 
 	let { data } = $props();
 
@@ -221,6 +222,9 @@
 					classes={`m-0 w-full flex p-8 h-28`}
 					isClickable
 				>
+					{#if item.icon}
+						<Image src={item.icon} alt={item.name} isSprite />
+					{/if}
 					<p class="content-center">{item.name}</p>
 				</Card>
 			</a>
