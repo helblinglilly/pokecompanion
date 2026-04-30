@@ -1,38 +1,36 @@
-import { getPokedex } from '$/features/pokedex/api';
+import type { paths } from '$/@types/api.js';
+import { addSettingsToUrl, resolveSettings } from '$/lib/api/settings.js';
+import { PUBLIC_API_HOST } from '$env/static/public';
 
-export async function load({ fetch, params, url }) {
-	// Extract query parameters from the URL
-	const queryParams = {
-		page: url.searchParams.get('page') ? Number(url.searchParams.get('page')) : undefined,
-		pageSize: url.searchParams.get('pageSize')
-			? Number(url.searchParams.get('pageSize'))
-			: undefined,
-		jumpTo: url.searchParams.get('jumpTo') ? Number(url.searchParams.get('jumpTo')) : undefined,
-		gender: url.searchParams.get('gender') as 'male' | 'female' | undefined,
-		variety: url.searchParams.get('variety') || undefined,
-		shiny: url.searchParams.get('shiny') as 'true' | 'false' | undefined,
-		animateSprites: url.searchParams.get('animateSprites') as 'true' | 'false' | undefined,
-		versionSpecificPokemonSprites: url.searchParams.get('versionSpecificPokemonSprites') as
-			| 'true'
-			| 'false'
-			| undefined,
-		versionSpecificTypeSprites: url.searchParams.get('versionSpecificTypeSprites') as
-			| 'true'
-			| 'false'
-			| undefined,
-		primaryLanguage: url.searchParams.get('primaryLanguage') as any,
-		secondaryLanguage: url.searchParams.get('secondaryLanguage') as any,
-		gameEntry: url.searchParams.get('gameEntry') as any
-	};
+export async function load({ fetch, params, url, parent }) {
+  const { settings: serverSettings } = await parent();
+  const settings = resolveSettings(serverSettings);
 
-	// Filter out undefined values to pass only the params that were actually provided
-	const filteredParams = Object.fromEntries(
-		Object.entries(queryParams).filter(([_, v]) => v !== undefined)
-	) as any;
+  const pokedexRequestUrl = addSettingsToUrl(
+    new URL(`${PUBLIC_API_HOST}/pokedex/${params.pokedexid}`),
+    settings,
+    url.searchParams
+  )
 
-	const pokedex = await getPokedex(Number(params.pokedexid), filteredParams, fetch);
+  const page = url.searchParams.get('page');
+  if (page) {
+    pokedexRequestUrl.searchParams.set('page', page)
+  }
 
-	return {
-		pokedex
-	};
+  const pageSize = url.searchParams.get('pageSize');
+  if (pageSize) {
+    pokedexRequestUrl.searchParams.set('pageSize', pageSize)
+  };
+
+  const jumpTo = url.searchParams.get('jumpTo');
+  if (jumpTo) {
+    pokedexRequestUrl.searchParams.set('jumpTo', jumpTo);
+  }
+
+  const res = await fetch(pokedexRequestUrl);
+  const pokedex = (await res.json()) as paths['/pokedex/{pokedexId}']['get']['responses']['200']['content']['application/json']
+
+  return {
+    pokedex
+  };
 }

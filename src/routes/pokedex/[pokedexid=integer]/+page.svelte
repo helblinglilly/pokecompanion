@@ -4,6 +4,7 @@
 	import { currentUser } from '$/lib/stores/user.js';
 	import PageNavigator from '$/routes/pokemon/PageNavigator.svelte';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
+	import { page } from '$app/state';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 
 	let { data } = $props();
@@ -39,7 +40,11 @@
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
 	{#each data.pokedex.pokemon as pokemon}
-		<a id={`${pokemon.id}`} href={pokemon.pokedex?.pokedexSlug + `?game=${data.pokedex.games[0]}`}>
+		<a
+			id={`${pokemon.id}`}
+			href={pokemon.pokedex?.pokedexSlug +
+				`?game=${page.url.searchParams.get('game') ?? data.pokedex.games[0]}`}
+		>
 			<PokemonListEntry
 				pokemon={{
 					...pokemon,
