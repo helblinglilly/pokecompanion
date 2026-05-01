@@ -167,8 +167,8 @@
 						classes="w-full"
 						type={showSignupFields ? 'submit' : 'button'}
 						onclick={(e) => {
-							e.preventDefault();
 							if (!showSignupFields) {
+								e.preventDefault();
 								showSignupFields = true;
 							}
 						}}>Sign up</Button
