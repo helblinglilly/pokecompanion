@@ -24,6 +24,11 @@
 
 		const controller = new AbortController();
 
+		const gender =
+			['male', 'female'].find((entry) => entry === page.url.searchParams.get('gender')) ?? null;
+		const shiny = page.url.searchParams.get('shiny') === 'true';
+		const variety = page.url.searchParams.get('variety');
+
 		fetch(`${PUBLIC_API_HOST}/lastAction`, {
 			method: 'PATCH',
 			signal: controller.signal,
@@ -34,7 +39,10 @@
 			body: JSON.stringify({
 				pokemon: {
 					pokedexId: Number(page.params.pokedexid),
-					pokemonInPokedexId: Number(page.params.pokemonid)
+					pokemonInPokedexId: Number(page.params.pokemonid),
+					gender,
+					shiny,
+					variety
 				}
 			})
 		}).catch((err) => {

@@ -409,6 +409,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/lastAction": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["recordLastAction"];
+        trace?: never;
+    };
     "/item/{id}": {
         parameters: {
             query?: never;
@@ -2078,6 +2094,23 @@ export interface components {
             /** @description The type of this move */
             type: components["schemas"]["Type"];
         };
+        RecordLastActionTag: {
+            userId: string;
+            tagId: string;
+        };
+        RecordLastActionPokemon: {
+            /** Format: double */
+            speciesId: number;
+        } | {
+            /** Format: double */
+            pokemonInPokedexId: number;
+            /** Format: double */
+            pokedexId: number;
+        };
+        RecordLastAction: {
+            pokemon?: components["schemas"]["RecordLastActionPokemon"];
+            tag?: components["schemas"]["RecordLastActionTag"];
+        };
         ItemAttributesMap: {
             holdable: boolean;
             countable: boolean;
@@ -2100,6 +2133,23 @@ export interface components {
             /** Format: double */
             price: number | null;
             attributes: components["schemas"]["ItemAttributesMap"];
+        };
+        LastActionPokemon: {
+            test: string;
+        };
+        LastActionTag: {
+            test: string;
+        };
+        LastAction: {
+            tag: components["schemas"]["LastActionTag"];
+            pokemon: components["schemas"]["LastActionPokemon"];
+        };
+        HomeResponse: {
+            lastActions: components["schemas"]["LastAction"] | null;
+            ofTheDay: {
+                move: components["schemas"]["MovePreview"] | null;
+                pokemon: components["schemas"]["PokemonPreview"] | null;
+            };
         };
         QueryParamsGetHome: {
             /** @enum {string} */
@@ -3746,6 +3796,40 @@ export interface operations {
             };
         };
     };
+    recordLastAction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RecordLastAction"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getItemById: {
         parameters: {
             query?: never;
@@ -3794,32 +3878,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        ofTheDay: {
-                            move: components["schemas"]["MovePreview"];
-                            pokemon: {
-                                pokedex: {
-                                    /** Format: double */
-                                    speciesId: number;
-                                    /** Format: double */
-                                    pokedexEntityId: number;
-                                    /** Format: double */
-                                    pokedexId: number;
-                                    pokedexSlug: string;
-                                };
-                                requestInfo: components["schemas"]["PokemonRequestInfo"];
-                                slug: string;
-                                sprite: {
-                                    url: string;
-                                    alt: string;
-                                };
-                                names: string[];
-                                name: string;
-                                /** Format: double */
-                                id: number;
-                            };
-                        };
-                    };
+                    "application/json": components["schemas"]["HomeResponse"];
                 };
             };
         };
