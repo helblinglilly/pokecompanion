@@ -40,12 +40,12 @@
 				<h2 class="h3">Organise!</h2>
 				<p>
 					Tag your Pokémon, items, moves, and organise to your hearts content. Finishing a <a
-						href="/user/users62794/tags/min1e9lqlltz1vr?view=list"
+						href="/user/sample-user/tags/min1e9lqlltz1vr?view=list"
 						class="underline">Pokédex</a
 					>, building a
-					<a href="/user/users62794/tags/e5io1v0x8y6o1lo?view=list#398" class="underline">Team</a>
+					<a href="/user/sample-user/tags/e5io1v0x8y6o1lo?view=list#398" class="underline">Team</a>
 					or keeping track of your favourite
-					<a href="/user/users62794/tags/macq7c95innrbx8?view=card" class="underline">plushies</a>?
+					<a href="/user/sample-user/tags/macq7c95innrbx8?view=card" class="underline">plushies</a>?
 					No problem!
 				</p>
 			</Card>
