@@ -21,7 +21,6 @@
 
 	<div class="inline-flex gap-4 content-center justify-start md:justify-end">
 		{#if $currentUser}
-			<!-- <Button onclick={async () => {}}>Turn into Tag</Button> -->
 			<CreateNewTag
 				contents={{
 					pokemon: [],

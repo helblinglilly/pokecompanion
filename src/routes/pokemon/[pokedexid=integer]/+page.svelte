@@ -14,6 +14,9 @@
 
 	import Navigator from './Navigator.svelte';
 	import PokemonCard from './PokemonCard.svelte';
+	import { get } from 'svelte/store';
+	import { currentUser } from '$/lib/stores/user';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 
 	let { data } = $props();
 
@@ -30,6 +33,32 @@
 		return () => {
 			document.removeEventListener('keydown', event);
 		};
+	});
+
+	$effect(() => {
+		const user = get(currentUser);
+		if (!user) return;
+
+		const controller = new AbortController();
+
+		fetch(`${PUBLIC_API_HOST}/lastAction`, {
+			method: 'PATCH',
+			signal: controller.signal,
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				pokemon: {
+					speciesId: data.id
+				}
+			})
+		}).catch((err) => {
+			if (err.name !== 'AbortError') console.error(err);
+		});
+
+		// Cleanup: abort if user navigates away or effect re-runs
+		return () => controller.abort();
 	});
 </script>
 

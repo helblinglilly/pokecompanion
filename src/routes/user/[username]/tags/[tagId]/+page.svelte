@@ -7,6 +7,8 @@
 	import TagMove from './TagMove.svelte';
 	import TagViewOptions from './TagViewOptions.svelte';
 	import Header from './Header.svelte';
+	import { get } from 'svelte/store';
+	import { PUBLIC_API_HOST } from '$env/static/public';
 
 	let { data } = $props();
 
@@ -16,6 +18,33 @@
 	);
 
 	let inModifyView = $state(false);
+
+	$effect(() => {
+		const user = get(currentUser);
+		if (!user) return;
+
+		const controller = new AbortController();
+
+		fetch(`${PUBLIC_API_HOST}/lastAction`, {
+			method: 'PATCH',
+			signal: controller.signal,
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
+			body: JSON.stringify({
+				tag: {
+					tagId: data.tag.id,
+					userId: data.tag.owner
+				}
+			})
+		}).catch((err) => {
+			if (err.name !== 'AbortError') console.error(err);
+		});
+
+		// Cleanup: abort if user navigates away or effect re-runs
+		return () => controller.abort();
+	});
 </script>
 
 <SocialPreview

@@ -3,6 +3,7 @@
 	import VarietySelector from '$/features/pokedex/pokemon/VarietySelector.svelte';
 	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
+	import { currentUser } from '$/lib/stores/user.js';
 	import Abilities from '$/routes/pokemon/[pokedexid=integer]/Abilities.svelte';
 	import BaseStats from '$/routes/pokemon/[pokedexid=integer]/BaseStats.svelte';
 	import Encounters from '$/routes/pokemon/[pokedexid=integer]/Encounters.svelte';
@@ -12,9 +13,37 @@
 	import TypeMatchup from '$/routes/pokemon/[pokedexid=integer]/TypeMatchup.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
 	import { page } from '$app/state';
+	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { get } from 'svelte/store';
 
 	let { data } = $props();
 	const navigation = $derived(data.pokedex.navigation);
+	$effect(() => {
+		const user = get(currentUser);
+		if (!user) return;
+
+		const controller = new AbortController();
+
+		fetch(`${PUBLIC_API_HOST}/lastAction`, {
+			method: 'PATCH',
+			signal: controller.signal,
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				pokemon: {
+					pokedexId: Number(page.params.pokedexid),
+					pokemonInPokedexId: Number(page.params.pokemonid)
+				}
+			})
+		}).catch((err) => {
+			if (err.name !== 'AbortError') console.error(err);
+		});
+
+		// Cleanup: abort if user navigates away or effect re-runs
+		return () => controller.abort();
+	});
 </script>
 
 <SocialPreview
