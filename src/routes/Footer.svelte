@@ -42,16 +42,30 @@
 	footer {
 		display: grid;
 		/* text-align: center; */
-		background-color: #3d3938d2;
+		background-color: var(--grey-primary);
 		position: relative;
 		bottom: 0;
 		min-height: 12vh;
 		padding: 1vh;
 	}
 
+	:global(.dark-theme) footer {
+		background-color: #3d3938d2;
+	}
+
+	:global(.light-theme) p {
+		color: #000;
+	}
+
+	:global(.dark-theme) p {
+		color: #bfbcbc;
+	}
+	:global(.dark-theme) a {
+		color: #bfbcbc;
+	}
+
 	p,
 	a {
-		color: #bfbcbc;
 		font-size: smaller;
 	}
 
