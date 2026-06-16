@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store';
-import { getCookie, getRawCookie, setCookie } from '../utils/cookies';
-import { currentUser, type AuthRecord } from './user';
+import { getCookie, setCookie } from '../utils/cookies';
+import { syncCurrentUserFromAuthCookie } from './user';
 import { page } from '$app/state';
 import type {
 	MetaGame,
@@ -194,20 +194,7 @@ export const cookieHandlers = {
 		});
 	},
 	user: () => {
-		const cookieValue = getRawCookie(document.cookie, 'pb_auth');
-		const rawData = cookieValue.replace('pb_auth=', '');
-		const decodedString = decodeURIComponent(rawData);
-
-		if (decodedString) {
-			const authData = JSON.parse(decodedString) as {
-				token: string;
-				record: AuthRecord;
-			};
-
-			currentUser.set(authData.record);
-		} else {
-			currentUser.set(null);
-		}
+		syncCurrentUserFromAuthCookie();
 	},
 	rememberToken: () => {
 		let existingValue = getCookie('remember-token') as string | undefined;

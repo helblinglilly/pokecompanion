@@ -2,8 +2,9 @@
 	import Button from '$/ui/atoms/Button.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
 	import { goto, invalidateAll } from '$app/navigation';
-	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { addNotification } from '$/features/notifications/notifications';
+	import { getClientApiHost } from '$lib/api/clientHost';
+	import { syncCurrentUserFromAuthCookie } from '$lib/stores/user';
 
 	let email = $state('');
 	let password = $state('');
@@ -16,6 +17,7 @@
 	let usernameError = $state('');
 
 	let showSignupFields = $state(false);
+	const apiHost = getClientApiHost();
 
 	const handleFormSubmit = async () => {
 		if (showSignupFields) {
@@ -33,7 +35,7 @@
 				return;
 			}
 
-			const res = await fetch(`${PUBLIC_API_HOST}/auth/signup`, {
+			const res = await fetch(`${apiHost}/auth/signup`, {
 				credentials: 'include',
 				method: 'POST',
 				headers: {
@@ -66,7 +68,7 @@
 			return;
 		}
 
-		const res = await fetch(`${PUBLIC_API_HOST}/auth/login`, {
+		const res = await fetch(`${apiHost}/auth/login`, {
 			credentials: 'include',
 			method: 'POST',
 			redirect: 'manual',
@@ -81,6 +83,7 @@
 
 		switch (res.status) {
 			case 200:
+				syncCurrentUserFromAuthCookie();
 				await invalidateAll();
 				const body = await res.json();
 				if (body.redirectTo) {
