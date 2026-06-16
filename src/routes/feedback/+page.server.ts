@@ -1,4 +1,4 @@
-import { DISCORD_WEBHOOK_URL } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
@@ -11,11 +11,13 @@ export const actions: Actions = {
       return fail(400, { error: 'Message cannot be empty' });
     }
 
-    if (!DISCORD_WEBHOOK_URL) {
+    const webhookUrl = env.DISCORD_WEBHOOK_URL;
+
+    if (!webhookUrl) {
       return fail(500, { error: 'Webhook not configured' });
     }
 
-    const response = await fetch(DISCORD_WEBHOOK_URL, {
+    const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
