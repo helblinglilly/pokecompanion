@@ -92,14 +92,17 @@
 		{/if}
 
 		<CreateNewTag
-			pokemon={[
-				{
-					id: data.id,
-					gender: gender,
-					shiny: page.url.searchParams.get('shiny') === 'true',
-					variety: page.url.searchParams.get('variety') ?? undefined
-				}
-			]}
+			contents={{
+				pokemon: [
+					{
+						id: data.id,
+						gender: gender,
+						shiny: page.url.searchParams.get('shiny') === 'true',
+						variety: page.url.searchParams.get('variety') ?? undefined
+					}
+				],
+				move: []
+			}}
 		/>
 	</div>
 {/if}

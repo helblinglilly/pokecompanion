@@ -65,7 +65,12 @@
 						<div class="pb-2 inline-flex gap-8 justify-between w-full text-center ml-4 pr-8">
 							<h2 class="h2 content-center">{data.username}'s tags</h2>
 							{#if $currentUser}
-								<CreateNewTag />
+								<CreateNewTag
+									contents={{
+										pokemon: [],
+										move: []
+									}}
+								/>
 							{/if}
 						</div>
 						<div class="grid gap-4 pt-2 m-4">

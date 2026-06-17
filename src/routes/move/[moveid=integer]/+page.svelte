@@ -100,7 +100,16 @@
 					{/if}
 
 					<div class="my-auto">
-						<CreateNewTag move={[{ id: data.move.id }]} />
+						<CreateNewTag
+							contents={{
+								pokemon: [],
+								move: [
+									{
+										id: data.move.id
+									}
+								]
+							}}
+						/>
 					</div>
 				</div>
 			</div>
