@@ -1,11 +1,13 @@
 import { PUBLIC_API_HOST } from '$env/static/public';
 import type { APIPokemonRootPreview } from '$/@types/api.pokecompanion';
 import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
+import { getLoadFetch } from '$lib/api/loadFetch';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ url, fetch, depends, parent }) => {
 	depends('app:pokemonRootParams');
 	depends(DEPENDS_SETTINGS);
+	const runtimeFetch = getLoadFetch(fetch);
 
 	const { settings: serverSettings } = await parent();
 	const settings = resolveSettings(serverSettings);
@@ -26,7 +28,7 @@ export const load: PageLoad = async ({ url, fetch, depends, parent }) => {
 		apiRequest.searchParams.append('page', page);
 	}
 
-	const res = await fetch(apiRequest);
+	const res = await runtimeFetch(apiRequest);
 	const body = (await res.json()) as APIPokemonRootPreview;
 
 	return {

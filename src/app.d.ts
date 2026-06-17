@@ -10,6 +10,7 @@ declare global {
 	}
 
 	interface Window {
+		__pokecompanionFetchPatched?: boolean;
 		/**
 		 * https://umami.is/docs/tracker-functions
 		 */

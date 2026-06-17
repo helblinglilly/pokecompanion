@@ -2,11 +2,13 @@ import type { paths } from '$/@types/api.js';
 import { DEPEND_TAG_USER } from '$/features/tags/depends.js';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { error } from '@sveltejs/kit';
+import { getLoadFetch } from '$lib/api/loadFetch';
 
-export const load = async ({ params, depends }) => {
+export const load = async ({ params, fetch, depends }) => {
 	depends(DEPEND_TAG_USER(params.username));
 	depends('user:all');
-	const res = await fetch(PUBLIC_API_HOST + `/user/${params.username}`, {
+	const runtimeFetch = getLoadFetch(fetch);
+	const res = await runtimeFetch(PUBLIC_API_HOST + `/user/${params.username}`, {
 		credentials: 'include'
 	});
 

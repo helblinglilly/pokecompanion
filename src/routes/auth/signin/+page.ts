@@ -1,10 +1,8 @@
 import type { paths } from '$/@types/api';
-import { PUBLIC_API_HOST } from '$env/static/public';
 
 export const load = async ({ fetch }) => {
 	try {
-		console.log(PUBLIC_API_HOST);
-		const res = await fetch(`${PUBLIC_API_HOST}/auth/methods`);
+		const res = await fetch('/api-proxy/auth/methods');
 
 		const body =
 			(await res.json()) as paths['/auth/methods']['get']['responses']['200']['content']['application/json'];

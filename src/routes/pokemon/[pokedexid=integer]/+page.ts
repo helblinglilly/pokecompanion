@@ -3,10 +3,12 @@ import type { APIPokemon } from '$/@types/api.pokecompanion';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { error, redirect } from '@sveltejs/kit';
 import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
+import { getLoadFetch } from '$lib/api/loadFetch';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ params, fetch, url, parent, depends }) => {
 	depends(DEPENDS_SETTINGS);
+	const runtimeFetch = getLoadFetch(fetch);
 	const { settings: serverSettings } = await parent();
 	const settings = resolveSettings(serverSettings);
 
@@ -23,7 +25,7 @@ export const load: PageLoad = async ({ params, fetch, url, parent, depends }) =>
 			url.searchParams
 		);
 
-		const res = await fetch(abilityUrl, {
+		const res = await runtimeFetch(abilityUrl, {
 			credentials: 'include'
 		});
 
@@ -41,7 +43,7 @@ export const load: PageLoad = async ({ params, fetch, url, parent, depends }) =>
 			url.searchParams
 		);
 
-		const request = await fetch(moveRequestUrl, {
+		const request = await runtimeFetch(moveRequestUrl, {
 			credentials: 'include'
 		});
 
@@ -52,7 +54,7 @@ export const load: PageLoad = async ({ params, fetch, url, parent, depends }) =>
 	}
 
 	try {
-		const request = await fetch(pokemonRequestUrl);
+		const request = await runtimeFetch(pokemonRequestUrl);
 
 		if (request.status !== 200) {
 			throw new Error(`Failed to get Pokemon info - ${request.status}`);

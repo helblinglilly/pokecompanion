@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { paths } from '$/@types/api';
+	import { isLocalAuthDev, rewriteAuthUrlForLocalDev } from '$lib/utils/auth';
 	import { setCookie } from '$lib/utils/cookies';
 
 	interface Props {
@@ -13,7 +14,10 @@
 	class="github signin-button"
 	onclick={async () => {
 		setCookie('provider', JSON.stringify(data));
-		window.location.assign(data.authUrl);
+		const authUrl = isLocalAuthDev(window.location.hostname)
+			? rewriteAuthUrlForLocalDev(data.authUrl, window.location.origin)
+			: data.authUrl;
+		window.location.assign(authUrl);
 	}}
 >
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20">
