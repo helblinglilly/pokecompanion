@@ -6,16 +6,18 @@ import { get } from 'svelte/store';
 import { getAllTagsForUser } from '$/features/tags/api';
 import { DEPEND_ALL_TAGS } from '$/features/tags/depends';
 import { resolveSettings } from '$lib/api/settings';
+import { getLoadFetch } from '$lib/api/loadFetch';
 
 export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 	depends(DEPEND_ALL_TAGS);
+	const runtimeFetch = getLoadFetch(fetch);
 
 	// Resolve settings: on the server this uses cookie values from +layout.server.ts,
 	// on the client this uses the live store values (initialised by cookieHandlers).
 	const settings = resolveSettings(data.settings);
 
 	async function getMeta() {
-		const res = await fetch(`${PUBLIC_API_HOST}/meta`);
+		const res = await runtimeFetch(`${PUBLIC_API_HOST}/meta`);
 
 		return (await res.json()) as APIMeta;
 	}
@@ -36,7 +38,7 @@ export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 			selectedGame.set(metaBody.games[metaBody.games.length - 1]);
 		}
 
-		const tagBody = await getAllTagsForUser(undefined, fetch);
+		const tagBody = await getAllTagsForUser(undefined, runtimeFetch);
 
 		return {
 			...metaBody,
@@ -44,6 +46,17 @@ export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 			settings
 		};
 	} catch (err) {
-		throw new Error(`Failed to get base system configuration`);
+		console.error('Failed to get base system configuration', err);
+		return {
+			games: [],
+			languages: [],
+			lastPokedexEntry: 1,
+			tags: {
+				currentPage: 0,
+				tags: [],
+				totalPages: 0
+			},
+			settings
+		};
 	}
 };

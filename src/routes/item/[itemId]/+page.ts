@@ -1,10 +1,12 @@
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
+import { getLoadFetch } from '$lib/api/loadFetch';
 import type { paths } from '$/@types/api';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ params, fetch, url, parent, depends }) => {
 	depends(DEPENDS_SETTINGS);
+	const runtimeFetch = getLoadFetch(fetch);
 	const { settings: serverSettings } = await parent();
 	const settings = resolveSettings(serverSettings);
 
@@ -13,7 +15,7 @@ export const load: PageLoad = async ({ params, fetch, url, parent, depends }) =>
 		settings,
 		url.searchParams
 	);
-	const res = await fetch(requestUrl);
+	const res = await runtimeFetch(requestUrl);
 
 	const item =
 		(await res.json()) as paths['/item/{id}']['get']['responses']['200']['content']['application/json'];

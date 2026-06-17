@@ -1,11 +1,13 @@
 import type { paths } from '$/@types/api';
 import type { APIPokemon } from '$/@types/api.pokecompanion';
 import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
+import { getLoadFetch } from '$lib/api/loadFetch';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch, params, url, parent, depends }) => {
 	depends(DEPENDS_SETTINGS);
+	const runtimeFetch = getLoadFetch(fetch);
 	const { settings: serverSettings } = await parent();
 	const settings = resolveSettings(serverSettings);
 
@@ -15,7 +17,7 @@ export const load: PageLoad = async ({ fetch, params, url, parent, depends }) =>
 		url.searchParams
 	);
 
-	const pokemonDexRes = await fetch(pokemonDexRequestUrl);
+	const pokemonDexRes = await runtimeFetch(pokemonDexRequestUrl);
 
 	if (pokemonDexRes.status !== 200) {
 		throw new Error(`Tried to get a Pokedex Pokemon but got HTTP ${pokemonDexRes.status}`);
@@ -24,7 +26,7 @@ export const load: PageLoad = async ({ fetch, params, url, parent, depends }) =>
 	const pokemonDex =
 		(await pokemonDexRes.json()) as paths['/pokedex/{pokedexId}/pokemon/{pokemonInPokedexId}']['get']['responses']['200']['content']['application/json'];
 
-	const pokemonRes = await fetch(
+	const pokemonRes = await runtimeFetch(
 		addSettingsToUrl(
 			new URL(`${PUBLIC_API_HOST}/pokemon/${pokemonDex.navigation.current.speciesId}`),
 			settings,
@@ -45,7 +47,7 @@ export const load: PageLoad = async ({ fetch, params, url, parent, depends }) =>
 			url.searchParams
 		);
 
-		const res = await fetch(abilityUrl);
+		const res = await runtimeFetch(abilityUrl);
 
 		if (res.status !== 200) {
 			throw new Error('Failed to get abilities');
@@ -61,7 +63,7 @@ export const load: PageLoad = async ({ fetch, params, url, parent, depends }) =>
 			url.searchParams
 		);
 
-		const request = await fetch(moveRequestUrl);
+		const request = await runtimeFetch(moveRequestUrl);
 
 		if (request.status !== 200) {
 			throw new Error('Failed to get moves');

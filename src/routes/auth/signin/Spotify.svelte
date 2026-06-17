@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { paths } from '$/@types/api';
 	import Image from '$/ui/atoms/Image.svelte';
+	import { isLocalAuthDev, rewriteAuthUrlForLocalDev } from '$lib/utils/auth';
 	import { setCookie } from '$lib/utils/cookies';
 
 	interface Props {
@@ -14,7 +15,10 @@
 	class="spotify-btn signin-button"
 	onclick={async () => {
 		setCookie('provider', JSON.stringify(data));
-		window.location.assign(data.authUrl);
+		const authUrl = isLocalAuthDev(window.location.hostname)
+			? rewriteAuthUrlForLocalDev(data.authUrl, window.location.origin)
+			: data.authUrl;
+		window.location.assign(authUrl);
 	}}
 >
 	<Image

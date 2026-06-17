@@ -2,12 +2,15 @@ import type { paths } from '$/@types/api';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { Logger } from '$/debt/log';
 
-export const getUserByUsername = async (username: string) => {
+export const getUserByUsername = async (
+	username: string,
+	propFetch: typeof globalThis.fetch = globalThis.fetch
+) => {
 	if (!username) {
 		return;
 	}
 	try {
-		const res = await fetch(`${PUBLIC_API_HOST}/user/${username}`, {
+		const res = await propFetch(`${PUBLIC_API_HOST}/user/${username}`, {
 			credentials: 'include'
 		});
 		if (res.status !== 200) {

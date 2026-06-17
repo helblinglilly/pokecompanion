@@ -1,8 +1,10 @@
 import type { paths } from '$/@types/api.js';
 import { addSettingsToUrl, resolveSettings } from '$/lib/api/settings.js';
 import { PUBLIC_API_HOST } from '$env/static/public';
+import { getLoadFetch } from '$lib/api/loadFetch';
 
 export async function load({ fetch, params, url, parent }) {
+  const runtimeFetch = getLoadFetch(fetch);
   const { settings: serverSettings } = await parent();
   const settings = resolveSettings(serverSettings);
 
@@ -27,7 +29,7 @@ export async function load({ fetch, params, url, parent }) {
     pokedexRequestUrl.searchParams.set('jumpTo', jumpTo);
   }
 
-  const res = await fetch(pokedexRequestUrl);
+  const res = await runtimeFetch(pokedexRequestUrl);
   const pokedex = (await res.json()) as paths['/pokedex/{pokedexId}']['get']['responses']['200']['content']['application/json']
 
   return {

@@ -1,7 +1,7 @@
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { isAllowedAuthCallbackHost } from '$lib/utils/auth';
 import { redirect } from '@sveltejs/kit';
 
-export async function load({ cookies }) {
+export async function load({ cookies, url }) {
 	const cookieValue = cookies.get('authCallback');
 	if (!cookieValue || cookieValue.length === 0) {
 		redirect(307, '/');
@@ -15,8 +15,7 @@ export async function load({ cookies }) {
 	}
 
 	if (['http:', 'https:'].includes(authCallbackUrl.protocol)) {
-		const apiHostname = new URL(PUBLIC_API_HOST).hostname;
-		if (authCallbackUrl.hostname !== apiHostname) {
+		if (!isAllowedAuthCallbackHost(authCallbackUrl.hostname, url.hostname)) {
 			redirect(307, '/');
 		}
 	}

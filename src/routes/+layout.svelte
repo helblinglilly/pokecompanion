@@ -11,6 +11,7 @@
 	import SearchBar from '$/features/search/SearchBar.svelte';
 	import ScrollToTop from './ScrollToTop.svelte';
 	import type { LayoutData } from './$types';
+	import { rewriteApiUrlForBrowser } from '$lib/api/clientHost';
 
 	interface Props {
 		data: LayoutData;
@@ -73,8 +74,31 @@
 		});
 	};
 
+	const installPreviewApiProxy = () => {
+		if (typeof window === 'undefined' || window.__pokecompanionFetchPatched) {
+			return;
+		}
+
+		const originalFetch = window.fetch.bind(window);
+		window.fetch = ((input: RequestInfo | URL, init?: RequestInit) => {
+			if (typeof input === 'string' || input instanceof URL) {
+				return originalFetch(rewriteApiUrlForBrowser(input), init);
+			}
+
+			return originalFetch(
+				new Request(rewriteApiUrlForBrowser(input.url), input),
+				init
+			);
+		}) as typeof window.fetch;
+
+		window.__pokecompanionFetchPatched = true;
+	};
+
 	$effect(() => {
 		initTheme();
+	});
+	$effect(() => {
+		installPreviewApiProxy();
 	});
 	$effect(() => {
 		// Initialise all cookies and stores

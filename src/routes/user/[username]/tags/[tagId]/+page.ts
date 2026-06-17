@@ -5,13 +5,15 @@ import { getUserByUsername } from '$/routes/user/[username]/tags/[tagId]/publicU
 import { error } from '@sveltejs/kit';
 import type { APITag } from '$/features/tags/types';
 import { DEPEND_TAG_ID } from '$/features/tags/depends.js';
+import { getLoadFetch } from '$lib/api/loadFetch';
 
 export const load = async ({ params, fetch, depends }) => {
 	depends(DEPEND_TAG_ID(params.tagId));
+	const runtimeFetch = getLoadFetch(fetch);
 
 	const [user, tagRes] = await Promise.all([
-		getUserByUsername(params.username),
-		await fetch(`${PUBLIC_API_HOST}/tags/${params.tagId}`, {
+		getUserByUsername(params.username, runtimeFetch),
+		await runtimeFetch(`${PUBLIC_API_HOST}/tags/${params.tagId}`, {
 			credentials: 'include'
 		})
 	]).catch(async (err) => {
@@ -28,7 +30,7 @@ export const load = async ({ params, fetch, depends }) => {
 	}
 
 	async function getTagPokemon() {
-		const tagPokemonRes = await fetch(`${PUBLIC_API_HOST}/tags/${params.tagId}/pokemon`, {
+		const tagPokemonRes = await runtimeFetch(`${PUBLIC_API_HOST}/tags/${params.tagId}/pokemon`, {
 			credentials: 'include'
 		});
 		const tagPokemon: paths['/tags/{tagId}/pokemon']['get']['responses']['200']['content']['application/json'] =
@@ -38,7 +40,7 @@ export const load = async ({ params, fetch, depends }) => {
 	}
 	async function getTagMoves() {
 		try {
-			const tagMoveRes = await fetch(`${PUBLIC_API_HOST}/tags/${params.tagId}/move`, {
+			const tagMoveRes = await runtimeFetch(`${PUBLIC_API_HOST}/tags/${params.tagId}/move`, {
 				credentials: 'include'
 			});
 			const tagMove: paths['/tags/{tagId}/move']['get']['responses']['200']['content']['application/json'] =
