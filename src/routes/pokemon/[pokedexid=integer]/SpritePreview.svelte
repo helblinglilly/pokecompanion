@@ -102,7 +102,7 @@
 		<Image
 			src={modalContent.url}
 			isSprite={isSprite($selectedGame?.pokeapi)}
-			style="margin-left: auto; margin-right: auto; height: inherit;"
+			style="display: block; margin: auto; max-width: min(80vw, 32rem); max-height: 60vh; width: auto; height: auto;"
 			alt={modalContent.alt}
 			id={`modalImage${modalContent.isBack ? '-back' : ''}`}
 		/>
@@ -118,10 +118,10 @@
 	}
 
 	#modalImageWrapper {
-		height: 300px;
-		display: grid;
+		min-height: 300px;
+		display: flex;
 		align-items: center;
-		justify-items: center;
+		justify-content: center;
 		margin-top: 1rem;
 	}
 </style>

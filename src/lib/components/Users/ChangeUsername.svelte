@@ -134,3 +134,9 @@
 		>
 	</div>
 </Modal>
+
+<style>
+	input[type='text'] {
+		background-color: white;
+	}
+</style>

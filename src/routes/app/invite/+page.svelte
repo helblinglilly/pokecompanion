@@ -41,3 +41,9 @@
 
 	<p>Please note that invitations are currently restricted to the UK, Germany and Switzerland</p>
 </div>
+
+<style>
+	textarea {
+		background-color: white;
+	}
+</style>

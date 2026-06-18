@@ -105,3 +105,12 @@
 		</div>
 	</div>
 </Modal>
+
+<style>
+	input[type='text'] {
+		background-color: white;
+	}
+	textarea {
+		background-color: white;
+	}
+</style>

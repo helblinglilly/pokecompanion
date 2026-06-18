@@ -175,7 +175,7 @@
 					>
 				</div>
 			</div>
-			<a href="/auth/reset-password" class="text-textColour pt-2">I forgot my password</a>
+			<a href="/auth/reset-password" class="pt-2">I forgot my password</a>
 		</div></Card
 	>
 </form>
@@ -212,5 +212,9 @@
 		display: grid;
 		justify-content: center;
 		width: 100%;
+	}
+
+	input {
+		background-color: white;
 	}
 </style>

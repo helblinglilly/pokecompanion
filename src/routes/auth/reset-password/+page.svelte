@@ -49,10 +49,9 @@
 		<div class="card">
 			<h2 class="h2">Reset password</h2>
 
-			<div class="inline-flex">
+			<div class="grid gap-4">
 				<input type="text" placeholder="Email" bind:value={email} />
 				<Button
-					style="border-radius-bottom-left: 0;"
 					on:click={() => {
 						onResetClick();
 					}}>Reset</Button
@@ -63,3 +62,9 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	input {
+		background-color: white;
+	}
+</style>

@@ -18,7 +18,6 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
 	bind:this={dialog}
 	onclose={() => (showModal = false)}
@@ -39,6 +38,8 @@
 <style>
 	dialog {
 		border-radius: 0.5rem;
+		margin: auto;
+		padding: 0;
 	}
 	div.contentWrapper {
 		padding: 1rem;
@@ -78,6 +79,7 @@
 		dialog {
 			min-height: 50%;
 			width: 100%;
+			max-width: calc(100vw - 2rem);
 		}
 	}
 
@@ -86,6 +88,8 @@
 			border-radius: 0.5rem;
 			min-width: 16rem;
 			min-height: 16rem;
+			max-width: min(90vw, 48rem);
+			max-height: 90vh;
 		}
 	}
 
@@ -115,5 +119,9 @@
 
 	dialog {
 		overflow: scroll;
+	}
+
+	dialog[open] {
+		inset: 0;
 	}
 </style>

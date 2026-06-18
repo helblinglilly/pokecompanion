@@ -48,11 +48,6 @@
 							<h3 class="h3">Email verification</h3>
 							<EmailVerification />
 						</div>
-
-						<div class="grid gap-4">
-							<h2 class="h2">Danger Zone</h2>
-							<DeleteUser />
-						</div>
 					{/if}
 				</div>
 			</Card>
@@ -110,7 +105,6 @@
 
 					<div class="grid gap-4">
 						<h2 class="h2">Danger Zone</h2>
-
 						<DeleteUser />
 					</div>
 				</Card>

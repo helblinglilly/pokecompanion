@@ -135,5 +135,6 @@
 		padding: 10px;
 		padding-left: 1rem;
 		padding-right: 1rem;
+		background-color: white;
 	}
 </style>

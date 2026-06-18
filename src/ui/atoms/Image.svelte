@@ -15,8 +15,8 @@
 	let {
 		src = $bindable(),
 		alt,
-		height = 'inherit',
-		width = 'inherit',
+		height = undefined,
+		width = undefined,
 		style = undefined,
 		isSprite = false,
 		classNames = undefined,
@@ -39,7 +39,7 @@
 	{width}
 	{style}
 	{id}
-	class={`${classNames} text-textColour ${isSprite ? 'sprite' : ''}`}
+	class={`${classNames} ${isSprite ? 'sprite' : ''}`}
 	{loading}
 	onerror={(e) => {
 		if (e.target) {

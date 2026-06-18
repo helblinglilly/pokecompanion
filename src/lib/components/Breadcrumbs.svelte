@@ -9,7 +9,7 @@
 <div>
 	{#each breadcrumbs as { display, url }, index (url)}
 		{#if url}
-			<a href={url} class="underline text-textColour">{display}</a>
+			<a href={url} class="underline">{display}</a>
 		{:else}
 			<p>{display}</p>
 		{/if}

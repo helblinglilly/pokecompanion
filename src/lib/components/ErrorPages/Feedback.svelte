@@ -42,4 +42,7 @@
 		width: 100%;
 		margin-top: 1rem;
 	}
+	textarea {
+		background-color: white;
+	}
 </style>

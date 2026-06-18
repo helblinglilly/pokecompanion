@@ -32,7 +32,7 @@
 	};
 </script>
 
-<Button classes="error" onclick={() => (showModal = true)}>Delete my account</Button>
+<Button classes="error max-w-1/5" onclick={() => (showModal = true)}>Delete my account</Button>
 
 <Modal bind:showModal>
 	{#snippet header()}

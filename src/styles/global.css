@@ -1,13 +1,235 @@
-@import url('./fonts.css');
-@import url('./colours.css');
-@import url('./tailwind.css');
-@import url('./layout.css');
-@import url('./helpers.css');
-@import url('./elements.css');
-@import url('./states.css');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import 'tailwindcss';
+
+* {
+	font-family: 'Roboto', sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-variation-settings: 'slnt' 0;
+}
+
+html {
+	font-family: 'Roboto', sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-variation-settings: 'slnt' 0;
+}
+
+.h1,
+.h1 * {
+	font-weight: 600;
+	font-size: xx-large;
+	padding-bottom: 0.25rem;
+}
+
+.h2,
+.h2 * {
+	font-weight: 500;
+	font-size: x-large;
+	padding-bottom: 0.25rem;
+}
+
+.h3,
+.h3 * {
+	font-weight: 500;
+	font-size: large;
+	padding-bottom: 0.1rem;
+}
+
+.h4,
+.h4 * {
+	font-weight: 500;
+	padding-bottom: 0.1rem;
+}
+
+:root {
+	--red-accent-light: #e03a3a;
+	--red-accent-dark: #ce3939;
+	--red-accent-muted-light: #c23232;
+	--red-accent-muted-dark: #9b3434;
+	--red-accent-muted-darker-light: #8a2020;
+	--red-accent-darker-dark: #652525;
+	--grey-primary-light: #f2f2f2;
+	--grey-primary-dark: #888888;
+	--grey-muted-light: #cecaca;
+	--grey-muted-dark: #aaa9a9;
+	--text-light: #2a2424;
+	--text-dark: #e7e2e2;
+	--text-inverse-light: #ffffff;
+	--text-inverse-dark: #000000;
+	--site-background-light: #ede8e8;
+	--site-background-dark: rgb(43, 43, 43);
+	--card-background-light: #f2f2f2;
+	--card-background-dark: rgb(26, 26, 26);
+	--card-hover-light: #dbd5d5;
+	--card-hover-dark: #534f4f;
+	--select-background-light: #e8e2e2;
+	--select-background-dark: rgb(49, 49, 49);
+	--navbar-background: #3d3938;
+	--error-light: rgb(210, 45, 45);
+	--error-dark: rgb(198, 26, 26);
+	--success-light: rgb(31, 140, 62);
+	--success-dark: rgb(34, 131, 62);
+	--info-light: rgb(30, 90, 175);
+	--info-dark: rgb(25, 99, 188);
+}
+
+:root {
+	--red-accent: var(--red-accent-light);
+	--red-accent-muted: var(--red-accent-muted-light);
+	--red-accent-darker: var(--red-accent-muted-darker-light);
+	--grey-primary: var(--grey-primary-light);
+	--grey-muted: var(--grey-muted-light);
+	--text: var(--text-light);
+	--text-inverse: var(--text-inverse-light);
+	--site-background: var(--site-background-light);
+	--card-background: var(--card-background-light);
+	--card-hover: var(--card-hover-light);
+	--select-background: var(--select-background-light);
+	--error: var(--error-light);
+	--success: var(--success-light);
+	--info: var(--info-light);
+}
+
+.dark-theme {
+	--red-accent: var(--red-accent-dark);
+	--red-accent-muted: var(--red-accent-muted-dark);
+	--red-accent-darker: var(--red-accent-darker-dark);
+	--grey-primary: var(--grey-primary-dark);
+	--grey-muted: var(--grey-muted-dark);
+	--text: var(--text-dark);
+	--text-inverse: var(--text-inverse-dark);
+	--site-background: var(--site-background-dark);
+	--card-background: var(--card-background-dark);
+	--card-hover: var(--card-hover-dark);
+	--select-background: var(--select-background-dark);
+	--error: var(--error-dark);
+	--success: var(--success-dark);
+	--info: var(--info-dark);
+}
+
+.columns {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.column {
+	flex: 1;
+	box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+	div.columns:not(.mobile) {
+		flex-direction: column;
+	}
+}
+
+#pageWrapper {
+	overflow-wrap: anywhere;
+	margin: 3%;
+	min-height: 40vh;
+}
+
+/* Mobile Only */
+@media screen and (max-width: 768px) {
+	#pageWrapper {
+		margin: 5%;
+	}
+
+	.desktop-only {
+		display: none;
+	}
+}
+
+/* Desktop Only */
+@media screen and (min-width: 768px) {
+	.mobile-only {
+		display: none;
+	}
+}
+
+input[type='email'],
+input[type='password'],
+input[type='text'],
+textarea {
+	height: 3vw;
+	min-height: 34px;
+	border-radius: 5px;
+	padding: 5px;
+	color: #2b2a2a;
+}
+
+input[type='email'].tight,
+input[type='password'].tight,
+input[type='text'].tight,
+textarea {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+input[type='checkbox'] {
+	appearance: none;
+	margin-right: 10px;
+	background-color: var(--select-background);
+	outline: none;
+	width: 18px;
+	height: 18px;
+	border-radius: 3px;
+	padding: 12px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
+input[type='checkbox'].nested {
+	background-color: var(--grey-muted);
+}
+
+:global(.dark-theme) input[type='checkbox'].nested {
+	background-color: var(--grey-primary-dark);
+}
+
+input[type='checkbox']:checked:before {
+	content: '✔';
+	color: var(--text);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+input[type='checkbox']:hover,
+label:hover {
+	cursor: pointer;
+}
+
+button.error,
+button.button.default.error {
+	background-color: var(--error);
+	font-weight: 500;
+	color: var(--text-inverse);
+}
+
+button.error:hover,
+button.button.default.error:hover {
+	background-color: var(--error);
+	color: var(--text-inverse);
+	opacity: 0.9;
+}
 
 body {
 	background-color: var(--site-background);
+}
+
+hr {
+	border-color: var(--text);
+	height: 0.2rem;
+	margin-top: 0.2rem;
+	margin-bottom: 0.2rem;
 }
 
 p,
@@ -27,6 +249,10 @@ a {
 	color: var(--text);
 }
 
-a {
+a:not(.no-underline):not(.no-style) {
 	text-decoration: underline;
+}
+
+a.no-style {
+	text-decoration: none;
 }
