@@ -50,7 +50,7 @@
 		}
 
 		try {
-			const response = await fetch(`${PUBLIC_API_HOST}/user/${$currentUser.id}`, {
+			const response = await fetch(`${PUBLIC_API_HOST}/user`, {
 				method: 'PATCH',
 				credentials: 'include',
 				headers: {
