@@ -193,7 +193,7 @@
 		{/if}
 
 		{#each $moveResults.data as move}
-			<a href={move.slug}>
+			<a href={move.slug} class="no-underline">
 				<MoveListEntry {move} />
 			</a>
 		{/each}
@@ -217,7 +217,7 @@
 		{/if}
 
 		{#each $itemResults.data as item}
-			<a href={item.slug}>
+			<a href={item.slug} class="no-underline">
 				<Card
 					id={`item-${item.id}`}
 					style={`position: relative;`}
@@ -251,7 +251,7 @@
 		{/if}
 
 		{#each $abilityResults.data as ability}
-			<a href={ability.slug}>
+			<a href={ability.slug} class="no-underline">
 				<Card
 					id={`item-${ability.id}`}
 					style={`position: relative;`}
