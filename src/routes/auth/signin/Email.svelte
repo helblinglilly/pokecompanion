@@ -14,6 +14,7 @@
 	let passwordError = $state('');
 	let passwordConfirmError = '';
 	let usernameError = $state('');
+	let signupError = $state('');
 
 	let showSignupFields = $state(false);
 
@@ -33,6 +34,8 @@
 				return;
 			}
 
+			signupError = '';
+
 			const res = await fetch(`${PUBLIC_API_HOST}/auth/signup`, {
 				credentials: 'include',
 				method: 'POST',
@@ -48,11 +51,18 @@
 			});
 
 			if (res.status !== 200) {
+				try {
+					const body = await res.json();
+					signupError = body?.message ?? 'Something went wrong, please try again';
+				} catch {
+					signupError = 'Something went wrong, please try again';
+				}
 				return;
 			}
 
 			addNotification({ message: 'Account created. You can now sign in', level: 'success' });
 
+			signupError = '';
 			showSignupFields = false;
 			return;
 		}
@@ -158,6 +168,10 @@
 				</div>
 			{/if}
 
+			{#if signupError}
+				<p class="text-error">{signupError}</p>
+			{/if}
+
 			<div class="inline-flex justify-between gap-4">
 				<div class="column" style="width: 100%; padding-left: 0;">
 					<Button classes="w-full" type="submit">Log in</Button>
@@ -212,6 +226,11 @@
 		display: grid;
 		justify-content: center;
 		width: 100%;
+	}
+
+	.text-error {
+		color: var(--error);
+		margin-top: 4px;
 	}
 
 	input {
