@@ -40,6 +40,14 @@
 	</form>
 
 	<p>Please note that invitations are currently restricted to the UK, Germany and Switzerland</p>
+
+	<section>
+		<p>
+			Already registered and looking for the listing? <a
+				href="https://play.google.com/apps/internaltest/4700997723645376854">Click here</a
+			>
+		</p>
+	</section>
 </div>
 
 <style>
