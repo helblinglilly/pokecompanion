@@ -38,11 +38,19 @@ export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 			selectedGame.set(metaBody.games[metaBody.games.length - 1]);
 		}
 
-		const tagBody = await getAllTagsForUser(undefined, runtimeFetch);
+		const tagBody = data.currentUser
+					? await getAllTagsForUser(undefined, runtimeFetch)
+					: {
+							currentPage: 0,
+							tags: [],
+							totalPages: 0
+						};
+
 
 		return {
 			...metaBody,
-			tags: tagBody,
+      tags: tagBody,
+			currentUser: data.currentUser,
 			settings
 		};
 	} catch (err) {
@@ -50,7 +58,8 @@ export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 		return {
 			games: [],
 			languages: [],
-			lastPokedexEntry: 1,
+      lastPokedexEntry: 1,
+			currentUser: data.currentUser,
 			tags: {
 				currentPage: 0,
 				tags: [],
