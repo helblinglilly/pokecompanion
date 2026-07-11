@@ -1,5 +1,5 @@
 <script lang="ts">
-	export const prerender = true;
+
 </script>
 
 <h1 class="h1">Privacy</h1>

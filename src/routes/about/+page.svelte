@@ -1,5 +1,4 @@
 <script>
-	export const prerender = true;
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 </script>
 

@@ -1,6 +1,5 @@
 <script>
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
-	export const prerender = true;
 </script>
 
 <SocialPreview
@@ -107,7 +106,7 @@
 		<p>Nobody.</p>
 
 		<p>
-			We use <a href="newrelic.com/privacy">NewRelic</a> and <a href="sentry.com/privacy">Sentry</a>
+			We use <a href="https://newrelic.com/privacy">NewRelic</a> and <a href="https://sentry.com/privacy">Sentry</a>
 			to collect <a href="#browserData">Browser Data</a>. Please refer to their respective privacy
 			policies for more information.
 		</p>
