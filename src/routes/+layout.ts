@@ -7,6 +7,8 @@ import { getAllTagsForUser } from '$/features/tags/api';
 import { DEPEND_ALL_TAGS } from '$/features/tags/depends';
 import { resolveSettings } from '$lib/api/settings';
 import { getLoadFetch } from '$lib/api/loadFetch';
+import { browser } from '$app/environment';
+import { getCookie } from '$lib/utils/cookies';
 
 export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 	depends(DEPEND_ALL_TAGS);
@@ -38,7 +40,8 @@ export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 			selectedGame.set(metaBody.games[metaBody.games.length - 1]);
 		}
 
-		const tagBody = data.currentUser
+		const isAuthenticated = browser ? !!getCookie('pb_auth') : !!data.currentUser;
+		const tagBody = isAuthenticated
 					? await getAllTagsForUser(undefined, runtimeFetch)
 					: {
 							currentPage: 0,
