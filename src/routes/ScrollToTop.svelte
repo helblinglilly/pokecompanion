@@ -31,9 +31,9 @@
 		bottom: 20px;
 		right: 20px;
 		color: var(--text);
-		padding: 10px 15px;
+		padding: var(--space-2) 15px;
 		border: none;
-		border-radius: 5px;
+		border-radius: var(--radius-control);
 		cursor: pointer;
 		z-index: 1000;
 	}

@@ -19,10 +19,18 @@
 	classes="inline-flex align-middle gap-2 w-56 md:pr-8"
 >
 	{#if page.url.searchParams.get('view') === 'card'}
-		<Icon name="list" style="margin-top: auto; margin-bottom: auto;" />
+		<span class="view-icon"><Icon name="list" /></span>
 		<p>View as List</p>
 	{:else}
-		<Icon name="card" style="margin-top: auto; margin-bottom: auto;" />
+		<span class="view-icon"><Icon name="card" /></span>
 		<p>View as Card</p>
 	{/if}
 </Button>
+
+<style>
+	.view-icon {
+		display: inline-flex;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+</style>

@@ -29,7 +29,7 @@
 	{@const baseUrl = `/user/${$currentUser?.username}/tags/${tag.id}`}
 	{@const anchor = move ? `move-${move.id}` : pokemon ? pokemon.id : ''}
 	<a class="tag inline-flex gap-1 p-2 w-max m-1" href={`${baseUrl}#${anchor}`}>
-		<Icon style="margin-top: auto; margin-bottom: auto;" name="tag" />
+		<span class="tag-icon"><Icon name="tag" /></span>
 		<p>{tag.name}</p>
 	</a>
 {/each}
@@ -40,5 +40,11 @@
 		background-color: var(--card-hover);
 		border-radius: 3rem;
 		text-decoration: none;
+	}
+
+	.tag-icon {
+		display: inline-flex;
+		margin-top: auto;
+		margin-bottom: auto;
 	}
 </style>

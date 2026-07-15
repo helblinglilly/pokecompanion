@@ -17,13 +17,13 @@
 
 <SocialPreview previewImage={`https://socialpreviews.pokecompanion.helbling.uk/home.png`} />
 
-<div style="display: grid; gap: 2rem;">
+<div class="home-page">
 	<section>
 		<Greeting />
 	</section>
 
 	<section>
-		<div class="columns" style="width: 100%; gap: 2rem;">
+		<div class="columns home-columns">
 			<div class="column p-0">
 				<h2 class="h2">What you playing?</h2>
 				<Card classes="h-full p-8 max-h-60 md:max-h-52">
@@ -97,6 +97,16 @@
 </div>
 
 <style>
+	.home-page {
+		display: grid;
+		gap: var(--space-4);
+	}
+
+	.home-columns {
+		width: 100%;
+		gap: var(--space-4);
+	}
+
 	h2 {
 		padding-bottom: 0.5rem;
 	}

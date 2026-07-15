@@ -8,17 +8,17 @@
 {#if $currentUser}
 	<div class="columns mx-4 mb-4">
 		<div class="column">
-			<div style="padding-top: 1rem; padding-bottom: 1rem;">
+			<div class="account-option">
 				<h3 class="h3">Reset password</h3>
 				<ResetPassword />
 			</div>
 
-			<div style="padding-top: 1rem; padding-bottom: 1rem;">
+			<div class="account-option">
 				<h3 class="h3">Email verification</h3>
 				<EmailVerification />
 			</div>
 
-			<div style="padding-top: 1.5rem;">
+			<div class="danger-zone">
 				<h2 class="h2">Danger Zone</h2>
 				<div class="grid max-w-1/5">
 					<DeleteUser />
@@ -27,3 +27,14 @@
 		</div>
 	</div>
 {/if}
+
+<style>
+	.account-option {
+		padding-top: var(--space-3);
+		padding-bottom: var(--space-3);
+	}
+
+	.danger-zone {
+		padding-top: 1.5rem;
+	}
+</style>

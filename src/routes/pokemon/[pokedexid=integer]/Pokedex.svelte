@@ -40,7 +40,7 @@
 		<div class="grid gap-4">
 			<h2 class="h2">Pokédex Entries</h2>
 
-			<hr style="border-color: var(--text); margin-left: -1rem; margin-right: -1rem;" />
+			<hr class="pokedex-divider" />
 
 			<div class="inline-flex justify-between w-full pb-4">
 				<p class="mt-auto mb-auto"><strong>Height:</strong> {height / 10}m</p>
@@ -77,5 +77,11 @@
 
 	button:hover {
 		background-color: var(--accent);
+	}
+
+	.pokedex-divider {
+		margin-right: -1rem;
+		margin-left: -1rem;
+		border-color: var(--color-text);
 	}
 </style>

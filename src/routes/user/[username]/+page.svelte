@@ -74,14 +74,11 @@
 									<Card isNested classes="inline-flex w-full justify-between">
 										<div class="inline-flex">
 											{#if tag.isPrivate}
-												<Icon
-													style="margin-top: auto; margin-bottom: auto; padding-left: 0.25rem; padding-right: 0.25rem;"
-													name="lock"
-												/>
+												<span class="tag-lock"><Icon name="lock" /></span>
 											{/if}
 											<h4 class="h4">{tag.name}</h4>
 										</div>
-										<p style="padding-left: 1rem; min-width: fit-content;">
+										<p class="tag-entry-count">
 											<i>({tag.size} entries)</i>
 										</p>
 									</Card>
@@ -112,3 +109,18 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.tag-lock {
+		display: inline-flex;
+		margin-top: auto;
+		margin-bottom: auto;
+		padding-right: var(--space-1);
+		padding-left: var(--space-1);
+	}
+
+	.tag-entry-count {
+		min-width: fit-content;
+		padding-left: var(--space-3);
+	}
+</style>

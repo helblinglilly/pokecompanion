@@ -16,7 +16,7 @@
 	<div class="inline-flex gap-2 w-full justify-between">
 		<div class="inline-flex justify-center gap-2">
 			{#if entry.isPrivate}
-				<Icon name="lock" style="margin-top: auto; margin-bottom: auto;" />
+				<span class="header-icon"><Icon name="lock" /></span>
 			{/if}
 			<h1 class="h1 pb-0">{entry.name}</h1>
 		</div>
@@ -39,3 +39,11 @@
 		{entry.description.length > 1 ? entry.description : 'No description'}
 	</p>
 </div>
+
+<style>
+	.header-icon {
+		display: inline-flex;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+</style>

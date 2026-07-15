@@ -11,10 +11,10 @@
 			alt="Pokecompanion Icon"
 			width="90px"
 			height="90px"
-			style="margin-top: auto; margin-bottom: auto;"
+			class="greeting-icon"
 		/>
 		<div>
-			<h1 class="h2" style="margin-top: auto; margin-bottom: auto; padding-bottom: 0.25rem;">
+			<h1 class="h2 greeting-title">
 				Welcome, {trainerName}!
 			</h1>
 
@@ -33,3 +33,15 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.greeting-icon,
+	.greeting-title {
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.greeting-title {
+		padding-bottom: var(--space-1);
+	}
+</style>

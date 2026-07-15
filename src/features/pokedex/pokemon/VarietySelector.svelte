@@ -23,7 +23,7 @@
 				label: variety.displayName,
 				value: variety.name
 			}))}
-			style="width: 100%; padding-left: 1rem; padding-right: 1rem; margin: 0; text-align: center;"
+			classes="variety-select"
 			onchange={(detail) => {
 				const currentUrl = new URL(page.url);
 
@@ -39,3 +39,13 @@
 		/>
 	</div>
 {/if}
+
+<style>
+	:global(.variety-select) {
+		width: 100%;
+		margin: 0;
+		padding-right: var(--space-3);
+		padding-left: var(--space-3);
+		text-align: center;
+	}
+</style>
