@@ -36,18 +36,14 @@
 	{#await Promise.all(abilities.map((ability) => ability.data))}
 		{#each abilities as pendingAbility}
 			<Button
-				classes="w-full text-center min-w-max"
-				style="height: 3rem;"
+				classes="ability-button w-full text-center min-w-max"
 				variant="primary"
 				isDisabled
 				isNested
 				data-umami-event="PokemonAbility"
 			>
 				{#if pendingAbility.is_hidden}
-					<Icon
-						name="hidden"
-						style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
-					/>
+					<span class="ability-icon"><Icon name="hidden" /></span>
 				{/if}
 
 				{capitaliseEachWord(pendingAbility.ability.name).replaceAll('-', ' ')}
@@ -59,10 +55,7 @@
 				{#snippet title()}
 					<div class="inline-flex">
 						{#if findStaticAbility(fullAbility).is_hidden}
-							<Icon
-								name="hidden"
-								style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
-							/>
+							<span class="ability-icon"><Icon name="hidden" /></span>
 						{/if}
 
 						{fullAbility.name}
@@ -74,10 +67,7 @@
 							<p>{effect.shortEffect}</p>
 						{/each}
 						<a href={fullAbility.slug} class="inline-flex"
-							>Learn more <Icon
-								name="link"
-								style="margin-top: auto; margin-bottom: auto; margin-left: 0.5rem;"
-							/></a
+							>Learn more <span class="ability-link-icon"><Icon name="link" /></span></a
 						>
 					</div>
 				{/snippet}
@@ -93,10 +83,7 @@
 				data-umami-event="PokemonAbility"
 			>
 				{#if ability.is_hidden}
-					<Icon
-						name="hidden"
-						style="margin-top: auto; margin-bottom: auto; margin-right: 0.5rem;"
-					/>
+					<span class="ability-icon"><Icon name="hidden" /></span>
 				{/if}
 
 				{capitaliseEachWord(ability.ability.name).replaceAll('-', ' ')}
@@ -105,3 +92,24 @@
 		{/each}
 	{/await}
 </div>
+
+<style>
+	:global(.ability-button) {
+		height: 3rem;
+	}
+
+	.ability-icon,
+	.ability-link-icon {
+		display: inline-flex;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.ability-icon {
+		margin-right: var(--space-2);
+	}
+
+	.ability-link-icon {
+		margin-left: var(--space-2);
+	}
+</style>

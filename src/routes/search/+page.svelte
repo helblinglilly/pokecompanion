@@ -220,8 +220,7 @@
 			<a href={item.slug} class="no-underline">
 				<Card
 					id={`item-${item.id}`}
-					style={`position: relative;`}
-					classes={`m-0 w-full flex p-8 h-28`}
+					classes={`search-result-card m-0 w-full flex p-8 h-28`}
 					isClickable
 				>
 					{#if item.icon}
@@ -254,8 +253,7 @@
 			<a href={ability.slug} class="no-underline">
 				<Card
 					id={`item-${ability.id}`}
-					style={`position: relative;`}
-					classes={`m-0 w-full flex p-8 h-28`}
+					classes={`search-result-card m-0 w-full flex p-8 h-28`}
 					isClickable
 				>
 					<p class="content-center">{ability.name}</p>
@@ -279,5 +277,9 @@
 <style>
 	a {
 		text-decoration: none;
+	}
+
+	:global(.search-result-card) {
+		position: relative;
 	}
 </style>

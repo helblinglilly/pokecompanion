@@ -61,7 +61,7 @@
 				alt={primarySprite.alt}
 				isSprite={isSprite($selectedGame?.pokeapi)}
 				id="primarySprite"
-				style="max-width: 128px;"
+				classNames="primary-sprite"
 			/>
 		</div>
 	{/if}
@@ -84,7 +84,7 @@
 					alt={secondarySprite.alt}
 					isSprite={isSprite($selectedGame?.pokeapi)}
 					id="secondarySprite"
-					style="width: 128px; max-height: 178px;"
+					classNames="secondary-sprite"
 				/>
 			{/if}
 		</div>
@@ -102,7 +102,7 @@
 		<Image
 			src={modalContent.url}
 			isSprite={isSprite($selectedGame?.pokeapi)}
-			style="display: block; margin: auto; max-width: min(80vw, 32rem); max-height: 60vh; width: auto; height: auto;"
+			classNames="sprite-modal-image"
 			alt={modalContent.alt}
 			id={`modalImage${modalContent.isBack ? '-back' : ''}`}
 		/>
@@ -110,6 +110,24 @@
 </Modal>
 
 <style>
+	:global(.primary-sprite) {
+		max-width: 128px;
+	}
+
+	:global(.secondary-sprite) {
+		width: 128px;
+		max-height: 178px;
+	}
+
+	:global(.sprite-modal-image) {
+		display: block;
+		width: auto;
+		height: auto;
+		max-width: min(80vw, 32rem);
+		max-height: 60vh;
+		margin: auto;
+	}
+
 	div.spriteBoxWrapper {
 		display: grid;
 		align-content: center;

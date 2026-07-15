@@ -37,12 +37,16 @@
 
 <style>
 	dialog {
-		border-radius: 0.5rem;
+		border-radius: var(--radius-surface);
 		margin: auto;
 		padding: 0;
+		overflow: scroll;
+		background-color: var(--site-background);
+		color: var(--text);
 	}
 	div.contentWrapper {
-		padding: 1rem;
+		padding: var(--space-2);
+		height: 100%;
 	}
 	div.closeWrapper {
 		position: absolute;
@@ -51,7 +55,7 @@
 	}
 
 	button.closeButton {
-		border-bottom-left-radius: 10px;
+		border-bottom-left-radius: var(--radius-surface);
 		background-color: var(--grey-primary);
 		width: 2.5rem;
 		height: 2.5rem;
@@ -61,18 +65,8 @@
 		background-color: var(--grey-muted);
 	}
 
-	dialog {
-		background-color: var(--site-background);
-		color: var(--text);
-	}
-
 	dialog::backdrop {
 		background: rgba(0, 0, 0, 0.8);
-	}
-
-	.contentWrapper {
-		padding: 0.5rem;
-		height: 100%;
 	}
 
 	@media screen and (max-width: 768px) {
@@ -85,7 +79,7 @@
 
 	@media screen and (min-width: 768px) {
 		dialog {
-			border-radius: 0.5rem;
+			border-radius: var(--radius-surface);
 			min-width: 16rem;
 			min-height: 16rem;
 			max-width: min(90vw, 48rem);
@@ -115,10 +109,6 @@
 		to {
 			opacity: 1;
 		}
-	}
-
-	dialog {
-		overflow: scroll;
 	}
 
 	dialog[open] {

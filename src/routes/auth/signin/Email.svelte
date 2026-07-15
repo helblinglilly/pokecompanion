@@ -140,7 +140,7 @@
 				<p>{emailError}&nbsp;</p>
 			</div>
 
-			<div class="columns inputGroup" style="margin-top: 12px;">
+			<div class="columns inputGroup inputGroup-spaced">
 				<label for="password">Password</label>
 				<div class="passwordInput">
 					<input type={showPassword ? 'text' : 'password'} id="password" bind:value={password} />
@@ -171,7 +171,7 @@
 			</div>
 
 			{#if showSignupFields}
-				<div class="columns inputGroup" style={`margin-top: 12px;`}>
+				<div class="columns inputGroup inputGroup-spaced">
 					<label for="passwordConfirm">Confirm Password</label>
 					<input
 						type={showPassword ? 'text' : 'password'}
@@ -181,7 +181,7 @@
 					<p>{passwordConfirmError}&nbsp;</p>
 				</div>
 
-				<div class="columns inputGroup" style={`margin-top: 12px;`}>
+				<div class="columns inputGroup inputGroup-spaced">
 					<label for="username">Username <i>(Optional)</i></label>
 					<input
 						type="text"
@@ -202,10 +202,10 @@
 			{/if}
 
 			<div class="inline-flex justify-between gap-4">
-				<div class="column" style="width: 100%; padding-left: 0;">
+				<div class="column form-action form-action-start">
 					<Button classes="w-full" type="submit">Log in</Button>
 				</div>
-				<div class="column" style="width: 100%; padding-right: 0;">
+				<div class="column form-action form-action-end">
 					<Button
 						classes="w-full"
 						type={showSignupFields ? 'submit' : 'button'}
@@ -231,6 +231,22 @@
 
 	.inputGroup {
 		width: inherit;
+	}
+
+	.inputGroup-spaced {
+		margin-top: 12px;
+	}
+
+	.form-action {
+		width: 100%;
+	}
+
+	.form-action-start {
+		padding-left: 0;
+	}
+
+	.form-action-end {
+		padding-right: 0;
 	}
 
 	@media (max-width: 768px) {

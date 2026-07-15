@@ -27,8 +27,7 @@
 				<div class="md:hidden">
 					<Button
 						variant="primary"
-						style="height: 3rem; margin-bottom: 1rem;"
-						classes="w-full "
+						classes="moveset-mobile-toggle w-full"
 						onclick={() => {
 							showLevelMovesOnMobile = !showLevelMovesOnMobile;
 						}}
@@ -54,8 +53,7 @@
 				<div class="md:hidden">
 					<Button
 						variant="primary"
-						style="height: 3rem; margin-bottom: 1rem;"
-						classes="w-full"
+						classes="moveset-mobile-toggle w-full"
 						onclick={() => {
 							showTmMovesOnMobile = !showTmMovesOnMobile;
 							Logger.addPageAction('PokemonMoveList', {
@@ -83,8 +81,7 @@
 				<div class="md:hidden">
 					<Button
 						variant="primary"
-						style="height: 3rem; margin-bottom: 1rem;"
-						classes="w-full"
+						classes="moveset-mobile-toggle w-full"
 						onclick={() => {
 							showBreedMovesOnMobile = !showBreedMovesOnMobile;
 							Logger.addPageAction('PokemonMoveList', {
@@ -114,8 +111,7 @@
 				<div class="md:hidden">
 					<Button
 						variant="primary"
-						style="height: 3rem; margin-bottom: 1rem;"
-						classes="w-full"
+						classes="moveset-mobile-toggle w-full"
 						onclick={() => {
 							showTutoredMovesOnMobile = !showTutoredMovesOnMobile;
 							Logger.addPageAction('PokemonMoveList', {
@@ -141,6 +137,11 @@
 </div>
 
 <style>
+	:global(.moveset-mobile-toggle) {
+		height: 3rem;
+		margin-bottom: var(--space-3);
+	}
+
 	@media screen and (max-width: 768px) {
 		.container {
 			min-width: 100%;

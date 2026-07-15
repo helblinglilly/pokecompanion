@@ -30,8 +30,7 @@
 <Card
 	id={pokemon.id.toString()}
 	{isClickable}
-	classes="relative h-auto p-8 text-center"
-	style={`min-height: 150px;`}
+	classes="pokemon-card-entry relative h-auto p-8 text-center"
 	onclick={() => {
 		if (onclick) {
 			onclick(pokemon);
@@ -109,6 +108,10 @@
 		margin: 0;
 		padding: 0.5rem;
 		padding-left: 1rem;
+	}
+
+	:global(.pokemon-card-entry) {
+		min-height: 150px;
 	}
 
 	.spriteWrapper {

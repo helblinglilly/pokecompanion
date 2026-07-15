@@ -25,7 +25,7 @@
 		xmlns="http://www.w3.org/2000/svg"
 		viewBox="0 0 48 48"
 		xmlns:xlink="http://www.w3.org/1999/xlink"
-		style="display: block; height: 20px; width: 20px;"
+		class="google-icon"
 	>
 		<path
 			fill="#EA4335"
@@ -67,5 +67,11 @@
 		margin-right: 15px;
 		fill: white;
 		justify-content: center;
+	}
+
+	.google-icon {
+		display: block;
+		width: 20px;
+		height: 20px;
 	}
 </style>

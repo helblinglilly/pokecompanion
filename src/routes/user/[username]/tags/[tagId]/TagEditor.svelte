@@ -91,9 +91,7 @@
 	<div class="mt-4 grid gap-4 text-center">
 		<p>Are you sure you want to delete "{tag.name}"?</p>
 
-		<div
-			style="display: inline-flex; width: 100%; justify-content: space-between; padding: 0.5rem;"
-		>
+		<div class="delete-actions">
 			<Button
 				classes="error"
 				onclick={async () => {
@@ -107,6 +105,13 @@
 </Modal>
 
 <style>
+	.delete-actions {
+		display: inline-flex;
+		justify-content: space-between;
+		width: 100%;
+		padding: var(--space-2);
+	}
+
 	input[type='text'] {
 		background-color: white;
 	}

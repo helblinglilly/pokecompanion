@@ -106,7 +106,7 @@
 
 		<input
 			type="text"
-			style="width: 100%;"
+			class="username-input"
 			bind:value={newUsername}
 			placeholder={existingUsername}
 			minlength="4"
@@ -136,6 +136,10 @@
 </Modal>
 
 <style>
+	.username-input {
+		width: 100%;
+	}
+
 	input[type='text'] {
 		background-color: white;
 	}

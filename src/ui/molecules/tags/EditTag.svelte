@@ -85,14 +85,19 @@
 
 {#if $currentUser}
 	<Button
-		classes="tag h-2 md:min-h-fit relative z-20"
-		style="font-size: smaller;"
+		classes="tag tag-edit-button h-2 md:min-h-fit relative z-20"
 		onclick={() => {
 			showAddToOverlay = true;
 		}}
 	>
 		Edit
 	</Button>
+
+	<style>
+		:global(.tag-edit-button) {
+			font-size: smaller;
+		}
+	</style>
 
 	<Modal bind:showModal={showAddToOverlay}>
 		{#snippet header()}

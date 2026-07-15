@@ -1,6 +1,6 @@
 <footer>
 	<div class="columns md:gap-2">
-		<div class="column grid justify-center md:block md:text-left" style="padding: 0;">
+		<div class="column footer-column grid justify-center md:block md:text-left">
 			<div class="w-full text-center">
 				<a href="/about">About</a>
 			</div>
@@ -8,7 +8,7 @@
 				<a href="/privacy/policy">Privacy Policy</a>
 			</div>
 		</div>
-		<div class="column grid text-center" style="padding: 0;">
+		<div class="column footer-column grid text-center">
 			<div class="inline-flex text-center justify-center">
 				<p>Powered by</p>
 				&nbsp;
@@ -16,7 +16,7 @@
 			</div>
 
 			<div class="inline-grid lg:inline-flex text-center justify-center">
-				<p class="hidden lg:block" style="text-wrap: nowrap;">Built at</p>
+				<p class="hidden lg:block built-at-label">Built at</p>
 				<p class="hidden lg:block">&nbsp</p>
 				<a href="https://github.com/helblinglilly/pokecompanion" class="underline"
 					>github.com/helblinglilly/pokecompanion</a
@@ -24,7 +24,7 @@
 			</div>
 			<a href="https://ko-fi.com/X8X710K2JH" target="_blank" class="grid justify-center p-2"
 				><img
-					style="border:0px;height:24px;"
+					class="kofi-button"
 					src="/kofi_button_red.png"
 					alt="Buy Me a Coffee at ko-fi.com"
 				/></a
@@ -47,6 +47,19 @@
 		bottom: 0;
 		min-height: 12vh;
 		padding: 1vh;
+	}
+
+	.footer-column {
+		padding: 0;
+	}
+
+	.built-at-label {
+		text-wrap: nowrap;
+	}
+
+	.kofi-button {
+		height: 24px;
+		border: 0;
 	}
 
 	:global(.dark-theme) footer {

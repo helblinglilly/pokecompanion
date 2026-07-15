@@ -85,10 +85,7 @@
 				return originalFetch(rewriteApiUrlForBrowser(input), init);
 			}
 
-			return originalFetch(
-				new Request(rewriteApiUrlForBrowser(input.url), input),
-				init
-			);
+			return originalFetch(new Request(rewriteApiUrlForBrowser(input.url), input), init);
 		}) as typeof window.fetch;
 
 		window.__pokecompanionFetchPatched = true;
@@ -118,17 +115,11 @@
 	);
 </script>
 
-<svelte:head>
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-	</style>
-</svelte:head>
-
 <Tracking />
 
 <ScrollToTop />
 
-<div style="min-height: 88vh;">
+<div class="app-shell">
 	<Navbar />
 
 	{#if $notifications.length > 0}
@@ -143,11 +134,11 @@
 		{#if shouldDisplaySearch}
 			<SearchBar />
 			{#if breadcrumbs.length > 0 && page.status === 200}
-				<div style="display: inline-flex; margin-bottom: 2rem;">
+				<div class="breadcrumbs">
 					{#each breadcrumbs as crumb}
 						{#if breadcrumbs.indexOf(crumb) < breadcrumbs.length - 1}
 							<a href={crumb.url}>{crumb.display}</a>
-							<p style="margin-left: 5px; margin-right: 5px;">/</p>
+							<p class="breadcrumb-separator">/</p>
 						{:else}
 							<p>{crumb.display}</p>
 						{/if}
@@ -160,3 +151,19 @@
 </div>
 
 <Footer />
+
+<style>
+	.app-shell {
+		min-height: 88vh;
+	}
+
+	.breadcrumbs {
+		display: inline-flex;
+		margin-bottom: var(--space-4);
+	}
+
+	.breadcrumb-separator {
+		margin-right: var(--space-2);
+		margin-left: var(--space-2);
+	}
+</style>

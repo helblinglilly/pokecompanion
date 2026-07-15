@@ -68,7 +68,7 @@
 
 {#if allGames.length > 0}
 	<Select
-		style="width: 100%; margin-right: 0; max-width: inherit;"
+		classes="encounter-game-selector"
 		isNested
 		options={allGames.map((game) => ({
 			label:
@@ -107,8 +107,7 @@
 			<div class="inline-flex w-full space-between gap-4">
 				<Button
 					variant="primary"
-					style="height: 3rem;"
-					classes="w-full"
+					classes="encounter-page-button w-full"
 					onclick={() => {
 						currentDisplayLimit = defaultLimit;
 					}}
@@ -116,8 +115,7 @@
 				>
 				<Button
 					variant="primary"
-					style="height: 3rem;"
-					classes="w-full"
+					classes="encounter-page-button w-full"
 					onclick={() => {
 						currentDisplayLimit -= defaultLimit;
 					}}
@@ -130,8 +128,7 @@
 			<div class="inline-flex w-full space-between gap-4">
 				<Button
 					variant="primary"
-					style="height: 3rem;"
-					classes="w-full"
+					classes="encounter-page-button w-full"
 					onclick={() => {
 						currentDisplayLimit = totalLocations;
 					}}
@@ -139,8 +136,7 @@
 				>
 				<Button
 					variant="primary"
-					style="height: 3rem;"
-					classes="w-full"
+					classes="encounter-page-button w-full"
 					onclick={() => {
 						currentDisplayLimit += defaultLimit;
 					}}
@@ -151,3 +147,15 @@
 		{/if}
 	</div>
 {/if}
+
+<style>
+	:global(.encounter-game-selector) {
+		width: 100%;
+		max-width: inherit;
+		margin-right: 0;
+	}
+
+	:global(.encounter-page-button) {
+		height: 3rem;
+	}
+</style>
