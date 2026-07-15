@@ -14,12 +14,12 @@
 </script>
 
 {#if evolutions.length === 0}
-	<p style="text-align: center;">This Pokémon has no evolutions</p>
+	<p class="no-evolutions">This Pokémon has no evolutions</p>
 {:else if evolutions}
 	<div class="grid gap-4">
 		{#each evolutions as evolution}
 			<div class="columns mobile">
-				<div class="column" style="display: grid; justify-content: center;">
+				<div class="column evolution-pokemon">
 					<a
 						href={evolution.source.pokemonUrl}
 						onclick={() => {
@@ -34,10 +34,7 @@
 						/>
 					</a>
 				</div>
-				<div
-					class="column"
-					style="display: grid; justify-content: center; text-align: center; align-items: center;"
-				>
+				<div class="column evolution-requirements">
 					{#if evolution.trigger !== 'use-item'}
 						{#if evolution.trigger === 'strong-style-move'}
 							<p>Use specific in strong style</p>
@@ -64,7 +61,7 @@
 						{#if requirement.type === 'use-item'}
 							<a
 								href={requirement.supplementary}
-								style="width: 100%; display: inline-flex; justify-content: center;"
+								class="evolution-item-link"
 								onclick={() => {
 									Logger.addPageAction('EvolutionUseItemNavigation');
 								}}
@@ -83,7 +80,7 @@
 						{#if requirement.type === 'hold-item'}
 							<a
 								href={requirement.supplementary}
-								style="width: 100%; display: inline-flex; justify-content: center;"
+								class="evolution-item-link"
 								onclick={() => {
 									Logger.addPageAction('EvolutionHoldItem');
 								}}
@@ -212,7 +209,7 @@
 						{/if}
 					{/each}
 				</div>
-				<div class="column" style="display: grid; justify-content: center;">
+				<div class="column evolution-pokemon">
 					<a
 						href={evolution.target.pokemonUrl}
 						onclick={() => {
@@ -231,3 +228,26 @@
 		{/each}
 	</div>
 {/if}
+
+<style>
+	.no-evolutions,
+	.evolution-requirements {
+		text-align: center;
+	}
+
+	.evolution-pokemon,
+	.evolution-requirements {
+		display: grid;
+		justify-content: center;
+	}
+
+	.evolution-requirements {
+		align-items: center;
+	}
+
+	.evolution-item-link {
+		display: inline-flex;
+		justify-content: center;
+		width: 100%;
+	}
+</style>

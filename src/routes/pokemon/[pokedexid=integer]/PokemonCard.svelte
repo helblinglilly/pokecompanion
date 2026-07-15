@@ -49,7 +49,7 @@
 					src={type.icon}
 					alt={type.name}
 					isSprite={isSprite($selectedGame?.pokeapi)}
-					style={'height: 1.5rem; object-fit: contain; max-width: 5rem;'}
+					classNames="pokemon-type-icon"
 				/>
 			</div>
 		{/each}
@@ -69,7 +69,7 @@
 <SpritePreview sprites={data.sprites} />
 
 {#if $currentUser}
-	<div class="flex justify-center items-center w-full gap-2 relative z-20" style="flex-flow: wrap;">
+	<div class="pokemon-tag-actions flex justify-center items-center w-full gap-2 relative z-20">
 		<AttachedTags
 			pokemon={{
 				id: data.id,
@@ -111,8 +111,7 @@
 	<button
 		data-testid="shinyToggle"
 		data-umami-event="PokemonShiny"
-		class="triangle right"
-		style={`border-bottom-color: #f0e45f;`}
+		class="triangle right shiny-toggle"
 		onclick={() => {
 			const isOnShiny = page.url.searchParams.get('shiny') === 'true';
 
@@ -174,6 +173,20 @@
 		border-bottom-right-radius: 10px;
 		border-left: 4rem solid transparent;
 		border-bottom: 4rem solid;
+	}
+
+	.pokemon-tag-actions {
+		flex-flow: wrap;
+	}
+
+	:global(.pokemon-type-icon) {
+		height: 1.5rem;
+		max-width: 5rem;
+		object-fit: contain;
+	}
+
+	.triangle.right.shiny-toggle {
+		border-bottom: 4rem solid #f0e45f;
 	}
 
 	.triangle.left {

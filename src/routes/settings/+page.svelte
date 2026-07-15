@@ -30,7 +30,7 @@
 />
 
 <main>
-	<h1 class="h1" style="margin-bottom: 20px;">Settings</h1>
+	<h1 class="h1 settings-heading">Settings</h1>
 
 	<div class="columns">
 		<div class="column mb-4 md:mr-4">
@@ -193,6 +193,10 @@
 		display: flex;
 		margin-bottom: 10px;
 		align-items: baseline;
+	}
+
+	.settings-heading {
+		margin-bottom: 20px;
 	}
 
 	/* Issue where the label doesn't wrap :( */

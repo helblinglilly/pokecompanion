@@ -70,10 +70,7 @@
 		}`}
 	>
 		{#each pokemonCollection as pokemon}
-			<a
-				href={inModifyView ? undefined : pokemon.slug}
-				style="text-decoration-line: unset; width: 100%;"
-			>
+			<a href={inModifyView ? undefined : pokemon.slug} class="tag-pokemon-link">
 				{#if page.url.searchParams.get('view') === 'card'}
 					<PokemonCardEntry
 						{pokemon}
@@ -124,6 +121,11 @@
 {/if}
 
 <style>
+	.tag-pokemon-link {
+		width: 100%;
+		text-decoration-line: unset;
+	}
+
 	.removeButton {
 		position: absolute;
 		top: 0;

@@ -23,7 +23,7 @@
 >
 	<Image
 		src="/icons/spotify.png"
-		style="margin-right: 15px; background-color: #000; border-radius: 20px;"
+		classNames="spotify-icon"
 		height="20px"
 		width="20px"
 		alt="Spotify"
@@ -46,5 +46,11 @@
 		transition: background-color 0.3s ease;
 		height: 38px;
 		width: 220px;
+	}
+
+	:global(.spotify-icon) {
+		margin-right: 15px;
+		border-radius: 20px;
+		background-color: #000;
 	}
 </style>

@@ -20,7 +20,7 @@
 	<form id="searchForm" action="/search" method="get" data-sveltekit-reload>
 		<input
 			type="text"
-			style="width: 100%"
+			class="search-input"
 			placeholder={`${placeholders[id]}...`}
 			name="term"
 			bind:value={$searchTerm}
@@ -48,6 +48,10 @@
 		padding-left: 2rem;
 		padding-right: 2rem;
 		background-color: white;
+	}
+
+	.search-input {
+		width: 100%;
 	}
 
 	@media (max-width: 768px) {

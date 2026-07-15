@@ -11,11 +11,7 @@
 	<a href="/" class="h-full mr-2 w-full md:w-fit">
 		<div class="w-full inline-flex h-full">
 			<div class="h-full grid align-center">
-				<img
-					src={Favicon}
-					alt="Site Icon"
-					style="height: 3.5rem; max-width: fit-content; padding-top: 0.8rem; padding-bottom: 1rem; padding-left: 0.8rem; padding-right: 0.4rem;"
-				/>
+				<img src={Favicon} alt="Site Icon" class="site-icon" />
 			</div>
 			<p class="grid h-full align-center items-center">Pokécompanion</p>
 		</div>
@@ -76,6 +72,12 @@
 
 	p {
 		color: #edebeb;
+	}
+
+	.site-icon {
+		height: 3.5rem;
+		max-width: fit-content;
+		padding: 0.8rem 0.4rem 1rem 0.8rem;
 	}
 
 	button {

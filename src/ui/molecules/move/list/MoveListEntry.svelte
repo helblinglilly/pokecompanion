@@ -11,12 +11,7 @@
 	let { move, remove }: Props = $props();
 </script>
 
-<Card
-	id={`move-${move.id}`}
-	style={`position: relative;`}
-	classes={`m-0 w-full flex p-8 h-28`}
-	isClickable
->
+<Card id={`move-${move.id}`} classes={`move-entry m-0 w-full flex p-8 h-28`} isClickable>
 	<table>
 		<tbody>
 			<tr>
@@ -24,17 +19,13 @@
 					<Image
 						src={move.damageClass.icon}
 						alt={move.damageClass.name}
-						style={'max-width: 5rem; object-fit: contain;'}
+						classNames="move-entry-icon"
 					/>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<Image
-						src={move.type.icon}
-						alt={move.type.name}
-						style={'max-width: 5rem; object-fit: contain;'}
-					/>
+					<Image src={move.type.icon} alt={move.type.name} classNames="move-entry-icon" />
 				</td>
 			</tr>
 		</tbody>
@@ -51,5 +42,14 @@
 	span {
 		margin-top: auto;
 		margin-bottom: auto;
+	}
+
+	:global(.move-entry) {
+		position: relative;
+	}
+
+	:global(.move-entry-icon) {
+		max-width: 5rem;
+		object-fit: contain;
 	}
 </style>

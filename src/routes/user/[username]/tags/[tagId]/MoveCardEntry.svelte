@@ -12,12 +12,7 @@
 	let { move, isClickable = true, remove }: Props = $props();
 </script>
 
-<Card
-	{isClickable}
-	id={`move-${move.id}`}
-	classes="relative h-auto"
-	style={` min-height: 150px; padding: 0;`}
->
+<Card {isClickable} id={`move-${move.id}`} classes="tag-move-card relative h-auto">
 	<div class="spriteWrapper">
 		<table>
 			<tbody>
@@ -26,13 +21,13 @@
 						<Image
 							src={move.damageClass.icon}
 							alt={move.damageClass.name}
-							style={'max-width: 5rem; object-fit: contain; margin-left: auto; margin-right: auto;'}
+							classNames="tag-move-icon"
 						/>
 
 						<Image
 							src={move.type.icon}
 							alt={move.type.name}
-							style={'max-width: 5rem; object-fit: contain; margin-bottom: 0.2rem; margin-left: auto; margin-right: auto;'}
+							classNames="tag-move-icon tag-move-type-icon"
 						/>
 					</td>
 				</tr>
@@ -48,6 +43,22 @@
 </Card>
 
 <style>
+	:global(.tag-move-card) {
+		min-height: 150px;
+		padding: 0;
+	}
+
+	:global(.tag-move-icon) {
+		max-width: 5rem;
+		margin-right: auto;
+		margin-left: auto;
+		object-fit: contain;
+	}
+
+	:global(.tag-move-type-icon) {
+		margin-bottom: 0.2rem;
+	}
+
 	.spriteWrapper {
 		height: 96px;
 		width: 96px;

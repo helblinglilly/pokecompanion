@@ -26,8 +26,7 @@
 			<Image
 				src={data.move.type.icon}
 				alt={`${data.move.type.name} type`}
-				classNames="mr-3"
-				style={`object-fit: contain; max-width: 5rem; max-height: 20px;`}
+				classNames="mr-3 move-detail-icon"
 			/>
 			<div class="inline-flex justify-between w-full">
 				<p>
@@ -57,8 +56,7 @@
 							<Image
 								src={data.move.damageClass.icon}
 								alt={`${data.move.damageClass.name} type`}
-								classNames="mx-auto"
-								style={`object-fit: contain; max-width: 5rem; max-height: 20px;`}
+								classNames="mx-auto move-detail-icon"
 							/>
 						</td>
 						<td>{data.move.power ?? '-'}</td>
@@ -145,6 +143,12 @@
 </div> -->
 
 <style>
+	:global(.move-detail-icon) {
+		max-width: 5rem;
+		max-height: 20px;
+		object-fit: contain;
+	}
+
 	hr {
 		margin-top: 1rem;
 		margin-bottom: 1rem;

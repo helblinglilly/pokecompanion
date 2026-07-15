@@ -52,8 +52,8 @@
 
 {#if data.password}
 	<p class="text-center">Or manually sign up below</p>
-	<div class="columns justify-center" style="flex-direction: row;">
-		<div class="column mt-4" style="max-width: 400px;">
+	<div class="columns signin-columns justify-center">
+		<div class="column signin-email mt-4">
 			<Email />
 		</div>
 	</div>
@@ -62,3 +62,13 @@
 {#if data.oAuth.length === 0 && !data.password}
 	<p>Sorry, there are no sign-in options available at the moment.</p>
 {/if}
+
+<style>
+	.signin-columns {
+		flex-direction: row;
+	}
+
+	.signin-email {
+		max-width: 400px;
+	}
+</style>

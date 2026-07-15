@@ -20,7 +20,9 @@ clear boundary:
 
 ## Progress
 
-The foundation and low-effort batch are complete:
+## Migration status
+
+The styling migration is complete for static styles:
 
 - Added `src/styles/design-tokens.css` and imported it from the active global
   entry point. It exposes semantic tokens while retaining legacy aliases for a
@@ -30,10 +32,16 @@ The foundation and low-effort batch are complete:
   classes and scoped `<style>` blocks.
 - Added a `classes` API to `Select.svelte` so route-owned select adjustments
   no longer need an inline `style` prop.
+- Completed the medium-effort shared layout, navigation, authentication, modal,
+  route, and reusable-card migration work.
+- Removed the unreferenced `src/app.css`, `static/global.css`, and legacy
+  Tailwind configuration after confirming they have no application references.
 
-Medium- and high-effort work, dynamic values, `src/app.css`,
-`static/global.css`, Tailwind configuration, and shared primitive redesign are
-intentionally still pending.
+The remaining inline declarations are intentional runtime styling in Pokémon
+presentation components. They express data- or state-dependent colours,
+geometry, and active states; replacing them with static CSS would lose that
+behaviour. Future work should prefer Svelte-set CSS custom properties over
+string-built `style` values when touching those components.
 
 ## Current state
 
