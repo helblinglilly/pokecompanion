@@ -7,7 +7,7 @@
 		src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-question.png"
 		alt="Question mark Incognito"
 		isSprite
-		style="margin-left: auto; margin-right: auto;"
+		classNames="error-sprite"
 	/>
 
 	<h1 class="h1">404</h1>
@@ -22,3 +22,10 @@
 		</p>
 	</div>
 </div>
+
+<style>
+	:global(.error-sprite) {
+		margin-right: auto;
+		margin-left: auto;
+	}
+</style>

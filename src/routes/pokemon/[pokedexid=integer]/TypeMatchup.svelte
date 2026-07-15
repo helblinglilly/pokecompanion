@@ -14,11 +14,7 @@
 		{#each types.resists as resists}
 			<div class="inline-flex w-full justify-center mb-2 gap-3">
 				<div>
-					<Image
-						src={resists.icon}
-						alt={resists.name}
-						style={'h-6 object-fit: contain; max-width: 5rem; max-height: 20px;'}
-					/>
+					<Image src={resists.icon} alt={resists.name} classNames="type-icon" />
 				</div>
 
 				{#if resists.multiplier === 0}
@@ -35,11 +31,7 @@
 		{#each types.weakAgainst as weakAgainst}
 			<div class="inline-flex w-full justify-center mb-2 gap-3">
 				<div>
-					<Image
-						src={weakAgainst.icon}
-						alt={weakAgainst.name}
-						style={'h-6 object-fit: contain; max-width: 5rem; max-height: 20px;'}
-					/>
+					<Image src={weakAgainst.icon} alt={weakAgainst.name} classNames="type-icon" />
 				</div>
 
 				{#if weakAgainst.multiplier === 4}
@@ -56,5 +48,11 @@
 	p,
 	b {
 		width: 3rem;
+	}
+
+	:global(.type-icon) {
+		max-width: 5rem;
+		max-height: 20px;
+		object-fit: contain;
 	}
 </style>

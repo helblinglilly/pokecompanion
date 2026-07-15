@@ -32,8 +32,7 @@
 <Button
 	variant="primary"
 	isNested
-	classes="w-full"
-	style="height: 3rem;"
+	classes="w-full expandable-button"
 	onclick={handleClick}
 	{...rest}
 >
@@ -43,3 +42,9 @@
 {#if isExpanded}
 	{@render content?.()}
 {/if}
+
+<style>
+	:global(.expandable-button) {
+		height: 3rem;
+	}
+</style>

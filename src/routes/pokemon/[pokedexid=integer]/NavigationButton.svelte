@@ -20,7 +20,7 @@
 	const iconUrl = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
 </script>
 
-<div style="min-width: fit-content; min-height: 70px;">
+<div class="navigation-button">
 	{#if pokedexId > 0 && pokedexId <= $meta.lastPokedexEntry}
 		<a
 			href={`/pokemon/${pokedexId}${urlWithoutVariety()}`}
@@ -28,11 +28,7 @@
 				Logger.addPageAction('PokemonNavigation');
 			}}
 		>
-			<Card
-				classes="w-fit h-auto inline-flex"
-				style="margin: 0; padding: 10px; min-height: 70px;"
-				isClickable
-			>
+			<Card classes="w-fit h-auto inline-flex navigation-card" isClickable>
 				<p class="m-auto hidden sm:block">#{pokedexId}</p>
 				{#if iconUrl}
 					<Image
@@ -53,3 +49,16 @@
 		<div class="w-[50px]" />
 	{/if}
 </div>
+
+<style>
+	.navigation-button {
+		min-width: fit-content;
+		min-height: 70px;
+	}
+
+	:global(.navigation-card) {
+		min-height: 70px;
+		margin: 0;
+		padding: 10px;
+	}
+</style>

@@ -21,9 +21,9 @@
 
 <style>
 	div {
-		padding-bottom: 1rem;
+		padding-bottom: var(--space-3);
 		display: inline-flex;
-		gap: 0.25rem;
+		gap: var(--space-1);
 		width: 100%;
 	}
 

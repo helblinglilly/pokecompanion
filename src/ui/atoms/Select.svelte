@@ -3,6 +3,7 @@
 		options?: { label: string; value: string; disabled?: boolean }[];
 		value?: string;
 		style?: string;
+		classes?: string;
 		defaultValue?: string;
 		isNested?: boolean;
 		name?: string;
@@ -15,6 +16,7 @@
 		options = [],
 		value = $bindable(''),
 		style = '',
+		classes = '',
 		defaultValue = '',
 		isNested = false,
 		name = '',
@@ -35,7 +37,7 @@
 
 <select
 	{name}
-	class={`select${isNested ? ' nested' : ''}`}
+	class={`select${isNested ? ' nested' : ''} ${classes}`}
 	{style}
 	bind:value
 	onchange={(e) => {

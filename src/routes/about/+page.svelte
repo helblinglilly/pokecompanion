@@ -96,7 +96,7 @@
 		padding-bottom: 0;
 		margin-top: auto;
 		margin-bottom: auto;
-		gap: 2rem;
+		gap: var(--space-4);
 		min-width: fit-content;
 	}
 
@@ -112,6 +112,6 @@
 	}
 
 	section > p:not(:last-child) {
-		margin-bottom: 1rem;
+		margin-bottom: var(--space-3);
 	}
 </style>

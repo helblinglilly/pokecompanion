@@ -24,22 +24,22 @@
 <style>
 	.notification {
 		position: relative;
-		padding: 2rem;
-		border-radius: 0.5rem;
+		padding: var(--space-4);
+		border-radius: var(--radius-surface);
 		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 		color: var(--text-dark);
 	}
 
 	.notification--failure {
-		background-color: var(--error);
+		background-color: var(--color-danger);
 	}
 
 	.notification--success {
-		background-color: var(--success);
+		background-color: var(--color-success);
 	}
 
 	.notification--info {
-		background-color: var(--info);
+		background-color: var(--color-info);
 	}
 
 	.remove-button {

@@ -55,9 +55,9 @@
 </script>
 
 <div class="columns">
-	<div class="column" style="display: grid; justify-content: center;">
+	<div class="column reset-password-column">
 		<h2 class="h2">Reset your password</h2>
-		<div style="display: grid; gap: 1rem; max-width: 400px;">
+		<div class="reset-password-form">
 			<input type="password" placeholder="New password" bind:value={newPassword} />
 
 			<input type="password" placeholder="Confirm password" bind:value={confirmNewPassword} />
@@ -74,3 +74,16 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.reset-password-column {
+		display: grid;
+		justify-content: center;
+	}
+
+	.reset-password-form {
+		display: grid;
+		gap: var(--space-3);
+		max-width: 400px;
+	}
+</style>

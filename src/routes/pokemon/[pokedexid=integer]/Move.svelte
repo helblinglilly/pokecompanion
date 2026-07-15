@@ -22,16 +22,8 @@
 	<Button isNested classes="w-full" data-umami-event="PokemonMove">
 		<div class="inline-flex justify-between w-full">
 			<div class="flex flex-col items-center justify-center gap-2 pr-3">
-				<Image
-					src={move.damageClass.icon}
-					alt={move.damageClass.name}
-					style={'max-width: 5rem; object-fit: contain;'}
-				/>
-				<Image
-					src={move.type.icon}
-					alt={move.type.name}
-					style={'max-width: 5rem; object-fit: contain;'}
-				/>
+				<Image src={move.damageClass.icon} alt={move.damageClass.name} classNames="move-icon" />
+				<Image src={move.type.icon} alt={move.type.name} classNames="move-icon" />
 			</div>
 
 			<div class="grid w-full justify-start">
@@ -52,5 +44,10 @@
 <style>
 	a.move-link[href] {
 		text-decoration: none;
+	}
+
+	:global(.move-icon) {
+		max-width: 5rem;
+		object-fit: contain;
 	}
 </style>
