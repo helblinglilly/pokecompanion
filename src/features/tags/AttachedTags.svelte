@@ -39,6 +39,9 @@
 		font-size: smaller;
 		background-color: var(--card-hover);
 		border-radius: 3rem;
+	}
+
+	a.tag[href] {
 		text-decoration: none;
 	}
 </style>
