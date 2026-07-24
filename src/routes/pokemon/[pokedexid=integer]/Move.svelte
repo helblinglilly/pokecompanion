@@ -18,7 +18,7 @@
 	let { move }: Props = $props();
 </script>
 
-<a href={move.slug}>
+<a href={move.slug} class="move-link">
 	<Button isNested classes="w-full" data-umami-event="PokemonMove">
 		<div class="inline-flex justify-between w-full">
 			<div class="flex flex-col items-center justify-center gap-2 pr-3">
@@ -50,7 +50,7 @@
 </a>
 
 <style>
-	a {
+	a.move-link[href] {
 		text-decoration: none;
 	}
 </style>
