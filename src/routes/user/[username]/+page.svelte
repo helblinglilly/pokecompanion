@@ -42,14 +42,19 @@
 					</div>
 				</div>
 
-				<div class="hidden md:grid gap-4 justify-center mb-4">
-					{#if $currentUser && $currentUser.username === data.username}
+				{#if $currentUser && $currentUser.username === data.username}
+					<div class="desktopOwnerOptions">
 						<div>
 							<h3 class="h3">Email verification</h3>
 							<EmailVerification />
 						</div>
-					{/if}
-				</div>
+
+						<div class="dangerZone">
+							<h2 class="h2">Danger Zone</h2>
+							<DeleteUser classes="w-full" />
+						</div>
+					</div>
+				{/if}
 			</Card>
 		</div>
 
@@ -94,7 +99,7 @@
 		</div>
 	</div>
 
-	<div class="columns md:hidden">
+	<div class="mobileOwnerOptions">
 		<div class="column last:mb-4">
 			{#if $currentUser && $currentUser.username === data.username}
 				<Card classes="grid gap-4">
@@ -105,10 +110,41 @@
 
 					<div class="grid gap-4">
 						<h2 class="h2">Danger Zone</h2>
-						<DeleteUser />
+						<DeleteUser classes="w-full" />
 					</div>
 				</Card>
 			{/if}
 		</div>
 	</div>
 </div>
+
+<style>
+	.desktopOwnerOptions {
+		display: grid;
+		gap: 1rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--grey-muted);
+	}
+
+	.dangerZone {
+		display: grid;
+		gap: 1rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--grey-muted);
+	}
+
+	.mobileOwnerOptions {
+		display: none;
+	}
+
+	@media (max-width: 768px) {
+		.desktopOwnerOptions {
+			display: none;
+		}
+
+		.mobileOwnerOptions {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+</style>

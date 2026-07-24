@@ -7,6 +7,11 @@
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { addNotification } from '$/features/notifications/notifications';
 
+	interface Props {
+		classes?: string;
+	}
+
+	let { classes = 'max-w-1/5' }: Props = $props();
 	let showModal = $state(false);
 
 	const onDeleteClick = async () => {
@@ -32,7 +37,7 @@
 	};
 </script>
 
-<Button classes="error max-w-1/5" onclick={() => (showModal = true)}>Delete my account</Button>
+<Button classes={`error ${classes}`} onclick={() => (showModal = true)}>Delete my account</Button>
 
 <Modal bind:showModal>
 	{#snippet header()}
