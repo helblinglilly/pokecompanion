@@ -17,6 +17,7 @@
 	let signupError = $state('');
 
 	let showSignupFields = $state(false);
+	let showPassword = $state(false);
 
 	const handleFormSubmit = async () => {
 		if (showSignupFields) {
@@ -141,14 +142,42 @@
 
 			<div class="columns inputGroup" style="margin-top: 12px;">
 				<label for="password">Password</label>
-				<input type="password" id="password" bind:value={password} />
+				<div class="passwordInput">
+					<input type={showPassword ? 'text' : 'password'} id="password" bind:value={password} />
+					<button
+						class="showPasswordButton"
+						type="button"
+						aria-pressed={showPassword}
+						aria-label={showPassword ? 'Hide password' : 'Show password'}
+						title={showPassword ? 'Hide password' : 'Show password'}
+						onclick={() => (showPassword = !showPassword)}
+					>
+						{#if showPassword}
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<path d="m3 3 18 18" />
+								<path
+									d="M10.6 10.7a2 2 0 0 0 2.7 2.7M9.9 4.2A10.8 10.8 0 0 1 12 4c5.5 0 9 6 9 6a17.6 17.6 0 0 1-2.1 2.8M6.6 6.6C4.4 8 3 10 3 10s3.5 6 9 6a9.8 9.8 0 0 0 3.4-.6"
+								/>
+							</svg>
+						{:else}
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<path d="M3 10s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6Z" />
+								<circle cx="12" cy="10" r="2.5" />
+							</svg>
+						{/if}
+					</button>
+				</div>
 				<p>{passwordError}&nbsp;</p>
 			</div>
 
 			{#if showSignupFields}
 				<div class="columns inputGroup" style={`margin-top: 12px;`}>
 					<label for="passwordConfirm">Confirm Password</label>
-					<input type="password" id="passwordConfirm" bind:value={passwordConfirm} />
+					<input
+						type={showPassword ? 'text' : 'password'}
+						id="passwordConfirm"
+						bind:value={passwordConfirm}
+					/>
 					<p>{passwordConfirmError}&nbsp;</p>
 				</div>
 
@@ -235,5 +264,52 @@
 
 	input {
 		background-color: white;
+	}
+
+	.passwordInput {
+		position: relative;
+		width: 100%;
+		max-width: 400px;
+	}
+
+	.passwordInput input {
+		padding-right: 42px;
+	}
+
+	.showPasswordButton {
+		position: absolute;
+		top: 50%;
+		right: 8px;
+		transform: translateY(-50%);
+		border: 0;
+		width: 28px;
+		height: 28px;
+		display: grid;
+		place-items: center;
+		padding: 3px;
+		background: transparent;
+		color: #2b2a2a;
+		font: inherit;
+		cursor: pointer;
+	}
+
+	.showPasswordButton svg {
+		width: 22px;
+		height: 22px;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.8;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.showPasswordButton:hover {
+		color: var(--red-accent);
+	}
+
+	.showPasswordButton:focus-visible {
+		outline: 2px solid var(--red-accent);
+		outline-offset: 1px;
+		border-radius: 4px;
 	}
 </style>
