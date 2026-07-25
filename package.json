@@ -57,6 +57,7 @@
     "wrangler": "^4.110.0"
   },
   "dependencies": {
+    "@newrelic/browser-agent": "^1.315.0",
     "marked": "^18.0.0"
   }
 }
