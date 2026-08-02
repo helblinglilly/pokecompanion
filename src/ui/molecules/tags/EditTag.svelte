@@ -8,17 +8,16 @@
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
 	import type { LayoutData } from '../../../routes/$types';
-	import type { MinimalTagMove, MinimalTagPokemon } from '$/features/tags/types';
+	import type { MinimalTagPokemon } from '$/features/tags/types';
 	import { DEPEND_ALL_TAGS, DEPEND_TAG_ID } from '$/features/tags/depends';
 	import { doesTagContainEntry } from '$/features/tags/utils/contains';
 
 	let showAddToOverlay = $state(false);
 	interface Props {
 		pokemon?: MinimalTagPokemon | undefined;
-		move?: MinimalTagMove | undefined;
 	}
 
-	let { pokemon = undefined, move = undefined }: Props = $props();
+	let { pokemon = undefined }: Props = $props();
 
 	let pokemonBody = $derived(
 		():
@@ -47,15 +46,6 @@
 			route = PUBLIC_API_HOST + `/tags/${tagId}/pokemon`;
 		}
 
-		if (move) {
-			body = JSON.stringify([
-				{
-					moveId: move?.id
-				}
-			]);
-			route = PUBLIC_API_HOST + `/tags/${tagId}/move`;
-		}
-
 		const res = await fetch(route, {
 			method: action === 'add' ? 'POST' : 'DELETE',
 			headers: {
@@ -74,10 +64,7 @@
 	$effect(() => {
 		if (showAddToOverlay) {
 			tagCheckedState = Object.fromEntries(
-				layoutData.tags.tags.map((tag) => [
-					tag.id,
-					doesTagContainEntry(tag.contents, { pokemon, move })
-				])
+				layoutData.tags.tags.map((tag) => [tag.id, doesTagContainEntry(tag.contents, { pokemon })])
 			);
 		}
 	});

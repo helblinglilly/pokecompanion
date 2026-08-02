@@ -4,7 +4,6 @@
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import TagEditor from './TagEditor.svelte';
 	import TagPokemon from './TagPokemon.svelte';
-	import TagMove from './TagMove.svelte';
 	import TagViewOptions from './TagViewOptions.svelte';
 	import Header from './Header.svelte';
 	import { get } from 'svelte/store';
@@ -13,9 +12,7 @@
 	let { data } = $props();
 
 	let filterTerm = $state('');
-	let numberOfItems = $derived(
-		(data.tag.contents.move?.length ?? 0) + (data.tag.contents.pokemon?.length ?? 0)
-	);
+	let numberOfItems = $derived(data.tag.contents.pokemon?.length ?? 0);
 
 	let inModifyView = $state(false);
 
@@ -83,14 +80,6 @@
 		<p>Loading Pokemon...</p>
 	{:then tagPokemon}
 		<TagPokemon {filterTerm} {inModifyView} allPokemon={tagPokemon} tag={data.tag} />
-	{/await}
-
-	{#await data.tagMoves}
-		<p>Loading Moves...</p>
-	{:then tagMoves}
-		<TagMove {inModifyView} moveCollection={tagMoves.moves} tag={data.tag} />
-	{:catch}
-		<p>Failed to get moves</p>
 	{/await}
 </div>
 

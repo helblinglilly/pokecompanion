@@ -100,8 +100,7 @@
 						shiny: page.url.searchParams.get('shiny') === 'true',
 						variety: page.url.searchParams.get('variety') ?? undefined
 					}
-				],
-				move: []
+				]
 			}}
 		/>
 	</div>

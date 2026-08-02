@@ -1,25 +1,21 @@
 <script lang="ts">
 	import { currentUser } from '$lib/stores/user';
 	import Icon from '$/ui/atoms/Icon.svelte';
-	import type { ITagMove } from '$/@types/api.pokecompanion';
 	import { page } from '$app/state';
 	import type { LayoutData } from '../../routes/$types';
 	import type { MinimalTagPokemon } from './types';
 	import { doesTagContainEntry } from './utils/contains';
 
 	let {
-		pokemon = undefined,
-		move = undefined
+		pokemon = undefined
 	}: {
 		pokemon?: MinimalTagPokemon;
-		move?: Omit<ITagMove, 'added'> | undefined;
 	} = $props();
 
 	let tags = $derived(
 		((page.data as LayoutData).tags?.tags || []).filter((tag) => {
 			return doesTagContainEntry(tag.contents, {
-				pokemon,
-				move
+				pokemon
 			});
 		})
 	);
@@ -27,7 +23,7 @@
 
 {#each tags as tag}
 	{@const baseUrl = `/user/${$currentUser?.username}/tags/${tag.id}`}
-	{@const anchor = move ? `move-${move.id}` : pokemon ? pokemon.id : ''}
+	{@const anchor = pokemon ? pokemon.id : ''}
 	<a class="tag inline-flex gap-1 p-2 w-max m-1" href={`${baseUrl}#${anchor}`}>
 		<span class="tag-icon"><Icon name="tag" /></span>
 		<p>{tag.name}</p>

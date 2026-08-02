@@ -1,17 +1,10 @@
 <script lang="ts">
 	import { marked } from 'marked';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
-	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
-	import { currentUser } from '$lib/stores/user';
 	import Card from '$/ui/atoms/Card.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
-	import AttachedTags from '$/features/tags/AttachedTags.svelte';
-	import { page } from '$app/state';
-	import type { LayoutData } from '../../$types.js';
-	import CreateNewTag from '$/features/tags/new/CreateNewTag.svelte';
 
 	let { data } = $props();
-	const layoutData = $derived(page.data) as LayoutData;
 </script>
 
 <SocialPreview
@@ -80,37 +73,6 @@
 					{@html marked(effectEntry)}
 				</div>
 			{/each}
-		{/if}
-
-		{#if $currentUser}
-			<hr />
-
-			<div class="grid gap-2">
-				<div class="flex justify-center w-full gap-2">
-					<AttachedTags move={data.move} />
-				</div>
-
-				<div class="w-full flex justify-center gap-2">
-					{#if layoutData.tags.tags.length > 0}
-						<div class="my-auto">
-							<EditTag move={{ id: data.move.id }} />
-						</div>
-					{/if}
-
-					<div class="my-auto">
-						<CreateNewTag
-							contents={{
-								pokemon: [],
-								move: [
-									{
-										id: data.move.id
-									}
-								]
-							}}
-						/>
-					</div>
-				</div>
-			</div>
 		{/if}
 	</Card>
 </div>

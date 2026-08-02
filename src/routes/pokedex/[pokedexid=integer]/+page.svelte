@@ -22,10 +22,7 @@
 	<div class="inline-flex gap-4 content-center justify-start md:justify-end">
 		{#if $currentUser}
 			<CreateNewTag
-				contents={{
-					pokemon: [],
-					move: []
-				}}
+				contents={{ pokemon: [] }}
 				onSuccess={async (tagId) => {
 					await fetch(`${PUBLIC_API_HOST}/tags/${tagId}/pokedex/${data.pokedex.pokedex.id}`, {
 						credentials: 'include',
