@@ -9,8 +9,6 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# Sentry Auth Token
-.sentryclirc
 /test-results/
 /playwright-report/
 /playwright/.cache/
@@ -24,7 +22,5 @@ scripts/deleteAllMoves.js
 
 scripts/manual-sprites/*-input
 scripts/manual-sprites/*-output
-
-package-lock.json
 
 .wrangler

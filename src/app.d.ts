@@ -6,7 +6,15 @@ declare global {
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}
-		// export interface Platform {}
+		interface Platform {
+			ctx: { waitUntil(promise: Promise<unknown>): void };
+			caches: {
+				default: {
+					match(request: Request): Promise<Response | undefined>;
+					put(request: Request, response: Response): Promise<void>;
+				};
+			};
+		}
 	}
 
 	interface Window {

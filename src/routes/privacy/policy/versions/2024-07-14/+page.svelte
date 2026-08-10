@@ -106,9 +106,8 @@
 		<p>Nobody.</p>
 
 		<p>
-			We use <a href="https://newrelic.com/privacy">NewRelic</a> and <a href="https://sentry.com/privacy">Sentry</a>
-			to collect <a href="#browserData">Browser Data</a>. Please refer to their respective privacy
-			policies for more information.
+			We use a self-hosted instance of <a href="https://umami.is/privacy">Umami</a> to collect
+			<a href="#browserData">Browser Data</a>. Please refer to its privacy policy for more information.
 		</p>
 	</section>
 

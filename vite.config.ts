@@ -1,5 +1,5 @@
-// import { sentrySvelteKit } from '@sentry/sveltekit';
 import { sveltekit } from '@sveltejs/kit/vite';
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 
 const API_HOST = process.env.PUBLIC_API_HOST ?? 'https://api.pokecompanion.com';
@@ -7,7 +7,8 @@ const IS_DEV = process.env.NODE_ENV === 'development';
 
 export default defineConfig({
 	plugins: [
-		sveltekit()
+		sveltekit(),
+		tailwindcss()
 	],
 	server: {
 		proxy: IS_DEV ? {

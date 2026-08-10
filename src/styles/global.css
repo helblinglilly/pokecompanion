@@ -128,7 +128,7 @@ input[type='checkbox'].nested {
 	background-color: var(--grey-muted);
 }
 
-:global(.dark-theme) input[type='checkbox'].nested {
+.dark-theme input[type='checkbox'].nested {
 	background-color: var(--grey-primary-dark);
 }
 

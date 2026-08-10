@@ -1,6 +1,6 @@
 import fs from 'fs';
 import fetch from 'node-fetch';
-import PokemonNames from '../../src/lib/data/pokemonNames.json' assert { type: 'json' };
+import PokemonNames from '../../src/lib/data/pokemonNames.json' with { type: 'json' };
 import sharp from 'sharp';
 
 const genericFile = fs.readFileSync('./assets/pokemonPreview.svg', 'utf-8');
