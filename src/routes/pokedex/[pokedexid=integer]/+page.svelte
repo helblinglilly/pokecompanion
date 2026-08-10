@@ -6,8 +6,18 @@
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
 	import { page } from '$app/state';
 	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { tracker } from '$lib/analytics/tracker';
 
 	let { data } = $props();
+
+	$effect(() => {
+		tracker.captureEvent('pokedex_viewed', {
+			pokedex_id: data.pokedex.pokedex.id,
+			pokedex_name: data.pokedex.pokedex.name,
+			game: data.pokedex.games[0] ?? null,
+			total_entries: data.pokedex.pokemon.length
+		});
+	});
 </script>
 
 <SocialPreview

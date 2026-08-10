@@ -14,11 +14,18 @@
 	import Image from '$/ui/atoms/Image.svelte';
 	import { isSprite } from '$/lib/utils/isSprite.js';
 	import { selectedGame } from '$/lib/stores/domain.js';
+	import { tracker } from '$lib/analytics/tracker';
 
 	let { data } = $props();
 
 	$effect(() => {
 		searchTerm.set(data.searchTerm);
+		tracker.captureEvent('pokemon_searched', {
+			search_term: data.searchTerm,
+			game: $selectedGame?.pokeapi ?? null,
+			status: 'success',
+			result_count: data.pokemon.totalItems
+		});
 	});
 
 	const pokemonResults = $derived(writable(data.pokemon));

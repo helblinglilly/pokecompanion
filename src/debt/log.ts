@@ -46,9 +46,8 @@ export class Logger {
 			console.debug('PageAction', name, details);
 		}
 		if (typeof window !== 'undefined') {
-			if (window?.umami) {
-				window.umami.track(name, details);
-			}
+			window?.umami?.track(name, details);
+			window?.posthog?.capture(name, details);
 		}
 	}
 }

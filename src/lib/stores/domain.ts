@@ -17,7 +17,10 @@ export const secondaryLanguage = writable<PokeapiLanguageCodes | ''>('');
 export const versionSpecificPokemonSprites = writable<boolean>(true);
 export const versionSpecificTypeSprites = writable<boolean>(false);
 export const animateSprites = writable<boolean>(true);
-export const rememberToken = writable<string>(uuid());
+// This module is also imported by server-side hooks. Generating a UUID here
+// runs during Cloudflare Worker module initialisation, where random values are
+// prohibited. Create it from the browser-only cookie handler instead.
+export const rememberToken = writable<string>('');
 export const meta = writable<
 	paths['/meta']['get']['responses']['200']['content']['application/json'] & {
 		preferences: {
@@ -213,7 +216,7 @@ export const cookieHandlers = {
 		let existingValue = getCookie('remember-token') as string | undefined;
 		if (!existingValue) {
 			existingValue = uuid();
-			setCookie('remember-token', get(rememberToken));
+			setCookie('remember-token', existingValue);
 		}
 		rememberToken.set(existingValue);
 

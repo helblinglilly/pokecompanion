@@ -212,7 +212,6 @@ async function cacheFirst(request, cacheName = REQUESTS) {
 				await cache.delete(request);
 
 				const networkResponse = await fetch(request);
-				console.log('updating cached entry for', request);
 				if (networkResponse.status < 400) {
 					await safeCachePut(cache, request, networkResponse.clone());
 				}

@@ -24,6 +24,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260810.1",
     "@eslint/js": "^10.0.1",
+    "@posthog/types": "^1.402.2",
     "@sveltejs/adapter-cloudflare": "^7.2.9",
     "@sveltejs/adapter-vercel": "^6.3.4",
     "@sveltejs/kit": "^2.70.2",
@@ -58,6 +59,7 @@
     "wrangler": "^4.120.1"
   },
   "dependencies": {
-    "marked": "^18.0.9"
+    "marked": "^18.0.9",
+    "posthog-js": "^1.415.1"
   }
 }

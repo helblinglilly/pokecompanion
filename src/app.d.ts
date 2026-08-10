@@ -1,5 +1,5 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
+import type { PostHog } from 'posthog-js';
+
 declare global {
 	namespace App {
 		// interface Locals {}
@@ -32,6 +32,7 @@ declare global {
 			 */
 			track: (event_name?: string | object, data?: object) => void;
 		};
+		posthog?: PostHog;
 	}
 }
 
