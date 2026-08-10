@@ -17,8 +17,21 @@
 	import { get } from 'svelte/store';
 	import { currentUser } from '$/lib/stores/user';
 	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { tracker } from '$lib/analytics/tracker';
+	import { selectedGame } from '$lib/stores/domain';
 
 	let { data } = $props();
+
+	$effect(() => {
+		tracker.captureEvent('pokemon_viewed', {
+			pokemon_id: data.id,
+			pokemon_name: data.slug,
+			game: $selectedGame?.pokeapi ?? null,
+			is_shiny: page.url.searchParams.get('shiny') === 'true',
+			gender: page.url.searchParams.get('gender') ?? null,
+			variety: page.url.searchParams.get('variety') ?? null
+		});
+	});
 
 	$effect(() => {
 		const event = (e: KeyboardEvent) => {

@@ -6,6 +6,7 @@
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
 	import { PUBLIC_API_HOST } from '$env/static/public';
 	import { addNotification } from '$/features/notifications/notifications';
+	import { tracker } from '$lib/analytics/tracker';
 
 	interface Props {
 		classes?: string;
@@ -25,6 +26,7 @@
 			}
 
 			currentUser.set(null);
+			tracker.logout('delete_account');
 			deleteCookie('pb_auth');
 			goto('/');
 		} catch (err) {

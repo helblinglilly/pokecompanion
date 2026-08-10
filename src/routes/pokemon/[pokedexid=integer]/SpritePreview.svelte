@@ -40,6 +40,7 @@
 			showModal = true;
 		}
 		window?.umami?.track('PokemonSpriteModal');
+		window?.posthog?.capture('PokemonSpriteModal');
 	};
 </script>
 

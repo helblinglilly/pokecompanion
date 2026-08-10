@@ -16,11 +16,19 @@
 		<a href="/privacy/policy/versions/2025-12-14"><b>14 December 2025</b></a>
 	</li>
 	<li class="pb-4">
-		<a href="/privacy/policy/versions/2026-03-21"><b>21 March 2026 (current)</b></a>
+		<a href="/privacy/policy/versions/2026-03-21"><b>21 March 2026</b></a>
 		<ul class="pl-4">
 			<li>
 				<p>Clarified how data could be deleted.</p>
 				<p>Added anchor tags to link out to specific sections more easily.</p>
+			</li>
+		</ul>
+	</li>
+	<li class="pb-4">
+		<a href="/privacy/policy/versions/2026-03-21"><b>10 August 2026 (current)</b></a>
+		<ul class="pl-4">
+			<li>
+				<p>Add Posthog as a data processor</p>
 			</li>
 		</ul>
 	</li>

@@ -13,6 +13,7 @@
 	import CreateNewTag from '$/features/tags/new/CreateNewTag.svelte';
 	import { isSprite } from '$/lib/utils/isSprite';
 	import { selectedGame } from '$/lib/stores/domain';
+	import { tracker } from '$lib/analytics/tracker';
 
 	interface Props {
 		data: APIPokemon;
@@ -119,6 +120,10 @@
 			} else {
 				changeUrlQueryParam('shiny', 'true');
 			}
+			tracker.captureEvent('pokemon_shiny_toggled', {
+				pokemon_id: data.id,
+				is_shiny: !isOnShiny
+			});
 		}}
 	>
 		{#if page.url.searchParams.get('shiny') === 'true'}
@@ -145,6 +150,10 @@
 			} else {
 				changeUrlQueryParam('gender', 'female');
 			}
+			tracker.captureEvent('pokemon_gender_changed', {
+				pokemon_id: data.id,
+				gender: currentGender === 'female' ? 'male' : 'female'
+			});
 		}}
 	>
 		{#if hasFemaleSprite}
