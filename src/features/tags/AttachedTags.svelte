@@ -22,7 +22,7 @@
 </script>
 
 {#each tags as tag}
-	{@const baseUrl = `/user/${$currentUser?.username}/tags/${tag.id}`}
+	{@const baseUrl = `/user/${tag.owner}/tags/${tag.id}`}
 	{@const anchor = pokemon ? pokemon.id : ''}
 	<a class="tag inline-flex gap-1 p-2 w-max m-1" href={`${baseUrl}#${anchor}`}>
 		<span class="tag-icon"><Icon name="tag" /></span>

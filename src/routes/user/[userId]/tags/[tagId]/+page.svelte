@@ -46,17 +46,11 @@
 
 <SocialPreview
 	title={`"${data.tag.name}" tag`}
-	description={`${data.user.username} created this tag with ${
-		data.tag.contents.pokemon ? data.tag.contents.pokemon.length : 0
-	} Pokémon`}
+	description={`A Pokémon tag with ${data.tag.contents.pokemon ? data.tag.contents.pokemon.length : 0} Pokémon`}
 />
 
 <Breadcrumbs
 	breadcrumbs={[
-		{
-			display: data.user.username,
-			url: `/user/${data.user.username}`
-		},
 		{
 			display: data.tag.name
 		}
@@ -67,7 +61,7 @@
 	<Header entry={data.tag} bind:inModifyView />
 
 	<div class="w-full justify-center md:w-fit grid md:inline-flex gap-2 items-center">
-		{#if $currentUser?.username === data.user.username && inModifyView}
+		{#if $currentUser?.id === data.tag.owner && inModifyView}
 			<TagEditor tag={data.tag} />
 		{:else if !inModifyView}
 			<TagViewOptions />
@@ -86,7 +80,7 @@
 <div class="w-full text-center mt-12">
 	<i>{numberOfItems} entries</i>
 
-	{#if $currentUser?.username === data.user.username}
+	{#if $currentUser?.id === data.tag.owner}
 		<p>Created: {new Date(data.tag.created).toLocaleString()}</p>
 		<p>Updated: {new Date(data.tag.updated).toLocaleString()}</p>
 	{/if}

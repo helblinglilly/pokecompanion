@@ -70,7 +70,7 @@
 						</div>
 						<div class="grid gap-4 pt-2 m-4">
 							{#each data.tags as tag}
-								<a href={`/user/${data.username}/tags/${tag.id}`}>
+								<a href={`/user/${data.id}/tags/${tag.id}`}>
 									<Card isNested classes="inline-flex w-full justify-between">
 										<div class="inline-flex">
 											{#if tag.isPrivate}

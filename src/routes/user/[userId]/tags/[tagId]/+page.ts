@@ -1,7 +1,6 @@
 import type { paths } from '$/@types/api.js';
 import { PUBLIC_API_HOST } from '$env/static/public';
 import { Logger } from '$/debt/log.js';
-import { getUserByUsername } from '$/routes/user/[username]/tags/[tagId]/publicUsers';
 import { error } from '@sveltejs/kit';
 import type { APITag } from '$/features/tags/types';
 import { DEPEND_TAG_ID } from '$/features/tags/depends.js';
@@ -11,21 +10,22 @@ export const load = async ({ params, fetch, depends }) => {
 	depends(DEPEND_TAG_ID(params.tagId));
 	const runtimeFetch = getLoadFetch(fetch);
 
-	const [user, tagRes] = await Promise.all([
-		getUserByUsername(params.username, runtimeFetch),
-		await runtimeFetch(`${PUBLIC_API_HOST}/tags/${params.tagId}`, {
-			credentials: 'include'
-		})
-	]).catch(async (err) => {
+	const tagRes = await runtimeFetch(`${PUBLIC_API_HOST}/tags/${params.tagId}`, {
+		credentials: 'include'
+	}).catch(async (err) => {
 		await Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
 			context: 'When loading a specific tag page',
-			username: params.username,
 			tag: params.tagId
 		});
-		return [];
+		return;
 	});
 
-	if (!user) {
+	if (!tagRes || !tagRes.ok) {
+		error(404, 'This tag does not exist');
+	}
+
+	const tag = (await tagRes.json()) as APITag['tags'][number];
+	if (tag.owner !== params.userId) {
 		error(404, 'This tag does not exist');
 	}
 
@@ -38,10 +38,7 @@ export const load = async ({ params, fetch, depends }) => {
 
 		return tagPokemon;
 	}
-	const tag = (await tagRes.json()) as APITag['tags'][number];
-
 	return {
-		user,
 		tag,
 		tagPokemon: getTagPokemon()
 	};
