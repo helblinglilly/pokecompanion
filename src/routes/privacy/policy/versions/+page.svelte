@@ -1,5 +1,4 @@
 <script lang="ts">
-
 </script>
 
 <div class="pb-4">
@@ -25,10 +24,19 @@
 		</ul>
 	</li>
 	<li class="pb-4">
-		<a href="/privacy/policy/versions/2026-03-21"><b>10 August 2026 (current)</b></a>
+		<a href="/privacy/policy/versions/2026-08-10"><b>10 August 2026</b></a>
 		<ul class="pl-4">
 			<li>
-				<p>Add Posthog as a data processor</p>
+				<p>Added PostHog as a data processor.</p>
+			</li>
+		</ul>
+	</li>
+	<li class="pb-4">
+		<a href="/privacy/policy/versions/2026-08-23"><b>23 August 2026 (current)</b></a>
+		<ul class="pl-4">
+			<li>
+				<p>Expanded the policy to cover the Pokécompanion mobile App.</p>
+				<p>Added information about App storage, analytics, diagnostics and crash reporting.</p>
 			</li>
 		</ul>
 	</li>
