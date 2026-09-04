@@ -34,7 +34,7 @@
 				}
 
 				currentUrl.searchParams.set('variety', detail);
-				goto(currentUrl);
+				goto(currentUrl, { invalidateAll: true, noScroll: true, keepFocus: false });
 			}}
 		/>
 	</div>
