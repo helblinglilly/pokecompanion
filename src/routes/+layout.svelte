@@ -109,7 +109,7 @@
 	});
 
 	let shouldDisplaySearch = $derived(
-		!['/auth/', '/about', '/privacy'].some((noSearchBar) => {
+		!['/auth/', '/about', '/privacy', '/app'].some((noSearchBar) => {
 			return page.url.pathname.includes(noSearchBar);
 		})
 	);
