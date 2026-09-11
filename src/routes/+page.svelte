@@ -57,7 +57,14 @@
 			<div class="column p-0">
 				<h2 class="h2">Pokémon of the day</h2>
 				{#await data.data}
-					<p>Loading...</p>
+					<Card
+						classes="of-the-day-loading pokemon-of-the-day-loading"
+						ariaLabel="Loading Pokémon of the day"
+					>
+						<div class="pokemon-of-the-day-sprite-placeholder" aria-hidden="true"></div>
+						<p>Loading...</p>
+						<p aria-hidden="true">&nbsp;</p>
+					</Card>
 				{:then resolved}
 					{#if resolved.ofTheDay.pokemon}
 						<a href={resolved.ofTheDay.pokemon?.pokedex.pokedexSlug} class="no-underline">
@@ -77,7 +84,12 @@
 			<div class="column p-0">
 				<h2 class="h2">Move of the day</h2>
 				{#await data.data}
-					<p>Loading...</p>
+					<Card
+						classes="of-the-day-loading move-of-the-day-loading"
+						ariaLabel="Loading move of the day"
+					>
+						<p>Loading...</p>
+					</Card>
 				{:then resolved}
 					{#if resolved.ofTheDay.move}
 						<a href={resolved.ofTheDay.move?.slug} class="no-underline">
@@ -109,5 +121,47 @@
 
 	h2 {
 		padding-bottom: 0.5rem;
+	}
+
+	:global(.app-promo-card) {
+		display: grid;
+		gap: var(--space-3);
+		align-content: center;
+	}
+
+	:global(.app-promo-card a) {
+		display: inline-flex;
+		width: fit-content;
+		justify-self: center;
+	}
+
+	:global(.app-promo-card img) {
+		display: block;
+		width: 10.5rem;
+		height: auto;
+	}
+
+	:global(.of-the-day-loading) {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	:global(.pokemon-of-the-day-loading) {
+		display: block;
+		padding: 2rem;
+		text-align: center;
+	}
+
+	.pokemon-of-the-day-sprite-placeholder {
+		height: 96px;
+		width: 96px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+
+	:global(.move-of-the-day-loading) {
+		height: 7rem;
+		padding: 2rem;
 	}
 </style>
