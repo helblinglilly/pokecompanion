@@ -4,7 +4,7 @@ export const GET: RequestHandler = async () => {
 	const sitemap = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
     <loc>https://pokecompanion.com</loc>
-    <lastmod>2024-04-20T18:41:35+00:00</lastmod>
+    <lastmod>2026-09-22T17:15:35+00:00</lastmod>
     <priority>1.0</priority>
 </url>
 <url>

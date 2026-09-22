@@ -3,14 +3,9 @@
 	import SelfMarketing from './SelfMarketing.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
-	import Select from '$/ui/atoms/Select.svelte';
-	import { meta, selectedGame } from '$lib/stores/domain';
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card/PokemonCardEntry.svelte';
 
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
-	import { capitaliseFirstLetter } from '$/lib/utils/string';
-	import { invalidate } from '$app/navigation';
-	import { DEPENDS_SETTINGS } from '$lib/api/settings';
 
 	let { data } = $props();
 </script>
@@ -25,32 +20,18 @@
 	<section>
 		<div class="columns home-columns">
 			<div class="column p-0">
-				<h2 class="h2">What you playing?</h2>
-				<Card classes="h-full p-8 max-h-60 md:max-h-52">
-					<p>You can change this later in settings</p>
-					<Select
-						isNested
-						options={(data.games ?? []).map((game) => ({
-							label: game.shortName,
-							value: game.pokeapi
-						}))}
-						value={$selectedGame
-							? $selectedGame.pokeapi
-							: data.games
-								? data.games[data.games.length - 1]?.pokeapi
-								: undefined}
-						onchange={async (detail) => {
-							const game = $meta.games.find((metaGame) => metaGame.pokeapi === detail);
-							if (game) {
-								selectedGame.set(game);
-								invalidate(DEPENDS_SETTINGS);
-							}
-						}}
-					/>
-
-					{#if $selectedGame && $selectedGame?.pokeapi !== 'home'}
-						<p class="mb-4">{capitaliseFirstLetter($selectedGame.region)} Region</p>
-					{/if}
+				<h2 class="h2">A wild app appeared!</h2>
+				<Card classes="app-promo-card h-full p-8 max-h-60 md:max-h-52">
+					<p>Easy, sleek, and in your pocket. Try the Pokécompanion app today.</p>
+					<a
+						href="https://play.google.com/store/apps/details?id=com.helblinglilly.pokecompanion"
+						aria-label="Get the Pokécompanion app on Google Play"
+					>
+						<img
+							src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+							alt="Get it on Google Play"
+						/>
+					</a>
 				</Card>
 			</div>
 
