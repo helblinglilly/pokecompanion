@@ -88,8 +88,10 @@
 			{/if}
 		</div>
 	{:else}
-		<div class="w-full inline-flex justify-between gap-2">
-			{@render navigationButton(previous)}
+		<div class="grid w-full grid-cols-[1fr_auto_1fr] items-center gap-2">
+			<div class="justify-self-start">
+				{@render navigationButton(previous)}
+			</div>
 			<div class="grid gap-0">
 				<h1 class="h2 my-auto text-center mb-0 pb-0">
 					#{current.pokedexId}
@@ -100,7 +102,9 @@
 					{@render children()}
 				{/if}
 			</div>
-			{@render navigationButton(next)}
+			<div class="justify-self-end">
+				{@render navigationButton(next)}
+			</div>
 		</div>
 	{/if}
 </div>

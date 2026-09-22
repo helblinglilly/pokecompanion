@@ -28,16 +28,15 @@
 				Logger.addPageAction('PokemonNavigation');
 			}}
 		>
-			<Card classes="w-fit h-auto inline-flex navigation-card" isClickable>
+			<Card classes="w-fit h-auto inline-flex m-0 p-2 min-h-8" isClickable>
 				<p class="m-auto hidden sm:block">#{pokedexId}</p>
 				{#if iconUrl}
 					<Image
 						src={`${iconUrl}/${pokedexId}.png`}
 						isSprite
 						alt="icon"
-						classNames="icon"
+						classNames="icon w-12"
 						loading="eager"
-						width="50"
 					/>
 				{:else}
 					<Image src="/placeholder.png" alt="icon" classNames="icon" loading="eager" />
@@ -45,20 +44,6 @@
 			</Card>
 		</a>
 	{:else}
-		<!-- svelte-ignore element_invalid_self_closing_tag -->
-		<div class="w-[50px]" />
+		<div class="min-w-20">&nbsp;</div>
 	{/if}
 </div>
-
-<style>
-	.navigation-button {
-		min-width: fit-content;
-		min-height: 70px;
-	}
-
-	:global(.navigation-card) {
-		min-height: 70px;
-		margin: 0;
-		padding: 10px;
-	}
-</style>
