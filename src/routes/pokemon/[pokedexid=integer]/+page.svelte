@@ -115,7 +115,7 @@
 		<Navigator title={`${data.name}`} currentId={data.id} varieties={data.varieties} />
 
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-			<Card classes="relative min-h-[250px] h-fit">
+			<Card classes="relative">
 				<PokemonCard {data} />
 			</Card>
 
