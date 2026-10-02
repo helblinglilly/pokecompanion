@@ -1,0 +1,20 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "pokecompanion",
+	"pages_build_output_dir": ".svelte-kit/cloudflare",
+	"compatibility_date": "2025-11-17",
+	"compatibility_flags": ["nodejs_compat"],
+	"observability": {
+    "enabled": false,
+  },
+  "routes": [
+    {
+      "pattern": "pokecompanion.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.pokecompanion.com",
+      "custom_domain": true
+    }
+  ]
+}
