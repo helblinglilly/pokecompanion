@@ -2,7 +2,7 @@
 	import type { APIPokemon, MetaGame, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 	import Button from '$/ui/atoms/Button.svelte';
 	import Select from '$/ui/atoms/Select.svelte';
-	import { meta, selectedGame } from '$lib/stores/domain';
+	import { meta, selectedGame } from '#lib/stores/domain.js';
 	import EncounterVersion from './EncounterVersion.svelte';
 
 	interface Props {

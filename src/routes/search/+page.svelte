@@ -8,13 +8,13 @@
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list/PokemonListEntry.svelte';
 	import { page } from '$app/state';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 	import { writable } from 'svelte/store';
 	import { searchTerm } from '$/features/search/searchbar.js';
 	import Image from '$/ui/atoms/Image.svelte';
 	import { isSprite } from '$/lib/utils/isSprite.js';
 	import { selectedGame } from '$/lib/stores/domain.js';
-	import { tracker } from '$lib/analytics/tracker';
+	import { tracker } from '#lib/analytics/tracker.js';
 
 	let { data } = $props();
 
@@ -42,14 +42,13 @@
 		try {
 			const url = addSettingsAsSearchParams(
 				new URL(`${PUBLIC_API_HOST}/search/pokemon`),
-				page.url.searchParams
+				new URLSearchParams(page.url.searchParams.toString())
 			);
 
 			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${pokemonPage + 1}`);
 
 			const res = await fetch(url);
-
 			const body =
 				(await res.json()) as paths['/search/pokemon']['get']['responses']['200']['content']['application/json'];
 
@@ -70,14 +69,13 @@
 		try {
 			const url = addSettingsAsSearchParams(
 				new URL(`${PUBLIC_API_HOST}/search/moves`),
-				page.url.searchParams
+				new URLSearchParams(page.url.searchParams.toString())
 			);
 
 			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${movesPage + 1}`);
 
 			const res = await fetch(url);
-
 			const body =
 				(await res.json()) as paths['/search/moves']['get']['responses']['200']['content']['application/json'];
 
@@ -98,14 +96,13 @@
 		try {
 			const url = addSettingsAsSearchParams(
 				new URL(`${PUBLIC_API_HOST}/search/abilities`),
-				page.url.searchParams
+				new URLSearchParams(page.url.searchParams.toString())
 			);
 
 			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${abilityPage + 1}`);
 
 			const res = await fetch(url);
-
 			const body =
 				(await res.json()) as paths['/search/abilities']['get']['responses']['200']['content']['application/json'];
 
@@ -126,14 +123,13 @@
 		try {
 			const url = addSettingsAsSearchParams(
 				new URL(`${PUBLIC_API_HOST}/search/items`),
-				page.url.searchParams
+				new URLSearchParams(page.url.searchParams.toString())
 			);
 
 			url.searchParams.append('term', page.url.searchParams.get('term') ?? '');
 			url.searchParams.append('page', `${itemsPage + 1}`);
 
 			const res = await fetch(url);
-
 			const body =
 				(await res.json()) as paths['/search/items']['get']['responses']['200']['content']['application/json'];
 
@@ -200,9 +196,7 @@
 		{/if}
 
 		{#each $moveResults.data as move}
-			<a href={move.slug} class="no-underline">
-				<MoveListEntry {move} />
-			</a>
+			<a href={move.slug} class="no-underline"><MoveListEntry {move} /></a>
 		{/each}
 
 		{#if $moveResults.data.length < $moveResults.totalItems}

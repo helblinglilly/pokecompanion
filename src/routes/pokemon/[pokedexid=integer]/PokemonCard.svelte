@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { APIPokemon } from '$/@types/api.pokecompanion';
-	import { currentUser } from '$lib/stores/user';
+	import { currentUser } from '#lib/stores/user.js';
 	import Icon from '$/ui/atoms/Icon.svelte';
 	import EditTag from '$/ui/molecules/tags/EditTag.svelte';
 	import Image from '$/ui/atoms/Image.svelte';
@@ -13,7 +13,7 @@
 	import CreateNewTag from '$/features/tags/new/CreateNewTag.svelte';
 	import { isSprite } from '$/lib/utils/isSprite';
 	import { selectedGame } from '$/lib/stores/domain';
-	import { tracker } from '$lib/analytics/tracker';
+	import { tracker } from '#lib/analytics/tracker.js';
 
 	interface Props {
 		data: APIPokemon;
@@ -30,15 +30,15 @@
 	const gender = genderParam === 'male' ? 'male' : genderParam === 'female' ? 'female' : undefined;
 
 	const changeUrlQueryParam = (param: string, value: string) => {
-		const newUrl = new URL(page.url);
+		const newUrl = new URL(page.url.href);
 		newUrl.searchParams.set(param, value);
-		goto(newUrl.toString(), { noScroll: true, keepFocus: false });
+		goto(newUrl.toString(), { reset: false });
 	};
 
 	const deleteUrlQueryParam = (param: string) => {
-		const newUrl = new URL(page.url);
+		const newUrl = new URL(page.url.href);
 		newUrl.searchParams.delete(param);
-		goto(newUrl.toString(), { noScroll: true, keepFocus: false });
+		goto(newUrl.toString(), { reset: false });
 	};
 </script>
 

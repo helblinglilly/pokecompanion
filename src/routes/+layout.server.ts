@@ -1,6 +1,6 @@
 import type { LayoutServerLoad } from './$types';
-import { SettingNames } from '$lib/stores/domain';
-import type { AuthRecord } from '$lib/stores/user';
+import { SettingNames } from '#lib/stores/domain.js';
+import type { AuthRecord } from '#lib/stores/user.js';
 
 const getCurrentUser = (authCookie: string | undefined): AuthRecord | null => {
 	if (!authCookie) {
@@ -18,10 +18,9 @@ const getCurrentUser = (authCookie: string | undefined): AuthRecord | null => {
 	}
 };
 
-
 export const load: LayoutServerLoad = async ({ cookies }) => {
-  return {
-    currentUser: getCurrentUser(cookies.get('pb_auth')),
+	return {
+		currentUser: getCurrentUser(cookies.get('pb_auth')),
 		settings: {
 			primaryLanguage: cookies.get(SettingNames.PrimaryLanguage) ?? 'en',
 			secondaryLanguage: cookies.get(SettingNames.SecondaryLanguage) ?? '',
@@ -29,8 +28,7 @@ export const load: LayoutServerLoad = async ({ cookies }) => {
 			animateSprites: cookies.get(SettingNames.AnimateSprites) ?? 'true',
 			versionSpecificPokemonSprites:
 				cookies.get(SettingNames.VersionSpecificPokemonSprites) ?? 'true',
-			versionSpecificTypeSprites:
-				cookies.get(SettingNames.VersionSpecificTypeSprites) ?? 'false'
+			versionSpecificTypeSprites: cookies.get(SettingNames.VersionSpecificTypeSprites) ?? 'false'
 		}
 	};
 };

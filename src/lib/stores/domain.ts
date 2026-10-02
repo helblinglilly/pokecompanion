@@ -131,8 +131,7 @@ export const cookieHandlers = {
 	secondaryLanguage: () => {
 		const isInSearchParam = page.url.searchParams.get(SettingNames.SecondaryLanguage);
 		let existingValue = getCookie(SettingNames.SecondaryLanguage) as
-			| keyof PokeapiLanguageCodes
-			| undefined;
+			keyof PokeapiLanguageCodes | undefined;
 
 		if (isInSearchParam) {
 			existingValue = isInSearchParam as keyof PokeapiLanguageCodes;

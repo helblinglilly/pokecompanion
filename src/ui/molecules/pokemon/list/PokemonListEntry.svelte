@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { selectedGame, theme } from '$lib/stores/domain';
+	import { selectedGame, theme } from '#lib/stores/domain.js';
 	import Icon from '$/ui/atoms/Icon.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
 	import Image from '$/ui/atoms/Image.svelte';

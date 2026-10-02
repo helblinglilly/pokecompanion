@@ -1,6 +1,6 @@
-import { browser } from '$app/environment';
-import type { Handle, HandleFetch } from '@sveltejs/kit';
-import { SettingNames } from '$lib/stores/domain';
+import type { Handle, HandleFetch } from '@sveltejs/kit/hooks';
+import { browser } from '$app/env';
+import { SettingNames } from '#lib/stores/domain.js';
 
 const PROXY_PREFIX = '/proxy';
 const REAL_API_HOST = 'https://api.pokecompanion.com';

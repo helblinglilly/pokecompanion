@@ -1,5 +1,4 @@
 <script lang="ts">
-
 </script>
 
 <h1 class="h1">Privacy</h1>

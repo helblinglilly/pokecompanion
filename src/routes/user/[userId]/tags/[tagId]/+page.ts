@@ -1,10 +1,10 @@
 import type { paths } from '$/@types/api.js';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PUBLIC_API_HOST } from '$app/env/public';
 import { Logger } from '$/debt/log.js';
 import { error } from '@sveltejs/kit';
 import type { APITag } from '$/features/tags/types';
 import { DEPEND_TAG_ID } from '$/features/tags/depends.js';
-import { getLoadFetch } from '$lib/api/loadFetch';
+import { getLoadFetch } from '#lib/api/loadFetch.js';
 
 export const load = async ({ params, fetch, depends }) => {
 	depends(DEPEND_TAG_ID(params.tagId));

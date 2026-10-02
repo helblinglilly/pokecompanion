@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Button from '$/ui/atoms/Button.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
-	import { goto, invalidateAll } from '$app/navigation';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { goto, refreshAll } from '$app/navigation';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 	import { addNotification } from '$/features/notifications/notifications';
 
 	let email = $state('');
@@ -44,10 +44,10 @@
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-					email: email,
-					password: password,
+					email,
+					password,
 					password_confirmation: passwordConfirm,
-					username: username
+					username
 				})
 			});
 
@@ -81,18 +81,13 @@
 			credentials: 'include',
 			method: 'POST',
 			redirect: 'manual',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				email: email,
-				password: password
-			})
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ email, password })
 		});
 
 		switch (res.status) {
 			case 200:
-				await invalidateAll();
+				await refreshAll();
 				const body = await res.json();
 				if (body.redirectTo) {
 					goto(body.redirectTo);
@@ -137,7 +132,7 @@
 						}
 					}}
 				/>
-				<p>{emailError}&nbsp;</p>
+				<p>{emailError}</p>
 			</div>
 
 			<div class="columns inputGroup inputGroup-spaced">
@@ -154,20 +149,20 @@
 					>
 						{#if showPassword}
 							<svg viewBox="0 0 24 24" aria-hidden="true">
-								<path d="m3 3 18 18" />
+								<path d="m3 3 18 18"></path>
 								<path
 									d="M10.6 10.7a2 2 0 0 0 2.7 2.7M9.9 4.2A10.8 10.8 0 0 1 12 4c5.5 0 9 6 9 6a17.6 17.6 0 0 1-2.1 2.8M6.6 6.6C4.4 8 3 10 3 10s3.5 6 9 6a9.8 9.8 0 0 0 3.4-.6"
-								/>
+								></path>
 							</svg>
 						{:else}
 							<svg viewBox="0 0 24 24" aria-hidden="true">
-								<path d="M3 10s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6Z" />
-								<circle cx="12" cy="10" r="2.5" />
+								<path d="M3 10s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6Z"></path>
+								<circle cx="12" cy="10" r="2.5"></circle>
 							</svg>
 						{/if}
 					</button>
 				</div>
-				<p>{passwordError}&nbsp;</p>
+				<p>{passwordError}</p>
 			</div>
 
 			{#if showSignupFields}
@@ -178,7 +173,7 @@
 						id="passwordConfirm"
 						bind:value={passwordConfirm}
 					/>
-					<p>{passwordConfirmError}&nbsp;</p>
+					<p>{passwordConfirmError}</p>
 				</div>
 
 				<div class="columns inputGroup inputGroup-spaced">
@@ -193,7 +188,7 @@
 							}
 						}}
 					/>
-					<p>{usernameError}&nbsp;</p>
+					<p>{usernameError}</p>
 				</div>
 			{/if}
 

@@ -3,7 +3,7 @@
 	import ChangeUsername from '$/lib/components/Users/ChangeUsername.svelte';
 	import DeleteUser from '$/lib/components/Users/DeleteUser.svelte';
 	import ReportUser from '$/lib/components/Users/ReportUser.svelte';
-	import { currentUser } from '$lib/stores/user';
+	import { currentUser } from '#lib/stores/user.js';
 	import Icon from '$/ui/atoms/Icon.svelte';
 	import EmailVerification from '$/routes/user/[username]/EmailVerification.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';

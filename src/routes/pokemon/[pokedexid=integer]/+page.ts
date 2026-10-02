@@ -1,9 +1,9 @@
 import type { paths } from '$/@types/api.js';
 import type { APIPokemon } from '$/@types/api.pokecompanion';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PUBLIC_API_HOST } from '$app/env/public';
 import { error, redirect } from '@sveltejs/kit';
-import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
-import { getLoadFetch } from '$lib/api/loadFetch';
+import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '#lib/api/settings.js';
+import { getLoadFetch } from '#lib/api/loadFetch.js';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ params, fetch, url, parent, depends }) => {
@@ -24,10 +24,7 @@ export const load: PageLoad = async ({ params, fetch, url, parent, depends }) =>
 			settings,
 			url.searchParams
 		);
-
-		const res = await runtimeFetch(abilityUrl, {
-			credentials: 'include'
-		});
+		const res = await runtimeFetch(abilityUrl, { credentials: 'include' });
 
 		if (res.status !== 200) {
 			throw new Error('Failed to get abilities');
@@ -42,10 +39,7 @@ export const load: PageLoad = async ({ params, fetch, url, parent, depends }) =>
 			settings,
 			url.searchParams
 		);
-
-		const request = await runtimeFetch(moveRequestUrl, {
-			credentials: 'include'
-		});
+		const request = await runtimeFetch(moveRequestUrl, { credentials: 'include' });
 
 		if (request.status !== 200) {
 			throw new Error('Failed to get moves');

@@ -1,14 +1,14 @@
 import type { APIMeta } from '$/@types/api.pokecompanion';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PUBLIC_API_HOST } from '$app/env/public';
 import type { LayoutLoad } from './$types';
-import { animateSprites, meta, selectedGame } from '$lib/stores/domain';
+import { animateSprites, meta, selectedGame } from '#lib/stores/domain.js';
 import { get } from 'svelte/store';
 import { getAllTagsForUser } from '$/features/tags/api';
 import { DEPEND_ALL_TAGS } from '$/features/tags/depends';
-import { resolveSettings } from '$lib/api/settings';
-import { getLoadFetch } from '$lib/api/loadFetch';
-import { browser } from '$app/environment';
-import { getCookie } from '$lib/utils/cookies';
+import { resolveSettings } from '#lib/api/settings.js';
+import { getLoadFetch } from '#lib/api/loadFetch.js';
+import { browser } from '$app/env';
+import { getCookie } from '#lib/utils/cookies.js';
 
 export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 	depends(DEPEND_ALL_TAGS);
@@ -42,17 +42,16 @@ export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 
 		const isAuthenticated = browser ? !!getCookie('pb_auth') : !!data.currentUser;
 		const tagBody = isAuthenticated
-					? await getAllTagsForUser(undefined, runtimeFetch)
-					: {
-							currentPage: 0,
-							tags: [],
-							totalPages: 0
-						};
-
+			? await getAllTagsForUser(undefined, runtimeFetch)
+			: {
+					currentPage: 0,
+					tags: [],
+					totalPages: 0
+				};
 
 		return {
 			...metaBody,
-      tags: tagBody,
+			tags: tagBody,
 			currentUser: data.currentUser,
 			settings
 		};
@@ -61,7 +60,7 @@ export const load: LayoutLoad = async ({ fetch, depends, data }) => {
 		return {
 			games: [],
 			languages: [],
-      lastPokedexEntry: 1,
+			lastPokedexEntry: 1,
 			currentUser: data.currentUser,
 			tags: {
 				currentPage: 0,

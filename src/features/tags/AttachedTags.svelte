@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { currentUser } from '$lib/stores/user';
+	import { currentUser } from '#lib/stores/user.js';
 	import Icon from '$/ui/atoms/Icon.svelte';
 	import { page } from '$app/state';
 	import type { LayoutData } from '../../routes/$types';

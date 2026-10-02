@@ -1,4 +1,4 @@
-import { isAllowedAuthCallbackHost } from '$lib/utils/auth';
+import { isAllowedAuthCallbackHost } from '#lib/utils/auth.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load({ cookies, url }) {
@@ -25,5 +25,8 @@ export async function load({ cookies, url }) {
 		authCallbackUrl.searchParams.set('token', authToken);
 	}
 
-	redirect(307, authCallbackUrl.toString());
+	// Callback URLs can be native-app schemes or an approved web host. SvelteKit 3
+	// rejects external redirects unless they are explicitly permitted; the URL has
+	// been validated above, so permit this final hand-off.
+	redirect(307, authCallbackUrl.toString(), { external: true });
 }

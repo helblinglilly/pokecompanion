@@ -3,9 +3,9 @@
 	import { uuid } from '$/lib/utils/uuid';
 	import { goto, invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { currentUser } from '$lib/stores/user';
-	import { deleteCookie, setCookie } from '$lib/utils/cookies';
-	import { tracker } from '$lib/analytics/tracker';
+	import { currentUser } from '#lib/stores/user.js';
+	import { deleteCookie, setCookie } from '#lib/utils/cookies.js';
+	import { tracker } from '#lib/analytics/tracker.js';
 
 	onMount(async () => {
 		tracker.logout('logout_button');

@@ -4,7 +4,7 @@ import { addNotification } from '$/features/notifications/notifications';
 import { DEPEND_TAG_ID } from '$/features/tags/depends';
 import type { APITag } from '$/features/tags/types';
 import { invalidate } from '$app/navigation';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PUBLIC_API_HOST } from '$app/env/public';
 
 export async function patchTag(
 	tag: paths['/tags/{tagId}']['patch']['requestBody']['content']['application/json'] & {
@@ -24,6 +24,7 @@ export async function patchTag(
 				throw new Error(`Non-200 status code ${res.status}`);
 			}
 			invalidate(DEPEND_TAG_ID(tag.id));
+
 			return (await res.json()) as APITag['tags'][number];
 		})
 		.catch((err) => {
@@ -31,9 +32,10 @@ export async function patchTag(
 				message: 'Failed to update tag. Please try again',
 				level: 'failure'
 			});
+
 			Logger.error(Logger.ErrorClasses.TagOperation, Logger.buildError(err), {
 				context: 'Failed to update tag',
-				tag: tag
+				tag
 			});
 		});
 }

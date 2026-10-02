@@ -1,4 +1,4 @@
-import type { AuthRecord } from '$lib/stores/user';
+import type { AuthRecord } from '#lib/stores/user.js';
 
 type EventProperties = Record<string, unknown>;
 

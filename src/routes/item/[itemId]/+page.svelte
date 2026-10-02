@@ -16,7 +16,7 @@
 	<Card classes="relative grid text-center">
 		<div class="columns mobile py-2 w-full">
 			<div class="column spriteBoxWrapper grid justify-center">
-				<Image src={data.item.icon} alt={'icon'} isSprite classNames="item-sprite" />
+				<Image src={data.item.icon ?? ''} alt={'icon'} isSprite classNames="item-sprite" />
 			</div>
 		</div>
 		<h1 class="text-xl font-bold">{data.item.name}</h1>

@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/state';
-	import FiveHundred from '$lib/components/ErrorPages/Generic/FiveHundred.svelte';
-	import FourOhFour from '$lib/components/ErrorPages/Generic/FourOhFour.svelte';
+	import FiveHundred from '#lib/components/ErrorPages/Generic/FiveHundred.svelte';
+	import FourOhFour from '#lib/components/ErrorPages/Generic/FourOhFour.svelte';
 	import Pokemon404 from '$/lib/components/ErrorPages/Pokemon404.svelte';
 </script>
 

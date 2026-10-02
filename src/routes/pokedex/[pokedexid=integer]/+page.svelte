@@ -5,8 +5,8 @@
 	import PageNavigator from '$/routes/pokemon/PageNavigator.svelte';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
 	import { page } from '$app/state';
-	import { PUBLIC_API_HOST } from '$env/static/public';
-	import { tracker } from '$lib/analytics/tracker';
+	import { PUBLIC_API_HOST } from '$app/env/public';
+	import { tracker } from '#lib/analytics/tracker.js';
 
 	let { data } = $props();
 

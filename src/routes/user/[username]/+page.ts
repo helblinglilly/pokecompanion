@@ -1,8 +1,8 @@
 import type { paths } from '$/@types/api.js';
 import { DEPEND_TAG_USER } from '$/features/tags/depends.js';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PUBLIC_API_HOST } from '$app/env/public';
 import { error } from '@sveltejs/kit';
-import { getLoadFetch } from '$lib/api/loadFetch';
+import { getLoadFetch } from '#lib/api/loadFetch.js';
 
 export const load = async ({ params, fetch, depends }) => {
 	depends(DEPEND_TAG_USER(params.username));
@@ -18,6 +18,7 @@ export const load = async ({ params, fetch, depends }) => {
 	if (res.status !== 200) {
 		error(res.status, 'Something went wrong');
 	}
+
 	const body =
 		(await res.json()) as paths['/user/{username}']['get']['responses']['200']['content']['application/json'];
 

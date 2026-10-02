@@ -1,6 +1,6 @@
-import { PUBLIC_API_HOST } from '$env/static/public';
-import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
-import { getLoadFetch } from '$lib/api/loadFetch';
+import { PUBLIC_API_HOST } from '$app/env/public';
+import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '#lib/api/settings.js';
+import { getLoadFetch } from '#lib/api/loadFetch.js';
 import type { paths } from '$/@types/api';
 import type { PageLoad } from './$types';
 
@@ -17,10 +17,8 @@ export const load: PageLoad = async ({ params, fetch, url, parent, depends }) =>
 	);
 
 	const res = await runtimeFetch(requestUrl);
-
 	const move =
 		(await res.json()) as paths['/move/{id}']['get']['responses']['200']['content']['application/json'];
-	return {
-		move
-	};
+
+	return { move };
 };

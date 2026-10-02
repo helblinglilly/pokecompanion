@@ -1,9 +1,11 @@
-import type { components, paths } from '$/@types/api';
+import type { paths } from '$/@types/api';
 
-export type MinimalTagPokemon = Omit<
-	NonNullable<components['schemas']['TagContents']['pokemon']>[number],
-	'added'
->;
+export type MinimalTagPokemon = {
+	id: number;
+	gender?: 'male' | 'female' | null;
+	shiny?: boolean | null;
+	variety?: string | null;
+};
 
 export type MinimalTagEntity = {
 	pokemon?: MinimalTagPokemon | undefined;

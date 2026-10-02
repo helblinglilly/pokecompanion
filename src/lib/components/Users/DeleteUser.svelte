@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { currentUser } from '$lib/stores/user';
-	import { deleteCookie } from '$lib/utils/cookies';
+	import { currentUser } from '#lib/stores/user.js';
+	import { deleteCookie } from '#lib/utils/cookies.js';
 	import Button from '$/ui/atoms/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 	import { addNotification } from '$/features/notifications/notifications';
-	import { tracker } from '$lib/analytics/tracker';
+	import { tracker } from '#lib/analytics/tracker.js';
 
 	interface Props {
 		classes?: string;
@@ -51,6 +51,7 @@
 
 		<div class="inline-flex h-full justify-between p-4 w-full pt-8">
 			<Button classes="error" onclick={onDeleteClick}>Yes, delete</Button>
+
 			<Button variant="secondary" onclick={() => (showModal = false)}>No, go back!</Button>
 		</div>
 	</div>

@@ -107,7 +107,8 @@
 		<p>Nobody.</p>
 
 		<p>
-			We use <a href="https://posthog.com/privacy">PostHog</a> and a self-hosted instance of <a href="https://umami.is/privacy">Umami</a>
+			We use <a href="https://posthog.com/privacy">PostHog</a> and a self-hosted instance of
+			<a href="https://umami.is/privacy">Umami</a>
 			to collect <a href="#browserData">Browser Data</a>. Please refer to their respective privacy
 			policies for more information.
 		</p>

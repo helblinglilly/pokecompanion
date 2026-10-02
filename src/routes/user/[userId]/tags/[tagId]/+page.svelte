@@ -1,13 +1,13 @@
 <script lang="ts">
 	import Breadcrumbs from '$/lib/components/Breadcrumbs.svelte';
-	import { currentUser } from '$lib/stores/user';
+	import { currentUser } from '#lib/stores/user.js';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import TagEditor from './TagEditor.svelte';
 	import TagPokemon from './TagPokemon.svelte';
 	import TagViewOptions from './TagViewOptions.svelte';
 	import Header from './Header.svelte';
 	import { get } from 'svelte/store';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 
 	let { data } = $props();
 

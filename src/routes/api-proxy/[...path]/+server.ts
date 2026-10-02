@@ -1,12 +1,7 @@
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PUBLIC_API_HOST } from '$app/env/public';
 import type { RequestHandler } from './$types';
 
-const HOP_BY_HOP_HEADERS = new Set([
-	'connection',
-	'content-length',
-	'host',
-	'transfer-encoding'
-]);
+const HOP_BY_HOP_HEADERS = new Set(['connection', 'content-length', 'host', 'transfer-encoding']);
 
 const FORWARDED_REQUEST_HEADERS = new Set(['accept', 'authorization', 'content-type', 'cookie']);
 
@@ -39,7 +34,10 @@ const proxyRequest: RequestHandler = async ({ request, params, url, fetch }) => 
 	const upstreamResponse = await fetch(upstreamUrl, {
 		method: request.method,
 		headers,
-		body: request.method === 'GET' || request.method === 'HEAD' ? undefined : await request.arrayBuffer(),
+		body:
+			request.method === 'GET' || request.method === 'HEAD'
+				? undefined
+				: await request.arrayBuffer(),
 		redirect: 'manual'
 	});
 

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { currentUser } from '$lib/stores/user';
+	import { currentUser } from '#lib/stores/user.js';
 	import { goto } from '$app/navigation';
 	import { Logger } from '$/debt/log';
 	import Icon from '$/ui/atoms/Icon.svelte';
 	import Button from '$/ui/atoms/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 	import { addNotification } from '$/features/notifications/notifications';
 
 	interface Props {

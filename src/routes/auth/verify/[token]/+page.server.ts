@@ -1,5 +1,5 @@
 import type { paths } from '$/@types/api.js';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PUBLIC_API_HOST } from '$app/env/public';
 
 export const load = async ({ params }) => {
 	try {
@@ -16,6 +16,7 @@ export const load = async ({ params }) => {
 
 		const response =
 			(await res.json()) as paths['/auth/verify']['post']['responses']['200']['content']['application/json'];
+
 		return response;
 	} catch (err) {
 		return {

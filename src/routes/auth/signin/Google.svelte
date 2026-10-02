@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { paths } from '$/@types/api';
-	import { isLocalAuthDev, rewriteAuthUrlForLocalDev } from '$lib/utils/auth';
-	import { setCookie } from '$lib/utils/cookies';
+	import { isLocalAuthDev, rewriteAuthUrlForLocalDev } from '#lib/utils/auth.js';
+	import { setCookie } from '#lib/utils/cookies.js';
 
 	interface Props {
 		data: paths['/auth/methods']['get']['responses']['200']['content']['application/json']['oAuth'][number];

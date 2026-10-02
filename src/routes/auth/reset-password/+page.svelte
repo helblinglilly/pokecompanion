@@ -1,6 +1,6 @@
 <script>
 	import Button from '$/ui/atoms/Button.svelte';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 
 	let email = $state('');
 	let emailError = $state('');
@@ -58,7 +58,7 @@
 				>
 			</div>
 
-			<p>{emailError}&nbsp;</p>
+			<p>{emailError}</p>
 		</div>
 	</div>
 </div>

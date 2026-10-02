@@ -1,4 +1,4 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 
 /** Dependency key used by page loads that need to re-run when user settings change. */
 export const DEPENDS_SETTINGS = 'app:settings';

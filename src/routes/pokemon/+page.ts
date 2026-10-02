@@ -1,7 +1,7 @@
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PUBLIC_API_HOST } from '$app/env/public';
 import type { APIPokemonRootPreview } from '$/@types/api.pokecompanion';
-import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
-import { getLoadFetch } from '$lib/api/loadFetch';
+import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '#lib/api/settings.js';
+import { getLoadFetch } from '#lib/api/loadFetch.js';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ url, fetch, depends, parent }) => {

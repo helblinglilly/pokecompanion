@@ -1,5 +1,5 @@
-import { browser } from '$app/environment';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { browser } from '$app/env';
+import { PUBLIC_API_HOST } from '$app/env/public';
 
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '::1']);
 const PREVIEW_HOST_SUFFIX = '.pages.dev';

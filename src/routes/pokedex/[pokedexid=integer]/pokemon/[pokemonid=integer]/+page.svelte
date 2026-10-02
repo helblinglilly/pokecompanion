@@ -13,7 +13,7 @@
 	import TypeMatchup from '$/routes/pokemon/[pokedexid=integer]/TypeMatchup.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
 	import { page } from '$app/state';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 	import { get } from 'svelte/store';
 
 	let { data } = $props();

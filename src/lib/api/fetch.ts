@@ -1,5 +1,5 @@
 import type { paths } from '$/@types/api';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PUBLIC_API_HOST } from '$app/env/public';
 import type { Cookies } from '@sveltejs/kit';
 import { SettingNames } from '../stores/domain';
 

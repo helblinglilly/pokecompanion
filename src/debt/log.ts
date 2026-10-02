@@ -1,4 +1,4 @@
-import { PUBLIC_ENVIRONMENT } from '$env/static/public';
+import { PUBLIC_ENVIRONMENT } from '$app/env/public';
 
 enum ErrorClasses {
 	ExternalAPIRequestFailed = 'External API Request Failed',

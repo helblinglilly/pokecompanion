@@ -1,8 +1,8 @@
 import type { paths } from '$/@types/api';
 import type { APIPokemon } from '$/@types/api.pokecompanion';
-import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
-import { getLoadFetch } from '$lib/api/loadFetch';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '#lib/api/settings.js';
+import { getLoadFetch } from '#lib/api/loadFetch.js';
+import { PUBLIC_API_HOST } from '$app/env/public';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch, params, url, parent, depends }) => {
@@ -25,7 +25,6 @@ export const load: PageLoad = async ({ fetch, params, url, parent, depends }) =>
 
 	const pokemonDex =
 		(await pokemonDexRes.json()) as paths['/pokedex/{pokedexId}/pokemon/{pokemonInPokedexId}']['get']['responses']['200']['content']['application/json'];
-
 	const pokemonRes = await runtimeFetch(
 		addSettingsToUrl(
 			new URL(`${PUBLIC_API_HOST}/pokemon/${pokemonDex.navigation.current.speciesId}`),
@@ -37,6 +36,7 @@ export const load: PageLoad = async ({ fetch, params, url, parent, depends }) =>
 	if (pokemonRes.status !== 200) {
 		throw new Error(`Tried to get a Pokemon but got HTTP ${pokemonRes.status}`);
 	}
+
 	const pokemon =
 		(await pokemonRes.json()) as paths['/pokemon/{id}']['get']['responses']['200']['content']['application/json'];
 
@@ -46,7 +46,6 @@ export const load: PageLoad = async ({ fetch, params, url, parent, depends }) =>
 			settings,
 			url.searchParams
 		);
-
 		const res = await runtimeFetch(abilityUrl);
 
 		if (res.status !== 200) {

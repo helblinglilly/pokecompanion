@@ -3,7 +3,7 @@
 	import Button from '$/ui/atoms/Button.svelte';
 	import { currentUser } from '$/lib/stores/user';
 	import { addNotification } from '$/features/notifications/notifications';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 	import type { paths } from '$/@types/api';
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/state';
@@ -29,9 +29,9 @@
 			return [
 				{
 					id: pokemon.id,
-					gender: pokemon.gender,
-					shiny: pokemon.shiny,
-					variety: pokemon.variety
+					gender: pokemon.gender ?? undefined,
+					shiny: pokemon.shiny ?? undefined,
+					variety: pokemon.variety ?? undefined
 				}
 			];
 		}

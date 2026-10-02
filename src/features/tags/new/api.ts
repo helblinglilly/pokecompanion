@@ -1,5 +1,5 @@
 import type { paths } from '$/@types/api';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PUBLIC_API_HOST } from '$app/env/public';
 
 export const createNewTag = async (
 	requestBody: paths['/tags']['post']['requestBody']['content']['application/json']
@@ -17,10 +17,8 @@ export const createNewTag = async (
 		if (res.ok) {
 			const body =
 				(await res.json()) as paths['/tags']['post']['responses']['201']['content']['application/json'];
-			return {
-				status: res.status,
-				tagId: body
-			};
+
+			return { status: res.status, tagId: body };
 		}
 
 		return {

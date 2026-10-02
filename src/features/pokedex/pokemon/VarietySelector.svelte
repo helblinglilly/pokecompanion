@@ -25,7 +25,7 @@
 			}))}
 			classes="variety-select"
 			onchange={(detail) => {
-				const currentUrl = new URL(page.url);
+				const currentUrl = new URL(page.url.href);
 
 				const newTargetVariety = varieties.find((variety) => variety.name === detail);
 				if (!newTargetVariety) {
@@ -34,7 +34,7 @@
 				}
 
 				currentUrl.searchParams.set('variety', detail);
-				goto(currentUrl, { invalidateAll: true, noScroll: true, keepFocus: false });
+				goto(currentUrl, { refreshAll: true, reset: false });
 			}}
 		/>
 	</div>

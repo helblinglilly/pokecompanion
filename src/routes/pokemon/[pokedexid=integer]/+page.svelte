@@ -16,9 +16,9 @@
 	import PokemonCard from './PokemonCard.svelte';
 	import { get } from 'svelte/store';
 	import { currentUser } from '$/lib/stores/user';
-	import { PUBLIC_API_HOST } from '$env/static/public';
-	import { tracker } from '$lib/analytics/tracker';
-	import { selectedGame } from '$lib/stores/domain';
+	import { PUBLIC_API_HOST } from '$app/env/public';
+	import { tracker } from '#lib/analytics/tracker.js';
+	import { selectedGame } from '#lib/stores/domain.js';
 
 	let { data } = $props();
 
@@ -88,11 +88,12 @@
 	<meta name="twitter:title" content={data.__meta.title} />
 
 	<meta name="description" content={data.__meta.description} />
+
 	<meta property="og:description" content={data.__meta.description} />
+
 	<meta name="twitter:description" content={data.__meta.description} />
 
 	<meta property="og:type" content="website" />
-
 	<meta property="og:url" content={page.url.origin} />
 	<meta property="twitter:url" content={page.url.origin} />
 	<meta property="twitter:domain" content={page.url.hostname} />
@@ -115,9 +116,7 @@
 		<Navigator title={`${data.name}`} currentId={data.id} varieties={data.varieties} />
 
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-			<Card classes="relative">
-				<PokemonCard {data} />
-			</Card>
+			<Card classes="relative min-h-[250px] h-fit"><PokemonCard {data} /></Card>
 
 			<Card>
 				<h3 class="h3 mb-4">Evolutions</h3>

@@ -107,7 +107,8 @@
 
 		<p>
 			We use a self-hosted instance of <a href="https://umami.is/privacy">Umami</a> to collect
-			<a href="#browserData">Browser Data</a>. Please refer to its privacy policy for more information.
+			<a href="#browserData">Browser Data</a>. Please refer to its privacy policy for more
+			information.
 		</p>
 	</section>
 

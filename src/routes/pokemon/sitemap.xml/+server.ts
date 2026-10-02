@@ -1,12 +1,11 @@
 import type { paths } from '$/@types/api';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { PUBLIC_API_HOST } from '$app/env/public';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ fetch }) => {
 	const validPokemon = [];
 
 	const metaRes = await fetch(`${PUBLIC_API_HOST}/meta`);
-
 	const meta =
 		(await metaRes.json()) as paths['/meta']['get']['responses']['200']['content']['application/json'];
 

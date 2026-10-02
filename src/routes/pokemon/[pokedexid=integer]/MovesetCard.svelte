@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { meta, selectedGame } from '$lib/stores/domain';
+	import { meta, selectedGame } from '#lib/stores/domain.js';
 	import Moveset from './Moveset.svelte';
 	import Select from '$/ui/atoms/Select.svelte';
 	import type { APIPokemon, PokeapiVersionGroups } from '$/@types/api.pokecompanion';
 	import type { paths } from '$/@types/api';
 	import { invalidate } from '$app/navigation';
-	import { DEPENDS_SETTINGS } from '$lib/api/settings';
+	import { DEPENDS_SETTINGS } from '#lib/api/settings.js';
 
 	interface Props {
 		skeletonData: APIPokemon['moves'];

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 	import { Logger } from '$/debt/log';
 	import { addNotification } from '$/features/notifications/notifications';
 	import { isPasswordValid } from '$/debt/user-client';
@@ -32,14 +32,8 @@
 		try {
 			await fetch(`${PUBLIC_API_HOST}/auth/password-reset`, {
 				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					token: token,
-					newPassword: newPassword,
-					confirmNewPassword: confirmNewPassword
-				}),
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ token, newPassword, confirmNewPassword }),
 				credentials: 'include'
 			});
 			passwordError = 'Your password has been changed';
@@ -62,7 +56,7 @@
 
 			<input type="password" placeholder="Confirm password" bind:value={confirmNewPassword} />
 
-			<p>{passwordError}&nbsp;</p>
+			<p>{passwordError}</p>
 
 			<button
 				class="button primary"

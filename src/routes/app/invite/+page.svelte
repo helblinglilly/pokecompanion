@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { addNotification } from '$/features/notifications/notifications';
 	import Button from '$/ui/atoms/Button.svelte';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 
 	let email = $state('');
 
@@ -9,13 +9,8 @@
 		const res = await fetch(`${PUBLIC_API_HOST}/app/invite`, {
 			method: 'POST',
 			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				email: email,
-				service: 'google'
-			})
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ email, service: 'google' })
 		});
 
 		if (!res.ok) {

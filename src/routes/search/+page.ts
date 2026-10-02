@@ -1,7 +1,7 @@
 import type { paths } from '$/@types/api.js';
-import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '$lib/api/settings';
-import { getLoadFetch } from '$lib/api/loadFetch';
-import { PUBLIC_API_HOST } from '$env/static/public';
+import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '#lib/api/settings.js';
+import { getLoadFetch } from '#lib/api/loadFetch.js';
+import { PUBLIC_API_HOST } from '$app/env/public';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch, url, parent, depends }) => {

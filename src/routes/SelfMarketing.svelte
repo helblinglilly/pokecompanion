@@ -43,10 +43,13 @@
 						href="/user/7ribr8sp5i1fmr3/tags/min1e9lqlltz1vr?view=list"
 						class="underline">Pokédex</a
 					>, building a
-					<a href="/user/7ribr8sp5i1fmr3/tags/e5io1v0x8y6o1lo?view=list#398" class="underline">Team</a>
+					<a href="/user/7ribr8sp5i1fmr3/tags/e5io1v0x8y6o1lo?view=list#398" class="underline"
+						>Team</a
+					>
 					or keeping track of your favourite
-					<a href="/user/7ribr8sp5i1fmr3/tags/macq7c95innrbx8?view=card" class="underline">plushies</a>?
-					No problem!
+					<a href="/user/7ribr8sp5i1fmr3/tags/macq7c95innrbx8?view=card" class="underline"
+						>plushies</a
+					>? No problem!
 				</p>
 			</Card>
 		</div>

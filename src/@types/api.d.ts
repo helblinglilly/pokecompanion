@@ -4,4215 +4,4334 @@
  */
 
 export interface paths {
-    "/user/{username}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get details about a specific user */
-        get: operations["getUser"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/user": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /** @description Deletes the account of the authenticated user */
-        delete: operations["deleteUser"];
-        options?: never;
-        head?: never;
-        /** @description Updates the authenticated and their record, returns the new user object */
-        patch: operations["updateUser"];
-        trace?: never;
-    };
-    "/user/report": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Report a user for moderation */
-        post: operations["reportUser"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/tags": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * @description Get all Tags for a specific user
-         *
-         *     Either: username or userId query params must be provided, OR the request must be authenticated
-         */
-        get: operations["getAllTagsForUser"];
-        put?: never;
-        /** @description Creates a new tag. User must be authenticated. */
-        post: operations["createNewTag"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/tags/{tagId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Get a specific tag. */
-        get: operations["getTag"];
-        put?: never;
-        post?: never;
-        /** @description Deletes the specified tag */
-        delete: operations["deleteTag"];
-        options?: never;
-        head?: never;
-        /** @description Updates meta info about a Tag */
-        patch: operations["patchTag"];
-        trace?: never;
-    };
-    "/tags/{tagId}/move": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Retreives a collection of Move previews for a given tag */
-        get: operations["getTagMoves"];
-        put?: never;
-        /** @description Adds a move to a specific tag */
-        post: operations["addMove"];
-        /** @description Deletes a move from a specific tag */
-        delete: operations["deleteTagMove"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/tags/{tagId}/pokemon": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * @description Returns all Pokemon within a Tag with enriched information
-         *
-         *     Different from just looking at tag.contents because this will return user friendly names,
-         *     sprites and slugs for how to navigate to this pokemon
-         */
-        get: operations["getTagPokemon"];
-        put?: never;
-        /** @description Adds a Pokemon to a specific tag */
-        post: operations["addTagPokemon"];
-        /** @description Deletes a Pokemon from a specific tag */
-        delete: operations["deleteTagPokemon"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/tags/{tagId}/pokemon/pokedex/{pokedexId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** @description Populates a tag with all Pokemon from a certain pokedex */
-        patch: operations["addPokedexToTag"];
-        trace?: never;
-    };
-    "/search/pokemon": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["searchPokemon"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/search/moves": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["searchMoves"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/search/items": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["searchItems"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/search/abilities": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["searchAbilities"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * @description Get search results across Pokemon, Items, Moves and Abilities
-         *
-         *     Will return the sufficient payload to create preview elements for each
-         */
-        get: operations["search"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/pokemon/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getPokemonById"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/pokemon/{id}/preview": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getPokemonPreview"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/pokemon/preview": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * @deprecated
-         * @description Returns paginated previews of Pokemon
-         */
-        get: operations["getPokemonRootPreviews"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/pokemon/{id}/moves": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Returns move previews for a given Pokemon */
-        get: operations["getPokemonMoves"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/pokedex": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getAllPokedexes"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/pokedex/{pokedexId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Returns a root-level view of all the Pokemon in a specific Pokedex */
-        get: operations["getPokedex"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/pokedex/{pokedexId}/pokemon/{pokemonInPokedexId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Returns a specific Pokemon within the Pokedex */
-        get: operations["getPokedexPokemon"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/move/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getMoveById"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/move/{id}/preview": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getMovePreview"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/meta": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["GetMeta"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/lastAction": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["recordLastAction"];
-        trace?: never;
-    };
-    "/item/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getItemById"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/home": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getHome"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/methods": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description List all available auth methods */
-        get: operations["getAuthMethods"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Return information about the current user */
-        get: operations["getAuthMe"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/verify": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Will request an Email verification Email for an Email + Password user */
-        get: operations["requestEmailVerification"];
-        put?: never;
-        /** @description Will verify a user that signed up with Email + Password */
-        post: operations["verifyUserEmail"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/oauth": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * @description Will require a `provider` cookie to be present and accessible, to contain the contents returned
-         *     by getAuthMethods call
-         *
-         *     Sets the auth cookie and authorization header in its response
-         *
-         *     Redirects to the value of the `redirectUrl` cookie (fully qualified URL) or the referrer
-         *     header if blank.
-         */
-        get: operations["VerifyOAuthLogin"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/signup": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Will create a new user account with Email + Password auth */
-        post: operations["signUpWithEmail"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** @description Will sign a user in via Email and Password */
-        post: operations["loginWithEmailPassword"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/password-reset": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["requestPasswordReset"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["verifyPasswordReset"];
-        trace?: never;
-    };
-    "/ability/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getAbilityById"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
+	'/user/{username}': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get details about a specific user */
+		get: operations['getUser'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/user': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		post?: never;
+		/** @description Deletes the account of the authenticated user */
+		delete: operations['deleteUser'];
+		options?: never;
+		head?: never;
+		/** @description Updates the authenticated and their record, returns the new user object */
+		patch: operations['updateUser'];
+		trace?: never;
+	};
+	'/user/report': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Report a user for moderation */
+		post: operations['reportUser'];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/tags': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * @description Get all Tags for a specific user
+		 *
+		 *     Either: username or userId query params must be provided, OR the request must be authenticated
+		 */
+		get: operations['getAllTagsForUser'];
+		put?: never;
+		/** @description Creates a new tag. User must be authenticated. */
+		post: operations['createNewTag'];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/tags/{tagId}': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Get a specific tag. */
+		get: operations['getTag'];
+		put?: never;
+		post?: never;
+		/** @description Deletes the specified tag */
+		delete: operations['deleteTag'];
+		options?: never;
+		head?: never;
+		/** @description Updates meta info about a Tag */
+		patch: operations['patchTag'];
+		trace?: never;
+	};
+	'/tags/{tagId}/move': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Retreives a collection of Move previews for a given tag */
+		get: operations['getTagMoves'];
+		put?: never;
+		/** @description Adds a move to a specific tag */
+		post: operations['addMove'];
+		/** @description Deletes a move from a specific tag */
+		delete: operations['deleteTagMove'];
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/tags/{tagId}/pokemon': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * @description Returns all Pokemon within a Tag with enriched information
+		 *
+		 *     Different from just looking at tag.contents because this will return user friendly names,
+		 *     sprites and slugs for how to navigate to this pokemon
+		 */
+		get: operations['getTagPokemon'];
+		put?: never;
+		/** @description Adds a Pokemon to a specific tag */
+		post: operations['addTagPokemon'];
+		/** @description Deletes a Pokemon from a specific tag */
+		delete: operations['deleteTagPokemon'];
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/tags/{tagId}/pokemon/pokedex/{pokedexId}': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		/** @description Populates a tag with all Pokemon from a certain pokedex */
+		patch: operations['addPokedexToTag'];
+		trace?: never;
+	};
+	'/search/pokemon': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['searchPokemon'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/search/moves': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['searchMoves'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/search/items': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['searchItems'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/search/abilities': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['searchAbilities'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/search': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * @description Get search results across Pokemon, Items, Moves and Abilities
+		 *
+		 *     Will return the sufficient payload to create preview elements for each
+		 */
+		get: operations['search'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/pokemon/{id}': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['getPokemonById'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/pokemon/{id}/preview': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['getPokemonPreview'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/pokemon/preview': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * @deprecated
+		 * @description Returns paginated previews of Pokemon
+		 */
+		get: operations['getPokemonRootPreviews'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/pokemon/{id}/moves': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Returns move previews for a given Pokemon */
+		get: operations['getPokemonMoves'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/pokedex': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['getAllPokedexes'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/pokedex/{pokedexId}': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Returns a root-level view of all the Pokemon in a specific Pokedex */
+		get: operations['getPokedex'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/pokedex/{pokedexId}/pokemon/{pokemonInPokedexId}': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Returns a specific Pokemon within the Pokedex */
+		get: operations['getPokedexPokemon'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/move/{id}': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['getMoveById'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/move/{id}/preview': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['getMovePreview'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/meta': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['GetMeta'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/lastAction': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch: operations['recordLastAction'];
+		trace?: never;
+	};
+	'/item/{id}': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['getItemById'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/home': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['getHome'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/auth/methods': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description List all available auth methods */
+		get: operations['getAuthMethods'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/auth/me': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Return information about the current user */
+		get: operations['getAuthMe'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/auth/verify': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/** @description Will request an Email verification Email for an Email + Password user */
+		get: operations['requestEmailVerification'];
+		put?: never;
+		/** @description Will verify a user that signed up with Email + Password */
+		post: operations['verifyUserEmail'];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/auth/oauth': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * @description Will require a `provider` cookie to be present and accessible, to contain the contents returned
+		 *     by getAuthMethods call
+		 *
+		 *     Sets the auth cookie and authorization header in its response
+		 *
+		 *     Redirects to the value of the `redirectUrl` cookie (fully qualified URL) or the referrer
+		 *     header if blank.
+		 */
+		get: operations['VerifyOAuthLogin'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/auth/signup': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Will create a new user account with Email + Password auth */
+		post: operations['signUpWithEmail'];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/auth/login': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/** @description Will sign a user in via Email and Password */
+		post: operations['loginWithEmailPassword'];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/auth/password-reset': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['requestPasswordReset'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch: operations['verifyPasswordReset'];
+		trace?: never;
+	};
+	'/ability/{id}': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: operations['getAbilityById'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        TagContents: {
-            move?: {
-                /**
-                 * Format: double
-                 * @description Pokeapi ID for this move
-                 */
-                id: number;
-                /** @description ISO Date string */
-                added: string;
-                /** @enum {string} */
-                __typename: "move";
-            }[];
-            pokemon?: {
-                /**
-                 * @description The Query Param URL string that needs to be attached to get to this Pokemon
-                 *
-                 *     undefined if it should be the default
-                 */
-                variety: string | null;
-                shiny: boolean;
-                /**
-                 * Format: double
-                 * @description National Pokedex ID
-                 */
-                id: number;
-                /**
-                 * @description null-ish assumed to be male
-                 * @enum {string|null}
-                 */
-                gender: "male" | "female" | null;
-                /** @description ISO Date string */
-                added: string;
-                /** @enum {string} */
-                __typename: "pokemon";
-            }[];
-        };
-        /** @description From T, pick a set of properties whose keys are in the union K */
-        "Pick_DBTags.TagKeys_": {
-            /** @description The user id */
-            owner: string;
-            name: string;
-            contents: components["schemas"]["TagContents"];
-            isPrivate: boolean;
-            showGenderAndShiny: boolean;
-            /** @enum {string} */
-            sortOrder: "desc" | "asc" | "custom";
-            /** @enum {string} */
-            sortKey: "id" | "custom" | "added" | "alphabetical";
-            description: string;
-            isHiddenAcrossSite: boolean;
-            created: string;
-            updated: string;
-            id: string;
-        };
-        Tag: components["schemas"]["Pick_DBTags.TagKeys_"];
-        TagPostRequestBody: {
-            contents: {
-                move?: {
-                    /** Format: double */
-                    id: number;
-                }[];
-                pokemon?: {
-                    /** @enum {boolean} */
-                    shiny?: true | false;
-                    variety?: string;
-                    /** @enum {string} */
-                    gender?: "female" | "male";
-                    /** Format: double */
-                    id: number;
-                }[];
-            };
-            showGenderAndShiny: boolean;
-            name: string;
-            isPrivate: boolean;
-            isHiddenAcrossSite: boolean;
-            description: string;
-        };
-        MovePreview: {
-            /** Format: double */
-            id: number;
-            name: string;
-            /**
-             * @description Contains the primary language in first position, and the secondary in second
-             *
-             *     Deduped
-             */
-            names: string[];
-            slug: string;
-            damageClass: {
-                icon: string;
-                /** @enum {string} */
-                name: "status" | "special" | "physical";
-            };
-            type: {
-                icon: string;
-                name: string;
-            };
-        };
-        PokemonRequestInfo: {
-            /**
-             * @description Slug for the Website
-             * @example /pokemon/194?variety=paldea-wooper&shiny=true
-             */
-            slug: string;
-            /**
-             * @description Indicates whether gender differences have been requested
-             * @example female
-             */
-            gender: string | null;
-            /**
-             * @description The variety name for this pokemon
-             * @example paldea-wooper
-             */
-            variety: string | null;
-            /** @description Whether the shiny form of this pokemon was requested */
-            shiny: boolean;
-        };
-        /** @description Recursively unwraps the "awaited type" of a type. Non-promise "thenables" should resolve to `never`. This emulates the behavior of `await`. */
-        "Awaited_ReturnType_PokemonPreviewController-at-getPokemonPreview__": {
-            pokedex: {
-                /** Format: double */
-                speciesId: number;
-                /** Format: double */
-                pokedexEntityId: number;
-                /** Format: double */
-                pokedexId: number;
-                pokedexSlug: string;
-            };
-            requestInfo: components["schemas"]["PokemonRequestInfo"];
-            slug: string;
-            sprite: {
-                url: string;
-                alt: string;
-            };
-            names: string[];
-            name: string;
-            /** Format: double */
-            id: number;
-        };
-        PokemonPreview: components["schemas"]["Awaited_ReturnType_PokemonPreviewController-at-getPokemonPreview__"];
-        /** @description Exclude null and undefined from T */
-        NonNullable_PokemonPreview_: components["schemas"]["PokemonPreview"] & Record<string, never>;
-        TagPokemonPreview: components["schemas"]["NonNullable_PokemonPreview_"] & {
-            /** @enum {string|null} */
-            gender?: "female" | "male" | null;
-            shiny?: boolean | null;
-            added?: string;
-        };
-        /** @enum {string} */
-        PokeapiLanguageCodes: "ja-Hrkt" | "zh-Hant" | "ja" | "ko" | "fr" | "de" | "en" | "es" | "it";
-        QueriesGetTagPokemon: {
-            /** @enum {string} */
-            versionSpecificPokemonSprites?: "true" | "false";
-            /**
-             * @description Indicates whether the API should return sprites to .gif files where possible.
-             *
-             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-             * @enum {string}
-             */
-            animateSprites?: "true" | "false";
-            selectedGame?: string;
-            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-        };
-        /** @enum {string} */
-        Gender: "male" | "female";
-        SearchPokemonQueryParams: {
-            gender?: components["schemas"]["Gender"];
-            variety?: string | null;
-            /** @enum {string} */
-            shiny?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificPokemonSprites?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificTypeSprites?: "true" | "false";
-            /**
-             * @description Indicates whether the API should return sprites to .gif files where possible.
-             *
-             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-             * @enum {string}
-             */
-            animateSprites?: "true" | "false";
-            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            selectedGame?: string;
-            /**
-             * Format: double
-             * @default 1
-             */
-            page: number;
-            /**
-             * Format: double
-             * @description Maximum: 50. If a value over 50 is provided, it will default back to 20
-             * @default 20
-             */
-            pageSize: number;
-            /**
-             * Format: double
-             * @description This Pokemon will be guaranteed to be on the current page.
-             *     Can be used in combination with pageSize, but will override the page value
-             */
-            jumpTo?: number;
-            /**
-             * Format: double
-             * @default 1
-             */
-            pokedex: number;
-            /** @description Search term */
-            term: string;
-        };
-        SearchOtherQueryParams: {
-            /** @description Search term */
-            term: string;
-            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            selectedGame?: string;
-            /**
-             * Format: double
-             * @default 1
-             */
-            page: number;
-        };
-        Type: {
-            name: string;
-            /** @description Path to the URL which will point at sprites.pokecompanion.com */
-            icon: string;
-        };
-        /** @enum {string} */
-        PokeapiVersionGroups: "home" | "red-blue" | "yellow" | "gold-silver" | "crystal" | "ruby-sapphire" | "emerald" | "firered-leafgreen" | "diamond-pearl" | "platinum" | "heartgold-soulsilver" | "black-white" | "black-2-white-2" | "x-y" | "omega-ruby-alpha-sapphire" | "sun-moon" | "ultra-sun-ultra-moon" | "lets-go-pikachu-lets-go-eevee" | "sword-shield" | "brilliant-diamond-shining-pearl" | "legends-arceus" | "scarlet-violet" | "legends-za";
-        PokeapiNamedApiResource: {
-            /** @description Short name */
-            name: string;
-            /** @description https://pokeapi.co/api/v2/.../entry/id/ */
-            url: string;
-        };
-        /** @description Make all properties in T optional */
-        "Partial_Record_PokeapiVersionGroups._displayName_description-AfriendlydisplaynameforthisPokemonGameGroup_-string--levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___": {
-            home?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "red-blue"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            yellow?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "gold-silver"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            crystal?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "ruby-sapphire"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            emerald?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "firered-leafgreen"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "diamond-pearl"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            platinum?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "heartgold-soulsilver"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "black-white"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "black-2-white-2"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "x-y"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "omega-ruby-alpha-sapphire"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "sun-moon"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "ultra-sun-ultra-moon"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "lets-go-pikachu-lets-go-eevee"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "sword-shield"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "brilliant-diamond-shining-pearl"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "legends-arceus"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "scarlet-violet"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-            "legends-za"?: {
-                /** Format: double */
-                other: number;
-                /** Format: double */
-                tutor: number;
-                /** Format: double */
-                breed: number;
-                /** Format: double */
-                tm: number;
-                /** Format: double */
-                levelup: number;
-                displayName: string;
-            };
-        };
-        /** @description Construct a type with a set of properties K of type T */
-        "Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_": {
-            [key: string]: {
-                conditions: string[];
-                /** Format: double */
-                chance: number;
-                /** Format: double */
-                maxLevel: number;
-                /** Format: double */
-                minLevel: number;
-                method: string;
-            }[];
-        };
-        /** @description Make all properties in T optional */
-        "Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______": {
-            home?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            red?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            blue?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            yellow?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            gold?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            silver?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            crystal?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            ruby?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            sapphire?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            emerald?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            firered?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            leafgreen?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            diamond?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            pearl?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            platinum?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            heartgold?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            soulsilver?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            black?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            white?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "black-2"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "white-2"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            x?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            y?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "omega-ruby"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "alpha-sapphire"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            sun?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            moon?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "ultra-sun"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "ultra-moon"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "lets-go-pikachu"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "lets-go-eevee"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            sword?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            shield?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "brilliant-diamond"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "shining-pearl"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "legends-arceus"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            scarlet?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            violet?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "legends-za"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "the-isle-of-armor"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "the-crown-tundra"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "the-teal-mask"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "the-indigo-disk"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-            "mega-dimension"?: components["schemas"]["Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_"];
-        };
-        StatValue: {
-            /** Format: double */
-            stat: number;
-            /** Format: double */
-            effort: number;
-        };
-        /** @description Construct a type with a set of properties K of type T */
-        "Record_PokeapiStatType.StatValue_": {
-            hp: components["schemas"]["StatValue"];
-            attack: components["schemas"]["StatValue"];
-            defense: components["schemas"]["StatValue"];
-            speed: components["schemas"]["StatValue"];
-            "special-attack": components["schemas"]["StatValue"];
-            "special-defense": components["schemas"]["StatValue"];
-        };
-        /** @description Construct a type with a set of properties K of type T */
-        "Record_average.StatValue_": {
-            average: components["schemas"]["StatValue"];
-        };
-        PokemonResponse: {
-            /** Format: double */
-            id: number;
-            name: string;
-            names: string[];
-            pokedexEntries: {
-                textEntry: string;
-                /** @description A display friendly game name, NOT the pokeapi name */
-                game: string;
-                language: components["schemas"]["PokeapiLanguageCodes"];
-            }[];
-            /**
-             * Format: double
-             * @description Height in cm
-             * @example 176
-             */
-            height: number;
-            /**
-             * Format: double
-             * @description Weight in grams
-             * @example 3500
-             */
-            weight: number;
-            /**
-             * @description Path to a .ogg file with this pokemon's cry
-             * @example https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/3.ogg
-             */
-            cry: string;
-            sprites: {
-                isBack: boolean;
-                hasFemale: boolean;
-                hasShiny: boolean;
-                alt: string;
-                url: string;
-            }[];
-            types: {
-                weakAgainst: (components["schemas"]["Type"] & {
-                    /** Format: double */
-                    multiplier: number;
-                })[];
-                resists: (components["schemas"]["Type"] & {
-                    /** Format: double */
-                    multiplier: number;
-                })[];
-                own: components["schemas"]["Type"][];
-            };
-            evolutionChain: {
-                /**
-                 * @description Indicates wheather both source + target evolutions are present in the current game.
-                 *     An imperfect measure since it is based on the national dex ID and does not take variants
-                 *     or gender into account
-                 *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
-                 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315
-                 */
-                isValidInGame: boolean;
-                target: {
-                    /**
-                     * @description The URL that should be navigated to when this Pokemon is clicked
-                     * @example /pokemon/4
-                     */
-                    pokemonUrl: string;
-                    /**
-                     * @description URL for the sprite of this Pokemon
-                     * @example https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png
-                     */
-                    spriteUrl: string;
-                };
-                /** @description Additional requirements that will only be */
-                requirements: {
-                    supplementary?: string;
-                    info: string | number;
-                    /** @enum {string} */
-                    type: "hold-item" | "friendship" | "shed" | "three-critical-hits" | "beauty" | "rain" | "daytime" | "trade_for" | "party_have" | "other" | "stats" | "know_move" | "know_move_type" | "affection" | "location" | "level-up" | "use-item" | "recoil-damage" | "battle-leader" | "game-specific" | "no-animation" | "multiplayer" | "use-move" | "gender" | "party_type" | "collect_items";
-                }[];
-                /**
-                 * @description Description of what will trigger the evolution
-                 * @example Level 24
-                 */
-                trigger: string;
-                source: {
-                    /**
-                     * @description The URL that should be navigated to when this Pokemon is clicked
-                     * @example /pokemon/4
-                     */
-                    pokemonUrl: string;
-                    /**
-                     * @description URL for the sprite of this Pokemon
-                     * @example https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png
-                     */
-                    spriteUrl: string;
-                };
-            }[];
-            presenceInGame: {
-                /** @enum {number|null} */
-                pokedexNumber: null;
-                /** @enum {boolean} */
-                present: false;
-                /**
-                 * @description Playback of the game that was used in the request - mostly for clarity
-                 * @example scarlet-violet
-                 */
-                game: components["schemas"]["PokeapiVersionGroups"];
-            } | {
-                /** Format: double */
-                pokedexNumber: number;
-                /** @enum {boolean} */
-                present: true;
-                /**
-                 * @description Playback of the game that was used in the request - mostly for clarity
-                 * @example scarlet-violet
-                 */
-                game: components["schemas"]["PokeapiVersionGroups"];
-            };
-            abilities: {
-                /** Format: double */
-                slot: number;
-                is_hidden: boolean;
-                ability: components["schemas"]["PokeapiNamedApiResource"];
-                /** Format: double */
-                id: number;
-            }[];
-            varieties: {
-                requestInfo: components["schemas"]["PokemonRequestInfo"];
-                isDefault: boolean;
-                displayName: string;
-                name: string;
-            }[];
-            /**
-             * @description This Pokemon's Pokecompanion URL
-             *
-             *     To be used when a faulty Pokemon request was made (id > 10000) to
-             *     keep malicious traffic on track
-             */
-            slug: string;
-            /**
-             * @description The number of moves in each learn set.
-             *     Only to be used to populate a skeleton laoder. Use /pokemon/:id/moves to
-             *     retrieve the actual moves.
-             */
-            moves: components["schemas"]["Partial_Record_PokeapiVersionGroups._displayName_description-AfriendlydisplaynameforthisPokemonGameGroup_-string--levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___"];
-            encounters: components["schemas"]["Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______"];
-            stats: components["schemas"]["Record_PokeapiStatType.StatValue_"] & components["schemas"]["Record_average.StatValue_"];
-            __meta: {
-                description: string;
-                previewImage: string;
-                title: string;
-            };
-        };
-        QueryParamsGetPokemon: {
-            gender?: components["schemas"]["Gender"];
-            /** @enum {string} */
-            shiny?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificPokemonSprites?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificTypeSprites?: "true" | "false";
-            /**
-             * @description Indicates whether the API should return sprites to .gif files where possible.
-             *
-             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-             * @enum {string}
-             */
-            animateSprites?: "true" | "false";
-            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            selectedGame?: string;
-            variety?: string | null;
-        };
-        PokedexPokemonAttachment: {
-            /**
-             * Format: double
-             * @description The ID of this Pokedex
-             */
-            pokedexEntityId: number;
-            /**
-             * Format: double
-             * @description The ID of this Pokemon in the national pokedex
-             */
-            speciesId: number;
-            /** @example /pokedex/34 */
-            pokedexSlug: string;
-            /**
-             * Format: double
-             * @description The ID of this Pokemon within this Pokedex
-             */
-            pokedexId: number;
-        };
-        PokemonPreviewResponse: {
-            /**
-             * Format: double
-             * @description That Pokemons National Dex ID
-             */
-            id: number;
-            /** @description Pokemon's name in the corresponding languages as a single string */
-            name: string;
-            /** @description All names for this Pokemon in an array */
-            names: string[];
-            sprite: {
-                url: string;
-                alt: string;
-            };
-            /**
-             * @description The Slug to get to that specific Pokemon's page
-             * @example /pokemon/194
-             */
-            slug: string;
-            requestInfo: components["schemas"]["PokemonRequestInfo"];
-            pokedex: components["schemas"]["PokedexPokemonAttachment"] | null;
-        };
-        QueryParamsGetPreviewPokemon: {
-            gender?: components["schemas"]["Gender"];
-            /** @enum {string} */
-            shiny?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificPokemonSprites?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificTypeSprites?: "true" | "false";
-            /**
-             * @description Indicates whether the API should return sprites to .gif files where possible.
-             *
-             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-             * @enum {string}
-             */
-            animateSprites?: "true" | "false";
-            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            selectedGame?: string;
-            variety?: string | null;
-            /**
-             * Format: double
-             * @default 1
-             */
-            pokedex: number;
-        };
-        AllQueryParameters: {
-            gender?: components["schemas"]["Gender"];
-            variety?: string | null;
-            /** @enum {string} */
-            shiny?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificPokemonSprites?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificTypeSprites?: "true" | "false";
-            /**
-             * @description Indicates whether the API should return sprites to .gif files where possible.
-             *
-             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-             * @enum {string}
-             */
-            animateSprites?: "true" | "false";
-            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            selectedGame?: string;
-            /**
-             * Format: double
-             * @default 1
-             */
-            page: number;
-            /**
-             * Format: double
-             * @description Maximum: 50. If a value over 50 is provided, it will default back to 20
-             * @default 20
-             */
-            pageSize: number;
-            /**
-             * Format: double
-             * @description This Pokemon will be guaranteed to be on the current page.
-             *     Can be used in combination with pageSize, but will override the page value
-             */
-            jumpTo?: number;
-            /**
-             * Format: double
-             * @default 1
-             */
-            pokedex: number;
-        };
-        PokemonMoves: {
-            home?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "red-blue"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            yellow?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "gold-silver"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            crystal?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "ruby-sapphire"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            emerald?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "firered-leafgreen"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "diamond-pearl"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            platinum?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "heartgold-soulsilver"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "black-white"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "black-2-white-2"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "x-y"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "omega-ruby-alpha-sapphire"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "sun-moon"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "ultra-sun-ultra-moon"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "lets-go-pikachu-lets-go-eevee"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "sword-shield"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "brilliant-diamond-shining-pearl"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "legends-arceus"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "scarlet-violet"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-            "legends-za"?: {
-                other: ({
-                    learnMethod: string;
-                } & components["schemas"]["MovePreview"])[];
-                tutor: components["schemas"]["MovePreview"][];
-                breed: components["schemas"]["MovePreview"][];
-                tm: components["schemas"]["MovePreview"][];
-                levelup: ({
-                    /** Format: double */
-                    level: number;
-                } & components["schemas"]["MovePreview"])[];
-                displayName: string;
-            };
-        };
-        QueryParamsGetPokemonMoves: {
-            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            selectedGame?: string;
-            variety?: string | null;
-        };
-        /** @enum {string} */
-        PokeapiGenerationName: "generation-i" | "generation-ii" | "generation-iii" | "generation-iv" | "generation-v" | "generation-vi" | "generation-vii" | "generation-viii" | "generation-ix";
-        IGeneration: {
-            name: string;
-            short: string;
-            pokeApiName: components["schemas"]["PokeapiGenerationName"];
-            /** Format: double */
-            nationalDexEnd: number;
-            /** Format: double */
-            number: number;
-        };
-        /** @enum {string} */
-        PokeapiGameNames: "home" | "red" | "blue" | "yellow" | "gold" | "silver" | "crystal" | "ruby" | "sapphire" | "emerald" | "firered" | "leafgreen" | "diamond" | "pearl" | "platinum" | "heartgold" | "soulsilver" | "black" | "white" | "black-2" | "white-2" | "x" | "y" | "omega-ruby" | "alpha-sapphire" | "sun" | "moon" | "ultra-sun" | "ultra-moon" | "lets-go-pikachu" | "lets-go-eevee" | "sword" | "shield" | "brilliant-diamond" | "shining-pearl" | "legends-arceus" | "scarlet" | "violet" | "legends-za" | "the-isle-of-armor" | "the-crown-tundra" | "the-teal-mask" | "the-indigo-disk" | "mega-dimension";
-        /** @enum {string} */
-        PokeapiRegions: "kanto" | "johto" | "hoenn" | "sinnoh" | "unova" | "kalos" | "alola" | "galar" | "hisui" | "paldea";
-        IGameGroup: {
-            pokeapi: components["schemas"]["PokeapiVersionGroups"];
-            shortName: string;
-            generation: components["schemas"]["IGeneration"];
-            games: {
-                /** Format: double */
-                globalSortOrder: number;
-                shortName: string;
-                pokeapi: components["schemas"]["PokeapiGameNames"];
-            }[];
-            region: components["schemas"]["PokeapiRegions"];
-            pokedexUrls: string[];
-            dlcGames: {
-                pokedexUrls: string[];
-                /** Format: double */
-                globalSortOrder: number;
-                shortName: string;
-                pokeapi: components["schemas"]["PokeapiGameNames"];
-            }[];
-        };
-        PokedexInfo: {
-            /** @example /pokedex/34 */
-            slug: string;
-            /**
-             * Format: double
-             * @description The ID for this specific Pokedex
-             */
-            id: number;
-            /** @description The description that's attached to this Pokedex */
-            description: string;
-            /**
-             * @description The name of this Pokedex (human friendly)
-             * @example Updated Johto Pokedex
-             */
-            name: string;
-            /** @description Games for which this Pokedex applies for */
-            games: components["schemas"]["PokeapiVersionGroups"][];
-        };
-        /** @description Make all properties in T optional */
-        "Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array_PokedexInfo____": {
-            home?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "red-blue"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            yellow?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "gold-silver"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            crystal?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "ruby-sapphire"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            emerald?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "firered-leafgreen"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "diamond-pearl"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            platinum?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "heartgold-soulsilver"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "black-white"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "black-2-white-2"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "x-y"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "omega-ruby-alpha-sapphire"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "sun-moon"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "ultra-sun-ultra-moon"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "lets-go-pikachu-lets-go-eevee"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "sword-shield"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "brilliant-diamond-shining-pearl"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "legends-arceus"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "scarlet-violet"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            "legends-za"?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-            national?: {
-                pokedex: components["schemas"]["PokedexInfo"][];
-                game: components["schemas"]["IGameGroup"];
-            };
-        };
-        PokedexRootResponse: components["schemas"]["Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array_PokedexInfo____"];
-        QueryParamsGetAllPokedexes: {
-            gender?: components["schemas"]["Gender"];
-            /** @enum {string} */
-            shiny?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificPokemonSprites?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificTypeSprites?: "true" | "false";
-            /**
-             * @description Indicates whether the API should return sprites to .gif files where possible.
-             *
-             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-             * @enum {string}
-             */
-            animateSprites?: "true" | "false";
-            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            selectedGame?: string;
-        };
-        PokedexPokemonResponse: {
-            __meta: {
-                description: string;
-                title: string;
-            };
-            pokedex: {
-                /** @example /pokedex/1 */
-                slug: string;
-                /**
-                 * @description Nicely formatted name of this Pokedex
-                 * @example Original Johto
-                 */
-                name: string;
-                /**
-                 * Format: double
-                 * @description ID of that Pokedex
-                 */
-                id: number;
-            };
-            navigation: {
-                /** @description Entry for the next pokemon in this pokedex, if applicable */
-                next: {
-                    /**
-                     * Format: double
-                     * @description That Pokemons National Pokedex ID
-                     */
-                    speciesId: number;
-                    /**
-                     * Format: double
-                     * @description The Pokedex ID of that Pokemon within this Pokedex
-                     */
-                    pokedexId: number;
-                    /** @description Slug to the next entry within this Pokedex - not the specific Pokemon */
-                    slug: string;
-                    pokemon: components["schemas"]["PokemonPreviewResponse"];
-                } | null;
-                current: {
-                    /**
-                     * Format: double
-                     * @description That Pokemons National Pokedex ID
-                     */
-                    speciesId: number;
-                    /**
-                     * Format: double
-                     * @description The Pokedex ID of that Pokemon within this Pokedex
-                     */
-                    pokedexId: number;
-                    pokemon: components["schemas"]["PokemonPreviewResponse"];
-                };
-                /** @description Entry for the previous pokemon in this pokedex, if applicable */
-                previous: {
-                    /**
-                     * Format: double
-                     * @description That Pokemons National Pokedex ID
-                     */
-                    speciesId: number;
-                    /**
-                     * Format: double
-                     * @description The Pokedex ID of that Pokemon within this Pokedex
-                     */
-                    pokedexId: number;
-                    /** @description Slug to the next entry within this Pokedex - not the specific Pokemon */
-                    slug: string;
-                    pokemon: components["schemas"]["PokemonPreviewResponse"];
-                } | null;
-            };
-        };
-        MoveResponse: {
-            /** Format: double */
-            id: number;
-            /** @description Combined name in both languages */
-            name: string;
-            /**
-             * @description Contains the primary language in first position, and the secondary in second
-             *
-             *     Deduped
-             */
-            names: string[];
-            /** @description Pokecompanion slug */
-            slug: string;
-            /** @description List of Pokemon Previews that can learn this move */
-            learnedByPokemon: {
-                slug: string;
-                sprite: {
-                    url: string;
-                    alt: string;
-                };
-                name: string;
-                /** Format: double */
-                id: number;
-            }[];
-            /** @description Flavour text entries in the selected languages */
-            flavourTexts: string[];
-            /** @description Effect entries in the selected languages */
-            effectEntries: string[];
-            /**
-             * Format: double
-             * @description The number of power points that this move has
-             */
-            pp: number;
-            /**
-             * Format: double
-             * @description The damage that this move can do. Will be null for status moves
-             */
-            power: number | null;
-            /**
-             * Format: double
-             * @description The chance that this move will hit the target
-             */
-            accuracy: number | null;
-            damageClass: {
-                /** @description Path to the URL which will point at sprites.pokecompanion.com */
-                icon: string;
-                /** @enum {string} */
-                name: "status" | "physical" | "special";
-            };
-            /** @description The type of this move */
-            type: components["schemas"]["Type"];
-        };
-        RecordLastActionTag: {
-            userId: string;
-            tagId: string;
-        };
-        RecordLastActionPokemon: {
-            /** Format: double */
-            speciesId: number;
-        } | {
-            /** Format: double */
-            pokemonInPokedexId: number;
-            /** Format: double */
-            pokedexId: number;
-        };
-        RecordLastAction: {
-            pokemon?: components["schemas"]["RecordLastActionPokemon"];
-            tag?: components["schemas"]["RecordLastActionTag"];
-        };
-        ItemAttributesMap: {
-            holdable: boolean;
-            countable: boolean;
-            battle: boolean;
-            overworld: boolean;
-            underground: boolean;
-            holdablePassive: boolean;
-            holdableActive: boolean;
-        };
-        ItemResponse: {
-            /** Format: double */
-            id: number;
-            /** Format: double */
-            cost: number | null;
-            names: string[];
-            name: string;
-            icon?: string;
-            flavourTexts: string[];
-            effectEntries: string[];
-            /** Format: double */
-            price: number | null;
-            attributes: components["schemas"]["ItemAttributesMap"];
-        };
-        LastActionPokemon: {
-            test: string;
-        };
-        LastActionTag: {
-            test: string;
-        };
-        LastAction: {
-            tag: components["schemas"]["LastActionTag"];
-            pokemon: components["schemas"]["LastActionPokemon"];
-        };
-        HomeResponse: {
-            lastActions: components["schemas"]["LastAction"] | null;
-            ofTheDay: {
-                move: components["schemas"]["MovePreview"] | null;
-                pokemon: components["schemas"]["PokemonPreview"] | null;
-            };
-        };
-        QueryParamsGetHome: {
-            /** @enum {string} */
-            shiny?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificPokemonSprites?: "true" | "false";
-            /** @enum {string} */
-            versionSpecificTypeSprites?: "true" | "false";
-            /**
-             * @description Indicates whether the API should return sprites to .gif files where possible.
-             *
-             *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-             * @enum {string}
-             */
-            animateSprites?: "true" | "false";
-            primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            selectedGame?: string;
-        };
-    };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+	schemas: {
+		TagContents: {
+			move?: {
+				/**
+				 * Format: double
+				 * @description Pokeapi ID for this move
+				 */
+				id: number;
+				/** @description ISO Date string */
+				added: string;
+				/** @enum {string} */
+				__typename: 'move';
+			}[];
+			pokemon?: {
+				/**
+				 * @description The Query Param URL string that needs to be attached to get to this Pokemon
+				 *
+				 *     undefined if it should be the default
+				 */
+				variety: string | null;
+				shiny: boolean;
+				/**
+				 * Format: double
+				 * @description National Pokedex ID
+				 */
+				id: number;
+				/**
+				 * @description null-ish assumed to be male
+				 * @enum {string|null}
+				 */
+				gender: 'male' | 'female' | null;
+				/** @description ISO Date string */
+				added: string;
+				/** @enum {string} */
+				__typename: 'pokemon';
+			}[];
+		};
+		/** @description From T, pick a set of properties whose keys are in the union K */
+		'Pick_DBTags.TagKeys_': {
+			/** @description The user id */
+			owner: string;
+			name: string;
+			contents: components['schemas']['TagContents'];
+			isPrivate: boolean;
+			showGenderAndShiny: boolean;
+			/** @enum {string} */
+			sortOrder: 'desc' | 'asc' | 'custom';
+			/** @enum {string} */
+			sortKey: 'id' | 'custom' | 'added' | 'alphabetical';
+			description: string;
+			isHiddenAcrossSite: boolean;
+			created: string;
+			updated: string;
+			id: string;
+		};
+		Tag: components['schemas']['Pick_DBTags.TagKeys_'];
+		TagPostRequestBody: {
+			contents: {
+				move?: {
+					/** Format: double */
+					id: number;
+				}[];
+				pokemon?: {
+					/** @enum {boolean} */
+					shiny?: true | false;
+					variety?: string;
+					/** @enum {string} */
+					gender?: 'female' | 'male';
+					/** Format: double */
+					id: number;
+				}[];
+			};
+			showGenderAndShiny: boolean;
+			name: string;
+			isPrivate: boolean;
+			isHiddenAcrossSite: boolean;
+			description: string;
+		};
+		MovePreview: {
+			/** Format: double */
+			id: number;
+			name: string;
+			/**
+			 * @description Contains the primary language in first position, and the secondary in second
+			 *
+			 *     Deduped
+			 */
+			names: string[];
+			slug: string;
+			damageClass: {
+				icon: string;
+				/** @enum {string} */
+				name: 'status' | 'special' | 'physical';
+			};
+			type: {
+				icon: string;
+				name: string;
+			};
+		};
+		PokemonRequestInfo: {
+			/**
+			 * @description Slug for the Website
+			 * @example /pokemon/194?variety=paldea-wooper&shiny=true
+			 */
+			slug: string;
+			/**
+			 * @description Indicates whether gender differences have been requested
+			 * @example female
+			 */
+			gender: string | null;
+			/**
+			 * @description The variety name for this pokemon
+			 * @example paldea-wooper
+			 */
+			variety: string | null;
+			/** @description Whether the shiny form of this pokemon was requested */
+			shiny: boolean;
+		};
+		/** @description Recursively unwraps the "awaited type" of a type. Non-promise "thenables" should resolve to `never`. This emulates the behavior of `await`. */
+		'Awaited_ReturnType_PokemonPreviewController-at-getPokemonPreview__': {
+			pokedex: {
+				/** Format: double */
+				speciesId: number;
+				/** Format: double */
+				pokedexEntityId: number;
+				/** Format: double */
+				pokedexId: number;
+				pokedexSlug: string;
+			};
+			requestInfo: components['schemas']['PokemonRequestInfo'];
+			slug: string;
+			sprite: {
+				url: string;
+				alt: string;
+			};
+			names: string[];
+			name: string;
+			/** Format: double */
+			id: number;
+		};
+		PokemonPreview: components['schemas']['Awaited_ReturnType_PokemonPreviewController-at-getPokemonPreview__'];
+		/** @description Exclude null and undefined from T */
+		NonNullable_PokemonPreview_: components['schemas']['PokemonPreview'] & Record<string, never>;
+		TagPokemonPreview: components['schemas']['NonNullable_PokemonPreview_'] & {
+			/** @enum {string|null} */
+			gender?: 'female' | 'male' | null;
+			shiny?: boolean | null;
+			added?: string;
+		};
+		/** @enum {string} */
+		PokeapiLanguageCodes: 'ja-Hrkt' | 'zh-Hant' | 'ja' | 'ko' | 'fr' | 'de' | 'en' | 'es' | 'it';
+		QueriesGetTagPokemon: {
+			/** @enum {string} */
+			versionSpecificPokemonSprites?: 'true' | 'false';
+			/**
+			 * @description Indicates whether the API should return sprites to .gif files where possible.
+			 *
+			 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+			 * @enum {string}
+			 */
+			animateSprites?: 'true' | 'false';
+			selectedGame?: string;
+			primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+		};
+		/** @enum {string} */
+		Gender: 'male' | 'female';
+		SearchPokemonQueryParams: {
+			gender?: components['schemas']['Gender'];
+			variety?: string | null;
+			/** @enum {string} */
+			shiny?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificPokemonSprites?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificTypeSprites?: 'true' | 'false';
+			/**
+			 * @description Indicates whether the API should return sprites to .gif files where possible.
+			 *
+			 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+			 * @enum {string}
+			 */
+			animateSprites?: 'true' | 'false';
+			primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			selectedGame?: string;
+			/**
+			 * Format: double
+			 * @default 1
+			 */
+			page: number;
+			/**
+			 * Format: double
+			 * @description Maximum: 50. If a value over 50 is provided, it will default back to 20
+			 * @default 20
+			 */
+			pageSize: number;
+			/**
+			 * Format: double
+			 * @description This Pokemon will be guaranteed to be on the current page.
+			 *     Can be used in combination with pageSize, but will override the page value
+			 */
+			jumpTo?: number;
+			/**
+			 * Format: double
+			 * @default 1
+			 */
+			pokedex: number;
+			/** @description Search term */
+			term: string;
+		};
+		SearchOtherQueryParams: {
+			/** @description Search term */
+			term: string;
+			primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			selectedGame?: string;
+			/**
+			 * Format: double
+			 * @default 1
+			 */
+			page: number;
+		};
+		Type: {
+			name: string;
+			/** @description Path to the URL which will point at sprites.pokecompanion.com */
+			icon: string;
+		};
+		/** @enum {string} */
+		PokeapiVersionGroups:
+			| 'home'
+			| 'red-blue'
+			| 'yellow'
+			| 'gold-silver'
+			| 'crystal'
+			| 'ruby-sapphire'
+			| 'emerald'
+			| 'firered-leafgreen'
+			| 'diamond-pearl'
+			| 'platinum'
+			| 'heartgold-soulsilver'
+			| 'black-white'
+			| 'black-2-white-2'
+			| 'x-y'
+			| 'omega-ruby-alpha-sapphire'
+			| 'sun-moon'
+			| 'ultra-sun-ultra-moon'
+			| 'lets-go-pikachu-lets-go-eevee'
+			| 'sword-shield'
+			| 'brilliant-diamond-shining-pearl'
+			| 'legends-arceus'
+			| 'scarlet-violet'
+			| 'legends-za';
+		PokeapiNamedApiResource: {
+			/** @description Short name */
+			name: string;
+			/** @description https://pokeapi.co/api/v2/.../entry/id/ */
+			url: string;
+		};
+		/** @description Make all properties in T optional */
+		'Partial_Record_PokeapiVersionGroups._displayName_description-AfriendlydisplaynameforthisPokemonGameGroup_-string--levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___': {
+			home?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'red-blue'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			yellow?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'gold-silver'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			crystal?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'ruby-sapphire'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			emerald?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'firered-leafgreen'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'diamond-pearl'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			platinum?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'heartgold-soulsilver'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'black-white'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'black-2-white-2'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'x-y'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'omega-ruby-alpha-sapphire'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'sun-moon'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'ultra-sun-ultra-moon'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'lets-go-pikachu-lets-go-eevee'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'sword-shield'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'brilliant-diamond-shining-pearl'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'legends-arceus'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'scarlet-violet'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+			'legends-za'?: {
+				/** Format: double */
+				other: number;
+				/** Format: double */
+				tutor: number;
+				/** Format: double */
+				breed: number;
+				/** Format: double */
+				tm: number;
+				/** Format: double */
+				levelup: number;
+				displayName: string;
+			};
+		};
+		/** @description Construct a type with a set of properties K of type T */
+		'Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_': {
+			[key: string]: {
+				conditions: string[];
+				/** Format: double */
+				chance: number;
+				/** Format: double */
+				maxLevel: number;
+				/** Format: double */
+				minLevel: number;
+				method: string;
+			}[];
+		};
+		/** @description Make all properties in T optional */
+		'Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______': {
+			home?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			red?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			blue?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			yellow?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			gold?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			silver?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			crystal?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			ruby?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			sapphire?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			emerald?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			firered?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			leafgreen?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			diamond?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			pearl?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			platinum?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			heartgold?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			soulsilver?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			black?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			white?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'black-2'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'white-2'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			x?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			y?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'omega-ruby'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'alpha-sapphire'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			sun?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			moon?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'ultra-sun'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'ultra-moon'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'lets-go-pikachu'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'lets-go-eevee'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			sword?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			shield?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'brilliant-diamond'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'shining-pearl'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'legends-arceus'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			scarlet?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			violet?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'legends-za'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'the-isle-of-armor'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'the-crown-tundra'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'the-teal-mask'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'the-indigo-disk'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+			'mega-dimension'?: components['schemas']['Record_string._method-string--minLevel-number--maxLevel-number--chance-number--conditions-string-Array_-Array_'];
+		};
+		StatValue: {
+			/** Format: double */
+			stat: number;
+			/** Format: double */
+			effort: number;
+		};
+		/** @description Construct a type with a set of properties K of type T */
+		'Record_PokeapiStatType.StatValue_': {
+			hp: components['schemas']['StatValue'];
+			attack: components['schemas']['StatValue'];
+			defense: components['schemas']['StatValue'];
+			speed: components['schemas']['StatValue'];
+			'special-attack': components['schemas']['StatValue'];
+			'special-defense': components['schemas']['StatValue'];
+		};
+		/** @description Construct a type with a set of properties K of type T */
+		'Record_average.StatValue_': {
+			average: components['schemas']['StatValue'];
+		};
+		PokemonResponse: {
+			/** Format: double */
+			id: number;
+			name: string;
+			names: string[];
+			pokedexEntries: {
+				textEntry: string;
+				/** @description A display friendly game name, NOT the pokeapi name */
+				game: string;
+				language: components['schemas']['PokeapiLanguageCodes'];
+			}[];
+			/**
+			 * Format: double
+			 * @description Height in cm
+			 * @example 176
+			 */
+			height: number;
+			/**
+			 * Format: double
+			 * @description Weight in grams
+			 * @example 3500
+			 */
+			weight: number;
+			/**
+			 * @description Path to a .ogg file with this pokemon's cry
+			 * @example https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/3.ogg
+			 */
+			cry: string;
+			sprites: {
+				isBack: boolean;
+				hasFemale: boolean;
+				hasShiny: boolean;
+				alt: string;
+				url: string;
+			}[];
+			types: {
+				weakAgainst: (components['schemas']['Type'] & {
+					/** Format: double */
+					multiplier: number;
+				})[];
+				resists: (components['schemas']['Type'] & {
+					/** Format: double */
+					multiplier: number;
+				})[];
+				own: components['schemas']['Type'][];
+			};
+			evolutionChain: {
+				/**
+				 * @description Indicates wheather both source + target evolutions are present in the current game.
+				 *     An imperfect measure since it is based on the national dex ID and does not take variants
+				 *     or gender into account
+				 *     Some Pokemon, as well as having an evolution at all, are also region locked so they can only
+				 *     evolve in that specific region. https://github.com/PokeAPI/pokeapi/issues/1315
+				 */
+				isValidInGame: boolean;
+				target: {
+					/**
+					 * @description The URL that should be navigated to when this Pokemon is clicked
+					 * @example /pokemon/4
+					 */
+					pokemonUrl: string;
+					/**
+					 * @description URL for the sprite of this Pokemon
+					 * @example https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png
+					 */
+					spriteUrl: string;
+				};
+				/** @description Additional requirements that will only be */
+				requirements: {
+					supplementary?: string;
+					info: string | number;
+					/** @enum {string} */
+					type:
+						| 'hold-item'
+						| 'friendship'
+						| 'shed'
+						| 'three-critical-hits'
+						| 'beauty'
+						| 'rain'
+						| 'daytime'
+						| 'trade_for'
+						| 'party_have'
+						| 'other'
+						| 'stats'
+						| 'know_move'
+						| 'know_move_type'
+						| 'affection'
+						| 'location'
+						| 'level-up'
+						| 'use-item'
+						| 'recoil-damage'
+						| 'battle-leader'
+						| 'game-specific'
+						| 'no-animation'
+						| 'multiplayer'
+						| 'use-move'
+						| 'gender'
+						| 'party_type'
+						| 'collect_items';
+				}[];
+				/**
+				 * @description Description of what will trigger the evolution
+				 * @example Level 24
+				 */
+				trigger: string;
+				source: {
+					/**
+					 * @description The URL that should be navigated to when this Pokemon is clicked
+					 * @example /pokemon/4
+					 */
+					pokemonUrl: string;
+					/**
+					 * @description URL for the sprite of this Pokemon
+					 * @example https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png
+					 */
+					spriteUrl: string;
+				};
+			}[];
+			presenceInGame:
+				| {
+						/** @enum {number|null} */
+						pokedexNumber: null;
+						/** @enum {boolean} */
+						present: false;
+						/**
+						 * @description Playback of the game that was used in the request - mostly for clarity
+						 * @example scarlet-violet
+						 */
+						game: components['schemas']['PokeapiVersionGroups'];
+				  }
+				| {
+						/** Format: double */
+						pokedexNumber: number;
+						/** @enum {boolean} */
+						present: true;
+						/**
+						 * @description Playback of the game that was used in the request - mostly for clarity
+						 * @example scarlet-violet
+						 */
+						game: components['schemas']['PokeapiVersionGroups'];
+				  };
+			abilities: {
+				/** Format: double */
+				slot: number;
+				is_hidden: boolean;
+				ability: components['schemas']['PokeapiNamedApiResource'];
+				/** Format: double */
+				id: number;
+			}[];
+			varieties: {
+				requestInfo: components['schemas']['PokemonRequestInfo'];
+				isDefault: boolean;
+				displayName: string;
+				name: string;
+			}[];
+			/**
+			 * @description This Pokemon's Pokecompanion URL
+			 *
+			 *     To be used when a faulty Pokemon request was made (id > 10000) to
+			 *     keep malicious traffic on track
+			 */
+			slug: string;
+			/**
+			 * @description The number of moves in each learn set.
+			 *     Only to be used to populate a skeleton laoder. Use /pokemon/:id/moves to
+			 *     retrieve the actual moves.
+			 */
+			moves: components['schemas']['Partial_Record_PokeapiVersionGroups._displayName_description-AfriendlydisplaynameforthisPokemonGameGroup_-string--levelup_description-Numberofmovesthatcanbelearntviathismethod_-number--tm_description-Numberofmovesthatcanbelearntviathismethod_-number--breed_description-Numberofmovesthatcanbelearntviathismethod_-number--tutor_description-Numberofmovesthatcanbelearntviathismethod_-number--other_description-Numberofmovesthatcanbelearntviathismethod_-number___'];
+			encounters: components['schemas']['Partial_Record_PokeapiGameNames.Record_string.Array__method-string--minLevel-number--maxLevel-number--chance-number--conditions-Array_string______'];
+			stats: components['schemas']['Record_PokeapiStatType.StatValue_'] &
+				components['schemas']['Record_average.StatValue_'];
+			__meta: {
+				description: string;
+				previewImage: string;
+				title: string;
+			};
+		};
+		QueryParamsGetPokemon: {
+			gender?: components['schemas']['Gender'];
+			/** @enum {string} */
+			shiny?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificPokemonSprites?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificTypeSprites?: 'true' | 'false';
+			/**
+			 * @description Indicates whether the API should return sprites to .gif files where possible.
+			 *
+			 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+			 * @enum {string}
+			 */
+			animateSprites?: 'true' | 'false';
+			primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			selectedGame?: string;
+			variety?: string | null;
+		};
+		PokedexPokemonAttachment: {
+			/**
+			 * Format: double
+			 * @description The ID of this Pokedex
+			 */
+			pokedexEntityId: number;
+			/**
+			 * Format: double
+			 * @description The ID of this Pokemon in the national pokedex
+			 */
+			speciesId: number;
+			/** @example /pokedex/34 */
+			pokedexSlug: string;
+			/**
+			 * Format: double
+			 * @description The ID of this Pokemon within this Pokedex
+			 */
+			pokedexId: number;
+		};
+		PokemonPreviewResponse: {
+			/**
+			 * Format: double
+			 * @description That Pokemons National Dex ID
+			 */
+			id: number;
+			/** @description Pokemon's name in the corresponding languages as a single string */
+			name: string;
+			/** @description All names for this Pokemon in an array */
+			names: string[];
+			sprite: {
+				url: string;
+				alt: string;
+			};
+			/**
+			 * @description The Slug to get to that specific Pokemon's page
+			 * @example /pokemon/194
+			 */
+			slug: string;
+			requestInfo: components['schemas']['PokemonRequestInfo'];
+			pokedex: components['schemas']['PokedexPokemonAttachment'] | null;
+		};
+		QueryParamsGetPreviewPokemon: {
+			gender?: components['schemas']['Gender'];
+			/** @enum {string} */
+			shiny?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificPokemonSprites?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificTypeSprites?: 'true' | 'false';
+			/**
+			 * @description Indicates whether the API should return sprites to .gif files where possible.
+			 *
+			 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+			 * @enum {string}
+			 */
+			animateSprites?: 'true' | 'false';
+			primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			selectedGame?: string;
+			variety?: string | null;
+			/**
+			 * Format: double
+			 * @default 1
+			 */
+			pokedex: number;
+		};
+		AllQueryParameters: {
+			gender?: components['schemas']['Gender'];
+			variety?: string | null;
+			/** @enum {string} */
+			shiny?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificPokemonSprites?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificTypeSprites?: 'true' | 'false';
+			/**
+			 * @description Indicates whether the API should return sprites to .gif files where possible.
+			 *
+			 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+			 * @enum {string}
+			 */
+			animateSprites?: 'true' | 'false';
+			primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			selectedGame?: string;
+			/**
+			 * Format: double
+			 * @default 1
+			 */
+			page: number;
+			/**
+			 * Format: double
+			 * @description Maximum: 50. If a value over 50 is provided, it will default back to 20
+			 * @default 20
+			 */
+			pageSize: number;
+			/**
+			 * Format: double
+			 * @description This Pokemon will be guaranteed to be on the current page.
+			 *     Can be used in combination with pageSize, but will override the page value
+			 */
+			jumpTo?: number;
+			/**
+			 * Format: double
+			 * @default 1
+			 */
+			pokedex: number;
+		};
+		PokemonMoves: {
+			home?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'red-blue'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			yellow?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'gold-silver'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			crystal?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'ruby-sapphire'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			emerald?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'firered-leafgreen'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'diamond-pearl'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			platinum?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'heartgold-soulsilver'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'black-white'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'black-2-white-2'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'x-y'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'omega-ruby-alpha-sapphire'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'sun-moon'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'ultra-sun-ultra-moon'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'lets-go-pikachu-lets-go-eevee'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'sword-shield'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'brilliant-diamond-shining-pearl'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'legends-arceus'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'scarlet-violet'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+			'legends-za'?: {
+				other: ({
+					learnMethod: string;
+				} & components['schemas']['MovePreview'])[];
+				tutor: components['schemas']['MovePreview'][];
+				breed: components['schemas']['MovePreview'][];
+				tm: components['schemas']['MovePreview'][];
+				levelup: ({
+					/** Format: double */
+					level: number;
+				} & components['schemas']['MovePreview'])[];
+				displayName: string;
+			};
+		};
+		QueryParamsGetPokemonMoves: {
+			primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			selectedGame?: string;
+			variety?: string | null;
+		};
+		/** @enum {string} */
+		PokeapiGenerationName:
+			| 'generation-i'
+			| 'generation-ii'
+			| 'generation-iii'
+			| 'generation-iv'
+			| 'generation-v'
+			| 'generation-vi'
+			| 'generation-vii'
+			| 'generation-viii'
+			| 'generation-ix';
+		IGeneration: {
+			name: string;
+			short: string;
+			pokeApiName: components['schemas']['PokeapiGenerationName'];
+			/** Format: double */
+			nationalDexEnd: number;
+			/** Format: double */
+			number: number;
+		};
+		/** @enum {string} */
+		PokeapiGameNames:
+			| 'home'
+			| 'red'
+			| 'blue'
+			| 'yellow'
+			| 'gold'
+			| 'silver'
+			| 'crystal'
+			| 'ruby'
+			| 'sapphire'
+			| 'emerald'
+			| 'firered'
+			| 'leafgreen'
+			| 'diamond'
+			| 'pearl'
+			| 'platinum'
+			| 'heartgold'
+			| 'soulsilver'
+			| 'black'
+			| 'white'
+			| 'black-2'
+			| 'white-2'
+			| 'x'
+			| 'y'
+			| 'omega-ruby'
+			| 'alpha-sapphire'
+			| 'sun'
+			| 'moon'
+			| 'ultra-sun'
+			| 'ultra-moon'
+			| 'lets-go-pikachu'
+			| 'lets-go-eevee'
+			| 'sword'
+			| 'shield'
+			| 'brilliant-diamond'
+			| 'shining-pearl'
+			| 'legends-arceus'
+			| 'scarlet'
+			| 'violet'
+			| 'legends-za'
+			| 'the-isle-of-armor'
+			| 'the-crown-tundra'
+			| 'the-teal-mask'
+			| 'the-indigo-disk'
+			| 'mega-dimension';
+		/** @enum {string} */
+		PokeapiRegions:
+			| 'kanto'
+			| 'johto'
+			| 'hoenn'
+			| 'sinnoh'
+			| 'unova'
+			| 'kalos'
+			| 'alola'
+			| 'galar'
+			| 'hisui'
+			| 'paldea';
+		IGameGroup: {
+			pokeapi: components['schemas']['PokeapiVersionGroups'];
+			shortName: string;
+			generation: components['schemas']['IGeneration'];
+			games: {
+				/** Format: double */
+				globalSortOrder: number;
+				shortName: string;
+				pokeapi: components['schemas']['PokeapiGameNames'];
+			}[];
+			region: components['schemas']['PokeapiRegions'];
+			pokedexUrls: string[];
+			dlcGames: {
+				pokedexUrls: string[];
+				/** Format: double */
+				globalSortOrder: number;
+				shortName: string;
+				pokeapi: components['schemas']['PokeapiGameNames'];
+			}[];
+		};
+		PokedexInfo: {
+			/** @example /pokedex/34 */
+			slug: string;
+			/**
+			 * Format: double
+			 * @description The ID for this specific Pokedex
+			 */
+			id: number;
+			/** @description The description that's attached to this Pokedex */
+			description: string;
+			/**
+			 * @description The name of this Pokedex (human friendly)
+			 * @example Updated Johto Pokedex
+			 */
+			name: string;
+			/** @description Games for which this Pokedex applies for */
+			games: components['schemas']['PokeapiVersionGroups'][];
+		};
+		/** @description Make all properties in T optional */
+		'Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array_PokedexInfo____': {
+			home?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'red-blue'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			yellow?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'gold-silver'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			crystal?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'ruby-sapphire'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			emerald?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'firered-leafgreen'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'diamond-pearl'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			platinum?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'heartgold-soulsilver'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'black-white'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'black-2-white-2'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'x-y'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'omega-ruby-alpha-sapphire'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'sun-moon'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'ultra-sun-ultra-moon'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'lets-go-pikachu-lets-go-eevee'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'sword-shield'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'brilliant-diamond-shining-pearl'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'legends-arceus'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'scarlet-violet'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			'legends-za'?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+			national?: {
+				pokedex: components['schemas']['PokedexInfo'][];
+				game: components['schemas']['IGameGroup'];
+			};
+		};
+		PokedexRootResponse: components['schemas']['Partial_Record_PokeapiVersionGroups-or-national._game-IGameGroup--pokedex-Array_PokedexInfo____'];
+		QueryParamsGetAllPokedexes: {
+			gender?: components['schemas']['Gender'];
+			/** @enum {string} */
+			shiny?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificPokemonSprites?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificTypeSprites?: 'true' | 'false';
+			/**
+			 * @description Indicates whether the API should return sprites to .gif files where possible.
+			 *
+			 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+			 * @enum {string}
+			 */
+			animateSprites?: 'true' | 'false';
+			primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			selectedGame?: string;
+		};
+		PokedexPokemonResponse: {
+			__meta: {
+				description: string;
+				title: string;
+			};
+			pokedex: {
+				/** @example /pokedex/1 */
+				slug: string;
+				/**
+				 * @description Nicely formatted name of this Pokedex
+				 * @example Original Johto
+				 */
+				name: string;
+				/**
+				 * Format: double
+				 * @description ID of that Pokedex
+				 */
+				id: number;
+			};
+			navigation: {
+				/** @description Entry for the next pokemon in this pokedex, if applicable */
+				next: {
+					/**
+					 * Format: double
+					 * @description That Pokemons National Pokedex ID
+					 */
+					speciesId: number;
+					/**
+					 * Format: double
+					 * @description The Pokedex ID of that Pokemon within this Pokedex
+					 */
+					pokedexId: number;
+					/** @description Slug to the next entry within this Pokedex - not the specific Pokemon */
+					slug: string;
+					pokemon: components['schemas']['PokemonPreviewResponse'];
+				} | null;
+				current: {
+					/**
+					 * Format: double
+					 * @description That Pokemons National Pokedex ID
+					 */
+					speciesId: number;
+					/**
+					 * Format: double
+					 * @description The Pokedex ID of that Pokemon within this Pokedex
+					 */
+					pokedexId: number;
+					pokemon: components['schemas']['PokemonPreviewResponse'];
+				};
+				/** @description Entry for the previous pokemon in this pokedex, if applicable */
+				previous: {
+					/**
+					 * Format: double
+					 * @description That Pokemons National Pokedex ID
+					 */
+					speciesId: number;
+					/**
+					 * Format: double
+					 * @description The Pokedex ID of that Pokemon within this Pokedex
+					 */
+					pokedexId: number;
+					/** @description Slug to the next entry within this Pokedex - not the specific Pokemon */
+					slug: string;
+					pokemon: components['schemas']['PokemonPreviewResponse'];
+				} | null;
+			};
+		};
+		MoveResponse: {
+			/** Format: double */
+			id: number;
+			/** @description Combined name in both languages */
+			name: string;
+			/**
+			 * @description Contains the primary language in first position, and the secondary in second
+			 *
+			 *     Deduped
+			 */
+			names: string[];
+			/** @description Pokecompanion slug */
+			slug: string;
+			/** @description List of Pokemon Previews that can learn this move */
+			learnedByPokemon: {
+				slug: string;
+				sprite: {
+					url: string;
+					alt: string;
+				};
+				name: string;
+				/** Format: double */
+				id: number;
+			}[];
+			/** @description Flavour text entries in the selected languages */
+			flavourTexts: string[];
+			/** @description Effect entries in the selected languages */
+			effectEntries: string[];
+			/**
+			 * Format: double
+			 * @description The number of power points that this move has
+			 */
+			pp: number;
+			/**
+			 * Format: double
+			 * @description The damage that this move can do. Will be null for status moves
+			 */
+			power: number | null;
+			/**
+			 * Format: double
+			 * @description The chance that this move will hit the target
+			 */
+			accuracy: number | null;
+			damageClass: {
+				/** @description Path to the URL which will point at sprites.pokecompanion.com */
+				icon: string;
+				/** @enum {string} */
+				name: 'status' | 'physical' | 'special';
+			};
+			/** @description The type of this move */
+			type: components['schemas']['Type'];
+		};
+		RecordLastActionTag: {
+			userId: string;
+			tagId: string;
+		};
+		RecordLastActionPokemon:
+			| {
+					/** Format: double */
+					speciesId: number;
+			  }
+			| {
+					/** Format: double */
+					pokemonInPokedexId: number;
+					/** Format: double */
+					pokedexId: number;
+			  };
+		RecordLastAction: {
+			pokemon?: components['schemas']['RecordLastActionPokemon'];
+			tag?: components['schemas']['RecordLastActionTag'];
+		};
+		ItemAttributesMap: {
+			holdable: boolean;
+			countable: boolean;
+			battle: boolean;
+			overworld: boolean;
+			underground: boolean;
+			holdablePassive: boolean;
+			holdableActive: boolean;
+		};
+		ItemResponse: {
+			/** Format: double */
+			id: number;
+			/** Format: double */
+			cost: number | null;
+			names: string[];
+			name: string;
+			icon?: string;
+			flavourTexts: string[];
+			effectEntries: string[];
+			/** Format: double */
+			price: number | null;
+			attributes: components['schemas']['ItemAttributesMap'];
+		};
+		LastActionPokemon: {
+			test: string;
+		};
+		LastActionTag: {
+			test: string;
+		};
+		LastAction: {
+			tag: components['schemas']['LastActionTag'];
+			pokemon: components['schemas']['LastActionPokemon'];
+		};
+		HomeResponse: {
+			lastActions: components['schemas']['LastAction'] | null;
+			ofTheDay: {
+				move: components['schemas']['MovePreview'] | null;
+				pokemon: components['schemas']['PokemonPreview'] | null;
+			};
+		};
+		QueryParamsGetHome: {
+			/** @enum {string} */
+			shiny?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificPokemonSprites?: 'true' | 'false';
+			/** @enum {string} */
+			versionSpecificTypeSprites?: 'true' | 'false';
+			/**
+			 * @description Indicates whether the API should return sprites to .gif files where possible.
+			 *
+			 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+			 * @enum {string}
+			 */
+			animateSprites?: 'true' | 'false';
+			primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			selectedGame?: string;
+		};
+	};
+	responses: never;
+	parameters: never;
+	requestBodies: never;
+	headers: never;
+	pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    getUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                username: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        username: string;
-                        id: string;
-                        tags: {
-                            /** Format: double */
-                            size: number;
-                            isPrivate: boolean;
-                            id: string;
-                            name: string;
-                        }[];
-                    };
-                };
-            };
-        };
-    };
-    deleteUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    updateUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    username: string;
-                };
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        username: string;
-                        id: string;
-                    };
-                };
-            };
-            /** @description The new username does not meet the criteria */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description This username is already taken */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Something went wrong */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    reportUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    notes: string;
-                    username: string;
-                };
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description The new username does not meet the criteria */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Something went wrong */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getAllTagsForUser: {
-        parameters: {
-            query?: {
-                /** @description If omitted, the currently authenicated user will be used. */
-                userId?: string;
-                /** @description Case sensitive, get all public tags that the requests' user can see for the specified username. Takes precedent over userId */
-                username?: string;
-                /** @description Pagination, refer to response.totalPages to see the total number of pages. Defaults to 1 */
-                page?: number;
-                /** @description what field should be sorted on. Defaults to "added" */
-                sortKey?: "id" | "custom" | "added" | "alphabetical";
-                /** @description Defaults to "desc" */
-                sortOrder?: "desc" | "asc" | "custom";
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** Format: double */
-                        totalPages: number;
-                        /** Format: double */
-                        currentPage: number;
-                        tags: components["schemas"]["Tag"][];
-                    };
-                };
-            };
-            /** @description Unauthorised */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-        };
-    };
-    createNewTag: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["TagPostRequestBody"];
-            };
-        };
-        responses: {
-            /** @description Created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description RequestError */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorised */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getTag: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                tagId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Tag"];
-                };
-            };
-            /** @description tagId cannot possibly be valid */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Tag does not exist, or is private and does not belong to this user */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    deleteTag: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                tagId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Tag deleted successfully */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description tagId cannot possibly be valid */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorised */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Tag does not exist or does not belong to this user */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    patchTag: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                tagId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @enum {string} */
-                    sortOrder: "desc" | "asc" | "custom";
-                    /** @enum {string} */
-                    sortKey: "id" | "custom" | "added" | "alphabetical";
-                    showGenderAndShiny: boolean;
-                    isHiddenAcrossSite: boolean;
-                    isPrivate: boolean;
-                    description: string;
-                    name: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Returns the updated tag */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Tag"];
-                };
-            };
-            /** @description Missing required values */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorised */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Tag does not exist or does not belong to this user */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getTagMoves: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                tagId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        moves: components["schemas"]["MovePreview"][];
-                    };
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Unauthorised */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    addMove: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                tagId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** Format: double */
-                    moveId: number;
-                }[];
-            };
-        };
-        responses: {
-            /** @description Returns the updated tag */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Tag"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Unauthorised */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    deleteTagMove: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                tagId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** Format: double */
-                    moveId: number;
-                }[];
-            };
-        };
-        responses: {
-            /** @description Returns the updated tag */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Tag"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Unauthorised */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getTagPokemon: {
-        parameters: {
-            query?: {
-                versionSpecificPokemonSprites?: "true" | "false";
-                /**
-                 * @description Indicates whether the API should return sprites to .gif files where possible.
-                 *
-                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-                 */
-                animateSprites?: "true" | "false";
-                selectedGame?: string;
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-            };
-            header?: never;
-            path: {
-                tagId: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Returns the Pokemon within this tag */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TagPokemonPreview"][];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Unauthorised */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    addTagPokemon: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                tagId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    variety?: string;
-                    /** @enum {boolean} */
-                    shiny?: true | false;
-                    /** @enum {string} */
-                    gender?: "female" | "male";
-                    /** Format: double */
-                    id: number;
-                }[];
-            };
-        };
-        responses: {
-            /** @description Returns the updated tag */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Tag"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Unauthorised */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    deleteTagPokemon: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                tagId: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    variety?: string;
-                    /** @enum {boolean} */
-                    shiny?: true | false;
-                    /** @enum {string} */
-                    gender?: "female" | "male";
-                    /** Format: double */
-                    id: number;
-                }[];
-            };
-        };
-        responses: {
-            /** @description Returns the updated tag */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Tag"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Unauthorised */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    addPokedexToTag: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                tagId: string;
-                pokedexId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Returns the updated tag */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Tag"];
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Unauthorised */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-            /** @description Tag not empty */
-            412: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    searchPokemon: {
-        parameters: {
-            query: {
-                gender?: components["schemas"]["Gender"];
-                variety?: string;
-                shiny?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                /**
-                 * @description Indicates whether the API should return sprites to .gif files where possible.
-                 *
-                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-                 */
-                animateSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-                page?: number;
-                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
-                pageSize?: number;
-                /**
-                 * @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value
-                 */
-                jumpTo?: number;
-                pokedex?: number;
-                /** @description Search term */
-                term: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Results */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** Format: double */
-                        totalItems: number;
-                        data: {
-                            pokedex: {
-                                /** Format: double */
-                                speciesId: number;
-                                /** Format: double */
-                                pokedexEntityId: number;
-                                /** Format: double */
-                                pokedexId: number;
-                                pokedexSlug: string;
-                            };
-                            requestInfo: components["schemas"]["PokemonRequestInfo"];
-                            slug: string;
-                            sprite: {
-                                url: string;
-                                alt: string;
-                            };
-                            names: string[];
-                            name: string;
-                            /** Format: double */
-                            id: number;
-                        }[];
-                    };
-                };
-            };
-            /** @description No results */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    searchMoves: {
-        parameters: {
-            query: {
-                /** @description Search term */
-                term: string;
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-                page?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Results */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** Format: double */
-                        totalItems: number;
-                        data: components["schemas"]["MovePreview"][];
-                    };
-                };
-            };
-            /** @description No results */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    searchItems: {
-        parameters: {
-            query: {
-                gender?: components["schemas"]["Gender"];
-                variety?: string;
-                shiny?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                /**
-                 * @description Indicates whether the API should return sprites to .gif files where possible.
-                 *
-                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-                 */
-                animateSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-                page?: number;
-                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
-                pageSize?: number;
-                /**
-                 * @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value
-                 */
-                jumpTo?: number;
-                pokedex?: number;
-                /** @description Search term */
-                term: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Results */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** Format: double */
-                        totalItems: number;
-                        data: {
-                            slug: string;
-                            icon: string;
-                            name: string;
-                            names: string[];
-                            /** Format: double */
-                            id: number;
-                        }[];
-                    };
-                };
-            };
-            /** @description No results */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    searchAbilities: {
-        parameters: {
-            query: {
-                /** @description Search term */
-                term: string;
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-                page?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Results */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** Format: double */
-                        totalItems: number;
-                        data: {
-                            effectEntries: {
-                                shortEffect: string;
-                                effect: string;
-                            }[];
-                            names: string[];
-                            name: string;
-                            slug: string;
-                            /** Format: double */
-                            id: number;
-                        }[];
-                    };
-                };
-            };
-            /** @description No results */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    search: {
-        parameters: {
-            query: {
-                gender?: components["schemas"]["Gender"];
-                variety?: string;
-                shiny?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                /**
-                 * @description Indicates whether the API should return sprites to .gif files where possible.
-                 *
-                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-                 */
-                animateSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-                page?: number;
-                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
-                pageSize?: number;
-                /**
-                 * @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value
-                 */
-                jumpTo?: number;
-                pokedex?: number;
-                /** @description Search term */
-                term: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Results */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        moves: {
-                            /** Format: double */
-                            totalItems: number;
-                            data: components["schemas"]["MovePreview"][];
-                        };
-                        abilities: {
-                            /** Format: double */
-                            totalItems: number;
-                            data: {
-                                effectEntries: {
-                                    shortEffect: string;
-                                    effect: string;
-                                }[];
-                                names: string[];
-                                name: string;
-                                slug: string;
-                                /** Format: double */
-                                id: number;
-                            }[];
-                        };
-                        items: {
-                            /** Format: double */
-                            totalItems: number;
-                            data: {
-                                slug: string;
-                                icon: string;
-                                name: string;
-                                names: string[];
-                                /** Format: double */
-                                id: number;
-                            }[];
-                        };
-                        pokemon: {
-                            /** Format: double */
-                            totalItems: number;
-                            data: {
-                                pokedex: {
-                                    /** Format: double */
-                                    speciesId: number;
-                                    /** Format: double */
-                                    pokedexEntityId: number;
-                                    /** Format: double */
-                                    pokedexId: number;
-                                    pokedexSlug: string;
-                                };
-                                requestInfo: components["schemas"]["PokemonRequestInfo"];
-                                slug: string;
-                                sprite: {
-                                    url: string;
-                                    alt: string;
-                                };
-                                names: string[];
-                                name: string;
-                                /** Format: double */
-                                id: number;
-                            }[];
-                        };
-                        searchTerm: string;
-                    };
-                };
-            };
-            /** @description No results */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getPokemonById: {
-        parameters: {
-            query?: {
-                gender?: components["schemas"]["Gender"];
-                shiny?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                /**
-                 * @description Indicates whether the API should return sprites to .gif files where possible.
-                 *
-                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-                 */
-                animateSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-                variety?: string;
-            };
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PokemonResponse"];
-                };
-            };
-        };
-    };
-    getPokemonPreview: {
-        parameters: {
-            query?: {
-                gender?: components["schemas"]["Gender"];
-                shiny?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                /**
-                 * @description Indicates whether the API should return sprites to .gif files where possible.
-                 *
-                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-                 */
-                animateSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-                variety?: string;
-                pokedex?: number;
-            };
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PokemonPreviewResponse"];
-                };
-            };
-        };
-    };
-    getPokemonRootPreviews: {
-        parameters: {
-            query?: {
-                gender?: components["schemas"]["Gender"];
-                variety?: string;
-                shiny?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                /**
-                 * @description Indicates whether the API should return sprites to .gif files where possible.
-                 *
-                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-                 */
-                animateSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-                page?: number;
-                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
-                pageSize?: number;
-                /**
-                 * @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value
-                 */
-                jumpTo?: number;
-                pokedex?: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        pagination: {
-                            /** Format: double */
-                            lastPage: number;
-                            /** Format: double */
-                            currentPage: number;
-                            /** Format: double */
-                            startingPage: number;
-                        };
-                        pokemon: components["schemas"]["PokemonPreviewResponse"][];
-                    };
-                };
-            };
-        };
-    };
-    getPokemonMoves: {
-        parameters: {
-            query?: {
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-                variety?: string;
-            };
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PokemonMoves"];
-                };
-            };
-        };
-    };
-    getAllPokedexes: {
-        parameters: {
-            query?: {
-                gender?: components["schemas"]["Gender"];
-                shiny?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                /**
-                 * @description Indicates whether the API should return sprites to .gif files where possible.
-                 *
-                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-                 */
-                animateSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PokedexRootResponse"];
-                };
-            };
-        };
-    };
-    getPokedex: {
-        parameters: {
-            query?: {
-                gender?: components["schemas"]["Gender"];
-                variety?: string;
-                shiny?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                /**
-                 * @description Indicates whether the API should return sprites to .gif files where possible.
-                 *
-                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-                 */
-                animateSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-                page?: number;
-                /** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
-                pageSize?: number;
-                /**
-                 * @description This Pokemon will be guaranteed to be on the current page.
-                 *     Can be used in combination with pageSize, but will override the page value
-                 */
-                jumpTo?: number;
-                pokedex?: number;
-            };
-            header?: never;
-            path: {
-                pokedexId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Pokedex Preview */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        pagination: {
-                            /** Format: double */
-                            lastPage: number;
-                            /** Format: double */
-                            currentPage: number;
-                            /** @enum {number} */
-                            startingPage: 1;
-                        };
-                        games: components["schemas"]["PokeapiVersionGroups"][];
-                        pokedex: components["schemas"]["PokedexInfo"];
-                        pokemon: (components["schemas"]["PokemonPreviewResponse"] & {
-                            pokedex: components["schemas"]["PokedexPokemonAttachment"] | null;
-                        })[];
-                        __meta: {
-                            /** @example Gold/Silver/Crystal Johto dex - called the "new" Pokédex in-game */
-                            description: string;
-                            /** @example Original Johto Pokedex */
-                            title: string;
-                        };
-                    };
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getPokedexPokemon: {
-        parameters: {
-            query?: {
-                gender?: components["schemas"]["Gender"];
-                shiny?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                /**
-                 * @description Indicates whether the API should return sprites to .gif files where possible.
-                 *
-                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-                 */
-                animateSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-                variety?: string;
-            };
-            header?: never;
-            path: {
-                pokedexId: number;
-                pokemonInPokedexId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Returns navigation details for this Pokemon within a given Pokedex */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PokedexPokemonResponse"];
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getMoveById: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["MoveResponse"];
-                };
-            };
-        };
-    };
-    getMovePreview: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["MovePreview"];
-                };
-            };
-        };
-    };
-    GetMeta: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Ok */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** Format: double */
-                        lastPokedexEntry: number;
-                        games: {
-                            region: components["schemas"]["PokeapiRegions"];
-                            games: {
-                                /** Format: double */
-                                globalSortOrder: number;
-                                shortName: string;
-                                pokeapi: components["schemas"]["PokeapiGameNames"];
-                            }[];
-                            generation: components["schemas"]["IGeneration"];
-                            shortName: string;
-                            pokeapi: components["schemas"]["PokeapiVersionGroups"];
-                            dlcGames: {
-                                /** Format: double */
-                                globalSortOrder: number;
-                                shortName: string;
-                                pokeapi: components["schemas"]["PokeapiGameNames"];
-                            }[];
-                        }[];
-                        languages: {
-                            code: components["schemas"]["PokeapiLanguageCodes"];
-                            flag: string;
-                            name: string;
-                        }[];
-                    };
-                };
-            };
-        };
-    };
-    recordLastAction: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RecordLastAction"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getItemById: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ItemResponse"];
-                };
-            };
-        };
-    };
-    getHome: {
-        parameters: {
-            query?: {
-                shiny?: "true" | "false";
-                versionSpecificPokemonSprites?: "true" | "false";
-                versionSpecificTypeSprites?: "true" | "false";
-                /**
-                 * @description Indicates whether the API should return sprites to .gif files where possible.
-                 *
-                 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-                 */
-                animateSprites?: "true" | "false";
-                primaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                secondaryLanguage?: components["schemas"]["PokeapiLanguageCodes"];
-                selectedGame?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HomeResponse"];
-                };
-            };
-        };
-    };
-    getAuthMethods: {
-        parameters: {
-            query?: never;
-            header: {
-                origin: string;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        password: boolean | {
-                            fields: string[];
-                        };
-                        oAuth: {
-                            codeChallengeMethod: string;
-                            codeChallenge: string;
-                            codeVerifier: string;
-                            state: string;
-                            name: string;
-                            authUrl: string;
-                        }[];
-                    };
-                };
-            };
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getAuthMe: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        username: unknown;
-                        userSince: unknown;
-                        emailVerified: unknown;
-                        email: unknown;
-                    };
-                };
-            };
-            /** @description Not authenticated */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    requestEmailVerification: {
-        parameters: {
-            query: {
-                email: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Email sent to user */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Provided email address is invalid */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    verifyUserEmail: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    token: string;
-                };
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        success: boolean;
-                    };
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    VerifyOAuthLogin: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description No content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    signUpWithEmail: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** @description Optional. One will be auto-generated if none provided */
-                    username?: string;
-                    password_confirmation: string;
-                    password: string;
-                    email: string;
-                };
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        success: boolean;
-                    };
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    loginWithEmailPassword: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    password: string;
-                    email: string;
-                };
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        redirectTo: string;
-                        success: boolean;
-                    };
-                };
-            };
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    requestPasswordReset: {
-        parameters: {
-            query: {
-                email: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Password reset Email sent */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid Email provided in body */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    verifyPasswordReset: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": {
-                    confirmNewPassword: string;
-                    newPassword: string;
-                    token: string;
-                };
-            };
-        };
-        responses: {
-            /** @description Password reset */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid credentials provided */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal Server Error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getAbilityById: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        effectEntries: {
-                            shortEffect: string;
-                            effect: string;
-                        }[];
-                        names: string[];
-                        name: string;
-                        slug: string;
-                        /** Format: double */
-                        id: number;
-                    };
-                };
-            };
-        };
-    };
+	getUser: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				username: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						username: string;
+						id: string;
+						tags: {
+							/** Format: double */
+							size: number;
+							isPrivate: boolean;
+							id: string;
+							name: string;
+						}[];
+					};
+				};
+			};
+		};
+	};
+	deleteUser: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			204: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	updateUser: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': {
+					username: string;
+				};
+			};
+		};
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						username: string;
+						id: string;
+					};
+				};
+			};
+			/** @description The new username does not meet the criteria */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description This username is already taken */
+			409: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Something went wrong */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	reportUser: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': {
+					notes: string;
+					username: string;
+				};
+			};
+		};
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description The new username does not meet the criteria */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Something went wrong */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	getAllTagsForUser: {
+		parameters: {
+			query?: {
+				/** @description If omitted, the currently authenicated user will be used. */
+				userId?: string;
+				/** @description Case sensitive, get all public tags that the requests' user can see for the specified username. Takes precedent over userId */
+				username?: string;
+				/** @description Pagination, refer to response.totalPages to see the total number of pages. Defaults to 1 */
+				page?: number;
+				/** @description what field should be sorted on. Defaults to "added" */
+				sortKey?: 'id' | 'custom' | 'added' | 'alphabetical';
+				/** @description Defaults to "desc" */
+				sortOrder?: 'desc' | 'asc' | 'custom';
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						/** Format: double */
+						totalPages: number;
+						/** Format: double */
+						currentPage: number;
+						tags: components['schemas']['Tag'][];
+					};
+				};
+			};
+			/** @description Unauthorised */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+		};
+	};
+	createNewTag: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': components['schemas']['TagPostRequestBody'];
+			};
+		};
+		responses: {
+			/** @description Created */
+			201: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description RequestError */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Unauthorised */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	getTag: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				tagId: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['Tag'];
+				};
+			};
+			/** @description tagId cannot possibly be valid */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Tag does not exist, or is private and does not belong to this user */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	deleteTag: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				tagId: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Tag deleted successfully */
+			204: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description tagId cannot possibly be valid */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Unauthorised */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Tag does not exist or does not belong to this user */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	patchTag: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				tagId: string;
+			};
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': {
+					/** @enum {string} */
+					sortOrder: 'desc' | 'asc' | 'custom';
+					/** @enum {string} */
+					sortKey: 'id' | 'custom' | 'added' | 'alphabetical';
+					showGenderAndShiny: boolean;
+					isHiddenAcrossSite: boolean;
+					isPrivate: boolean;
+					description: string;
+					name: string;
+				};
+			};
+		};
+		responses: {
+			/** @description Returns the updated tag */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['Tag'];
+				};
+			};
+			/** @description Missing required values */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Unauthorised */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Tag does not exist or does not belong to this user */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	getTagMoves: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				tagId: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						moves: components['schemas']['MovePreview'][];
+					};
+				};
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Unauthorised */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	addMove: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				tagId: string;
+			};
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': {
+					/** Format: double */
+					moveId: number;
+				}[];
+			};
+		};
+		responses: {
+			/** @description Returns the updated tag */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['Tag'];
+				};
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Unauthorised */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	deleteTagMove: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				tagId: string;
+			};
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': {
+					/** Format: double */
+					moveId: number;
+				}[];
+			};
+		};
+		responses: {
+			/** @description Returns the updated tag */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['Tag'];
+				};
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Unauthorised */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	getTagPokemon: {
+		parameters: {
+			query?: {
+				versionSpecificPokemonSprites?: 'true' | 'false';
+				/**
+				 * @description Indicates whether the API should return sprites to .gif files where possible.
+				 *
+				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+				 */
+				animateSprites?: 'true' | 'false';
+				selectedGame?: string;
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+			};
+			header?: never;
+			path: {
+				tagId: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Returns the Pokemon within this tag */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['TagPokemonPreview'][];
+				};
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Unauthorised */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	addTagPokemon: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				tagId: string;
+			};
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': {
+					variety?: string;
+					/** @enum {boolean} */
+					shiny?: true | false;
+					/** @enum {string} */
+					gender?: 'female' | 'male';
+					/** Format: double */
+					id: number;
+				}[];
+			};
+		};
+		responses: {
+			/** @description Returns the updated tag */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['Tag'];
+				};
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Unauthorised */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	deleteTagPokemon: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				tagId: string;
+			};
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': {
+					variety?: string;
+					/** @enum {boolean} */
+					shiny?: true | false;
+					/** @enum {string} */
+					gender?: 'female' | 'male';
+					/** Format: double */
+					id: number;
+				}[];
+			};
+		};
+		responses: {
+			/** @description Returns the updated tag */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['Tag'];
+				};
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Unauthorised */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	addPokedexToTag: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				tagId: string;
+				pokedexId: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Returns the updated tag */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['Tag'];
+				};
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Unauthorised */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': string;
+				};
+			};
+			/** @description Tag not empty */
+			412: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	searchPokemon: {
+		parameters: {
+			query: {
+				gender?: components['schemas']['Gender'];
+				variety?: string;
+				shiny?: 'true' | 'false';
+				versionSpecificPokemonSprites?: 'true' | 'false';
+				versionSpecificTypeSprites?: 'true' | 'false';
+				/**
+				 * @description Indicates whether the API should return sprites to .gif files where possible.
+				 *
+				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+				 */
+				animateSprites?: 'true' | 'false';
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+				page?: number;
+				/** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
+				pageSize?: number;
+				/**
+				 * @description This Pokemon will be guaranteed to be on the current page.
+				 *     Can be used in combination with pageSize, but will override the page value
+				 */
+				jumpTo?: number;
+				pokedex?: number;
+				/** @description Search term */
+				term: string;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Results */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						/** Format: double */
+						totalItems: number;
+						data: {
+							pokedex: {
+								/** Format: double */
+								speciesId: number;
+								/** Format: double */
+								pokedexEntityId: number;
+								/** Format: double */
+								pokedexId: number;
+								pokedexSlug: string;
+							};
+							requestInfo: components['schemas']['PokemonRequestInfo'];
+							slug: string;
+							sprite: {
+								url: string;
+								alt: string;
+							};
+							names: string[];
+							name: string;
+							/** Format: double */
+							id: number;
+						}[];
+					};
+				};
+			};
+			/** @description No results */
+			204: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	searchMoves: {
+		parameters: {
+			query: {
+				/** @description Search term */
+				term: string;
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+				page?: number;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Results */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						/** Format: double */
+						totalItems: number;
+						data: components['schemas']['MovePreview'][];
+					};
+				};
+			};
+			/** @description No results */
+			204: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	searchItems: {
+		parameters: {
+			query: {
+				gender?: components['schemas']['Gender'];
+				variety?: string;
+				shiny?: 'true' | 'false';
+				versionSpecificPokemonSprites?: 'true' | 'false';
+				versionSpecificTypeSprites?: 'true' | 'false';
+				/**
+				 * @description Indicates whether the API should return sprites to .gif files where possible.
+				 *
+				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+				 */
+				animateSprites?: 'true' | 'false';
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+				page?: number;
+				/** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
+				pageSize?: number;
+				/**
+				 * @description This Pokemon will be guaranteed to be on the current page.
+				 *     Can be used in combination with pageSize, but will override the page value
+				 */
+				jumpTo?: number;
+				pokedex?: number;
+				/** @description Search term */
+				term: string;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Results */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						/** Format: double */
+						totalItems: number;
+						data: {
+							slug: string;
+							icon: string;
+							name: string;
+							names: string[];
+							/** Format: double */
+							id: number;
+						}[];
+					};
+				};
+			};
+			/** @description No results */
+			204: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	searchAbilities: {
+		parameters: {
+			query: {
+				/** @description Search term */
+				term: string;
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+				page?: number;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Results */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						/** Format: double */
+						totalItems: number;
+						data: {
+							effectEntries: {
+								shortEffect: string;
+								effect: string;
+							}[];
+							names: string[];
+							name: string;
+							slug: string;
+							/** Format: double */
+							id: number;
+						}[];
+					};
+				};
+			};
+			/** @description No results */
+			204: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	search: {
+		parameters: {
+			query: {
+				gender?: components['schemas']['Gender'];
+				variety?: string;
+				shiny?: 'true' | 'false';
+				versionSpecificPokemonSprites?: 'true' | 'false';
+				versionSpecificTypeSprites?: 'true' | 'false';
+				/**
+				 * @description Indicates whether the API should return sprites to .gif files where possible.
+				 *
+				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+				 */
+				animateSprites?: 'true' | 'false';
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+				page?: number;
+				/** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
+				pageSize?: number;
+				/**
+				 * @description This Pokemon will be guaranteed to be on the current page.
+				 *     Can be used in combination with pageSize, but will override the page value
+				 */
+				jumpTo?: number;
+				pokedex?: number;
+				/** @description Search term */
+				term: string;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Results */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						moves: {
+							/** Format: double */
+							totalItems: number;
+							data: components['schemas']['MovePreview'][];
+						};
+						abilities: {
+							/** Format: double */
+							totalItems: number;
+							data: {
+								effectEntries: {
+									shortEffect: string;
+									effect: string;
+								}[];
+								names: string[];
+								name: string;
+								slug: string;
+								/** Format: double */
+								id: number;
+							}[];
+						};
+						items: {
+							/** Format: double */
+							totalItems: number;
+							data: {
+								slug: string;
+								icon: string;
+								name: string;
+								names: string[];
+								/** Format: double */
+								id: number;
+							}[];
+						};
+						pokemon: {
+							/** Format: double */
+							totalItems: number;
+							data: {
+								pokedex: {
+									/** Format: double */
+									speciesId: number;
+									/** Format: double */
+									pokedexEntityId: number;
+									/** Format: double */
+									pokedexId: number;
+									pokedexSlug: string;
+								};
+								requestInfo: components['schemas']['PokemonRequestInfo'];
+								slug: string;
+								sprite: {
+									url: string;
+									alt: string;
+								};
+								names: string[];
+								name: string;
+								/** Format: double */
+								id: number;
+							}[];
+						};
+						searchTerm: string;
+					};
+				};
+			};
+			/** @description No results */
+			204: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	getPokemonById: {
+		parameters: {
+			query?: {
+				gender?: components['schemas']['Gender'];
+				shiny?: 'true' | 'false';
+				versionSpecificPokemonSprites?: 'true' | 'false';
+				versionSpecificTypeSprites?: 'true' | 'false';
+				/**
+				 * @description Indicates whether the API should return sprites to .gif files where possible.
+				 *
+				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+				 */
+				animateSprites?: 'true' | 'false';
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+				variety?: string;
+			};
+			header?: never;
+			path: {
+				id: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['PokemonResponse'];
+				};
+			};
+		};
+	};
+	getPokemonPreview: {
+		parameters: {
+			query?: {
+				gender?: components['schemas']['Gender'];
+				shiny?: 'true' | 'false';
+				versionSpecificPokemonSprites?: 'true' | 'false';
+				versionSpecificTypeSprites?: 'true' | 'false';
+				/**
+				 * @description Indicates whether the API should return sprites to .gif files where possible.
+				 *
+				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+				 */
+				animateSprites?: 'true' | 'false';
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+				variety?: string;
+				pokedex?: number;
+			};
+			header?: never;
+			path: {
+				id: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['PokemonPreviewResponse'];
+				};
+			};
+		};
+	};
+	getPokemonRootPreviews: {
+		parameters: {
+			query?: {
+				gender?: components['schemas']['Gender'];
+				variety?: string;
+				shiny?: 'true' | 'false';
+				versionSpecificPokemonSprites?: 'true' | 'false';
+				versionSpecificTypeSprites?: 'true' | 'false';
+				/**
+				 * @description Indicates whether the API should return sprites to .gif files where possible.
+				 *
+				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+				 */
+				animateSprites?: 'true' | 'false';
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+				page?: number;
+				/** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
+				pageSize?: number;
+				/**
+				 * @description This Pokemon will be guaranteed to be on the current page.
+				 *     Can be used in combination with pageSize, but will override the page value
+				 */
+				jumpTo?: number;
+				pokedex?: number;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						pagination: {
+							/** Format: double */
+							lastPage: number;
+							/** Format: double */
+							currentPage: number;
+							/** Format: double */
+							startingPage: number;
+						};
+						pokemon: components['schemas']['PokemonPreviewResponse'][];
+					};
+				};
+			};
+		};
+	};
+	getPokemonMoves: {
+		parameters: {
+			query?: {
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+				variety?: string;
+			};
+			header?: never;
+			path: {
+				id: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['PokemonMoves'];
+				};
+			};
+		};
+	};
+	getAllPokedexes: {
+		parameters: {
+			query?: {
+				gender?: components['schemas']['Gender'];
+				shiny?: 'true' | 'false';
+				versionSpecificPokemonSprites?: 'true' | 'false';
+				versionSpecificTypeSprites?: 'true' | 'false';
+				/**
+				 * @description Indicates whether the API should return sprites to .gif files where possible.
+				 *
+				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+				 */
+				animateSprites?: 'true' | 'false';
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Ok */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['PokedexRootResponse'];
+				};
+			};
+		};
+	};
+	getPokedex: {
+		parameters: {
+			query?: {
+				gender?: components['schemas']['Gender'];
+				variety?: string;
+				shiny?: 'true' | 'false';
+				versionSpecificPokemonSprites?: 'true' | 'false';
+				versionSpecificTypeSprites?: 'true' | 'false';
+				/**
+				 * @description Indicates whether the API should return sprites to .gif files where possible.
+				 *
+				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+				 */
+				animateSprites?: 'true' | 'false';
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+				page?: number;
+				/** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
+				pageSize?: number;
+				/**
+				 * @description This Pokemon will be guaranteed to be on the current page.
+				 *     Can be used in combination with pageSize, but will override the page value
+				 */
+				jumpTo?: number;
+				pokedex?: number;
+			};
+			header?: never;
+			path: {
+				pokedexId: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Pokedex Preview */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						pagination: {
+							/** Format: double */
+							lastPage: number;
+							/** Format: double */
+							currentPage: number;
+							/** @enum {number} */
+							startingPage: 1;
+						};
+						games: components['schemas']['PokeapiVersionGroups'][];
+						pokedex: components['schemas']['PokedexInfo'];
+						pokemon: (components['schemas']['PokemonPreviewResponse'] & {
+							pokedex: components['schemas']['PokedexPokemonAttachment'] | null;
+						})[];
+						__meta: {
+							/** @example Gold/Silver/Crystal Johto dex - called the "new" Pokédex in-game */
+							description: string;
+							/** @example Original Johto Pokedex */
+							title: string;
+						};
+					};
+				};
+			};
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	getPokedexPokemon: {
+		parameters: {
+			query?: {
+				gender?: components['schemas']['Gender'];
+				shiny?: 'true' | 'false';
+				versionSpecificPokemonSprites?: 'true' | 'false';
+				versionSpecificTypeSprites?: 'true' | 'false';
+				/**
+				 * @description Indicates whether the API should return sprites to .gif files where possible.
+				 *
+				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+				 */
+				animateSprites?: 'true' | 'false';
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+				variety?: string;
+			};
+			header?: never;
+			path: {
+				pokedexId: number;
+				pokemonInPokedexId: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Returns navigation details for this Pokemon within a given Pokedex */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['PokedexPokemonResponse'];
+				};
+			};
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	getMoveById: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				id: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['MoveResponse'];
+				};
+			};
+		};
+	};
+	getMovePreview: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				id: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['MovePreview'];
+				};
+			};
+		};
+	};
+	GetMeta: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Ok */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						/** Format: double */
+						lastPokedexEntry: number;
+						games: {
+							region: components['schemas']['PokeapiRegions'];
+							games: {
+								/** Format: double */
+								globalSortOrder: number;
+								shortName: string;
+								pokeapi: components['schemas']['PokeapiGameNames'];
+							}[];
+							generation: components['schemas']['IGeneration'];
+							shortName: string;
+							pokeapi: components['schemas']['PokeapiVersionGroups'];
+							dlcGames: {
+								/** Format: double */
+								globalSortOrder: number;
+								shortName: string;
+								pokeapi: components['schemas']['PokeapiGameNames'];
+							}[];
+						}[];
+						languages: {
+							code: components['schemas']['PokeapiLanguageCodes'];
+							flag: string;
+							name: string;
+						}[];
+					};
+				};
+			};
+		};
+	};
+	recordLastAction: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': components['schemas']['RecordLastAction'];
+			};
+		};
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	getItemById: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				id: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['ItemResponse'];
+				};
+			};
+		};
+	};
+	getHome: {
+		parameters: {
+			query?: {
+				shiny?: 'true' | 'false';
+				versionSpecificPokemonSprites?: 'true' | 'false';
+				versionSpecificTypeSprites?: 'true' | 'false';
+				/**
+				 * @description Indicates whether the API should return sprites to .gif files where possible.
+				 *
+				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
+				 */
+				animateSprites?: 'true' | 'false';
+				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
+				selectedGame?: string;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['HomeResponse'];
+				};
+			};
+		};
+	};
+	getAuthMethods: {
+		parameters: {
+			query?: never;
+			header: {
+				origin: string;
+			};
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						password:
+							| boolean
+							| {
+									fields: string[];
+							  };
+						oAuth: {
+							codeChallengeMethod: string;
+							codeChallenge: string;
+							codeVerifier: string;
+							state: string;
+							name: string;
+							authUrl: string;
+						}[];
+					};
+				};
+			};
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	getAuthMe: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						username: unknown;
+						userSince: unknown;
+						emailVerified: unknown;
+						email: unknown;
+					};
+				};
+			};
+			/** @description Not authenticated */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	requestEmailVerification: {
+		parameters: {
+			query: {
+				email: string;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Email sent to user */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Provided email address is invalid */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal server error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	verifyUserEmail: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': {
+					token: string;
+				};
+			};
+		};
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						success: boolean;
+					};
+				};
+			};
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	VerifyOAuthLogin: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description No content */
+			204: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	signUpWithEmail: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': {
+					/** @description Optional. One will be auto-generated if none provided */
+					username?: string;
+					password_confirmation: string;
+					password: string;
+					email: string;
+				};
+			};
+		};
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						success: boolean;
+					};
+				};
+			};
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	loginWithEmailPassword: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': {
+					password: string;
+					email: string;
+				};
+			};
+		};
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						redirectTo: string;
+						success: boolean;
+					};
+				};
+			};
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	requestPasswordReset: {
+		parameters: {
+			query: {
+				email: string;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Password reset Email sent */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Invalid Email provided in body */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	verifyPasswordReset: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				'application/json': {
+					confirmNewPassword: string;
+					newPassword: string;
+					token: string;
+				};
+			};
+		};
+		responses: {
+			/** @description Password reset */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Invalid credentials provided */
+			400: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+			/** @description Internal Server Error */
+			500: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content?: never;
+			};
+		};
+	};
+	getAbilityById: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				id: number;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': {
+						effectEntries: {
+							shortEffect: string;
+							effect: string;
+						}[];
+						names: string[];
+						name: string;
+						slug: string;
+						/** Format: double */
+						id: number;
+					};
+				};
+			};
+		};
+	};
 }

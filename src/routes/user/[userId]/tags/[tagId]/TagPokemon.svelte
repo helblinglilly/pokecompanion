@@ -2,7 +2,7 @@
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card';
 	import { page } from '$app/state';
 	import PokemonListEntry from '$/ui/molecules/pokemon/list';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 	import type { paths } from '$/@types/api';
 	import { addNotification } from '$/features/notifications/notifications';
 	import { termNormaliser } from '$/lib/utils/string';
@@ -74,8 +74,8 @@
 				{#if page.url.searchParams.get('view') === 'card'}
 					<PokemonCardEntry
 						{pokemon}
-						shiny={pokemon.shiny}
-						gender={pokemon.gender}
+						shiny={pokemon.shiny ?? undefined}
+						gender={pokemon.gender ?? undefined}
 						showGenderAndShiny={tag.showGenderAndShiny}
 						isClickable={!inModifyView}
 					>
@@ -96,8 +96,8 @@
 				{:else}
 					<PokemonListEntry
 						{pokemon}
-						shiny={pokemon.shiny}
-						gender={pokemon.gender}
+						shiny={pokemon.shiny ?? undefined}
+						gender={pokemon.gender ?? undefined}
 						showGenderAndShiny={tag.showGenderAndShiny}
 					>
 						{#snippet remove()}

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Button from '$/ui/atoms/Button.svelte';
 	import Modal from '$/ui/molecules/Modal/Modal.svelte';
-	import { PUBLIC_API_HOST } from '$env/static/public';
+	import { PUBLIC_API_HOST } from '$app/env/public';
 	import { Logger } from '$/debt/log';
 	import { addNotification } from '$/features/notifications/notifications';
-	import { currentUser } from '$lib/stores/user';
+	import { currentUser } from '#lib/stores/user.js';
 
 	let showModal = $state(false);
 	let reportText = $state('');
@@ -20,13 +20,8 @@
 			await fetch(`${PUBLIC_API_HOST}/user/report`, {
 				method: 'POST',
 				credentials: 'include',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					username: username,
-					notes: reportText
-				})
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ username, notes: reportText })
 			});
 
 			submitButtonText = 'Reporting...';

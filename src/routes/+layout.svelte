@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '$/styles/global.css';
 
-	import { cookieHandlers, theme } from '$lib/stores/domain';
+	import { cookieHandlers, theme } from '#lib/stores/domain.js';
 	import { page } from '$app/state';
 	import Tracking from '$/lib/components/Tracking.svelte';
 	import Navbar from '$/ui/organisms/Navbar';
@@ -11,7 +11,7 @@
 	import SearchBar from '$/features/search/SearchBar.svelte';
 	import ScrollToTop from './ScrollToTop.svelte';
 	import type { LayoutData } from './$types';
-	import { rewriteApiUrlForBrowser } from '$lib/api/clientHost';
+	import { rewriteApiUrlForBrowser } from '#lib/api/clientHost.js';
 
 	interface Props {
 		data: LayoutData;

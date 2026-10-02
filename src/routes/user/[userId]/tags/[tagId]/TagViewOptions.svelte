@@ -5,9 +5,9 @@
 	import { page } from '$app/state';
 
 	function replaceQueryParam(name: string, value: string) {
-		const newSearchParams = new URLSearchParams(page.url.searchParams);
+		const newSearchParams = new URLSearchParams(page.url.searchParams.toString());
 		newSearchParams.set(name, value);
-		goto(`?${newSearchParams}`, { replaceState: true, noScroll: true });
+		goto(`?${newSearchParams}`, { replace: true, reset: false });
 	}
 </script>
 

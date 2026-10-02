@@ -1,5 +1,5 @@
-import { browser } from '$app/environment';
-import { rewriteApiUrlForBrowser } from '$lib/api/clientHost';
+import { browser } from '$app/env';
+import { rewriteApiUrlForBrowser } from '#lib/api/clientHost.js';
 
 export const getLoadFetch = (loadFetch: typeof globalThis.fetch): typeof globalThis.fetch => {
 	if (!browser) {

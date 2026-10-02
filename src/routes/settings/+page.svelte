@@ -10,11 +10,11 @@
 		selectedGame,
 		versionSpecificPokemonSprites,
 		versionSpecificTypeSprites
-	} from '$lib/stores/domain';
+	} from '#lib/stores/domain.js';
 	import { capitaliseFirstLetter } from '$/lib/utils/string.js';
 	import type { PokeapiLanguageCodes } from '$/@types/api.pokecompanion';
 	import { invalidate } from '$app/navigation';
-	import { DEPENDS_SETTINGS } from '$lib/api/settings';
+	import { DEPENDS_SETTINGS } from '#lib/api/settings.js';
 
 	let { data } = $props();
 </script>

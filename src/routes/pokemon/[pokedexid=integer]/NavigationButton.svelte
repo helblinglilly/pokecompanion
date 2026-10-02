@@ -12,7 +12,7 @@
 	let { pokedexId }: Props = $props();
 
 	const urlWithoutVariety = $derived(() => {
-		const url = new URL(page.url);
+		const url = new URL(page.url.href);
 		url.searchParams.delete('variety');
 		return url.search;
 	});

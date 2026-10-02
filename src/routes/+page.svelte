@@ -3,9 +3,14 @@
 	import SelfMarketing from './SelfMarketing.svelte';
 	import SocialPreview from '$/lib/components/SocialPreview.svelte';
 	import Card from '$/ui/atoms/Card.svelte';
+	import Select from '$/ui/atoms/Select.svelte';
+	import { meta, selectedGame } from '#lib/stores/domain.js';
 	import PokemonCardEntry from '$/ui/molecules/pokemon/card/PokemonCardEntry.svelte';
 
 	import MoveListEntry from '$/ui/molecules/move/list/MoveListEntry.svelte';
+	import { capitaliseFirstLetter } from '$/lib/utils/string';
+	import { invalidate } from '$app/navigation';
+	import { DEPENDS_SETTINGS } from '#lib/api/settings.js';
 
 	let { data } = $props();
 </script>
