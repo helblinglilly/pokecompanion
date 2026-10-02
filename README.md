@@ -28,7 +28,7 @@ npm run dev
 
 ## Deploying to Cloudflare Pages
 
-This project is deployed as a Cloudflare Pages project through Wrangler. `wrangler.jsonc` owns the Pages project name, build output directory, compatibility date, and compatibility flags. The SvelteKit Cloudflare adapter writes the deployable Worker and static assets to `.svelte-kit/cloudflare`.
+This project is deployed with a direct Wrangler upload, not Cloudflare Pages Git integration. `wrangler.jsonc` owns the Pages project name, build output directory, compatibility date, and compatibility flags. The SvelteKit Cloudflare adapter writes the deployable Worker and static assets to `.svelte-kit/cloudflare`.
 
 ```sh
 # Authenticate once when developing locally
@@ -43,7 +43,7 @@ npm run deploy:production
 
 The existing Pages project must be named `pokecompanion`, with `main` configured as its production branch. The compatibility date and `nodejs_compat` flag are declared in `wrangler.jsonc`.
 
-Configure environment bindings in **Cloudflare Pages → pokecompanion → Settings → Environment variables**, separately for Production and Preview. The application currently declares `PUBLIC_API_HOST`, `PUBLIC_ENVIRONMENT`, `PUBLIC_POSTHOG_KEY`, and `DISCORD_WEBHOOK_URL` in `src/env.ts`; `DISCORD_WEBHOOK_URL` is a required secret for the feedback endpoint. Use secret bindings for non-public values; do not place credentials in `wrangler.toml`, `package.json`, or committed `.env` files. `wrangler pages secret put <KEY> --project-name pokecompanion` is available for project-level secret updates.
+Pushes to `main` run `.github/workflows/deploy-pages.yml`, which builds the application and uploads `.svelte-kit/cloudflare` with Wrangler. Configure the following secrets in the GitHub `production` environment: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `DISCORD_WEBHOOK_URL`, `PUBLIC_API_HOST`, and `PUBLIC_POSTHOG_KEY`. The workflow writes `DISCORD_WEBHOOK_URL` to the Pages project with `wrangler pages secret put` before deploying; it is never committed. The `PUBLIC_*` values are intentionally compiled into the public bundle.
 
 > The previous infrastructure configuration contained credential values. Rotate those values and remove them from Terraform state/configuration before using this workflow.
 
