@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_ENVIRONMENT, PUBLIC_POSTHOG_KEY } from '$app/env/public';
+	import { PUBLIC_ENVIRONMENT } from '$app/env/public';
 </script>
 
 <svelte:head>
@@ -13,7 +13,7 @@
 			data-performance="true"
 		></script>
 
-		<script defer>
+		<!-- <script defer>
 			!(function (t, e) {
 				var o, n, p, r;
 				e.__SV ||
@@ -67,6 +67,6 @@
 				defaults: '2026-05-30',
 				person_profiles: 'identified_only' // or 'always' to create profiles for anonymous users as well
 			});
-		</script>
+		</script> -->
 	{/if}
 </svelte:head>
