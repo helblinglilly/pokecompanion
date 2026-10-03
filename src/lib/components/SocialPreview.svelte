@@ -9,7 +9,7 @@
 	let {
 		title = 'Pokécompanion',
 		description = `Explore the world from Kanto to Lumiose City efficiently with Pokécompanion. Browsing and organising Pokémon, Moves, Abilities and more in a Rapidash!`,
-		previewImage = 'https://socialpreviews.pokecompanion.helbling.uk/generic.png'
+		previewImage = 'https://static.pokecompanion.com/social-previews/generic.png'
 	}: Props = $props();
 </script>
 

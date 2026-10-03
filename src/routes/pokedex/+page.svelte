@@ -50,7 +50,7 @@
 <SocialPreview
 	title="All Pokédexes"
 	description="List of all Pokédexes in the main-series games."
-	previewImage="https://socialpreviews.pokecompanion.helbling.uk/generic.png"
+	previewImage="https://static.pokecompanion.com/social-previews/generic.png"
 />
 
 <div class="pokedex-page">

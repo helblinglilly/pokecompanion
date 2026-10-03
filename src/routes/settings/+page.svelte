@@ -26,7 +26,7 @@
 
 <SocialPreview
 	title="Settings"
-	previewImage="https://socialpreviews.pokecompanion.helbling.uk/settings.png"
+	previewImage="https://static.pokecompanion.com/social-previews/settings.png"
 />
 
 <main>

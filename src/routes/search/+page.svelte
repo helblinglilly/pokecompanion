@@ -154,7 +154,7 @@
 
 <SocialPreview
 	title={`${data.searchTerm} results`}
-	previewImage="https://socialpreviews.pokecompanion.helbling.uk/results.png"
+	previewImage="https://static.pokecompanion.com/social-previews/results.png"
 	description={`View results across Pokémon, Items, Moves and Abilities`}
 />
 

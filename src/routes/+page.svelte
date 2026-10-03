@@ -15,7 +15,7 @@
 	let { data } = $props();
 </script>
 
-<SocialPreview previewImage={`https://socialpreviews.pokecompanion.helbling.uk/home.png`} />
+<SocialPreview previewImage={`https://static.pokecompanion.com/social-previews/home.png`} />
 
 <div class="home-page">
 	<section>

@@ -9,7 +9,7 @@
 
 <SocialPreview
 	title={`${data.move.name}`}
-	previewImage="https://socialpreviews.pokecompanion.helbling.uk/moves.png"
+	previewImage="https://static.pokecompanion.com/social-previews/moves.png"
 	description={data.move.effectEntries[0]}
 />
 

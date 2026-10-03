@@ -8,7 +8,7 @@
 
 <SocialPreview
 	title="Pokémon"
-	previewImage="https://socialpreviews.pokecompanion.helbling.uk/pokemonPage.png"
+	previewImage="https://static.pokecompanion.com/social-previews/pokemonPage.png"
 />
 
 <div class="inline-grid md:inline-flex w-full gap-4 mb-4 md:justify-between">

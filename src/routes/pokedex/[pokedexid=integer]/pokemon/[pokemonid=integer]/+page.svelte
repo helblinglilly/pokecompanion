@@ -57,7 +57,7 @@
 <SocialPreview
 	title={data.pokedex.__meta.title}
 	description={data.pokedex.__meta.description}
-	previewImage="https://socialpreviews.pokecompanion.helbling.uk/generic.png"
+	previewImage="https://static.pokecompanion.com/social-previews/generic.png"
 />
 
 <Breadcrumbs

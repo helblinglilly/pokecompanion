@@ -4,7 +4,7 @@
 
 <SocialPreview
 	title="About"
-	previewImage="https://socialpreviews.pokecompanion.helbling.uk/about.png"
+	previewImage="https://static.pokecompanion.com/social-previews/about.png"
 />
 
 <div class="gap-4 grid">
