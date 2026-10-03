@@ -43,7 +43,7 @@ npm run deploy:production
 
 The existing Pages project must be named `pokecompanion`, with `main` configured as its production branch. The compatibility date and `nodejs_compat` flag are declared in `wrangler.jsonc`.
 
-Pushes to `main` run `.github/workflows/deploy-pages.yml`, which builds the application and uploads `.svelte-kit/cloudflare` with Wrangler. Configure the following secrets in the GitHub `production` environment: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `DISCORD_WEBHOOK_URL`, `PUBLIC_API_HOST`, and `PUBLIC_POSTHOG_KEY`. The workflow writes `DISCORD_WEBHOOK_URL` to the Pages project with `wrangler pages secret put` before deploying; it is never committed. The `PUBLIC_*` values are intentionally compiled into the public bundle.
+Pushes to `main` run `.github/workflows/deploy-pages.yml`, which builds the application and uploads `.svelte-kit/cloudflare` with Wrangler. Configure the following secrets in the GitHub `production` environment: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `DISCORD_WEBHOOK_URL`, and `PUBLIC_POSTHOG_KEY`. The workflow writes `DISCORD_WEBHOOK_URL` to the Pages project with `wrangler pages secret put` before deploying; it is never committed. The `PUBLIC_*` values are intentionally compiled into the public bundle.
 
 > The previous infrastructure configuration contained credential values. Rotate those values and remove them from Terraform state/configuration before using this workflow.
 
