@@ -26,7 +26,7 @@ export default defineConfig({
 	server: {
 		proxy: IS_DEV ? {
 				'/proxy': {
-					target: 'https://api.pokecompanion.com',
+					target: API_HOST,
 					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/proxy/, '')
 				}

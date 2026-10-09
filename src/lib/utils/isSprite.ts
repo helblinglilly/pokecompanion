@@ -1,28 +1,27 @@
 import type { components } from '$/@types/api';
 
 /**
- * Returns a boolean to weather a presumed to be sprite should
- * be pixelated or not.
+ * Returns whether a Pokémon image is pixel art and should use nearest-neighbour rendering.
  *
- * Should only be used with Pokemon
+ * Generation VI introduced anti-aliased, non-pixel sprites. Default to smooth rendering when
+ * the game is unknown too: during SSR the selected game has not been initialised yet, and
+ * pixelating a modern asset is much more visibly harmful than smoothing an older one briefly.
  */
 export function isSprite(game: components['schemas']['PokeapiVersionGroups'] | undefined) {
-	const blackList: components['schemas']['PokeapiVersionGroups'][] = [
-		'x-y',
-		'omega-ruby-alpha-sapphire',
-		'sun-moon',
-		'ultra-sun-ultra-moon',
-		'lets-go-pikachu-lets-go-eevee',
-		'sword-shield',
-		'brilliant-diamond-shining-pearl',
-		'legends-arceus',
-		'scarlet-violet',
-		'legends-za'
+	const pixelArtGames: components['schemas']['PokeapiVersionGroups'][] = [
+		'red-blue',
+		'yellow',
+		'gold-silver',
+		'crystal',
+		'ruby-sapphire',
+		'emerald',
+		'firered-leafgreen',
+		'diamond-pearl',
+		'platinum',
+		'heartgold-soulsilver',
+		'black-white',
+		'black-2-white-2'
 	];
 
-	if (!game) {
-		return true;
-	}
-
-	return !blackList.includes(game);
+	return game !== undefined && pixelArtGames.includes(game);
 }

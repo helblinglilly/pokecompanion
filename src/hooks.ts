@@ -3,7 +3,9 @@ import { browser } from '$app/env';
 import { SettingNames } from '#lib/stores/domain.js';
 
 const PROXY_PREFIX = '/proxy';
-const REAL_API_HOST = 'https://api.pokecompanion.com';
+const REAL_API_HOST = browser
+	? 'https://api.pokecompanion.com'
+	: (process.env.PUBLIC_API_HOST ?? 'https://api.pokecompanion.com');
 const PUBLIC_CACHE_TTL_SECONDS = 600;
 
 const RENDERING_COOKIES = [
