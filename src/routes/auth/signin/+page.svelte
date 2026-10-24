@@ -11,6 +11,10 @@
 	let { data } = $props();
 
 	$effect(() => {
+		setCookie('signupSource', page.url.searchParams.get('source') === 'app' ? 'app' : 'web', {
+			'max-age': 30 * 60
+		});
+
 		const callbacUri = page.url.searchParams.get('callback');
 		if (callbacUri) {
 			const protocol = callbacUri.split('://')[0];
