@@ -47,7 +47,7 @@
 					email,
 					password,
 					password_confirmation: passwordConfirm,
-					username
+					username: username.trim() || undefined
 				})
 			});
 
