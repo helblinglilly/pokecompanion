@@ -52,6 +52,17 @@
 		justify-content: center;
 	}
 
+	.button.primary,
+	.button.default {
+		border: 1px solid var(--color-control-border);
+		color: var(--text);
+	}
+
+	.button:focus-visible {
+		outline: 2px solid var(--red-accent);
+		outline-offset: 3px;
+	}
+
 	.button:hover {
 		cursor: pointer;
 	}
@@ -76,40 +87,40 @@
 	}
 
 	.button.primary {
-		background-color: var(--grey-primary);
+		background-color: var(--color-control);
 	}
 
 	.button.primary.nested {
-		background-color: var(--select-background);
+		background-color: var(--color-control);
 	}
 
 	.button.primary.nested:hover,
 	.button.primary.nested:active,
 	.button.primary.nested.active {
-		background-color: var(--card-hover);
+		background-color: var(--color-control-hover);
 	}
 
 	.button.primary:hover,
 	.button.primary:active,
 	.button.primary.active {
-		background-color: var(--grey-muted);
+		background-color: var(--color-control-hover);
 	}
 
 	.button.primary:disabled {
-		background-color: var(--grey-muted);
+		background-color: var(--color-control-hover);
 		color: var(--text);
 	}
 
 	.button.default {
-		background-color: var(--grey-primary);
+		background-color: var(--color-control);
 	}
 
 	.button.default:hover {
-		background-color: var(--grey-muted);
+		background-color: var(--color-control-hover);
 	}
 
 	.button.default:disabled {
-		background-color: var(--grey-muted);
+		background-color: var(--color-control-hover);
 		color: var(--text);
 	}
 
@@ -122,19 +133,15 @@
 	}
 
 	.button.secondary:hover {
-		background-color: var(--grey-muted);
+		background-color: var(--color-control-hover);
 	}
 
 	.button.secondary:disabled {
-		background-color: var(--grey-primary);
+		background-color: var(--color-control);
 		color: var(--text-inverse);
 	}
 
-	:global(.dark-theme) .button.default.nested {
-		background-color: var(--text-light);
-	}
-
 	.button.default.nested:hover {
-		background-color: var(--card-hover);
+		background-color: var(--color-control-hover);
 	}
 </style>

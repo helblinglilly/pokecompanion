@@ -38,8 +38,8 @@ html {
 
 .h3,
 .h3 * {
-	font-weight: 500;
-	font-size: large;
+	font-weight: 700;
+	font-size: 1.25rem;
 	padding-bottom: 0.1rem;
 }
 
@@ -67,14 +67,18 @@ html {
 
 #pageWrapper {
 	overflow-wrap: anywhere;
-	margin: 3%;
+	margin: 2rem auto;
+	padding: 0 1.5rem;
+	width: 100%;
+	max-width: 1200px;
 	min-height: 40vh;
 }
 
 /* Mobile Only */
 @media screen and (max-width: 768px) {
 	#pageWrapper {
-		margin: 5%;
+		margin: 1rem auto;
+		padding: 0 1rem;
 	}
 
 	.desktop-only {
@@ -111,7 +115,8 @@ textarea {
 input[type='checkbox'] {
 	appearance: none;
 	margin-right: 10px;
-	background-color: var(--select-background);
+	background-color: var(--color-control);
+	border: 1px solid var(--color-control-border);
 	outline: none;
 	width: 18px;
 	height: 18px;
@@ -125,11 +130,16 @@ input[type='checkbox'] {
 }
 
 input[type='checkbox'].nested {
-	background-color: var(--grey-muted);
+	background-color: var(--color-control);
 }
 
 .dark-theme input[type='checkbox'].nested {
-	background-color: var(--grey-primary-dark);
+	background-color: var(--color-control);
+}
+
+input[type='checkbox']:focus-visible {
+	outline: 2px solid var(--red-accent);
+	outline-offset: 3px;
 }
 
 input[type='checkbox']:checked:before {

@@ -1,8 +1,8 @@
 /* design tokens: the single source of shared visual values */
 :root {
 	/* colour primitives */
-	--red-accent-light: #e03a3a;
-	--red-accent-dark: #ce3939;
+	--red-accent-light: #a40a24;
+	--red-accent-dark: #cf4c4c;
 	--red-accent-muted-light: #c23232;
 	--red-accent-muted-dark: #9b3434;
 	--red-accent-muted-darker-light: #8a2020;
@@ -11,19 +11,19 @@
 	--grey-primary-dark: #888888;
 	--grey-muted-light: #cecaca;
 	--grey-muted-dark: #aaa9a9;
-	--text-light: #2a2424;
+	--text-light: #11181c;
 	--text-dark: #e7e2e2;
 	--text-inverse-light: #ffffff;
 	--text-inverse-dark: #000000;
-	--site-background-light: #ede8e8;
+	--site-background-light: #ffffff;
 	--site-background-dark: rgb(43, 43, 43);
-	--card-background-light: #f2f2f2;
+	--card-background-light: #e8e8e8;
 	--card-background-dark: rgb(26, 26, 26);
 	--card-hover-light: #dbd5d5;
 	--card-hover-dark: #534f4f;
-	--select-background-light: #e8e2e2;
-	--select-background-dark: rgb(49, 49, 49);
-	--navbar-background: #3d3938;
+	--select-background-light: #ffffff;
+	--select-background-dark: #2b2b2b;
+	--navbar-background: #c10b29;
 	--error-light: rgb(210, 45, 45);
 	--error-dark: rgb(198, 26, 26);
 	--success-light: rgb(31, 140, 62);
@@ -39,6 +39,8 @@
 	--color-surface-raised: var(--card-background-light);
 	--color-surface-hover: var(--card-hover-light);
 	--color-control: var(--select-background-light);
+	--color-control-border: #aeb4b8;
+	--color-control-hover: #f5f5f5;
 	--color-text: var(--text-light);
 	--color-text-inverse: var(--text-inverse-light);
 	--color-danger: var(--error-light);
@@ -50,8 +52,8 @@
 	--space-2: 0.5rem;
 	--space-3: 1rem;
 	--space-4: 2rem;
-	--radius-control: 5px;
-	--radius-surface: 10px;
+	--radius-control: 12px;
+	--radius-surface: 20px;
 
 	/* legacy aliases; remove as consumers migrate to semantic names */
 	--red-accent: var(--color-accent);
@@ -78,6 +80,8 @@
 	--color-surface-raised: var(--card-background-dark);
 	--color-surface-hover: var(--card-hover-dark);
 	--color-control: var(--select-background-dark);
+	--color-control-border: #60666a;
+	--color-control-hover: #383838;
 	--color-text: var(--text-dark);
 	--color-text-inverse: var(--text-inverse-dark);
 	--color-danger: var(--error-dark);

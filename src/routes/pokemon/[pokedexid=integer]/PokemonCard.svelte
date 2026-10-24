@@ -109,9 +109,11 @@
 
 {#if hasShinySprite}
 	<button
+		aria-label="Toggle shiny appearance"
+		aria-pressed={page.url.searchParams.get('shiny') === 'true'}
 		data-testid="shinyToggle"
 		data-umami-event="PokemonShiny"
-		class="triangle right shiny-toggle"
+		class="shiny-toggle"
 		onclick={() => {
 			const isOnShiny = page.url.searchParams.get('shiny') === 'true';
 
@@ -127,9 +129,23 @@
 		}}
 	>
 		{#if page.url.searchParams.get('shiny') === 'true'}
-			<Icon name="spark-full" style="margin-top: 1.8rem; margin-left: -2rem;" />
+			<Icon
+				name="spark-full"
+				viewBox="16 8 232 232"
+				style="width: 1.5rem; height: 1.5rem; display: block; position: absolute; right: 0.5833rem; bottom: 0.5833rem;"
+				pathStroke="currentColor"
+				lineStroke="currentColor"
+				pathFill="currentColor"
+			/>
 		{:else}
-			<Icon name="spark" style="margin-top: 1.8rem; margin-left: -2rem;" />
+			<Icon
+				name="spark"
+				viewBox="16 8 232 232"
+				style="width: 1.5rem; height: 1.5rem; display: block; position: absolute; right: 0.5833rem; bottom: 0.5833rem;"
+				pathStroke="currentColor"
+				lineStroke="currentColor"
+				pathFill="currentColor"
+			/>
 		{/if}
 	</button>
 {/if}
@@ -176,13 +192,6 @@
 		background-color: inherit;
 	}
 
-	.triangle.right {
-		right: 0;
-		border-bottom-right-radius: 10px;
-		border-left: 4rem solid transparent;
-		border-bottom: 4rem solid;
-	}
-
 	.pokemon-tag-actions {
 		flex-flow: wrap;
 	}
@@ -193,8 +202,27 @@
 		object-fit: contain;
 	}
 
-	.triangle.right.shiny-toggle {
-		border-bottom: 4rem solid #f0e45f;
+	.shiny-toggle {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		width: 4rem;
+		height: 4rem;
+		border-bottom-right-radius: var(--radius-surface);
+		clip-path: polygon(100% 0, 100% 100%, 0 100%);
+		background: #f0e45f;
+		color: #11181c;
+		cursor: pointer;
+	}
+	.shiny-toggle:hover {
+		background: #e5d643;
+	}
+	.shiny-toggle[aria-pressed='true'] {
+		background: #e5c83d;
+	}
+	.shiny-toggle:focus-visible {
+		outline: none;
+		box-shadow: inset -3px -3px 0 var(--text);
 	}
 
 	.triangle.left {

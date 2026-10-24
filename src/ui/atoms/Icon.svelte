@@ -18,6 +18,7 @@
 			| 'heart-full';
 		theme?: 'dark' | 'light' | null;
 		style?: string | null;
+		viewBox?: string;
 		pathStroke?: string | null;
 		lineStroke?: string | null;
 		pathFill?: string | null;
@@ -27,6 +28,7 @@
 		name,
 		theme = null,
 		style = null,
+		viewBox = undefined,
 		pathStroke = null,
 		lineStroke = null,
 		pathFill = null
@@ -64,7 +66,7 @@
 		/></svg
 	>
 {:else if name === 'spark'}
-	<svg {style} xmlns="http://www.w3.org/2000/svg" height="3em" viewBox="0 0 448 512">
+	<svg {style} xmlns="http://www.w3.org/2000/svg" height="3em" viewBox={viewBox ?? '0 0 448 512'}>
 		<path
 			d="M138.7,175.5l-19.2,52.1a8,8,0,0,1-15,0L85.3,175.5a8.1,8.1,0,0,0-4.8-4.8L28.4,151.5a8,8,0,0,1,0-15l52.1-19.2a8.1,8.1,0,0,0,4.8-4.8l19.2-52.1a8,8,0,0,1,15,0l19.2,52.1a8.1,8.1,0,0,0,4.8,4.8l52.1,19.2a8,8,0,0,1,0,15l-52.1,19.2A8.1,8.1,0,0,0,138.7,175.5Z"
 			fill="none"
@@ -119,7 +121,7 @@
 		/>
 	</svg>
 {:else if name === 'spark-full'}
-	<svg {style} xmlns="http://www.w3.org/2000/svg" height="3em" viewBox="0 0 448 512">
+	<svg {style} xmlns="http://www.w3.org/2000/svg" height="3em" viewBox={viewBox ?? '0 0 448 512'}>
 		<path
 			d="M138.7,175.5l-19.2,52.1a8,8,0,0,1-15,0L85.3,175.5a8.1,8.1,0,0,0-4.8-4.8L28.4,151.5a8,8,0,0,1,0-15l52.1-19.2a8.1,8.1,0,0,0,4.8-4.8l19.2-52.1a8,8,0,0,1,15,0l19.2,52.1a8.1,8.1,0,0,0,4.8,4.8l52.1,19.2a8,8,0,0,1,0,15l-52.1,19.2A8.1,8.1,0,0,0,138.7,175.5Z"
 			fill={pathFill ?? '#000'}

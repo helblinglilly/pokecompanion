@@ -31,7 +31,7 @@
 		'card',
 		isClickable ? 'clickable' : null,
 		'p-4',
-		isNested ? 'nested dark:bg-red-300' : '',
+		isNested ? 'nested' : '',
 		isActive ? 'active' : '',
 		classes
 	]
@@ -46,24 +46,20 @@
 
 <style>
 	.card.nested {
-		background-color: var(--grey-primary);
-		color: var(--text-light);
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+		background-color: var(--color-control);
+		color: var(--text);
+		border: 1px solid var(--color-control-border);
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 	}
 
-	:global(.dark-theme) .card.nested {
-		background-color: var(--grey-primary-dark);
-		color: var(--text-light);
-	}
-
-	.card.nested:hover {
-		background-color: var(--grey-muted);
+	.card.nested.clickable:hover {
+		background-color: var(--color-control-hover);
 	}
 
 	.card {
 		background-color: var(--card-background);
 		color: var(--text);
-		border-radius: 0.5rem;
+		border-radius: var(--radius-surface);
 	}
 
 	.card.clickable:hover {
@@ -76,6 +72,6 @@
 	}
 
 	.card.nested.active:hover {
-		background-color: var(--grey-muted);
+		background-color: var(--color-control-hover);
 	}
 </style>

@@ -21,6 +21,7 @@
 		<input
 			type="text"
 			class="search-input"
+			aria-label="Search Pokémon, Pokédex IDs, items, moves, or abilities"
 			placeholder={`${placeholders[id]}...`}
 			name="term"
 			bind:value={$searchTerm}
@@ -47,11 +48,26 @@
 		padding: 10px;
 		padding-left: 2rem;
 		padding-right: 2rem;
-		background-color: white;
+		background-color: var(--site-background);
+		color: var(--text);
+		border: 2px solid var(--red-accent);
+		border-radius: var(--radius-control);
+		min-height: 3.5rem;
+	}
+
+	input[type='text']::placeholder {
+		color: var(--text);
+		opacity: 0.7;
+	}
+
+	input[type='text']:focus-visible {
+		outline: 2px solid var(--red-accent);
+		outline-offset: 3px;
 	}
 
 	.search-input {
 		width: 100%;
+		min-width: 0;
 	}
 
 	@media (max-width: 768px) {

@@ -18,6 +18,17 @@ clear boundary:
   Tailwind utility implementation and a local-CSS implementation for the same
   component.
 
+## App visual alignment
+
+The shared light palette follows `app.pokecompanion/constants/theme.ts`: white
+page background, `#11181c` text, `#e8e8e8` cards, `#a40a24` accents, and
+`#c10b29` navigation. Cards use the shared surface radius. Both Pokémon detail routes
+use `PokemonDetails.svelte` for the same compact, responsive card grid (one,
+two, or three columns). Each route retains its breadcrumbs, navigation, and
+game filtering. Nested cards, buttons, selectors, and checkboxes use contrasting white control
+surfaces with visible borders in light mode and raised dark surfaces in dark mode.
+Dark mode retains its semantic tokens.
+
 ## Progress
 
 ## Migration status

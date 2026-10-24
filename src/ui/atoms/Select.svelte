@@ -67,16 +67,22 @@
 		border-radius: 0.5rem;
 		max-width: 24rem;
 		appearance: none;
-		background-color: var(--card-background);
+		background-color: var(--color-control);
+		border: 1px solid var(--color-control-border);
 		color: var(--text);
 		cursor: pointer;
 	}
 
 	.select.nested {
-		background-color: var(--select-background);
+		background-color: var(--color-control);
+	}
+
+	.select:focus-visible {
+		outline: 2px solid var(--red-accent);
+		outline-offset: 3px;
 	}
 
 	.select:hover {
-		background-color: var(--grey-muted);
+		background-color: var(--color-control-hover);
 	}
 </style>
