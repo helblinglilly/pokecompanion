@@ -69,6 +69,12 @@
 		justify-content: center;
 	}
 
+	:global(body:not(.dark-theme)) .google {
+		box-shadow:
+			inset 0 0 0 1px #747775,
+			0 1px 3px rgb(0 0 0 / 12%);
+	}
+
 	.google-icon {
 		display: block;
 		width: 20px;
