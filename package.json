@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "marked": "^18.0.9",
-    "posthog-js": "^1.415.1"
+    "posthog-js": "^1.444.0"
   },
   "imports": {
     "#lib": "./src/lib/index.js",
