@@ -1,9 +1,5 @@
 <script lang="ts">
-	import {
-		PUBLIC_ENVIRONMENT,
-		PUBLIC_POSTHOG_KEY,
-		PUBLIC_POSTHOG_PREVIEW
-	} from '$app/env/public';
+	import { PUBLIC_ENVIRONMENT, PUBLIC_POSTHOG_KEY, PUBLIC_POSTHOG_PREVIEW } from '$app/env/public';
 	import { afterNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import posthog from 'posthog-js';
