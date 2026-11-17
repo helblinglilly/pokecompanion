@@ -1,14 +1,10 @@
+User-agent: ClaudeBot
+User-agent: RiverBot
+Disallow: /
+
 User-agent: *
 Disallow: /auth/*
-
-User-agent: *
 Disallow: /user/*
-
-User-agent: *
 Disallow: /search/*
-
-User-agent: *
 Disallow: /item/*
-
-User-agent: *
 Disallow: /ability/*
