@@ -1,11 +1,9 @@
 import type { Handle, HandleFetch } from '@sveltejs/kit/hooks';
 import { browser } from '$app/env';
+import { PUBLIC_API_HOST } from '$app/env/public';
 import { SettingNames } from '#lib/stores/domain.js';
 
 const PROXY_PREFIX = '/proxy';
-const REAL_API_HOST = browser
-	? 'https://api.pokecompanion.com'
-	: (process.env.PUBLIC_API_HOST ?? 'https://api.pokecompanion.com');
 const PUBLIC_CACHE_TTL_SECONDS = 600;
 
 const RENDERING_COOKIES = [
@@ -94,7 +92,7 @@ export const handleFetch: HandleFetch = ({ request, fetch }) => {
 
 		if (url.pathname.startsWith(PROXY_PREFIX)) {
 			const rewritten = new Request(
-				REAL_API_HOST + url.pathname.slice(PROXY_PREFIX.length) + url.search,
+				PUBLIC_API_HOST + url.pathname.slice(PROXY_PREFIX.length) + url.search,
 				request
 			);
 			return fetch(rewritten);
