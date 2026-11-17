@@ -48,7 +48,7 @@
     "prettier-plugin-svelte": "^4.1.1",
     "save-svg-as-png": "^1.4.17",
     "sharp": "^0.35.3",
-    "svelte": "^5.57.1",
+    "svelte": "^5.57.3",
     "svelte-check": "^4.7.5",
     "tailwindcss": "^4.3.3",
     "ts-node": "^10.9.2",
