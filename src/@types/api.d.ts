@@ -274,26 +274,6 @@ export interface paths {
 		patch?: never;
 		trace?: never;
 	};
-	'/pokemon/preview': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * @deprecated
-		 * @description Returns paginated previews of Pokemon
-		 */
-		get: operations['getPokemonRootPreviews'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
 	'/pokemon/{id}/moves': {
 		parameters: {
 			query?: never;
@@ -3592,59 +3572,6 @@ export interface operations {
 				};
 				content: {
 					'application/json': components['schemas']['PokemonPreviewResponse'];
-				};
-			};
-		};
-	};
-	getPokemonRootPreviews: {
-		parameters: {
-			query?: {
-				gender?: components['schemas']['Gender'];
-				variety?: string;
-				shiny?: 'true' | 'false';
-				versionSpecificPokemonSprites?: 'true' | 'false';
-				versionSpecificTypeSprites?: 'true' | 'false';
-				/**
-				 * @description Indicates whether the API should return sprites to .gif files where possible.
-				 *
-				 *     Currently, only supported for Generaion 5, and Paldean Pokemon in Generation 9
-				 */
-				animateSprites?: 'true' | 'false';
-				primaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
-				secondaryLanguage?: components['schemas']['PokeapiLanguageCodes'];
-				selectedGame?: string;
-				page?: number;
-				/** @description Maximum: 50. If a value over 50 is provided, it will default back to 20 */
-				pageSize?: number;
-				/**
-				 * @description This Pokemon will be guaranteed to be on the current page.
-				 *     Can be used in combination with pageSize, but will override the page value
-				 */
-				jumpTo?: number;
-				pokedex?: number;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': {
-						pagination: {
-							/** Format: double */
-							lastPage: number;
-							/** Format: double */
-							currentPage: number;
-							/** Format: double */
-							startingPage: number;
-						};
-						pokemon: components['schemas']['PokemonPreviewResponse'][];
-					};
 				};
 			};
 		};

@@ -24,6 +24,7 @@ const proxyRequest: RequestHandler = async ({ request, params, url, fetch }) => 
 	// The API rejects preview Origins via its CORS middleware.
 	// Strip browser Origin by default so proxy requests behave like server-to-server calls.
 	headers.delete('origin');
+	headers.set('x-client', 'web');
 
 	// /auth/methods requires an Origin header to be present, but it only needs to be allowed,
 	// not to match the preview host. Use the API origin so preview builds can still bootstrap auth.
