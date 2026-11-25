@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { APIPokemonRootPreview } from '$/@types/api.pokecompanion';
+	import type { APIPokedex } from '$/@types/api.pokecompanion';
 	import Button from '$/ui/atoms/Button.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 
 	interface Props {
-		pagination: APIPokemonRootPreview['pagination'];
+		pagination: APIPokedex['pagination'];
 	}
 
 	let { pagination }: Props = $props();

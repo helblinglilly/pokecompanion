@@ -1,5 +1,5 @@
 import { PUBLIC_API_HOST } from '$app/env/public';
-import type { APIPokemonRootPreview } from '$/@types/api.pokecompanion';
+import type { APIPokedex } from '$/@types/api.pokecompanion';
 import { addSettingsToUrl, resolveSettings, DEPENDS_SETTINGS } from '#lib/api/settings.js';
 import { getLoadFetch } from '#lib/api/loadFetch.js';
 import type { PageLoad } from './$types';
@@ -13,7 +13,7 @@ export const load: PageLoad = async ({ url, fetch, depends, parent }) => {
 	const settings = resolveSettings(serverSettings);
 
 	const apiRequest = addSettingsToUrl(
-		new URL(`${PUBLIC_API_HOST}/pokemon/preview`),
+		new URL(`${PUBLIC_API_HOST}/pokedex/1`),
 		settings,
 		url.searchParams
 	);
@@ -29,9 +29,7 @@ export const load: PageLoad = async ({ url, fetch, depends, parent }) => {
 	}
 
 	const res = await runtimeFetch(apiRequest);
-	const body = (await res.json()) as APIPokemonRootPreview;
+	const { pokemon, pagination } = (await res.json()) as APIPokedex;
 
-	return {
-		...body
-	};
+	return { pokemon, pagination };
 };
