@@ -16,7 +16,7 @@
 </script>
 
 {#if varieties.length > 1}
-	<div class={`w-full flex justify-center md:min-w-32 ${classes}`}>
+	<div class={`variety-selector w-full flex justify-center md:min-w-32 ${classes ?? ''}`}>
 		<Select
 			value={varieties.find((a) => (varietyParam ? a.name === varietyParam : a.isDefault))?.name}
 			options={varieties.map((variety) => ({
@@ -41,7 +41,7 @@
 {/if}
 
 <style>
-	:global(.variety-select) {
+	.variety-selector :global(.variety-select) {
 		width: 100%;
 		margin: 0;
 		padding-right: var(--space-3);
